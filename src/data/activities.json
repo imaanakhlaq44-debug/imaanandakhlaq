@@ -1,0 +1,296 @@
+{
+  "book1": {
+    "title": "Imaan and Akhlaaq - Book 1",
+    "chapters": {
+      "chapter1": {
+        "id": "b1_c1",
+        "title": "The Farm and the Brave Sister",
+        "discussionQuestion": "How does staying near safe people make us feel?",
+        "sections": [
+          {
+            "heading": "My Daily Actions:",
+            "questions": [
+              "I stayed near safe people ?",
+              "I spoke clearly when I felt unsafe ?",
+              "I followed the rules while playing ?"
+            ]
+          },
+          {
+            "heading": "Ethics in Class:",
+            "questions": [
+              "I raise my hand and speak when I need anything ?",
+              "I stay within classroom rules ?",
+              "I respect my teacher's instructions ?"
+            ]
+          },
+          {
+            "heading": "With My Family:",
+            "questions": [
+              "I told my parents about a fear ?",
+              "I practiced saying 'No' politely ?",
+              "I thanked Allah for keeping me safe ?"
+            ]
+          }
+        ]
+      },
+      "chapter2": {
+        "id": "b1_c2",
+        "title": "The Giant Burger",
+        "discussionQuestion": "How did I show good manners while talking today?",
+        "sections": [
+          {
+            "heading": "My Daily Actions:",
+            "questions": [
+              "I waited before speaking ?",
+              "I used polite words ?",
+              "I helped after meals ?"
+            ]
+          },
+          {
+            "heading": "Ethics in Class:",
+            "questions": [
+              "I wait for my turn before speaking ?",
+              "I use polite words in class ?",
+              "I listen quietly when others speak ?"
+            ]
+          },
+          {
+            "heading": "With My Family:",
+            "questions": [
+              "I helped with a household task ?",
+              "I listened to the elders ?",
+              "I said Bismillah and Alhamdulillah ?"
+            ]
+          }
+        ]
+      },
+      "chapter3": {
+        "id": "b1_c3",
+        "title": "Goodbyes and New Beginnings",
+        "discussionQuestion": "Why is it important to have good manners when entering a new house?",
+        "sections": [
+          {
+            "heading": "My Daily Actions:",
+            "questions": [
+              "I said Salam when entering ?",
+              "I helped unpack my things ?",
+              "I kept my room tidy ?"
+            ]
+          },
+          {
+            "heading": "Ethics in Class:",
+            "questions": [
+              "I welcomed a new student ?",
+              "I shared my things gracefully ?",
+              "I listened to the teacher attentively ?"
+            ]
+          },
+          {
+            "heading": "With My Family:",
+            "questions": [
+              "I respected my older siblings ?",
+              "I didn't complain about the move ?",
+              "I appreciated my parents' hard work ?"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "book2": {
+    "title": "Imaan and Akhlaaq - Book 2",
+    "chapters": {
+      "chapter1": {
+        "id": "b2_c1",
+        "title": "The First Flight",
+        "discussionQuestion": "Why is honesty always the best choice, even when we make a mistake?",
+        "sections": [
+          {
+            "heading": "My Daily Actions:",
+            "questions": [
+              "I told the truth today even if it was hard ?",
+              "I didn't hide my mistakes ?",
+              "I learned from something I did wrong ?"
+            ]
+          },
+          {
+            "heading": "Ethics in Class:",
+            "questions": [
+              "I was honest about my homework ?",
+              "I didn't take things that don't belong to me ?",
+              "I apologized properly when I made a mistake ?"
+            ]
+          },
+          {
+            "heading": "With My Family:",
+            "questions": [
+              "I told the truth to my parents ?",
+              "I didn't blame my siblings for my mistakes ?",
+              "I asked Allah to help me be honest ?"
+            ]
+          }
+        ]
+      },
+      "chapter2": {
+        "id": "b2_c2",
+        "title": "The Best Answer",
+        "discussionQuestion": "How does seeking knowledge and giving wise answers please Allah?",
+        "sections": [
+          {
+            "heading": "My Daily Actions:",
+            "questions": [
+              "I tried to learn something new today ?",
+              "I thought carefully before answering a question ?",
+              "I shared good knowledge with my friends ?"
+            ]
+          },
+          {
+            "heading": "Ethics in Class:",
+            "questions": [
+              "I paid close attention to the lesson ?",
+              "I answered politely when asked ?",
+              "I didn't interrupt others while they spoke ?"
+            ]
+          },
+          {
+            "heading": "With My Family:",
+            "questions": [
+              "I shared what I learned with my family ?",
+              "I respected my older siblings' knowledge ?",
+              "I asked questions when I didn't understand ?"
+            ]
+          }
+        ]
+      },
+      "chapter3": {
+        "id": "b2_c3",
+        "title": "A Surprise Visit",
+        "discussionQuestion": "How should we behave when guests visit our home?",
+        "sections": [
+          {
+            "heading": "My Daily Actions:",
+            "questions": [
+              "I smiled and welcomed someone today ?",
+              "I offered water or food to a guest ?",
+              "I practiced good manners (Saying Salam) ?"
+            ]
+          },
+          {
+            "heading": "Ethics in Class:",
+            "questions": [
+              "I welcomed a visitor to our class ?",
+              "I offered my seat or help ?",
+              "I remained quiet and respectful ?"
+            ]
+          },
+          {
+            "heading": "With My Family:",
+            "questions": [
+              "I helped my parents serve the guests ?",
+              "I didn't make noise while guests were talking ?",
+              "I said goodbye nicely when they left ?"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "book3": {
+    "title": "Imaan and Akhlaaq - Book 3",
+    "chapters": {
+      "chapter1": {
+        "id": "b3_c1",
+        "title": "The Meaning of Patience",
+        "discussionQuestion": "Why is being patient important even when things are difficult?",
+        "sections": [
+          {
+            "heading": "My Daily Actions:",
+            "questions": [
+              "I stayed calm when things didn't go my way ?",
+              "I didn't rush or complain during a hard task ?",
+              "I waited nicely for my turn ?"
+            ]
+          },
+          {
+            "heading": "Ethics in Class:",
+            "questions": [
+              "I listened quietly when the teacher was busy ?",
+              "I was patient during challenging lessons ?",
+              "I helped a classmate without getting frustrated ?"
+            ]
+          },
+          {
+            "heading": "With My Family:",
+            "questions": [
+              "I was patient when my parents asked me to wait ?",
+              "I handled disagreement with my siblings calmly ?",
+              "I remembered Allah helps the patient ?"
+            ]
+          }
+        ]
+      },
+      "chapter2": {
+        "id": "b3_c2",
+        "title": "A Caring Heart",
+        "discussionQuestion": "How does helping others make our own hearts feel better?",
+        "sections": [
+          {
+            "heading": "My Daily Actions:",
+            "questions": [
+              "I offered a smile to someone who seemed sad ?",
+              "I shared something I value with a friend ?",
+              "I said a kind word to someone today ?"
+            ]
+          },
+          {
+            "heading": "Ethics in Class:",
+            "questions": [
+              "I noticed someone struggling and offered help ?",
+              "I included everyone in the group activity ?",
+              "I said 'please' and 'thank you' sincerely ?"
+            ]
+          },
+          {
+            "heading": "With My Family:",
+            "questions": [
+              "I asked my parents how their day was ?",
+              "I comforted a sibling who was upset ?",
+              "I made dua for my family's well-being ?"
+            ]
+          }
+        ]
+      },
+      "chapter3": {
+        "id": "b3_c3",
+        "title": "Standing for Truth",
+        "discussionQuestion": "Why does speaking the truth require courage?",
+        "sections": [
+          {
+            "heading": "My Daily Actions:",
+            "questions": [
+              "I stood up for what is right today ?",
+              "I didn't agree with a wrong action ?",
+              "I admitted fault immediately ?"
+            ]
+          },
+          {
+            "heading": "Ethics in Class:",
+            "questions": [
+              "I was honest even when it could have gotten me in trouble ?",
+              "I didn't let others cheat or copy ?",
+              "I reported an incident fairly ?"
+            ]
+          },
+          {
+            "heading": "With My Family:",
+            "questions": [
+              "I told the complete truth to my parents ?",
+              "I supported truth over taking sides ?",
+              "I sought forgiveness from Allah for past lies ?"
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

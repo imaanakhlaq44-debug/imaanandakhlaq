@@ -1,0 +1,147 @@
+{
+  "schools": [
+    {
+      "school_id": "sch_001",
+      "name": "Imaan Academy",
+      "location": "Lahore",
+      "school_code": "SCH-IA001"
+    }
+  ],
+  "school_admins": [
+    {
+      "admin_id": "adm_001",
+      "school_id": "sch_001",
+      "name": "Principal Usman",
+      "pin": "9999",
+      "email": "usman@imaanacademy.pk",
+      "phone": "03001234567",
+      "password": "admin123"
+    }
+  ],
+  "teachers": [
+    {
+      "teacher_id": "tch_001",
+      "school_id": "sch_001",
+      "name": "Ustadh Zaid",
+      "assigned_class": "Class 3",
+      "pin": "5678",
+      "email": "zaid@imaanacademy.pk",
+      "phone": "03009876543",
+      "password": "teacher123",
+      "invitation_code": "TCH-ZD001"
+    }
+  ],
+  "parents": [
+    {
+      "parent_id": "par_001",
+      "name": "Mr. Ahmed",
+      "email": "ahmed@example.com",
+      "phone": "03005551234",
+      "password": "parent123",
+      "pin": "1234",
+      "linked_student_id": "stu_101",
+      "invitation_code": "PAR-AH001"
+    }
+  ],
+  "students": [
+    {
+      "student_id": "stu_101",
+      "school_id": "sch_001",
+      "class_id": "Class 3",
+      "parent_id": "par_001",
+      "name": "Ali Ahmed",
+      "age": 8,
+      "avatar": "fas fa-child",
+      "base_points": 0,
+      "email": "",
+      "phone": "",
+      "password": "student123",
+      "invitation_code": "STU-AL001"
+    },
+    {
+      "student_id": "stu_102",
+      "school_id": "sch_001",
+      "class_id": "Class 3",
+      "parent_id": "par_002",
+      "name": "Bilal Hashmi",
+      "age": 9,
+      "avatar": "fas fa-user-graduate",
+      "base_points": 450,
+      "email": "",
+      "phone": "",
+      "password": "student123",
+      "invitation_code": "STU-BL002"
+    },
+    {
+      "student_id": "stu_103",
+      "school_id": "sch_001",
+      "class_id": "Class 3",
+      "parent_id": "par_003",
+      "name": "Zainab Raza",
+      "age": 8,
+      "avatar": "fas fa-female",
+      "base_points": 600,
+      "email": "",
+      "phone": "",
+      "password": "student123",
+      "invitation_code": "STU-ZR003"
+    }
+  ],
+  "users": [
+    {
+      "user_id": "usr_001",
+      "role": "school_admin",
+      "linked_id": "adm_001",
+      "email": "usman@imaanacademy.pk",
+      "phone": "03001234567",
+      "password": "admin123",
+      "name": "Principal Usman"
+    },
+    {
+      "user_id": "usr_002",
+      "role": "teacher",
+      "linked_id": "tch_001",
+      "email": "zaid@imaanacademy.pk",
+      "phone": "03009876543",
+      "password": "teacher123",
+      "name": "Ustadh Zaid"
+    },
+    {
+      "user_id": "usr_003",
+      "role": "parent",
+      "linked_id": "par_001",
+      "email": "ahmed@example.com",
+      "phone": "03005551234",
+      "password": "parent123",
+      "name": "Mr. Ahmed"
+    }
+  ],
+  "invitation_codes": [
+    {
+      "code": "TCH-ZD001",
+      "type": "teacher",
+      "school_id": "sch_001",
+      "status": "used",
+      "used_by": "tch_001",
+      "name": "Ustadh Zaid",
+      "assigned_class": "Class 3"
+    },
+    {
+      "code": "STU-AL001",
+      "type": "student",
+      "school_id": "sch_001",
+      "status": "used",
+      "used_by": "stu_101",
+      "name": "Ali Ahmed",
+      "class_id": "Class 3"
+    },
+    {
+      "code": "PAR-AH001",
+      "type": "parent",
+      "school_id": "sch_001",
+      "status": "used",
+      "used_by": "par_001",
+      "linked_student_code": "STU-AL001"
+    }
+  ]
+}
