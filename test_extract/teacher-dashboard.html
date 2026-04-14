@@ -1,0 +1,642 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Imaan & Akhlaq â€“ Islamic Stories & Education for Kids</title>
+  <meta name="description" content="Imaan & Akhlaq â€“ Fun Islamic stories, puppet shows, and educational programs teaching faith, manners, and good character to children." />
+  <meta property="og:title" content="Imaan & Akhlaq â€“ Islamic Education for Kids" />
+  <meta property="og:description" content="Join Imaan and Akhlaq on magical adventures learning about Islam, Prophets, and good manners!" />
+  <meta property="og:type" content="website" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap 5 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Animate.css -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.css">
+
+  <!-- AOS CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="./static/css/style.css">
+</head>
+<body>
+
+
+<style>
+  .demo-switcher {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(0,0,0,0.8);
+    backdrop-filter: blur(5px);
+    border-radius: 30px;
+    padding: 8px 15px;
+    z-index: 9999;
+    display: flex;
+    gap: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+  .demo-btn {
+    background: transparent;
+    border: none;
+    color: white;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 20px;
+    transition: all 0.2s;
+  }
+  .demo-btn:hover {
+    background: rgba(255,255,255,0.2);
+  }
+  .demo-btn.active {
+    background: #0ea5e9;
+  }
+</style>
+<div class="demo-switcher">
+  <span style="color: #cbd5e1; font-size: 0.8rem; display: flex; align-items: center; margin-right: 5px; font-family: 'Nunito', sans-serif;">Demo:</span>
+  <a href="/student/activities" class="demo-btn" id="demoStudentBtn"><i class="fas fa-user-graduate"></i> Student</a>
+  <a href="/teacher-dashboard" class="demo-btn" id="demoTeacherBtn"><i class="fas fa-chalkboard-teacher"></i> Teacher</a>
+  <a href="/parent-dashboard" class="demo-btn" id="demoParentBtn"><i class="fas fa-user-friends"></i> Parent</a>
+  <a href="/admin-dashboard" class="demo-btn" id="demoAdminBtn"><i class="fas fa-school"></i> School</a>
+</div>
+<script>
+    if(window.location.pathname.includes('/student/') || window.location.pathname.includes('/activity/')) {
+      document.getElementById('demoStudentBtn').classList.add('active');
+    } else if (window.location.pathname.includes('/teacher/')) {
+      document.getElementById('demoTeacherBtn').classList.add('active');
+    } else if (window.location.pathname.includes('/parent/')) {
+      document.getElementById('demoParentBtn').classList.add('active');
+    } else if (window.location.pathname.includes('/admin/')) {
+      document.getElementById('demoAdminBtn').classList.add('active');
+    }
+</script>
+
+
+<style>
+  .teacher-page {
+    background: linear-gradient(135deg, #FDF8F5 0%, #F5F1EE 100%);
+    padding: 3rem 0;
+    font-family: 'Nunito', sans-serif;
+    color: #334155;
+    min-height: 100vh;
+  }
+  .bento-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 1.5rem;
+  }
+  .bento-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(16px);
+    border-radius: 20px;
+    box-shadow: 
+      0 20px 40px -5px rgba(0, 0, 0, 0.08),
+      0 10px 15px -5px rgba(0, 0, 0, 0.04),
+      inset 0px 1px 1px rgba(255, 255, 255, 0.9);
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.7);
+  }
+  .main-header-card {
+    grid-column: span 12;
+    background: linear-gradient(135deg, #1E2D5A, #D63678);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.3);
+  }
+  
+  /* Leaderboard Styling */
+  .leaderboard-card {
+    grid-column: span 5;
+  }
+  @media (max-width: 992px) {
+    .leaderboard-card { grid-column: span 12; }
+  }
+  .student-rank-item {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    border-radius: 50px;
+    margin-bottom: 18px;
+    background: #ffffff;
+    box-shadow: 0 4px 6px rgba(30, 45, 90, 0.05);
+    border: 2px solid #F5F1EE;
+    border-bottom: 6px solid #C99A6B;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .student-rank-item:hover {
+    transform: translateY(4px);
+    border-bottom: 2px solid #bae6fd;
+    box-shadow: 0 2px 5px rgba(186, 230, 253, 0.4), inset 0 1px 2px rgba(255,255,255,0.9);
+  }
+  .rank-badge {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 900;
+    color: white;
+    font-size: 1.1rem;
+    margin-right: 15px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  }
+  .rank-1 { background: linear-gradient(135deg, #E08020, #C99A6B); transform: scale(1.1); }
+  .rank-2 { background: linear-gradient(135deg, #1E2D5A, #D63678); }
+  .rank-3 { background: linear-gradient(135deg, #D63678, #B02460); }
+  .rank-other { background: #E2E8F0; color: #475569; box-shadow: none; }
+  
+  .student-avatar {
+    width: 40px;
+    height: 40px;
+    background: #FDF8F5;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    color: #1E2D5A;
+    margin-right: 15px;
+  }
+  .student-name {
+    flex-grow: 1;
+    font-weight: 800;
+    font-size: 1.1rem;
+  }
+  .student-score {
+    font-family: 'Fredoka One', cursive;
+    color: #E08020;
+    font-size: 1.2rem;
+  }
+
+  /* Review Queue Styling */
+  .review-queue-card {
+    grid-column: span 7;
+  }
+  @media (max-width: 992px) {
+    .review-queue-card { grid-column: span 12; }
+  }
+  
+  .review-item {
+    background: #ffffff;
+    border: 2px solid #FDF0F6;
+    border-bottom: 6px solid #D63678;
+    border-radius: 20px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+    box-shadow: 0 8px 15px rgba(214, 54, 120, 0.1), inset 0 2px 5px rgba(255,255,255,0.8);
+    transition: all 0.2s ease;
+  }
+  .review-item:hover {
+    transform: translateY(4px);
+    border-bottom: 2px solid #5eead4;
+    box-shadow: 0 2px 8px rgba(20, 184, 166, 0.1), inset 0 1px 2px rgba(255,255,255,0.8);
+  }
+  .student-discussion-text {
+    background: white;
+    padding: 1rem;
+    border-radius: 10px;
+    font-style: italic;
+    color: #475569;
+    border: 1px dashed #cbd5e1;
+    margin: 15px 0;
+  }
+  .btn-approve {
+    background: #D63678;
+    color: white;
+    font-family: 'Fredoka One', cursive;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.2s;
+    box-shadow: 0 4px 0 #B02460;
+  }
+  .btn-approve:hover {
+    background: #B02460;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0 #B02460;
+  }
+  
+  /* Modal Styles */
+  .custom-modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(15, 23, 42, 0.4);
+    backdrop-filter: blur(12px);
+    z-index: 1050;
+    justify-content: center;
+    align-items: center;
+  }
+  .custom-modal {
+    background: white;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 2rem;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    position: relative;
+    font-family: 'Nunito', sans-serif;
+  }
+  .modal-close-btn {
+    position: absolute;
+    top: 15px; right: 20px;
+    background: none; border: none;
+    font-size: 1.5rem;
+    color: #94a3b8;
+    cursor: pointer;
+  }
+  .modal-close-btn:hover { color: #f43f5e; }
+  .grid-summary {
+    background: #f1f5f9;
+    padding: 15px;
+    border-radius: 12px;
+    margin: 15px 0;
+    border: 1px solid #e2e8f0;
+  }
+
+  /* Login Styling */
+  .login-container {
+    max-width: 400px;
+    margin: 40px auto;
+    text-align: center;
+  }
+  .pin-input {
+    font-size: 2rem;
+    letter-spacing: 0.5rem;
+    text-align: center;
+    border: 3px solid #cbd5e1;
+    border-radius: 12px;
+    padding: 10px;
+    width: 200px;
+    margin: 20px auto;
+    display: block;
+    outline: none;
+    transition: border-color 0.3s;
+    font-family: 'Fredoka One', cursive;
+  }
+  .pin-input:focus {
+    border-color: #1E2D5A;
+  }
+</style>
+
+<div class="teacher-page">
+  <!-- LOGIN VIEW -->
+  <div id="teacherLoginView" class="login-container bento-card d-none">
+    <div style="font-size: 3rem; color: #1E2D5A; margin-bottom: 20px;"><i class="fas fa-chalkboard-teacher"></i></div>
+    <h2 style="font-family: 'Fredoka One', cursive; color: #1e293b;">Teacher Portal</h2>
+    <p class="text-muted mb-4">Enter your Class PIN to access your dashboard.</p>
+    <p style="font-size: 0.8rem; background: #e0f2fe; padding: 5px; border-radius: 5px;">Demo PIN: 5678</p>
+    
+    <input type="password" id="pinInput" class="pin-input" maxlength="4" placeholder="••••">
+    <button class="btn btn-primary btn-lg rounded-pill px-5 mt-3" style="font-family: 'Fredoka One', cursive; background: #1E2D5A; border:none;" onclick="attemptTeacherLogin()">Unlock Portal</button>
+  </div>
+
+  <!-- DASHBOARD VIEW -->
+  <div id="teacherDashboardView" class="bento-container d-none">
+    
+    <div class="bento-card main-header-card">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <span class="badge bg-light text-primary mb-2" id="schoolNameTag"><i class="fas fa-school"></i> Loading School...</span>
+          <h1 style="font-family: 'Fredoka One', cursive; margin:0;" id="welcomeName">Welcome, Teacher</h1>
+          <p class="mb-0 mt-1" style="opacity: 0.9;" id="classInfo">Class: Loading...</p>
+        </div>
+        <div class="text-end">
+          <div style="font-size: 4rem; opacity: 0.8; margin-right: 20px;"><i class="fas fa-book-reader"></i></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LEADERBOARD -->
+    <div class="bento-card leaderboard-card">
+      <h3 style="font-family: 'Fredoka One', cursive; color: #1e293b; margin-bottom: 1.5rem;">
+        <i class="fas fa-trophy text-warning me-2"></i> Class Leaderboard
+      </h3>
+      <div id="leaderboardList">
+        <!-- Rendered via JS -->
+      </div>
+    </div>
+
+    <!-- GRADING QUEUE -->
+    <div class="bento-card review-queue-card">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 style="font-family: 'Fredoka One', cursive; color: #1e293b; margin:0;">
+          <i class="fas fa-clipboard-list text-primary me-2"></i> Grading & Reviews
+        </h3>
+        <span class="badge bg-danger rounded-pill" id="pendingCountBadge">0</span>
+      </div>
+      
+      <p class="text-muted">Review your students' discussion answers and award them points.</p>
+      
+      <div id="reviewsList">
+        <!-- Injected via JS -->
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const MOCK_DB = {"schools":[{"school_id":"sch_001","name":"Imaan Academy","location":"Lahore","school_code":"SCH-IA001"}],"school_admins":[{"admin_id":"adm_001","school_id":"sch_001","name":"Principal Usman","pin":"9999","email":"usman@imaanacademy.pk","phone":"03001234567","password":"admin123"}],"teachers":[{"teacher_id":"tch_001","school_id":"sch_001","name":"Ustadh Zaid","assigned_class":"Class 3","pin":"5678","email":"zaid@imaanacademy.pk","phone":"03009876543","password":"teacher123","invitation_code":"TCH-ZD001"}],"parents":[{"parent_id":"par_001","name":"Mr. Ahmed","email":"ahmed@example.com","phone":"03005551234","password":"parent123","pin":"1234","linked_student_id":"stu_101","invitation_code":"PAR-AH001"}],"students":[{"student_id":"stu_101","school_id":"sch_001","class_id":"Class 3","parent_id":"par_001","name":"Ali Ahmed","age":8,"avatar":"fas fa-child","base_points":0,"email":"","phone":"","password":"student123","invitation_code":"STU-AL001"},{"student_id":"stu_102","school_id":"sch_001","class_id":"Class 3","parent_id":"par_002","name":"Bilal Hashmi","age":9,"avatar":"fas fa-user-graduate","base_points":450,"email":"","phone":"","password":"student123","invitation_code":"STU-BL002"},{"student_id":"stu_103","school_id":"sch_001","class_id":"Class 3","parent_id":"par_003","name":"Zainab Raza","age":8,"avatar":"fas fa-female","base_points":600,"email":"","phone":"","password":"student123","invitation_code":"STU-ZR003"}],"users":[{"user_id":"usr_001","role":"school_admin","linked_id":"adm_001","email":"usman@imaanacademy.pk","phone":"03001234567","password":"admin123","name":"Principal Usman"},{"user_id":"usr_002","role":"teacher","linked_id":"tch_001","email":"zaid@imaanacademy.pk","phone":"03009876543","password":"teacher123","name":"Ustadh Zaid"},{"user_id":"usr_003","role":"parent","linked_id":"par_001","email":"ahmed@example.com","phone":"03005551234","password":"parent123","name":"Mr. Ahmed"}],"invitation_codes":[{"code":"TCH-ZD001","type":"teacher","school_id":"sch_001","status":"used","used_by":"tch_001","name":"Ustadh Zaid","assigned_class":"Class 3"},{"code":"STU-AL001","type":"student","school_id":"sch_001","status":"used","used_by":"stu_101","name":"Ali Ahmed","class_id":"Class 3"},{"code":"PAR-AH001","type":"parent","school_id":"sch_001","status":"used","used_by":"par_001","linked_student_code":"STU-AL001"}]};
+  const ACTIVITIES_DATA = {"book1":{"title":"Imaan and Akhlaaq - Book 1","pdfUrl":"https://drive.google.com/file/d/1yOPz5oYlDF4Aj41WQmcxSHbti2shDDpz/preview","chapters":{"chapter1":{"id":"b1_c1","title":"The Farm and the Brave Sister","pageStart":1,"pageEnd":6,"discussionQuestion":"How does staying near safe people make us feel?","sections":[{"heading":"My Daily Actions:","questions":["I stayed near safe people ?","I spoke clearly when I felt unsafe ?","I followed the rules while playing ?"]},{"heading":"Ethics in Class:","questions":["I raise my hand and speak when I need anything ?","I stay within classroom rules ?","I respect my teacher's instructions ?"]},{"heading":"With My Family:","questions":["I told my parents about a fear ?","I practiced saying 'No' politely ?","I thanked Allah for keeping me safe ?"]}]},"chapter2":{"id":"b1_c2","title":"The Giant Burger","pageStart":7,"pageEnd":10,"discussionQuestion":"How did I show good manners while talking today?","sections":[{"heading":"My Daily Actions:","questions":["I waited before speaking ?","I used polite words ?","I helped after meals ?"]},{"heading":"Ethics in Class:","questions":["I wait for my turn before speaking ?","I use polite words in class ?","I listen quietly when others speak ?"]},{"heading":"With My Family:","questions":["I helped with a household task ?","I listened to the elders ?","I said Bismillah and Alhamdulillah ?"]}]},"chapter3":{"id":"b1_c3","title":"Goodbyes and New Beginnings","pageStart":11,"pageEnd":13,"discussionQuestion":"Why is it important to have good manners when entering a new house?","sections":[{"heading":"My Daily Actions:","questions":["I said Salam when entering ?","I helped unpack my things ?","I kept my room tidy ?"]},{"heading":"Ethics in Class:","questions":["I welcomed a new student ?","I shared my things gracefully ?","I listened to the teacher attentively ?"]},{"heading":"With My Family:","questions":["I respected my older siblings ?","I didn't complain about the move ?","I appreciated my parents' hard work ?"]}]},"chapter4":{"id":"b1_c4","title":"Chapter 4","pageStart":14,"pageEnd":17,"discussionQuestion":"What is the main lesson from this chapter?","sections":[{"heading":"My Daily Actions:","questions":["I applied the core learning today ?","I helped a friend understand this ?","I practiced the sunnah associated with this ?"]},{"heading":"Ethics in Class:","questions":["I listened when the teacher spoke about this ?","I asked questions to clarify my doubts ?","I didn't distract others during the lesson ?"]},{"heading":"With My Family:","questions":["I shared this story with my parents ?","I promised to improve my character ?","I thanked Allah for the guidance ?"]}]},"chapter5":{"id":"b1_c5","title":"Chapter 5","pageStart":18,"pageEnd":21,"discussionQuestion":"How does this lesson improve our character?","sections":[{"heading":"My Daily Actions:","questions":["I applied the core learning today ?","I helped a friend understand this ?","I practiced the sunnah associated with this ?"]},{"heading":"Ethics in Class:","questions":["I listened when the teacher spoke about this ?","I asked questions to clarify my doubts ?","I didn't distract others during the lesson ?"]},{"heading":"With My Family:","questions":["I shared this story with my parents ?","I promised to improve my character ?","I thanked Allah for the guidance ?"]}]},"chapter6":{"id":"b1_c6","title":"Chapter 6","pageStart":22,"pageEnd":25,"discussionQuestion":"How does this lesson improve our character?","sections":[{"heading":"My Daily Actions:","questions":["I applied the core learning today ?","I helped a friend understand this ?","I practiced the sunnah associated with this ?"]},{"heading":"Ethics in Class:","questions":["I listened when the teacher spoke about this ?","I asked questions to clarify my doubts ?","I didn't distract others during the lesson ?"]},{"heading":"With My Family:","questions":["I shared this story with my parents ?","I promised to improve my character ?","I thanked Allah for the guidance ?"]}]},"chapter7":{"id":"b1_c7","title":"Chapter 7","pageStart":26,"pageEnd":29,"discussionQuestion":"How does this lesson improve our character?","sections":[{"heading":"My Daily Actions:","questions":["I applied the core learning today ?","I helped a friend understand this ?","I practiced the sunnah associated with this ?"]},{"heading":"Ethics in Class:","questions":["I listened when the teacher spoke about this ?","I asked questions to clarify my doubts ?","I didn't distract others during the lesson ?"]},{"heading":"With My Family:","questions":["I shared this story with my parents ?","I promised to improve my character ?","I thanked Allah for the guidance ?"]}]},"chapter8":{"id":"b1_c8","title":"Chapter 8","pageStart":30,"pageEnd":33,"discussionQuestion":"How does this lesson improve our character?","sections":[{"heading":"My Daily Actions:","questions":["I applied the core learning today ?","I helped a friend understand this ?","I practiced the sunnah associated with this ?"]},{"heading":"Ethics in Class:","questions":["I listened when the teacher spoke about this ?","I asked questions to clarify my doubts ?","I didn't distract others during the lesson ?"]},{"heading":"With My Family:","questions":["I shared this story with my parents ?","I promised to improve my character ?","I thanked Allah for the guidance ?"]}]},"chapter9":{"id":"b1_c9","title":"Chapter 9","pageStart":34,"pageEnd":37,"discussionQuestion":"How does this lesson improve our character?","sections":[{"heading":"My Daily Actions:","questions":["I applied the core learning today ?","I helped a friend understand this ?","I practiced the sunnah associated with this ?"]},{"heading":"Ethics in Class:","questions":["I listened when the teacher spoke about this ?","I asked questions to clarify my doubts ?","I didn't distract others during the lesson ?"]},{"heading":"With My Family:","questions":["I shared this story with my parents ?","I promised to improve my character ?","I thanked Allah for the guidance ?"]}]},"chapter10":{"id":"b1_c10","title":"Chapter 10","pageStart":38,"pageEnd":42,"discussionQuestion":"How does this lesson improve our character?","sections":[{"heading":"My Daily Actions:","questions":["I applied the core learning today ?","I helped a friend understand this ?","I practiced the sunnah associated with this ?"]},{"heading":"Ethics in Class:","questions":["I listened when the teacher spoke about this ?","I asked questions to clarify my doubts ?","I didn't distract others during the lesson ?"]},{"heading":"With My Family:","questions":["I shared this story with my parents ?","I promised to improve my character ?","I thanked Allah for the guidance ?"]}]},"chapter11":{"id":"b1_c11","title":"Chapter 11","pageStart":43,"pageEnd":46,"discussionQuestion":"How does this lesson improve our character?","sections":[{"heading":"My Daily Actions:","questions":["I applied the core learning today ?","I helped a friend understand this ?","I practiced the sunnah associated with this ?"]},{"heading":"Ethics in Class:","questions":["I listened when the teacher spoke about this ?","I asked questions to clarify my doubts ?","I didn't distract others during the lesson ?"]},{"heading":"With My Family:","questions":["I shared this story with my parents ?","I promised to improve my character ?","I thanked Allah for the guidance ?"]}]},"chapter12":{"id":"b1_c12","title":"Chapter 12","pageStart":47,"pageEnd":51,"discussionQuestion":"How does this lesson improve our character?","sections":[{"heading":"My Daily Actions:","questions":["I applied the core learning today ?","I helped a friend understand this ?","I practiced the sunnah associated with this ?"]},{"heading":"Ethics in Class:","questions":["I listened when the teacher spoke about this ?","I asked questions to clarify my doubts ?","I didn't distract others during the lesson ?"]},{"heading":"With My Family:","questions":["I shared this story with my parents ?","I promised to improve my character ?","I thanked Allah for the guidance ?"]}]},"chapter13":{"id":"b1_c13","title":"Chapter 13","pageStart":52,"pageEnd":56,"discussionQuestion":"How does this lesson improve our character?","sections":[{"heading":"My Daily Actions:","questions":["I applied the core learning today ?","I helped a friend understand this ?","I practiced the sunnah associated with this ?"]},{"heading":"Ethics in Class:","questions":["I listened when the teacher spoke about this ?","I asked questions to clarify my doubts ?","I didn't distract others during the lesson ?"]},{"heading":"With My Family:","questions":["I shared this story with my parents ?","I promised to improve my character ?","I thanked Allah for the guidance ?"]}]},"chapter14":{"id":"b1_c14","title":"Chapter 14","pageStart":57,"pageEnd":60,"discussionQuestion":"How does this lesson improve our character?","sections":[{"heading":"My Daily Actions:","questions":["I applied the core learning today ?","I helped a friend understand this ?","I practiced the sunnah associated with this ?"]},{"heading":"Ethics in Class:","questions":["I listened when the teacher spoke about this ?","I asked questions to clarify my doubts ?","I didn't distract others during the lesson ?"]},{"heading":"With My Family:","questions":["I shared this story with my parents ?","I promised to improve my character ?","I thanked Allah for the guidance ?"]}]},"chapter15":{"id":"b1_c15","title":"Chapter 15","pageStart":61,"pageEnd":63,"discussionQuestion":"How does this lesson improve our character?","sections":[{"heading":"My Daily Actions:","questions":["I applied the core learning today ?","I helped a friend understand this ?","I practiced the sunnah associated with this ?"]},{"heading":"Ethics in Class:","questions":["I listened when the teacher spoke about this ?","I asked questions to clarify my doubts ?","I didn't distract others during the lesson ?"]},{"heading":"With My Family:","questions":["I shared this story with my parents ?","I promised to improve my character ?","I thanked Allah for the guidance ?"]}]},"chapter16":{"id":"b1_c16","title":"Chapter 16","pageStart":64,"pageEnd":66,"discussionQuestion":"How does this lesson improve our character?","sections":[{"heading":"My Daily Actions:","questions":["I applied the core learning today ?","I helped a friend understand this ?","I practiced the sunnah associated with this ?"]},{"heading":"Ethics in Class:","questions":["I listened when the teacher spoke about this ?","I asked questions to clarify my doubts ?","I didn't distract others during the lesson ?"]},{"heading":"With My Family:","questions":["I shared this story with my parents ?","I promised to improve my character ?","I thanked Allah for the guidance ?"]}]},"chapter17":{"id":"b1_c17","title":"Chapter 17","pageStart":67,"pageEnd":69,"discussionQuestion":"How does this lesson improve our character?","sections":[{"heading":"My Daily Actions:","questions":["I applied the core learning today ?","I helped a friend understand this ?","I practiced the sunnah associated with this ?"]},{"heading":"Ethics in Class:","questions":["I listened when the teacher spoke about this ?","I asked questions to clarify my doubts ?","I didn't distract others during the lesson ?"]},{"heading":"With My Family:","questions":["I shared this story with my parents ?","I promised to improve my character ?","I thanked Allah for the guidance ?"]}]},"chapter18":{"id":"b1_c18","title":"Chapter 18","pageStart":70,"pageEnd":74,"discussionQuestion":"How does this lesson improve our character?","sections":[{"heading":"My Daily Actions:","questions":["I applied the core learning today ?","I helped a friend understand this ?","I practiced the sunnah associated with this ?"]},{"heading":"Ethics in Class:","questions":["I listened when the teacher spoke about this ?","I asked questions to clarify my doubts ?","I didn't distract others during the lesson ?"]},{"heading":"With My Family:","questions":["I shared this story with my parents ?","I promised to improve my character ?","I thanked Allah for the guidance ?"]}]}}},"book2":{"title":"Imaan and Akhlaaq - Book 2","pdfUrl":"https://drive.google.com/file/d/1rmYenOjmunRkdl3NdQfDgdw7UTyAKdgP/preview","chapters":{"chapter1":{"id":"b2_c1","title":"The First Flight","pageStart":1,"pageEnd":15,"discussionQuestion":"Why is honesty always the best choice, even when we make a mistake?","sections":[{"heading":"My Daily Actions:","questions":["I told the truth today even if it was hard ?","I didn't hide my mistakes ?","I learned from something I did wrong ?"]},{"heading":"Ethics in Class:","questions":["I was honest about my homework ?","I didn't take things that don't belong to me ?","I apologized properly when I made a mistake ?"]},{"heading":"With My Family:","questions":["I told the truth to my parents ?","I didn't blame my siblings for my mistakes ?","I asked Allah to help me be honest ?"]}]},"chapter2":{"id":"b2_c2","title":"The Best Answer","pageStart":16,"pageEnd":30,"discussionQuestion":"How does seeking knowledge and giving wise answers please Allah?","sections":[{"heading":"My Daily Actions:","questions":["I tried to learn something new today ?","I thought carefully before answering a question ?","I shared good knowledge with my friends ?"]},{"heading":"Ethics in Class:","questions":["I paid close attention to the lesson ?","I answered politely when asked ?","I didn't interrupt others while they spoke ?"]},{"heading":"With My Family:","questions":["I shared what I learned with my family ?","I respected my older siblings' knowledge ?","I asked questions when I didn't understand ?"]}]},"chapter3":{"id":"b2_c3","title":"A Surprise Visit","pageStart":31,"pageEnd":45,"discussionQuestion":"How should we behave when guests visit our home?","sections":[{"heading":"My Daily Actions:","questions":["I smiled and welcomed someone today ?","I offered water or food to a guest ?","I practiced good manners (Saying Salam) ?"]},{"heading":"Ethics in Class:","questions":["I welcomed a visitor to our class ?","I offered my seat or help ?","I remained quiet and respectful ?"]},{"heading":"With My Family:","questions":["I helped my parents serve the guests ?","I didn't make noise while guests were talking ?","I said goodbye nicely when they left ?"]}]}}},"book3":{"title":"Imaan and Akhlaaq - Book 3","pdfUrl":"https://drive.google.com/file/d/1bjbVY9gTGqj8LMfc3-lSNmMbcE_1_9_g/preview","chapters":{"chapter1":{"id":"b3_c1","title":"The Meaning of Patience","pageStart":1,"pageEnd":20,"discussionQuestion":"Why is being patient important even when things are difficult?","sections":[{"heading":"My Daily Actions:","questions":["I stayed calm when things didn't go my way ?","I didn't rush or complain during a hard task ?","I waited nicely for my turn ?"]},{"heading":"Ethics in Class:","questions":["I listened quietly when the teacher was busy ?","I was patient during challenging lessons ?","I helped a classmate without getting frustrated ?"]},{"heading":"With My Family:","questions":["I was patient when my parents asked me to wait ?","I handled disagreement with my siblings calmly ?","I remembered Allah helps the patient ?"]}]},"chapter2":{"id":"b3_c2","title":"A Caring Heart","pageStart":21,"pageEnd":40,"discussionQuestion":"How does helping others make our own hearts feel better?","sections":[{"heading":"My Daily Actions:","questions":["I offered a smile to someone who seemed sad ?","I shared something I value with a friend ?","I said a kind word to someone today ?"]},{"heading":"Ethics in Class:","questions":["I noticed someone struggling and offered help ?","I included everyone in the group activity ?","I said 'please' and 'thank you' sincerely ?"]},{"heading":"With My Family:","questions":["I asked my parents how their day was ?","I comforted a sibling who was upset ?","I made dua for my family's well-being ?"]}]},"chapter3":{"id":"b3_c3","title":"Standing for Truth","pageStart":41,"pageEnd":60,"discussionQuestion":"Why does speaking the truth require courage?","sections":[{"heading":"My Daily Actions:","questions":["I stood up for what is right today ?","I didn't agree with a wrong action ?","I admitted fault immediately ?"]},{"heading":"Ethics in Class:","questions":["I was honest even when it could have gotten me in trouble ?","I didn't let others cheat or copy ?","I reported an incident fairly ?"]},{"heading":"With My Family:","questions":["I told the complete truth to my parents ?","I supported truth over taking sides ?","I sought forgiveness from Allah for past lies ?"]}]}}}};
+  
+  document.addEventListener('DOMContentLoaded', () => {
+    const loginView = document.getElementById('teacherLoginView');
+    const dashboardView = document.getElementById('teacherDashboardView');
+    
+    // Auth Check
+    const session = sessionStorage.getItem('teacher_session');
+    
+    if (session) {
+      showDashboard(JSON.parse(session));
+    } else {
+      loginView.classList.remove('d-none');
+    }
+
+    window.attemptTeacherLogin = () => {
+      const pin = document.getElementById('pinInput').value;
+      const teacherUser = MOCK_DB.teachers.find(t => t.pin === pin);
+      
+      if (teacherUser) {
+        const school = MOCK_DB.schools.find(s => s.school_id === teacherUser.school_id);
+        const students = MOCK_DB.students.filter(s => s.class_id === teacherUser.assigned_class && s.school_id === school.school_id);
+        
+        const sessionData = {
+          teacherId: teacherUser.teacher_id,
+          teacherName: teacherUser.name,
+          schoolName: school.name,
+          className: teacherUser.assigned_class,
+          students: students
+        };
+        
+        sessionStorage.setItem('teacher_session', JSON.stringify(sessionData));
+        loginView.classList.add('d-none');
+        showDashboard(sessionData);
+      } else {
+        alert("Invalid PIN. Please try 5678.");
+      }
+    };
+    
+    window.awardTeacherPoints = (studentId, chapterId) => {
+      // In a real app we'd save this to the real DB. 
+      // For the mock, we simulate it on local storage for "Ali Ahmed" (stu_101)
+      if (studentId === 'stu_101') {
+        let gameState = JSON.parse(localStorage.getItem('imaan_game_state')) || { points:250, unlockedCount:1, completed:[], parent_approved:[], teacher_approved:[] };
+        if (!gameState.parent_approved) gameState.parent_approved = [];
+        if (!gameState.teacher_approved) gameState.teacher_approved = [];
+        if (!gameState.completed) gameState.completed = [];
+        
+        if (!gameState.teacher_approved.includes(chapterId)) {
+          gameState.teacher_approved.push(chapterId);
+          gameState.points += 50; // Teacher Bonus
+          localStorage.setItem('imaan_game_state', JSON.stringify(gameState));
+        }
+      } else {
+        // Just mock updating the fake array
+        let dummyState = JSON.parse(sessionStorage.getItem('dummy_approvals')) || [];
+        dummyState.push(studentId + '_' + chapterId);
+        sessionStorage.setItem('dummy_approvals', JSON.stringify(dummyState));
+      }
+      
+      // Re-render
+      const session = JSON.parse(sessionStorage.getItem('teacher_session'));
+      showDashboard(session);
+      alert("✅ Answer marked as Excellent! +50 ⭐ awarded to student.");
+    };
+
+    window.rejectTeacherPoints = (studentId, chapterId) => {
+      if (confirm("Are you sure you want to reject this answer? The student will have to fill it out again.")) {
+        if (studentId === 'stu_101') {
+          let gameState = JSON.parse(localStorage.getItem('imaan_game_state'));
+          if (gameState && gameState.completed) {
+            gameState.completed = gameState.completed.filter(id => id !== chapterId);
+            localStorage.setItem('imaan_game_state', JSON.stringify(gameState));
+          }
+          let allSubmissions = JSON.parse(localStorage.getItem('student_submissions')) || {};
+          delete allSubmissions[studentId + '_' + chapterId];
+          localStorage.setItem('student_submissions', JSON.stringify(allSubmissions));
+        } else {
+          let dummyApprovals = JSON.parse(sessionStorage.getItem('dummy_approvals')) || [];
+          dummyApprovals.push(studentId + '_' + chapterId); // Just mock out of queue
+          sessionStorage.setItem('dummy_approvals', JSON.stringify(dummyApprovals));
+        }
+        
+        closeReviewModal();
+        const session = JSON.parse(sessionStorage.getItem('teacher_session'));
+        showDashboard(session);
+        alert("❌ Submission rejected. It has been sent back to the student.");
+      }
+    };
+    
+    function getChapterTitle(chapId) {
+      // Very naive search since we just want the string
+      let title = chapId;
+      ['book1', 'book2', 'book3'].forEach(b => {
+        if(ACTIVITIES_DATA[b] && ACTIVITIES_DATA[b].chapters) {
+          Object.values(ACTIVITIES_DATA[b].chapters).forEach(c => {
+            if(c.id === chapId) title = c.title;
+          });
+        }
+      });
+      return title;
+    }
+
+    function showDashboard(sessionData) {
+      dashboardView.classList.remove('d-none');
+      
+      document.getElementById('schoolNameTag').innerHTML = '<i class="fas fa-school"></i> ' + sessionData.schoolName;
+      document.getElementById('welcomeName').textContent = sessionData.teacherName;
+      document.getElementById('classInfo').textContent = 'Assigned: ' + sessionData.className + ' (' + sessionData.students.length + ' Students)';
+      
+      // 1. Build Leaderboard Data
+      // For stu_101 (Ali), fetch live data from localStorage. For rest, use mock base_points.
+      let gameState = JSON.parse(localStorage.getItem('imaan_game_state')) || { points: 250, completed: [], parent_approved:[], teacher_approved:[] };
+      if (!gameState.parent_approved) gameState.parent_approved = [];
+      if (!gameState.teacher_approved) gameState.teacher_approved = [];
+      if (!gameState.completed) gameState.completed = [];
+      
+      let leaderboardData = [];
+      let pendingReviews = []; // Array of {student, chapId, answer, grid, parents}
+      
+      let allSubmissions = JSON.parse(localStorage.getItem('student_submissions')) || {};
+
+      sessionData.students.forEach(stu => {
+        let stuPoints = stu.base_points;
+        if (stu.student_id === 'stu_101') {
+          stuPoints += gameState.points; // Add the livedata points
+          
+          // Check for pending discussion approvals for Ali (Live Data)
+          gameState.completed.forEach(chap => {
+            // SEQUENTIAL LOGIC: Only show if Parent has already approved
+            if (gameState.parent_approved.includes(chap) && !gameState.teacher_approved.includes(chap)) {
+              let sub = allSubmissions[stu.student_id + '_' + chap];
+              pendingReviews.push({
+                student: stu,
+                chapId: chap,
+                answer: sub ? sub.discussionText : "No written answer provided.",
+                grid: sub ? sub.gridState : null,
+                parents: sub ? sub.parentNotes : [],
+                status: 'Waiting for Teacher'
+              });
+            }
+          });
+        } else {
+          // Fake some pending reviews for the dummy students
+          let dummyApprovals = JSON.parse(sessionStorage.getItem('dummy_approvals')) || [];
+          if (!dummyApprovals.includes(stu.student_id + '_b1_c2')) {
+            pendingReviews.push({
+              student: stu,
+              chapId: 'b1_c2',
+              answer: "I always make sure to speak the truth with my friends.",
+              grid: {yes: 15, no: 2, total: 21},
+              parents: ["Parent Approved: Very good boy this week."],
+              status: 'Approved by Parent'
+            });
+          }
+        }
+        
+        leaderboardData.push({
+          ...stu,
+          totalPoints: stuPoints
+        });
+      });
+      
+      // Sort Leaderboard
+      leaderboardData.sort((a,b) => b.totalPoints - a.totalPoints);
+      
+      // Render Leaderboard
+      let lbHtml = '';
+      leaderboardData.forEach((s, idx) => {
+        let rankClass = idx === 0 ? 'rank-1' : (idx === 1 ? 'rank-2' : (idx === 2 ? 'rank-3' : 'rank-other'));
+        lbHtml += 
+          '<div class="student-rank-item">' +
+            '<div class="rank-badge ' + rankClass + '">' + (idx + 1) + '</div>' +
+            '<div class="student-avatar"><i class="' + s.avatar + '"></i></div>' +
+            '<div class="student-name">' + s.name + ' <div style="font-size:0.8rem; font-weight:normal; color:#64748b;">ID: ' + s.student_id + '</div></div>' +
+            '<div class="student-score">' + s.totalPoints + ' ⭐</div>' +
+          '</div>';
+      });
+      document.getElementById('leaderboardList').innerHTML = lbHtml;
+
+
+      // Render Grading Queue
+      document.getElementById('pendingCountBadge').textContent = pendingReviews.length;
+      let revHtml = '';
+      if (pendingReviews.length === 0) {
+        revHtml = '<div class="text-center p-5"><i class="fas fa-glass-cheers text-success fa-3x mb-3"></i><h4>All Caught Up!</h4><p class="text-muted">You have reviewed all student answers.</p></div>';
+      } else {
+        pendingReviews.forEach((rev, idx) => {
+          let cTitle = getChapterTitle(rev.chapId);
+          // Safely attach object as JSON in dataset
+          let rawData = encodeURIComponent(JSON.stringify(rev));
+          
+          revHtml += 
+            '<div class="review-item">' +
+              '<div class="d-flex align-items-center mb-2">' +
+                '<div class="student-avatar" style="width:30px; height:30px; font-size:1rem; margin-right:10px;"><i class="' + rev.student.avatar + '"></i></div>' +
+                '<strong style="font-size: 1.1rem; color: #1e293b;">' + rev.student.name + '</strong>' +
+                '<span class="ms-auto" style="font-size: 0.85rem; color: #64748b; background: white; padding: 2px 8px; border-radius: 10px; border: 1px solid #cbd5e1;">' + cTitle + '</span>' +
+              '</div>' +
+              '<div style="font-size:0.9rem; font-weight:bold; color:#D63678;">Status: <span class="badge bg-success">Parent Approved</span></div>' +
+              '<div class="student-discussion-text" style="max-height:80px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">"' + rev.answer + '"</div>' +
+              '<div class="d-flex justify-content-end mt-3">' +
+                '<button class="btn btn-primary rounded-pill me-2" onclick="openReviewModal(\'' + rawData + '\')"><i class="fas fa-search"></i> View Full Sheet</button>' +
+                '<button class="btn-approve" onclick="awardTeacherPoints(\'' + rev.student.student_id + '\', \'' + rev.chapId + '\')"><i class="fas fa-check"></i> Quick Pass</button>' +
+              '</div>' +
+            '</div>';
+        });
+      }
+      document.getElementById('reviewsList').innerHTML = revHtml;
+
+    } // end showDashboard
+
+    // Modal Logic
+    const modalHTML = 
+      '<div class="custom-modal-overlay" id="reviewModalOverlay">' +
+        '<div class="custom-modal" id="reviewModal">' +
+          '<button class="modal-close-btn" onclick="closeReviewModal()"><i class="fas fa-times"></i></button>' +
+          '<h3 style="font-family: \'Fredoka One\', cursive; color:#1e293b;"><i class="fas fa-clipboard-check text-primary"></i> Activity Sheet Review</h3>' +
+          '<p class="text-muted" id="rmStudentInfo" style="font-size: 0.9rem; margin-bottom: 20px;"></p>' +
+          '<h5 style="color:#D63678; font-weight:800; font-size:1rem;">Discussion Answer:</h5>' +
+          '<div class="student-discussion-text" id="rmDiscussion" style="background:#FDF8F5; border-color:#D63678;"></div>' +
+          '<h5 style="color:#D63678; font-weight:800; font-size:1rem; margin-top:15px;">Daily Action Grid Summary:</h5>' +
+          '<div class="grid-summary" id="rmGrid"></div>' +
+          '<h5 style="color:#D63678; font-weight:800; font-size:1rem; margin-top:15px;">Parent Feedback:</h5>' +
+          '<div class="grid-summary" id="rmParents" style="background: #FDF8F5; border-color:#E08020;"></div>' +
+          '<div class="text-center mt-4" id="rmActionBtn">' +
+            '<!-- Injected dynamically -->' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+    
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+
+    window.openReviewModal = (rawData) => {
+      let rev = JSON.parse(decodeURIComponent(rawData));
+      document.getElementById('rmStudentInfo').innerHTML = '<strong>' + rev.student.name + '</strong> (' + rev.student.student_id + ') &bull; ' + getChapterTitle(rev.chapId);
+      document.getElementById('rmDiscussion').innerText = rev.answer;
+      
+      let gridHtml = 'No grid data captured.';
+      if(rev.grid) {
+        gridHtml = 'Student marked <strong>' + rev.grid.yes + '</strong> actions as Yes, <strong>' + rev.grid.no + '</strong> as No out of ' + rev.grid.total + ' total spots.';
+      }
+      document.getElementById('rmGrid').innerHTML = gridHtml;
+
+      let parentHtml = '';
+      if(rev.parents && rev.parents.length > 0) {
+        let validNotes = rev.parents.filter(n => n.trim() !== '');
+        if(validNotes.length > 0) {
+           parentHtml = '<ul>' + validNotes.map(n => '<li>"' + n + '"</li>').join('') + '</ul>';
+        } else {
+           parentHtml = 'No parent notes provided.';
+        }
+      } else {
+        parentHtml = 'No parent notes provided.';
+      }
+      document.getElementById('rmParents').innerHTML = parentHtml;
+
+      document.getElementById('rmActionBtn').innerHTML = 
+        '<button class="btn btn-outline-danger px-4 rounded-pill fw-bold mb-2 me-2" onclick="rejectTeacherPoints(\'' + rev.student.student_id + '\', \'' + rev.chapId + '\')"><i class="fas fa-undo"></i> Reject (Needs Changes)</button>' +
+        '<button class="btn btn-success px-4 rounded-pill fw-bold mb-2 shadow-sm" onclick="awardTeacherPoints(\'' + rev.student.student_id + '\', \'' + rev.chapId + '\')"><i class="fas fa-star text-warning"></i> Mark Excellent & Award 50 ⭐</button>';
+
+      document.getElementById('reviewModalOverlay').style.display = 'flex';
+      document.getElementById('reviewModal').classList.add('animate__animated', 'animate__zoomIn');
+    };
+
+    window.closeReviewModal = () => {
+      document.getElementById('reviewModalOverlay').style.display = 'none';
+      document.getElementById('reviewModal').classList.remove('animate__animated', 'animate__zoomIn');
+    };
+    
+  });
+</script>

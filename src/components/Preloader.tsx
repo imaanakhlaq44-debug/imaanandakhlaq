@@ -17,10 +17,10 @@ export const Preloader = () => html`\n<!-- ===== KIDBA-STYLE SPLASH SCREEN =====
     <div class="splash-center">
       <!-- Logo with glow -->
       <div class="splash-logo-wrap">
-        <img src="/static/img/splash_logo.jpg" alt="Imaan & Akhlaq" class="splash-logo" />
+        <img src="/kidba_assets/img/splash_logo.jpg" alt="Imaan & Akhlaq" class="splash-logo" />
       </div>
 
-      <!-- Animated brand wordmark — Kidba style colorful text -->
+      <!-- Animated brand wordmark Ã¢â‚¬â€ Kidba style colorful text -->
       <div class="splash-wordmark">
         <span class="sw-let" style="color:#D63678;animation-delay:.05s">I</span><span class="sw-let" style="color:#E08020;animation-delay:.1s">m</span><span class="sw-let" style="color:#1E2D5A;animation-delay:.15s">a</span><span class="sw-let" style="color:#C99A6B;animation-delay:.2s">a</span><span class="sw-let" style="color:#D63678;animation-delay:.25s">n</span><span class="sw-amp">&amp;</span><span class="sw-let" style="color:#1E2D5A;animation-delay:.35s">A</span><span class="sw-let" style="color:#D63678;animation-delay:.4s">k</span><span class="sw-let" style="color:#E08020;animation-delay:.45s">h</span><span class="sw-let" style="color:#C99A6B;animation-delay:.5s">l</span><span class="sw-let" style="color:#1E2D5A;animation-delay:.55s">a</span><span class="sw-let" style="color:#D63678;animation-delay:.6s">q</span>
       </div>

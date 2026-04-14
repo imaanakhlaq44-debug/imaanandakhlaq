@@ -1,10 +1,13 @@
 {
   "book1": {
     "title": "Imaan and Akhlaaq - Book 1",
+    "pdfUrl": "https://drive.google.com/file/d/1yOPz5oYlDF4Aj41WQmcxSHbti2shDDpz/preview",
     "chapters": {
       "chapter1": {
         "id": "b1_c1",
         "title": "The Farm and the Brave Sister",
+        "pageStart": 1,
+        "pageEnd": 6,
         "discussionQuestion": "How does staying near safe people make us feel?",
         "sections": [
           {
@@ -36,6 +39,8 @@
       "chapter2": {
         "id": "b1_c2",
         "title": "The Giant Burger",
+        "pageStart": 7,
+        "pageEnd": 10,
         "discussionQuestion": "How did I show good manners while talking today?",
         "sections": [
           {
@@ -67,6 +72,8 @@
       "chapter3": {
         "id": "b1_c3",
         "title": "Goodbyes and New Beginnings",
+        "pageStart": 11,
+        "pageEnd": 13,
         "discussionQuestion": "Why is it important to have good manners when entering a new house?",
         "sections": [
           {
@@ -94,39 +101,537 @@
             ]
           }
         ]
-      }
-    }
-  },
-  "book2": {
-    "title": "Imaan and Akhlaaq - Book 2",
-    "chapters": {
-      "chapter1": {
-        "id": "b2_c1",
-        "title": "The First Flight",
-        "discussionQuestion": "Why is honesty always the best choice, even when we make a mistake?",
+      },
+      "chapter4": {
+        "id": "b1_c4",
+        "title": "Chapter 4",
+        "pageStart": 14,
+        "pageEnd": 17,
+        "discussionQuestion": "What is the main lesson from this chapter?",
         "sections": [
           {
             "heading": "My Daily Actions:",
             "questions": [
-              "I told the truth today even if it was hard ?",
-              "I didn't hide my mistakes ?",
-              "I learned from something I did wrong ?"
+              "I applied the core learning today ?",
+              "I helped a friend understand this ?",
+              "I practiced the sunnah associated with this ?"
             ]
           },
           {
             "heading": "Ethics in Class:",
             "questions": [
-              "I was honest about my homework ?",
-              "I didn't take things that don't belong to me ?",
-              "I apologized properly when I made a mistake ?"
+              "I listened when the teacher spoke about this ?",
+              "I asked questions to clarify my doubts ?",
+              "I didn't distract others during the lesson ?"
             ]
           },
           {
             "heading": "With My Family:",
             "questions": [
-              "I told the truth to my parents ?",
-              "I didn't blame my siblings for my mistakes ?",
-              "I asked Allah to help me be honest ?"
+              "I shared this story with my parents ?",
+              "I promised to improve my character ?",
+              "I thanked Allah for the guidance ?"
+            ]
+          }
+        ]
+      },
+      "chapter5": {
+        "id": "b1_c5",
+        "title": "Chapter 5",
+        "pageStart": 18,
+        "pageEnd": 21,
+        "discussionQuestion": "How does this lesson improve our character?",
+        "sections": [
+          {
+            "heading": "My Daily Actions:",
+            "questions": [
+              "I applied the core learning today ?",
+              "I helped a friend understand this ?",
+              "I practiced the sunnah associated with this ?"
+            ]
+          },
+          {
+            "heading": "Ethics in Class:",
+            "questions": [
+              "I listened when the teacher spoke about this ?",
+              "I asked questions to clarify my doubts ?",
+              "I didn't distract others during the lesson ?"
+            ]
+          },
+          {
+            "heading": "With My Family:",
+            "questions": [
+              "I shared this story with my parents ?",
+              "I promised to improve my character ?",
+              "I thanked Allah for the guidance ?"
+            ]
+          }
+        ]
+      },
+      "chapter6": {
+        "id": "b1_c6",
+        "title": "Chapter 6",
+        "pageStart": 22,
+        "pageEnd": 25,
+        "discussionQuestion": "How does this lesson improve our character?",
+        "sections": [
+          {
+            "heading": "My Daily Actions:",
+            "questions": [
+              "I applied the core learning today ?",
+              "I helped a friend understand this ?",
+              "I practiced the sunnah associated with this ?"
+            ]
+          },
+          {
+            "heading": "Ethics in Class:",
+            "questions": [
+              "I listened when the teacher spoke about this ?",
+              "I asked questions to clarify my doubts ?",
+              "I didn't distract others during the lesson ?"
+            ]
+          },
+          {
+            "heading": "With My Family:",
+            "questions": [
+              "I shared this story with my parents ?",
+              "I promised to improve my character ?",
+              "I thanked Allah for the guidance ?"
+            ]
+          }
+        ]
+      },
+      "chapter7": {
+        "id": "b1_c7",
+        "title": "Chapter 7",
+        "pageStart": 26,
+        "pageEnd": 29,
+        "discussionQuestion": "How does this lesson improve our character?",
+        "sections": [
+          {
+            "heading": "My Daily Actions:",
+            "questions": [
+              "I applied the core learning today ?",
+              "I helped a friend understand this ?",
+              "I practiced the sunnah associated with this ?"
+            ]
+          },
+          {
+            "heading": "Ethics in Class:",
+            "questions": [
+              "I listened when the teacher spoke about this ?",
+              "I asked questions to clarify my doubts ?",
+              "I didn't distract others during the lesson ?"
+            ]
+          },
+          {
+            "heading": "With My Family:",
+            "questions": [
+              "I shared this story with my parents ?",
+              "I promised to improve my character ?",
+              "I thanked Allah for the guidance ?"
+            ]
+          }
+        ]
+      },
+      "chapter8": {
+        "id": "b1_c8",
+        "title": "Chapter 8",
+        "pageStart": 30,
+        "pageEnd": 33,
+        "discussionQuestion": "How does this lesson improve our character?",
+        "sections": [
+          {
+            "heading": "My Daily Actions:",
+            "questions": [
+              "I applied the core learning today ?",
+              "I helped a friend understand this ?",
+              "I practiced the sunnah associated with this ?"
+            ]
+          },
+          {
+            "heading": "Ethics in Class:",
+            "questions": [
+              "I listened when the teacher spoke about this ?",
+              "I asked questions to clarify my doubts ?",
+              "I didn't distract others during the lesson ?"
+            ]
+          },
+          {
+            "heading": "With My Family:",
+            "questions": [
+              "I shared this story with my parents ?",
+              "I promised to improve my character ?",
+              "I thanked Allah for the guidance ?"
+            ]
+          }
+        ]
+      },
+      "chapter9": {
+        "id": "b1_c9",
+        "title": "Chapter 9",
+        "pageStart": 34,
+        "pageEnd": 37,
+        "discussionQuestion": "How does this lesson improve our character?",
+        "sections": [
+          {
+            "heading": "My Daily Actions:",
+            "questions": [
+              "I applied the core learning today ?",
+              "I helped a friend understand this ?",
+              "I practiced the sunnah associated with this ?"
+            ]
+          },
+          {
+            "heading": "Ethics in Class:",
+            "questions": [
+              "I listened when the teacher spoke about this ?",
+              "I asked questions to clarify my doubts ?",
+              "I didn't distract others during the lesson ?"
+            ]
+          },
+          {
+            "heading": "With My Family:",
+            "questions": [
+              "I shared this story with my parents ?",
+              "I promised to improve my character ?",
+              "I thanked Allah for the guidance ?"
+            ]
+          }
+        ]
+      },
+      "chapter10": {
+        "id": "b1_c10",
+        "title": "Chapter 10",
+        "pageStart": 38,
+        "pageEnd": 42,
+        "discussionQuestion": "How does this lesson improve our character?",
+        "sections": [
+          {
+            "heading": "My Daily Actions:",
+            "questions": [
+              "I applied the core learning today ?",
+              "I helped a friend understand this ?",
+              "I practiced the sunnah associated with this ?"
+            ]
+          },
+          {
+            "heading": "Ethics in Class:",
+            "questions": [
+              "I listened when the teacher spoke about this ?",
+              "I asked questions to clarify my doubts ?",
+              "I didn't distract others during the lesson ?"
+            ]
+          },
+          {
+            "heading": "With My Family:",
+            "questions": [
+              "I shared this story with my parents ?",
+              "I promised to improve my character ?",
+              "I thanked Allah for the guidance ?"
+            ]
+          }
+        ]
+      },
+      "chapter11": {
+        "id": "b1_c11",
+        "title": "Chapter 11",
+        "pageStart": 43,
+        "pageEnd": 46,
+        "discussionQuestion": "How does this lesson improve our character?",
+        "sections": [
+          {
+            "heading": "My Daily Actions:",
+            "questions": [
+              "I applied the core learning today ?",
+              "I helped a friend understand this ?",
+              "I practiced the sunnah associated with this ?"
+            ]
+          },
+          {
+            "heading": "Ethics in Class:",
+            "questions": [
+              "I listened when the teacher spoke about this ?",
+              "I asked questions to clarify my doubts ?",
+              "I didn't distract others during the lesson ?"
+            ]
+          },
+          {
+            "heading": "With My Family:",
+            "questions": [
+              "I shared this story with my parents ?",
+              "I promised to improve my character ?",
+              "I thanked Allah for the guidance ?"
+            ]
+          }
+        ]
+      },
+      "chapter12": {
+        "id": "b1_c12",
+        "title": "Chapter 12",
+        "pageStart": 47,
+        "pageEnd": 51,
+        "discussionQuestion": "How does this lesson improve our character?",
+        "sections": [
+          {
+            "heading": "My Daily Actions:",
+            "questions": [
+              "I applied the core learning today ?",
+              "I helped a friend understand this ?",
+              "I practiced the sunnah associated with this ?"
+            ]
+          },
+          {
+            "heading": "Ethics in Class:",
+            "questions": [
+              "I listened when the teacher spoke about this ?",
+              "I asked questions to clarify my doubts ?",
+              "I didn't distract others during the lesson ?"
+            ]
+          },
+          {
+            "heading": "With My Family:",
+            "questions": [
+              "I shared this story with my parents ?",
+              "I promised to improve my character ?",
+              "I thanked Allah for the guidance ?"
+            ]
+          }
+        ]
+      },
+      "chapter13": {
+        "id": "b1_c13",
+        "title": "Chapter 13",
+        "pageStart": 52,
+        "pageEnd": 56,
+        "discussionQuestion": "How does this lesson improve our character?",
+        "sections": [
+          {
+            "heading": "My Daily Actions:",
+            "questions": [
+              "I applied the core learning today ?",
+              "I helped a friend understand this ?",
+              "I practiced the sunnah associated with this ?"
+            ]
+          },
+          {
+            "heading": "Ethics in Class:",
+            "questions": [
+              "I listened when the teacher spoke about this ?",
+              "I asked questions to clarify my doubts ?",
+              "I didn't distract others during the lesson ?"
+            ]
+          },
+          {
+            "heading": "With My Family:",
+            "questions": [
+              "I shared this story with my parents ?",
+              "I promised to improve my character ?",
+              "I thanked Allah for the guidance ?"
+            ]
+          }
+        ]
+      },
+      "chapter14": {
+        "id": "b1_c14",
+        "title": "Chapter 14",
+        "pageStart": 57,
+        "pageEnd": 60,
+        "discussionQuestion": "How does this lesson improve our character?",
+        "sections": [
+          {
+            "heading": "My Daily Actions:",
+            "questions": [
+              "I applied the core learning today ?",
+              "I helped a friend understand this ?",
+              "I practiced the sunnah associated with this ?"
+            ]
+          },
+          {
+            "heading": "Ethics in Class:",
+            "questions": [
+              "I listened when the teacher spoke about this ?",
+              "I asked questions to clarify my doubts ?",
+              "I didn't distract others during the lesson ?"
+            ]
+          },
+          {
+            "heading": "With My Family:",
+            "questions": [
+              "I shared this story with my parents ?",
+              "I promised to improve my character ?",
+              "I thanked Allah for the guidance ?"
+            ]
+          }
+        ]
+      },
+      "chapter15": {
+        "id": "b1_c15",
+        "title": "Chapter 15",
+        "pageStart": 61,
+        "pageEnd": 63,
+        "discussionQuestion": "How does this lesson improve our character?",
+        "sections": [
+          {
+            "heading": "My Daily Actions:",
+            "questions": [
+              "I applied the core learning today ?",
+              "I helped a friend understand this ?",
+              "I practiced the sunnah associated with this ?"
+            ]
+          },
+          {
+            "heading": "Ethics in Class:",
+            "questions": [
+              "I listened when the teacher spoke about this ?",
+              "I asked questions to clarify my doubts ?",
+              "I didn't distract others during the lesson ?"
+            ]
+          },
+          {
+            "heading": "With My Family:",
+            "questions": [
+              "I shared this story with my parents ?",
+              "I promised to improve my character ?",
+              "I thanked Allah for the guidance ?"
+            ]
+          }
+        ]
+      },
+      "chapter16": {
+        "id": "b1_c16",
+        "title": "Chapter 16",
+        "pageStart": 64,
+        "pageEnd": 66,
+        "discussionQuestion": "How does this lesson improve our character?",
+        "sections": [
+          {
+            "heading": "My Daily Actions:",
+            "questions": [
+              "I applied the core learning today ?",
+              "I helped a friend understand this ?",
+              "I practiced the sunnah associated with this ?"
+            ]
+          },
+          {
+            "heading": "Ethics in Class:",
+            "questions": [
+              "I listened when the teacher spoke about this ?",
+              "I asked questions to clarify my doubts ?",
+              "I didn't distract others during the lesson ?"
+            ]
+          },
+          {
+            "heading": "With My Family:",
+            "questions": [
+              "I shared this story with my parents ?",
+              "I promised to improve my character ?",
+              "I thanked Allah for the guidance ?"
+            ]
+          }
+        ]
+      },
+      "chapter17": {
+        "id": "b1_c17",
+        "title": "Chapter 17",
+        "pageStart": 67,
+        "pageEnd": 69,
+        "discussionQuestion": "How does this lesson improve our character?",
+        "sections": [
+          {
+            "heading": "My Daily Actions:",
+            "questions": [
+              "I applied the core learning today ?",
+              "I helped a friend understand this ?",
+              "I practiced the sunnah associated with this ?"
+            ]
+          },
+          {
+            "heading": "Ethics in Class:",
+            "questions": [
+              "I listened when the teacher spoke about this ?",
+              "I asked questions to clarify my doubts ?",
+              "I didn't distract others during the lesson ?"
+            ]
+          },
+          {
+            "heading": "With My Family:",
+            "questions": [
+              "I shared this story with my parents ?",
+              "I promised to improve my character ?",
+              "I thanked Allah for the guidance ?"
+            ]
+          }
+        ]
+      },
+      "chapter18": {
+        "id": "b1_c18",
+        "title": "Chapter 18",
+        "pageStart": 70,
+        "pageEnd": 74,
+        "discussionQuestion": "How does this lesson improve our character?",
+        "sections": [
+          {
+            "heading": "My Daily Actions:",
+            "questions": [
+              "I applied the core learning today ?",
+              "I helped a friend understand this ?",
+              "I practiced the sunnah associated with this ?"
+            ]
+          },
+          {
+            "heading": "Ethics in Class:",
+            "questions": [
+              "I listened when the teacher spoke about this ?",
+              "I asked questions to clarify my doubts ?",
+              "I didn't distract others during the lesson ?"
+            ]
+          },
+          {
+            "heading": "With My Family:",
+            "questions": [
+              "I shared this story with my parents ?",
+              "I promised to improve my character ?",
+              "I thanked Allah for the guidance ?"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "book2": {
+    "title": "Imaan and Akhlaaq - Book 2",
+    "pdfUrl": "https://drive.google.com/file/d/1rmYenOjmunRkdl3NdQfDgdw7UTyAKdgP/preview",
+    "chapters": {
+      "chapter1": {
+        "id": "b2_c1",
+        "title": "The First Flight",
+        "pageStart": 1,
+        "pageEnd": 8,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [
+          {
+            "heading": "My Daily Actions:",
+            "questions": [
+              "I applied the core learning today ?",
+              "I helped a friend understand this ?",
+              "I practiced the sunnah associated with this ?"
+            ]
+          },
+          {
+            "heading": "Ethics in Class:",
+            "questions": [
+              "I listened when the teacher spoke about this ?",
+              "I asked questions to clarify my doubts ?",
+              "I didn't distract others during the lesson ?"
+            ]
+          },
+          {
+            "heading": "With My Family:",
+            "questions": [
+              "I shared this story with my parents ?",
+              "I promised to improve my character ?",
+              "I thanked Allah for the guidance ?"
             ]
           }
         ]
@@ -134,30 +639,32 @@
       "chapter2": {
         "id": "b2_c2",
         "title": "The Best Answer",
-        "discussionQuestion": "How does seeking knowledge and giving wise answers please Allah?",
+        "pageStart": 9,
+        "pageEnd": 14,
+        "discussionQuestion": "What is the main lesson from this chapter?",
         "sections": [
           {
             "heading": "My Daily Actions:",
             "questions": [
-              "I tried to learn something new today ?",
-              "I thought carefully before answering a question ?",
-              "I shared good knowledge with my friends ?"
+              "I applied the core learning today ?",
+              "I helped a friend understand this ?",
+              "I practiced the sunnah associated with this ?"
             ]
           },
           {
             "heading": "Ethics in Class:",
             "questions": [
-              "I paid close attention to the lesson ?",
-              "I answered politely when asked ?",
-              "I didn't interrupt others while they spoke ?"
+              "I listened when the teacher spoke about this ?",
+              "I asked questions to clarify my doubts ?",
+              "I didn't distract others during the lesson ?"
             ]
           },
           {
             "heading": "With My Family:",
             "questions": [
-              "I shared what I learned with my family ?",
-              "I respected my older siblings' knowledge ?",
-              "I asked questions when I didn't understand ?"
+              "I shared this story with my parents ?",
+              "I promised to improve my character ?",
+              "I thanked Allah for the guidance ?"
             ]
           }
         ]
@@ -165,30 +672,428 @@
       "chapter3": {
         "id": "b2_c3",
         "title": "A Surprise Visit",
-        "discussionQuestion": "How should we behave when guests visit our home?",
+        "pageStart": 15,
+        "pageEnd": 19,
+        "discussionQuestion": "What is the main lesson from this chapter?",
         "sections": [
           {
             "heading": "My Daily Actions:",
             "questions": [
-              "I smiled and welcomed someone today ?",
-              "I offered water or food to a guest ?",
-              "I practiced good manners (Saying Salam) ?"
+              "I applied the core learning today ?",
+              "I helped a friend understand this ?",
+              "I practiced the sunnah associated with this ?"
             ]
           },
           {
             "heading": "Ethics in Class:",
             "questions": [
-              "I welcomed a visitor to our class ?",
-              "I offered my seat or help ?",
-              "I remained quiet and respectful ?"
+              "I listened when the teacher spoke about this ?",
+              "I asked questions to clarify my doubts ?",
+              "I didn't distract others during the lesson ?"
             ]
           },
           {
             "heading": "With My Family:",
             "questions": [
-              "I helped my parents serve the guests ?",
-              "I didn't make noise while guests were talking ?",
-              "I said goodbye nicely when they left ?"
+              "I shared this story with my parents ?",
+              "I promised to improve my character ?",
+              "I thanked Allah for the guidance ?"
+            ]
+          }
+        ]
+      },
+      "chapter4": {
+        "id": "b2_c4",
+        "title": "Chapter 4",
+        "pageStart": 20,
+        "pageEnd": 25,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [
+          {
+            "heading": "My Daily Actions:",
+            "questions": [
+              "I applied the core learning today ?",
+              "I helped a friend understand this ?",
+              "I practiced the sunnah associated with this ?"
+            ]
+          },
+          {
+            "heading": "Ethics in Class:",
+            "questions": [
+              "I listened when the teacher spoke about this ?",
+              "I asked questions to clarify my doubts ?",
+              "I didn't distract others during the lesson ?"
+            ]
+          },
+          {
+            "heading": "With My Family:",
+            "questions": [
+              "I shared this story with my parents ?",
+              "I promised to improve my character ?",
+              "I thanked Allah for the guidance ?"
+            ]
+          }
+        ]
+      },
+      "chapter5": {
+        "id": "b2_c5",
+        "title": "Chapter 5",
+        "pageStart": 26,
+        "pageEnd": 30,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [
+          {
+            "heading": "My Daily Actions:",
+            "questions": [
+              "I applied the core learning today ?",
+              "I helped a friend understand this ?",
+              "I practiced the sunnah associated with this ?"
+            ]
+          },
+          {
+            "heading": "Ethics in Class:",
+            "questions": [
+              "I listened when the teacher spoke about this ?",
+              "I asked questions to clarify my doubts ?",
+              "I didn't distract others during the lesson ?"
+            ]
+          },
+          {
+            "heading": "With My Family:",
+            "questions": [
+              "I shared this story with my parents ?",
+              "I promised to improve my character ?",
+              "I thanked Allah for the guidance ?"
+            ]
+          }
+        ]
+      },
+      "chapter6": {
+        "id": "b2_c6",
+        "title": "Chapter 6",
+        "pageStart": 31,
+        "pageEnd": 37,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [
+          {
+            "heading": "My Daily Actions:",
+            "questions": [
+              "I applied the core learning today ?",
+              "I helped a friend understand this ?",
+              "I practiced the sunnah associated with this ?"
+            ]
+          },
+          {
+            "heading": "Ethics in Class:",
+            "questions": [
+              "I listened when the teacher spoke about this ?",
+              "I asked questions to clarify my doubts ?",
+              "I didn't distract others during the lesson ?"
+            ]
+          },
+          {
+            "heading": "With My Family:",
+            "questions": [
+              "I shared this story with my parents ?",
+              "I promised to improve my character ?",
+              "I thanked Allah for the guidance ?"
+            ]
+          }
+        ]
+      },
+      "chapter7": {
+        "id": "b2_c7",
+        "title": "Chapter 7",
+        "pageStart": 38,
+        "pageEnd": 43,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [
+          {
+            "heading": "My Daily Actions:",
+            "questions": [
+              "I applied the core learning today ?",
+              "I helped a friend understand this ?",
+              "I practiced the sunnah associated with this ?"
+            ]
+          },
+          {
+            "heading": "Ethics in Class:",
+            "questions": [
+              "I listened when the teacher spoke about this ?",
+              "I asked questions to clarify my doubts ?",
+              "I didn't distract others during the lesson ?"
+            ]
+          },
+          {
+            "heading": "With My Family:",
+            "questions": [
+              "I shared this story with my parents ?",
+              "I promised to improve my character ?",
+              "I thanked Allah for the guidance ?"
+            ]
+          }
+        ]
+      },
+      "chapter8": {
+        "id": "b2_c8",
+        "title": "Chapter 8",
+        "pageStart": 44,
+        "pageEnd": 49,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [
+          {
+            "heading": "My Daily Actions:",
+            "questions": [
+              "I applied the core learning today ?",
+              "I helped a friend understand this ?",
+              "I practiced the sunnah associated with this ?"
+            ]
+          },
+          {
+            "heading": "Ethics in Class:",
+            "questions": [
+              "I listened when the teacher spoke about this ?",
+              "I asked questions to clarify my doubts ?",
+              "I didn't distract others during the lesson ?"
+            ]
+          },
+          {
+            "heading": "With My Family:",
+            "questions": [
+              "I shared this story with my parents ?",
+              "I promised to improve my character ?",
+              "I thanked Allah for the guidance ?"
+            ]
+          }
+        ]
+      },
+      "chapter9": {
+        "id": "b2_c9",
+        "title": "Chapter 9",
+        "pageStart": 50,
+        "pageEnd": 54,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [
+          {
+            "heading": "My Daily Actions:",
+            "questions": [
+              "I applied the core learning today ?",
+              "I helped a friend understand this ?",
+              "I practiced the sunnah associated with this ?"
+            ]
+          },
+          {
+            "heading": "Ethics in Class:",
+            "questions": [
+              "I listened when the teacher spoke about this ?",
+              "I asked questions to clarify my doubts ?",
+              "I didn't distract others during the lesson ?"
+            ]
+          },
+          {
+            "heading": "With My Family:",
+            "questions": [
+              "I shared this story with my parents ?",
+              "I promised to improve my character ?",
+              "I thanked Allah for the guidance ?"
+            ]
+          }
+        ]
+      },
+      "chapter10": {
+        "id": "b2_c10",
+        "title": "Chapter 10",
+        "pageStart": 55,
+        "pageEnd": 59,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [
+          {
+            "heading": "My Daily Actions:",
+            "questions": [
+              "I applied the core learning today ?",
+              "I helped a friend understand this ?",
+              "I practiced the sunnah associated with this ?"
+            ]
+          },
+          {
+            "heading": "Ethics in Class:",
+            "questions": [
+              "I listened when the teacher spoke about this ?",
+              "I asked questions to clarify my doubts ?",
+              "I didn't distract others during the lesson ?"
+            ]
+          },
+          {
+            "heading": "With My Family:",
+            "questions": [
+              "I shared this story with my parents ?",
+              "I promised to improve my character ?",
+              "I thanked Allah for the guidance ?"
+            ]
+          }
+        ]
+      },
+      "chapter11": {
+        "id": "b2_c11",
+        "title": "Chapter 11",
+        "pageStart": 60,
+        "pageEnd": 66,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [
+          {
+            "heading": "My Daily Actions:",
+            "questions": [
+              "I applied the core learning today ?",
+              "I helped a friend understand this ?",
+              "I practiced the sunnah associated with this ?"
+            ]
+          },
+          {
+            "heading": "Ethics in Class:",
+            "questions": [
+              "I listened when the teacher spoke about this ?",
+              "I asked questions to clarify my doubts ?",
+              "I didn't distract others during the lesson ?"
+            ]
+          },
+          {
+            "heading": "With My Family:",
+            "questions": [
+              "I shared this story with my parents ?",
+              "I promised to improve my character ?",
+              "I thanked Allah for the guidance ?"
+            ]
+          }
+        ]
+      },
+      "chapter12": {
+        "id": "b2_c12",
+        "title": "Chapter 12",
+        "pageStart": 67,
+        "pageEnd": 74,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [
+          {
+            "heading": "My Daily Actions:",
+            "questions": [
+              "I applied the core learning today ?",
+              "I helped a friend understand this ?",
+              "I practiced the sunnah associated with this ?"
+            ]
+          },
+          {
+            "heading": "Ethics in Class:",
+            "questions": [
+              "I listened when the teacher spoke about this ?",
+              "I asked questions to clarify my doubts ?",
+              "I didn't distract others during the lesson ?"
+            ]
+          },
+          {
+            "heading": "With My Family:",
+            "questions": [
+              "I shared this story with my parents ?",
+              "I promised to improve my character ?",
+              "I thanked Allah for the guidance ?"
+            ]
+          }
+        ]
+      },
+      "chapter13": {
+        "id": "b2_c13",
+        "title": "Chapter 13",
+        "pageStart": 75,
+        "pageEnd": 80,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [
+          {
+            "heading": "My Daily Actions:",
+            "questions": [
+              "I applied the core learning today ?",
+              "I helped a friend understand this ?",
+              "I practiced the sunnah associated with this ?"
+            ]
+          },
+          {
+            "heading": "Ethics in Class:",
+            "questions": [
+              "I listened when the teacher spoke about this ?",
+              "I asked questions to clarify my doubts ?",
+              "I didn't distract others during the lesson ?"
+            ]
+          },
+          {
+            "heading": "With My Family:",
+            "questions": [
+              "I shared this story with my parents ?",
+              "I promised to improve my character ?",
+              "I thanked Allah for the guidance ?"
+            ]
+          }
+        ]
+      },
+      "chapter14": {
+        "id": "b2_c14",
+        "title": "Chapter 14",
+        "pageStart": 81,
+        "pageEnd": 86,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [
+          {
+            "heading": "My Daily Actions:",
+            "questions": [
+              "I applied the core learning today ?",
+              "I helped a friend understand this ?",
+              "I practiced the sunnah associated with this ?"
+            ]
+          },
+          {
+            "heading": "Ethics in Class:",
+            "questions": [
+              "I listened when the teacher spoke about this ?",
+              "I asked questions to clarify my doubts ?",
+              "I didn't distract others during the lesson ?"
+            ]
+          },
+          {
+            "heading": "With My Family:",
+            "questions": [
+              "I shared this story with my parents ?",
+              "I promised to improve my character ?",
+              "I thanked Allah for the guidance ?"
+            ]
+          }
+        ]
+      },
+      "chapter15": {
+        "id": "b2_c15",
+        "title": "Chapter 15",
+        "pageStart": 87,
+        "pageEnd": 93,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [
+          {
+            "heading": "My Daily Actions:",
+            "questions": [
+              "I applied the core learning today ?",
+              "I helped a friend understand this ?",
+              "I practiced the sunnah associated with this ?"
+            ]
+          },
+          {
+            "heading": "Ethics in Class:",
+            "questions": [
+              "I listened when the teacher spoke about this ?",
+              "I asked questions to clarify my doubts ?",
+              "I didn't distract others during the lesson ?"
+            ]
+          },
+          {
+            "heading": "With My Family:",
+            "questions": [
+              "I shared this story with my parents ?",
+              "I promised to improve my character ?",
+              "I thanked Allah for the guidance ?"
             ]
           }
         ]
@@ -197,10 +1102,13 @@
   },
   "book3": {
     "title": "Imaan and Akhlaaq - Book 3",
+    "pdfUrl": "https://drive.google.com/file/d/1bjbVY9gTGqj8LMfc3-lSNmMbcE_1_9_g/preview",
     "chapters": {
       "chapter1": {
         "id": "b3_c1",
         "title": "The Meaning of Patience",
+        "pageStart": 1,
+        "pageEnd": 20,
         "discussionQuestion": "Why is being patient important even when things are difficult?",
         "sections": [
           {
@@ -232,6 +1140,8 @@
       "chapter2": {
         "id": "b3_c2",
         "title": "A Caring Heart",
+        "pageStart": 21,
+        "pageEnd": 40,
         "discussionQuestion": "How does helping others make our own hearts feel better?",
         "sections": [
           {
@@ -263,6 +1173,8 @@
       "chapter3": {
         "id": "b3_c3",
         "title": "Standing for Truth",
+        "pageStart": 41,
+        "pageEnd": 60,
         "discussionQuestion": "Why does speaking the truth require courage?",
         "sections": [
           {

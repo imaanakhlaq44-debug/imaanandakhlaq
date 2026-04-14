@@ -1,0 +1,56 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+  
+    // Helper function to get the current logged-in user's data
+    function getUserData() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+    }
+
+    // 1. Invites Collection
+    // Open for reading (required so people without accounts can validate their codes)
+    // Open for writing so the registration page can mark them as 'used'.
+    match /invites/{code} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // 2. Schools Collection
+    // Only registered users can see school profiles.
+    match /schools/{schoolId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && getUserData().role == 'school_admin';
+    }
+
+    // 3. Activity Submissions
+    match /activity_submissions/{subId} {
+      // Students can read their own. Teachers/Admins can read for their school. Parents can read to review.
+      allow read: if request.auth != null && (
+        resource.data.student_uid == request.auth.uid || 
+        resource.data.school_id == getUserData().school_id ||
+        getUserData().role == 'parent'
+      );
+      // Students can submit activities for themselves.
+      allow create: if request.auth != null && request.resource.data.student_uid == request.auth.uid;
+      // Parents & Teachers can update submissions (to add teacher approval or parent notes).
+      allow update: if request.auth != null && getUserData().role in ['teacher', 'parent', 'school_admin'];
+      // Teachers can delete rejected submissions.
+      allow delete: if request.auth != null && getUserData().role == 'teacher';
+    }
+
+    // 4. Users Collection (Includes Students, Teachers, Parents)
+    match /users/{userId} {
+      // Logged in users can look up other users (needed for Leaderboard and parent-student lookup).
+      allow read: if request.auth != null;
+      
+      // Creating accounts requires auth (handled by Firebase Auth).
+      allow create: if request.auth != null && request.auth.uid == userId;
+      
+      // Updates: A user can update themselves. Teachers and Parents can update students (to add points / approvals).
+      allow update: if request.auth != null && (
+        request.auth.uid == userId ||
+        getUserData().role in ['teacher', 'parent', 'school_admin']
+      );
+    }
+  }
+}

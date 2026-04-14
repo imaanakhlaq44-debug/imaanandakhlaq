@@ -1,4 +1,4 @@
-import { html } from 'hono/html';
+﻿import { html } from 'hono/html';
 
 export const FeaturesStrip = () => html`
 <!-- ===== KIDBA WELCOME / FEATURES SECTION ===== -->
@@ -52,7 +52,7 @@ export const FeaturesStrip = () => html`
       <!-- Right Image -->
       <div class="col-lg-5 text-center">
         <div class="kf-image-wrap">
-          <img src="/static/img/imaan-front.jpg" alt="Child Learning" class="kf-image">
+          <img src="./kidba_assets/img/imaan-front.jpg" alt="Child Learning" class="kf-image">
           <div class="kf-play-btn">
             <i class="fas fa-play"></i>
           </div>

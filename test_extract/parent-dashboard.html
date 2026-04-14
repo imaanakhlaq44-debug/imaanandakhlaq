@@ -1,0 +1,413 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Imaan & Akhlaq â€“ Islamic Stories & Education for Kids</title>
+  <meta name="description" content="Imaan & Akhlaq â€“ Fun Islamic stories, puppet shows, and educational programs teaching faith, manners, and good character to children." />
+  <meta property="og:title" content="Imaan & Akhlaq â€“ Islamic Education for Kids" />
+  <meta property="og:description" content="Join Imaan and Akhlaq on magical adventures learning about Islam, Prophets, and good manners!" />
+  <meta property="og:type" content="website" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap 5 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Animate.css -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.css">
+
+  <!-- AOS CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="./static/css/style.css">
+</head>
+<body>
+
+
+<style>
+  .demo-switcher {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(0,0,0,0.8);
+    backdrop-filter: blur(5px);
+    border-radius: 30px;
+    padding: 8px 15px;
+    z-index: 9999;
+    display: flex;
+    gap: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+  .demo-btn {
+    background: transparent;
+    border: none;
+    color: white;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 20px;
+    transition: all 0.2s;
+  }
+  .demo-btn:hover {
+    background: rgba(255,255,255,0.2);
+  }
+  .demo-btn.active {
+    background: #0ea5e9;
+  }
+</style>
+<div class="demo-switcher">
+  <span style="color: #cbd5e1; font-size: 0.8rem; display: flex; align-items: center; margin-right: 5px; font-family: 'Nunito', sans-serif;">Demo:</span>
+  <a href="/student/activities" class="demo-btn" id="demoStudentBtn"><i class="fas fa-user-graduate"></i> Student</a>
+  <a href="/teacher-dashboard" class="demo-btn" id="demoTeacherBtn"><i class="fas fa-chalkboard-teacher"></i> Teacher</a>
+  <a href="/parent-dashboard" class="demo-btn" id="demoParentBtn"><i class="fas fa-user-friends"></i> Parent</a>
+  <a href="/admin-dashboard" class="demo-btn" id="demoAdminBtn"><i class="fas fa-school"></i> School</a>
+</div>
+<script>
+    if(window.location.pathname.includes('/student/') || window.location.pathname.includes('/activity/')) {
+      document.getElementById('demoStudentBtn').classList.add('active');
+    } else if (window.location.pathname.includes('/teacher/')) {
+      document.getElementById('demoTeacherBtn').classList.add('active');
+    } else if (window.location.pathname.includes('/parent/')) {
+      document.getElementById('demoParentBtn').classList.add('active');
+    } else if (window.location.pathname.includes('/admin/')) {
+      document.getElementById('demoAdminBtn').classList.add('active');
+    }
+</script>
+
+
+<style>
+  .parent-page {
+    background: linear-gradient(135deg, #FDF8F5 0%, #FDF0F6 100%);
+    padding: 3rem 0;
+    font-family: 'Nunito', sans-serif;
+    color: #334155;
+    min-height: 100vh;
+  }
+  .bento-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 1rem;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 1.5rem;
+  }
+  .bento-card {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(16px);
+    border-radius: 20px;
+    box-shadow: 
+      0 4px 6px -1px rgba(0, 0, 0, 0.05),
+      0 10px 15px -3px rgba(0, 0, 0, 0.05),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.8);
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .main-header-card {
+    grid-column: span 12;
+    background: linear-gradient(135deg, #1E2D5A, #D63678);
+    color: white;
+  }
+  .stats-card {
+    grid-column: span 4;
+    text-align: center;
+    background: white;
+  }
+  @media (max-width: 768px) {
+    .stats-card { grid-column: span 12; }
+  }
+  .action-queue-card {
+    grid-column: span 8;
+  }
+  @media (max-width: 768px) {
+    .action-queue-card { grid-column: span 12; }
+  }
+  .login-container {
+    max-width: 400px;
+    margin: 40px auto;
+    text-align: center;
+  }
+  .pin-input {
+    font-size: 2rem;
+    letter-spacing: 0.5rem;
+    text-align: center;
+    border: 3px solid #cbd5e1;
+    border-radius: 12px;
+    padding: 10px;
+    width: 200px;
+    margin: 20px auto;
+    display: block;
+    outline: none;
+    transition: border-color 0.3s;
+    font-family: 'Fredoka One', cursive;
+  }
+  .pin-input:focus {
+    border-color: #D63678;
+  }
+  .approval-item {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    transition: transform 0.2s;
+  }
+  .approval-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  }
+  .parent-text-input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 1rem;
+    margin: 10px 0;
+    font-family: 'Nunito', sans-serif;
+  }
+  .parent-text-input:focus {
+    outline: none;
+    border-color: #E08020;
+    box-shadow: 0 0 0 3px rgba(224, 128, 32, 0.2);
+  }
+  .btn-approve {
+    background: #D63678;
+    color: white;
+    font-family: 'Fredoka One', cursive;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.2s;
+    box-shadow: 0 4px 0 #B02460;
+  }
+  .btn-approve:hover {
+    background: #B02460;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0 #B02460;
+  }
+  .school-tag {
+    background: rgba(255,255,255,0.2);
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 0.85rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .stat-value {
+    font-family: 'Fredoka One', cursive;
+    font-size: 3rem;
+    color: #E08020;
+    margin: 10px 0 0 0;
+    line-height: 1;
+  }
+  .stat-label {
+    font-weight: 700;
+    color: #64748b;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+  }
+</style>
+
+<div class="parent-page">
+  <!-- LOGIN VIEW -->
+  <div id="parentLoginView" class="login-container bento-card d-none">
+    <div style="font-size: 3rem; color: #1E2D5A; margin-bottom: 20px;"><i class="fas fa-lock"></i></div>
+    <h2 style="font-family: 'Fredoka One', cursive; color: #1e293b;">Parent Access</h2>
+    <p class="text-muted mb-4">Enter your 4-digit PIN provided by the school.</p>
+    <p style="font-size: 0.8rem; background: #e0f2fe; padding: 5px; border-radius: 5px;">Demo PIN: 1234</p>
+    
+    <input type="password" id="pinInput" class="pin-input" maxlength="4" placeholder="••••">
+    <button class="btn btn-primary btn-lg rounded-pill px-5 mt-3" style="font-family: 'Fredoka One', cursive;" onclick="attemptLogin()">Unlock Dashboard</button>
+  </div>
+
+  <!-- DASHBOARD VIEW -->
+  <div id="parentDashboardView" class="bento-container d-none">
+    
+    <div class="bento-card main-header-card">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <span class="school-tag mb-2" id="schoolNameTag"><i class="fas fa-school"></i> Loading School...</span>
+          <h1 style="font-family: 'Fredoka One', cursive; margin:0;" id="welcomeName">Welcome, Parent</h1>
+          <p class="mb-0 mt-1" style="opacity: 0.9;" id="teacherInfo">Teacher: Loading...</p>
+        </div>
+        <div class="text-end">
+          <div style="font-size: 4rem; opacity: 0.8; margin-right: 20px;"><i class="fas fa-child"></i></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bento-card stats-card">
+      <i class="fas fa-star" style="color: #f59e0b; font-size: 2rem;"></i>
+      <h3 class="stat-value" id="totalPointsVal">0</h3>
+      <p class="stat-label">Child's Total Points</p>
+      
+      <div class="mt-4 pt-4" style="border-top: 1px dashed #e2e8f0;">
+        <i class="fas fa-book-open mb-2" style="font-size: 1.5rem; color: #D63678;"></i>
+        <h3 style="font-family: 'Fredoka One', cursive; font-size: 2rem; margin:0; color: #D63678;" id="completedChapCount">0</h3>
+        <p class="stat-label">Chapters Finished</p>
+      </div>
+    </div>
+
+    <div class="bento-card action-queue-card">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 style="font-family: 'Fredoka One', cursive; color: #1e293b; margin:0;">
+          <i class="fas fa-clipboard-check text-success me-2"></i> Pending Approvals
+        </h3>
+        <span class="badge bg-danger rounded-pill" id="pendingCountBadge">0</span>
+      </div>
+      
+      <p class="text-muted">Review your child's completed activities and write "One Good Sentence" to award them a +100 point bonus!</p>
+      
+      <div id="approvalsList">
+        <!-- Injected via JS -->
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  // Expose mock database securely to client script environment
+  const MOCK_DB = {"schools":[{"school_id":"sch_001","name":"Imaan Academy","location":"Lahore","school_code":"SCH-IA001"}],"school_admins":[{"admin_id":"adm_001","school_id":"sch_001","name":"Principal Usman","pin":"9999","email":"usman@imaanacademy.pk","phone":"03001234567","password":"admin123"}],"teachers":[{"teacher_id":"tch_001","school_id":"sch_001","name":"Ustadh Zaid","assigned_class":"Class 3","pin":"5678","email":"zaid@imaanacademy.pk","phone":"03009876543","password":"teacher123","invitation_code":"TCH-ZD001"}],"parents":[{"parent_id":"par_001","name":"Mr. Ahmed","email":"ahmed@example.com","phone":"03005551234","password":"parent123","pin":"1234","linked_student_id":"stu_101","invitation_code":"PAR-AH001"}],"students":[{"student_id":"stu_101","school_id":"sch_001","class_id":"Class 3","parent_id":"par_001","name":"Ali Ahmed","age":8,"avatar":"fas fa-child","base_points":0,"email":"","phone":"","password":"student123","invitation_code":"STU-AL001"},{"student_id":"stu_102","school_id":"sch_001","class_id":"Class 3","parent_id":"par_002","name":"Bilal Hashmi","age":9,"avatar":"fas fa-user-graduate","base_points":450,"email":"","phone":"","password":"student123","invitation_code":"STU-BL002"},{"student_id":"stu_103","school_id":"sch_001","class_id":"Class 3","parent_id":"par_003","name":"Zainab Raza","age":8,"avatar":"fas fa-female","base_points":600,"email":"","phone":"","password":"student123","invitation_code":"STU-ZR003"}],"users":[{"user_id":"usr_001","role":"school_admin","linked_id":"adm_001","email":"usman@imaanacademy.pk","phone":"03001234567","password":"admin123","name":"Principal Usman"},{"user_id":"usr_002","role":"teacher","linked_id":"tch_001","email":"zaid@imaanacademy.pk","phone":"03009876543","password":"teacher123","name":"Ustadh Zaid"},{"user_id":"usr_003","role":"parent","linked_id":"par_001","email":"ahmed@example.com","phone":"03005551234","password":"parent123","name":"Mr. Ahmed"}],"invitation_codes":[{"code":"TCH-ZD001","type":"teacher","school_id":"sch_001","status":"used","used_by":"tch_001","name":"Ustadh Zaid","assigned_class":"Class 3"},{"code":"STU-AL001","type":"student","school_id":"sch_001","status":"used","used_by":"stu_101","name":"Ali Ahmed","class_id":"Class 3"},{"code":"PAR-AH001","type":"parent","school_id":"sch_001","status":"used","used_by":"par_001","linked_student_code":"STU-AL001"}]};
+  
+  document.addEventListener('DOMContentLoaded', () => {
+    const loginView = document.getElementById('parentLoginView');
+    const dashboardView = document.getElementById('parentDashboardView');
+    
+    // Check if logged in
+    const session = sessionStorage.getItem('parent_session');
+    
+    if (session) {
+      showDashboard(JSON.parse(session));
+    } else {
+      loginView.classList.remove('d-none');
+    }
+
+    // Attach to window so onclick works
+    window.attemptLogin = () => {
+      const pin = document.getElementById('pinInput').value;
+      
+      // Look up parent in our mock multi-tenant DB
+      const parentUser = MOCK_DB.parents.find(p => p.pin === pin);
+      
+      if (parentUser) {
+        // Find relationships
+        const student = MOCK_DB.students.find(s => s.student_id === parentUser.linked_student_id);
+        const school = MOCK_DB.schools.find(s => s.school_id === student.school_id);
+        const teacher = MOCK_DB.teachers.find(t => t.school_id === school.school_id && t.assigned_class === student.class_id);
+        
+        const sessionData = {
+          parentId: parentUser.parent_id,
+          parentName: parentUser.name,
+          studentId: student.student_id,
+          studentName: student.name,
+          schoolName: school.name,
+          teacherName: teacher.name,
+          className: student.class_id
+        };
+        
+        sessionStorage.setItem('parent_session', JSON.stringify(sessionData));
+        
+        loginView.classList.add('d-none');
+        showDashboard(sessionData);
+      } else {
+        alert("Invalid PIN. Please try 1234 for the demo.");
+      }
+    };
+    
+    window.approveActivity = (chapterId) => {
+      const sentenceInput = document.getElementById('sentence_' + chapterId);
+      if(sentenceInput.value.trim().split(' ').length < 2) {
+        alert("Please write at least one meaningful sentence!");
+        return;
+      }
+      
+      // Update Game State
+      let gameState = JSON.parse(localStorage.getItem('imaan_game_state')) || { points:250, unlockedCount:1, completed:[], parent_approved:[], teacher_approved:[] };
+      if (!gameState.parent_approved) gameState.parent_approved = [];
+      if (!gameState.teacher_approved) gameState.teacher_approved = [];
+      if (!gameState.completed) gameState.completed = [];
+      
+      if (!gameState.parent_approved.includes(chapterId)) {
+        gameState.parent_approved.push(chapterId);
+        // GIANT BONUS
+        gameState.points += 100;
+        localStorage.setItem('imaan_game_state', JSON.stringify(gameState));
+      }
+      
+      // Re-render
+      const session = JSON.parse(sessionStorage.getItem('parent_session'));
+      showDashboard(session);
+      
+      // Show celebration
+      alert("✅ Approved! Your child just received +100 bonus points!");
+    };
+    
+    function showDashboard(sessionData) {
+      dashboardView.classList.remove('d-none');
+      
+      // Populate Headers
+      document.getElementById('schoolNameTag').innerHTML = '<i class="fas fa-school"></i> ' + sessionData.schoolName;
+      document.getElementById('welcomeName').textContent = 'Salam, ' + sessionData.parentName;
+      document.getElementById('teacherInfo').textContent = 'Tracking ' + sessionData.studentName + ' (' + sessionData.className + ' - ' + sessionData.teacherName + ')';
+      
+      // Load Game State for this 'locked' student
+      let gameState = JSON.parse(localStorage.getItem('imaan_game_state')) || { points:250, unlockedCount:1, completed:[], parent_approved:[], teacher_approved:[] };
+      if (!gameState.parent_approved) gameState.parent_approved = [];
+      if (!gameState.teacher_approved) gameState.teacher_approved = [];
+      if (!gameState.completed) gameState.completed = [];
+      
+      document.getElementById('totalPointsVal').textContent = gameState.points;
+      document.getElementById('completedChapCount').textContent = gameState.completed.length;
+      
+      // Compute Pending Approvals
+      const pendingChapters = gameState.completed.filter(id => !gameState.parent_approved.includes(id));
+      
+      document.getElementById('pendingCountBadge').textContent = pendingChapters.length;
+      
+      const listEl = document.getElementById('approvalsList');
+      if (pendingChapters.length === 0) {
+        listEl.innerHTML = '<div class="text-center p-4"><i class="fas fa-check-circle text-success fa-3x mb-3"></i><h4>All Caught Up!</h4><p class="text-muted">No pending activities require your attention.</p></div>';
+      } else {
+        let htmlSnippet = '';
+        pendingChapters.forEach(chapId => {
+          htmlSnippet += 
+            '<div class="approval-item">' +
+              '<div class="d-flex justify-content-between align-items-start mb-2">' +
+                '<div><h5 style="margin:0; font-family:\'Fredoka One\', cursive; color:#1E2D5A;">New Activity from ' + sessionData.studentName + '</h5>' +
+                '<p style="font-size:0.85rem; color:#64748b; margin:0;">Status: <b>Waiting for Parent Approval</b></p></div>' +
+                '<i class="fas fa-clock text-warning fs-4"></i>' +
+              '</div>' +
+              '<label class="fw-bold mt-2 d-block" style="font-size: 0.9rem;">Parent\'s "One Good Sentence":</label>' +
+              '<input type="text" id="sentence_' + chapId + '" class="parent-text-input" placeholder="e.g., MashaAllah, I saw Ali practicing patience today...">' +
+              '<div class="text-end mt-2">' +
+                '<button class="btn-approve" onclick="approveActivity(\'' + chapId + '\')"><i class="fas fa-check me-2"></i> Approve & Send to Teacher (+100⭐)</button>' +
+              '</div>' +
+            '</div>';
+        });
+        listEl.innerHTML = htmlSnippet;
+      }
+    }
+    
+  });
+</script>

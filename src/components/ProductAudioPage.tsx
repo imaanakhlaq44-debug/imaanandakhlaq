@@ -1,0 +1,314 @@
+import { html } from 'hono/html'
+import { Head } from './Head'
+import { Header } from './Header'
+import { Footer } from './Footer'
+
+export const ProductAudioPage = () => html`
+${Head()}
+${Header()}
+
+<style>
+  .products-page { font-family: 'Inter', sans-serif; background: #0f1d33; overflow-x: hidden; color: white; min-height: 100vh; }
+  
+  /* Hero */
+  .hero-section { position: relative; padding: 180px 20px 80px; background: linear-gradient(180deg, #192f52 0%, #0f1d33 100%); color: white; text-align: center; overflow: hidden; }
+  .hero-section::before { content: ''; position: absolute; top:0; left:0; right:0; bottom:0; background: url('https://www.transparenttextures.com/patterns/stardust.png'); opacity: 0.1; }
+  
+  /* Orbs */
+  .orb-1 { position: absolute; top: 10%; left: 10%; width: 150px; height: 150px; border-radius: 50%; background: rgba(221, 122, 16, 0.3); filter: blur(40px); }
+  .orb-2 { position: absolute; bottom: 20%; right: 10%; width: 200px; height: 200px; border-radius: 50%; background: rgba(202, 41, 98, 0.25); filter: blur(50px); }
+  
+  .hero-content { position: relative; z-index: 2; max-width: 900px; margin: 0 auto; }
+  .badge-label { display: inline-block; padding: 8px 24px; background: rgba(202, 41, 98, 0.4); backdrop-filter: blur(8px); border-radius: 30px; font-weight: 600; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; }
+  .hero-content h1 { font-family: 'Fredoka One', cursive; font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 20px; text-shadow: 0 4px 20px rgba(0,0,0,0.5); }
+  .hero-content p { font-size: 1.25rem; opacity: 0.8; font-weight: 500; }
+
+  /* Now Playing Bar */
+  .now-playing-container { max-width: 1000px; margin: 0 auto 40px; padding: 0 20px; display: none; }
+  .np-bar { background: linear-gradient(135deg, rgba(202, 41, 98, 0.4), rgba(221, 122, 16, 0.4)); border: 1px solid rgba(255,255,255,0.2); border-radius: 20px; padding: 20px 30px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 10px 30px rgba(0,0,0,0.2); animation: pulse-np 2s infinite; }
+  @keyframes pulse-np { 0% { box-shadow: 0 0 0 0 rgba(221, 122, 16, 0.3); } 70% { box-shadow: 0 0 0 15px rgba(221, 122, 16, 0); } 100% { box-shadow: 0 0 0 0 rgba(221, 122, 16, 0); } }
+  .np-bar.paused { animation: none; }
+  .np-info { display: flex; align-items: center; gap: 20px; }
+  .np-icon { font-size: 2rem; color: white; }
+  .np-title { font-family: 'Fredoka One', cursive; font-size: 1.4rem; margin: 0; }
+  .np-subtitle { margin: 0; font-size: 0.9rem; opacity: 0.8; }
+  .np-controls { display: flex; gap: 15px; }
+  .np-btn { background: rgba(255,255,255,0.2); border: none; width: 45px; height: 45px; border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; }
+  .np-btn:hover { background: rgba(255,255,255,0.3); transform: scale(1.05); }
+
+  /* Chapters Grid */
+  .chapters-container { max-width: 1200px; margin: 0 auto; padding: 0 20px 100px; }
+  .chapters-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; justify-content: center; }
+  .chapter-card { background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.1); transition: all 0.4s; position: relative; cursor: pointer; }
+  .chapter-card:hover { transform: translateY(-10px) scale(1.02); box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
+  .ch-img-container { height: 220px; overflow: hidden; }
+  .ch-img-container img { width: 100%; height: 100%; object-fit: cover; object-position: top; transition: transform 0.7s; }
+  .chapter-card:hover .ch-img-container img { transform: scale(1.05); }
+  .ch-urdu-title { padding: 15px 20px; text-align: center; direction: rtl; font-size: 1.25rem; font-weight: bold; color: #192f52; background: white; line-height: 1.6; }
+  .ch-stats { background: #CA2962; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
+  .ch-badge { background: white; color: #CA2962; padding: 4px 12px; border-radius: 6px; font-weight: bold; font-size: 0.75rem; }
+  .ch-plays { color: white; font-size: 0.85rem; font-weight: 500; }
+  .ch-action { background: white; padding: 20px; }
+  .btn-play-story { width: 100%; background: #CA2962; color: white; border: none; padding: 15px; border-radius: 10px; font-weight: bold; font-size: 1.1rem; letter-spacing: 2px; cursor: pointer; transition: background 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px; }
+  .btn-play-story:hover { background: #E08020; }
+
+  /* Modal Overlay */
+  .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); z-index: 9999; display: none; align-items: center; justify-content: center; }
+  .modal-content { background: linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #0f0f23 100%); width: 90%; max-width: 400px; border-radius: 24px; overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.1); position: relative; animation: slideUp 0.3s ease-out; }
+  @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  .modal-glow { position: absolute; top: -50px; left: 50%; transform: translateX(-50%); width: 200px; height: 200px; background: linear-gradient(180deg, #CA2962, #DD7A10); filter: blur(60px); opacity: 0.4; }
+  .modal-header { padding: 40px 20px 20px; text-align: center; position: relative; z-index: 2; border-top: 4px solid #DD7A10; }
+  .modal-icon-wrap { width: 60px; height: 60px; margin: 0 auto 15px; background: linear-gradient(135deg, #CA2962, #DD7A10); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 24px rgba(202, 41, 98, 0.5); }
+  .modal-header h3 { font-family: 'Fredoka One', cursive; color: white; font-size: 1.8rem; margin: 0 0 5px; }
+  .modal-header p { color: rgba(255,255,255,0.5); margin: 0; font-size: 0.9rem; }
+  .lang-options { padding: 0 20px 30px; position: relative; z-index: 2; display: flex; flex-direction: column; gap: 15px; }
+  .lang-btn { width: 100%; border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 15px; display: flex; align-items: center; gap: 15px; cursor: pointer; transition: all 0.3s; background: rgba(255,255,255,0.03); color: white; text-align: left; }
+  .lang-btn:hover { background: rgba(255,255,255,0.08); transform: translateY(-2px); }
+  .lang-flag { width: 45px; height: 45px; background: rgba(255,255,255,0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
+  .lang-text { flex: 1; }
+  .lang-text strong { display: block; font-size: 1.1rem; }
+  .lang-text small { color: rgba(255,255,255,0.5); }
+  .lang-play-icon { width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; }
+  .lang-urdu .lang-play-icon { background: linear-gradient(135deg, #CA2962, #e84393); }
+  .lang-eng .lang-play-icon { background: linear-gradient(135deg, #DD7A10, #f39c12); }
+  .lang-ar .lang-play-icon { background: linear-gradient(135deg, #40afaa, #00cec9); }
+  .modal-footer { padding: 15px; background: rgba(0,0,0,0.3); border-top: 1px solid rgba(255,255,255,0.08); text-align: center; }
+  .btn-close-modal { background: none; border: none; color: rgba(255,255,255,0.5); cursor: pointer; font-weight: bold; padding: 5px 15px; transition: color 0.3s; }
+  .btn-close-modal:hover { color: white; }
+</style>
+
+<div class="products-page">
+  <div class="hero-section">
+    <div class="orb-1"></div>
+    <div class="orb-2"></div>
+    <div class="hero-content">
+      <span class="badge-label">Explore Stories</span>
+      <h1>Story Time! ✨</h1>
+      <p>Pick a colorful adventure to start your listening journey.</p>
+    </div>
+  </div>
+
+  <!-- Now Playing Bar -->
+  <div class="now-playing-container" id="npContainer">
+    <div class="np-bar" id="npBar">
+      <div class="np-info">
+        <i class="fas fa-volume-up np-icon" id="npIcon"></i>
+        <div>
+          <p class="np-title" id="npTitle">Story Title</p>
+          <p class="np-subtitle" id="npSubtitle">Playing in Urdu</p>
+        </div>
+      </div>
+      <div class="np-controls">
+        <button class="np-btn" id="btnPauseToggle" onclick="togglePause()"><i class="fas fa-pause" id="pauseIcon"></i></button>
+        <button class="np-btn" id="btnStop" onclick="stopAudio()"><i class="fas fa-stop"></i></button>
+      </div>
+    </div>
+  </div>
+
+  <div class="chapters-container">
+    <div class="chapters-grid" id="chaptersGrid">
+      <!-- Generated via JS -->
+    </div>
+  </div>
+</div>
+
+<!-- Language Modal -->
+<div class="modal-overlay" id="langModal">
+  <div class="modal-content">
+    <div class="modal-glow"></div>
+    <div class="modal-header">
+      <div class="modal-icon-wrap"><i class="fas fa-volume-up" style="color:white; font-size:1.5rem;"></i></div>
+      <h3>Choose Language</h3>
+      <p>Select how you want to listen</p>
+    </div>
+    <div class="lang-options">
+      <button class="lang-btn lang-urdu" onclick="playAudio('urdu')">
+        <div class="lang-flag">🇵🇰</div>
+        <div class="lang-text"><strong>Urdu</strong><small>Listen in Urdu</small></div>
+        <div class="lang-play-icon"><i class="fas fa-play" style="margin-left:3px; font-size:0.8rem;"></i></div>
+      </button>
+      <button class="lang-btn lang-eng" onclick="playAudio('english')">
+        <div class="lang-flag">🇬🇧</div>
+        <div class="lang-text"><strong>English</strong><small>Listen in English</small></div>
+        <div class="lang-play-icon"><i class="fas fa-play" style="margin-left:3px; font-size:0.8rem;"></i></div>
+      </button>
+      <button class="lang-btn lang-ar" onclick="playAudio('arabic')">
+        <div class="lang-flag">🇸🇦</div>
+        <div class="lang-text"><strong>Arabic</strong><small>Listen in Arabic</small></div>
+        <div class="lang-play-icon"><i class="fas fa-play" style="margin-left:3px; font-size:0.8rem;"></i></div>
+      </button>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-close-modal" onclick="closeLangModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+${Footer()}
+
+<script>
+// --- DATA DEFINITION ---
+const chapters = [
+  { 
+    id: 1, 
+    title: 'A Bowl of Milk & Faith Awakened! ✨', 
+    titleUrdu: 'ایک پیالہ دودھ، اور ایمان جاگ اٹھا',
+    image: '/assets/covers/book1.jpg',
+    plays: 145,
+    ageRating: 'PG 3+',
+  },
+  { 
+    id: 2, 
+    title: 'When Even Fire Became Cold! ❄️', 
+    titleUrdu: 'جب آگ بھی ٹھنڈی ہو گئی!',
+    image: '/assets/covers/book2.jpg',
+    plays: 98,
+    ageRating: 'PG 3+',
+  },
+  { 
+    id: 3, 
+    title: 'The Sea Made a Path! 🚶‍♂️', 
+    titleUrdu: 'سمندر نے راستہ بنا دیا!',
+    image: '/assets/covers/book3.jpg',
+    plays: 234,
+    ageRating: 'PG 3+',
+  }
+];
+
+const storyTexts = {
+  1: {
+    urdu: "ایک دن… ریگستان کی گرم ہوا چل رہی تھی… سورج تیز تھا… اور سفر بہت لمبا ہو چکا تھا۔ اللہ کے پیارے نبی ﷺ اپنے ساتھیوں کے ساتھ سفر کر رہے تھے… سب تھکے ہوئے تھے… سب کو پیاس لگی ہوئی تھی۔ اچانک… راستے میں ایک شخص ملا جس کے پاس ایک بکری تھی اور تھوڑا سا دودھ۔ نبی کریم ﷺ نے نرمی سے فرمایا: 'بھائی کیا تم ہمیں تھوڑا سا دودھ پلا سکتے ہو؟' وہ شخص رک گیا، سوچنے لگا۔ دودھ تو بہت کم تھا صرف اس کے لیے کافی تھا۔ پھر اس نے کہا: 'جی… پلا لیجیے'۔ نبی کریم ﷺ نے بکری کا دودھ نکالا۔ اور پھر… اللہ کے حکم سے… دودھ بڑھنے لگا… اتنا بڑھا… کہ سب حیران رہ گئے۔ پھر نبی کریم ﷺ نے خود پیا اور آخر میں اسی شخص کو دیا جس کا دودھ تھا۔ وہ بول اٹھا: 'آپ واقعی اللہ کے سچے نبی ہیں!' بچو! بانٹنے سے چیز کم نہیں ہوتی دل بڑا ہو تو اللہ نعمتیں بڑھا دیتا ہے۔",
+    english: "One day… The hot wind of the desert was blowing… The sun was intense… And the journey had become very long. The beloved Prophet of Allah ﷺ was traveling with his companions… Everyone was tired… Everyone was thirsty. Suddenly… They met a man on the way who had a goat and a little bit of milk. The Prophet ﷺ said gently: 'Brother… Can you give us some milk to drink?' The man said: 'Yes… please take it'. The Prophet ﷺ milked the goat. And then By Allah's command the milk began to increase… It increased so much that everyone was amazed. First all the companions drank, then the Prophet ﷺ drank himself. And finally he gave to the same man whose milk it was. The man said: 'You are truly Allah's true Prophet!' Sharing doesn't decrease things. When the heart is big, Allah increases His blessings.",
+    arabic: "في يوم من الأيام… كانت رياح الصحراء الحارة تهب… وكانت الشمس قوية… وكانت الرحلة طويلة جداً. كان نبي الله الحبيب ﷺ يسافر مع أصحابه. فجأة قابلوا رجلاً في الطريق كان لديه عنزة وقليل من الحليب. قال النبي ﷺ بلطف: 'يا أخي هل يمكنك أن تسقينا بعض الحليب؟' قال الرجل: 'نعم تفضلوا'. حلب النبي ﷺ العنزة. ثم بأمر الله بدأ الحليب يزداد زاد كثيراً حتى دهش الجميع. أولاً شرب جميع الصحابة الحليب ثم شرب النبي ﷺ بنفسه وأخيراً أعطى للرجل نفسه. قال الرجل: 'أنت حقاً نبي الله الصادق!' المشاركة لا تنقص الأشياء… عندما يكون القلب كبيراً يزيد الله نعمه."
+  },
+  2: {
+    urdu: "بچو… آج میں تمہیں ایک ایسی کہانی سناتا ہوں جس میں آگ بھی ڈر گئی تھی۔ یہ اس وقت کی بات ہے جب ایک ظالم بادشاہ تھا جس کا نام نمرود تھا۔ وہ خود کو خدا کہتا تھا… لیکن حضرت ابراہیم علیہ السلام صرف ایک اللہ کو مانتے تھے۔ نمرود نے حکم دیا ایک بہت بڑی آگ جلائی جائے اور حضرت ابراہیم علیہ السلام کو اس آگ میں ڈال دیا گیا۔ مگر بچو یہ عام آگ نہیں تھی! اللہ نے آگ کو حکم دیا: 'اے آگ! ابراہیم پر ٹھنڈی اور سلامتی والی ہو جا'۔ اور آگ ٹھنڈی ہو گئی۔ نہ جلایا نہ نقصان پہنچایا۔ لوگ حیران رہ گئے۔ بچو یہ کہانی ہمیں سکھاتی ہے اگر ایمان سچا ہو تو آگ بھی کچھ نہیں کر سکتی۔ اللہ اپنے بندوں کی خود حفاظت کرتا ہے۔",
+    english: "Children... Today I will tell you a story in which even fire became scared. This was a time when there was a cruel king named Nimrod. He called himself God... But Prophet Ibrahim peace be upon him believed only in one Allah. Nimrod ordered a huge fire to be lit and Prophet Ibrahim was thrown into that fire. But children, this was no ordinary fire! Allah commanded the fire: 'O Fire! Be cool and peaceful upon Ibrahim'. And the fire became cool. It did not burn him nor harm him. People were amazed. Children, this story teaches us: If faith is true, even fire cannot do anything. Allah protects His believers Himself.",
+    arabic: "عندما أصبحت النار باردة! هذه قصة سيدنا إبراهيم. عندما ألقوه في النار، أمر الله: يا نار كوني برداً وسلاماً على إبراهيم. فأصبحت النار باردة ولم تحرقه أبداً. سبحان الله."
+  },
+  3: {
+    urdu: "بچو… یہ کہانی ہے اللہ پر مکمل یقین کی۔ یہ اس وقت کی بات ہے جب فرعون ایک بہت ظالم بادشاہ تھا وہ بنی اسرائیل کو ستاتا تھا۔ ایک رات اللہ کے حکم سے حضرت موسیٰ علیہ السلام بنی اسرائیل کو لے کر چپکے سے نکل پڑے۔ آگے گہرا سمندر تھا، پیچھے فرعون کا لشکر۔ اللہ نے حکم دیا: 'اے موسیٰ! اپنا عصا سمندر پر مارو'۔ حضرت موسیٰ علیہ السلام نے عصا مارا اور بچو سمندر دو حصوں میں بٹ گیا۔ بیچ میں خشک راستہ بن گیا۔ بنی اسرائیل گزر گئے بالکل محفوظ۔ فرعون پیچھے آیا تو پانی واپس مل گیا۔ جب دل میں سچا یقین ہو تو اللہ سمندر میں بھی راستہ بنا دیتا ہے۔",
+    english: "Children... This is a story of complete faith in Allah. This was a time when Pharaoh was a very cruel king who oppressed the Children of Israel. One night by Allah's command Prophet Musa took the Children of Israel and quietly escaped. Ahead was the deep sea, behind was Pharaoh's army. Allah commanded: 'O Musa! Strike the sea with your staff'. Prophet Musa struck. And children, the sea split into two parts. In between a dry path was formed. The Children of Israel crossed completely safe. Pharaoh followed and the water came back together. When there is true faith in the heart, Allah makes a way even through the sea.",
+    arabic: "البحر شق طريقاً! هذه قصة سيدنا موسى. عندما كان جيش فرعون يطاردهم، أمر الله موسى أن يضرب البحر بعصاه. فانشق البحر وصنع طريقاً يابساً ليعبروا بسلام."
+  }
+};
+
+// --- RENDER GRID ---
+const gridContainer = document.getElementById('chaptersGrid');
+chapters.forEach(ch => {
+  const card = document.createElement('div');
+  card.className = 'chapter-card';
+  card.innerHTML = \`
+    <div class="ch-img-container">
+      <img src="\${ch.image}" alt="\${ch.title}" />
+    </div>
+    <div class="ch-urdu-title">\${ch.titleUrdu}</div>
+    <div class="ch-stats">
+      <span class="ch-badge">\${ch.ageRating}</span>
+      <span class="ch-plays">Plays \${ch.plays}</span>
+    </div>
+    <div class="ch-action">
+      <button class="btn-play-story" onclick="openLangModal(\${ch.id})">
+        <i class="fas fa-play"></i> PLAY
+      </button>
+    </div>
+  \`;
+  gridContainer.appendChild(card);
+});
+
+// --- AUDIO LOGIC ---
+let activeChapterId = null;
+let currentUtterance = null;
+let isPlaying = false;
+let isPausedState = false;
+
+// Modal Logic
+function openLangModal(chapterId) {
+  activeChapterId = chapterId;
+  document.getElementById('langModal').style.display = 'flex';
+}
+function closeLangModal() {
+  document.getElementById('langModal').style.display = 'none';
+  activeChapterId = null;
+}
+
+// Player Logic
+function playAudio(lang) {
+  closeLangModal();
+  if(!activeChapterId) return;
+  
+  const textToSpeak = storyTexts[activeChapterId][lang];
+  if(!textToSpeak) {
+    alert("Audio not found for this language!");
+    return;
+  }
+
+  // Cancel existing audio
+  stopAudio();
+
+  const chObj = chapters.find(c => c.id === activeChapterId);
+  const langHuman = lang === 'urdu' ? 'Urdu' : lang === 'english' ? 'English' : 'Arabic';
+  const langCodes = { 'urdu': 'ur-PK', 'arabic': 'ar-SA', 'english': 'en-US' };
+
+  // Setup Now Playing UI
+  document.getElementById('npContainer').style.display = 'block';
+  document.getElementById('npTitle').innerText = chObj.title;
+  document.getElementById('npSubtitle').innerText = "Playing in " + langHuman;
+  
+  if('speechSynthesis' in window) {
+    currentUtterance = new SpeechSynthesisUtterance(textToSpeak);
+    currentUtterance.lang = langCodes[lang] || 'en-US';
+    currentUtterance.rate = 0.9;
+    
+    currentUtterance.onstart = () => {
+      isPlaying = true;
+      isPausedState = false;
+      updatePauseUI();
+    };
+    
+    currentUtterance.onend = () => {
+      stopAudio();
+    };
+
+    window.speechSynthesis.speak(currentUtterance);
+  } else {
+    alert("Sorry, your browser does not support audio speech synthesis.");
+  }
+}
+
+function stopAudio() {
+  if('speechSynthesis' in window) {
+    window.speechSynthesis.cancel();
+  }
+  isPlaying = false;
+  isPausedState = false;
+  currentUtterance = null;
+  document.getElementById('npContainer').style.display = 'none';
+}
+
+function togglePause() {
+  if(!('speechSynthesis' in window)) return;
+  
+  if(window.speechSynthesis.paused) {
+    window.speechSynthesis.resume();
+    isPausedState = false;
+  } else {
+    window.speechSynthesis.pause();
+    isPausedState = true;
+  }
+  updatePauseUI();
+}
+
+function updatePauseUI() {
+  const icon = document.getElementById('pauseIcon');
+  const bar = document.getElementById('npBar');
+  if(isPausedState) {
+    icon.className = 'fas fa-play';
+    bar.classList.add('paused');
+  } else {
+    icon.className = 'fas fa-pause';
+    bar.classList.remove('paused');
+  }
+}
+</script>
+`

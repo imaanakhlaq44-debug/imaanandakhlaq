@@ -1,11 +1,18 @@
-import { html } from 'hono/html';
+﻿import { html } from 'hono/html';
 
 export const HeroSlider = () => html`
 <!-- ===== KIDBA-STYLE HERO SECTION ===== -->
 <section class="kidba-hero" id="home">
 
-  <!-- ── FULL-SCREEN BACKGROUND IMAGE ── -->
-  <div class="kh-bg-image"></div>
+  <!-- ── FULL-SCREEN BACKGROUND SLIDER ── -->
+  <div class="kh-bg-slider">
+    <div class="kh-slide slide-1"></div>
+    <div class="kh-slide slide-2"></div>
+    <div class="kh-slide slide-3"></div>
+    <div class="kh-slide slide-4"></div>
+    <div class="kh-slide slide-5"></div>
+    <div class="kh-slide slide-6"></div>
+  </div>
 
   <!-- ── ORANGE-LEFT GRADIENT OVERLAY (exact Kidba style) ── -->
   <div class="kh-overlay"></div>

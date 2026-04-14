@@ -1,4 +1,4 @@
-import { html } from 'hono/html';
+﻿import { html } from 'hono/html';
 export const Testimonials = () => html`\n<!-- ===== TESTIMONIALS ===== -->\n
   <section class="testimonials-section section-padding" id="testimonials">
     <div class="testi-bg-shape"></div>

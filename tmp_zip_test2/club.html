@@ -1,0 +1,1248 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Imaan & Akhlaq - Islamic Stories & Education for Kids</title>
+  <meta name="description" content="Imaan & Akhlaq - Fun Islamic stories, puppet shows, and educational programs teaching faith, manners, and good character to children." />
+  <meta property="og:title" content="Imaan & Akhlaq - Islamic Education for Kids" />
+  <meta property="og:description" content="Join Imaan and Akhlaq on magical adventures learning about Islam, Prophets, and good manners!" />
+  <meta property="og:type" content="website" />
+
+  <!-- Trailing Slash Fix for Hostinger Pathing -->
+  <script>
+    (function(){
+      var p = window.location.pathname;
+      if (!p.endsWith('/') && p.indexOf('.') === -1) {
+        window.history.replaceState({}, '', p + '/' + window.location.search + window.location.hash);
+        // Force reload so relative assets resolve properly against the trailing slash
+        window.location.reload();
+      }
+    })();
+  </script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap 5 -->
+  <link rel="stylesheet" href="./kidba_assets/vendor/css/bootstrap.min.css" />
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="./kidba_assets/vendor/css/all.min.css" />
+
+  <!-- Animate.css -->
+  <link rel="stylesheet" href="./kidba_assets/vendor/css/animate.min.css" />
+
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="./kidba_assets/vendor/css/swiper-bundle.min.css" />
+
+  <!-- AOS CSS -->
+  <link rel="stylesheet" href="./kidba_assets/vendor/css/aos.css" />
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="./kidba_assets/css/style.css">
+</head>
+<body>
+
+
+<style>
+  .demo-switcher {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(0,0,0,0.8);
+    backdrop-filter: blur(5px);
+    border-radius: 30px;
+    padding: 8px 15px;
+    z-index: 9999;
+    display: flex;
+    gap: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+  .demo-btn {
+    background: transparent;
+    border: none;
+    color: white;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 20px;
+    transition: all 0.2s;
+  }
+  .demo-btn:hover {
+    background: rgba(255,255,255,0.2);
+  }
+  .demo-btn.active {
+    background: #0ea5e9;
+  }
+</style>
+<div class="demo-switcher">
+  <span style="color: #cbd5e1; font-size: 0.8rem; display: flex; align-items: center; margin-right: 5px; font-family: 'Nunito', sans-serif;">Demo:</span>
+  <a href="./student-activities.html" class="demo-btn" id="demoStudentBtn"><i class="fas fa-user-graduate"></i> Student</a>
+  <a href="./teacher-dashboard.html" class="demo-btn" id="demoTeacherBtn"><i class="fas fa-chalkboard-teacher"></i> Teacher</a>
+  <a href="./parent-dashboard.html" class="demo-btn" id="demoParentBtn"><i class="fas fa-user-friends"></i> Parent</a>
+  <a href="./admin-dashboard.html" class="demo-btn" id="demoAdminBtn"><i class="fas fa-school"></i> School</a>
+</div>
+<script>
+    if(window.location.pathname.includes('/student/') || window.location.pathname.includes('/activity/')) {
+      document.getElementById('demoStudentBtn').classList.add('active');
+    } else if (window.location.pathname.includes('/teacher/')) {
+      document.getElementById('demoTeacherBtn').classList.add('active');
+    } else if (window.location.pathname.includes('/parent/')) {
+      document.getElementById('demoParentBtn').classList.add('active');
+    } else if (window.location.pathname.includes('/admin/')) {
+      document.getElementById('demoAdminBtn').classList.add('active');
+    }
+</script>
+
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Nunito:wght@400;600;700;800;900&display=swap');
+
+  /* ===========================
+     CLUB APP — Reset & Tokens
+  =========================== */
+  #club-app {
+    margin: 0; padding: 0;
+    font-family: 'Nunito', sans-serif;
+    color: #F9FAFB;
+    background: #0F172A;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  #club-app * { box-sizing: border-box; }
+  #club-app h1,#club-app h2,#club-app h3 { font-family: 'Playfair Display', serif; }
+
+  /* Brand Color Vars */
+  #club-app {
+    --brand-pink:   #D63678;
+    --brand-orange: #E08020;
+    --brand-navy:   #1E2D5A;
+    --brand-tan:    #C99A6B;
+    --brand-gold:   #F59E0B;
+    --brand-teal:   #0F5E55;
+    --col-sidq:     #1E40AF;
+    --col-amanah:   #166534;
+    --col-rahmah:   #991B1B;
+    --col-adl:      #5B21B6;
+  }
+
+  /* Utilities */
+  .d-none { display: none !important; }
+  .playfair { font-family: 'Playfair Display', serif; }
+
+  .pill {
+    display: inline-block;
+    padding: 5px 18px;
+    border-radius: 50px;
+    font-size: 0.72rem;
+    font-weight: 900;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.08);
+    margin-bottom: 24px;
+  }
+
+  /* =============================================
+     VIEW 1: LANDING / HERO
+  ============================================= */
+  #view-landing {
+    min-height: 100vh;
+    background: #F8FAFC;
+    background-image: 
+      radial-gradient(at 0% 0%, rgba(214, 54, 120, 0.08) 0px, transparent 50%),
+      radial-gradient(at 100% 100%, rgba(224, 128, 32, 0.08) 0px, transparent 50%),
+      linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)),
+      repeating-linear-gradient(0deg, transparent, transparent 40px, rgba(0,0,0,0.02) 40px, rgba(0,0,0,0.02) 41px),
+      repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(0,0,0,0.02) 40px, rgba(0,0,0,0.02) 41px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 6rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .landing-arabic {
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: var(--brand-pink);
+    margin-bottom: 12px;
+    letter-spacing: 0px;
+    font-weight: 700;
+  }
+
+  .landing-title {
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    font-weight: 800;
+    margin: 0 0 16px 0;
+    color: var(--brand-navy);
+    line-height: 1.1;
+  }
+  .landing-title .accent { color: var(--brand-orange); }
+
+  .landing-sub { 
+    font-size: 1.25rem; 
+    color: #475569; 
+    margin-bottom: 12px;
+    font-weight: 600; 
+  }
+  .landing-tagline {
+    font-style: italic;
+    color: var(--brand-tan);
+    font-size: 1.4rem;
+    font-family: 'Playfair Display', serif;
+    margin-bottom: 50px;
+    font-weight: 600;
+  }
+
+  .stat-strip {
+    display: flex;
+    gap: 0;
+    background: white;
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: 100px;
+    padding: 16px 40px;
+    margin-bottom: 48px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+  }
+  .stat-item { text-align: center; padding: 0 32px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .stat-item:not(:last-child) { border-right: 1px solid #e2e8f0; }
+  .stat-item strong { display: block; font-size: 2rem; color: var(--brand-navy); font-weight: 800; margin-bottom: 2px; }
+  .stat-item span { font-size: 0.75rem; color: #64748b; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+
+  @media(max-width: 768px) {
+    .stat-strip { flex-direction: column; border-radius: 20px; padding: 20px; gap: 20px; }
+    .stat-item { padding: 10px 0; }
+    .stat-item:not(:last-child) { border-right: none; border-bottom: 1px solid #e2e8f0; }
+  }
+
+  .btn-enter {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: #1E2D5A;
+    color: #fff;
+    padding: 20px 48px;
+    border-radius: 50px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 1.15rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 10px 25px rgba(30, 45, 90, 0.25);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  .btn-enter i { font-size: 1.3rem; color: var(--brand-gold); transition: transform 0.3s; }
+  .btn-enter:hover { transform: translateY(-4px); box-shadow: 0 15px 35px rgba(30, 45, 90, 0.35); background: #152243; }
+  .btn-enter:hover i { transform: translateX(6px); }
+
+  /* =============================================
+     VIEW 2: HOUSE SELECTION (Slides 7–9, 14)
+  ============================================= */
+  #view-houses {
+    min-height: 100vh;
+    background: linear-gradient(160deg, #0F172A 0%, #1E2D5A 100%);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .houses-header {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 4rem 2rem 2.5rem;
+  }
+  .houses-main-title {
+    font-size: clamp(2.2rem, 4vw, 3.5rem);
+    font-weight: 700;
+    margin: 0 0 14px;
+    color: #fff;
+  }
+  .houses-main-title .accent { color: var(--brand-gold); }
+  .houses-desc {
+    font-size: 1.05rem;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.7;
+    max-width: 700px;
+  }
+  .houses-desc .hl { color: var(--brand-tan); font-weight: 800; }
+
+  /* The 4-Column Grid */
+  .four-col-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    padding: 0 2rem 3rem;
+    flex: 1;
+    min-height: 520px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .house-col {
+    padding: 2.5rem 1.75rem 3rem;
+    cursor: pointer;
+    border-radius: 24px;
+    border: 1px solid rgba(255,255,255,0.1);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    overflow: hidden;
+  }
+  .house-col::before {
+    content: '';
+    position: absolute; top:0; right:0; width:150px; height:150px;
+    background: rgba(255,255,255,0.08); border-radius: 50%;
+    transform: translate(30%, -30%);
+    transition: transform 0.4s ease;
+  }
+  .house-col:hover { 
+    transform: translateY(-10px) scale(1.02); 
+    box-shadow: 0 25px 50px rgba(0,0,0,0.5); 
+    border-color: rgba(255,255,255,0.3);
+  }
+  .house-col:hover::before { transform: translate(10%, -10%) scale(1.2); }
+
+  .hc-sidq   { background: linear-gradient(135deg, #1E3A8A 0%, #3B82F6 100%); }
+  .hc-amanah { background: linear-gradient(135deg, #064E3B 0%, #10B981 100%); }
+  .hc-rahmah { background: linear-gradient(135deg, #831843 0%, #D63678 100%); }
+  .hc-adl    { background: linear-gradient(135deg, #78350F 0%, #E08020 100%); }
+
+  .hcol-number {
+    font-size: 0.7rem;
+    font-weight: 900;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    opacity: 0.5;
+    margin-bottom: 20px;
+  }
+
+  .hcol-icon { font-size: 2.5rem; margin-bottom: 12px; }
+  .hcol-arabic { font-size: 1.3rem; opacity: 0.8; margin-bottom: 6px; letter-spacing: 1px; }
+  .hcol-name { font-size: 2rem; font-weight: 700; margin: 0 0 4px; }
+  .hcol-sub { font-size: 0.95rem; font-weight: 600; opacity: 0.8; margin-bottom: 20px; }
+
+  .hcol-divider {
+    border: none;
+    border-top: 1px solid rgba(255,255,255,0.25);
+    margin: 16px 0;
+  }
+
+  .hcol-motto {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 0.9rem;
+    opacity: 0.9;
+    line-height: 1.4;
+    margin-bottom: 20px;
+    border-left: 3px solid rgba(255,255,255,0.4);
+    padding-left: 12px;
+  }
+
+  .hcol-section-label {
+    font-size: 0.65rem;
+    font-weight: 900;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.55;
+    margin-bottom: 10px;
+  }
+
+  .habit-row { margin-bottom: 14px; }
+  .habit-name { font-weight: 800; font-size: 0.88rem; margin-bottom: 3px; }
+
+  .hc-sidq   .habit-desc { color: #93C5FD; font-size: 0.82rem; line-height: 1.4; }
+  .hc-amanah .habit-desc { color: #86EFAC; font-size: 0.82rem; line-height: 1.4; }
+  .hc-rahmah .habit-desc { color: #FCA5A5; font-size: 0.82rem; line-height: 1.4; }
+  .hc-adl    .habit-desc { color: #C4B5FD; font-size: 0.82rem; line-height: 1.4; }
+
+  .shadow-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 50px;
+    padding: 6px 14px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    margin-top: 10px;
+    color: #FCA5A5;
+  }
+
+  .join-btn {
+    display: block;
+    width: 100%;
+    margin-top: 20px;
+    padding: 13px;
+    background: linear-gradient(135deg, var(--brand-pink), var(--brand-orange));
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 900;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(214,54,120,0.35);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .join-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(214,54,120,0.55); }
+
+  .back-link {
+    text-align: center;
+    padding: 1.5rem;
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.4);
+    cursor: pointer;
+  }
+  .back-link:hover { color: rgba(255,255,255,0.8); }
+
+  /* =============================================
+     VIEW 3: THE HUB (Slide 17)
+  ============================================= */
+  #view-hub {
+    min-height: 100vh;
+    background: linear-gradient(160deg, #0F172A 0%, #1A253D 50%, #1E2D5A 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 4rem 2rem 2rem;
+  }
+
+  .hub-container { max-width: 1050px; width: 100%; }
+
+  /* House Identity Banner */
+  .house-banner {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 28px;
+    border-radius: 16px;
+    margin-bottom: 3rem;
+    border: 1px solid rgba(224,128,32,0.25);
+    background: linear-gradient(135deg, rgba(224,128,32,0.12) 0%, rgba(30,45,90,0.6) 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  .house-banner::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(90deg, rgba(214,54,120,0.06) 0%, transparent 60%);
+  }
+  .hb-sidq   { border-color: rgba(224,128,32,0.3); }
+  .hb-amanah { border-color: rgba(201,154,107,0.3); }
+  .hb-rahmah { border-color: rgba(214,54,120,0.3); }
+  .hb-adl    { border-color: rgba(245,158,11,0.3); }
+
+  .hb-icon { font-size: 2.5rem; }
+  .hb-info h3 { margin: 0; font-size: 1.5rem; color: #fff; }
+  .hb-info p { margin: 0; opacity: 0.7; font-size: 0.9rem; }
+  .hb-tier {
+    margin-left: auto;
+    background: rgba(245,158,11,0.15);
+    border: 1px solid rgba(245,158,11,0.4);
+    border-radius: 50px;
+    padding: 6px 20px;
+    font-weight: 800;
+    color: var(--brand-gold);
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+  }
+
+  .hub-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 10px;
+  }
+  .hub-title .accent { color: var(--brand-gold); }
+  .hub-subtitle {
+    font-size: 1.05rem;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.7;
+    max-width: 750px;
+    margin-bottom: 3rem;
+  }
+
+  /* 2×2 Hub Grid */
+  .hub-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .hub-card {
+    background: rgba(30,45,90,0.35);
+    border: 1px solid rgba(224,128,32,0.15);
+    border-radius: 16px;
+    padding: 2.5rem;
+    cursor: pointer;
+    transition: transform 0.25s, background 0.25s, border-color 0.25s, box-shadow 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+  .hub-card:hover {
+    transform: translateY(-6px);
+    background: rgba(30,45,90,0.55);
+    border-color: rgba(224,128,32,0.35);
+    box-shadow: 0 20px 50px rgba(224,128,32,0.15);
+  }
+  .hub-card-icon { font-size: 2.8rem; margin-bottom: 1.2rem; display: block; }
+  .hub-card-title { font-size: 1.25rem; font-weight: 700; color: #fff; margin-bottom: 10px; }
+  .hub-card-desc { font-size: 0.95rem; color: rgba(255,255,255,0.55); line-height: 1.6; }
+  .hub-card-arrow {
+    position: absolute;
+    bottom: 20px; right: 24px;
+    font-size: 1.2rem;
+    color: rgba(255,255,255,0.2);
+    transition: color 0.2s, transform 0.2s;
+  }
+  .hub-card:hover .hub-card-arrow { color: var(--brand-gold); transform: translateX(4px); }
+
+  /* VC / Tier Card */
+  .vc-card {
+    background: linear-gradient(135deg, rgba(214,54,120,0.2), rgba(224,128,32,0.15));
+    border-color: rgba(214,54,120,0.3);
+    border-top: 2px solid var(--brand-pink);
+  }
+  .vc-card:hover { border-color: var(--brand-pink); box-shadow: 0 20px 50px rgba(214,54,120,0.2) !important; }
+
+  /* Tier Bar */
+  .tier-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: 2.5rem;
+    background: rgba(30,45,90,0.4);
+    border: 1px solid rgba(224,128,32,0.15);
+    border-radius: 14px;
+    padding: 1.5rem;
+  }
+  .tier-item {
+    text-align: center;
+    padding: 12px 8px;
+    border-radius: 10px;
+    transition: background 0.2s;
+  }
+  .tier-item.active {
+    background: linear-gradient(135deg, rgba(224,128,32,0.2), rgba(245,158,11,0.12));
+    border: 1px solid rgba(224,128,32,0.4);
+  }
+  .tier-num { font-size: 0.65rem; font-weight: 900; letter-spacing: 2px; opacity: 0.45; text-transform: uppercase; margin-bottom: 4px; }
+  .tier-label { font-weight: 800; font-size: 0.9rem; color: rgba(255,255,255,0.8); }
+  .tier-class { font-size: 0.75rem; color: rgba(255,255,255,0.4); margin-top: 2px; }
+  .tier-item.active .tier-label { color: var(--brand-gold); }
+
+  /* Narrative Box */
+  .narrative-box {
+    background: linear-gradient(135deg, rgba(30,45,90,0.5), rgba(15,23,42,0.8));
+    border: 1px solid rgba(245,158,11,0.2);
+    border-left: 3px solid var(--brand-gold);
+    border-radius: 16px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+  .narrative-quote {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.4rem;
+    color: rgba(255,255,255,0.85);
+    margin-bottom: 10px;
+  }
+  .narrative-attr { font-size: 0.85rem; color: var(--brand-gold); font-weight: 700; }
+
+  /* Shadow Alert */
+  .shadow-alert {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(153,27,27,0.15);
+    border: 1px solid rgba(153,27,27,0.3);
+    border-radius: 12px;
+    padding: 14px 20px;
+    margin-top: 12px;
+    font-size: 0.9rem;
+  }
+  .shadow-alert i { color: #FCA5A5; font-size: 1.1rem; }
+
+  /* Nav */
+  .hub-nav {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+  }
+  .hub-nav-btn {
+    padding: 8px 20px;
+    border-radius: 50px;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.05);
+    color: rgba(255,255,255,0.65);
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.5px;
+  }
+  .hub-nav-btn:hover, .hub-nav-btn.active {
+    background: linear-gradient(135deg, var(--brand-pink), var(--brand-orange));
+    border-color: transparent;
+    color: #fff;
+    box-shadow: 0 4px 15px rgba(214,54,120,0.35);
+  }
+
+  /* Sub-views */
+  .subview { display: none; }
+  .subview.active { display: block; }
+
+  /* Responsibilities list */
+  .resp-list { list-style: none; padding: 0; margin: 0; }
+  .resp-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.75);
+  }
+  .resp-list li::before { content: '→'; color: var(--brand-gold); font-weight: 900; flex-shrink: 0; }
+
+  /* Story Feed */
+  .story-entry {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-left: 4px solid var(--brand-pink);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 12px;
+  }
+  .story-date { font-size: 0.75rem; color: rgba(255,255,255,0.35); margin-bottom: 6px; }
+  .story-text { font-size: 0.95rem; color: rgba(255,255,255,0.8); line-height: 1.5; }
+  .story-house { font-size: 0.75rem; font-weight: 800; margin-top: 8px; text-transform: uppercase; letter-spacing: 1px; }
+
+  .story-form textarea {
+    width: 100%; background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.12); border-radius: 12px;
+    color: #fff; padding: 14px 18px; font-family: 'Nunito', sans-serif;
+    font-size: 0.95rem; resize: vertical; min-height: 100px; margin-bottom: 10px;
+  }
+  .story-form textarea:focus { outline: none; border-color: var(--brand-pink); }
+  .btn-submit {
+    background: linear-gradient(135deg, var(--brand-pink), var(--brand-orange));
+    color: #fff; border: none; border-radius: 50px;
+    padding: 12px 32px; font-family: 'Nunito', sans-serif;
+    font-weight: 800; font-size: 0.9rem; cursor: pointer;
+    box-shadow: 0 6px 20px rgba(214,54,120,0.4);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .btn-submit:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(214,54,120,0.55); }
+
+  /* Leaderboard */
+  .lb-row {
+    display: flex; align-items: center; gap: 16px;
+    padding: 14px 20px;
+    background: rgba(30,45,90,0.3);
+    border: 1px solid rgba(30,45,90,0.6);
+    border-radius: 12px; margin-bottom: 8px;
+    transition: border-color 0.2s;
+  }
+  .lb-row:hover { border-color: rgba(224,128,32,0.3); }
+  .lb-rank { font-size: 1.5rem; font-weight: 900; width: 36px; text-align: center; }
+  .lb-name { flex: 1; font-weight: 800; font-size: 1rem; }
+  .lb-vc { font-weight: 900; color: var(--brand-gold); font-size: 1.1rem; }
+  .lb-badge { font-size: 0.75rem; background: rgba(255,255,255,0.06); padding: 3px 10px; border-radius: 50px; }
+
+  /* Micro-habits checklist */
+  .habit-check {
+    display: flex; align-items: center; gap: 14px;
+    padding: 14px 18px;
+    background: rgba(30,45,90,0.3);
+    border: 1px solid rgba(30,45,90,0.5);
+    border-radius: 12px; margin-bottom: 8px;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .habit-check:hover { background: rgba(30,45,90,0.5); border-color: rgba(224,128,32,0.3); }
+  .habit-check.done {
+    background: rgba(201,154,107,0.12);
+    border-color: rgba(201,154,107,0.3);
+  }
+  .hc-checkbox { width: 24px; height: 24px; border-radius: 6px; border: 2px solid rgba(224,128,32,0.4); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .habit-check.done .hc-checkbox { background: var(--brand-orange); border-color: var(--brand-orange); }
+  .hc-info { flex: 1; }
+  .hc-name { font-weight: 800; font-size: 0.95rem; }
+  .hc-desc { font-size: 0.82rem; color: rgba(255,255,255,0.45); margin-top: 2px; }
+  .hc-vc { font-weight: 900; color: var(--brand-gold); font-size: 0.85rem; }
+
+  /* VC display */
+  .vc-big {
+    font-size: 3rem;
+    font-family: 'Playfair Display', serif;
+    color: var(--brand-gold);
+    font-weight: 700;
+  }
+  .leave-btn {
+    position: fixed; bottom: 24px; right: 24px;
+    background: linear-gradient(135deg, var(--brand-pink), var(--brand-orange));
+    color: #fff;
+    border: none;
+    padding: 10px 22px; border-radius: 50px;
+    font-family: 'Nunito', sans-serif; font-size: 0.85rem; font-weight: 800;
+    cursor: pointer; transition: all 0.2s; z-index: 100;
+    box-shadow: 0 4px 15px rgba(214,54,120,0.4);
+    letter-spacing: 0.5px;
+  }
+  .leave-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(214,54,120,0.6); }
+
+  /* Section label */
+  .section-label {
+    font-size: 0.7rem; font-weight: 900; letter-spacing: 3px;
+    text-transform: uppercase; color: var(--brand-tan);
+    margin-bottom: 14px; display: block;
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .four-col-grid { grid-template-columns: repeat(2, 1fr); }
+    .hub-grid { grid-template-columns: 1fr; }
+    .tier-strip { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 576px) {
+    .four-col-grid { grid-template-columns: 1fr; }
+    .stat-strip { flex-direction: column; gap: 12px; }
+    .stat-item { border-right: none !important; border-bottom: 1px solid rgba(255,255,255,0.1); }
+  }
+</style>
+
+<div id="club-app">
+
+  <!-- ═══════════════ VIEW 1: LANDING ═══════════════ -->
+  <div id="view-landing" class="d-none">
+    <div style="position:relative; z-index:2; text-align:center; max-width: 1000px; width: 100%;">
+      <div class="pill" style="color: var(--brand-navy); border: 2px solid var(--brand-navy); background: rgba(30,45,90,0.05); border-radius: 50px; padding: 8px 24px;">Strategic Implementation Report • 2026</div>
+      
+      <div style="margin-top: 40px; margin-bottom: 20px;">
+        <div class="landing-arabic">نادي الإيمان والأخلاق</div>
+        <h1 class="landing-title playfair">Imaan <span class="accent">Akhlaq</span> Club</h1>
+      </div>
+      
+      <p class="landing-sub">School-Level Character & Ethics Development Program — Class 1–10</p>
+      <p class="landing-tagline">"One Club. Four Values. Lifelong Impact."</p>
+
+      <div class="stat-strip">
+        <div class="stat-item"><strong>90%</strong><span>Character Focus</span></div>
+        <div class="stat-item"><strong>10%</strong><span>Academic Conduct</span></div>
+        <div class="stat-item"><strong>4</strong><span>Value Houses</span></div>
+        <div class="stat-item"><strong>4</strong><span>Growth Tiers</span></div>
+      </div>
+
+      <button class="btn-enter" onclick="goToHouses()">
+        Choose Your House <i class="fas fa-arrow-right"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- ═══════════════ VIEW 2: HOUSE SELECTION ═══════════════ -->
+  <div id="view-houses" class="d-none">
+    <div class="houses-header">
+      <div class="pill">Identity Branding</div>
+      <h1 class="houses-main-title playfair">Choose Your House. <span class="accent">Own Your Identity.</span></h1>
+      <p class="houses-desc">
+        Each house is not merely a team — it is an identity, a brotherhood/sisterhood, and a mission.
+        Students don't just join a house; they embody it. The <span class="hl">daily micro-habit</span> is
+        the secret weapon — tiny acts of character that compound into unshakeable ethical identity.
+      </p>
+    </div>
+
+    <div class="four-col-grid">
+
+      <!-- SIDQ -->
+      <div class="house-col hc-sidq" onclick="joinHouse('Sidq')">
+        <div class="hcol-number">House 01</div>
+        <div class="hcol-icon">⭐</div>
+        <div class="hcol-arabic">الصِّدْق</div>
+        <h2 class="hcol-name playfair">House of Sidq</h2>
+        <div class="hcol-sub">Truthfulness</div>
+        <hr class="hcol-divider">
+        <div class="hcol-motto">"We speak truth even when it costs us."</div>
+        <div class="hcol-section-label">Core Responsibilities</div>
+        <div class="habit-row">
+          <div class="habit-name">Daily Truth</div>
+          <div class="habit-desc">Say one hard truth that needs to be said</div>
+        </div>
+        <div class="habit-row">
+          <div class="habit-name">Own It</div>
+          <div class="habit-desc">Acknowledge one mistake without excuse</div>
+        </div>
+        <div class="habit-row">
+          <div class="habit-name">Honest Mirror</div>
+          <div class="habit-desc">Give one friend a genuine, kind piece of feedback</div>
+        </div>
+        <div class="shadow-badge"><i class="fas fa-skull"></i> Defeats Kadhib (Deception)</div>
+        <button class="join-btn">Join House of Sidq →</button>
+      </div>
+
+      <!-- AMANAH -->
+      <div class="house-col hc-amanah" onclick="joinHouse('Amanah')">
+        <div class="hcol-number">House 02</div>
+        <div class="hcol-icon">🛡️</div>
+        <div class="hcol-arabic">الأمانة</div>
+        <h2 class="hcol-name playfair">House of Amanah</h2>
+        <div class="hcol-sub">Responsibility & Trust</div>
+        <hr class="hcol-divider">
+        <div class="hcol-motto">"We carry every duty with honor."</div>
+        <div class="hcol-section-label">Core Responsibilities</div>
+        <div class="habit-row">
+          <div class="habit-name">Unprompted Duty</div>
+          <div class="habit-desc">Complete one responsibility without being reminded</div>
+        </div>
+        <div class="habit-row">
+          <div class="habit-name">Return with Care</div>
+          <div class="habit-desc">Return something borrowed in better condition</div>
+        </div>
+        <div class="habit-row">
+          <div class="habit-name">On Time, Every Time</div>
+          <div class="habit-desc">Honor one time commitment without delay</div>
+        </div>
+        <div class="shadow-badge"><i class="fas fa-skull"></i> Defeats Ghaflah (Negligence)</div>
+        <button class="join-btn">Join House of Amanah →</button>
+      </div>
+
+      <!-- RAHMAH -->
+      <div class="house-col hc-rahmah" onclick="joinHouse('Rahmah')">
+        <div class="hcol-number">House 03</div>
+        <div class="hcol-icon">❤️</div>
+        <div class="hcol-arabic">الرَّحْمَة</div>
+        <h2 class="hcol-name playfair">House of Rahmah</h2>
+        <div class="hcol-sub">Compassion & Kindness</div>
+        <hr class="hcol-divider">
+        <div class="hcol-motto">"We leave no one behind."</div>
+        <div class="hcol-section-label">Core Responsibilities</div>
+        <div class="habit-row">
+          <div class="habit-name">Lonely Outreach</div>
+          <div class="habit-desc">Check on one person who seems isolated or sad</div>
+        </div>
+        <div class="habit-row">
+          <div class="habit-name">Proactive Help</div>
+          <div class="habit-desc">Offer your help before being asked</div>
+        </div>
+        <div class="habit-row">
+          <div class="habit-name">One Kind Word</div>
+          <div class="habit-desc">Say something meaningful to someone struggling</div>
+        </div>
+        <div class="shadow-badge"><i class="fas fa-skull"></i> Defeats Qasawah (Harshness)</div>
+        <button class="join-btn">Join House of Rahmah →</button>
+      </div>
+
+      <!-- ADL -->
+      <div class="house-col hc-adl" onclick="joinHouse('Adl')">
+        <div class="hcol-number">House 04</div>
+        <div class="hcol-icon">⚖️</div>
+        <div class="hcol-arabic">الْعَدْل</div>
+        <h2 class="hcol-name playfair">House of Adl</h2>
+        <div class="hcol-sub">Fairness & Justice</div>
+        <hr class="hcol-divider">
+        <div class="hcol-motto">"We stand for what is right, always."</div>
+        <div class="hcol-section-label">Core Responsibilities</div>
+        <div class="habit-row">
+          <div class="habit-name">Speak Up</div>
+          <div class="habit-desc">Challenge one unfair situation you witness</div>
+        </div>
+        <div class="habit-row">
+          <div class="habit-name">Fair Distribution</div>
+          <div class="habit-desc">Ensure equity in any group task or sharing</div>
+        </div>
+        <div class="habit-row">
+          <div class="habit-name">Defend the Weak</div>
+          <div class="habit-desc">Stand up for someone being treated unjustly</div>
+        </div>
+        <div class="shadow-badge"><i class="fas fa-skull"></i> Defeats Zulm (Injustice)</div>
+        <button class="join-btn">Join House of Adl →</button>
+      </div>
+
+    </div>
+    <div class="back-link" onclick="goToLanding()">← Back to Overview</div>
+  </div>
+
+  <!-- ═══════════════ VIEW 3: THE HUB ═══════════════ -->
+  <div id="view-hub" class="d-none">
+    <div class="hub-container">
+
+      <!-- House Identity Banner -->
+      <div class="house-banner" id="hubBanner">
+        <span class="hb-icon" id="hubIcon">⭐</span>
+        <div class="hb-info">
+          <h3 id="hubHouseName">House of Sidq</h3>
+          <p id="hubHouseSub">Truthfulness — "We speak truth even when it costs us."</p>
+        </div>
+        <div class="hb-tier" id="hubTierBadge">NASEER ⚔️</div>
+      </div>
+
+      <!-- Tier Progression Strip -->
+      <span class="section-label">Growth Hierarchy — Student-Led Movement</span>
+      <div class="tier-strip">
+        <div class="tier-item" id="tier4">
+          <div class="tier-num">Tier 4</div>
+          <div class="tier-label">Junior Naseer</div>
+          <div class="tier-class">Class 1–4</div>
+        </div>
+        <div class="tier-item" id="tier3">
+          <div class="tier-num">Tier 3</div>
+          <div class="tier-label">Naseer</div>
+          <div class="tier-class">Class 5–6</div>
+        </div>
+        <div class="tier-item active" id="tier2">
+          <div class="tier-num">Tier 2</div>
+          <div class="tier-label">Naib Qaid</div>
+          <div class="tier-class">Class 7–8</div>
+        </div>
+        <div class="tier-item" id="tier1">
+          <div class="tier-num">Tier 1</div>
+          <div class="tier-label">Qaid</div>
+          <div class="tier-class">Class 9–10</div>
+        </div>
+      </div>
+
+      <!-- Hub Nav -->
+      <div class="hub-nav">
+        <button class="hub-nav-btn active" onclick="switchSubview('overview', this)">🏠 Overview</button>
+        <button class="hub-nav-btn" onclick="switchSubview('habits', this)">✅ Daily Habits</button>
+        <button class="hub-nav-btn" onclick="switchSubview('stories', this)">📖 Story Wall</button>
+        <button class="hub-nav-btn" onclick="switchSubview('leaderboard', this)">🏆 Leaderboard</button>
+        <button class="hub-nav-btn" onclick="switchSubview('about', this)">📋 About House</button>
+      </div>
+
+      <!-- SUBVIEW: OVERVIEW -->
+      <div id="sv-overview" class="subview active">
+        <div class="pill">Digital Integration</div>
+        <h1 class="hub-title playfair">imaanakhlaq.org — <span class="accent">The Hub of the Movement</span></h1>
+        <p class="hub-subtitle">
+          The program's digital backbone ensures every act of character is recorded, every leader is recognized,
+          and every school can track its ethical growth — without adding administrative burden to teachers.
+        </p>
+
+        <div class="hub-grid">
+          <div class="hub-card vc-card" onclick="switchSubview('habits', document.querySelector('.hub-nav-btn:nth-child(2)'))">
+            <span class="hub-card-icon">📊</span>
+            <div class="hub-card-title">Value Credits Dashboard</div>
+            <div class="hub-card-desc">Real-time tracking of Value Credits earned per house, updated by mentors and class teachers.</div>
+            <div style="margin-top:16px; display:flex; align-items:baseline; gap:8px;">
+              <span class="vc-big" id="ovVc">0</span>
+              <span style="color: rgba(255,255,255,0.4); font-size:0.9rem;">VC earned</span>
+            </div>
+            <div class="hub-card-arrow">→</div>
+          </div>
+
+          <div class="hub-card" onclick="switchSubview('stories', document.querySelector('.hub-nav-btn:nth-child(3)'))">
+            <span class="hub-card-icon">📖</span>
+            <div class="hub-card-title">Story-Sharing Wall</div>
+            <div class="hub-card-desc">Students share their ethical impact stories — inspiring peers and building a living record of the movement.</div>
+            <div class="hub-card-arrow">→</div>
+          </div>
+
+          <div class="hub-card" onclick="switchSubview('leaderboard', document.querySelector('.hub-nav-btn:nth-child(4)'))">
+            <span class="hub-card-icon">🏆</span>
+            <div class="hub-card-title">House Leaderboard</div>
+            <div class="hub-card-desc">Rankings are house-level, not individual — reinforcing teamwork and collective responsibility.</div>
+            <div class="hub-card-arrow">→</div>
+          </div>
+
+          <div class="hub-card">
+            <span class="hub-card-icon">🗃️</span>
+            <div class="hub-card-title">Legacy Archive</div>
+            <div class="hub-card-desc">Every year's contributions, projects, and winning campaigns are archived to build long-term legacy.</div>
+            <div class="hub-card-arrow">→</div>
+          </div>
+        </div>
+
+        <div class="narrative-box">
+          <div class="narrative-quote">"The best of you are those who are best to others."</div>
+          <div class="narrative-attr">— Prophet Muhammad ﷺ</div>
+        </div>
+
+        <div class="shadow-alert" id="overviewShadowAlert">
+          <i class="fas fa-exclamation-triangle"></i>
+          <div><strong style="color:#FCA5A5;">Shadow Identified:</strong> <span id="shadowName">Kadhib (Deception)</span> — Your house fights this shadow daily.</div>
+        </div>
+      </div>
+
+      <!-- SUBVIEW: HABITS -->
+      <div id="sv-habits" class="subview">
+        <span class="section-label">Daily Micro-Habits — Secret Weapon</span>
+        <h2 class="playfair" style="font-size:1.8rem; margin-bottom:6px; color:#fff;">Big Character Is Built <span style="color:var(--brand-gold);">in Small Moments</span></h2>
+        <p style="color:rgba(255,255,255,0.5); font-size:0.95rem; margin-bottom:2rem;">Complete your daily habits to earn Value Credits (+10 VC each)</p>
+        <div id="habitList"></div>
+        <div style="margin-top:20px; padding:16px 20px; background:rgba(245,158,11,0.08); border:1px solid rgba(245,158,11,0.2); border-radius:12px;">
+          <span style="color:rgba(255,255,255,0.5); font-size:0.85rem; margin-right:10px;">Total VC:</span>
+          <span class="vc-big" id="habitVcDisplay" style="font-size:2rem;">0</span>
+        </div>
+      </div>
+
+      <!-- SUBVIEW: STORIES -->
+      <div id="sv-stories" class="subview">
+        <span class="section-label">Story-Sharing Wall</span>
+        <h2 class="playfair" style="font-size:1.8rem; margin-bottom:6px; color:#fff;">Log Your <span style="color:var(--brand-gold);">Victory</span></h2>
+        <p style="color:rgba(255,255,255,0.5); margin-bottom:2rem; font-size:0.95rem;">Share how you defeated a Shadow today — earn +20 VC per approved story.</p>
+        <div class="story-form" style="margin-bottom:2rem;">
+          <textarea id="storyInput" placeholder="Describe how you practiced your house value today..."></textarea>
+          <button class="btn-submit" onclick="submitStory()"><i class="fas fa-paper-plane"></i> Share Victory (+20 VC)</button>
+        </div>
+        <span class="section-label">Recent Stories</span>
+        <div id="storyFeed"></div>
+      </div>
+
+      <!-- SUBVIEW: LEADERBOARD -->
+      <div id="sv-leaderboard" class="subview">
+        <span class="section-label">Student-Led Movement — House Leaderboard</span>
+        <h2 class="playfair" style="font-size:1.8rem; margin-bottom:6px; color:#fff;">Leaders Don't Wait <span style="color:var(--brand-gold);">to Be Appointed</span></h2>
+        <p style="color:rgba(255,255,255,0.5); margin-bottom:2rem; font-size:0.95rem;">Class 9–10 students serve as Qaid (House Leaders) — not monitors, not prefects, but Commanders of Character.</p>
+        <div id="leaderboardList">
+          <div class="lb-row"><div class="lb-rank">🥇</div><div class="lb-name">House of Sidq</div><div class="lb-badge">Sidq</div><div class="lb-vc">1,240 VC</div></div>
+          <div class="lb-row"><div class="lb-rank">🥈</div><div class="lb-name">House of Amanah</div><div class="lb-badge">Amanah</div><div class="lb-vc">1,105 VC</div></div>
+          <div class="lb-row"><div class="lb-rank">🥉</div><div class="lb-name">House of Rahmah</div><div class="lb-badge">Rahmah</div><div class="lb-vc">980 VC</div></div>
+          <div class="lb-row"><div class="lb-rank">4️⃣</div><div class="lb-name">House of Adl</div><div class="lb-badge">Adl</div><div class="lb-vc">870 VC</div></div>
+        </div>
+      </div>
+
+      <!-- SUBVIEW: ABOUT HOUSE -->
+      <div id="sv-about" class="subview">
+        <span class="section-label" id="aboutPill">About Your House</span>
+        <h2 class="playfair" id="aboutTitle" style="font-size:2rem; margin-bottom:6px; color:#fff;"></h2>
+        <p id="aboutMotto" class="playfair" style="font-style:italic; color:var(--brand-gold); font-size:1.1rem; margin-bottom:2rem;"></p>
+
+        <span class="section-label">Core Responsibilities</span>
+        <ul class="resp-list" id="aboutResps"></ul>
+
+        <div style="margin-top:2rem; background:rgba(153,27,27,0.12); border:1px solid rgba(153,27,27,0.25); border-radius:12px; padding:1.5rem;">
+          <div style="font-size:0.7rem; font-weight:900; letter-spacing:2px; text-transform:uppercase; color:rgba(255,255,255,0.35); margin-bottom:10px;">The Shadow You Fight</div>
+          <h3 id="aboutShadow" class="playfair" style="font-size:1.5rem; color:#FCA5A5; margin:0;"></h3>
+          <p id="aboutShadowDesc" style="color:rgba(255,255,255,0.5); margin-top:6px; font-size:0.9rem;"></p>
+        </div>
+
+        <div style="margin-top:1.5rem; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.07); border-radius:12px; padding:1.5rem;">
+          <div style="font-size:0.7rem; font-weight:900; letter-spacing:2px; text-transform:uppercase; color:rgba(255,255,255,0.35); margin-bottom:10px;">Narrative Identity</div>
+          <p style="color:rgba(255,255,255,0.7); font-size:0.95rem; line-height:1.7;">
+            Every student who joins the Imaan Akhlaq Club becomes a <strong style="color:#38BDF8;">Naseer</strong> — a Protector of their
+            school community (the <em style="color:#F472B6;">Raia</em>). They are not fighting people; they are fighting the
+            <em>system</em> — the invisible force of dishonesty, apathy, injustice, and cruelty that erodes communities
+            from within. This is their calling. This is their legacy.
+          </p>
+        </div>
+      </div>
+
+    </div>
+    <button class="leave-btn" onclick="leaveClub()">← Change House</button>
+  </div>
+
+</div>
+
+<script>
+  (() => {
+    /* ── DATA ── */
+    const HOUSES = {
+      Sidq: {
+        icon: '⭐', arabic: 'الصِّدْق',
+        name: 'House of Sidq', sub: 'Truthfulness',
+        motto: '"We speak truth even when it costs us."',
+        shadow: 'Kadhib — The Force of Deception',
+        shadowDesc: 'Dishonesty corrodes communities from within. Sidq attacks Kadhib by living the truth every single day.',
+        color: '#1E40AF',
+        resps: ['Speaking truth in every situation, even when costly', 'Fulfilling every promise made, without exception', 'Using truth to hold yourself and others accountable'],
+        habits: [
+          { name: 'Daily Truth', desc: 'Say one hard truth that needs to be said', vc: 10 },
+          { name: 'Own It', desc: 'Acknowledge one mistake today without excuse', vc: 10 },
+          { name: 'Honest Mirror', desc: 'Give one friend a genuine, kind piece of feedback', vc: 10 }
+        ]
+      },
+      Amanah: {
+        icon: '🛡️', arabic: 'الأمانة',
+        name: 'House of Amanah', sub: 'Responsibility & Trust',
+        motto: '"We carry every duty with honor."',
+        shadow: 'Ghaflah — The Force of Negligence',
+        shadowDesc: 'Carelessness destroys trust. Amanah fights Ghaflah by taking every duty seriously — no matter how small.',
+        color: '#166534',
+        resps: ['Fulfilling every duty without reminders', 'Responsible care of shared resources', 'Time responsibility and punctuality'],
+        habits: [
+          { name: 'Unprompted Duty', desc: 'Complete one responsibility without being reminded', vc: 10 },
+          { name: 'Return with Care', desc: 'Return something borrowed in better condition', vc: 10 },
+          { name: 'On Time, Every Time', desc: 'Honor one time commitment without delay', vc: 10 }
+        ]
+      },
+      Rahmah: {
+        icon: '❤️', arabic: 'الرَّحْمَة',
+        name: 'House of Rahmah', sub: 'Compassion & Kindness',
+        motto: '"We leave no one behind."',
+        shadow: 'Qasawah — The Force of Harshness',
+        shadowDesc: 'Cruelty and indifference isolate people. Rahmah defeats Qasawah through consistent, proactive acts of compassion.',
+        color: '#991B1B',
+        resps: ['Proactively checking on isolated or struggling peers', 'Offering help before being asked', 'Speaking words of encouragement and kindness daily'],
+        habits: [
+          { name: 'Lonely Outreach', desc: 'Check on one person who seems isolated or sad', vc: 10 },
+          { name: 'Proactive Help', desc: 'Offer your help before being asked', vc: 10 },
+          { name: 'One Kind Word', desc: 'Say something meaningful to someone struggling', vc: 10 }
+        ]
+      },
+      Adl: {
+        icon: '⚖️', arabic: 'الْعَدْل',
+        name: 'House of Adl', sub: 'Fairness & Justice',
+        motto: '"We stand for what is right, always."',
+        shadow: 'Zulm — The Force of Injustice',
+        shadowDesc: 'Injustice silences the weak. Adl confronts Zulm by ensuring fairness in every group, activity, and interaction.',
+        color: '#5B21B6',
+        resps: ['Ensuring fair play in all group activities', 'Consistent rule-following and accountability', 'Mediating conflict with justice and wisdom'],
+        habits: [
+          { name: 'Speak Up', desc: 'Challenge one unfair situation you witness today', vc: 10 },
+          { name: 'Fair Distribution', desc: 'Ensure equity in any group task or sharing', vc: 10 },
+          { name: 'Defend the Weak', desc: 'Stand up for someone being treated unjustly', vc: 10 }
+        ]
+      }
+    };
+
+    /* ── STATE ── */
+    let state = JSON.parse(localStorage.getItem('ia_club_v2') || '{}');
+    if (!state.joined) state = { joined: false, house: '', vc: 0, doneHabits: [], stories: [] };
+
+    function save() { localStorage.setItem('ia_club_v2', JSON.stringify(state)); }
+
+    /* ── ROUTING ── */
+    function showView(id) {
+      ['view-landing','view-houses','view-hub'].forEach(v => document.getElementById(v).classList.add('d-none'));
+      document.getElementById(id).classList.remove('d-none');
+    }
+
+    function init() {
+      if (state.joined && state.house) {
+        loadHub();
+        showView('view-hub');
+      } else {
+        showView('view-landing');
+      }
+    }
+
+    window.goToHouses = () => showView('view-houses');
+    window.goToLanding = () => showView('view-landing');
+
+    window.joinHouse = (name) => {
+      state.joined = true;
+      state.house = name;
+      state.doneHabits = [];
+      state.vc = 0;
+      save();
+      loadHub();
+      showView('view-hub');
+    };
+
+    window.leaveClub = () => {
+      state.joined = false;
+      state.house = '';
+      save();
+      showView('view-houses');
+    };
+
+    /* ── HUB ── */
+    function loadHub() {
+      const h = HOUSES[state.house];
+      if (!h) return;
+
+      // Banner
+      document.getElementById('hubIcon').textContent = h.icon;
+      document.getElementById('hubHouseName').textContent = h.name;
+      document.getElementById('hubHouseSub').textContent = h.sub + ' — ' + h.motto;
+      document.getElementById('hubBanner').className = 'house-banner hb-' + state.house.toLowerCase();
+
+      // Tier badge
+      const tierLabel = state.vc >= 200 ? 'QAID 👑' : state.vc >= 100 ? 'NAIB QAID ⚡' : state.vc >= 50 ? 'NASEER ⚔️' : 'JUNIOR NASEER 🌱';
+      document.getElementById('hubTierBadge').textContent = tierLabel;
+
+      // VC
+      document.getElementById('ovVc').textContent = state.vc;
+      document.getElementById('habitVcDisplay').textContent = state.vc;
+
+      // Shadow
+      document.getElementById('shadowName').textContent = h.shadow;
+
+      // About
+      document.getElementById('aboutTitle').textContent = h.name;
+      document.getElementById('aboutMotto').textContent = h.motto;
+      document.getElementById('aboutShadow').textContent = h.shadow;
+      document.getElementById('aboutShadowDesc').textContent = h.shadowDesc;
+      const respList = document.getElementById('aboutResps');
+      respList.innerHTML = h.resps.map(r => '<li>' + r + '</li>').join('');
+
+      renderHabits();
+      renderStories();
+    }
+
+    function renderHabits() {
+      const h = HOUSES[state.house];
+      const container = document.getElementById('habitList');
+      container.innerHTML = h.habits.map((habit, i) => {
+        const done = state.doneHabits.includes(i);
+        return '<div class="habit-check ' + (done ? 'done' : '') + '" onclick="toggleHabit(' + i + ')">' +
+          '<div class="hc-checkbox">' + (done ? '<i class="fas fa-check" style="color:white;font-size:0.75rem;"></i>' : '') + '</div>' +
+          '<div class="hc-info"><div class="hc-name">' + habit.name + '</div><div class="hc-desc">' + habit.desc + '</div></div>' +
+          '<div class="hc-vc">+' + habit.vc + ' VC</div>' +
+          '</div>';
+      }).join('');
+    }
+
+    window.toggleHabit = (i) => {
+      if (state.doneHabits.includes(i)) return;
+      state.doneHabits.push(i);
+      state.vc += 10;
+      save();
+      loadHub();
+    };
+
+    function renderStories() {
+      const container = document.getElementById('storyFeed');
+      if (!state.stories.length) {
+        container.innerHTML = '<p style="color:rgba(255,255,255,0.3); text-align:center; padding:2rem;">No stories yet. Be the first to share a victory!</p>';
+        return;
+      }
+      container.innerHTML = [...state.stories].reverse().map(s =>
+        '<div class="story-entry">' +
+          '<div class="story-date">' + s.date + '</div>' +
+          '<div class="story-text">' + s.text + '</div>' +
+          '<div class="story-house" style="color:' + HOUSES[s.house].color + ';">' + HOUSES[s.house].icon + ' ' + s.house + ' · +20 VC</div>' +
+        '</div>'
+      ).join('');
+    }
+
+    window.submitStory = () => {
+      const text = document.getElementById('storyInput').value.trim();
+      if (!text) return;
+      state.stories.push({ date: new Date().toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' }), text, house: state.house });
+      state.vc += 20;
+      document.getElementById('storyInput').value = '';
+      save();
+      loadHub();
+    };
+
+    /* ── SUB-VIEW SWITCHING ── */
+    window.switchSubview = (id, btn) => {
+      document.querySelectorAll('.subview').forEach(sv => sv.classList.remove('active'));
+      document.getElementById('sv-' + id).classList.add('active');
+      document.querySelectorAll('.hub-nav-btn').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+    };
+
+    init();
+  })();
+</script>

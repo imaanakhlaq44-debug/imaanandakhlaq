@@ -1,0 +1,70 @@
+# Enable Rewrite Engine
+RewriteEngine On
+
+# Ensure UTF-8 formatting for Hostinger
+AddDefaultCharset UTF-8
+
+# ----------------------------------------------------
+# DISABLE LITESPEED CACHING (Crucial for Hostinger UI updates)
+# ----------------------------------------------------
+<IfModule LiteSpeed>
+  CacheDisable public /
+  RewriteRule .* - [E=Cache-Control:no-cache]
+</IfModule>
+
+<FilesMatch "\.(html|htm|js|css|json)$">
+  FileETag None
+  <IfModule mod_headers.c>
+    Header unset ETag
+    Header set Cache-Control "max-age=0, no-cache, no-store, must-revalidate"
+    Header set Pragma "no-cache"
+    Header set Expires "Wed, 11 Jan 1984 05:00:00 GMT"
+  </IfModule>
+</FilesMatch>
+# ----------------------------------------------------
+
+
+# Allow authorization headers
+SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
+
+# Remove trailing slash to prevent 404 and relative path breakage (e.g. /about/ -> /about)
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)/$ /$1 [L,R=301]
+
+# Extensionless html pages (SSG Support for Hostinger)
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.html -f
+RewriteRule ^(.*)$ $1.html [L]
+
+# Redirect root directory to index.html
+DirectoryIndex index.html
+
+# ----------------------------------------------------
+# HTTP SECURITY HEADERS
+# ----------------------------------------------------
+<IfModule mod_headers.c>
+  # Prevent Clickjacking
+  Header always set X-Frame-Options "SAMEORIGIN"
+  
+  # Protect against MIME type manipulation
+  Header always set X-Content-Type-Options "nosniff"
+  
+  # Enable Browser XSS filtering
+  Header always set X-XSS-Protection "1; mode=block"
+
+  # Enforce HTTPS (HSTS)
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+
+  # Basic Content Security Policy (allows everything from own domain, plus inline scripts/styles for React)
+  Header always set Content-Security-Policy "default-src 'self' 'unsafe-inline' 'unsafe-eval' https: data:;"
+
+  # Permissions Policy to block unnecessary browser features
+  Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+</IfModule>
+# ----------------------------------------------------
+
+# Deny access to sensitive files
+<FilesMatch "\.(json|ps1|sh|md|ts|zip)$">
+  Order Allow,Deny
+  Deny from all
+</FilesMatch>

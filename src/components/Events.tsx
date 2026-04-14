@@ -1,4 +1,4 @@
-import { html } from 'hono/html';
+﻿import { html } from 'hono/html';
 export const Events = () => html`\n<!-- ===== EVENTS ===== -->\n
   <section class="events-section section-padding bg-light-green" id="events">
     <div class="container">

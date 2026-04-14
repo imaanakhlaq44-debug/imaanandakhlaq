@@ -22,37 +22,37 @@ export const StatsCounter = () => html`
       <!-- Box 1 -->
       <div class="kstat-item" data-aos="fade-up" data-aos-delay="100">
         <div class="kstat-diamond c-green">
-          <div class="kstat-icon"><i class="fas fa-book-open"></i></div>
+          <div class="kstat-icon"><i class="fas fa-rocket"></i></div>
         </div>
-        <h3 class="sc-number" data-target="3500">0</h3>
-        <p>Students Enrolled</p>
+        <h3 class="sc-number" data-target="2026">0</h3>
+        <p>Nationwide Launch</p>
       </div>
 
       <!-- Box 2 -->
       <div class="kstat-item" data-aos="fade-up" data-aos-delay="200">
         <div class="kstat-diamond c-orange">
-          <div class="kstat-icon"><i class="fas fa-trophy"></i></div>
+          <div class="kstat-icon"><i class="fas fa-book-open"></i></div>
         </div>
-        <h3 class="sc-number" data-target="912">0</h3>
-        <p>Best Awards Won</p>
+        <h3 class="sc-number" data-target="2700">0</h3>
+        <p>Curriculum Books</p>
       </div>
 
       <!-- Box 3 -->
       <div class="kstat-item" data-aos="fade-up" data-aos-delay="300">
         <div class="kstat-diamond c-cyan">
-          <div class="kstat-icon"><i class="fas fa-pencil-ruler"></i></div>
+          <div class="kstat-icon"><i class="fas fa-theater-masks"></i></div>
         </div>
-        <h3 class="sc-number" data-target="370">0</h3>
-        <p>Classes Completed</p>
+        <h3 class="sc-number" data-target="4000">0</h3>
+        <p>Puppet Shows</p>
       </div>
 
       <!-- Box 4 -->
       <div class="kstat-item" data-aos="fade-up" data-aos-delay="400">
         <div class="kstat-diamond c-pink">
-          <div class="kstat-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+          <div class="kstat-icon"><i class="fas fa-users"></i></div>
         </div>
-        <h3 class="sc-number" data-target="648">0</h3>
-        <p>Our Total Courses</p>
+        <h3 class="sc-number" data-target="6000">0</h3>
+        <p>Club Engagements</p>
       </div>
 
     </div>

@@ -1,4 +1,4 @@
-import { html } from 'hono/html';
+﻿import { html } from 'hono/html';
 export const Gallery = () => html`\n<!-- ===== GALLERY ===== -->\n
   <section class="gallery-section section-padding bg-light-green" id="gallery">
     <div class="container">

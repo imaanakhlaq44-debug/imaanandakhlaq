@@ -5,7 +5,7 @@ import activitiesData from '../data/activities.json'
 export const TeacherDashboard = () => html`
 <style>
   .teacher-page {
-    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    background: linear-gradient(135deg, #FDF8F5 0%, #F5F1EE 100%);
     padding: 3rem 0;
     font-family: 'Nunito', sans-serif;
     color: #334155;
@@ -24,17 +24,19 @@ export const TeacherDashboard = () => html`
     backdrop-filter: blur(16px);
     border-radius: 20px;
     box-shadow: 
-      0 4px 6px -1px rgba(0, 0, 0, 0.05),
-      0 10px 15px -3px rgba(0, 0, 0, 0.1),
-      inset 0 0 0 1px rgba(255, 255, 255, 0.8);
+      0 20px 40px -5px rgba(0, 0, 0, 0.08),
+      0 10px 15px -5px rgba(0, 0, 0, 0.04),
+      inset 0px 1px 1px rgba(255, 255, 255, 0.9);
     padding: 2rem;
     position: relative;
     overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.7);
   }
   .main-header-card {
     grid-column: span 12;
-    background: linear-gradient(135deg, #0ea5e9, #3b82f6);
+    background: linear-gradient(135deg, #1E2D5A, #D63678);
     color: white;
+    border: 1px solid rgba(255,255,255,0.3);
   }
   
   /* Leaderboard Styling */
@@ -47,16 +49,20 @@ export const TeacherDashboard = () => html`
   .student-rank-item {
     display: flex;
     align-items: center;
-    padding: 15px;
-    border-radius: 15px;
-    margin-bottom: 10px;
-    background: #f1f5f9;
-    transition: transform 0.2s, box-shadow 0.2s;
-    border: 1px solid #e2e8f0;
+    padding: 15px 20px;
+    border-radius: 50px;
+    margin-bottom: 18px;
+    background: #ffffff;
+    box-shadow: 0 4px 6px rgba(30, 45, 90, 0.05);
+    border: 2px solid #F5F1EE;
+    border-bottom: 6px solid #C99A6B;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
   .student-rank-item:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    transform: translateY(4px);
+    border-bottom: 2px solid #bae6fd;
+    box-shadow: 0 2px 5px rgba(186, 230, 253, 0.4), inset 0 1px 2px rgba(255,255,255,0.9);
   }
   .rank-badge {
     width: 35px;
@@ -71,21 +77,21 @@ export const TeacherDashboard = () => html`
     margin-right: 15px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
   }
-  .rank-1 { background: linear-gradient(135deg, #f59e0b, #d97706); transform: scale(1.1); }
-  .rank-2 { background: linear-gradient(135deg, #94a3b8, #64748b); }
-  .rank-3 { background: linear-gradient(135deg, #c2410c, #9a3412); }
-  .rank-other { background: #cbd5e1; color: #475569; box-shadow: none; }
+  .rank-1 { background: linear-gradient(135deg, #E08020, #C99A6B); transform: scale(1.1); }
+  .rank-2 { background: linear-gradient(135deg, #1E2D5A, #D63678); }
+  .rank-3 { background: linear-gradient(135deg, #D63678, #B02460); }
+  .rank-other { background: #E2E8F0; color: #475569; box-shadow: none; }
   
   .student-avatar {
     width: 40px;
     height: 40px;
-    background: #e0f2fe;
+    background: #FDF8F5;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 1.2rem;
-    color: #0284c7;
+    color: #1E2D5A;
     margin-right: 15px;
   }
   .student-name {
@@ -95,7 +101,7 @@ export const TeacherDashboard = () => html`
   }
   .student-score {
     font-family: 'Fredoka One', cursive;
-    color: #f59e0b;
+    color: #E08020;
     font-size: 1.2rem;
   }
 
@@ -108,13 +114,20 @@ export const TeacherDashboard = () => html`
   }
   
   .review-item {
-    background: #f8fafc;
-    border: 1px solid #cbd5e1;
-    border-radius: 12px;
+    background: #ffffff;
+    border: 2px solid #FDF0F6;
+    border-bottom: 6px solid #D63678;
+    border-radius: 20px;
     padding: 1.5rem;
     margin-bottom: 1.5rem;
     position: relative;
-    border-left: 5px solid #3b82f6;
+    box-shadow: 0 8px 15px rgba(214, 54, 120, 0.1), inset 0 2px 5px rgba(255,255,255,0.8);
+    transition: all 0.2s ease;
+  }
+  .review-item:hover {
+    transform: translateY(4px);
+    border-bottom: 2px solid #5eead4;
+    box-shadow: 0 2px 8px rgba(20, 184, 166, 0.1), inset 0 1px 2px rgba(255,255,255,0.8);
   }
   .student-discussion-text {
     background: white;
@@ -126,7 +139,7 @@ export const TeacherDashboard = () => html`
     margin: 15px 0;
   }
   .btn-approve {
-    background: #10b981;
+    background: #D63678;
     color: white;
     font-family: 'Fredoka One', cursive;
     border: none;
@@ -135,10 +148,52 @@ export const TeacherDashboard = () => html`
     cursor: pointer;
     font-size: 1rem;
     transition: all 0.2s;
+    box-shadow: 0 4px 0 #B02460;
   }
   .btn-approve:hover {
-    background: #059669;
-    transform: scale(1.05);
+    background: #B02460;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0 #B02460;
+  }
+  
+  /* Modal Styles */
+  .custom-modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(15, 23, 42, 0.4);
+    backdrop-filter: blur(12px);
+    z-index: 1050;
+    justify-content: center;
+    align-items: center;
+  }
+  .custom-modal {
+    background: white;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 2rem;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    position: relative;
+    font-family: 'Nunito', sans-serif;
+  }
+  .modal-close-btn {
+    position: absolute;
+    top: 15px; right: 20px;
+    background: none; border: none;
+    font-size: 1.5rem;
+    color: #94a3b8;
+    cursor: pointer;
+  }
+  .modal-close-btn:hover { color: #f43f5e; }
+  .grid-summary {
+    background: #f1f5f9;
+    padding: 15px;
+    border-radius: 12px;
+    margin: 15px 0;
+    border: 1px solid #e2e8f0;
   }
 
   /* Login Styling */
@@ -162,21 +217,11 @@ export const TeacherDashboard = () => html`
     font-family: 'Fredoka One', cursive;
   }
   .pin-input:focus {
-    border-color: #0ea5e9;
+    border-color: #1E2D5A;
   }
 </style>
 
 <div class="teacher-page">
-  <!-- LOGIN VIEW -->
-  <div id="teacherLoginView" class="login-container bento-card d-none">
-    <div style="font-size: 3rem; color: #0ea5e9; margin-bottom: 20px;"><i class="fas fa-chalkboard-teacher"></i></div>
-    <h2 style="font-family: 'Fredoka One', cursive; color: #1e293b;">Teacher Portal</h2>
-    <p class="text-muted mb-4">Enter your Class PIN to access your dashboard.</p>
-    <p style="font-size: 0.8rem; background: #e0f2fe; padding: 5px; border-radius: 5px;">Demo PIN: 5678</p>
-    
-    <input type="password" id="pinInput" class="pin-input" maxlength="4" placeholder="••••">
-    <button class="btn btn-primary btn-lg rounded-pill px-5 mt-3" style="font-family: 'Fredoka One', cursive; background: #0ea5e9; border:none;" onclick="attemptTeacherLogin()">Unlock Portal</button>
-  </div>
 
   <!-- DASHBOARD VIEW -->
   <div id="teacherDashboardView" class="bento-container d-none">
@@ -223,179 +268,305 @@ export const TeacherDashboard = () => html`
   </div>
 </div>
 
-<script>
-  const MOCK_DB = ${raw(JSON.stringify(mockDB))};
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+  import { getFirestore, collection, query, where, getDocs, getDoc, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyA4MrV-oXhK_johreyzIucti5RFrKcvyG8",
+    authDomain: "imaan-app-1d2da.firebaseapp.com",
+    projectId: "imaan-app-1d2da",
+    storageBucket: "imaan-app-1d2da.firebasestorage.app",
+    messagingSenderId: "373650938167",
+    appId: "1:373650938167:web:e9da1317c118bc720d22b2"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
   const ACTIVITIES_DATA = ${raw(JSON.stringify(activitiesData))};
   
-  document.addEventListener('DOMContentLoaded', () => {
-    const loginView = document.getElementById('teacherLoginView');
-    const dashboardView = document.getElementById('teacherDashboardView');
-    
-    // Auth Check
-    const session = sessionStorage.getItem('teacher_session');
-    
-    if (session) {
-      showDashboard(JSON.parse(session));
-    } else {
-      loginView.classList.remove('d-none');
-    }
+  let currentTeacher = null;
+  let teacherSchoolId = null;
 
-    window.attemptTeacherLogin = () => {
-      const pin = document.getElementById('pinInput').value;
-      const teacherUser = MOCK_DB.teachers.find(t => t.pin === pin);
-      
-      if (teacherUser) {
-        const school = MOCK_DB.schools.find(s => s.school_id === teacherUser.school_id);
-        const students = MOCK_DB.students.filter(s => s.class_id === teacherUser.assigned_class && s.school_id === school.school_id);
-        
-        const sessionData = {
-          teacherId: teacherUser.teacher_id,
-          teacherName: teacherUser.name,
-          schoolName: school.name,
-          className: teacherUser.assigned_class,
-          students: students
-        };
-        
-        sessionStorage.setItem('teacher_session', JSON.stringify(sessionData));
-        loginView.classList.add('d-none');
-        showDashboard(sessionData);
-      } else {
-        alert("Invalid PIN. Please try 5678.");
-      }
-    };
-    
-    window.awardTeacherPoints = (studentId, chapterId) => {
-      // In a real app we'd save this to the real DB. 
-      // For the mock, we simulate it on local storage for "Ali Ahmed" (stu_101)
-      if (studentId === 'stu_101') {
-        let gameState = JSON.parse(localStorage.getItem('imaan_game_state')) || { points:0, unlockedCount:1, completed:[] };
-        if (!gameState.teacher_approved) gameState.teacher_approved = [];
-        
-        if (!gameState.teacher_approved.includes(chapterId)) {
-          gameState.teacher_approved.push(chapterId);
-          gameState.points += 50; // Teacher Bonus
-          localStorage.setItem('imaan_game_state', JSON.stringify(gameState));
-        }
-      } else {
-        // Just mock updating the fake array
-        let dummyState = JSON.parse(sessionStorage.getItem('dummy_approvals')) || [];
-        dummyState.push(studentId + '_' + chapterId);
-        sessionStorage.setItem('dummy_approvals', JSON.stringify(dummyState));
-      }
-      
-      // Re-render
-      const session = JSON.parse(sessionStorage.getItem('teacher_session'));
-      showDashboard(session);
-      alert("✅ Answer marked as Excellent! +50 ⭐ awarded to student.");
-    };
-    
-    function getChapterTitle(chapId) {
-      // Very naive search since we just want the string
-      let title = chapId;
-      ['book1', 'book2', 'book3'].forEach(b => {
-        if(ACTIVITIES_DATA[b] && ACTIVITIES_DATA[b].chapters) {
-          Object.values(ACTIVITIES_DATA[b].chapters).forEach(c => {
-            if(c.id === chapId) title = c.title;
-          });
-        }
-      });
-      return title;
-    }
-
-    function showDashboard(sessionData) {
-      dashboardView.classList.remove('d-none');
-      
-      document.getElementById('schoolNameTag').innerHTML = '<i class="fas fa-school"></i> ' + sessionData.schoolName;
-      document.getElementById('welcomeName').textContent = sessionData.teacherName;
-      document.getElementById('classInfo').textContent = 'Assigned: ' + sessionData.className + ' (' + sessionData.students.length + ' Students)';
-      
-      // 1. Build Leaderboard Data
-      // For stu_101 (Ali), fetch live data from localStorage. For rest, use mock base_points.
-      let gameState = JSON.parse(localStorage.getItem('imaan_game_state')) || { points: 0, completed: [] };
-      if (!gameState.teacher_approved) gameState.teacher_approved = [];
-      
-      let leaderboardData = [];
-      let pendingReviews = []; // Array of {student, chapId, text}
-      
-      sessionData.students.forEach(stu => {
-        let stuPoints = stu.base_points;
-        if (stu.student_id === 'stu_101') {
-          stuPoints += gameState.points; // Add the livedata points
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      try {
+        const userDoc = await getDoc(doc(db, "users", user.uid));
+        if (userDoc.exists() && userDoc.data().role === 'teacher') {
+          currentTeacher = { uid: user.uid, ...userDoc.data() };
+          teacherSchoolId = currentTeacher.school_id;
           
-          // Check for pending discussion approvals for Ali
-          gameState.completed.forEach(chap => {
-            if (!gameState.teacher_approved.includes(chap)) {
-              pendingReviews.push({
-                student: stu,
-                chapId: chap,
-                answer: "I learned that staying patient brings peace, even when it is hard to wait for my turn. MashaAllah I will try my best."
-              });
-            }
-          });
+          document.getElementById('teacherDashboardView').classList.remove('d-none');
+          initDashboard();
         } else {
-          // Fake some pending reviews for the dummy students so the dashboard looks active
-          let dummyApprovals = JSON.parse(sessionStorage.getItem('dummy_approvals')) || [];
-          if (!dummyApprovals.includes(stu.student_id + '_b1_c2')) {
+          window.location.href = '/auth'; // Not a teacher
+        }
+      } catch(e) { console.error(e); }
+    } else {
+      window.location.href = '/auth';
+    }
+  });
+
+  async function initDashboard() {
+    document.getElementById('welcomeName').textContent = "Welcome, " + currentTeacher.name;
+    document.getElementById('schoolNameTag').innerHTML = '<i class="fas fa-school"></i> School Access Granted';
+    document.getElementById('classInfo').textContent = 'Assigned: Imaan & Akhlaq Books';
+
+    // 1. Fetch all students in the teacher's school
+    const usersRef = collection(db, "users");
+    const qStudents = query(usersRef, where("role", "==", "student"), where("school_id", "==", teacherSchoolId));
+    let studentsSnap;
+    try {
+      studentsSnap = await getDocs(qStudents);
+    } catch(e) { console.error(e); return; }
+    
+    let leaderboardData = [];
+    let studentMap = {}; 
+
+    studentsSnap.forEach(docSnap => {
+      let stu = docSnap.data();
+      stu.uid = docSnap.id;
+      studentMap[stu.uid] = stu;
+      
+      let points = (stu.game_state && stu.game_state.points) ? stu.game_state.points : 50;
+      leaderboardData.push({
+        uid: stu.uid,
+        name: stu.name,
+        totalPoints: points,
+        game_state: stu.game_state || { completed: [], teacher_approved: [] }
+      });
+    });
+
+    // Sort and Render Leaderboard
+    leaderboardData.sort((a,b) => b.totalPoints - a.totalPoints);
+    let lbHtml = '';
+    leaderboardData.forEach((s, idx) => {
+      let rankClass = idx === 0 ? 'rank-1' : (idx === 1 ? 'rank-2' : (idx === 2 ? 'rank-3' : 'rank-other'));
+      lbHtml += 
+        '<div class="student-rank-item">' +
+          '<div class="rank-badge ' + rankClass + '">' + (idx + 1) + '</div>' +
+          '<div class="student-avatar"><i class="fas fa-user-graduate"></i></div>' +
+          '<div class="student-name">' + s.name + '</div>' +
+          '<div class="student-score">' + s.totalPoints + ' ⭐</div>' +
+        '</div>';
+    });
+    document.getElementById('leaderboardList').innerHTML = lbHtml;
+
+    // 2. Fetch specific submissions matching teacher's students
+    const qSub = query(collection(db, "activity_submissions"), where("school_id", "==", teacherSchoolId));
+    const subSnap = await getDocs(qSub);
+    let pendingReviews = [];
+
+    subSnap.forEach(subDoc => {
+      let sub = subDoc.data();
+      if (studentMap[sub.student_uid]) {
+        let stuState = studentMap[sub.student_uid].game_state || { teacher_approved: [] };
+        // Check if pending
+        if (!stuState.teacher_approved || !stuState.teacher_approved.includes(sub.chapter_id)) {
             pendingReviews.push({
-              student: stu,
-              chapId: 'b1_c2',
-              answer: "I always make sure to speak the truth with my friends."
+              subId: subDoc.id,
+              studentUid: sub.student_uid,
+              studentName: studentMap[sub.student_uid].name,
+              chapId: sub.chapter_id,
+              answer: sub.discussionText || "No written answer provided.",
+              grid: sub.gridState || null,
+              parents: sub.parentNotes || []
             });
+        }
+      }
+    });
+
+    // Render Review Queue
+    document.getElementById('pendingCountBadge').textContent = pendingReviews.length;
+    let revHtml = '';
+    if (pendingReviews.length === 0) {
+      revHtml = '<div class="text-center p-5"><i class="fas fa-glass-cheers text-success fa-3x mb-3"></i><h4>All Caught Up!</h4><p class="text-muted">You have reviewed all student answers.</p></div>';
+    } else {
+      pendingReviews.forEach((rev) => {
+        let cTitle = getChapterTitle(rev.chapId);
+        let rawData = encodeURIComponent(JSON.stringify(rev));
+        
+        revHtml += 
+          '<div class="review-item">' +
+            '<div class="d-flex align-items-center mb-2">' +
+              '<div class="student-avatar" style="width:30px; height:30px; font-size:1rem; margin-right:10px;"><i class="fas fa-user-graduate"></i></div>' +
+              '<strong style="font-size: 1.1rem; color: #1e293b;">' + rev.studentName + '</strong>' +
+              '<span class="ms-auto" style="font-size: 0.85rem; color: #64748b; background: white; padding: 2px 8px; border-radius: 10px; border: 1px solid #cbd5e1;">' + cTitle + '</span>' +
+            '</div>' +
+            '<div style="font-size:0.9rem; font-weight:bold; color:#D63678;">Status: <span class="badge bg-warning text-dark">Teacher Review Pending</span></div>' +
+            '<div class="student-discussion-text" style="max-height:80px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">"' + rev.answer + '"</div>' +
+            '<div class="d-flex justify-content-end mt-3">' +
+              '<button class="btn btn-primary rounded-pill me-2" onclick="openReviewModal(\\'' + rawData + '\\')"><i class="fas fa-search"></i> View Full Sheet</button>' +
+              '<button class="btn-approve" onclick="awardTeacherPoints(\\'' + rev.studentUid + '\\', \\'' + rev.chapId + '\\')"><i class="fas fa-check"></i> Quick Pass</button>' +
+            '</div>' +
+          '</div>';
+      });
+    }
+    document.getElementById('reviewsList').innerHTML = revHtml;
+  }
+
+  window.awardTeacherPoints = async (studentUid, chapterId) => {
+    try {
+      const studentRef = doc(db, "users", studentUid);
+      const studentDoc = await getDoc(studentRef);
+      if (studentDoc.exists()) {
+        let state = studentDoc.data().game_state || { completed: [], teacher_approved: [], points: 0 };
+        if (!state.teacher_approved) state.teacher_approved = [];
+        
+        if (!state.teacher_approved.includes(chapterId)) {
+          state.teacher_approved.push(chapterId);
+          state.points += 50;
+          await updateDoc(studentRef, { game_state: state });
+        }
+      }
+      
+      closeReviewModal();
+      initDashboard(); // Re-render
+      alert("✅ Answer marked as Excellent! +50 ⭐ awarded to student.");
+    } catch(err) {
+      console.error(err);
+      alert("Error saving approval.");
+    }
+  };
+
+  window.rejectTeacherPoints = async (studentUid, chapterId) => {
+    if (confirm("Are you sure you want to reject this answer? The student will have to fill it out again.")) {
+      try {
+        // Remove from student completed list so they can do it again
+        const studentRef = doc(db, "users", studentUid);
+        const studentDoc = await getDoc(studentRef);
+        if (studentDoc.exists()) {
+          let state = studentDoc.data().game_state;
+          if (state && state.completed) {
+            state.completed = state.completed.filter(id => id !== chapterId);
+            await updateDoc(studentRef, { game_state: state });
           }
         }
         
-        leaderboardData.push({
-          ...stu,
-          totalPoints: stuPoints
-        });
-      });
-      
-      // Sort Leaderboard
-      leaderboardData.sort((a,b) => b.totalPoints - a.totalPoints);
-      
-      // Render Leaderboard
-      let lbHtml = '';
-      leaderboardData.forEach((s, idx) => {
-        let rankClass = idx === 0 ? 'rank-1' : (idx === 1 ? 'rank-2' : (idx === 2 ? 'rank-3' : 'rank-other'));
-        lbHtml += 
-          '<div class="student-rank-item">' +
-            '<div class="rank-badge ' + rankClass + '">' + (idx + 1) + '</div>' +
-            '<div class="student-avatar"><i class="' + s.avatar + '"></i></div>' +
-            '<div class="student-name">' + s.name + ' <div style="font-size:0.8rem; font-weight:normal; color:#64748b;">ID: ' + s.student_id + '</div></div>' +
-            '<div class="student-score">' + s.totalPoints + ' ⭐</div>' +
-          '</div>';
-      });
-      document.getElementById('leaderboardList').innerHTML = lbHtml;
+        // Delete submission entirely
+        const subId = \`\${studentUid}_\${chapterId}\`;
+        await deleteDoc(doc(db, "activity_submissions", subId));
+        
+        closeReviewModal();
+        initDashboard();
+        alert("❌ Submission rejected. It has been sent back to the student.");
+      } catch(e) {
+        console.error(e);
+        alert("Error rejecting submission.");
+      }
+    }
+  };
 
-
-      // Render Grading Queue
-      document.getElementById('pendingCountBadge').textContent = pendingReviews.length;
-      let revHtml = '';
-      if (pendingReviews.length === 0) {
-        revHtml = '<div class="text-center p-5"><i class="fas fa-glass-cheers text-success fa-3x mb-3"></i><h4>All Caught Up!</h4><p class="text-muted">You have reviewed all student answers.</p></div>';
-      } else {
-        pendingReviews.forEach(rev => {
-          let cTitle = getChapterTitle(rev.chapId);
-          revHtml += 
-            '<div class="review-item">' +
-              '<div class="d-flex align-items-center mb-2">' +
-                '<div class="student-avatar" style="width:30px; height:30px; font-size:1rem; margin-right:10px;"><i class="' + rev.student.avatar + '"></i></div>' +
-                '<strong style="font-size: 1.1rem; color: #1e293b;">' + rev.student.name + '</strong>' +
-                '<span class="ms-auto" style="font-size: 0.85rem; color: #64748b; background: white; padding: 2px 8px; border-radius: 10px; border: 1px solid #cbd5e1;">' + cTitle + '</span>' +
-              '</div>' +
-              '<div style="font-size:0.9rem; font-weight:bold; color:#0ea5e9;">Discussion Answer:</div>' +
-              '<div class="student-discussion-text">"' + rev.answer + '"</div>' +
-              '<div class="d-flex justify-content-between align-items-center mt-3">' +
-                '<button class="btn btn-outline-danger btn-sm rounded-pill"><i class="fas fa-undo"></i> Request Rewrite</button>' +
-                '<button class="btn-approve" onclick="awardTeacherPoints(\\'' + rev.student.student_id + '\\', \\'' + rev.chapId + '\\')"><i class="fas fa-star text-warning"></i> Mark Excellent (+50⭐)</button>' +
-              '</div>' +
-            '</div>';
+  function getChapterTitle(chapId) {
+    let title = chapId;
+    ['book1', 'book2', 'book3'].forEach(b => {
+      if(ACTIVITIES_DATA[b] && ACTIVITIES_DATA[b].chapters) {
+        Object.values(ACTIVITIES_DATA[b].chapters).forEach(c => {
+          if(c.id === chapId) title = c.title;
         });
       }
-      document.getElementById('reviewsList').innerHTML = revHtml;
+    });
+    return title;
+  }
 
-    } // end showDashboard
+    // Modal Logic
+    const modalHTML = 
+      '<div class="custom-modal-overlay" id="reviewModalOverlay">' +
+        '<div class="custom-modal" id="reviewModal">' +
+          '<button class="modal-close-btn" onclick="closeReviewModal()"><i class="fas fa-times"></i></button>' +
+          '<h3 style="font-family: \\'Fredoka One\\', cursive; color:#1e293b;"><i class="fas fa-clipboard-check text-primary"></i> Activity Sheet Review</h3>' +
+          '<p class="text-muted" id="rmStudentInfo" style="font-size: 0.9rem; margin-bottom: 20px;"></p>' +
+          '<h5 style="color:#D63678; font-weight:800; font-size:1rem;">Discussion Answer:</h5>' +
+          '<div class="student-discussion-text" id="rmDiscussion" style="background:#FDF8F5; border-color:#D63678;"></div>' +
+          '<h5 style="color:#D63678; font-weight:800; font-size:1rem; margin-top:15px;">Daily Action Grid Summary:</h5>' +
+          '<div class="grid-summary" id="rmGrid"></div>' +
+          '<h5 style="color:#D63678; font-weight:800; font-size:1rem; margin-top:15px;">Parent Feedback:</h5>' +
+          '<div class="grid-summary" id="rmParents" style="background: #FDF8F5; border-color:#E08020;"></div>' +
+          '<div class="text-center mt-4" id="rmActionBtn">' +
+            '<!-- Injected dynamically -->' +
+          '</div>' +
+        '</div>' +
+      '</div>';
     
-  });
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+
+    function generateGridHtml(chapId, gridState) {
+      let chapterData = null;
+      ['book1', 'book2', 'book3'].forEach(b => {
+        if(ACTIVITIES_DATA[b] && ACTIVITIES_DATA[b].chapters && ACTIVITIES_DATA[b].chapters[chapId]) {
+           chapterData = ACTIVITIES_DATA[b].chapters[chapId];
+        }
+      });
+      
+      if (!chapterData || !chapterData.sections) return '<p class="text-danger">Activity details not found.</p>';
+      
+      const statesList = ['', 'yes', 'no'];
+      const iconList = {
+        '': '<span style="color:#cbd5e1;">-</span>',
+        'yes': '<i class="fas fa-check-circle text-success fs-5"></i>',
+        'no': '<i class="fas fa-times-circle text-danger fs-5"></i>'
+      };
+
+      let htmlContent = '<div class="table-responsive"><table class="table table-bordered text-center align-middle" style="background:white; border-radius:10px; overflow:hidden;">';
+      htmlContent += '<thead style="background:#FDF8F5; font-family: \\'Fredoka One\\', cursive; color:#1E2D5A;"><tr><th class="text-start">Activity</th><th>M</th><th>T</th><th>W</th><th>T</th><th>F</th><th>S</th><th>S</th></tr></thead><tbody>';
+      
+      let cellIndex = 0;
+      chapterData.sections.forEach(section => {
+        htmlContent += '<tr style="background:rgba(214,54,120,0.05); font-weight:bold; color:#D63678;"><td colspan="8" class="text-start p-2">' + section.heading + '</td></tr>';
+        
+        section.questions.forEach(q => {
+          htmlContent += '<tr><td class="text-start fw-bold text-secondary p-2" style="font-size:0.85rem;">' + q + '</td>';
+          for (let d = 0; d < 7; d++) {
+             let stIdx = (gridState && gridState.cells && gridState.cells.length > cellIndex) ? gridState.cells[cellIndex] : 0;
+             htmlContent += '<td class="p-1">' + iconList[statesList[stIdx]] + '</td>';
+             cellIndex++;
+          }
+          htmlContent += '</tr>';
+        });
+      });
+      htmlContent += '</tbody></table></div>';
+      return htmlContent;
+    }
+
+    window.openReviewModal = (rawData) => {
+      let rev = JSON.parse(decodeURIComponent(rawData));
+      document.getElementById('rmStudentInfo').innerHTML = '<strong>' + rev.studentName + '</strong> &bull; ' + getChapterTitle(rev.chapId);
+      document.getElementById('rmDiscussion').innerText = rev.answer;
+      
+      let gridHtml = 'No grid data captured.';
+      if(rev.grid && rev.chapId) {
+        gridHtml = generateGridHtml(rev.chapId, rev.grid);
+      }
+      document.getElementById('rmGrid').innerHTML = gridHtml;
+
+      let parentHtml = '';
+      if(rev.parents && rev.parents.length > 0) {
+        let validNotes = rev.parents.filter(n => n.trim() !== '');
+        if(validNotes.length > 0) {
+           parentHtml = '<ul>' + validNotes.map(n => '<li>"' + n + '"</li>').join('') + '</ul>';
+        } else {
+           parentHtml = 'No parent notes provided.';
+        }
+      } else {
+        parentHtml = 'No parent notes provided.';
+      }
+      document.getElementById('rmParents').innerHTML = parentHtml;
+
+      document.getElementById('rmActionBtn').innerHTML = 
+        '<button class="btn btn-outline-danger px-4 rounded-pill fw-bold mb-2 me-2" onclick="rejectTeacherPoints(\\'' + rev.studentUid + '\\', \\'' + rev.chapId + '\\')"><i class="fas fa-undo"></i> Reject (Needs Changes)</button>' +
+        '<button class="btn btn-success px-4 rounded-pill fw-bold mb-2 shadow-sm" onclick="awardTeacherPoints(\\'' + rev.studentUid + '\\', \\'' + rev.chapId + '\\')"><i class="fas fa-star text-warning"></i> Mark Excellent & Award 50 ⭐</button>';
+
+      document.getElementById('reviewModalOverlay').style.display = 'flex';
+      document.getElementById('reviewModal').classList.add('animate__animated', 'animate__zoomIn');
+    };
+
+    window.closeReviewModal = () => {
+      document.getElementById('reviewModalOverlay').style.display = 'none';
+      document.getElementById('reviewModal').classList.remove('animate__animated', 'animate__zoomIn');
+    };
+    
 </script>
 `

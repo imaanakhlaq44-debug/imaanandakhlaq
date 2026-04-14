@@ -32,7 +32,7 @@ export const Footer = () => html`
             <div class="kfm-about">
               <!-- Using text instead of image for simple placeholder -->
               <h2 style="font-family: 'Fredoka One', cursive; color: #fff; margin-bottom: 20px;">Imaan & Akhlaq</h2>
-              <p>Bringing Islamic values to life through joyful storytelling, puppet shows, and educational adventures for children aged 5–12.</p>
+              <p>Bringing Islamic values to life through joyful storytelling, puppet shows, and educational adventures for children aged 5-12.</p>
               <div class="kfm-social">
                 <a href="https://www.facebook.com/ImaanAkhlaqTalks/" target="_blank"><i class="fab fa-facebook-f"></i></a>
                 <a href="https://twitter.com/ImaanAkhlaq" target="_blank"><i class="fab fa-twitter"></i></a>
@@ -46,11 +46,11 @@ export const Footer = () => html`
           <div class="col-sm-6 col-lg-3">
             <h4 class="kfm-title">Quick Links</h4>
             <ul class="kfm-links">
-              <li><a href="#home">Home</a></li>
-              <li><a href="#about">About Us</a></li>
-              <li><a href="#programs">Programs</a></li>
-              <li><a href="#stories">Stories</a></li>
-              <li><a href="#team">Teachers</a></li>
+              <li><a href="/#home">Home</a></li>
+              <li><a href="/about/intro.html">About Us</a></li>
+              <li><a href="/#programs">Programs</a></li>
+              <li><a href="/#stories">Stories</a></li>
+              <li><a href="/#team">Characters</a></li>
             </ul>
           </div>
 
@@ -68,7 +68,7 @@ export const Footer = () => html`
               </li>
               <li>
                 <i class="fas fa-phone"></i>
-                <span style="color: rgba(255,255,255,0.7)">+92 300 1234567</span>
+                <span style="color: rgba(255,255,255,0.7)">+92 339 0106475</span>
               </li>
             </ul>
           </div>
@@ -90,23 +90,31 @@ export const Footer = () => html`
       </iframe>
     </div>
 
-    <div class="kidba-footer-bottom">
-      &copy; 2026 Imaan & Akhlaq – An Ilm O Amal Initiative. All rights reserved.
+    <div class="kidba-footer-bottom px-4" style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;">
+      <span>&copy; 2026 Imaan & Akhlaq - An Ilm O Amal Initiative. All rights reserved.</span>
+      <div class="legal-links mt-2 mt-md-0">
+        <a href="/privacy.html" class="text-white-50 text-decoration-none mx-2 hover-white">Privacy Policy</a>
+        <a href="/terms.html" class="text-white-50 text-decoration-none mx-2 hover-white">Terms of Use</a>
+        <a href="/contact.html" class="text-white-50 text-decoration-none mx-2 hover-white">Contact Us</a>
+      </div>
     </div>
+    <style>
+      .hover-white:hover { color: #fff !important; }
+    </style>
 
   </footer>
 
   <!-- Bootstrap 5 JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/kidba_assets/vendor/js/bootstrap.bundle.min.js"></script>
 
   <!-- Swiper JS -->
-  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script src="/kidba_assets/vendor/js/swiper-bundle.min.js"></script>
 
   <!-- AOS Animation -->
-  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script src="/kidba_assets/vendor/js/aos.js"></script>
 
   <!-- Custom JS -->
-  <script src="/static/js/main.js"></script>
+  <script src="/kidba_assets/js/main.js"></script>
 </body>
 </html>
 `;

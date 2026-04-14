@@ -16,29 +16,52 @@ export const AboutSection = () => html`
       
       <!-- Left Image -->
       <div class="col-lg-6">
-        <div class="ka-image-wrap">
-          <img src="/static/img/akhlaq-front.jpg" alt="About Kindergarten" class="ka-main-img">
+        <style>
+          @keyframes akhlaqFloat {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-15px) scale(1.02); }
+          }
+          .akhlaq-anim {
+            animation: akhlaqFloat 4s ease-in-out infinite;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+          }
+          .akhlaq-anim:hover {
+            transform: scale(1.08) translateY(-10px) !important;
+            animation-play-state: paused;
+            filter: drop-shadow(0 30px 40px rgba(0,0,0,0.4)) !important;
+          }
+          
+          /* Slide In using global AOS */
+          [data-aos="akhlaq-walk"] {
+            opacity: 0;
+            transform: translateX(-100vw) rotate(-15deg);
+            transition-property: transform, opacity;
+          }
+          [data-aos="akhlaq-walk"].aos-animate {
+            opacity: 1;
+            transform: translateX(0) rotate(0deg);
+          }
+        </style>
+        <div class="ka-image-wrap" data-aos="akhlaq-walk" data-aos-duration="2000" data-aos-easing="ease-out-cubic">
+          <img src="./kidba_assets/img/akhlaq-front-nobg.png" alt="About Kindergarten" class="ka-main-img akhlaq-anim" style="filter: drop-shadow(0 20px 30px rgba(0,0,0,0.3)); max-width: 90%; transform-origin: bottom center;">
         </div>
       </div>
 
       <!-- Right Content -->
       <div class="col-lg-6">
         <div class="ka-content">
-          <h2>About Kindergarten School</h2>
+          <h2 style="font-family: 'Fredoka One', cursive; margin-bottom: 20px;">Transforming Learning into Living</h2>
           <p>
-            <strong>Imaan & Akhlaq</strong> is an educational initiative by <em>Ilm O Amal</em> that
-            brings Islamic values to life through beautifully crafted stories, puppet shows, and interactive
-            learning experiences for Grade 1–5 children.
+            <strong>Imaan & Akhlaq</strong> brings to life the inspiring journey of two siblings who guide young learners to live with courage, kindness, and integrity.
           </p>
           <p>
-            Our characters journey through stories inspired by the Prophets, teaching children about honesty, 
-            kindness, respect, and the love of Allah.
+            Designed as more than just a curriculum, the program offers a holistic learning experience that seamlessly blends structured books, engaging coloring activities, and prophetic storytelling with modern, interactive tools such as games, animations, and school-based clubs.
           </p>
 
           <ul class="ka-list">
-            <li>Prophet Stories: Adventures inspired by Quranic prophets.</li>
-            <li>Tarbiyah-Based: Islamic manners and daily life lessons.</li>
-            <li>Educator Approved: Reviewed by Islamic scholars & teachers.</li>
+            <li><strong>Prophetic Storytelling:</strong> Adventures inspired by timeless values.</li>
+            <li><strong>Integrated Approach:</strong> Books, animations, and puppet shows.</li>
+            <li><strong>Nationwide Impact:</strong> Launching nationwide in 2026!</li>
           </ul>
 
           <a href="#programs" class="btn-kidba-orange mt-3">

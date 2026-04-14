@@ -37,7 +37,7 @@ export const Contact = () => html`\n<!-- ===== CONTACT ===== -->\n
               </div>
               <div class="cip-text">
                 <h6>Call Us</h6>
-                <p>+92 300 1234567</p>
+                <p>+92 339 0106475</p>
               </div>
             </div>
             <div class="cip-item">

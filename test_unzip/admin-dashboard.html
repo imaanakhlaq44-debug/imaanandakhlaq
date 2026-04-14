@@ -1,0 +1,938 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Imaan & Akhlaq - Islamic Stories & Education for Kids</title>
+  <meta name="description" content="Imaan & Akhlaq - Fun Islamic stories, puppet shows, and educational programs teaching faith, manners, and good character to children." />
+  <meta property="og:title" content="Imaan & Akhlaq - Islamic Education for Kids" />
+  <meta property="og:description" content="Join Imaan and Akhlaq on magical adventures learning about Islam, Prophets, and good manners!" />
+  <meta property="og:type" content="website" />
+  <link rel="icon" type="image/jpeg" href="/kidba_assets/favicon.jpg" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap 5 -->
+  <link rel="stylesheet" href="/kidba_assets/vendor/css/bootstrap.min.css" />
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="/kidba_assets/vendor/css/all.min.css" />
+
+  <!-- Animate.css -->
+  <link rel="stylesheet" href="/kidba_assets/vendor/css/animate.min.css" />
+
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="/kidba_assets/vendor/css/swiper-bundle.min.css" />
+
+  <!-- AOS CSS -->
+  <link rel="stylesheet" href="/kidba_assets/vendor/css/aos.css" />
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/kidba_assets/css/style.css">
+</head>
+<body>
+
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
+
+  .admin-page {
+    background: #F5F1EE; /* Light Tan background */
+    font-family: 'Nunito', sans-serif;
+    color: #334155;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+  }
+
+  /* Login Styling (Keeping simple light theme) */
+  .login-wrapper {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #F5F1EE;
+  }
+  .login-card {
+    background: #ffffff;
+    padding: 3rem;
+    border-radius: 30px;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 100%;
+    max-width: 450px;
+  }
+  .input-light {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    font-size: 1.5rem;
+    letter-spacing: 0.5rem;
+    text-align: center;
+    font-family: monospace;
+    transition: all 0.3s;
+    outline: none;
+    background: #f8fafc;
+    color: #334155;
+    margin-bottom: 20px;
+  }
+  .btn-primary-light {
+    width: 100%;
+    background: #D63678;
+    color: white;
+    border: none;
+    padding: 14px;
+    border-radius: 15px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-primary-light:hover { background: #E08010; transform: translateY(-2px); }
+
+  /* App Container */
+  .app-container {
+    background: #ffffff;
+    width: 100%;
+    max-width: 1400px;
+    height: 90vh;
+    border-radius: 30px;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Top Navigation */
+  .top-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background: #ffffff;
+    border-bottom: 1px solid #f1f5f9;
+  }
+  .nav-brand {
+    display: flex;
+    gap: 4px;
+    font-size: 1.2rem;
+  }
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .nav-links li {
+    font-weight: 600;
+    color: #94a3b8;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: color 0.2s;
+  }
+  .nav-links li:hover { color: #334155; }
+  .nav-links li.active { color: #1e293b; font-weight: 800; }
+  
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    color: #64748b;
+  }
+  .avatar-mini {
+    width: 35px; height: 35px; border-radius: 50%; object-fit: cover; background: #e2e8f0;
+  }
+
+  /* Main Content Area */
+  .main-content {
+    padding: 2rem 3rem;
+    overflow-y: auto;
+    flex-grow: 1;
+    background: #f8fafc;
+  }
+  
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+  .section-title {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #1e293b;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  .dropdown-btn {
+    border: none; background: transparent; color: #64748b; font-weight: 600; font-size: 0.9rem; cursor: pointer;
+  }
+  
+  /* Hero Cards Grid */
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 3rem;
+  }
+  
+  .hero-card {
+    border-radius: 24px;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .card-white {
+    background: #ffffff;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.03);
+    border: 1px solid #f1f5f9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+  }
+  
+  .stat-block { text-align: center; }
+  .stat-title { font-size: 0.9rem; font-weight: 700; color: #64748b; margin-bottom: 5px; }
+  .stat-value-large { font-size: 3rem; font-weight: 800; color: #1e293b; line-height: 1; }
+  
+  .card-green { background: linear-gradient(135deg, #1E2D5A, #D63678); color: #ffffff; }
+  .card-yellow { background: linear-gradient(135deg, #E08020, #C99A6B); color: #ffffff; }
+  .card-orange { background: linear-gradient(135deg, #D63678, #E08020); color: #ffffff; }
+  
+  .tall-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .tall-stat { font-size: 3.5rem; font-weight: 800; margin: 0; line-height: 1; }
+  .tall-label { font-size: 0.85rem; font-weight: 600; opacity: 0.9; margin-top: 10px; }
+
+  /* Pill Table */
+  .table-header-row {
+    display: flex;
+    padding: 0 2rem 10px 2rem;
+    color: #64748b;
+    font-weight: 700;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+  }
+  .col-1 { flex: 2; }
+  .col-2 { flex: 1; text-align: center; }
+  .col-3 { flex: 2; text-align: center; }
+  .col-4 { flex: 1; text-align: center; }
+  .col-5 { flex: 1; text-align: center; }
+  .col-6 { flex: 1; text-align: center; }
+  .col-actions { flex: 1; text-align: right; }
+
+  .pill-row {
+    display: flex;
+    align-items: center;
+    padding: 1rem 2rem;
+    border-radius: 20px;
+    margin-bottom: 15px;
+    background: #ffffff;
+    font-weight: 700;
+    color: #334155;
+    transition: transform 0.2s;
+  }
+  .pill-row:hover { transform: scale(1.01); }
+
+  .row-peach { background: #FDF0F6; }
+  .row-yellow { background: #FDF8F5; }
+  .row-green { background: #F5F1EE; }
+
+  .progress-bar-container {
+    background: #ffffff;
+    border-radius: 20px;
+    height: 35px;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+  }
+  .progress-fill {
+    height: 100%;
+    position: absolute; left: 0; top: 0; z-index: 1;
+    border-radius: 20px;
+  }
+  .progress-text {
+    position: relative; z-index: 2; margin-left: 15px; font-weight: 800;
+  }
+
+  .circle-badge {
+    width: 30px; height: 30px; border-radius: 50%; display: inline-flex; justify-content: center; align-items: center; color: white; font-size: 0.85rem; font-weight: 800; margin: 0 5px;
+  }
+  .bg-orange { background: #E08020; }
+  .bg-yellow { background: #C99A6B; }
+  .bg-green { background: #D63678; }
+
+  .action-btn {
+    background: transparent; border: none; cursor: pointer; font-size: 1rem; color: #94a3b8; padding: 5px; transition: color 0.2s;
+  }
+  .action-btn:hover { color: #334155; }
+  .action-btn.delete:hover { color: #ef4444; }
+
+  /* Modals */
+  .modal-overlay {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(30, 41, 59, 0.4); backdrop-filter: blur(4px); display: flex; justify-content: center; align-items: center; z-index: 999;
+  }
+  .modal-content {
+    background: #ffffff; padding: 30px; border-radius: 24px; width: 450px; box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+  }
+  .form-group { margin-bottom: 15px; text-align: left; }
+  .form-group label { display: block; font-weight: 700; margin-bottom: 5px; color: #64748b; font-size: 0.9rem; }
+  .form-input { width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 12px; background: #f8fafc; color: #334155; font-weight: 600; outline: none; }
+  .form-input:focus { border-color: #3b82f6; }
+  
+  .btn-outline-light { background: transparent; border: 2px solid #e2e8f0; color: #64748b; padding: 10px 20px; border-radius: 12px; font-weight: 700; cursor: pointer; }
+  .btn-solid { background: #3b82f6; color: white; border: none; padding: 10px 20px; border-radius: 12px; font-weight: 700; cursor: pointer; }
+
+  .fade-in { animation: fadeIn 0.3s ease; }
+  @keyframes fadeIn { from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
+</style>
+
+<!-- LOGIN VIEW -->
+<div id="adminLoginView" class="login-wrapper">
+  <div class="login-card">
+    <div style="font-size: 3rem; color: #D63678; margin-bottom: 1rem;"><i class="fas fa-school"></i></div>
+    <h2 style="font-weight: 800; color: #1e293b; margin-bottom: 5px; font-size: 2rem;">School Admin</h2>
+    <p style="color: #64748b; margin-bottom: 30px; font-weight: 600;">Manage Your Classes Safely.</p>
+    
+    <div style="background: #FDF0F6; padding: 10px; border-radius: 12px; margin-bottom: 20px; font-size: 0.85rem; color: #D63678; border: 2px dashed #D63678; font-weight: 700;">
+      Demo PIN: 9999
+    </div>
+
+    <input type="password" id="adminPinInput" class="input-light mb-4" maxlength="4" placeholder="••••">
+    <button class="btn-primary-light" onclick="attemptAdminLogin()">Log In</button>
+  </div>
+</div>
+
+<!-- DASHBOARD VIEW -->
+<div id="adminDashboardView" class="admin-page d-none">
+  
+  <div class="app-container">
+    <!-- TOP NAV -->
+    <div class="top-nav">
+      <div class="nav-brand">
+        <i class="fas fa-plus" style="color:#ef4444;"></i>
+        <i class="fas fa-minus" style="color:#fbbf24;"></i>
+        <i class="fas fa-times" style="color:#84cc16;"></i>
+        <i class="fas fa-divide" style="color:#3b82f6;"></i>
+      </div>
+      <ul class="nav-links">
+        <li class="active" id="nav-overview" onclick="switchAdminTab('overview')">Dashboard</li>
+        <li id="nav-teachers" onclick="switchAdminTab('teachers')">Teachers</li>
+        <li id="nav-students" onclick="switchAdminTab('students')">Students</li>
+        <li id="nav-attendance" onclick="switchAdminTab('attendance')">Attendance</li>
+        <li id="nav-settings" onclick="switchAdminTab('settings')">Settings</li>
+      </ul>
+      <div class="nav-actions">
+        <i class="far fa-heart" style="cursor:pointer;"></i>
+        <div style="position:relative; cursor:pointer;">
+          <i class="far fa-bell"></i>
+          <span style="position:absolute; top:-5px; right:-8px; background:#ef4444; color:white; font-size:0.6rem; font-weight:800; width:15px; height:15px; display:flex; justify-content:center; align-items:center; border-radius:50%; border:2px solid white;">3</span>
+        </div>
+        <img src="https://ui-avatars.com/api/?name=Admin&background=8b5cf6&color=fff" class="avatar-mini ms-3">
+        <button class="btn-outline-light ms-2" style="padding:4px 8px; font-size:0.8rem;" onclick="location.reload()"><i class="fas fa-sign-out-alt"></i></button>
+      </div>
+    </div>
+
+    <!-- MAIN AREA -->
+    <div class="main-content">
+      
+      <!-- OVERVIEW TAB -->
+      <div id="tab-overview" class="fade-in">
+        <div class="section-header">
+          <h1 class="section-title">Dashboard <button class="dropdown-btn">All Classes <i class="fas fa-chevron-down ms-1"></i></button></h1>
+          <div style="display:flex; align-items:center; gap:10px;">
+            <span style="font-size:0.85rem; font-weight:700; color:#64748b;"><i class="fas fa-bolt text-warning"></i> Alerts <span style="background:#ef4444; color:white; padding:2px 8px; border-radius:10px; margin-left:5px;">0</span></span>
+            <i class="fas fa-th ms-2 text-muted" style="cursor:pointer;"></i>
+          </div>
+        </div>
+
+        <div class="hero-grid">
+          <div class="hero-card card-white">
+            <div class="stat-block" style="text-align:left;">
+              <div class="stat-title">Overall Class Score</div>
+              <div class="stat-value-large" id="statPoints">68%</div>
+              <div style="font-size:0.8rem; font-weight:700; color:#94a3b8; margin-top:5px;">Grade average 71%</div>
+            </div>
+            <div>
+               <i class="fas fa-trophy" style="font-size: 6rem; color: #a3e635; filter: drop-shadow(0 10px 10px rgba(132, 204, 22, 0.2));"></i>
+            </div>
+            <div class="stat-block ms-4" style="text-align:left;">
+              <div class="stat-title">Work Assigned</div>
+              <div class="stat-value-large" id="statTotalPop">36</div>
+              <div style="font-size:0.8rem; font-weight:700; color:#94a3b8; margin-top:5px;">Grade average 38%</div>
+            </div>
+          </div>
+          
+          <div class="hero-card card-green tall-card" style="border-radius: 20px 0 0 20px; margin-right: -15px;">
+            <img src="https://ui-avatars.com/api/?name=Teachers&background=fff&color=84cc16" style="width:30px; border-radius:50%; position:absolute; top:15px; left:15px;">
+            <div class="tall-stat" id="statTeachers">5</div>
+            <div class="tall-label">20%<br>of class<br><span style="opacity:0.7; font-size:0.7rem;">grade avg: 23%</span></div>
+          </div>
+          
+          <div class="hero-card card-yellow tall-card" style="border-radius: 20px; position:relative; z-index:2; box-shadow:0 0 20px rgba(0,0,0,0.1);">
+            <img src="https://ui-avatars.com/api/?name=Students&background=fff&color=fbbf24" style="width:30px; border-radius:50%; position:absolute; top:15px; left:15px;">
+            <div class="tall-stat" id="statStudents" style="color:#1e293b;">10</div>
+            <div class="tall-label" style="color:#1e293b;">40%<br>of class<br><span style="opacity:0.7; font-size:0.7rem;">grade avg: 50%</span></div>
+          </div>
+          
+          <div class="hero-card card-orange tall-card" style="border-radius: 0 20px 20px 0; margin-left: -15px;">
+            <img src="https://ui-avatars.com/api/?name=St&background=fff&color=fb923c" style="width:30px; border-radius:50%; position:absolute; top:15px; right:15px;">
+            <div class="tall-stat">5</div>
+            <div class="tall-label">20%<br>of class<br><span style="opacity:0.7; font-size:0.7rem;">grade avg: 15%</span></div>
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h2 style="font-size:1.2rem; font-weight:800; margin:0; color:#1e293b;">Students Proficiency</h2>
+          <div style="font-size:0.85rem; font-weight:700; color:#94a3b8; display:flex; gap:20px;">
+            <span style="color:#334155;"><i class="far fa-clock"></i> Learning Objectives</span>
+            <span>All Strands</span>
+          </div>
+        </div>
+        
+        <div class="table-header-row mb-2">
+          <div class="col-1">Full Name <i class="fas fa-chevron-up ms-1"></i></div>
+          <div class="col-2">Work Completed</div>
+          <div class="col-3">Average Score <i class="fas fa-chevron-down ms-1"></i></div>
+          <div class="col-4">Needing Attention</div>
+          <div class="col-5">Working Towards</div>
+          <div class="col-6">Mastered</div>
+        </div>
+        <div id="studentTableBody">
+          <!-- Loaded via JS -->
+        </div>
+
+      </div>
+
+      <!-- TEACHERS TAB -->
+      <div id="tab-teachers" class="fade-in d-none">
+        <div class="section-header">
+          <h1 class="section-title">Teachers Hub</h1>
+          <button class="btn-solid" onclick="openModal('teacherModal')"><i class="fas fa-plus me-2"></i> Add Teacher</button>
+        </div>
+        
+        <div class="table-header-row">
+          <div class="col-1">Full Name</div>
+          <div class="col-3">Assigned Class</div>
+          <div class="col-2">Invitation Code</div>
+          <div class="col-2">Status</div>
+          <div class="col-actions"></div>
+        </div>
+        <div id="teacherTableBody">
+          <!-- Loaded via JS -->
+        </div>
+      </div>
+
+      <!-- STUDENTS TAB (Main Student Directory) -->
+      <div id="tab-students" class="fade-in d-none">
+        <div class="section-header">
+          <h1 class="section-title">Students Directory</h1>
+          <button class="btn-solid" style="background:#84cc16;" onclick="openModal('studentModal')"><i class="fas fa-user-plus me-2"></i> Enroll Student</button>
+        </div>
+        
+        <div class="table-header-row mb-2">
+          <div class="col-1">Full Name</div>
+          <div class="col-2">Class</div>
+          <div class="col-2">Student Code</div>
+          <div class="col-2">Parent Code</div>
+          <div class="col-actions"></div>
+        </div>
+        <div id="studentDirectoryBody">
+          <!-- Loaded via JS -->
+        </div>
+      </div>
+
+      <!-- ATTENDANCE TAB -->
+      <div id="tab-attendance" class="fade-in d-none">
+        <div class="section-header">
+          <h1 class="section-title">Automated Attendance</h1>
+          <div style="background:white; padding:10px 20px; border-radius:15px; box-shadow:0 10px 25px rgba(0,0,0,0.03); font-weight:800; color:#3b82f6;">
+            <i class="far fa-calendar-alt"></i> <span id="currentDateDisplay">Date Here</span>
+          </div>
+        </div>
+        
+        <div class="hero-grid" style="grid-template-columns: 1fr 1fr; margin-bottom:2rem;">
+          <div class="hero-card card-green" style="display:flex; justify-content:space-between; align-items:center;">
+             <div>
+                <div class="tall-stat" id="attPresent">0</div>
+                <div class="tall-label">Total Present Today</div>
+             </div>
+             <i class="fas fa-check-circle" style="font-size:4rem; opacity:0.3;"></i>
+          </div>
+          <div class="hero-card card-green" style="display:flex; justify-content:space-between; align-items:center;">
+             <div>
+                <div class="tall-stat" id="attAbsent">0</div>
+                <div class="tall-label">Total Absent</div>
+             </div>
+             <i class="fas fa-times-circle" style="font-size:4rem; opacity:0.3;"></i>
+          </div>
+        </div>
+
+        <div class="table-header-row mb-2">
+          <div class="col-1">Student Name</div>
+          <div class="col-2">Class</div>
+          <div class="col-3">Last Active</div>
+          <div class="col-2">Auto Status</div>
+          <div class="col-actions">Override</div>
+        </div>
+        <div id="attendanceTableBody">
+          <!-- Loaded via JS -->
+        </div>
+      </div>
+
+      <!-- SETTINGS TAB -->
+      <div id="tab-settings" class="fade-in d-none">
+        <div class="section-header">
+          <h1 class="section-title">Platform Settings</h1>
+        </div>
+        <div style="background:white; border-radius:24px; padding:2rem; max-width:500px; box-shadow:0 10px 25px rgba(0,0,0,0.03);">
+          <div class="form-group mb-4">
+            <label>School Name</label>
+            <input type="text" class="form-input" id="setSchoolName" disabled value="SEERAHT Demo School">
+          </div>
+          <div class="form-group mb-4">
+            <label>Admin Email</label>
+            <input type="email" class="form-input" disabled value="admin@seeraht.demo">
+          </div>
+          <button class="btn-solid" style="opacity:0.6; cursor:not-allowed;">Save Settings</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- MODALS -->
+<div id="teacherModal" class="modal-overlay d-none">
+  <div class="modal-content">
+    <h3 style="margin-top:0; font-weight:800;">Add New Teacher</h3>
+    <div class="form-group mt-3">
+      <label>Full Name</label>
+      <input type="text" id="newTchName" class="form-input" placeholder="e.g. Muallima Fatima">
+    </div>
+    <div class="form-group">
+      <label>Assign Class</label>
+      <select id="newTchClass" class="form-input">
+        <option value="Class 1">Class 1</option>
+        <option value="Class 2">Class 2</option>
+        <option value="Class 3">Class 3</option>
+      </select>
+    </div>
+    <div class="d-flex justify-content-end gap-2 mt-4">
+      <button class="btn-outline-light" onclick="closeModal('teacherModal')">Cancel</button>
+      <button class="btn-solid" onclick="mockAddTeacher()">Create Profile</button>
+    </div>
+  </div>
+</div>
+
+<div id="studentModal" class="modal-overlay d-none">
+  <div class="modal-content">
+    <h3 style="margin-top:0; font-weight:800;">Enroll Student</h3>
+    <div class="form-group mt-3">
+      <label>Student Name</label>
+      <input type="text" id="newStuName" class="form-input" placeholder="e.g. Umar">
+    </div>
+    <div class="form-group">
+      <label>Assign Class</label>
+      <select id="newStuClass" class="form-input">
+        <option value="Class 1">Class 1</option>
+        <option value="Class 2">Class 2</option>
+        <option value="Class 3">Class 3</option>
+      </select>
+    </div>
+    <div class="d-flex justify-content-end gap-2 mt-4">
+      <button class="btn-outline-light" onclick="closeModal('studentModal')">Cancel</button>
+      <button class="btn-solid" style="background:#D63678;" onclick="mockAddStudent()">Enroll & Codes</button>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Teacher Modal -->
+<div id="editTeacherModal" class="modal-overlay d-none">
+  <div class="modal-content">
+    <h3 style="margin-top:0; font-weight:800;">Edit Teacher</h3>
+    <input type="hidden" id="editTchId">
+    <div class="form-group mt-3">
+      <label>Full Name</label>
+      <input type="text" id="editTchName" class="form-input">
+    </div>
+    <div class="form-group">
+      <label>Assign Class</label>
+      <select id="editTchClass" class="form-input">
+        <option value="Class 1">Class 1</option>
+        <option value="Class 2">Class 2</option>
+        <option value="Class 3">Class 3</option>
+      </select>
+    </div>
+    <div class="d-flex justify-content-end gap-2 mt-4">
+      <button class="btn-outline-light" onclick="closeModal('editTeacherModal')">Cancel</button>
+      <button class="btn-solid" onclick="saveEditTeacher()">Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Student Modal -->
+<div id="editStudentModal" class="modal-overlay d-none">
+  <div class="modal-content">
+    <h3 style="margin-top:0; font-weight:800;">Edit Student</h3>
+    <input type="hidden" id="editStuId">
+    <div class="form-group mt-3">
+      <label>Student Name</label>
+      <input type="text" id="editStuName" class="form-input">
+    </div>
+    <div class="form-group">
+      <label>Assign Class</label>
+      <select id="editStuClass" class="form-input">
+        <option value="Class 1">Class 1</option>
+        <option value="Class 2">Class 2</option>
+        <option value="Class 3">Class 3</option>
+      </select>
+    </div>
+    <div class="d-flex justify-content-end gap-2 mt-4">
+      <button class="btn-outline-light" onclick="closeModal('editStudentModal')">Cancel</button>
+      <button class="btn-solid" style="background:#84cc16;" onclick="saveEditStudent()">Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<!-- Code Success Modal -->
+<div id="codeSuccessModal" class="modal-overlay d-none">
+  <div class="modal-content" style="text-align:center;">
+    <div style="font-size:3rem; color:#84cc16; margin-bottom:15px;"><i class="fas fa-check-circle"></i></div>
+    <h3 id="codeSuccessTitle" style="margin-top:0; font-weight:800;">Success!</h3>
+    <p id="codeSuccessDesc" style="color:#64748b; font-size:0.95rem; font-weight:700;"></p>
+    <div id="codeSuccessBody"></div>
+    <button class="btn-solid mt-4 w-100" onclick="closeModal('codeSuccessModal')">Done</button>
+  </div>
+</div>
+
+<script>
+  (() => {
+    let DB = JSON.parse(localStorage.getItem('imaan_auth_db') || 'null');
+    if (!DB) {
+      DB = { schools:[], school_admins:[], teachers:[], parents:[], students:[], users:[], invitation_codes:[] };
+    }
+    function saveDB() { localStorage.setItem('imaan_auth_db', JSON.stringify(DB)); }
+    function genCode(prefix) { return prefix + '-' + Math.random().toString(36).substr(2,5).toUpperCase(); }
+
+    const loginView = document.getElementById('adminLoginView');
+    const dashboardView = document.getElementById('adminDashboardView');
+    const session = sessionStorage.getItem('admin_session');
+    
+    if (session) {
+      loginView.classList.add('d-none');
+      showDashboard(JSON.parse(session));
+    } else {
+      loginView.classList.remove('d-none');
+      dashboardView.classList.add('d-none');
+    }
+    
+    window.attemptAdminLogin = () => {
+      const input = document.getElementById('adminPinInput').value;
+      if (input === '9999') {
+         const dummySession = {
+           schoolId: 'sch_demo_01',
+           schoolName: 'SEERAHT Demo',
+           adminName: 'Principal Administrator'
+         };
+         sessionStorage.setItem('admin_session', JSON.stringify(dummySession));
+         loginView.classList.add('d-none');
+         showDashboard(dummySession);
+      } else {
+         alert('Invalid Demo PIN. Use 9999');
+      }
+    };
+    
+    function showDashboard(sessionData) {
+      dashboardView.classList.remove('d-none');
+      document.body.style.margin = '0';
+      
+      DB = JSON.parse(localStorage.getItem('imaan_auth_db') || '{}');
+      const teachers = (DB.teachers||[]).filter(t => t.school_id === sessionData.schoolId);
+      const students = (DB.students||[]).filter(s => s.school_id === sessionData.schoolId);
+      
+      let totalSchoolPoints = 0;
+      students.forEach(s => totalSchoolPoints += (s.base_points||0));
+      let gameState = JSON.parse(localStorage.getItem('imaan_game_state') || '{"coins":0}');
+      totalSchoolPoints += (gameState.coins || 0);
+
+      document.getElementById('statTeachers').textContent = Math.max(1, teachers.length);
+      document.getElementById('statStudents').textContent = Math.max(1, students.length);
+      document.getElementById('statPoints').textContent = (totalSchoolPoints > 0 ? totalSchoolPoints : 68) + '%';
+      document.getElementById('statTotalPop').textContent = (teachers.length + students.length > 0) ? (teachers.length + students.length) : 36;
+
+      const themeColors = ['row-peach', 'row-yellow', 'row-green'];
+      const bgColors = ['#fb923c', '#fbbf24', '#4ade80'];
+
+      // Render Teachers
+      let tchHtml = '';
+      teachers.forEach((t, i) => {
+        const motif = themeColors[i % 3];
+        const color = bgColors[i % 3];
+        const code = t.invitation_code || 'N/A';
+        const inv = (DB.invitation_codes||[]).find(c => c.code === code);
+        const status = inv ? (inv.status === 'used' ? '<span style="color:#22c55e;">Registered</span>' : '<span style="color:#f59e0b;">Pending</span>') : '<span style="color:#94a3b8;">—</span>';
+        tchHtml += '<div class="pill-row ' + motif + '">' +
+          '<div class="col-1 d-flex align-items-center gap-3"><img src="https://ui-avatars.com/api/?name=' + t.name.replace(' ', '+') + '&background=fff&color=' + color.replace('#','') + '" style="border-radius:50%; width:40px;">' + t.name + '</div>' +
+          '<div class="col-3"><span style="background:rgba(255,255,255,0.7); padding:5px 12px; border-radius:20px; font-weight:800;">' + t.assigned_class + '</span></div>' +
+          '<div class="col-2"><code style="background:rgba(255,255,255,0.7); padding:4px 8px; border-radius:8px; font-size:0.8rem;">' + code + '</code></div>' +
+          '<div class="col-2">' + status + '</div>' +
+          '<div class="col-actions">' + 
+            '<button class="action-btn" onclick="editTeacher(\'' + t.teacher_id + '\')"><i class="fas fa-edit"></i></button>' +
+            '<button class="action-btn delete ms-2" onclick="deleteTeacher(\'' + t.teacher_id + '\')"><i class="fas fa-trash"></i></button>' +
+          '</div></div>';
+      });
+      document.getElementById('teacherTableBody').innerHTML = tchHtml || '<div style="text-align:center; padding:2rem; color:#94a3b8; font-weight:700;">No teachers added yet.</div>';
+
+      // Render Students Directory
+      let stuDirHtml = '';
+      students.forEach((s, i) => {
+        const motif = themeColors[(i+1) % 3];
+        const color = bgColors[(i+1) % 3];
+        const stuCode = s.invitation_code || 'N/A';
+        const parInv = (DB.invitation_codes||[]).find(c => c.type === 'parent' && c.linked_student_code === stuCode);
+        const parCode = parInv ? parInv.code : 'N/A';
+
+        stuDirHtml += '<div class="pill-row ' + motif + '">' +
+          '<div class="col-1 d-flex align-items-center gap-3"><img src="https://ui-avatars.com/api/?name=' + s.name.replace(' ', '+') + '&background=fff&color=' + color.replace('#','') + '" style="border-radius:50%; width:40px;">' + s.name + '</div>' +
+          '<div class="col-2"><span style="background:rgba(255,255,255,0.7); padding:5px 12px; border-radius:20px; font-weight:800;">' + s.class_id + '</span></div>' +
+          '<div class="col-2"><code style="background:rgba(255,255,255,0.7); padding:4px 8px; border-radius:8px; font-size:0.8rem;">St: ' + stuCode + '</code></div>' +
+          '<div class="col-2"><code style="background:rgba(255,255,255,0.7); padding:4px 8px; border-radius:8px; font-size:0.8rem;">Pa: ' + parCode + '</code></div>' +
+          '<div class="col-actions">' + 
+            '<button class="action-btn" onclick="editStudent(\'' + s.student_id + '\')"><i class="fas fa-edit"></i></button>' +
+            '<button class="action-btn delete ms-2" onclick="deleteStudent(\'' + s.student_id + '\')"><i class="fas fa-trash"></i></button>' +
+          '</div></div>';
+      });
+      document.getElementById('studentDirectoryBody').innerHTML = stuDirHtml || '<div style="text-align:center; padding:2rem; color:#94a3b8; font-weight:700;">No students enrolled yet.</div>';
+
+
+      // Render Overview "Students Proficiency" Dashboard Table (Matches Image)
+      let stuDashHtml = '';
+      let dummyData = [
+         { name: 'Sabine Klein', completed: '33/36', score: 23, bad1: 45, bad2: 8, bad3: 7, motif: 'row-peach', col: '#fb923c' },
+         { name: 'Dante Podenzana', completed: '31/36', score: 53, bad1: 6, bad2: 35, bad3: 19, motif: 'row-yellow', col: '#fbbf24' },
+         { name: 'Susan Chan', completed: '27/36', score: 82, bad1: 1, bad2: 14, bad3: 45, motif: 'row-green', col: '#4ade80' }
+      ];
+      
+      // Override with real students gracefully if they exist
+      const renderList = students.length > 0 ? students : dummyData;
+
+      renderList.forEach((s, i) => {
+        let isReal = s.student_id ? true : false;
+        
+        const motif = isReal ? themeColors[i % 3] : s.motif;
+        const color = isReal ? bgColors[i % 3] : s.col;
+        const n = isReal ? s.name : s.name;
+        
+        let pScore = isReal ? (20 + Math.floor(Math.random()*60)) : s.score;
+        let wkComp = isReal ? (10 + Math.floor(Math.random()*26)) + '/36' : s.completed;
+        
+        let b1 = isReal ? Math.floor(Math.random()*10) : s.bad1;
+        let b2 = isReal ? Math.floor(Math.random()*20) : s.bad2;
+        let b3 = isReal ? Math.floor(Math.random()*20) : s.bad3;
+
+        stuDashHtml += '<div class="pill-row ' + motif + '">' +
+          '<div class="col-1 d-flex align-items-center gap-3"><img src="https://ui-avatars.com/api/?name=' + n.replace(' ', '+') + '&background=fff&color=' + color.replace('#','') + '" style="border-radius:50%; width:40px;">' + n + '</div>' +
+          '<div class="col-2">' + wkComp + '</div>' +
+          '<div class="col-3"><div class="progress-bar-container"><div class="progress-fill" style="width:'+pScore+'%; background:'+color+'; opacity:0.8;"></div><span class="progress-text">' + pScore + '%</span></div></div>' +
+          '<div class="col-4"><span class="circle-badge bg-orange">' + b1 + '</span></div>' +
+          '<div class="col-5"><span class="circle-badge bg-yellow">' + b2 + '</span></div>' +
+          '<div class="col-6"><span class="circle-badge bg-green">' + b3 + '</span></div>' +
+          '</div>';
+      });
+      document.getElementById('studentTableBody').innerHTML = stuDashHtml;
+
+      // Render Attendance Table
+      let attHtml = '';
+      let presentCount = 0;
+      let absentCount = 0;
+      
+      const today = new Date().toISOString().split('T')[0];
+      const todayStr = new Date().toLocaleDateString('en-US', { day:'numeric', month:'short', year:'numeric' });
+      document.getElementById('currentDateDisplay').textContent = todayStr;
+
+      students.forEach((s, i) => {
+        const motif = themeColors[i % 3];
+        const color = bgColors[i % 3];
+        
+        // Mocking last active date based on index. In production: read s.last_active_date
+        const isPresent = (i % 3 !== 0); // Fake a 66% present rate for demo visualization
+        const statusHTML = isPresent 
+           ? '<span style="color:#22c55e; font-weight:800;"><i class="fas fa-check-circle"></i> Present</span>' 
+           : '<span style="color:#ef4444; font-weight:800;"><i class="fas fa-times-circle"></i> Absent</span>';
+        
+        if(isPresent) presentCount++; else absentCount++;
+
+        attHtml += '<div class="pill-row ' + motif + '">' +
+          '<div class="col-1 d-flex align-items-center gap-3"><img src="https://ui-avatars.com/api/?name=' + s.name.replace(' ', '+') + '&background=fff&color=' + color.replace('#','') + '" style="border-radius:50%; width:40px;">' + s.name + '</div>' +
+          '<div class="col-2"><span style="background:rgba(255,255,255,0.7); padding:5px 12px; border-radius:20px; font-weight:800;">' + s.class_id + '</span></div>' +
+          '<div class="col-3"><code style="background:rgba(255,255,255,0.7); padding:4px 8px; border-radius:8px; font-size:0.8rem;">' + (isPresent ? 'Today' : 'Yesterday') + '</code></div>' +
+          '<div class="col-2">' + statusHTML + '</div>' +
+          '<div class="col-actions">' + 
+            '<button class="action-btn" title="Manual Override"><i class="fas fa-sliders-h"></i></button>' +
+          '</div></div>';
+      });
+      document.getElementById('attendanceTableBody').innerHTML = attHtml || '<div style="text-align:center; padding:2rem; color:#94a3b8; font-weight:700;">No students enrolled yet.</div>';
+      document.getElementById('attPresent').textContent = presentCount;
+      document.getElementById('attAbsent').textContent = absentCount;
+    }
+
+    // Tools
+    window.openModal = (id) => { document.getElementById(id).classList.remove('d-none'); }
+    window.closeModal = (id) => { document.getElementById(id).classList.add('d-none'); }
+    window.copyCode = (code) => { navigator.clipboard.writeText(code); }
+
+    window.switchAdminTab = (tab) => {
+      ['overview', 'teachers', 'students', 'attendance', 'settings'].forEach(t => {
+        document.getElementById('tab-' + t).classList.add('d-none');
+        document.getElementById('nav-' + t).classList.remove('active');
+      });
+      document.getElementById('tab-' + tab).classList.remove('d-none');
+      document.getElementById('nav-' + tab).classList.add('active');
+    };
+
+    window.deleteTeacher = (tId) => {
+      if(!confirm('Delete this teacher?')) return;
+      DB = JSON.parse(localStorage.getItem('imaan_auth_db') || '{}');
+      DB.teachers = (DB.teachers||[]).filter(t => t.teacher_id !== tId);
+      saveDB();
+      showDashboard(JSON.parse(sessionStorage.getItem('admin_session')));
+    };
+
+    window.deleteStudent = (sId) => {
+      if(!confirm('Delete this student?')) return;
+      DB = JSON.parse(localStorage.getItem('imaan_auth_db') || '{}');
+      DB.students = (DB.students||[]).filter(s => s.student_id !== sId);
+      saveDB();
+      showDashboard(JSON.parse(sessionStorage.getItem('admin_session')));
+    };
+
+    window.editTeacher = (tId) => {
+      DB = JSON.parse(localStorage.getItem('imaan_auth_db') || '{}');
+      const teacher = (DB.teachers||[]).find(t => t.teacher_id === tId);
+      if(!teacher) return;
+      document.getElementById('editTchId').value = teacher.teacher_id;
+      document.getElementById('editTchName').value = teacher.name;
+      document.getElementById('editTchClass').value = teacher.assigned_class;
+      openModal('editTeacherModal');
+    };
+
+    window.saveEditTeacher = () => {
+      const id = document.getElementById('editTchId').value;
+      const name = document.getElementById('editTchName').value.trim();
+      const cls = document.getElementById('editTchClass').value;
+      if(!id || !name) return;
+      DB = JSON.parse(localStorage.getItem('imaan_auth_db') || '{}');
+      const idx = (DB.teachers||[]).findIndex(t => t.teacher_id === id);
+      if(idx > -1) { DB.teachers[idx].name = name; DB.teachers[idx].assigned_class = cls; saveDB(); }
+      closeModal('editTeacherModal');
+      showDashboard(JSON.parse(sessionStorage.getItem('admin_session')));
+    };
+
+    window.editStudent = (sId) => {
+      DB = JSON.parse(localStorage.getItem('imaan_auth_db') || '{}');
+      const student = (DB.students||[]).find(s => s.student_id === sId);
+      if(!student) return;
+      document.getElementById('editStuId').value = student.student_id;
+      document.getElementById('editStuName').value = student.name;
+      const classSelect = document.getElementById('editStuClass');
+      const options = Array.from(classSelect.options).map(o => o.value);
+      if (!options.includes(student.class_id)) { classSelect.add(new Option(student.class_id, student.class_id)); }
+      classSelect.value = student.class_id;
+      openModal('editStudentModal');
+    };
+
+    window.saveEditStudent = () => {
+      const id = document.getElementById('editStuId').value;
+      const name = document.getElementById('editStuName').value.trim();
+      const cls = document.getElementById('editStuClass').value;
+      if(!id || !name) return;
+      DB = JSON.parse(localStorage.getItem('imaan_auth_db') || '{}');
+      const idx = (DB.students||[]).findIndex(s => s.student_id === id);
+      if(idx > -1) { DB.students[idx].name = name; DB.students[idx].class_id = cls; saveDB(); }
+      closeModal('editStudentModal');
+      showDashboard(JSON.parse(sessionStorage.getItem('admin_session')));
+    };
+    
+    window.mockAddTeacher = () => {
+      const name = document.getElementById('newTchName').value.trim();
+      const cls = document.getElementById('newTchClass').value;
+      if(!name) return;
+      
+      DB = JSON.parse(localStorage.getItem('imaan_auth_db') || '{}');
+      const session = JSON.parse(sessionStorage.getItem('admin_session'));
+      const tchCode = genCode('TCH');
+      const tId = 'tch_' + Math.floor(Math.random()*1000);
+      
+      DB.teachers.push({ teacher_id:tId, school_id:session.schoolId, name:name, assigned_class:cls, email:'', phone:'', password:'', invitation_code:tchCode });
+      DB.invitation_codes.push({ code:tchCode, type:'teacher', school_id:session.schoolId, status:'unused', used_by:'', name:name, assigned_class:cls });
+      saveDB();
+      
+      closeModal('teacherModal');
+      document.getElementById('newTchName').value = '';
+      
+      document.getElementById('codeSuccessTitle').textContent = 'Teacher Added';
+      document.getElementById('codeSuccessDesc').textContent = 'Send this code to ' + name + '.';
+      document.getElementById('codeSuccessBody').innerHTML = 
+        '<div style="background:#f8fafc; border:2px dashed #cbd5e1; border-radius:15px; padding:15px; margin:15px 0;">' +
+        '<div style="font-size:0.8rem; color:#94a3b8; text-transform:uppercase; font-weight:800;">Teacher Code</div>' +
+        '<div style="font-family:monospace; font-size:2rem; font-weight:800; color:#3b82f6; letter-spacing:2px; margin:5px 0;">' + tchCode + '</div>' +
+        '<button class="btn-outline-light" onclick="navigator.clipboard.writeText(\'' + tchCode + '\');this.textContent=\'Copied!\'"><i class="fas fa-copy"></i> Copy</button></div>';
+      openModal('codeSuccessModal');
+      showDashboard(session);
+    };
+
+    window.mockAddStudent = () => {
+      const name = document.getElementById('newStuName').value.trim();
+      const cls = document.getElementById('newStuClass').value;
+      if(!name) return;
+      
+      DB = JSON.parse(localStorage.getItem('imaan_auth_db') || '{}');
+      const session = JSON.parse(sessionStorage.getItem('admin_session'));
+      const stuCode = genCode('STU');
+      const parCode = genCode('PAR');
+      const sId = 'stu_' + Math.floor(Math.random()*1000);
+      
+      DB.students.push({ student_id:sId, school_id:session.schoolId, class_id:cls, parent_id:'unassigned', name:name, age:8, avatar:'fas fa-user', base_points:0, email:'', phone:'', password:'', invitation_code:stuCode });
+      DB.invitation_codes.push({ code:stuCode, type:'student', school_id:session.schoolId, status:'unused', used_by:'', name:name, class_id:cls });
+      DB.invitation_codes.push({ code:parCode, type:'parent', school_id:session.schoolId, status:'unused', used_by:'', linked_student_code:stuCode });
+      saveDB();
+      
+      closeModal('studentModal');
+      document.getElementById('newStuName').value = '';
+      
+      document.getElementById('codeSuccessTitle').textContent = 'Student Enrolled';
+      document.getElementById('codeSuccessDesc').textContent = 'Share these codes for ' + name;
+      document.getElementById('codeSuccessBody').innerHTML =
+        '<div style="background:#fef9c3; border:2px dashed #fde047; border-radius:15px; padding:15px; margin:10px 0;">' +
+        '<div style="font-size:0.8rem; color:#a16207; text-transform:uppercase; font-weight:800;">Student Code</div>' +
+        '<div style="font-family:monospace; font-size:1.8rem; font-weight:800; color:#ca8a04; letter-spacing:2px; margin:5px 0;">' + stuCode + '</div>' +
+        '<button class="btn-outline-light" onclick="navigator.clipboard.writeText(\'' + stuCode + '\');this.textContent=\'Copied!\'"><i class="fas fa-copy"></i> Copy</button></div>' +
+        '<div style="background:#f0fdf4; border:2px dashed #86efac; border-radius:15px; padding:15px; margin:10px 0;">' +
+        '<div style="font-size:0.8rem; color:#166534; text-transform:uppercase; font-weight:800;">Parent Code</div>' +
+        '<div style="font-family:monospace; font-size:1.8rem; font-weight:800; color:#15803d; letter-spacing:2px; margin:5px 0;">' + parCode + '</div>' +
+        '<button class="btn-outline-light" onclick="navigator.clipboard.writeText(\'' + parCode + '\');this.textContent=\'Copied!\'"><i class="fas fa-copy"></i> Copy</button></div>';
+      openModal('codeSuccessModal');
+      showDashboard(session);
+    };
+
+  })();
+</script>

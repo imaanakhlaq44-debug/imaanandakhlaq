@@ -2,502 +2,429 @@ import { html } from 'hono/html'
 
 export const AuthPage = () => html`
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
   
   :root {
-    --bg: #161B22; /* Deep charcoal navy */
-    --bg-darker: #0d1117;
-    --neu-hl: rgba(255, 255, 255, 0.035);
-    --neu-sh: rgba(0, 0, 0, 0.6);
-    --neu-sh-soft: rgba(0, 0, 0, 0.4);
-    
-    /* Neumorphic Shadows */
-    --raised: -8px -8px 16px var(--neu-hl), 8px 8px 16px var(--neu-sh);
-    --raised-hover: -10px -10px 20px var(--neu-hl), 10px 10px 20px var(--neu-sh);
-    --raised-sm: -4px -4px 8px var(--neu-hl), 4px 4px 8px var(--neu-sh);
-    --inset: inset -4px -4px 8px var(--neu-hl), inset 4px 4px 8px var(--neu-sh);
-    --inset-deep: inset -6px -6px 12px var(--neu-hl), inset 6px 6px 12px var(--neu-sh);
-    
-    /* Active Glows */
-    --glow-orange: rgba(255, 120, 0, 0.4);
-    --glow-red: rgba(239, 68, 68, 0.4);
-    --brand-accent: #FF7800;
-    --brand-light: #FFA726;
-
-    /* Text */
-    --text-pri: #E2E8F0;
-    --text-sec: #8E9BAE;
+    --brand-pink:   #D63678;
+    --brand-orange: #E08020;
+    --brand-navy:   #1E2D5A;
+    --bg-color:     #f8fafc;
+    --card-bg:      #ffffff;
+    --border-color: #e2e8f0;
+    --text-pri:     #0f172a;
+    --text-sec:     #64748b;
+    --focus-ring:   rgba(214, 54, 120, 0.2);
   }
 
   * { margin:0; padding:0; box-sizing:border-box; }
   
+  body { background-color: var(--bg-color); }
+
   .auth-wrapper {
     min-height: 100vh;
-    background: var(--bg);
-    font-family: 'Inter', 'Segoe UI', sans-serif;
+    font-family: 'Inter', sans-serif;
     color: var(--text-pri);
-    position: relative;
-    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
   }
 
-  /* Soft Ambient Lights */
-  .orb { position:absolute; border-radius:50%; filter:blur(100px); pointer-events:none; z-index:0; }
-  .orb-1 { width:500px; height:500px; background:rgba(255,120,0,0.04); top:-100px; left:-100px; }
-  .orb-2 { width:400px; height:400px; background:rgba(255,255,255,0.02); bottom:-100px; right:-50px; }
-  .orb-3 { width:300px; height:300px; background:rgba(255,80,0,0.03); top:40%; left:30%; }
-
-  .auth-container { max-width:960px; margin:0 auto; padding:40px 20px; position:relative; z-index:1; }
-
-  /* Back link */
-  .back-link { display:inline-flex; align-items:center; gap:8px; color:var(--text-sec); text-decoration:none; font-size:0.9rem; margin-bottom:30px; transition:all .3s; }
-  .back-link:hover { color:var(--brand-light); text-shadow: 0 0 10px var(--glow-orange); }
-
-  /* Brand header */
-  .auth-brand { text-align:center; margin-bottom:50px; }
-  .auth-brand-icon {
-    display: inline-flex; align-items: center; justify-content: center;
-    width: 80px; height: 80px; border-radius: 20px;
-    background: var(--bg); box-shadow: var(--raised);
-    margin-bottom: 20px;
-  }
-  .auth-brand-icon i, .role-icon i, .success-icon i, .reset-overlay .fa-unlock-alt {
-    display: inline-block;
-    background: linear-gradient(135deg, #FFB74D, #F57C00);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.6)) drop-shadow(0 -1px 1px rgba(255,255,255,0.15));
-  }
-  .auth-brand-icon i { font-size: 2.8rem; }
-  
-  .auth-brand h1 { font-size:2.2rem; font-weight:800; color:var(--text-pri); margin-bottom:8px; letter-spacing:-0.5px; }
-  .auth-brand p { color:var(--text-sec); font-size:0.95rem; }
-
-  /* Section titles */
-  .section-title { font-size:1.3rem; font-weight:700; color:var(--text-pri); margin-bottom:8px; display:flex; align-items:center; gap:10px; }
-  .section-title i { color: var(--brand-accent); filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); }
-  .section-subtitle { color:var(--text-sec); font-size:0.9rem; margin-bottom:30px; }
-  .section-divider { height:2px; background:var(--bg); box-shadow:var(--inset); border-radius:2px; margin:50px 0; }
-
-  /* Role cards grid */
-  .role-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:20px; margin-bottom:10px; }
-  @media(max-width:640px){ .role-grid { grid-template-columns:1fr; } }
-
-  .role-card {
-    background: var(--bg);
-    border-radius: 20px;
-    padding: 28px 24px; cursor: pointer;
-    box-shadow: var(--raised);
-    transition: all .3s cubic-bezier(.4,0,.2,1);
-    position: relative; border: 1px solid transparent;
-  }
-  .role-card:hover { box-shadow: var(--raised-hover); transform: translateY(-3px); }
-  .role-card.active {
-    box-shadow: var(--inset);
-    border-color: rgba(255,120,0,0.3);
+  .auth-nav {
+    padding: 30px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 
-  .role-card-individual { grid-column: 1 / -1; }
-
-  .role-icon {
-    display: inline-flex; align-items: center; justify-content: center;
-    width: 60px; height: 60px; border-radius: 16px;
-    background: var(--bg); box-shadow: var(--raised-sm);
-    margin-bottom: 20px;
+  .back-link {
+    display: inline-flex; align-items: center; gap: 8px;
+    color: var(--text-sec); text-decoration: none; font-size: 0.95rem; font-weight: 500;
+    transition: color 0.2s;
   }
-  .role-icon i { font-size: 1.8rem; }
+  .back-link:hover { color: var(--brand-pink); }
 
-  .role-card.active .role-icon { box-shadow: var(--inset); }
+  .brand-logo { display:flex; align-items:center; gap:12px; text-decoration:none; color:var(--brand-navy); font-size:1.3rem; font-weight:800; font-family:'Fredoka One', cursive;}
+  .brand-logo i { background: linear-gradient(135deg, var(--brand-pink), var(--brand-orange)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 1.8rem; }
 
-  .trial-badge { display:inline-flex; align-items:center; gap:6px; background:var(--bg); color:var(--brand-light); padding:6px 14px; border-radius:20px; font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; box-shadow:var(--inset); margin-top:12px; }
-
-  .role-name { font-size:1.1rem; font-weight:700; color:var(--text-pri); margin-bottom:6px; }
-  .role-desc { font-size:0.85rem; color:var(--text-sec); line-height:1.5; }
-
-  /* Registration forms */
-  .reg-form-wrapper {
-    max-height:0; overflow:hidden; transition:max-height .5s cubic-bezier(.4,0,.2,1), opacity .3s;
-    opacity:0; margin-top:0;
+  .auth-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 20px 20px 60px;
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 60px;
+    width: 100%;
+    flex: 1;
   }
-  .reg-form-wrapper.open { max-height:1000px; opacity:1; margin-top:24px; }
 
-  .reg-form, .login-section {
-    background: var(--bg);
-    border-radius: 24px;
+  @media(max-width: 900px) {
+    .auth-container { grid-template-columns: 1fr; gap: 40px; }
+  }
+
+  /* Shared Container Styles */
+  .auth-box {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
     padding: 40px;
-    box-shadow: var(--raised);
-    border: 1px solid rgba(255,255,255,0.02);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
   }
-  .login-section { max-width: 480px; margin: 0 auto; box-shadow: var(--raised-hover); }
 
-  .reg-form h3, .login-section h3 { font-size:1.2rem; font-weight:800; color:var(--text-pri); margin-bottom:24px; display:flex; align-items:center; gap:10px; }
-  .reg-form h3 i, .login-section h3 i { color: var(--brand-accent); filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); }
-  .login-section .login-sub { color:var(--text-sec); font-size:0.9rem; margin-bottom:30px; text-align:center; }
-  .login-section h3 { justify-content: center; font-size: 1.4rem; }
+  .auth-box-title { font-size: 1.5rem; font-weight: 700; color: var(--text-pri); margin-bottom: 8px; letter-spacing: -0.5px; }
+  .auth-box-desc { font-size: 0.95rem; color: var(--text-sec); margin-bottom: 30px; line-height: 1.5; }
 
-  .form-row { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
-  @media(max-width:640px){ .form-row { grid-template-columns:1fr; gap:0; } }
-
-  .fg { margin-bottom:20px; position: relative; }
-  .fg label { display:block; font-size:0.8rem; font-weight:600; color:var(--text-sec); margin-bottom:8px; margin-left:4px; text-transform:uppercase; letter-spacing:0.5px; }
-  
-  .fg input, .fg select {
-    width: 100%; padding: 14px 16px;
-    background: var(--bg); border: 2px solid transparent;
+  /* Role List (Vertical) */
+  .role-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
+  .role-item {
+    display: flex; align-items: center; gap: 16px;
+    padding: 16px 20px;
+    border: 1px solid var(--border-color);
     border-radius: 12px;
-    color: var(--text-pri); font-size: 0.95rem; font-family: 'Inter', sans-serif;
-    box-shadow: var(--inset);
-    transition: all .3s ease; outline: none;
+    cursor: pointer;
+    background: #fff;
+    transition: all 0.2s ease;
   }
-  .pw-wrap input { padding-right: 48px; }
-
-  .fg input:focus, .fg select:focus {
-    border-color: rgba(255,120,0,0.2);
-    box-shadow: var(--inset), 0 0 12px var(--glow-orange);
-  }
-  .fg input::placeholder { color: #475569; }
+  .role-item:hover { border-color: #cbd5e1; background: #f8fafc; }
+  .role-item.active { border-color: var(--brand-pink); background: #fff1f2; box-shadow: 0 0 0 1px var(--brand-pink); }
   
-  .fg input.error {
-    border-color: rgba(239,68,68,0.3);
-    box-shadow: var(--inset), 0 0 12px var(--glow-red);
-  }
-
-  .fg .code-input {
-    font-family:'JetBrains Mono',monospace; font-size:1.1rem; letter-spacing:3px;
-    text-align:center; text-transform:uppercase; color: var(--brand-light);
-  }
-
-  /* Buttons */
-  .btn-register, .btn-login, .btn-continue {
-    width: 100%; padding: 16px; border: none; border-radius: 12px; font-size: 1rem;
-    font-weight: 700; cursor: pointer; transition: all .2s cubic-bezier(.4,0,.2,1);
-    color: var(--brand-accent); font-family: 'Inter', sans-serif;
-    display: flex; align-items: center; justify-content: center; gap: 10px;
-    background: var(--bg);
-    box-shadow: var(--raised);
-    margin-top: 10px; letter-spacing: 0.5px;
-  }
+  .role-img { width: 44px; height: 44px; object-fit: contain; }
+  .role-item-info { flex: 1; }
+  .role-item-name { font-size: 1.05rem; font-weight: 600; color: var(--text-pri); margin-bottom: 2px;}
+  .role-item-desc { font-size: 0.85rem; color: var(--text-sec); line-height: 1.3;}
   
-  .btn-register:hover, .btn-login:hover, .btn-continue:hover {
-    box-shadow: var(--raised-hover), 0 0 15px var(--glow-orange);
-    color: var(--brand-light); transform: translateY(-2px);
-  }
-  .btn-register:active, .btn-login:active, .btn-continue:active {
-    box-shadow: var(--inset); color: var(--brand-accent); transform: translateY(2px);
-  }
+  .trial-badge { display:inline-block; background: #fef08a; color: #a16207; font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 6px; margin-left: 8px; text-transform:uppercase;}
 
-  /* Divider */
-  .or-divider { display:flex; align-items:center; gap:12px; margin:24px 0; color:var(--text-sec); font-size:0.85rem; font-weight:600; text-transform:uppercase; letter-spacing:1px; }
-  .or-divider::before, .or-divider::after { content:''; flex:1; height:2px; background:var(--bg); box-shadow:var(--inset); border-radius:2px; }
+  /* Forms */
+  .reg-form-wrapper { display: none; margin-top: 30px; animation: fadeIn 0.3s ease; }
+  .reg-form-wrapper.open { display: block; }
+  @keyframes fadeIn { from{opacity:0; transform:translateY(-10px);} to{opacity:1; transform:translateY(0);} }
 
-  /* Password toggle */
-  .pw-wrap { position:relative; }
-  .pw-toggle {
-    position:absolute; right:16px; top:50%; transform:translateY(-50%);
-    background:var(--bg); border:none; color:var(--text-sec); cursor:pointer; font-size:1rem;
-    width: 32px; height: 32px; border-radius: 8px; box-shadow: var(--raised-sm);
-    display:flex; align-items:center; justify-content:center;
-  }
-  .pw-toggle:active { box-shadow: var(--inset); }
-  .pw-toggle:hover { color: var(--brand-light); }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .form-grid.single { grid-template-columns: 1fr; }
+  @media(max-width: 600px) { .form-grid { grid-template-columns: 1fr; } }
 
-  .forgot-link { display:block; text-align:center; color:var(--text-sec); font-size:0.9rem; margin-top:20px; cursor:pointer; text-decoration:none; transition:all .3s; font-weight:500; }
-  .forgot-link:hover { color:var(--brand-light); text-shadow: 0 0 10px var(--glow-orange); }
-
-  /* Success & Reset Modals */
-  .success-overlay, .reset-overlay {
-    position:fixed; inset:0;
-    background:rgba(13,17,23,0.85); backdrop-filter:blur(8px);
-    display:none; justify-content:center; align-items:center; z-index:9999;
-  }
-  .success-overlay.show, .reset-overlay.show { display:flex; }
+  .form-group { margin-bottom: 18px; }
+  .form-label { display: block; font-size: 0.875rem; font-weight: 500; color: var(--text-pri); margin-bottom: 6px; }
   
-  .success-card {
-    background: var(--bg); padding: 48px;
-    border-radius: 24px; border: 1px solid rgba(255,255,255,0.03);
-    box-shadow: var(--raised-hover), 0 30px 60px rgba(0,0,0,0.8);
-    text-align: center; max-width: 460px; width: 90%;
-    animation: modalPop .4s cubic-bezier(.34,1.56,.64,1);
+  .form-control {
+    width: 100%;
+    padding: 12px 16px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    color: var(--text-pri);
+    background: #fff;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    transition: all 0.2s;
   }
-  @keyframes modalPop { from{transform:scale(0.9);opacity:0;} to{transform:scale(1);opacity:1;} }
-  
-  .success-icon { font-size:4rem; margin-bottom:20px; animation:checkBounce .6s ease; }
-  @keyframes checkBounce { 0%{transform:scale(0);} 60%{transform:scale(1.1);} 100%{transform:scale(1);} }
-  
-  .success-card h3, .reset-overlay h3 { font-size:1.5rem; font-weight:800; color:var(--text-pri); margin-bottom:12px; }
-  .success-card p, .reset-overlay p { color:var(--text-sec); font-size:0.95rem; margin-bottom:24px; line-height: 1.6; }
+  .form-control::placeholder { color: #94a3b8; }
+  .form-control:focus { outline: none; border-color: var(--brand-pink); box-shadow: 0 0 0 3px var(--focus-ring); }
+  .form-control.error { border-color: #ef4444; box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15); }
 
-  .code-display {
-    background: var(--bg);
-    box-shadow: var(--inset-deep);
-    border-radius: 16px; padding: 20px; margin: 24px 0;
-  }
-  .code-display .code-label { font-size:0.8rem; color:var(--text-sec); text-transform:uppercase; letter-spacing:1px; margin-bottom:8px; font-weight: 600; }
-  .code-display .code-value {
-    font-family:'JetBrains Mono',monospace; font-size:1.6rem; font-weight:800;
-    color: var(--brand-light); letter-spacing:4px; text-shadow: 0 0 10px var(--glow-orange);
-  }
-  
-  .copy-btn {
-    background: var(--bg); box-shadow: var(--raised-sm); color: var(--text-sec);
-    padding: 8px 20px; border-radius: 10px; font-size: 0.85rem; cursor: pointer;
-    transition: all .2s; margin-top: 12px; font-weight: 600; border: none;
-  }
-  .copy-btn:hover { color: var(--brand-light); box-shadow: var(--raised), 0 0 10px var(--glow-orange); }
-  .copy-btn:active { box-shadow: var(--inset); }
+  .code-input-lg { font-family: 'JetBrains Mono', monospace; font-size: 1.1rem; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; color: var(--brand-navy); }
 
-  /* Toast */
-  .auth-toast {
-    position:fixed; top:24px; right:24px; padding:16px 28px; border-radius:12px;
-    font-size:0.95rem; font-weight:600; z-index:99999; transform:translateX(150%);
-    transition:transform .4s cubic-bezier(.4,0,.2,1); 
-    background: var(--bg); box-shadow: var(--raised-hover);
-    color: var(--text-pri); border-left: 4px solid transparent;
+  .pw-wrapper { position: relative; }
+  .pw-wrapper .form-control { padding-right: 45px; }
+  .pw-toggle { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text-sec); cursor: pointer; font-size: 1.1rem; }
+  .pw-toggle:hover { color: var(--brand-navy); }
+
+  .btn {
+    width: 100%;
+    padding: 14px 20px;
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem; font-weight: 600;
+    border-radius: 8px; border: none;
+    cursor: pointer; transition: all 0.2s;
+    display: flex; justify-content: center; align-items: center; gap: 8px;
   }
-  .auth-toast.show { transform:translateX(0); }
-  .auth-toast.success { border-left-color: #10b981; }
-  .auth-toast.error { border-left-color: #ef4444; }
+  .btn-primary { background: var(--brand-navy); color: white; }
+  .btn-primary:hover { background: #152243; }
+  
+  .btn-accent { background: var(--brand-pink); color: white; }
+  .btn-accent:hover { background: #be185d; }
+
+  .forgot-link { display: block; text-align: center; margin-top: 16px; font-size: 0.9rem; color: var(--brand-pink); text-decoration: none; font-weight: 500; cursor: pointer; }
+  .forgot-link:hover { text-decoration: underline; }
+
+  /* Modals */
+  .modal-overlay { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; z-index: 9999; }
+  .modal-overlay.show { display: flex; }
+  .modal-card { background: white; border-radius: 16px; padding: 40px; width: 90%; max-width: 420px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); animation: pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); text-align: center; }
+  @keyframes pop { from{transform:scale(0.95);opacity:0;} to{transform:scale(1);opacity:1;} }
+  
+  .modal-icon { font-size: 3.5rem; color: #10b981; margin-bottom: 20px; }
+  .modal-title { font-size: 1.4rem; font-weight: 700; color: var(--brand-navy); margin-bottom: 12px; }
+  .modal-desc { font-size: 0.95rem; color: var(--text-sec); margin-bottom: 24px; line-height: 1.5; }
+
+  .invitation-code-box { background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 8px; padding: 16px; margin-bottom: 24px; }
+  .code-label { font-size: 0.85rem; font-weight: 600; color: var(--text-sec); margin-bottom: 8px; text-transform: uppercase; }
+  .code-value { font-family: 'JetBrains Mono', monospace; font-size: 1.4rem; font-weight: 700; color: var(--brand-pink); letter-spacing: 2px; }
+
+  /* Toast Notification */
+  .toast { position: fixed; top: 20px; right: 20px; padding: 16px 24px; background: white; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-left: 4px solid transparent; font-size: 0.95rem; font-weight: 500; z-index: 10000; transform: translateX(120%); transition: transform 0.3s ease; }
+  .toast.show { transform: translateX(0); }
+  .toast.success { border-left-color: #10b981; color: #064e3b; }
+  .toast.error { border-left-color: #ef4444; color: #7f1d1d; }
+
 </style>
 
 <div class="auth-wrapper">
-  <div class="orb orb-1"></div>
-  <div class="orb orb-2"></div>
-  <div class="orb orb-3"></div>
+  
+  <!-- Navigation Header -->
+  <header class="auth-nav">
+    <a href="/" class="back-link"><i class="fas fa-arrow-left"></i> Back to Homepage</a>
+    <a href="/" class="brand-logo"><i class="fas fa-mosque"></i> Imaan & Akhlaq</a>
+  </header>
 
-  <div class="auth-container">
-    <a href="/" class="back-link"><i class="fas fa-arrow-left"></i> Back to Home</a>
+  <main class="auth-container">
+    
+    <!-- LEFT: Registration Focus -->
+    <section>
+      <h1 style="font-size:2.2rem; font-family:'Fredoka One', cursive; color:var(--brand-navy); margin-bottom:10px;">Create your account</h1>
+      <p style="color:var(--text-sec); font-size:1rem; margin-bottom:30px; max-width:500px;">Choose a role below to start. Schools register directly. Teachers, Students, and Parents need school invitations.</p>
 
-    <div class="auth-brand">
-      <div class="auth-brand-icon"><i class="fas fa-mosque"></i></div>
-      <h1>Imaan & Akhlaq</h1>
-      <p>Islamic Education Platform — Register or Login to Continue</p>
-    </div>
+      <div class="role-list">
+        
+        <div class="role-item role-item-school" onclick="selectRole('school')">
+          <img src="./kidba_assets/img/3d_school.png" class="role-img" alt="School">
+          <div class="role-item-info">
+            <div class="role-item-name">School Admin</div>
+            <div class="role-item-desc">Register your school and manage users.</div>
+          </div>
+          <i class="fas fa-chevron-right" style="color:var(--border-color);"></i>
+        </div>
 
-    <!-- ========== REGISTRATION SECTION ========== -->
-    <div class="section-title"><i class="fas fa-user-plus" style="color:#818cf8;"></i> Create Your Account</div>
-    <p class="section-subtitle">Choose your role to get started. Schools register freely — Teachers, Students & Parents need an invitation code.</p>
+        <div class="role-item role-item-teacher" onclick="selectRole('teacher')">
+          <img src="./kidba_assets/img/3d_teacher.png" class="role-img" alt="Teacher">
+          <div class="role-item-info">
+            <div class="role-item-name">Teacher</div>
+            <div class="role-item-desc">Join your school using an invitation code.</div>
+          </div>
+          <i class="fas fa-chevron-right" style="color:var(--border-color);"></i>
+        </div>
 
-    <div class="role-grid">
-      <div class="role-card role-card-school" onclick="selectRole('school')">
-        <div class="role-icon"><i class="fas fa-school"></i></div>
-        <div class="role-name">Register as School</div>
-        <div class="role-desc">Create your school profile and get a unique school code to manage teachers & students.</div>
+        <div class="role-item role-item-student" onclick="selectRole('student')">
+          <img src="./kidba_assets/img/3d_student.png" class="role-img" alt="Student">
+          <div class="role-item-info">
+            <div class="role-item-name">Student / Child</div>
+            <div class="role-item-desc">Start your gamified learning journey.</div>
+          </div>
+          <i class="fas fa-chevron-right" style="color:var(--border-color);"></i>
+        </div>
+
+        <div class="role-item role-item-parent" onclick="selectRole('parent')">
+          <img src="./kidba_assets/img/3d_parent.png" class="role-img" alt="Parent">
+          <div class="role-item-info">
+            <div class="role-item-name">Parent</div>
+            <div class="role-item-desc">Monitor progress using a parent code.</div>
+          </div>
+          <i class="fas fa-chevron-right" style="color:var(--border-color);"></i>
+        </div>
+
+        <div class="role-item role-item-individual" onclick="selectRole('individual')">
+          <div style="width:44px; height:44px; background:#f1f5f9; border-radius:12px; display:flex; align-items:center; justify-content:center; color:var(--brand-gold); font-size:1.5rem;"><i class="fas fa-rocket"></i></div>
+          <div class="role-item-info">
+            <div class="role-item-name">Individual Access <span class="trial-badge">Free Trial</span></div>
+            <div class="role-item-desc">Try out all features free for 3 days.</div>
+          </div>
+          <i class="fas fa-chevron-right" style="color:var(--border-color);"></i>
+        </div>
+
       </div>
-      <div class="role-card role-card-teacher" onclick="selectRole('teacher')">
-        <div class="role-icon"><i class="fas fa-chalkboard-teacher"></i></div>
-        <div class="role-name">Register as Teacher</div>
-        <div class="role-desc">Use your invitation code provided by your school to join the platform.</div>
-      </div>
-      <div class="role-card role-card-student" onclick="selectRole('student')">
-        <div class="role-icon"><i class="fas fa-user-graduate"></i></div>
-        <div class="role-name">Register as Student</div>
-        <div class="role-desc">Enter your student code given by your school to start learning activities.</div>
-      </div>
-      <div class="role-card role-card-parent" onclick="selectRole('parent')">
-        <div class="role-icon"><i class="fas fa-user-friends"></i></div>
-        <div class="role-name">Register as Parent</div>
-        <div class="role-desc">Use your parent code to monitor and approve your child's learning progress.</div>
-      </div>
-      <div class="role-card role-card-individual" onclick="selectRole('individual')">
-        <div class="role-icon"><i class="fas fa-user-astronaut"></i></div>
-        <div class="role-name">Register as Individual</div>
-        <div class="role-desc">Get instant access to all Imaan & Akhlaq learning products. No invitation code needed — start your free trial today!</div>
-        <div class="trial-badge"><i class="fas fa-gift"></i> 3-Day Free Trial — All Products Included</div>
-      </div>
-    </div>
 
-    <!-- SCHOOL REG FORM -->
-    <div id="form-school" class="reg-form-wrapper">
-      <div class="reg-form">
-        <h3><i class="fas fa-school" style="color:#818cf8;"></i> School Registration</h3>
-        <div class="fg"><label>School Name</label><input id="regSchoolName" placeholder="e.g. Imaan Academy"></div>
-        <div class="form-row">
-          <div class="fg"><label>Admin Name</label><input id="regSchoolAdmin" placeholder="e.g. Principal Usman"></div>
-          <div class="fg"><label>Location</label><input id="regSchoolLoc" placeholder="e.g. Islamabad"></div>
+      <!-- DYNAMIC FORMS BELLOW -->
+      <!-- School Form -->
+      <div id="form-school" class="reg-form-wrapper">
+        <div class="auth-box">
+          <h3 class="auth-box-title">School Registration</h3>
+          <p class="auth-box-desc">Input your administration details.</p>
+          
+          <div class="form-grid">
+            <div class="form-group"><label class="form-label">School Name</label><input type="text" class="form-control" id="regSchoolName" placeholder="Imaan Academy"></div>
+            <div class="form-group"><label class="form-label">Admin Name</label><input type="text" class="form-control" id="regSchoolAdmin" placeholder="M. Usman"></div>
+            <div class="form-group"><label class="form-label">Location/City</label><input type="text" class="form-control" id="regSchoolLoc" placeholder="Dubai"></div>
+            <div class="form-group"><label class="form-label">Phone Number</label><input type="text" class="form-control" id="regSchoolPhone" placeholder="+971 XX XXXX"></div>
+          </div>
+          <div class="form-group"><label class="form-label">Work Email</label><input type="email" class="form-control" id="regSchoolEmail" placeholder="admin@school.com"></div>
+          <div class="form-grid">
+            <div class="form-group"><label class="form-label">Password</label><div class="pw-wrapper"><input type="password" class="form-control" id="regSchoolPw" placeholder="Create password"><button class="pw-toggle" onclick="togglePw('regSchoolPw')"><i class="fas fa-eye"></i></button></div></div>
+            <div class="form-group"><label class="form-label">Confirm Password</label><div class="pw-wrapper"><input type="password" class="form-control" id="regSchoolPw2" placeholder="Confirm password"><button class="pw-toggle" onclick="togglePw('regSchoolPw2')"><i class="fas fa-eye"></i></button></div></div>
+          </div>
+          <button class="btn btn-accent" onclick="registerSchool()">Create School Account</button>
         </div>
-        <div class="form-row">
-          <div class="fg"><label>Email</label><input id="regSchoolEmail" type="email" placeholder="admin@school.pk"></div>
-          <div class="fg"><label>Phone</label><input id="regSchoolPhone" placeholder="03XXXXXXXXX"></div>
-        </div>
-        <div class="form-row">
-          <div class="fg"><label>Password</label><div class="pw-wrap"><input id="regSchoolPw" type="password" placeholder="Create password"><button class="pw-toggle" onclick="togglePw('regSchoolPw')"><i class="fas fa-eye"></i></button></div></div>
-          <div class="fg"><label>Confirm Password</label><div class="pw-wrap"><input id="regSchoolPw2" type="password" placeholder="Confirm password"><button class="pw-toggle" onclick="togglePw('regSchoolPw2')"><i class="fas fa-eye"></i></button></div></div>
-        </div>
-        <button class="btn-register btn-register-school" onclick="registerSchool()"><i class="fas fa-check-circle"></i> Register School</button>
       </div>
-    </div>
 
-    <!-- TEACHER REG FORM -->
-    <div id="form-teacher" class="reg-form-wrapper">
-      <div class="reg-form">
-        <h3><i class="fas fa-chalkboard-teacher" style="color:#34d399;"></i> Teacher Registration</h3>
-        <div class="fg"><label>Invitation Code</label><input id="regTchCode" class="code-input" placeholder="TCH-XXXXX" maxlength="9"></div>
-        <div class="fg"><label>Full Name</label><input id="regTchName" placeholder="e.g. Ustadh Zaid"></div>
-        <div class="form-row">
-          <div class="fg"><label>Email</label><input id="regTchEmail" type="email" placeholder="teacher@email.com"></div>
-          <div class="fg"><label>Phone</label><input id="regTchPhone" placeholder="03XXXXXXXXX"></div>
+      <!-- Teacher Form -->
+      <div id="form-teacher" class="reg-form-wrapper">
+        <div class="auth-box">
+          <h3 class="auth-box-title">Teacher Registration</h3>
+          <p class="auth-box-desc">Enter the invite code given by your school admin.</p>
+          
+          <div class="form-group"><label class="form-label">Invitation Code</label><input type="text" class="form-control code-input-lg" id="regTchCode" placeholder="TCH-XXXXX" maxlength="9"></div>
+          <div class="form-grid">
+            <div class="form-group"><label class="form-label">Full Name</label><input type="text" class="form-control" id="regTchName" placeholder="Zaid Ahmed"></div>
+            <div class="form-group"><label class="form-label">Phone</label><input type="text" class="form-control" id="regTchPhone" placeholder="03XXXXXXXXX"></div>
+          </div>
+          <div class="form-group"><label class="form-label">Email Address</label><input type="email" class="form-control" id="regTchEmail" placeholder="teacher@school.com"></div>
+          <div class="form-grid">
+            <div class="form-group"><label class="form-label">Password</label><div class="pw-wrapper"><input type="password" class="form-control" id="regTchPw"><button class="pw-toggle" onclick="togglePw('regTchPw')"><i class="fas fa-eye"></i></button></div></div>
+            <div class="form-group"><label class="form-label">Confirm Password</label><div class="pw-wrapper"><input type="password" class="form-control" id="regTchPw2"><button class="pw-toggle" onclick="togglePw('regTchPw2')"><i class="fas fa-eye"></i></button></div></div>
+          </div>
+          <button class="btn btn-primary" onclick="registerWithCode('teacher')">Join as Teacher</button>
         </div>
-        <div class="form-row">
-          <div class="fg"><label>Password</label><div class="pw-wrap"><input id="regTchPw" type="password" placeholder="Create password"><button class="pw-toggle" onclick="togglePw('regTchPw')"><i class="fas fa-eye"></i></button></div></div>
-          <div class="fg"><label>Confirm Password</label><div class="pw-wrap"><input id="regTchPw2" type="password" placeholder="Confirm password"><button class="pw-toggle" onclick="togglePw('regTchPw2')"><i class="fas fa-eye"></i></button></div></div>
-        </div>
-        <button class="btn-register btn-register-teacher" onclick="registerWithCode('teacher')"><i class="fas fa-check-circle"></i> Register as Teacher</button>
       </div>
-    </div>
 
-    <!-- STUDENT REG FORM -->
-    <div id="form-student" class="reg-form-wrapper">
-      <div class="reg-form">
-        <h3><i class="fas fa-user-graduate" style="color:#fbbf24;"></i> Student Registration</h3>
-        <div class="fg"><label>Invitation Code</label><input id="regStuCode" class="code-input" placeholder="STU-XXXXX" maxlength="9"></div>
-        <div class="fg"><label>Full Name</label><input id="regStuName" placeholder="e.g. Ali Ahmed"></div>
-        <div class="form-row">
-          <div class="fg"><label>Email (or Parent's Email)</label><input id="regStuEmail" type="email" placeholder="student@email.com"></div>
-          <div class="fg"><label>Phone (or Parent's Phone)</label><input id="regStuPhone" placeholder="03XXXXXXXXX"></div>
+      <!-- Student Form -->
+      <div id="form-student" class="reg-form-wrapper">
+        <div class="auth-box">
+          <h3 class="auth-box-title">Student Registration</h3>
+          <p class="auth-box-desc">Enter the student code provided by the school.</p>
+          <div class="form-group"><label class="form-label">Student Code</label><input type="text" class="form-control code-input-lg" id="regStuCode" placeholder="STU-XXXXX" maxlength="9"></div>
+          <div class="form-group"><label class="form-label">Student Full Name</label><input type="text" class="form-control" id="regStuName" placeholder="Ali Raza"></div>
+          <div class="form-grid">
+            <div class="form-group"><label class="form-label">Student/Parent Email</label><input type="email" class="form-control" id="regStuEmail" placeholder="email@example.com"></div>
+            <div class="form-group"><label class="form-label">Parent Phone</label><input type="text" class="form-control" id="regStuPhone" placeholder="03XXXXXXXXX"></div>
+          </div>
+          <div class="form-grid">
+            <div class="form-group"><label class="form-label">Password</label><div class="pw-wrapper"><input type="password" class="form-control" id="regStuPw"><button class="pw-toggle" onclick="togglePw('regStuPw')"><i class="fas fa-eye"></i></button></div></div>
+            <div class="form-group"><label class="form-label">Confirm Password</label><div class="pw-wrapper"><input type="password" class="form-control" id="regStuPw2"><button class="pw-toggle" onclick="togglePw('regStuPw2')"><i class="fas fa-eye"></i></button></div></div>
+          </div>
+          <button class="btn btn-primary" onclick="registerWithCode('student')">Create Student Profile</button>
         </div>
-        <div class="form-row">
-          <div class="fg"><label>Password</label><div class="pw-wrap"><input id="regStuPw" type="password" placeholder="Create password"><button class="pw-toggle" onclick="togglePw('regStuPw')"><i class="fas fa-eye"></i></button></div></div>
-          <div class="fg"><label>Confirm Password</label><div class="pw-wrap"><input id="regStuPw2" type="password" placeholder="Confirm password"><button class="pw-toggle" onclick="togglePw('regStuPw2')"><i class="fas fa-eye"></i></button></div></div>
-        </div>
-        <button class="btn-register btn-register-student" onclick="registerWithCode('student')"><i class="fas fa-check-circle"></i> Register as Student</button>
       </div>
-    </div>
 
-    <!-- PARENT REG FORM -->
-    <div id="form-parent" class="reg-form-wrapper">
-      <div class="reg-form">
-        <h3><i class="fas fa-user-friends" style="color:#f472b6;"></i> Parent Registration</h3>
-        <div class="fg"><label>Invitation Code</label><input id="regParCode" class="code-input" placeholder="PAR-XXXXX" maxlength="9"></div>
-        <div class="fg"><label>Full Name</label><input id="regParName" placeholder="e.g. Mr. Ahmed"></div>
-        <div class="form-row">
-          <div class="fg"><label>Email</label><input id="regParEmail" type="email" placeholder="parent@email.com"></div>
-          <div class="fg"><label>Phone</label><input id="regParPhone" placeholder="03XXXXXXXXX"></div>
+       <!-- Parent Form -->
+      <div id="form-parent" class="reg-form-wrapper">
+        <div class="auth-box">
+          <h3 class="auth-box-title">Parent Registration</h3>
+          <p class="auth-box-desc">Link to your child using the parent invitation code.</p>
+          <div class="form-group"><label class="form-label">Parent Invite Code</label><input type="text" class="form-control code-input-lg" id="regParCode" placeholder="PAR-XXXXX" maxlength="9"></div>
+          <div class="form-group"><label class="form-label">Parent Full Name</label><input type="text" class="form-control" id="regParName" placeholder="Zubair Ahmed"></div>
+          <div class="form-grid">
+            <div class="form-group"><label class="form-label">Email</label><input type="email" class="form-control" id="regParEmail" placeholder="parent@example.com"></div>
+            <div class="form-group"><label class="form-label">Phone No.</label><input type="text" class="form-control" id="regParPhone" placeholder="03XXXXXXXXX"></div>
+          </div>
+          <div class="form-grid">
+            <div class="form-group"><label class="form-label">Password</label><div class="pw-wrapper"><input type="password" class="form-control" id="regParPw"><button class="pw-toggle" onclick="togglePw('regParPw')"><i class="fas fa-eye"></i></button></div></div>
+            <div class="form-group"><label class="form-label">Confirm Password</label><div class="pw-wrapper"><input type="password" class="form-control" id="regParPw2"><button class="pw-toggle" onclick="togglePw('regParPw2')"><i class="fas fa-eye"></i></button></div></div>
+          </div>
+          <button class="btn btn-primary" onclick="registerWithCode('parent')">Connect Account</button>
         </div>
-        <div class="form-row">
-          <div class="fg"><label>Password</label><div class="pw-wrap"><input id="regParPw" type="password" placeholder="Create password"><button class="pw-toggle" onclick="togglePw('regParPw')"><i class="fas fa-eye"></i></button></div></div>
-          <div class="fg"><label>Confirm Password</label><div class="pw-wrap"><input id="regParPw2" type="password" placeholder="Confirm password"><button class="pw-toggle" onclick="togglePw('regParPw2')"><i class="fas fa-eye"></i></button></div></div>
-        </div>
-        <button class="btn-register btn-register-parent" onclick="registerWithCode('parent')"><i class="fas fa-check-circle"></i> Register as Parent</button>
       </div>
-    </div>
 
-    <!-- INDIVIDUAL REG FORM -->
-    <div id="form-individual" class="reg-form-wrapper">
-      <div class="reg-form" style="border-color:rgba(6,182,212,0.2);">
-        <h3><i class="fas fa-user-astronaut" style="color:#22d3ee;"></i> Individual Registration <span class="trial-badge" style="margin-left:8px; margin-top:0;"><i class="fas fa-gift"></i> 3-Day Free Trial</span></h3>
-        <div style="background:rgba(6,182,212,0.08); border:1px solid rgba(6,182,212,0.2); border-radius:10px; padding:14px; margin-bottom:18px; font-size:0.85rem; color:#67e8f9;">
-          <i class="fas fa-info-circle me-1"></i> <strong>Free Trial:</strong> Get full access to all stories, activities, dashboards & learning tools for 3 days. After that, a subscription is required to continue.
+       <!-- Individual Form -->
+      <div id="form-individual" class="reg-form-wrapper">
+        <div class="auth-box" style="border-top: 4px solid var(--brand-gold);">
+          <h3 class="auth-box-title">Individual Registration</h3>
+          <p class="auth-box-desc">Instant access with 3-day full-feature trial.</p>
+          <div class="form-group"><label class="form-label">Full Name</label><input type="text" class="form-control" id="regIndName" placeholder="Your Name"></div>
+          <div class="form-grid">
+            <div class="form-group"><label class="form-label">Email</label><input type="email" class="form-control" id="regIndEmail" placeholder="you@email.com"></div>
+            <div class="form-group"><label class="form-label">Phone No.</label><input type="text" class="form-control" id="regIndPhone" placeholder="03XXXXXXXXX"></div>
+          </div>
+          <div class="form-grid">
+            <div class="form-group"><label class="form-label">Password</label><div class="pw-wrapper"><input type="password" class="form-control" id="regIndPw"><button class="pw-toggle" onclick="togglePw('regIndPw')"><i class="fas fa-eye"></i></button></div></div>
+            <div class="form-group"><label class="form-label">Confirm Password</label><div class="pw-wrapper"><input type="password" class="form-control" id="regIndPw2"><button class="pw-toggle" onclick="togglePw('regIndPw2')"><i class="fas fa-eye"></i></button></div></div>
+          </div>
+          <button class="btn btn-primary" style="background:var(--brand-gold); color:#7c2d12;" onclick="registerIndividual()"><i class="fas fa-rocket"></i> Start 3-Day Trial</button>
         </div>
-        <div class="fg"><label>Full Name</label><input id="regIndName" placeholder="e.g. Muhammad Ali"></div>
-        <div class="form-row">
-          <div class="fg"><label>Email</label><input id="regIndEmail" type="email" placeholder="your@email.com"></div>
-          <div class="fg"><label>Phone</label><input id="regIndPhone" placeholder="03XXXXXXXXX"></div>
-        </div>
-        <div class="form-row">
-          <div class="fg"><label>Password</label><div class="pw-wrap"><input id="regIndPw" type="password" placeholder="Create password"><button class="pw-toggle" onclick="togglePw('regIndPw')"><i class="fas fa-eye"></i></button></div></div>
-          <div class="fg"><label>Confirm Password</label><div class="pw-wrap"><input id="regIndPw2" type="password" placeholder="Confirm password"><button class="pw-toggle" onclick="togglePw('regIndPw2')"><i class="fas fa-eye"></i></button></div></div>
-        </div>
-        <button class="btn-register btn-register-individual" onclick="registerIndividual()"><i class="fas fa-rocket"></i> Start Free Trial</button>
       </div>
-    </div>
 
-    <!-- ========== DIVIDER ========== -->
-    <div class="section-divider"></div>
+    </section>
 
-    <!-- ========== LOGIN SECTION ========== -->
-    <div class="login-section">
-      <h3><i class="fas fa-sign-in-alt" style="color:#818cf8; margin-right:8px;"></i> Welcome Back</h3>
-      <p class="login-sub">Already registered? Login with your email or phone number.</p>
-      <div class="fg"><label>Email or Phone</label><input id="loginId" placeholder="Enter your email or phone number"></div>
-      <div class="fg"><label>Password</label><div class="pw-wrap"><input id="loginPw" type="password" placeholder="Your password"><button class="pw-toggle" onclick="togglePw('loginPw')"><i class="fas fa-eye"></i></button></div></div>
-      <button class="btn-login" onclick="loginUser()"><i class="fas fa-sign-in-alt me-2"></i> Login</button>
-      <a class="forgot-link" onclick="showResetModal()"><i class="fas fa-key me-1"></i> Forgot Password?</a>
-    </div>
+    <!-- RIGHT: Login Focus -->
+    <aside>
+      <div class="auth-box" style="position:sticky; top:40px;">
+        <h3 class="auth-box-title">Welcome back</h3>
+        <p class="auth-box-desc">Log in to enter your portal.</p>
 
-    <div style="text-align:center; margin-top:40px; color:#334155; font-size:0.8rem;">
-      &copy; 2026 Imaan & Akhlaq — An Ilm O Amal Initiative
-    </div>
-  </div>
+        <div class="form-group">
+          <label class="form-label">Email or Phone Number</label>
+          <input type="text" class="form-control" id="loginId" placeholder="name@school.com">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <div class="pw-wrapper">
+            <input type="password" class="form-control" id="loginPw" placeholder="ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢">
+            <button class="pw-toggle" onclick="togglePw('loginPw')"><i class="fas fa-eye"></i></button>
+          </div>
+        </div>
+        
+        <button class="btn btn-primary" onclick="loginUser()">Sign In</button>
+        <a class="forgot-link" onclick="showResetModal()">Forgot your password?</a>
+      </div>
+    </aside>
+
+  </main>
 </div>
 
 <!-- SUCCESS MODAL -->
-<div id="successOverlay" class="success-overlay">
-  <div class="success-card">
-    <div class="success-icon"><i class="fas fa-check-circle"></i></div>
-    <h3 id="successTitle">Registration Successful!</h3>
-    <p id="successMsg">Your account has been created.</p>
+<div id="successOverlay" class="modal-overlay">
+  <div class="modal-card">
+    <div class="modal-icon"><i class="fas fa-check-circle"></i></div>
+    <h3 class="modal-title" id="successTitle">Registration Successful</h3>
+    <p class="modal-desc" id="successMsg">Your account is ready.</p>
     <div id="successCodes"></div>
-    <button class="btn-continue" id="successBtn" onclick="closeSuccess()">Continue to Login</button>
+    <button class="btn btn-primary" id="successBtn" onclick="closeSuccess()">Continue to Sign In</button>
   </div>
 </div>
 
 <!-- RESET PASSWORD MODAL -->
-<div id="resetOverlay" class="reset-overlay">
-  <div class="success-card">
-    <div style="font-size:2.5rem; color:#818cf8; margin-bottom:16px;"><i class="fas fa-unlock-alt"></i></div>
-    <h3>Reset Password</h3>
-    <p>Enter your registered email or phone to reset your password.</p>
-    <div class="fg" style="text-align:left;"><label>Email or Phone</label><input id="resetId" placeholder="Enter email or phone"></div>
+<div id="resetOverlay" class="modal-overlay">
+  <div class="modal-card" style="text-align:left;">
+    <h3 class="modal-title">Reset Password</h3>
+    <p class="modal-desc">Enter your email or phone to reset credentials.</p>
+    <div class="form-group"><label class="form-label">Email or Phone</label><input type="text" class="form-control" id="resetId" placeholder="e.g. name@school.com"></div>
+    
     <div id="resetNewPw" style="display:none;">
-      <div class="fg" style="text-align:left;"><label>New Password</label><div class="pw-wrap"><input id="resetPwVal" type="password" placeholder="New password"><button class="pw-toggle" onclick="togglePw('resetPwVal')"><i class="fas fa-eye"></i></button></div></div>
-      <div class="fg" style="text-align:left;"><label>Confirm Password</label><div class="pw-wrap"><input id="resetPwVal2" type="password" placeholder="Confirm new password"><button class="pw-toggle" onclick="togglePw('resetPwVal2')"><i class="fas fa-eye"></i></button></div></div>
+      <div class="form-group"><label class="form-label">New Password</label><div class="pw-wrapper"><input type="password" class="form-control" id="resetPwVal"><button class="pw-toggle" onclick="togglePw('resetPwVal')"><i class="fas fa-eye"></i></button></div></div>
+      <div class="form-group"><label class="form-label">Confirm Password</label><div class="pw-wrapper"><input type="password" class="form-control" id="resetPwVal2"><button class="pw-toggle" onclick="togglePw('resetPwVal2')"><i class="fas fa-eye"></i></button></div></div>
     </div>
-    <button class="btn-continue" onclick="resetPassword()" id="resetBtn">Find Account</button>
-    <button class="copy-btn" style="margin-top:12px; width:100%; padding:10px;" onclick="closeReset()">Cancel</button>
+    
+    <div style="display:flex; gap:12px; margin-top:24px;">
+      <button class="btn" style="background:#e2e8f0; color:var(--text-pri);" onclick="closeReset()">Cancel</button>
+      <button class="btn btn-primary" onclick="resetPassword()" id="resetBtn">Find Account</button>
+    </div>
   </div>
 </div>
 
 <!-- TOAST -->
-<div id="authToast" class="auth-toast"></div>
+<div id="authToast" class="toast"></div>
 
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-  // Load DB from localStorage or use defaults
-  let DB = JSON.parse(localStorage.getItem('imaan_auth_db') || 'null');
-  if (!DB) {
-    DB = {
-      schools: [{ school_id:'sch_001', name:'Imaan Academy', location:'Lahore', school_code:'SCH-IA001' }],
-      school_admins: [{ admin_id:'adm_001', school_id:'sch_001', name:'Principal Usman', email:'usman@imaanacademy.pk', phone:'03001234567', password:'admin123' }],
-      teachers: [{ teacher_id:'tch_001', school_id:'sch_001', name:'Ustadh Zaid', assigned_class:'Class 3', email:'zaid@imaanacademy.pk', phone:'03009876543', password:'teacher123', invitation_code:'TCH-ZD001' }],
-      parents: [{ parent_id:'par_001', name:'Mr. Ahmed', email:'ahmed@example.com', phone:'03005551234', password:'parent123', linked_student_id:'stu_101', invitation_code:'PAR-AH001' }],
-      students: [
-        { student_id:'stu_101', school_id:'sch_001', class_id:'Class 3', parent_id:'par_001', name:'Ali Ahmed', age:8, avatar:'fas fa-child', base_points:0, email:'', phone:'', password:'student123', invitation_code:'STU-AL001' },
-        { student_id:'stu_102', school_id:'sch_001', class_id:'Class 3', parent_id:'par_002', name:'Bilal Hashmi', age:9, avatar:'fas fa-user-graduate', base_points:450, email:'', phone:'', password:'student123', invitation_code:'STU-BL002' },
-        { student_id:'stu_103', school_id:'sch_001', class_id:'Class 3', parent_id:'par_003', name:'Zainab Raza', age:8, avatar:'fas fa-female', base_points:600, email:'', phone:'', password:'student123', invitation_code:'STU-ZR003' }
-      ],
-      users: [
-        { user_id:'usr_001', role:'school_admin', linked_id:'adm_001', email:'usman@imaanacademy.pk', phone:'03001234567', password:'admin123', name:'Principal Usman' },
-        { user_id:'usr_002', role:'teacher', linked_id:'tch_001', email:'zaid@imaanacademy.pk', phone:'03009876543', password:'teacher123', name:'Ustadh Zaid' },
-        { user_id:'usr_003', role:'parent', linked_id:'par_001', email:'ahmed@example.com', phone:'03005551234', password:'parent123', name:'Mr. Ahmed' }
-      ],
-      invitation_codes: [
-        { code:'TCH-ZD001', type:'teacher', school_id:'sch_001', status:'used', used_by:'tch_001' },
-        { code:'STU-AL001', type:'student', school_id:'sch_001', status:'used', used_by:'stu_101' },
-        { code:'PAR-AH001', type:'parent', school_id:'sch_001', status:'used', used_by:'par_001' }
-      ]
-    };
-    saveDB();
-  }
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+  import { getFirestore, doc, setDoc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
-  function saveDB() { localStorage.setItem('imaan_auth_db', JSON.stringify(DB)); }
-  function genCode(prefix) { return prefix + '-' + Math.random().toString(36).substr(2,5).toUpperCase(); }
-  function genId(prefix) { return prefix + '_' + Math.floor(100 + Math.random()*900); }
+  const firebaseConfig = {
+    apiKey: "AIzaSyA4MrV-oXhK_johreyzIucti5RFrKcvyG8",
+    authDomain: "imaan-app-1d2da.firebaseapp.com",
+    projectId: "imaan-app-1d2da",
+    storageBucket: "imaan-app-1d2da.firebasestorage.app",
+    messagingSenderId: "373650938167",
+    appId: "1:373650938167:web:e9da1317c118bc720d22b2"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
 
   function showToast(msg, type) {
     const t = document.getElementById('authToast');
-    t.textContent = msg; t.className = 'auth-toast ' + type + ' show';
+    t.textContent = msg; t.className = 'toast ' + type + ' show';
     setTimeout(() => t.classList.remove('show'), 3500);
   }
 
-  // Role selection
+  function genCode(prefix) { return prefix + '-' + Math.random().toString(36).substr(2,5).toUpperCase(); }
+  function genId(prefix) { return prefix + '_' + Math.floor(100 + Math.random()*900); }
+
   window.selectRole = (role) => {
-    document.querySelectorAll('.role-card').forEach(c => c.classList.remove('active'));
+    document.querySelectorAll('.role-item').forEach(c => c.classList.remove('active'));
     document.querySelectorAll('.reg-form-wrapper').forEach(f => f.classList.remove('open'));
-    document.querySelector('.role-card-' + role).classList.add('active');
+    document.querySelector('.role-item-' + role).classList.add('active');
     document.getElementById('form-' + role).classList.add('open');
     setTimeout(() => document.getElementById('form-' + role).scrollIntoView({ behavior:'smooth', block:'center' }), 100);
   };
 
-  // Password toggle
   window.togglePw = (id) => {
     const inp = document.getElementById(id);
     const icon = inp.nextElementSibling?.querySelector('i') || inp.parentElement.querySelector('.pw-toggle i');
@@ -505,8 +432,9 @@ document.addEventListener('DOMContentLoaded', () => {
     else { inp.type = 'password'; icon.className = 'fas fa-eye'; }
   };
 
-  // ===== SCHOOL REGISTRATION =====
-  window.registerSchool = () => {
+  window.closeSuccess = () => document.getElementById('successOverlay').classList.remove('show');
+
+  window.registerSchool = async () => {
     const name = document.getElementById('regSchoolName').value.trim();
     const admin = document.getElementById('regSchoolAdmin').value.trim();
     const loc = document.getElementById('regSchoolLoc').value.trim();
@@ -515,214 +443,168 @@ document.addEventListener('DOMContentLoaded', () => {
     const pw = document.getElementById('regSchoolPw').value;
     const pw2 = document.getElementById('regSchoolPw2').value;
 
-    if (!name || !admin || !email || !phone || !pw) return showToast('Please fill all required fields', 'error');
+    if (!name || !admin || !email || !phone || !pw) return showToast('Please fill all fields', 'error');
     if (pw !== pw2) return showToast('Passwords do not match', 'error');
-    if (pw.length < 6) return showToast('Password must be at least 6 characters', 'error');
-    if (DB.users.find(u => u.email === email || u.phone === phone)) return showToast('Email or phone already registered', 'error');
 
-    const schoolCode = genCode('SCH');
-    const schoolId = genId('sch');
-    const adminId = genId('adm');
-
-    DB.schools.push({ school_id:schoolId, name:name, location:loc, school_code:schoolCode });
-    DB.school_admins.push({ admin_id:adminId, school_id:schoolId, name:admin, email:email, phone:phone, password:pw });
-    DB.users.push({ user_id:genId('usr'), role:'school_admin', linked_id:adminId, email:email, phone:phone, password:pw, name:admin });
-    saveDB();
-
-    document.getElementById('successTitle').textContent = '🏫 School Registered!';
-    document.getElementById('successMsg').textContent = 'Your school "' + name + '" is now on the platform. Share your school code with your admin team.';
-    document.getElementById('successCodes').innerHTML =
-      '<div class="code-display"><div class="code-label">Your School Code</div><div class="code-value">' + schoolCode + '</div>' +
-      '<button class="copy-btn" onclick="navigator.clipboard.writeText(\\'' + schoolCode + '\\');this.textContent=\\'Copied!\\'"><i class="fas fa-copy me-1"></i> Copy Code</button></div>';
-    document.getElementById('successBtn').onclick = () => { closeSuccess(); window.location.href='/auth'; };
-    document.getElementById('successOverlay').classList.add('show');
+    try {
+      showToast('Registering...', 'success');
+      const userCredential = await createUserWithEmailAndPassword(auth, email, pw);
+      const user = userCredential.user;
+      const code = genCode('SCH');
+      const sId = genId('sch');
+      
+      await setDoc(doc(db, "schools", sId), { name: name, location: loc, school_code: code, admin_uid: user.uid });
+      await setDoc(doc(db, "users", user.uid), { role: 'school_admin', email: email, phone: phone, name: admin, school_id: sId });
+      
+      document.getElementById('successTitle').textContent = 'School Registered!';
+      document.getElementById('successMsg').textContent = 'Your school code is required to invite teachers, students and parents.';
+      document.getElementById('successCodes').innerHTML = '<div class="invitation-code-box"><div class="code-label">School Code</div><div class="code-value">'+code+'</div></div>';
+      document.getElementById('successOverlay').classList.add('show');
+    } catch (error) {
+      showToast(error.message, 'error');
+    }
   };
 
-  // ===== CODE-BASED REGISTRATION (Teacher / Student / Parent) =====
-  window.registerWithCode = (role) => {
-    let code, name, email, phone, pw, pw2;
-    if (role === 'teacher') {
-      code = document.getElementById('regTchCode').value.trim().toUpperCase();
-      name = document.getElementById('regTchName').value.trim();
-      email = document.getElementById('regTchEmail').value.trim();
-      phone = document.getElementById('regTchPhone').value.trim();
-      pw = document.getElementById('regTchPw').value;
-      pw2 = document.getElementById('regTchPw2').value;
-    } else if (role === 'student') {
-      code = document.getElementById('regStuCode').value.trim().toUpperCase();
-      name = document.getElementById('regStuName').value.trim();
-      email = document.getElementById('regStuEmail').value.trim();
-      phone = document.getElementById('regStuPhone').value.trim();
-      pw = document.getElementById('regStuPw').value;
-      pw2 = document.getElementById('regStuPw2').value;
-    } else {
-      code = document.getElementById('regParCode').value.trim().toUpperCase();
-      name = document.getElementById('regParName').value.trim();
-      email = document.getElementById('regParEmail').value.trim();
-      phone = document.getElementById('regParPhone').value.trim();
-      pw = document.getElementById('regParPw').value;
-      pw2 = document.getElementById('regParPw2').value;
+  window.registerWithCode = async (role) => {
+    let pre = role==='teacher'?'TCH':role==='student'?'STU':'PAR';
+    let p = role === 'teacher' ? 'Tch' : role === 'student' ? 'Stu' : 'Par';
+    
+    const code = document.getElementById('reg'+p+'Code').value.trim().toUpperCase();
+    const name = document.getElementById('reg'+p+'Name').value.trim();
+    const email = document.getElementById('reg'+p+'Email').value.trim();
+    const phone = document.getElementById('reg'+p+'Phone').value.trim();
+    const pw = document.getElementById('reg'+p+'Pw').value;
+    const pw2 = document.getElementById('reg'+p+'Pw2').value;
+
+    if (!code || !name || !email || !phone || !pw) return showToast('Please fill missing fields', 'error');
+    if (pw !== pw2) return showToast('Passwords mismatch', 'error');
+    if (!code.startsWith(pre+'-')) return showToast('Invalid code format. Must start with '+pre+'-', 'error');
+
+    try {
+      showToast('Validating code...', 'success');
+      
+      const inviteReq = await getDoc(doc(db, "invites", code));
+      if (!inviteReq.exists()) {
+         return showToast('Invalid or unrecognized code.', 'error');
+      }
+
+      const inviteData = inviteReq.data();
+      if (inviteData.status !== 'pending') {
+         return showToast('This code has already been used or is inactive.', 'error');
+      }
+      if (inviteData.role !== role) {
+         return showToast('This code is not for the ' + role + ' role.', 'error');
+      }
+
+      showToast('Code accepted. Creating account...', 'success');
+      const userCredential = await createUserWithEmailAndPassword(auth, email, pw);
+      const user = userCredential.user;
+      
+      const userPayload = { 
+         role: role, 
+         email: email, 
+         phone: phone, 
+         name: name, 
+         invitation_code: code,
+         school_id: inviteData.school_id
+      };
+      
+      if (inviteData.class_id) userPayload.class_id = inviteData.class_id;
+      if (inviteData.linked_student_code) userPayload.linked_student_code = inviteData.linked_student_code;
+
+      // 1. Create User
+      await setDoc(doc(db, "users", user.uid), userPayload);
+      
+      // 2. Mark invite as used
+      await updateDoc(doc(db, "invites", code), {
+         status: 'used',
+         used_by_uid: user.uid,
+         used_at: new Date().toISOString()
+      });
+
+      document.getElementById('successTitle').textContent = 'Account Ready!';
+      document.getElementById('successMsg').textContent = 'Welcome '+name+', you can log in now.';
+      document.getElementById('successCodes').innerHTML = '';
+      document.getElementById('successOverlay').classList.add('show');
+    } catch (error) {
+      showToast(error.message, 'error');
     }
-
-    if (!code || !name || !email || !phone || !pw) return showToast('Please fill all required fields', 'error');
-    if (pw !== pw2) return showToast('Passwords do not match', 'error');
-    if (pw.length < 6) return showToast('Password must be at least 6 characters', 'error');
-    if (DB.users.find(u => u.email === email || u.phone === phone)) return showToast('Email or phone already registered', 'error');
-
-    const prefix = role === 'teacher' ? 'TCH-' : role === 'student' ? 'STU-' : 'PAR-';
-    if (!code.startsWith(prefix)) return showToast('Invalid code format. Expected ' + prefix + 'XXXXX', 'error');
-
-    const inv = DB.invitation_codes.find(c => c.code === code && c.type === role && c.status === 'unused');
-    if (!inv) return showToast('Invalid or already used invitation code', 'error');
-
-    inv.status = 'used';
-    const linkedId = genId(role === 'teacher' ? 'tch' : role === 'student' ? 'stu' : 'par');
-    inv.used_by = linkedId;
-
-    if (role === 'teacher') {
-      DB.teachers.push({ teacher_id:linkedId, school_id:inv.school_id, name:name, assigned_class:inv.assigned_class||'Unassigned', email:email, phone:phone, password:pw, invitation_code:code });
-    } else if (role === 'student') {
-      DB.students.push({ student_id:linkedId, school_id:inv.school_id, class_id:inv.class_id||'Class 3', parent_id:'unassigned', name:name, age:8, avatar:'fas fa-user', base_points:0, email:email, phone:phone, password:pw, invitation_code:code });
-    } else {
-      const linkedStuCode = inv.linked_student_code || '';
-      const stu = DB.students.find(s => s.invitation_code === linkedStuCode);
-      if (stu) stu.parent_id = linkedId;
-      DB.parents.push({ parent_id:linkedId, name:name, email:email, phone:phone, password:pw, linked_student_id:stu?stu.student_id:'', invitation_code:code });
-    }
-
-    DB.users.push({ user_id:genId('usr'), role:role, linked_id:linkedId, email:email, phone:phone, password:pw, name:name });
-    saveDB();
-
-    const roleLabel = role.charAt(0).toUpperCase() + role.slice(1);
-    document.getElementById('successTitle').textContent = '✅ ' + roleLabel + ' Registered!';
-    document.getElementById('successMsg').textContent = 'Welcome, ' + name + '! You can now login with your email or phone.';
-    document.getElementById('successCodes').innerHTML = '';
-    document.getElementById('successBtn').textContent = 'Go to Login';
-    document.getElementById('successBtn').onclick = () => { closeSuccess(); document.querySelector('.login-section').scrollIntoView({ behavior:'smooth' }); };
-    document.getElementById('successOverlay').classList.add('show');
   };
 
-  // ===== INDIVIDUAL REGISTRATION =====
-  window.registerIndividual = () => {
+  window.registerIndividual = async () => {
     const name = document.getElementById('regIndName').value.trim();
     const email = document.getElementById('regIndEmail').value.trim();
     const phone = document.getElementById('regIndPhone').value.trim();
     const pw = document.getElementById('regIndPw').value;
     const pw2 = document.getElementById('regIndPw2').value;
 
-    if (!name || !email || !phone || !pw) return showToast('Please fill all required fields', 'error');
-    if (pw !== pw2) return showToast('Passwords do not match', 'error');
-    if (pw.length < 6) return showToast('Password must be at least 6 characters', 'error');
-    if (DB.users.find(u => u.email === email || u.phone === phone)) return showToast('Email or phone already registered', 'error');
+    if (!name || !email || !phone || !pw) return showToast('Required fields missing', 'error');
+    if (pw !== pw2) return showToast('Passwords mismatch', 'error');
 
-    const indId = genId('ind');
-    const trialStart = new Date().toISOString();
-    const trialEnd = new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString();
+    try {
+      showToast('Creating trial account...', 'success');
+      const userCredential = await createUserWithEmailAndPassword(auth, email, pw);
+      const trialEnd = new Date(Date.now() + 3*24*60*60*1000).toISOString();
+      
+      await setDoc(doc(db, "users", userCredential.user.uid), { role: 'individual', email: email, phone: phone, name: name, trial_end: trialEnd });
 
-    if (!DB.individuals) DB.individuals = [];
-    DB.individuals.push({ individual_id:indId, name:name, email:email, phone:phone, password:pw, trial_start:trialStart, trial_end:trialEnd, subscription_status:'trial' });
-    DB.users.push({ user_id:genId('usr'), role:'individual', linked_id:indId, email:email, phone:phone, password:pw, name:name, trial_start:trialStart, trial_end:trialEnd });
-    saveDB();
-
-    const endDate = new Date(trialEnd);
-    const endStr = endDate.toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric', year:'numeric' });
-
-    document.getElementById('successTitle').textContent = '🚀 Welcome Aboard!';
-    document.getElementById('successMsg').textContent = 'Your 3-day free trial has started. Enjoy full access to all Imaan & Akhlaq products!';
-    document.getElementById('successCodes').innerHTML =
-      '<div class="code-display" style="border-color:rgba(6,182,212,0.3); background:rgba(6,182,212,0.08);">' +
-      '<div class="code-label">Free Trial Active</div>' +
-      '<div class="code-value" style="color:#22d3ee; font-size:1.2rem; letter-spacing:1px;"><i class="fas fa-clock me-2"></i>3 Days</div>' +
-      '<div style="margin-top:8px; font-size:0.8rem; color:#94a3b8;">Trial ends on <strong style="color:#67e8f9;">' + endStr + '</strong></div>' +
-      '<div style="margin-top:6px; font-size:0.75rem; color:#64748b;">After trial, subscribe to continue access.</div>' +
-      '</div>';
-    document.getElementById('successBtn').textContent = 'Start Learning';
-    document.getElementById('successBtn').onclick = () => { closeSuccess(); document.querySelector('.login-section').scrollIntoView({ behavior:'smooth' }); };
-    document.getElementById('successOverlay').classList.add('show');
+      document.getElementById('successTitle').textContent = 'Welcome Aboard!';
+      document.getElementById('successMsg').textContent = 'Your 3-day free trial has been activated.';
+      document.getElementById('successCodes').innerHTML = '';
+      document.getElementById('successOverlay').classList.add('show');
+    } catch (error) {
+      showToast(error.message, 'error');
+    }
   };
 
-  // ===== LOGIN =====
-  window.loginUser = () => {
+  window.loginUser = async () => {
     const id = document.getElementById('loginId').value.trim();
     const pw = document.getElementById('loginPw').value;
-    if (!id || !pw) return showToast('Please enter email/phone and password', 'error');
+    if (!id || !pw) return showToast('Enter email and password', 'error');
 
-    const user = DB.users.find(u => (u.email === id || u.phone === id) && u.password === pw);
-    if (!user) return showToast('Invalid credentials. Please try again.', 'error');
-
-    // Check individual trial expiry
-    if (user.role === 'individual') {
-      const now = new Date();
-      const trialEnd = new Date(user.trial_end);
-      if (now > trialEnd) {
-        return showToast('Your 3-day trial has expired. Please subscribe to continue.', 'error');
+    try {
+      showToast('Logging in...', 'success');
+      const userCredential = await signInWithEmailAndPassword(auth, id, pw);
+      const user = userCredential.user;
+      
+      const userDoc = await getDoc(doc(db, "users", user.uid));
+      if (userDoc.exists()) {
+        const userData = userDoc.data();
+        sessionStorage.setItem('auth_user', JSON.stringify({ uid: user.uid, ...userData }));
+        
+        showToast('Success! Redirecting...', 'success');
+        setTimeout(() => {
+          if (userData.role === 'school_admin') window.location.href = './admin-dashboard.html';
+          else if (userData.role === 'teacher') window.location.href = './teacher-dashboard.html';
+          else if (userData.role === 'student' || userData.role === 'individual') window.location.href = './student-activities.html';
+          else if (userData.role === 'parent') window.location.href = './parent-dashboard.html';
+        }, 1000);
+      } else {
+        showToast('User record not found in system.', 'error');
       }
-      const hoursLeft = Math.ceil((trialEnd - now) / (1000 * 60 * 60));
-      if (hoursLeft <= 24) {
-        showToast('⚠️ Trial expires in ' + hoursLeft + ' hours! Subscribe to keep access.', 'error');
-      }
+    } catch (error) {
+      showToast(error.message, 'error');
     }
-
-    sessionStorage.setItem('auth_user', JSON.stringify(user));
-    showToast('Login successful! Redirecting...', 'success');
-
-    setTimeout(() => {
-      if (user.role === 'school_admin') {
-        const admin = DB.school_admins.find(a => a.admin_id === user.linked_id);
-        const school = DB.schools.find(s => s.school_id === admin?.school_id);
-        sessionStorage.setItem('admin_session', JSON.stringify({ adminId:admin.admin_id, adminName:admin.name, schoolId:school.school_id, schoolName:school.name }));
-        window.location.href = '/admin/dashboard';
-      } else if (user.role === 'teacher') {
-        window.location.href = '/teacher/dashboard';
-      } else if (user.role === 'student') {
-        window.location.href = '/student/activities';
-      } else if (user.role === 'parent') {
-        window.location.href = '/parent/dashboard';
-      } else if (user.role === 'individual') {
-        window.location.href = '/student/activities';
-      }
-    }, 1000);
   };
 
-  // ===== FORGOT PASSWORD =====
-  window.showResetModal = () => { document.getElementById('resetOverlay').classList.add('show'); };
+  window.showResetModal = () => document.getElementById('resetOverlay').classList.add('show');
   window.closeReset = () => {
     document.getElementById('resetOverlay').classList.remove('show');
-    document.getElementById('resetNewPw').style.display = 'none';
-    document.getElementById('resetBtn').textContent = 'Find Account';
-    document.getElementById('resetBtn').onclick = resetPassword;
   };
-
-  let resetUser = null;
-  window.resetPassword = () => {
+  
+  window.resetPassword = async () => {
     const id = document.getElementById('resetId').value.trim();
-    if (!id) return showToast('Please enter your email or phone', 'error');
-    resetUser = DB.users.find(u => u.email === id || u.phone === id);
-    if (!resetUser) return showToast('No account found with this email/phone', 'error');
-
-    document.getElementById('resetNewPw').style.display = 'block';
-    document.getElementById('resetBtn').textContent = 'Update Password';
-    document.getElementById('resetBtn').onclick = () => {
-      const np = document.getElementById('resetPwVal').value;
-      const np2 = document.getElementById('resetPwVal2').value;
-      if (!np || np.length < 6) return showToast('Password must be at least 6 characters', 'error');
-      if (np !== np2) return showToast('Passwords do not match', 'error');
-      resetUser.password = np;
-      // Also update in role-specific arrays
-      if (resetUser.role === 'school_admin') { const a = DB.school_admins.find(x=>x.admin_id===resetUser.linked_id); if(a) a.password=np; }
-      if (resetUser.role === 'teacher') { const t = DB.teachers.find(x=>x.teacher_id===resetUser.linked_id); if(t) t.password=np; }
-      if (resetUser.role === 'parent') { const p = DB.parents.find(x=>x.parent_id===resetUser.linked_id); if(p) p.password=np; }
-      if (resetUser.role === 'student') { const s = DB.students.find(x=>x.student_id===resetUser.linked_id); if(s) s.password=np; }
-      saveDB();
-      showToast('Password updated successfully!', 'success');
-      closeReset();
-    };
+    if (!id) return showToast('Please enter your email', 'error');
+    
+    try {
+      showToast('Sending reset email...', 'success');
+      await sendPasswordResetEmail(auth, id);
+      showToast('Reset email sent! Check your inbox.', 'success');
+      setTimeout(closeReset, 2000);
+    } catch (error) {
+      showToast(error.message, 'error');
+    }
   };
 
-  window.closeSuccess = () => { document.getElementById('successOverlay').classList.remove('show'); };
-
-  // Enter key handlers
-  document.getElementById('loginPw').addEventListener('keyup', (e) => { if(e.key==='Enter') loginUser(); });
-});
 </script>
 `

@@ -1,0 +1,20 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # Serve static JSON files directly
+    RewriteRule ^api-activities$ api-activities.json [L]
+
+    # Handle clean URLs for HTML files
+    # If /student/activities is requested, serve /student/activities.html
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME}.html -f
+    RewriteRule ^(.*)$ $1.html [L]
+
+    # Handle nested dashboards
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{DOCUMENT_ROOT}/$1/dashboard.html -f
+    RewriteRule ^(.*)/dashboard$ $1/dashboard.html [L]
+</IfModule>

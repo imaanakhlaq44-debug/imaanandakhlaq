@@ -1,0 +1,43 @@
+# Enable Rewrite Engine
+RewriteEngine On
+
+# ----------------------------------------------------
+# DISABLE LITESPEED CACHING (Crucial for Hostinger UI updates)
+# ----------------------------------------------------
+<IfModule LiteSpeed>
+  CacheDisable public /
+  RewriteRule .* - [E=Cache-Control:no-cache]
+</IfModule>
+
+<FilesMatch "\.(html|htm|js|css|json)$">
+  FileETag None
+  <IfModule mod_headers.c>
+    Header unset ETag
+    Header set Cache-Control "max-age=0, no-cache, no-store, must-revalidate"
+    Header set Pragma "no-cache"
+    Header set Expires "Wed, 11 Jan 1984 05:00:00 GMT"
+  </IfModule>
+</FilesMatch>
+# ----------------------------------------------------
+
+
+# Allow authorization headers
+SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
+
+# Remove trailing slash to prevent 404 and relative path breakage (e.g. /about/ -> /about)
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)/$ /$1 [L,R=301]
+
+# Extensionless html pages (SSG Support for Hostinger)
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.html -f
+RewriteRule ^(.*)$ $1.html [L]
+
+# Redirect root directory to index.html
+DirectoryIndex index.html
+
+# Deny access to sensitive files
+<FilesMatch "\.(json|ps1|sh|md|ts)$">
+  Order Allow,Deny
+  Deny from all
+</FilesMatch>

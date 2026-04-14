@@ -1,0 +1,1770 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Imaan & Akhlaq - Islamic Stories & Education for Kids</title>
+  <meta name="description" content="Imaan & Akhlaq - Fun Islamic stories, puppet shows, and educational programs teaching faith, manners, and good character to children." />
+  <meta property="og:title" content="Imaan & Akhlaq - Islamic Education for Kids" />
+  <meta property="og:description" content="Join Imaan and Akhlaq on magical adventures learning about Islam, Prophets, and good manners!" />
+  <meta property="og:type" content="website" />
+  <link rel="icon" type="image/jpeg" href="/kidba_assets/favicon.jpg" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap 5 -->
+  <link rel="stylesheet" href="/kidba_assets/vendor/css/bootstrap.min.css" />
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="/kidba_assets/vendor/css/all.min.css" />
+
+  <!-- Animate.css -->
+  <link rel="stylesheet" href="/kidba_assets/vendor/css/animate.min.css" />
+
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="/kidba_assets/vendor/css/swiper-bundle.min.css" />
+
+  <!-- AOS CSS -->
+  <link rel="stylesheet" href="/kidba_assets/vendor/css/aos.css" />
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/kidba_assets/css/style.css">
+</head>
+<body>
+
+
+<!-- ===== SCROLL PROGRESS ===== -->
+
+  <div id="scrollProgress"></div>
+
+  
+
+
+<!-- ===== KIDBA-STYLE SPLASH SCREEN ===== -->
+
+  <div id="preloader">
+    <!-- Floating decorative shapes -->
+    <div class="splash-shapes">
+      <div class="splash-shape shape-1"></div>
+      <div class="splash-shape shape-2"></div>
+      <div class="splash-shape shape-3"></div>
+      <div class="splash-shape shape-4"></div>
+      <div class="splash-shape shape-5"></div>
+      <div class="splash-shape shape-6"></div>
+      <div class="splash-shape shape-7"></div>
+      <div class="splash-shape shape-8"></div>
+    </div>
+
+    <!-- Center content -->
+    <div class="splash-center">
+      <!-- Logo with glow -->
+      <div class="splash-logo-wrap">
+        <img src="/kidba_assets/img/splash_logo.jpg" alt="Imaan & Akhlaq" class="splash-logo" />
+      </div>
+
+      <!-- Animated brand wordmark Ã¢â‚¬â€ Kidba style colorful text -->
+      <div class="splash-wordmark">
+        <span class="sw-let" style="color:#D63678;animation-delay:.05s">I</span><span class="sw-let" style="color:#E08020;animation-delay:.1s">m</span><span class="sw-let" style="color:#1E2D5A;animation-delay:.15s">a</span><span class="sw-let" style="color:#C99A6B;animation-delay:.2s">a</span><span class="sw-let" style="color:#D63678;animation-delay:.25s">n</span><span class="sw-amp">&amp;</span><span class="sw-let" style="color:#1E2D5A;animation-delay:.35s">A</span><span class="sw-let" style="color:#D63678;animation-delay:.4s">k</span><span class="sw-let" style="color:#E08020;animation-delay:.45s">h</span><span class="sw-let" style="color:#C99A6B;animation-delay:.5s">l</span><span class="sw-let" style="color:#1E2D5A;animation-delay:.55s">a</span><span class="sw-let" style="color:#D63678;animation-delay:.6s">q</span>
+      </div>
+
+      <!-- Pen/book deco icon -->
+      <div class="splash-icon">
+        <svg viewBox="0 0 64 64" width="42" height="42" class="splash-pen-svg">
+          <g transform="rotate(-30 32 32)">
+            <rect x="14" y="12" width="36" height="40" rx="3" fill="#D63678" opacity="0.9"/>
+            <rect x="18" y="16" width="28" height="32" rx="2" fill="#fff" opacity="0.95"/>
+            <line x1="22" y1="24" x2="42" y2="24" stroke="#E08020" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+            <line x1="22" y1="30" x2="38" y2="30" stroke="#D63678" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+            <line x1="22" y1="36" x2="40" y2="36" stroke="#1E2D5A" stroke-width="2" stroke-linecap="round" opacity="0.3"/>
+            <path d="M 30 8 A 6 6 0 0 1 30 20 A 4 4 0 0 0 30 8" fill="#E08020" opacity="0.85"/>
+            <circle cx="33" cy="11" r="1" fill="#E08020"/>
+            <line x1="44" y1="8" x2="38" y2="42" stroke="#1E2D5A" stroke-width="2.5" stroke-linecap="round"/>
+            <polygon points="38,42 36,48 40,48" fill="#D63678"/>
+            <circle cx="48" cy="6" r="1.5" fill="#E08020" class="splash-sparkle sp-1"/>
+            <circle cx="52" cy="12" r="1" fill="#D63678" class="splash-sparkle sp-2"/>
+            <circle cx="46" cy="14" r="1.2" fill="#C99A6B" class="splash-sparkle sp-3"/>
+          </g>
+        </svg>
+      </div>
+
+      <!-- Progress bar -->
+      <div class="splash-progress-track">
+        <div class="splash-progress-bar" id="splashProgressBar"></div>
+      </div>
+
+      <!-- Loading text -->
+      <p class="splash-loading-text">Loading joyful learning<span class="splash-dots">...</span></p>
+    </div>
+
+    <!-- Bottom tagline -->
+    <p class="splash-tagline">Islamic Stories &amp; Education for Kids</p>
+  </div>
+
+  
+
+
+<style>
+  .floating-whatsapp {
+    position: fixed;
+    bottom: 26px;
+    left: 26px; /* Positioned on the left to balance back-to-top on the right */
+    z-index: 998;
+    width: 56px;
+    height: 56px;
+    background: linear-gradient(135deg, #25D366, #128C7E);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+    transition: all 0.3s ease;
+    text-decoration: none;
+    animation: bounceObj 3s infinite;
+  }
+  .floating-whatsapp:hover {
+    transform: translateY(-4px) scale(1.1);
+    color: #fff;
+    box-shadow: 0 10px 25px rgba(37, 211, 102, 0.6);
+    animation: none;
+  }
+  @keyframes bounceObj {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-8px); }
+    60% { transform: translateY(-4px); }
+  }
+</style>
+
+<!-- ===== WHATSAPP FLOATING BUTTON ===== -->
+<a href="https://wa.me/923390106475" target="_blank" class="floating-whatsapp" aria-label="Chat with us on WhatsApp">
+  <i class="fab fa-whatsapp"></i>
+</a>
+
+<!-- ===== BACK TO TOP ===== -->
+<a href="#" class="back-to-top" id="backToTop">
+  <i class="fas fa-arrow-up"></i>
+</a>
+
+
+<!-- ===== HEADER / NAVBAR ===== -->
+<style>
+  @media all and (min-width: 992px) {
+    .navbar .nav-item.dropdown:hover .dropdown-menu { 
+      display: block; 
+      visibility: visible; 
+      opacity: 1; 
+      margin-top: 0;
+      transition: all 0.3s ease-in-out;
+    }
+    .navbar .dropdown-menu { 
+      display: block; 
+      visibility: hidden; 
+      opacity: 0; 
+      margin-top: 15px;
+      transition: all 0.3s ease-in-out;
+      transform-origin: top;
+    }
+  }
+</style>
+  <header class="site-header" id="siteHeader">
+    <div class="top-bar">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-md-6">
+            <ul class="top-bar-info">
+              <li><i class="fas fa-envelope"></i> info@imaanakhlaq.org</li>
+              <li><i class="fas fa-phone"></i> +92 339 0106475</li>
+            </ul>
+          </div>
+          <div class="col-md-6 text-end">
+            <div class="top-bar-social">
+              <a href="https://www.instagram.com/imaanakhlaq/" target="_blank"><i class="fab fa-instagram"></i></a>
+              <a href="https://www.facebook.com/ImaanAkhlaqTalks/" target="_blank"><i class="fab fa-facebook-f"></i></a>
+              <a href="https://www.youtube.com/@ImaanAkhlaq" target="_blank"><i class="fab fa-youtube"></i></a>
+              <a href="https://twitter.com/ImaanAkhlaq" target="_blank"><i class="fab fa-twitter"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <nav class="navbar navbar-expand-lg main-navbar" id="mainNavbar">
+      <div class="container">
+        <a class="navbar-brand" href="#">
+          <img src="/kidba_assets/img/splash_logo.jpg" alt="Imaan & Akhlaq" class="site-logo" style="border-radius: 50%; border: 3px solid #FF7681; object-fit: cover; width: 55px; height: 55px; padding: 2px; background: #fff; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="toggler-icon"><span></span><span></span><span></span></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="nav-link active" href="/#home">Home</a></li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="aboutDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                About Us
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="aboutDropdown" style="border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-radius: 12px; padding: 10px;">
+                <li><a class="dropdown-item" href="/about/intro.html">Introduction & Objective</a></li>
+                <li><a class="dropdown-item" href="/about/genesis.html">Genesis</a></li>
+                <li><a class="dropdown-item" href="/about/founder.html">Message from Founder</a></li>
+                <li><a class="dropdown-item" href="/about/team.html">Team in Vision</a></li>
+                <li><a class="dropdown-item" href="/about/sdg.html">Linked with SDGs</a></li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="productsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Products
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="productsDropdown" style="border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-radius: 12px; padding: 10px;">
+                <li><a class="dropdown-item" href="/products/books.html">Curriculum Books</a></li>
+                <li><a class="dropdown-item" href="/products/coloring.html">Coloring Books</a></li>
+                <li><a class="dropdown-item" href="/products/audio.html">Audio Story Portal</a></li>
+                <li><a class="dropdown-item" href="/products/puppet.html">Puppet Show</a></li>
+                <li><a class="dropdown-item" href="/products/games.html">Game Portal</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="/club.html"><i class="fas fa-crown text-warning"></i> Imaan Akhlaq Club</a></li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="mediaDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Media
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="mediaDropdown" style="border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-radius: 12px; padding: 10px;">
+                <li><a class="dropdown-item" href="/blog.html">Blogs</a></li>
+                <li><a class="dropdown-item" href="#videos">Videos</a></li>
+                <li><a class="dropdown-item" href="#news">News</a></li>
+              </ul>
+            </li>
+          </ul>
+        <style>
+          .btn-club-cta {
+            background: linear-gradient(135deg, #FFD700, #E08020);
+            color: #fff !important;
+            font-family: 'Fredoka One', cursive;
+            font-weight: 400;
+            padding: 8px 20px;
+            border-radius: 50px;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(224, 128, 32, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            animation: club-pulse 2s infinite;
+          }
+          .btn-club-cta:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 6px 20px rgba(224, 128, 32, 0.6);
+            color: #fff !important;
+          }
+          @keyframes club-pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 215, 0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0); }
+          }
+        </style>
+        <!-- CLUB BUTTON PENDED -->
+        <!-- <a href="/club" class="btn btn-club-cta ms-lg-3" id="clubButton">
+          <i class="fas fa-crown"></i> I&A Club
+        </a> -->
+        <!-- LOGIN / REGISTER BUTTON -->
+        <a href="/auth.html" class="btn btn-nav-cta ms-3" id="authButton">
+          <i class="fas fa-user-circle me-1"></i> Login / Register
+        </a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  
+
+
+<style>
+  .hero-flashcards {
+    position: relative;
+    padding: 160px 20px 80px;
+    background: url('/kidba_assets/img/hero_bg_magical.png') center/cover no-repeat;
+    overflow: hidden;
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+  }
+  
+  /* Space Particles Background Effect */
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    opacity: 0.85;
+    background-color: #0f172a; /* Dark tint over the bright image */
+    background-image: 
+      radial-gradient(#D63678 1px, transparent 1px),
+      radial-gradient(#E08020 1px, transparent 1px);
+    background-size: 50px 50px;
+    background-position: 0 0, 25px 25px;
+    z-index: 1;
+    animation: drift 40s linear infinite;
+  }
+  @keyframes drift { 0% { background-position: 0 0, 25px 25px; } 100% { background-position: 500px 500px, 525px 525px; } }
+  
+  .hero-glow-1 { position: absolute; width: 500px; height: 500px; background: rgba(214, 54, 120, 0.4); filter: blur(120px); top: -100px; left: -100px; border-radius: 50%; z-index: 1; }
+  .hero-glow-2 { position: absolute; width: 600px; height: 600px; background: rgba(224, 128, 32, 0.25); filter: blur(150px); bottom: -150px; right: -100px; border-radius: 50%; z-index: 1; }
+
+  .hero-content { position: relative; z-index: 2; text-align: center; max-width: 1000px; margin: 0 auto 40px; }
+  
+  .hero-badge {
+    display: inline-block; padding: 10px 24px; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 30px; font-size: 0.9rem; font-weight: 700; color: #F59E0B; text-transform: uppercase; letter-spacing: 2px;
+    margin-bottom: 24px; backdrop-filter: blur(10px); box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  }
+
+  .hero-flashcards h1 {
+    font-family: 'Fredoka One', cursive; font-size: clamp(2.8rem, 5vw, 4.5rem); line-height: 1.1;
+    margin-bottom: 20px; text-shadow: 0 10px 30px rgba(0,0,0,0.5); color: #ffffff !important;
+  }
+  
+  .hero-flashcards p.subtitle {
+    font-size: 1.25rem; opacity: 0.85; max-width: 700px; margin: 0 auto; line-height: 1.6; font-weight: 500;
+  }
+
+  /* --- EXPANDING FLASHCARDS UI --- */
+  .flashcards-container {
+    position: relative; z-index: 2; display: flex; gap: 20px; max-width: 1200px; margin: 0 auto; height: 420px;
+    padding: 0 10px;
+  }
+
+  .flashcard {
+    flex: 1; border-radius: 30px; overflow: hidden; position: relative; cursor: pointer; text-decoration: none;
+    transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2); display: flex; flex-direction: column; justify-content: flex-end;
+  }
+  
+  .flashcard:hover {
+    flex: 2.5; box-shadow: 0 30px 60px rgba(0,0,0,0.4); border: 1px solid rgba(255, 255, 255, 0.3); transform: translateY(-10px);
+  }
+
+  /* Specific Card Theme Backgrounds */
+  .fc-bg { 
+    position: absolute; inset: -10px; /* Oversize to hide blur edges */
+    background-size: cover !important; background-position: center !important; 
+    transition: all 0.6s; z-index: 1; border-radius: 30px;
+    filter: blur(3px) brightness(0.5); 
+  }
+  .flashcard:hover .fc-bg { filter: blur(0px) brightness(0.85); transform: scale(1.05); }
+
+  .bg-books { background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(16, 185, 129, 0.95) 100%), url('/kidba_assets/img/fc_books_real.jpg'); }
+  .bg-colors { background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(239, 68, 68, 0.95) 100%), url('/kidba_assets/img/fc_coloring.png'); }
+  .bg-audio { background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(139, 92, 246, 0.95) 100%), url('/kidba_assets/img/fc_audio.png'); }
+  .bg-puppet { background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(245, 158, 11, 0.95) 100%), url('/kidba_assets/img/fc_puppet.png'); }
+
+  /* Content inside the card */
+  .fc-content { position: relative; z-index: 2; padding: 30px; display: flex; flex-direction: column; height: 100%; justify-content: flex-end; color: white; }
+  
+  .fc-icon { font-size: 2.5rem; margin-bottom: 15px; display: inline-flex; width: 60px; height: 60px; background: rgba(255,255,255,0.15); border-radius: 50%; align-items: center; justify-content: center; backdrop-filter: blur(5px); border: 2px solid rgba(255,255,255,0.2); transition: all 0.5s; position: absolute; top: 30px; left: 30px; z-index: 5; }
+  .flashcard:hover .fc-icon { background: rgba(255,255,255,0.3); transform: scale(1.1); box-shadow: 0 0 20px rgba(255,255,255,0.4); }
+
+  .fc-title { font-family: 'Fredoka One', cursive; font-size: 1.8rem; margin: 0 0 10px 0; text-shadow: 0 2px 4px rgba(0,0,0,0.4); white-space: nowrap; transition: all 0.5s; color: #ffffff !important; }
+  
+  .fc-desc { font-size: 1.05rem; opacity: 0; max-height: 0; overflow: hidden; transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1); line-height: 1.6; text-shadow: 0 1px 3px rgba(0,0,0,0.5); font-weight: 500; }
+  .flashcard:hover .fc-desc { opacity: 1; max-height: 150px; margin-bottom: 20px; }
+
+  .fc-btn { background: white; color: #0f172a; padding: 12px 24px; border-radius: 20px; font-weight: bold; transform: translateY(50px); opacity: 0; transition: all 0.4s ease; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; display: inline-block; text-align: center; }
+  .flashcard:hover .fc-btn { transform: translateY(0); opacity: 1; }
+
+  @media (max-width: 991px) {
+    .flashcards-container { flex-direction: column; height: auto; max-width: 500px; }
+    .flashcard { flex: none; height: 160px; }
+    .fc-icon { top: 20px; left: 20px; font-size: 1.5rem; width: 45px; height: 45px; }
+    .fc-content { justify-content: center; padding-left: 80px; }
+    .fc-title { font-size: 1.4rem;  white-space: normal; }
+    .fc-title br { display: none; }
+    .flashcard:hover { height: 280px; flex: none; }
+    .flashcard:hover .fc-content { justify-content: flex-end; padding-left: 30px; }
+    .flashcard:hover .fc-icon { top: 20px; left: 20px; }
+  }
+</style>
+
+<section class="hero-flashcards" id="home">
+  <div class="hero-glow-1"></div>
+  <div class="hero-glow-2"></div>
+  <div class="hero-overlay"></div>
+  
+  <div class="hero-content" data-aos="fade-up">
+    <span class="hero-badge">Welcome to The Ecosystem</span>
+    <h1>Explore Our World!</h1>
+    <p class="subtitle">Join Imaan and Akhlaq on an epic journey to protect the heart. Discover magical books, coloring activities, and immersive stories.</p>
+  </div>
+
+  <div class="flashcards-container">
+    
+    <!-- Card 1: Books -->
+    <a href="/products/books.html" class="flashcard" data-aos="fade-up" data-aos-delay="100">
+      <div class="fc-bg bg-books"></div>
+      <div class="fc-content">
+        <div class="fc-icon">📚</div>
+        <h3 class="fc-title">Curriculum Books</h3>
+        <p class="fc-desc">Embark on an adventure battling the whispers of Faasid. Perfect for daily bedtime reading and planting seeds of faith!</p>
+        <span class="fc-btn">Open Library</span>
+      </div>
+    </a>
+
+    <!-- Card 2: Coloring -->
+    <a href="/products/coloring.html" class="flashcard" data-aos="fade-up" data-aos-delay="200">
+      <div class="fc-bg bg-colors"></div>
+      <div class="fc-content">
+        <div class="fc-icon">🖍️</div>
+        <h3 class="fc-title">Magic Coloring</h3>
+        <p class="fc-desc">Bring faith to life! Paint beautiful interactive digital line art featuring our heroes directly on your screen.</p>
+        <span class="fc-btn">Start Painting</span>
+      </div>
+    </a>
+
+    <!-- Card 3: Audio -->
+    <a href="/products/audio.html" class="flashcard" data-aos="fade-up" data-aos-delay="300">
+      <div class="fc-bg bg-audio"></div>
+      <div class="fc-content">
+        <div class="fc-icon">🎧</div>
+        <h3 class="fc-title">Audio Stories</h3>
+        <p class="fc-desc">Close your eyes and immerse yourself in high-quality narrated tales. Available in English, Urdu, and Arabic!</p>
+        <span class="fc-btn">Listen Now</span>
+      </div>
+    </a>
+
+    <!-- Card 4: Puppet Shows -->
+    <a href="/products/puppet.html" class="flashcard" data-aos="fade-up" data-aos-delay="400">
+      <div class="fc-bg bg-puppet"></div>
+      <div class="fc-content">
+        <div class="fc-icon">🎭</div>
+        <h3 class="fc-title">Live Puppets</h3>
+        <p class="fc-desc">Want Imaan and Akhlaq to visit your kids? Invite us and book an immersive Live Puppet Show at your school!</p>
+        <span class="fc-btn">Invite Us</span>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+
+<style>
+  .problem-section {
+    padding: 100px 20px;
+    background: #FDF8F5; /* Very soft warm background */
+    color: #1E2D5A;
+    font-family: 'Inter', sans-serif;
+  }
+  
+  .problem-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+
+  @media (max-width: 900px) {
+    .problem-container {
+      grid-template-columns: 1fr;
+      text-align: center;
+    }
+  }
+
+  .problem-content h2 {
+    font-family: 'Fredoka One', cursive;
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: #D63678;
+    margin-bottom: 24px;
+    line-height: 1.2;
+  }
+
+  .problem-content p.lead {
+    font-size: 1.2rem;
+    line-height: 1.7;
+    color: #475569;
+    margin-bottom: 30px;
+    font-weight: 500;
+  }
+
+  .problem-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 40px 0;
+  }
+
+  .problem-list li {
+    font-size: 1.1rem;
+    color: #334155;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 600;
+  }
+  
+  @media (max-width: 900px) {
+    .problem-list li { justify-content: center; }
+  }
+
+  .problem-list li i {
+    color: #E08020;
+    font-size: 1.3rem;
+  }
+
+  .closing-line {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: #1E2D5A;
+    padding: 20px;
+    background: white;
+    border-left: 5px solid #D63678;
+    border-radius: 0 10px 10px 0;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  }
+  
+  @media (max-width: 900px) {
+    .closing-line { border-left: none; border-top: 5px solid #D63678; border-radius: 10px; }
+  }
+
+  .problem-visual {
+    position: relative;
+  }
+
+  .problem-visual img {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    filter: drop-shadow(0 20px 40px rgba(30, 45, 90, 0.15));
+    border-radius: 20px;
+  }
+  
+  .problem-blob {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120%;
+    height: 120%;
+    background: #FFEDD5;
+    border-radius: 50%;
+    z-index: -1;
+    filter: blur(40px);
+  }
+</style>
+
+<section class="problem-section" id="explore">
+  <div class="problem-container">
+    <div class="problem-visual">
+      <div class="problem-blob"></div>
+      <div class="video-container" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 20px; box-shadow: 0 20px 40px rgba(30, 45, 90, 0.15);">
+        <iframe src="https://www.youtube.com/embed/nDI47Tgrgh4?si=DBw-eQXIXyYxcDgC" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      </div>
+    </div>
+    
+    <div class="problem-content">
+      <h2>The Crisis of Character in Today's World</h2>
+      <p class="lead">
+        In a world driven by information, we are losing transformation. Education is producing knowledgeable minds, but not responsible individuals.
+      </p>
+      
+      <ul class="problem-list">
+        <li><i class="fas fa-times-circle"></i> Moral confusion</li>
+        <li><i class="fas fa-times-circle"></i> Weak sense of purpose</li>
+        <li><i class="fas fa-times-circle"></i> Disconnect between learning and living</li>
+      </ul>
+      
+      <div class="closing-line">
+        The question is no longer what children know&hellip; but who they become.
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<style>
+  .solution-section {
+    padding: 120px 20px;
+    background: white;
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .solution-bg-shape {
+    position: absolute;
+    top: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100vw;
+    height: 300px;
+    background: #FDF8F5;
+    border-radius: 50%;
+    z-index: 1;
+  }
+
+  .solution-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+  }
+
+  .solution-icon-main {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #1E2D5A, #D63678);
+    border-radius: 24px;
+    color: white;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+    box-shadow: 0 15px 30px rgba(30, 45, 90, 0.2);
+    transform: rotate(-5deg);
+  }
+
+  .solution-section h2 {
+    font-family: 'Fredoka One', cursive;
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    color: #1E2D5A;
+    margin-bottom: 20px;
+  }
+
+  .solution-subtitle {
+    font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+    color: #C99A6B;
+    font-weight: 700;
+    margin-bottom: 30px;
+  }
+
+  .features-row {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    margin-top: 60px; /* Room for floating bubbles */
+  }
+
+  .solution-card {
+    background: white;
+    padding: 40px 30px;
+    border-radius: 30px;
+    flex: 1;
+    min-width: 250px;
+    max-width: 320px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+    border: 1px solid rgba(226, 232, 240, 0.6);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    margin-top: 40px; 
+  }
+
+  .solution-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 25px 50px rgba(0,0,0,0.08);
+    border-color: var(--card-color, #cbd5e1);
+  }
+
+  .sol-image-container {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    position: absolute;
+    top: -60px;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: transform 0.4s ease;
+    border: 4px solid var(--card-color, #fff);
+  }
+
+  .solution-card:hover .sol-image-container {
+    transform: translateX(-50%) translateY(-10px) scale(1.1);
+    box-shadow: 0 20px 40px var(--card-shadow, rgba(0,0,0,0.15));
+  }
+
+  .sol-image-container img {
+    width: 85%;
+    height: 85%;
+    object-fit: contain;
+    border-radius: 50%;
+  }
+
+  .solution-card h4 {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #1e293b;
+    margin-top: 40px;
+    line-height: 1.4;
+  }
+</style>
+
+<section class="solution-section">
+  <div class="solution-bg-shape"></div>
+  <div class="solution-container">
+    <div class="solution-icon-main"><i class="fas fa-magic"></i></div>
+    <h2>Introducing Imaan & Akhlaq</h2>
+    <p class="solution-subtitle">Where faith meets character, and learning becomes living.</p>
+    
+    <p style="font-size: 1.2rem; color: #64748b; margin-bottom: 40px; max-width: 600px; margin-inline: auto;">
+      A holistic program designed to raise children with strong foundations.
+    </p>
+
+    <div class="features-row">
+      <div class="solution-card" style="--card-color: #E08020; --card-shadow: rgba(224, 128, 32, 0.3);" data-aos="zoom-in" data-aos-delay="100">
+        <div class="sol-image-container"><img src="./kidba_assets/img/icon_conviction.png" alt="Believe with Conviction" /></div>
+        <h4>Believe with Conviction</h4>
+      </div>
+      
+      <div class="solution-card" style="--card-color: #D63678; --card-shadow: rgba(214, 54, 120, 0.3);" data-aos="zoom-in" data-aos-delay="200">
+        <div class="sol-image-container"><img src="./kidba_assets/img/icon_integrity.png" alt="Act with Integrity" /></div>
+        <h4>Act with Integrity</h4>
+      </div>
+      
+      <div class="solution-card" style="--card-color: #6382EB; --card-shadow: rgba(99, 130, 235, 0.3);" data-aos="zoom-in" data-aos-delay="300">
+        <div class="sol-image-container"><img src="./kidba_assets/img/icon_purpose.png" alt="Live with Purpose" /></div>
+        <h4>Live with Purpose</h4>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<style>
+  .story-world {
+    padding: 100px 20px;
+    background: linear-gradient(135deg, #1E2D5A, #B02460);
+    color: white;
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .story-world::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image: url('data:image/svg+xml;utf8,<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"><circle cx="2" cy="2" r="2" fill="rgba(255,255,255,0.05)"/></svg>');
+    z-index: 1;
+  }
+
+  .story-container {
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+  }
+
+  .story-world h2 {
+    font-family: 'Fredoka One', cursive;
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    margin-bottom: 24px;
+    color: #FDF8F5;
+    text-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  }
+
+  .story-text {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: rgba(255,255,255,0.9);
+    margin-bottom: 40px;
+  }
+
+  .character-stage {
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+    margin-bottom: 50px;
+    flex-wrap: wrap;
+    position: relative;
+  }
+
+  .char-wrapper {
+    position: relative;
+    cursor: pointer;
+  }
+
+  .char-avatar {
+    width: 160px;
+    height: 160px;
+    background-color: #fff;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border: 4px solid rgba(255,255,255,0.3);
+    border-radius: 50%;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+  }
+
+  .char-wrapper:hover .char-avatar {
+    transform: scale(1.1);
+    border-color: #F59E0B;
+  }
+
+  .char-label {
+    margin-top: 15px;
+    font-weight: 800;
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+    color: #F59E0B;
+  }
+
+  /* Popups styling */
+  .char-popup {
+    position: absolute;
+    top: 30%;
+    width: 250px;
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 20px;
+    border-radius: 15px;
+    text-align: left;
+    color: #fff;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    z-index: 10;
+  }
+  
+  .char-popup h4 {
+    font-family: 'Fredoka One', cursive;
+    margin-bottom: 8px;
+    color: #F59E0B;
+    font-size: 1.2rem;
+  }
+  
+  .char-popup p {
+    font-size: 0.9rem;
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  /* Animates to the left of the image */
+  .popup-left {
+    right: 170px;
+    transform: translate(40px, -50%) scale(0.8);
+  }
+  .char-wrapper:hover .popup-left {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(0, -50%) scale(1);
+  }
+
+  /* Animates to the right of the image */
+  .popup-right {
+    left: 170px;
+    transform: translate(-40px, -50%) scale(0.8);
+  }
+  .char-wrapper:hover .popup-right {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(0, -50%) scale(1);
+  }
+
+  @media (max-width: 768px) {
+    .char-popup {
+       top: 100%;
+       left: 50% !important;
+       right: auto !important;
+       transform: translate(-50%, -10px) scale(0.8) !important;
+       margin-top: 5px;
+    }
+    .char-wrapper:hover .char-popup {
+       transform: translate(-50%, 15px) scale(1) !important;
+    }
+  }
+
+  .emotional-line {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.5rem;
+    color: #C99A6B;
+    background: rgba(0,0,0,0.2);
+    padding: 20px 40px;
+    border-radius: 50px;
+    display: inline-block;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+</style>
+
+<section class="story-world" id="stories">
+  <div class="story-container">
+    <h2>Enter the World of Imaan & Akhlaq</h2>
+    <p class="story-text">
+      Follow two young heroes as they navigate challenges, defeat negative traits, and grow into symbols of faith and character.<br/><strong>From Imaan & Akhlaq… to Raiah & Naseer.</strong>
+    </p>
+
+    <div class="character-stage">
+      <div class="char-wrapper">
+        <div class="char-avatar avatar-imaan" style="background-image: url('./kidba_assets/img/imaan-front.jpg');"></div>
+        <div class="char-label">IMAAN</div>
+        <div class="char-popup popup-left">
+          <h4>Imaan</h4>
+          <p>A pure heart striving for goodness. Through every trial, she demonstrates faith and unwavering resolve.</p>
+        </div>
+      </div>
+      <div class="char-wrapper">
+        <div class="char-avatar avatar-akhlaq" style="background-image: url('./kidba_assets/img/akhlaq-front.jpg');"></div>
+        <div class="char-label">AKHLAQ</div>
+        <div class="char-popup popup-right">
+          <h4>Akhlaq</h4>
+          <p>The embodiment of good manners and resilience. He shows what true ethical character looks like in action.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="emotional-line">
+      The values aren't just meant to be learned—they are meant to be lived.
+    </div>
+  </div>
+</section>
+
+
+<style>
+  .unique-section {
+    padding: 120px 20px;
+    background: #F8FAFC;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .unique-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .unique-section h2 {
+    font-family: 'Fredoka One', cursive;
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: #1E2D5A;
+    margin-bottom: 60px;
+  }
+
+  .unique-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+  }
+
+  .unique-pill {
+    background: white;
+    border: 1px solid #E2E8F0;
+    padding: 20px 30px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #1E293B;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.03);
+    transition: all 0.3s ease;
+  }
+
+  .unique-pill:hover {
+    background: #fff;
+    border-color: #F59E0B;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 15px rgba(245, 158, 11, 0.1);
+  }
+
+  .unique-pill i {
+    color: #F59E0B;
+    font-size: 1.3rem;
+  }
+</style>
+
+<section class="unique-section" id="team">
+  <div class="unique-container">
+    <h2>What Makes It Unique?</h2>
+    
+    <div class="unique-grid">
+      <div class="unique-pill" data-aos="fade-up" data-aos-delay="100"><i class="fas fa-book-open"></i> Interactive Storytelling</div>
+      <div class="unique-pill" data-aos="fade-up" data-aos-delay="200"><i class="fas fa-gamepad"></i> Gamified Learning (No Exams)</div>
+      <div class="unique-pill" data-aos="fade-up" data-aos-delay="300"><i class="fas fa-heart"></i> Behavioral Transformation</div>
+      <div class="unique-pill" data-aos="fade-up" data-aos-delay="400"><i class="fas fa-theater-masks"></i> Puppet Shows & Animations</div>
+      <div class="unique-pill" data-aos="fade-up" data-aos-delay="500"><i class="fas fa-hands-helping"></i> Parent + Teacher Integration</div>
+    </div>
+  </div>
+</section>
+
+
+<style>
+  .eco-section {
+    padding: 150px 20px 100px 20px;
+    background: #111827;
+    color: white;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .eco-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .eco-section h2 {
+    text-align: center;
+    font-family: 'Fredoka One', cursive;
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: #F8FAFC;
+    margin-bottom: 90px;
+  }
+
+  .eco-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px; 
+  }
+
+  .eco-card {
+    background: rgba(255, 255, 255, 0.05); 
+    padding: 50px 20px 30px 20px; 
+    border-radius: 30px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    flex: 1;
+    min-width: 280px; 
+    max-width: 320px; 
+    margin-top: 50px;
+    backdrop-filter: blur(10px);
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .eco-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+    border-color: var(--card-color, #cbd5e1);
+  }
+
+  .eco-image-container {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+    background: #1E293B;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+    position: absolute;
+    top: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: transform 0.4s ease;
+    border: 4px solid var(--card-color, #fff);
+  }
+
+  .eco-card:hover .eco-image-container {
+    transform: translateX(-50%) translateY(-10px) scale(1.1);
+    box-shadow: 0 20px 40px var(--card-shadow, rgba(0,0,0,0.4));
+  }
+  
+  .eco-image-container i {
+    font-size: 2.5rem;
+    color: var(--card-color);
+  }
+
+  .eco-card h4 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.5;
+    margin: 0;
+  }
+</style>
+
+<section class="eco-section" id="programs">
+  <div class="eco-container">
+    <h2>A Complete Learning Ecosystem</h2>
+    
+    <div class="eco-grid">
+      <a href="/products/books" class="eco-card" style="--card-color: #E08020; --card-shadow: rgba(224, 128, 32, 0.3);" data-aos="zoom-in" data-aos-delay="100">
+        <div class="eco-image-container"><i class="fas fa-book"></i></div>
+        <h4>Curriculum Books</h4>
+      </a>
+      
+      <a href="/products/coloring" class="eco-card" style="--card-color: #D63678; --card-shadow: rgba(214, 54, 120, 0.3);" data-aos="zoom-in" data-aos-delay="200">
+        <div class="eco-image-container"><i class="fas fa-paint-brush"></i></div>
+        <h4>Coloring Books</h4>
+      </a>
+
+      <a href="/club" class="eco-card" style="--card-color: #1A936F; --card-shadow: rgba(26, 147, 111, 0.3);" data-aos="zoom-in" data-aos-delay="300">
+        <div class="eco-image-container"><i class="fas fa-users"></i></div>
+        <h4>Imaan & Akhlaq Clubs</h4>
+      </a>
+
+      <a href="/products/puppet" class="eco-card" style="--card-color: #6382EB; --card-shadow: rgba(99, 130, 235, 0.3);" data-aos="zoom-in" data-aos-delay="400">
+        <div class="eco-image-container"><i class="fas fa-theater-masks"></i></div>
+        <h4>Puppet Shows</h4>
+      </a>
+
+      <a href="/products/audio" class="eco-card" style="--card-color: #F59E0B; --card-shadow: rgba(245, 158, 11, 0.3);" data-aos="zoom-in" data-aos-delay="500">
+        <div class="eco-image-container"><i class="fas fa-headphones"></i></div>
+        <h4>Audio Stories Portal</h4>
+      </a>
+
+      <a href="/products/games" class="eco-card" style="--card-color: #A855F7; --card-shadow: rgba(168, 85, 247, 0.3);" data-aos="zoom-in" data-aos-delay="600">
+        <div class="eco-image-container"><i class="fas fa-gamepad"></i></div>
+        <h4>Games Portal</h4>
+      </a>
+    </div>
+  </div>
+</section>
+
+
+<style>
+  .values-section {
+    padding: 100px 20px;
+    background: #FDF8F5;
+    font-family: 'Inter', sans-serif;
+  }
+  
+  .values-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .values-section h2 {
+    font-family: 'Fredoka One', cursive;
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: #1E2D5A;
+    margin-bottom: 20px;
+  }
+
+  .values-sub {
+    font-size: 1.1rem;
+    color: #64748b;
+    margin-bottom: 60px;
+    font-weight: 500;
+  }
+
+  .values-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 25px;
+    margin-bottom: 60px;
+    max-width: 1000px;
+    margin-inline: auto;
+  }
+
+  .value-card {
+    background: linear-gradient(145deg, #ffffff, #f1f5f9);
+    padding: 25px 30px;
+    border-radius: 24px;
+    text-align: center;
+    min-width: 160px;
+    box-shadow: 
+      8px 8px 16px rgba(0,0,0,0.04),
+      -8px -8px 16px rgba(255,255,255,1);
+    border: 1px solid rgba(255,255,255,0.8);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .value-card:hover {
+    transform: translateY(-8px) scale(1.05);
+    box-shadow: 
+      12px 12px 20px rgba(214, 54, 120, 0.15),
+      -8px -8px 20px rgba(255,255,255,1);
+    border-color: #fce7f3;
+  }
+
+  .value-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #D63678, #E08020);
+    color: white;
+    font-size: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: inset 2px 2px 5px rgba(255,255,255,0.4), inset -2px -2px 5px rgba(0,0,0,0.1), 0 5px 15px rgba(214, 54, 120, 0.3);
+  }
+
+  .value-card h4 {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #1e293b;
+    margin: 0;
+  }
+
+  .values-closing {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #E08020;
+    margin: 40px auto;
+    max-width: 800px;
+    line-height: 1.5;
+  }
+  
+  .values-closing span { color: #1E2D5A; display: block; font-size: 1.2rem; font-weight: 600; margin-top: 15px; }
+
+  /* Progression Area */
+  .progression-area {
+    margin-top: 80px;
+    padding-top: 80px;
+    border-top: 2px dashed #cbd5e1;
+  }
+
+  .progression-grid {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: stretch;
+  }
+  @media (min-width: 1200px) {
+    .progression-grid { flex-wrap: nowrap; }
+  }
+
+  .prog-card {
+    flex: 1; min-width: 200px; max-width: 280px;
+    border-radius: 24px;
+    color: white;
+    font-weight: 800;
+    font-size: 1.25rem;
+    position: relative;
+    overflow: hidden;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 2px solid transparent;
+  }
+  
+  .prog-desc {
+    font-size: 0.95rem;
+    font-weight: 500;
+    line-height: 1.5;
+    margin-top: 15px;
+    opacity: 0.95;
+    text-shadow: none;
+  }
+
+  .prog-card:hover {
+    transform: translateY(-15px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    border-color: rgba(255,255,255,0.4);
+  }
+
+  .prog-card::before {
+    content: '';
+    position: absolute; top:0; right:0; width:120px; height:120px;
+    background: rgba(255,255,255,0.15); border-radius: 50%;
+    transform: translate(30%, -30%);
+    transition: transform 0.4s ease;
+    z-index: 1; pointer-events: none;
+  }
+
+  .prog-card:hover::before {
+    transform: translate(10%, -10%) scale(1.2);
+  }
+
+  .prog-green { background: linear-gradient(135deg, #10B981, #059669); }
+  .prog-blue { background: linear-gradient(135deg, #3B82F6, #2563EB); }
+  .prog-yellow { background: linear-gradient(135deg, #F59E0B, #D97706); }
+  .prog-red { background: linear-gradient(135deg, #EF4444, #DC2626); }
+
+  .prog-label { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; opacity: 0.9; margin-bottom: 8px; display: block; font-weight: 700; text-shadow: none; }
+
+  .img-wrapper { overflow: hidden; height: 200px; width: 100%; position: relative; z-index: 2; }
+  .prog-img { width: 100%; height: 100%; object-fit: cover; border-bottom: 4px solid rgba(255,255,255,0.2); transition: transform 0.5s ease; }
+  .prog-card:hover .prog-img { transform: scale(1.1); }
+  
+  .prog-content { padding: 25px 20px; position: relative; z-index: 2; text-shadow: 0 2px 4px rgba(0,0,0,0.2); text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: flex-start; }
+  
+  .prog-arrow-highlight {
+    font-size: 1.5rem;
+    color: #FDF8F5;
+    background: #E08020;
+    width: 45px; height: 45px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: pulseArrow 2s infinite;
+    box-shadow: 0 0 15px rgba(224, 128, 32, 0.4);
+    margin: 0 10px;
+  }
+  @keyframes pulseArrow {
+    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(224, 128, 32, 0.7); }
+    70% { transform: scale(1.15); box-shadow: 0 0 0 10px rgba(224, 128, 32, 0); }
+    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(224, 128, 32, 0); }
+  }
+</style>
+
+<section class="values-section" id="gallery">
+  <div class="values-container">
+    <h2>Values Integration Focus</h2>
+    <p class="values-sub">The Moral Backbone of the Program. In every element, we focus on developing these ethics.</p>
+
+    <div class="values-grid">
+      <div class="value-card" data-aos="zoom-in" data-aos-delay="50">
+        <div class="value-icon"><i class="fas fa-balance-scale"></i></div>
+        <h4>Honesty</h4>
+      </div>
+      <div class="value-card" data-aos="zoom-in" data-aos-delay="100">
+        <div class="value-icon" style="background: linear-gradient(135deg, #10B981, #059669);"><i class="fas fa-heart"></i></div>
+        <h4>Compassion</h4>
+      </div>
+      <div class="value-card" data-aos="zoom-in" data-aos-delay="150">
+        <div class="value-icon" style="background: linear-gradient(135deg, #3B82F6, #2563EB);"><i class="fas fa-hands-helping"></i></div>
+        <h4>Responsibility</h4>
+      </div>
+      <div class="value-card" data-aos="zoom-in" data-aos-delay="200">
+        <div class="value-icon" style="background: linear-gradient(135deg, #F59E0B, #D97706);"><i class="fas fa-handshake"></i></div>
+        <h4>Respect</h4>
+      </div>
+      <div class="value-card" data-aos="zoom-in" data-aos-delay="250">
+        <div class="value-icon" style="background: linear-gradient(135deg, #8B5CF6, #6D28D9);"><i class="fas fa-shield-alt"></i></div>
+        <h4>Integrity</h4>
+      </div>
+      <div class="value-card" data-aos="zoom-in" data-aos-delay="300">
+        <div class="value-icon" style="background: linear-gradient(135deg, #EC4899, #BE185D);"><i class="fas fa-brain"></i></div>
+        <h4>Self-Discipline</h4>
+      </div>
+      <div class="value-card" data-aos="zoom-in" data-aos-delay="350">
+        <div class="value-icon" style="background: linear-gradient(135deg, #14B8A6, #0F766E);"><i class="fas fa-seedling"></i></div>
+        <h4>Humility</h4>
+      </div>
+      <div class="value-card" data-aos="zoom-in" data-aos-delay="400">
+        <div class="value-icon" style="background: linear-gradient(135deg, #EF4444, #B91C1C);"><i class="fas fa-mountain"></i></div>
+        <h4>Perseverance</h4>
+      </div>
+      <div class="value-card" data-aos="zoom-in" data-aos-delay="450">
+        <div class="value-icon" style="background: linear-gradient(135deg, #6366F1, #4338CA);"><i class="fas fa-praying-hands"></i></div>
+        <h4>Gratitude</h4>
+      </div>
+      <div class="value-card" data-aos="zoom-in" data-aos-delay="500">
+        <div class="value-icon" style="background: linear-gradient(135deg, #0EA5E9, #0369A1);"><i class="fas fa-equals"></i></div>
+        <h4>Fairness</h4>
+      </div>
+    </div>
+
+    <div class="values-closing">
+      From stories <i class="fas fa-arrow-right text-muted mx-2"></i> to emotions <i class="fas fa-arrow-right text-muted mx-2"></i> to lifelong behavior.
+      <span>Good character is the condition of Complete faith, let's help our children with it.</span>
+    </div>
+
+    <!-- Progression -->
+    <div class="progression-area">
+      <h3 style="font-family:'Fredoka One', cursive; color:#1e293b; margin-bottom:40px; font-size:2rem;">Progression Focus</h3>
+      
+      <div class="progression-grid">
+        <div class="prog-card prog-green" data-aos="fade-up" data-aos-delay="100">
+          <div class="img-wrapper"><img src="./kidba_assets/img/prog_new_p1.png" alt="Phase 1" class="prog-img" /></div>
+          <div class="prog-content">
+            <span class="prog-label">Phase 1</span>
+            Ages 5 - 8
+            <div class="prog-desc">Foundational Character Building: Storytelling, Basic Activity Modules, and Introduction to Prophetic Narratives.</div>
+          </div>
+        </div>
+        
+        <div class="d-none d-xl-flex align-items-center flex-column justify-content-center">
+           <div class="prog-arrow-highlight"><i class="fas fa-arrow-right"></i></div>
+        </div>
+
+        <div class="prog-card prog-blue" data-aos="fade-up" data-aos-delay="200">
+          <div class="img-wrapper"><img src="./kidba_assets/img/prog_new_p2.png" alt="Phase 2" class="prog-img" /></div>
+          <div class="prog-content">
+            <span class="prog-label">Phase 2</span>
+            Ages 9 - 10
+            <div class="prog-desc">Interactive Development: Advanced Club Engagements, Responsibility Focus, and Group Tasks.</div>
+          </div>
+        </div>
+
+        <div class="d-none d-xl-flex align-items-center flex-column justify-content-center">
+           <div class="prog-arrow-highlight"><i class="fas fa-arrow-right"></i></div>
+        </div>
+
+        <div class="prog-card prog-yellow" data-aos="fade-up" data-aos-delay="300">
+          <div class="img-wrapper"><img src="./kidba_assets/img/prog_new_p3.png" alt="Phase 3" class="prog-img" /></div>
+          <div class="prog-content">
+            <span class="prog-label">Phase 3</span>
+            Ages 11 - 13
+            <div class="prog-desc">Ethical Maturation: Real-World Scenarios, Peer Mentoring, and Leadership through Prophetic Stories.</div>
+          </div>
+        </div>
+
+        <div class="d-none d-xl-flex align-items-center flex-column justify-content-center">
+           <div class="prog-arrow-highlight"><i class="fas fa-arrow-right"></i></div>
+        </div>
+
+        <div class="prog-card prog-red" data-aos="fade-up" data-aos-delay="400">
+          <div class="img-wrapper"><img src="./kidba_assets/img/prog_new_p4.png" alt="Phase 4" class="prog-img" /></div>
+          <div class="prog-content">
+            <span class="prog-label">Phase 4</span>
+            Age 14+
+            <div class="prog-desc">Uswah e Hasana Practice: Embodying Character, Leading Clubs, and Complex Behavioral Transformation.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ===== KIDBA STATS SECTION ===== -->
+<section class="kidba-stats-section" id="stats" style="margin-top: 60px;">
+  
+  <!-- JAGGED TOP EDGE -->
+  <div class="kidba-stats-shape-top">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none">
+      <path d="M0,6V0h1000v100L0,6z"></path>
+    </svg>
+  </div>
+
+  <div class="container">
+    <div class="kstats-header" data-aos="fade-up">
+      <h2 style="font-family: 'Fredoka One', cursive; margin-bottom: 20px;">Impact Snapshot</h2>
+      <p>A growing movement for character transformation across the nation.</p>
+    </div>
+
+    <div class="kstats-grid">
+      
+      <!-- Box 1 -->
+      <div class="kstat-item" data-aos="fade-up" data-aos-delay="100">
+        <div class="kstat-diamond c-green">
+          <div class="kstat-icon"><i class="fas fa-rocket"></i></div>
+        </div>
+        <h3 class="sc-number" data-target="2026" data-no-format="true">0</h3>
+        <p>National Launch Year</p>
+      </div>
+
+      <!-- Box 2 -->
+      <div class="kstat-item" data-aos="fade-up" data-aos-delay="200">
+        <div class="kstat-diamond c-orange">
+          <div class="kstat-icon"><i class="fas fa-book-reader"></i></div>
+        </div>
+        <h3 class="sc-number" data-target="2700">0</h3>
+        <p>Curriculum Books</p>
+      </div>
+
+      <!-- Box 3 -->
+      <div class="kstat-item" data-aos="fade-up" data-aos-delay="300">
+        <div class="kstat-diamond c-cyan">
+          <div class="kstat-icon"><i class="fas fa-theater-masks"></i></div>
+        </div>
+        <h3 class="sc-number" data-target="4000">0</h3>
+        <p>Puppet Shows</p>
+      </div>
+
+      <!-- Box 4 -->
+      <div class="kstat-item" data-aos="fade-up" data-aos-delay="400">
+        <div class="kstat-diamond c-pink">
+          <div class="kstat-icon"><i class="fas fa-users"></i></div>
+        </div>
+        <h3 class="sc-number" data-target="6000">0</h3>
+        <p>Club Engagements</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- JAGGED BOTTOM EDGE -->
+  <div class="kidba-stats-shape-bottom">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none">
+      <path d="M0,6V0h1000v100L0,6z"></path>
+    </svg>
+  </div>
+
+</section>
+
+
+<style>
+  .vision-cta-section {
+    padding: 120px 20px;
+    background: linear-gradient(135deg, #1E2D5A, #0F172A);
+    color: white;
+    font-family: 'Inter', sans-serif;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .vision-cta-section::before {
+    content: '';
+    position: absolute;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(214, 54, 120, 0.15) 0%, transparent 60%);
+    top: -200px; left: -200px;
+  }
+
+  .vision-cta-section::after {
+    content: '';
+    position: absolute;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(224, 128, 32, 0.15) 0%, transparent 60%);
+    bottom: -200px; right: -200px;
+  }
+
+  .vision-container {
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+  }
+
+  .vision-quote-icon {
+    font-size: 3rem;
+    color: rgba(255,255,255,0.2);
+    margin-bottom: 20px;
+  }
+
+  .vision-quote {
+    font-family: 'Fredoka One', cursive;
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.3;
+    color: #F8FAFC;
+    margin-bottom: 30px;
+  }
+
+  .vision-author {
+    font-size: 1.2rem;
+    color: #C99A6B;
+    font-weight: 700;
+    margin-bottom: 30px;
+  }
+
+  .vision-desc {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #94a3b8;
+    max-width: 700px;
+    margin: 0 auto 40px;
+  }
+  
+  .btn-outline-gold {
+    background: transparent;
+    color: #F59E0B;
+    border: 2px solid #F59E0B;
+    padding: 12px 30px;
+    border-radius: 30px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.3s;
+    display: inline-block;
+  }
+
+  .btn-outline-gold:hover {
+    background: rgba(245, 158, 11, 0.1);
+    transform: translateY(-2px);
+  }
+
+  hr.divider-fancy {
+    border: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    margin: 80px 0;
+  }
+
+  .cta-heading {
+    font-size: clamp(2.2rem, 4vw, 2.8rem);
+    font-family: 'Fredoka One', cursive;
+    margin-bottom: 40px;
+  }
+
+  .cta-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn-cta {
+    padding: 16px 40px;
+    border-radius: 30px;
+    font-size: 1.2rem;
+    font-weight: 800;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .btn-institute {
+    background: white;
+    color: #1E2D5A;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+  }
+  .btn-institute:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(0,0,0,0.3); }
+
+  .btn-individual {
+    background: linear-gradient(135deg, #E08020, #D63678);
+    color: white;
+    box-shadow: 0 10px 20px rgba(214, 54, 120, 0.3);
+  }
+  .btn-individual:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(214, 54, 120, 0.4); color: white; }
+</style>
+
+<section class="vision-cta-section">
+  <div class="vision-container">
+    <div class="vision-quote-icon"><i class="fas fa-quote-left"></i></div>
+    <div class="vision-quote">"We are not raising students for exams, we are raising a generation for life."</div>
+    <div class="vision-author">— Saith Usama J. Chitrali (Shiekh Uncle)</div>
+    
+    <p class="vision-desc">
+      A vision that started with a concern close to home has now grown into a nationwide movement. See how the journey began and meet the team shaping the future.
+    </p>
+    
+    <a href="/about" class="btn-outline-gold"><i class="fas fa-book-open me-2"></i>Read Detailed Message & Vision</a>
+
+    <hr class="divider-fancy" />
+
+    <h2 class="cta-heading">Join the Movement of Character Transformation</h2>
+    <div class="cta-buttons">
+      <a href="/auth?role=school" class="btn-cta btn-institute"><i class="fas fa-school me-2"></i>As an Institute</a>
+      <a href="/auth?role=individual" class="btn-cta btn-individual"><i class="fas fa-user-astronaut me-2"></i>As an Individual</a>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ===== KIDBA FOOTER & NEWSLETTER ===== -->
+  <footer class="kidba-footer-wrapper" id="footer">
+    
+    <!-- Newsletter Box (Absolute Positioned over Jagged Edge) -->
+    <div class="kidba-newsletter" data-aos="fade-up">
+      <div class="kn-content">
+        <h3>Join Our Newsletter</h3>
+        <p>Subscribe to get our latest news & updates!</p>
+      </div>
+      <div class="kn-form">
+        <input type="email" placeholder="Your email address">
+        <button type="submit">Subscribe</button>
+      </div>
+    </div>
+
+    <!-- JAGGED TOP EDGE -->
+    <div class="kf-shape-top">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none">
+        <path class="shape-fill" d="M0,6V0h1000v100L0,6z"></path>
+      </svg>
+    </div>
+
+    <div class="kidba-footer-main">
+      <div class="container">
+        <div class="row g-5">
+          
+          <!-- Column 1: Brand & About -->
+          <div class="col-lg-4">
+            <div class="kfm-about">
+              <!-- Using text instead of image for simple placeholder -->
+              <h2 style="font-family: 'Fredoka One', cursive; color: #fff; margin-bottom: 20px;">Imaan & Akhlaq</h2>
+              <p>Bringing Islamic values to life through joyful storytelling, puppet shows, and educational adventures for children aged 5-12.</p>
+              <div class="kfm-social">
+                <a href="https://www.facebook.com/ImaanAkhlaqTalks/" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://twitter.com/ImaanAkhlaq" target="_blank"><i class="fab fa-twitter"></i></a>
+                <a href="https://www.youtube.com/@ImaanAkhlaq" target="_blank"><i class="fab fa-youtube"></i></a>
+                <a href="https://www.instagram.com/imaanakhlaq/" target="_blank"><i class="fab fa-instagram"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Column 2: Quick Links -->
+          <div class="col-sm-6 col-lg-3">
+            <h4 class="kfm-title">Quick Links</h4>
+            <ul class="kfm-links">
+              <li><a href="/#home">Home</a></li>
+              <li><a href="/about/intro.html">About Us</a></li>
+              <li><a href="/#programs">Programs</a></li>
+              <li><a href="/#stories">Stories</a></li>
+              <li><a href="/#team">Characters</a></li>
+            </ul>
+          </div>
+
+          <!-- Column 3: Contact Info -->
+          <div class="col-sm-6 col-lg-4">
+            <h4 class="kfm-title">Contact Us</h4>
+            <ul class="kfm-address">
+              <li>
+                <i class="fas fa-map-marker-alt"></i>
+                <span style="color: rgba(255,255,255,0.7)">SEERAHT Initiatives, Ilm o Amal Center, Jinnah Garden, Islamabad, Pakistan</span>
+              </li>
+              <li>
+                <i class="fas fa-envelope"></i>
+                <span style="color: rgba(255,255,255,0.7)">info@imaanakhlaq.org</span>
+              </li>
+              <li>
+                <i class="fas fa-phone"></i>
+                <span style="color: rgba(255,255,255,0.7)">+92 339 0106475</span>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Google Map -->
+    <div class="kidba-map-section">
+      <iframe 
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1660.2!2d73.1767332!3d33.5784375!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38dfed00214d3841%3A0x3029ccd22ce26b5a!2sSEERAHT%20Initiatives!5e0!3m2!1sen!2spk!4v1711836000000"
+        width="100%" 
+        height="350" 
+        style="border:0;" 
+        allowfullscreen="" 
+        loading="lazy" 
+        referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
+    </div>
+
+    <div class="kidba-footer-bottom px-4" style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;">
+      <span>&copy; 2026 Imaan & Akhlaq - An Ilm O Amal Initiative. All rights reserved.</span>
+      <div class="legal-links mt-2 mt-md-0">
+        <a href="/privacy.html" class="text-white-50 text-decoration-none mx-2 hover-white">Privacy Policy</a>
+        <a href="/terms.html" class="text-white-50 text-decoration-none mx-2 hover-white">Terms of Use</a>
+        <a href="/contact.html" class="text-white-50 text-decoration-none mx-2 hover-white">Contact Us</a>
+      </div>
+    </div>
+    <style>
+      .hover-white:hover { color: #fff !important; }
+    </style>
+
+  </footer>
+
+  <!-- Bootstrap 5 JS -->
+  <script src="/kidba_assets/vendor/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Swiper JS -->
+  <script src="/kidba_assets/vendor/js/swiper-bundle.min.js"></script>
+
+  <!-- AOS Animation -->
+  <script src="/kidba_assets/vendor/js/aos.js"></script>
+
+  <!-- Custom JS -->
+  <script src="/kidba_assets/js/main.js"></script>
+</body>
+</html>
+

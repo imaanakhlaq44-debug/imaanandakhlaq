@@ -1,0 +1,400 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Imaan & Akhlaq â€“ Islamic Stories & Education for Kids</title>
+  <meta name="description" content="Imaan & Akhlaq â€“ Fun Islamic stories, puppet shows, and educational programs teaching faith, manners, and good character to children." />
+  <meta property="og:title" content="Imaan & Akhlaq â€“ Islamic Education for Kids" />
+  <meta property="og:description" content="Join Imaan and Akhlaq on magical adventures learning about Islam, Prophets, and good manners!" />
+  <meta property="og:type" content="website" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap 5 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Animate.css -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.css">
+
+  <!-- AOS CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="./static/css/style.css">
+</head>
+<body>
+
+
+<!-- ===== HEADER / NAVBAR ===== -->
+
+  <header class="site-header" id="siteHeader">
+    <div class="top-bar">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-md-6">
+            <ul class="top-bar-info">
+              <li><i class="fas fa-envelope"></i> info@imaanakhlaq.org</li>
+              <li><i class="fas fa-phone"></i> +92 300 1234567</li>
+            </ul>
+          </div>
+          <div class="col-md-6 text-end">
+            <div class="top-bar-social">
+              <a href="https://www.instagram.com/imaanakhlaq/" target="_blank"><i class="fab fa-instagram"></i></a>
+              <a href="https://www.facebook.com/ImaanAkhlaqTalks/" target="_blank"><i class="fab fa-facebook-f"></i></a>
+              <a href="https://www.youtube.com/@ImaanAkhlaq" target="_blank"><i class="fab fa-youtube"></i></a>
+              <a href="https://twitter.com/ImaanAkhlaq" target="_blank"><i class="fab fa-twitter"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <nav class="navbar navbar-expand-lg main-navbar" id="mainNavbar">
+      <div class="container">
+        <a class="navbar-brand" href="#">
+          <img src="./static/img/splash_logo.jpg" alt="Imaan & Akhlaq" class="site-logo" style="border-radius: 50%; border: 3px solid #FF7681; object-fit: cover; width: 55px; height: 55px; padding: 2px; background: #fff; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="toggler-icon"><span></span><span></span><span></span></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="nav-link active" href="#home">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="#programs">Programs</a></li>
+            <li class="nav-item"><a class="nav-link" href="#stories">Stories</a></li>
+            <li class="nav-item"><a class="nav-link" href="#team">Characters</a></li>
+            <li class="nav-item"><a class="nav-link" href="#events">Events</a></li>
+            <li class="nav-item"><a class="nav-link" href="#gallery">Gallery</a></li>
+            <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+          </ul>
+        <style>
+          .btn-club-cta {
+            background: linear-gradient(135deg, #FFD700, #E08020);
+            color: #fff !important;
+            font-family: 'Fredoka One', cursive;
+            font-weight: 400;
+            padding: 8px 20px;
+            border-radius: 50px;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(224, 128, 32, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            animation: club-pulse 2s infinite;
+          }
+          .btn-club-cta:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 6px 20px rgba(224, 128, 32, 0.6);
+            color: #fff !important;
+          }
+          @keyframes club-pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 215, 0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0); }
+          }
+        </style>
+        <!-- CLUB BUTTON -->
+        <a href="/club" class="btn btn-club-cta ms-lg-3" id="clubButton">
+          <i class="fas fa-crown"></i> I&A Club
+        </a>
+        <!-- LOGIN / REGISTER BUTTON -->
+        <a href="/auth" class="btn btn-nav-cta ms-3" id="authButton">
+          <i class="fas fa-user-circle me-1"></i> Login / Register
+        </a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  
+
+
+<style>
+  .about-page {
+    font-family: 'Inter', sans-serif;
+    color: #334155;
+    background: #F8FAFC;
+  }
+
+  .about-hero {
+    padding: 180px 20px 100px;
+    background: linear-gradient(135deg, #1E2D5A, #D63678);
+    color: white;
+    text-align: center;
+  }
+  .about-hero h1 { font-family: 'Fredoka One', cursive; font-size: clamp(3rem, 5vw, 4rem); margin-bottom: 20px; }
+  .about-hero p { font-size: 1.2rem; max-width: 800px; margin: 0 auto; line-height: 1.6; opacity: 0.9; }
+
+  .content-section { padding: 80px 20px; }
+  .container { max-width: 1000px; margin: 0 auto; }
+  
+  .section-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 2.2rem;
+    color: #1E2D5A;
+    margin-bottom: 30px;
+    position: relative;
+    padding-bottom: 15px;
+  }
+  .section-title::after {
+    content: ''; position: absolute; left: 0; bottom: 0; width: 60px; height: 4px; background: #E08020; border-radius: 2px;
+  }
+  
+  .text-content p { font-size: 1.1rem; line-height: 1.8; margin-bottom: 20px; color: #475569; }
+
+  .vision-box {
+    background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); margin-bottom: 60px;
+    border-left: 8px solid #D63678;
+  }
+
+  .objectives-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 40px; }
+  .obj-card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.03); border: 1px solid #e2e8f0; border-top: 4px solid #F59E0B;}
+  .obj-card h4 { font-size: 1.2rem; font-weight: 800; color: #1e293b; margin-bottom: 15px; }
+
+  .team-section { background: white; padding: 80px 20px; }
+  .team-member { margin-bottom: 40px; }
+  .team-member h4 { font-size: 1.3rem; font-weight: 800; color: #1E2D5A; margin-bottom: 5px; }
+  .team-role { font-size: 1rem; color: #E08020; font-weight: 600; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
+  .team-desc { color: #64748b; font-size: 1rem; line-height: 1.6; }
+
+  .message-section { background: #FDF8F5; padding: 100px 20px; border-top: 1px solid #e2e8f0; }
+  .message-box { max-width: 800px; margin: 0 auto; font-size: 1.15rem; line-height: 1.8; color: #334155; }
+  .message-box .arabic { font-family: 'Amiri', serif; font-size: 1.8rem; text-align: center; margin-bottom: 20px; color: #1E2D5A; direction: rtl; }
+</style>
+
+<div class="about-page">
+  <div class="about-hero">
+    <h1>About Us</h1>
+    <p>Rooted in timeless Islamic values, Imaan & Akhlaq brings to life the inspiring journey of two siblings who guide young learners to live with courage, kindness, and integrity.</p>
+  </div>
+
+  <div class="content-section">
+    <div class="container">
+      <div class="vision-box">
+        <h2 class="section-title">Vision</h2>
+        <div class="text-content">
+          <p>To nurture a generation of confident, responsible, and virtuous Muslims by embedding Imaan (faith) and Akhlaq (character) at the heart of education, enabling young learners to live with courage, kindness, and integrity in every aspect of life.</p>
+        </div>
+      </div>
+
+      <h2 class="section-title">Objectives</h2>
+      <div class="objectives-grid">
+        <div class="obj-card">
+          <h4>Character-Centered Development</h4>
+          <p class="text-muted">To develop strong moral character in children by integrating Islamic values into everyday learning and behavior.</p>
+        </div>
+        <div class="obj-card" style="border-top-color: #D63678;">
+          <h4>Holistic Learning Experience</h4>
+          <p class="text-muted">To combine curriculum, storytelling, activities, and modern interactive tools for engaging and meaningful education.</p>
+        </div>
+        <div class="obj-card" style="border-top-color: #10B981;">
+          <h4>Faith Integration</h4>
+          <p class="text-muted">To strengthen children’s connection with Islamic teachings through prophetic stories and value-based narratives.</p>
+        </div>
+        <div class="obj-card" style="border-top-color: #3B82F6;">
+          <h4>Behavioral Transformation</h4>
+          <p class="text-muted">To inspire children to practice courage, kindness, responsibility, and integrity in real-life situations.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-section" style="background: white;">
+    <div class="container text-content">
+      <h2 class="section-title">Genesis: A Vision Born from Concern</h2>
+      <p>It began with a concern close to home. Saith Usama J. Chitrali, also known as Shiekh Uncle, observed children consuming content that was shaping their behavior, emotions, and worldview, often disconnected from their faith and values.</p>
+      <p><strong>What is truly shaping the character of our children?</strong></p>
+      <p>The initial idea behind Imaan & Akhlaq was to create meaningful, value-driven animation. However, due to practical constraints and the high cost of production, the vision could not take shape at that time.</p>
+      <p>In 2024, a pivotal conversation with educator Ahmed Masood Khan led to a deeper realization that, while moral education existed, true character-building was missing. This sparked a journey.</p>
+      <p>Shiekh Uncle began with story-based curriculum books, designed to connect values with real-life actions. Gradually, the vision expanded into a complete ecosystem: activity books, audio stories, interactive learning, and impactful puppet shows created with the Uncle Sargam Team (Kaliyan).</p>
+      <p>Today, Imaan & Akhlaq is more than a program. It is a growing movement to transform learning into living.</p>
+    </div>
+  </div>
+
+  <div class="content-section" style="background: #F8FAFC;">
+    <div class="container">
+      <h2 class="section-title text-center mx-auto" style="margin-bottom: 50px;">A Collective Effort Towards a Greater Purpose</h2>
+      
+      <div class="team-member">
+        <h4>Saith Usama J. Chitrali (Shiekh Uncle)</h4>
+        <div class="team-role">Foundation Builder & Visionary</div>
+        <div class="team-desc">The driving force behind the initiative, leading the vision of integrating faith-based character building into modern education.</div>
+      </div>
+
+      <div class="team-member">
+        <h4>Maham Shams</h4>
+        <div class="team-role">Character Shaper & Animator</div>
+        <div class="team-desc">Bringing life to the personalities, emotions, and visual identity of Imaan & Akhlaq.</div>
+      </div>
+
+      <div class="team-member">
+        <h4>Jawad Ahmed Almas</h4>
+        <div class="team-role">Digital & IT Lead</div>
+        <div class="team-desc">Ensuring accessibility through technology, platforms, and digital infrastructure.</div>
+      </div>
+
+      <h4 style="font-size: 1.2rem; font-weight: 800; color: #1E2D5A; margin-top: 40px; margin-bottom: 10px;">Concept Review Team</h4>
+      <p class="text-muted" style="margin-bottom: 20px;">Providing critical insights to strengthen the conceptual depth and educational relevance.<br/><strong>Ruqiya Naz Shahid, Tallies Cooven, Dilwar Saleh</strong></p>
+
+      <h4 style="font-size: 1.2rem; font-weight: 800; color: #1E2D5A; margin-top: 30px; margin-bottom: 10px;">Language & Grammar Review</h4>
+      <p class="text-muted" style="margin-bottom: 20px;">Refining the language to ensure clarity, quality, and effective communication.<br/><strong>Musarrat Kamran, Nirmeen Sayeed Khan, Muhammad Sibghatullah, Aiman Sohail</strong></p>
+
+      <h4 style="font-size: 1.2rem; font-weight: 800; color: #1E2D5A; margin-top: 30px; margin-bottom: 10px;">Books Design Support</h4>
+      <p class="text-muted" style="margin-bottom: 20px;">Supported by <strong>Mishkat Welfare Trust</strong> (President Ahmed Zafar).</p>
+      
+      <div style="margin-top: 40px; padding: 20px; background: rgba(224,128,32,0.1); border-radius: 10px; color: #E08020; font-weight: 600; text-align: center;">
+        Together, this team represents a shared commitment to building a generation grounded in faith, strengthened by character, and prepared to lead with purpose.
+      </div>
+    </div>
+  </div>
+
+  <div class="message-section">
+    <div class="message-box">
+      <div class="arabic">قال رسول الله ﷺ: «أَكْمَلُ الْمُؤْمِنِينَ إِيمَانًا أَحْسَنُهُمْ خُلُقًا»</div>
+      <p class="text-center text-muted" style="font-size: 0.9rem; margin-top:-10px; margin-bottom:30px;">(Sunan al-Tirmidhi, 1162; Abu Dawood, 4682)</p>
+
+      <h2 class="section-title text-center mx-auto mb-4">Message from the Author</h2>
+      <p>Dear Brothers and Sisters,</p>
+      <p>In today’s world, the responsibility of shaping a child does not belong to the educational system alone; it belongs to all of us. Parents, educators, social institutions, and society collectively play a role in nurturing the next generation. For that, we all have to act as mentors.</p>
+      <p>A teacher may deliver knowledge, but a mentor nurtures individuals to live with purpose, to act with integrity, and to contribute meaningfully to the world around them.</p>
+      <p>Moral education is not confined to lessons, words, or memorization. Its true essence lies in transforming how a child thinks, chooses, and behaves. It is reflected not in what they know, but in who they become.</p>
+      <p>Whether you are a parent guiding your child at home, an educator shaping minds in a classroom, or an institution responsible for future generations, your role carries immense weight. Every effort you make in nurturing values becomes a form of ongoing goodness (Sadaqah e jariyah), benefiting lives far beyond what we can see.</p>
+      <p>Through Imaan & Akhlaq, we aim to support this shared responsibility. This is not just a curriculum, but an ecosystem designed to help children connect faith with action, values with behavior, and learning with real life.</p>
+      <p>It is also a journey for you. A journey that rekindles purpose, strengthens intention, and transforms the way we approach character-building not as a subject to teach, but as a life to live.</p>
+      <p>We are living in a time filled with challenges, and at the root of many of them lies a decline in moral grounding. Addressing this is not optional, it is essential. Let us rise together, not just as individuals fulfilling roles, but as change-makers who inspire, uplift, and transform.</p>
+      <p>I pray that this effort becomes a means of strength, sincerity, and lasting impact for all of us.</p>
+      
+      <p style="margin-top: 40px; font-weight: 800; color: #1E2D5A; font-size: 1.2rem;">Your very own,<br/>Shiekh Uncle</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- ===== KIDBA FOOTER & NEWSLETTER ===== -->
+  <footer class="kidba-footer-wrapper" id="footer">
+    
+    <!-- Newsletter Box (Absolute Positioned over Jagged Edge) -->
+    <div class="kidba-newsletter" data-aos="fade-up">
+      <div class="kn-content">
+        <h3>Join Our Newsletter</h3>
+        <p>Subscribe to get our latest news & updates!</p>
+      </div>
+      <div class="kn-form">
+        <input type="email" placeholder="Your email address">
+        <button type="submit">Subscribe</button>
+      </div>
+    </div>
+
+    <!-- JAGGED TOP EDGE -->
+    <div class="kf-shape-top">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none">
+        <path class="shape-fill" d="M0,6V0h1000v100L0,6z"></path>
+      </svg>
+    </div>
+
+    <div class="kidba-footer-main">
+      <div class="container">
+        <div class="row g-5">
+          
+          <!-- Column 1: Brand & About -->
+          <div class="col-lg-4">
+            <div class="kfm-about">
+              <!-- Using text instead of image for simple placeholder -->
+              <h2 style="font-family: 'Fredoka One', cursive; color: #fff; margin-bottom: 20px;">Imaan & Akhlaq</h2>
+              <p>Bringing Islamic values to life through joyful storytelling, puppet shows, and educational adventures for children aged 5â€“12.</p>
+              <div class="kfm-social">
+                <a href="https://www.facebook.com/ImaanAkhlaqTalks/" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://twitter.com/ImaanAkhlaq" target="_blank"><i class="fab fa-twitter"></i></a>
+                <a href="https://www.youtube.com/@ImaanAkhlaq" target="_blank"><i class="fab fa-youtube"></i></a>
+                <a href="https://www.instagram.com/imaanakhlaq/" target="_blank"><i class="fab fa-instagram"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Column 2: Quick Links -->
+          <div class="col-sm-6 col-lg-3">
+            <h4 class="kfm-title">Quick Links</h4>
+            <ul class="kfm-links">
+              <li><a href="#home">Home</a></li>
+              <li><a href="#about">About Us</a></li>
+              <li><a href="#programs">Programs</a></li>
+              <li><a href="#stories">Stories</a></li>
+              <li><a href="#team">Teachers</a></li>
+            </ul>
+          </div>
+
+          <!-- Column 3: Contact Info -->
+          <div class="col-sm-6 col-lg-4">
+            <h4 class="kfm-title">Contact Us</h4>
+            <ul class="kfm-address">
+              <li>
+                <i class="fas fa-map-marker-alt"></i>
+                <span style="color: rgba(255,255,255,0.7)">SEERAHT Initiatives, Ilm o Amal Center, Jinnah Garden, Islamabad, Pakistan</span>
+              </li>
+              <li>
+                <i class="fas fa-envelope"></i>
+                <span style="color: rgba(255,255,255,0.7)">info@imaanakhlaq.org</span>
+              </li>
+              <li>
+                <i class="fas fa-phone"></i>
+                <span style="color: rgba(255,255,255,0.7)">+92 300 1234567</span>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Google Map -->
+    <div class="kidba-map-section">
+      <iframe 
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1660.2!2d73.1767332!3d33.5784375!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38dfed00214d3841%3A0x3029ccd22ce26b5a!2sSEERAHT%20Initiatives!5e0!3m2!1sen!2spk!4v1711836000000"
+        width="100%" 
+        height="350" 
+        style="border:0;" 
+        allowfullscreen="" 
+        loading="lazy" 
+        referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
+    </div>
+
+    <div class="kidba-footer-bottom">
+      &copy; 2026 Imaan & Akhlaq â€“ An Ilm O Amal Initiative. All rights reserved.
+    </div>
+
+  </footer>
+
+  <!-- Bootstrap 5 JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Swiper JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.js"></script>
+
+  <!-- AOS Animation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+
+  <!-- Custom JS -->
+  <script src="./static/js/main.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>PDF Viewer</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+</head>
+<body>
+  <h1>Book 3 Pages</h1>
+  <div id="pdf-render"></div>
+  <script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+
+    pdfjsLib.getDocument('/book3.pdf').promise.then(function(pdf) {
+      const numPagesToRender = Math.min(10, pdf.numPages);
+      for (let i = 1; i <= numPagesToRender; i++) {
+        pdf.getPage(i).then(function(page) {
+          const scale = 1.5;
+          const viewport = page.getViewport({ scale: scale });
+          const canvas = document.createElement('canvas');
+          const context = canvas.getContext('2d');
+          canvas.height = viewport.height;
+          canvas.width = viewport.width;
+
+          const renderContext = {
+            canvasContext: context,
+            viewport: viewport
+          };
+          page.render(renderContext).promise.then(function() {
+            document.getElementById('pdf-render').appendChild(document.createElement('br'));
+            document.getElementById('pdf-render').appendChild(canvas);
+          });
+        });
+      }
+    });
+  </script>
+</body>
+</html>
