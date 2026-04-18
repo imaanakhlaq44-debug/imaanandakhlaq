@@ -197,7 +197,17 @@ export const ParentDashboard = () => html`
       </div>
     </div>
 
-    <div class="bento-card stats-card">
+    <div class="bento-card link-student-card d-none" id="linkStudentCard" style="grid-column: span 12; text-align: center; padding: 3rem;">
+      <i class="fas fa-link mb-3" style="font-size: 3rem; color: #D63678;"></i>
+      <h3 style="font-family: 'Fredoka One', cursive; color: #1E2D5A;">Connect Your Child</h3>
+      <p class="text-muted">Enter the Student Invitation Code to link your parent account with your child's progress.</p>
+      <div style="max-width: 400px; margin: 0 auto;">
+        <input type="text" id="parentStudentCodeInput" class="parent-text-input text-center" placeholder="e.g. STU-XXXXX" style="font-family: 'JetBrains Mono', monospace; font-size: 1.2rem; text-transform: uppercase;">
+        <button class="btn-approve mt-3 w-100" id="linkStudentBtn" onclick="linkStudentAction()">Link Student Account</button>
+      </div>
+    </div>
+
+    <div class="bento-card stats-card" id="statsCard">
       <i class="fas fa-star" style="color: #f59e0b; font-size: 2rem;"></i>
       <h3 class="stat-value" id="totalPointsVal">0</h3>
       <p class="stat-label">Child's Total Points</p>
@@ -209,7 +219,7 @@ export const ParentDashboard = () => html`
       </div>
     </div>
 
-    <div class="bento-card action-queue-card">
+    <div class="bento-card action-queue-card" id="actionQueueCard">
       <div class="d-flex justify-content-between align-items-center mb-4">
         <h3 style="font-family: 'Fredoka One', cursive; color: #1e293b; margin:0;">
           <i class="fas fa-clipboard-check text-success me-2"></i> Pending Approvals
@@ -258,13 +268,31 @@ export const ParentDashboard = () => html`
           currentParent = { uid: user.uid, ...userDoc.data() };
           await initDashboard();
         } else {
-          window.location.href = '/auth';
+          document.body.insertAdjacentHTML('beforeend', \`
+            <div id="demoOverlay" style="position:fixed; inset:0; background:rgba(30, 45, 90, 0.85); backdrop-filter:blur(8px); display:flex; justify-content:center; align-items:center; z-index:99999;">
+              <div style="background:white; padding:40px; border-radius:24px; text-align:center; max-width:400px; box-shadow: 0 20px 40px rgba(0,0,0,0.3);">
+                 <i class="fas fa-lock" style="font-size:3rem; color:#E08020; margin-bottom:20px;"></i>
+                 <h3 style="font-family:'Fredoka One', cursive; color:#1E2D5A;">Parent Login Required</h3>
+                 <p style="color:#64748b; margin-bottom:25px;">You cannot view this page with your current account.</p>
+                 <button onclick="window.location.href='/auth'" style="width:100%; padding:12px; background:#E08020; color:white; border:none; border-radius:12px; font-weight:bold; cursor:pointer; margin-bottom:12px;">Go to Login</button>
+              </div>
+            </div>
+          \`);
         }
       } catch (err) {
         console.error("Error fetching parent profile:", err);
       }
     } else {
-      window.location.href = '/auth';
+      document.body.insertAdjacentHTML('beforeend', \`
+        <div id="demoOverlay" style="position:fixed; inset:0; background:rgba(30, 45, 90, 0.85); backdrop-filter:blur(8px); display:flex; justify-content:center; align-items:center; z-index:99999;">
+          <div style="background:white; padding:40px; border-radius:24px; text-align:center; max-width:400px; box-shadow: 0 20px 40px rgba(0,0,0,0.3);">
+             <i class="fas fa-lock" style="font-size:3rem; color:#E08020; margin-bottom:20px;"></i>
+             <h3 style="font-family:'Fredoka One', cursive; color:#1E2D5A;">Parent Login Required</h3>
+             <p style="color:#64748b; margin-bottom:25px;">You must be logged in as a Parent to track your child's progress.</p>
+             <button onclick="window.location.href='/auth'" style="width:100%; padding:12px; background:#E08020; color:white; border:none; border-radius:12px; font-weight:bold; cursor:pointer; margin-bottom:12px;">Go to Login</button>
+          </div>
+        </div>
+      \`);
     }
   });
 
@@ -277,8 +305,16 @@ export const ParentDashboard = () => html`
 
     if (!currentParent.linked_student_code) {
       document.getElementById('schoolNameTag').innerHTML = '<i class="fas fa-exclamation-circle text-warning"></i> No Student Linked';
-      document.getElementById('teacherInfo').textContent = 'Please contact school admin.';
+      document.getElementById('teacherInfo').textContent = 'Please link a student below.';
+      
+      document.getElementById('statsCard').classList.add('d-none');
+      document.getElementById('actionQueueCard').classList.add('d-none');
+      document.getElementById('linkStudentCard').classList.remove('d-none');
       return;
+    } else {
+      document.getElementById('statsCard').classList.remove('d-none');
+      document.getElementById('actionQueueCard').classList.remove('d-none');
+      if(document.getElementById('linkStudentCard')) document.getElementById('linkStudentCard').classList.add('d-none');
     }
 
     const stq = query(collection(db, "users"), where("invitation_code", "==", currentParent.linked_student_code), where("role", "==", "student"));
@@ -364,8 +400,12 @@ export const ParentDashboard = () => html`
   function generateGridHtml(chapId, gridState) {
     let chapterData = null;
     ['book1', 'book2', 'book3'].forEach(b => {
-      if(ACTIVITIES_DATA[b] && ACTIVITIES_DATA[b].chapters && ACTIVITIES_DATA[b].chapters[chapId]) {
-         chapterData = ACTIVITIES_DATA[b].chapters[chapId];
+      if(ACTIVITIES_DATA[b] && ACTIVITIES_DATA[b].chapters) {
+        Object.values(ACTIVITIES_DATA[b].chapters).forEach(c => {
+          if(c.id === chapId) {
+             chapterData = c;
+          }
+        });
       }
     });
     if (!chapterData || !chapterData.sections) return '<p class="text-danger">Activity details not found.</p>';
@@ -438,6 +478,45 @@ export const ParentDashboard = () => html`
   window.closeParentReviewModal = () => {
     document.getElementById('parentReviewModalOverlay').style.display = 'none';
     document.getElementById('parentReviewModal').classList.remove('animate__animated', 'animate__zoomIn');
+  };
+
+  window.linkStudentAction = async () => {
+    const codeInput = document.getElementById('parentStudentCodeInput');
+    const code = codeInput ? codeInput.value.trim().toUpperCase() : '';
+    if (!code) {
+      alert("Please enter a student code!");
+      return;
+    }
+    
+    const btn = document.getElementById('linkStudentBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Linking...';
+
+    try {
+      const stq = query(collection(db, "users"), where("invitation_code", "==", code), where("role", "==", "student"));
+      const sqSnap = await getDocs(stq);
+
+      if (sqSnap.empty) {
+        alert("Student code not found. Make sure the student has created their account first.");
+        btn.disabled = false;
+        btn.innerHTML = 'Link Student Account';
+        return;
+      }
+
+      const parentRef = doc(db, "users", currentParent.uid);
+      await updateDoc(parentRef, { linked_student_code: code });
+
+      alert("Successfully linked to student profile!");
+      currentParent.linked_student_code = code;
+      
+      await initDashboard();
+
+    } catch (error) {
+      console.error(error);
+      alert("Error linking student: " + error.message);
+      btn.disabled = false;
+      btn.innerHTML = 'Link Student Account';
+    }
   };
 
   window.approveFromModal = async (chapterId, docId) => {
