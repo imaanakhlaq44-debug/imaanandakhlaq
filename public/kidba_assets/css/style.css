@@ -194,10 +194,10 @@ button { font-family: var(--f-head); cursor:pointer; }
   animation: splashLogoBounce 2.5s ease-in-out infinite;
 }
 .splash-logo { 
-  width: 100%; 
-  height: 100%; 
-  transform: scale(1.05);
-  object-fit: cover; 
+  width: 86%; 
+  height: 86%; 
+  object-fit: contain;
+  object-position: center;
 }
 
 @keyframes splashLogoBounce {
@@ -294,7 +294,7 @@ button { font-family: var(--f-head); cursor:pointer; }
 
 /* Responsive */
 @media (max-width: 575px) {
-  .splash-logo { height: 65px; }
+  .splash-logo { width: 82%; height: 82%; }
   .splash-wordmark { font-size: 1.9rem; }
   .splash-progress-track { width: 180px; }
   .splash-icon { display: none; }

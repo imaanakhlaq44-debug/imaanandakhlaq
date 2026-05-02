@@ -5,19 +5,27 @@
     "dev": "vite",
     "dev:sandbox": "wrangler pages dev dist --ip 0.0.0.0 --port 3000",
     "build": "vite build",
+    "build:apk": "vite build && node scripts/apk-splash.cjs && node scripts/apk-bottombar.cjs && node scripts/apk-parent-chapter.cjs && node scripts/apk-firebase-local.cjs",
+    "apk:run": "powershell -ExecutionPolicy Bypass -File scripts/run-apk-emulator.ps1",
     "package": "powershell -ExecutionPolicy Bypass -File scripts/package-hostinger.ps1",
-    "preview": "wrangler pages dev dist",
+    "preview": "vite preview --host 127.0.0.1 --port 4173",
+    "preview:cf": "wrangler pages dev dist --ip 127.0.0.1 --port 8788",
     "deploy": "npm run build && wrangler pages deploy dist",
     "deploy:prod": "npm run build && wrangler pages deploy dist --project-name webapp",
-    "cf-typegen": "wrangler types --env-interface CloudflareBindings"
+    "cf-typegen": "wrangler types --env-interface CloudflareBindings",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
+    "@capacitor/android": "^8.3.1",
+    "@capacitor/cli": "^8.3.1",
+    "@capacitor/core": "^8.3.1",
+    "@capacitor/keyboard": "^8.0.3",
     "@hono/node-server": "^1.19.12",
     "express": "^5.2.1",
     "firebase": "^12.12.0",
     "hono": "^4.12.9",
-    "puppeteer": "^24.40.0",
-    "sharp": "^0.34.5",
+    "puppeteer": "^24.42.0",
     "vite-plugin-copy": "^0.1.6"
   },
   "devDependencies": {
@@ -26,7 +34,9 @@
     "@hono/vite-ssg": "^0.3.3",
     "@types/node": "^25.5.2",
     "esbuild": "^0.28.0",
+    "sharp": "^0.34.5",
     "vite": "^6.3.5",
+    "vitest": "^4.1.5",
     "wrangler": "^4.78.0"
   }
 }

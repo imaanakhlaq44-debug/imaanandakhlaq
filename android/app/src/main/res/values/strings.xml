@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Imaan Akhlaq</string>
+    <string name="title_activity_main">Imaan Akhlaq</string>
+    <string name="package_name">com.imaanakhlaq.app</string>
+    <string name="custom_url_scheme">com.imaanakhlaq.app</string>
+</resources>

@@ -33,5 +33,33 @@ export const Head = () => html`\n<!DOCTYPE html>
 
   <!-- Custom CSS -->
   <link rel="stylesheet" href="/kidba_assets/css/style.css">
+
+  <!-- Capacitor Mobile App: always redirect to Auth on public pages -->
+  <script>
+    (function() {
+      // Capacitor injects its bridge automatically
+      var isCap = false;
+      try {
+        isCap = window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform();
+      } catch(e) {}
+      if (isCap) {
+        var host = window.location.hostname;
+        var protocol = window.location.protocol;
+        if ((host === '127.0.0.1' || host === '0.0.0.0') || (host === 'localhost' && protocol !== 'https:')) {
+          var normalizedUrl = 'https://localhost' + window.location.pathname + window.location.search + window.location.hash;
+          if (window.location.href !== normalizedUrl) {
+            window.location.replace(normalizedUrl);
+            return;
+          }
+        }
+        var path = window.location.pathname.replace(/\\/index\\.html$/, '/').replace(/\\.html$/, '').replace(/\\/$/, '') || '/';
+        // Only allow these pages in app
+        var allowed = ['/auth', '/student-activities', '/parent-dashboard', '/teacher-dashboard', '/admin-dashboard', '/activity'];
+        if (!allowed.some(p => path === p)) {
+          window.location.replace('https://localhost/auth');
+        }
+      }
+    })();
+  </script>
 </head>
 <body>\n`;

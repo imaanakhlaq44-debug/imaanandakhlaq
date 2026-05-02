@@ -32,6 +32,7 @@ import { ClubPortal } from './components/ClubPortal'
 import { PrivacyPage } from './components/PrivacyPage'
 import { TermsPage } from './components/TermsPage'
 import { ContactPage } from './components/ContactPage'
+import { DeleteAccountPage } from './components/DeleteAccountPage'
 import { BlogDirectoryPage } from './components/BlogDirectoryPage'
 import { BlogArticlePage } from './components/BlogArticlePage'
 
@@ -42,6 +43,8 @@ import { TeacherDashboard } from './components/TeacherDashboard'
 import { SchoolAdminDashboard } from './components/SchoolAdminDashboard'
 import { AuthPage } from './components/AuthPage'
 import { DemoSwitcher } from './components/DemoSwitcher'
+import { SuperAdminDashboard } from './components/SuperAdminDashboard'
+import { NotFoundPage } from './components/NotFoundPage'
 
 export const app = new Hono()
 app.use('*', async (c, next) => {
@@ -76,7 +79,7 @@ app.get('/products/coloring', (c) => c.html(html`${ProductColoringPage()}`))
 app.get('/products/audio', (c) => c.html(html`${ProductAudioPage()}`))
 app.get('/products/puppet', (c) => c.html(html`${ProductComingSoonPage('Puppet Show')}`))
 app.get('/products/games', (c) => c.html(html`${ProductComingSoonPage('Game Portal')}`))
-app.get('/club', (c) => c.html(html`${ClubPortal()}`))
+app.get('/club', (c) => c.html(generateClubPortalHTML()))
 
 app.get('/products', (c) => c.redirect('/products/books'))
 
@@ -84,6 +87,7 @@ app.get('/products', (c) => c.redirect('/products/books'))
 app.get('/privacy', (c) => c.html(PrivacyPage()))
 app.get('/terms', (c) => c.html(TermsPage()))
 app.get('/contact', (c) => c.html(ContactPage()))
+app.get('/delete-account', (c) => c.html(DeleteAccountPage()))
 
 // Blog Directory
 app.get('/blog', (c) => c.html(BlogDirectoryPage()))
@@ -133,12 +137,12 @@ app.get('/admin-dashboard', (c) => {
   return c.html(generateSchoolAdminDashboardHTML())
 })
 
-app.get('/auth', (c) => {
-  return c.html(generateAuthPageHTML())
+app.get('/super-admin-dashboard', (c) => {
+  return c.html(generateSuperAdminDashboardHTML())
 })
 
-app.get('/club', (c) => {
-  return c.html(generateClubPortalHTML())
+app.get('/auth', (c) => {
+  return c.html(generateAuthPageHTML())
 })
 
 app.get('/api-activities', (c) => {
@@ -170,6 +174,11 @@ function generateSchoolAdminDashboardHTML() {
 ${SchoolAdminDashboard()}`
 }
 
+function generateSuperAdminDashboardHTML() {
+  return html`${Head()}
+${SuperAdminDashboard()}`
+}
+
 function generateClubPortalHTML() {
   return html`${Head()}
 ${ClubPortal()}`
@@ -199,5 +208,10 @@ ${VisionCallToAction()}
 ${Footer()}
 `
 }
+
+// 404 Catch-All — must be the LAST route
+app.notFound((c) => {
+  return c.html(NotFoundPage(), 404)
+})
 
 export default app

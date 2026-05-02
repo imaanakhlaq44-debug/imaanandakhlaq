@@ -1,4 +1,4 @@
-import { html } from 'hono/html'
+﻿import { html } from 'hono/html'
 
 export const AuthPage = () => html`
 <style>
@@ -72,26 +72,118 @@ export const AuthPage = () => html`
   .auth-box-title { font-size: 1.5rem; font-weight: 700; color: var(--text-pri); margin-bottom: 8px; letter-spacing: -0.5px; }
   .auth-box-desc { font-size: 0.95rem; color: var(--text-sec); margin-bottom: 30px; line-height: 1.5; }
 
-  /* Role List (Vertical) */
-  .role-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
+  /* Role Cards (Grid) — premium SaaS style */
+  .role-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 28px;
+    max-width: 680px;
+  }
   .role-item {
-    display: flex; align-items: center; gap: 16px;
-    padding: 16px 20px;
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
+    position: relative;
+    display: flex; align-items: center; gap: 14px;
+    padding: 16px 18px;
+    border: 1px solid #e6ebf2;
+    border-radius: 14px;
     cursor: pointer;
     background: #fff;
-    transition: all 0.2s ease;
+    transition: transform 0.2s cubic-bezier(.4,0,.2,1), box-shadow 0.2s cubic-bezier(.4,0,.2,1), border-color 0.2s ease;
+    overflow: hidden;
   }
-  .role-item:hover { border-color: #cbd5e1; background: #f8fafc; }
-  .role-item.active { border-color: var(--brand-pink); background: #fff1f2; box-shadow: 0 0 0 1px var(--brand-pink); }
-  
-  .role-img { width: 44px; height: 44px; object-fit: contain; }
-  .role-item-info { flex: 1; }
-  .role-item-name { font-size: 1.05rem; font-weight: 600; color: var(--text-pri); margin-bottom: 2px;}
-  .role-item-desc { font-size: 0.85rem; color: var(--text-sec); line-height: 1.3;}
-  
-  .trial-badge { display:inline-block; background: #fef08a; color: #a16207; font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 6px; margin-left: 8px; text-transform:uppercase;}
+  .role-item::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    box-shadow: inset 0 -2px 0 rgba(15,23,42,0.02);
+  }
+  .role-item-school     { --accent: #1E2D5A; --accent-soft: #eef1fa; }
+  .role-item-teacher    { --accent: #29416d; --accent-soft: #eaeff7; }
+  .role-item-student    { --accent: #D63678; --accent-soft: #fdeaf3; }
+  .role-item-parent     { --accent: #E08020; --accent-soft: #fdf0e1; }
+  .role-item-individual { --accent: #b8860b; --accent-soft: #fdf6dd; }
+
+  .role-item:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(15,23,42,0.06), 0 2px 4px rgba(15,23,42,0.04);
+  }
+  .role-item.active {
+    border-color: var(--accent);
+    background: linear-gradient(180deg, #ffffff 0%, var(--accent-soft) 100%);
+    box-shadow: 0 0 0 2px var(--accent), 0 10px 24px rgba(15,23,42,0.10);
+  }
+  .role-item .role-chev {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    background: #f1f5f9;
+    color: #64748b;
+    font-size: 0.7rem;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+  }
+  .role-item:hover .role-chev {
+    background: var(--accent);
+    color: #fff;
+    transform: translateX(2px);
+  }
+  .role-item.active .role-chev { background: var(--accent); color: #fff; }
+
+  /* Replace PNG images with clean FA icon badges */
+  .role-img {
+    width: 44px; height: 44px;
+    border-radius: 11px;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-size: 1.15rem;
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+  }
+  .role-item:hover .role-img { transform: scale(1.05); }
+  .role-item.active .role-img {
+    background: var(--accent);
+    color: #fff;
+    box-shadow: 0 6px 14px -2px var(--accent);
+  }
+
+  .role-item-info { flex: 1; min-width: 0; }
+  .role-item-name {
+    font-size: 0.95rem; font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 3px;
+    display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+    letter-spacing: -0.01em;
+  }
+  .role-item-desc {
+    font-size: 0.78rem;
+    color: #64748b;
+    line-height: 1.4;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+
+  .trial-badge {
+    display:inline-flex; align-items:center; gap:4px;
+    background: linear-gradient(135deg, #f4c542, #e08020);
+    color: #fff;
+    font-size: 0.62rem; font-weight: 700;
+    padding: 3px 9px; border-radius: 999px;
+    text-transform:uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 6px rgba(224,128,32,0.35);
+  }
+
+  @media (max-width: 720px) {
+    .role-list { grid-template-columns: 1fr; gap: 10px; }
+    .role-item { padding: 14px 16px; }
+  }
 
   /* Forms */
   .reg-form-wrapper { display: none; margin-top: 30px; animation: fadeIn 0.3s ease; }
@@ -159,11 +251,152 @@ export const AuthPage = () => html`
   .code-label { font-size: 0.85rem; font-weight: 600; color: var(--text-sec); margin-bottom: 8px; text-transform: uppercase; }
   .code-value { font-family: 'JetBrains Mono', monospace; font-size: 1.4rem; font-weight: 700; color: var(--brand-pink); letter-spacing: 2px; }
 
+  /* OTP Modal */
+  .otp-input { width: 100%; text-align: center; font-size: 1.8rem; font-weight: 700; letter-spacing: 12px; padding: 14px; border: 2px solid var(--border-color); border-radius: 10px; font-family: 'JetBrains Mono', monospace; color: var(--brand-navy); }
+  .otp-input:focus { outline: none; border-color: var(--brand-pink); box-shadow: 0 0 0 3px var(--focus-ring); }
+  .otp-info { font-size: 0.85rem; color: var(--text-sec); margin-top: 12px; }
+  .otp-info b { color: var(--brand-navy); }
+  .otp-resend { display: inline-block; margin-top: 14px; color: var(--brand-pink); font-weight: 600; cursor: pointer; font-size: 0.9rem; }
+  .otp-resend:hover { text-decoration: underline; }
+  .otp-resend.disabled { color: #94a3b8; cursor: not-allowed; pointer-events: none; }
+
   /* Toast Notification */
   .toast { position: fixed; top: 20px; right: 20px; padding: 16px 24px; background: white; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-left: 4px solid transparent; font-size: 0.95rem; font-weight: 500; z-index: 10000; transform: translateX(120%); transition: transform 0.3s ease; }
   .toast.show { transform: translateX(0); }
   .toast.success { border-left-color: #10b981; color: #064e3b; }
   .toast.error { border-left-color: #ef4444; color: #7f1d1d; }
+
+  /* ============================================================
+     APK-STYLE AUTH DESIGN — login/register mode switch
+     ============================================================ */
+  .auth-wrapper {
+    background:
+      radial-gradient(circle at top right, rgba(214, 54, 120, 0.16), transparent 28rem),
+      radial-gradient(circle at top left, rgba(224, 128, 32, 0.13), transparent 22rem),
+      linear-gradient(180deg, #f7fbff 0%, #edf2ff 100%);
+  }
+  .auth-nav { position: relative; justify-content: center; padding: 32px 16px 18px; }
+  .back-link { display: none !important; }
+  .brand-logo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border-radius: 24px;
+    background: transparent;
+    box-shadow: none;
+    text-decoration: none;
+  }
+  .brand-logo-img {
+    display: block;
+    width: clamp(160px, 28vw, 320px);
+    height: auto;
+    border-radius: 22px;
+    background: #fff;
+    padding: 8px;
+    box-shadow: 0 16px 36px rgba(30, 45, 90, 0.16), 0 4px 14px rgba(214, 54, 120, 0.12);
+    object-fit: contain;
+  }
+
+  .auth-top-switch-wrap {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 22px 14px 22px;
+  }
+  .auth-view-switch {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+  }
+  .auth-view-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #dbe4f0;
+    border-radius: 999px;
+    height: 42px;
+    width: 180px;
+    padding: 0 12px;
+    font-size: 0.9rem;
+    line-height: 1;
+    font-weight: 700;
+    white-space: nowrap;
+    color: #64748b;
+    background: #ffffff;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: 'Nunito', 'Poppins', sans-serif;
+    box-sizing: border-box;
+  }
+  .auth-view-btn:hover:not(.active) { color: var(--brand-navy); border-color: var(--brand-navy); }
+  .auth-view-btn.active {
+    color: #ffffff;
+    background: var(--brand-navy);
+    border-color: var(--brand-navy);
+    box-shadow: 0 4px 12px rgba(41, 65, 109, 0.25);
+  }
+
+  .auth-box { border-radius: 22px; border-color: #dbe4f0; box-shadow: 0 16px 34px rgba(15,23,42,0.08), 0 3px 10px rgba(15,23,42,0.04); }
+
+  .auth-wrapper.mode-login .auth-container { max-width: 460px; grid-template-columns: 1fr; }
+  .auth-wrapper.mode-login .auth-register-panel { display: none; }
+  .auth-wrapper.mode-login .auth-login-panel { display: block; }
+  .auth-wrapper.mode-login .auth-login-panel .auth-box { position: static !important; max-width: 380px; margin: 0 auto; padding: 28px 24px; }
+
+  .auth-wrapper.mode-register .auth-container { max-width: 900px; grid-template-columns: 1fr; }
+  .auth-wrapper.mode-register .auth-register-panel { display: block; }
+  .auth-wrapper.mode-register .auth-login-panel { display: none; }
+
+  @media (max-width: 900px) {
+    .auth-nav { justify-content: center; padding: 22px 14px 14px; gap: 10px; flex-wrap: wrap; }
+    .brand-logo-img { width: clamp(150px, 38vw, 240px); }
+    .auth-top-switch-wrap { padding: 18px 14px 18px; }
+    .auth-container { grid-template-columns: 1fr; }
+    .auth-login-panel .auth-box { position: static !important; }
+  }
+
+  /* ===== Website mobile polish (<= 600px) ===== */
+  @media (max-width: 600px) {
+    .auth-nav { padding: 18px 12px 10px; }
+    .brand-logo-img { width: clamp(140px, 46vw, 220px); padding: 6px; border-radius: 18px; }
+    .auth-top-switch-wrap { padding: 14px 12px 16px; }
+    .auth-view-switch { width: 100%; gap: 6px; }
+    .auth-view-btn {
+      width: auto;
+      flex: 1 1 0;
+      min-width: 0;
+      height: 40px;
+      padding: 0 8px;
+      font-size: 0.82rem;
+    }
+    .auth-container { padding: 10px 12px 40px; gap: 24px; }
+    .auth-box { padding: 22px 18px; border-radius: 16px; }
+    .auth-box-title { font-size: 1.25rem; }
+    .auth-box-desc { font-size: 0.88rem; margin-bottom: 20px; }
+    .auth-wrapper.mode-login .auth-login-panel .auth-box { padding: 22px 18px; max-width: 100%; }
+    .auth-register-panel h1 { font-size: 1.4rem !important; }
+    .auth-register-panel > p { font-size: 0.85rem !important; margin-bottom: 18px !important; }
+    .role-list { grid-template-columns: 1fr; gap: 8px; margin-bottom: 20px; }
+    .role-item { padding: 12px 14px; gap: 12px; }
+    .role-img { width: 38px; height: 38px; font-size: 1rem; border-radius: 9px; }
+    .role-item-name { font-size: 0.9rem; }
+    .role-item-desc { font-size: 0.74rem; }
+    .form-control { padding: 11px 14px; font-size: 0.95rem; }
+    .btn { padding: 13px 16px; font-size: 0.95rem; }
+    .modal-card { padding: 28px 20px; width: 94%; }
+  }
+
+  /* ===== Very small screens (<= 380px) ===== */
+  @media (max-width: 380px) {
+    .auth-view-btn { font-size: 0.76rem; height: 38px; }
+    .brand-logo-img { width: 140px; }
+    .auth-box { padding: 18px 14px; }
+  }
 
 </style>
 
@@ -172,61 +405,71 @@ export const AuthPage = () => html`
   <!-- Navigation Header -->
   <header class="auth-nav">
     <a href="/" class="back-link"><i class="fas fa-arrow-left"></i> Back to Homepage</a>
-    <a href="/" class="brand-logo"><i class="fas fa-mosque"></i> Imaan & Akhlaq</a>
+    <a href="/" class="brand-logo" aria-label="Imaan and Akhlaq">
+      <img src="/kidba_assets/img/splash_logo.jpg" alt="Imaan and Akhlaq" class="brand-logo-img" />
+    </a>
   </header>
 
   <main class="auth-container">
     
+    <!-- Mode switch: Login / Register -->
+    <div class="auth-top-switch-wrap" style="grid-column: 1 / -1;">
+      <div class="auth-view-switch">
+        <button id="authModeLogin" type="button" class="auth-view-btn active" onclick="setAuthPanel('login')">Already Registered</button>
+        <button id="authModeRegister" type="button" class="auth-view-btn" onclick="setAuthPanel('register')">New Registration</button>
+      </div>
+    </div>
+
     <!-- LEFT: Registration Focus -->
-    <section>
-      <h1 style="font-size:2.2rem; font-family:'Fredoka One', cursive; color:var(--brand-navy); margin-bottom:10px;">Create your account</h1>
-      <p style="color:var(--text-sec); font-size:1rem; margin-bottom:30px; max-width:500px;">Choose a role below to start. Schools register directly. Teachers, Students, and Parents need school invitations.</p>
+    <section class="auth-register-panel">
+      <h1 style="font-size:1.75rem; font-weight:800; color:var(--brand-navy); margin-bottom:8px; letter-spacing:-0.02em;">Create your account</h1>
+      <p style="color:var(--text-sec); font-size:0.92rem; margin-bottom:24px; max-width:520px; line-height:1.5;">Choose a role to get started. Schools register directly. Teachers, Students, and Parents need a school invitation code.</p>
 
       <div class="role-list">
         
         <div class="role-item role-item-school" onclick="selectRole('school')">
-          <img src="./kidba_assets/img/3d_school.png" class="role-img" alt="School">
+          <div class="role-img"><i class="fas fa-school"></i></div>
           <div class="role-item-info">
             <div class="role-item-name">School Admin</div>
             <div class="role-item-desc">Register your school and manage users.</div>
           </div>
-          <i class="fas fa-chevron-right" style="color:var(--border-color);"></i>
+          <div class="role-chev"><i class="fas fa-arrow-right"></i></div>
         </div>
 
         <div class="role-item role-item-teacher" onclick="selectRole('teacher')">
-          <img src="./kidba_assets/img/3d_teacher.png" class="role-img" alt="Teacher">
+          <div class="role-img"><i class="fas fa-chalkboard-teacher"></i></div>
           <div class="role-item-info">
             <div class="role-item-name">Teacher</div>
             <div class="role-item-desc">Join your school using an invitation code.</div>
           </div>
-          <i class="fas fa-chevron-right" style="color:var(--border-color);"></i>
+          <div class="role-chev"><i class="fas fa-arrow-right"></i></div>
         </div>
 
         <div class="role-item role-item-student" onclick="selectRole('student')">
-          <img src="./kidba_assets/img/3d_student.png" class="role-img" alt="Student">
+          <div class="role-img"><i class="fas fa-user-graduate"></i></div>
           <div class="role-item-info">
             <div class="role-item-name">Student / Child</div>
             <div class="role-item-desc">Start your gamified learning journey.</div>
           </div>
-          <i class="fas fa-chevron-right" style="color:var(--border-color);"></i>
+          <div class="role-chev"><i class="fas fa-arrow-right"></i></div>
         </div>
 
         <div class="role-item role-item-parent" onclick="selectRole('parent')">
-          <img src="./kidba_assets/img/3d_parent.png" class="role-img" alt="Parent">
+          <div class="role-img"><i class="fas fa-users"></i></div>
           <div class="role-item-info">
             <div class="role-item-name">Parent</div>
             <div class="role-item-desc">Monitor progress using a parent code.</div>
           </div>
-          <i class="fas fa-chevron-right" style="color:var(--border-color);"></i>
+          <div class="role-chev"><i class="fas fa-arrow-right"></i></div>
         </div>
 
         <div class="role-item role-item-individual" onclick="selectRole('individual')">
-          <div style="width:44px; height:44px; background:#f1f5f9; border-radius:12px; display:flex; align-items:center; justify-content:center; color:var(--brand-gold); font-size:1.5rem;"><i class="fas fa-rocket"></i></div>
+          <div class="role-img"><i class="fas fa-rocket"></i></div>
           <div class="role-item-info">
-            <div class="role-item-name">Individual Access <span class="trial-badge">Free Trial</span></div>
+            <div class="role-item-name">Individual <span class="trial-badge"><i class="fas fa-star" style="font-size:0.55rem;"></i> Free Trial</span></div>
             <div class="role-item-desc">Try out all features free for 3 days.</div>
           </div>
-          <i class="fas fa-chevron-right" style="color:var(--border-color);"></i>
+          <div class="role-chev"><i class="fas fa-arrow-right"></i></div>
         </div>
 
       </div>
@@ -246,8 +489,8 @@ export const AuthPage = () => html`
           </div>
           <div class="form-group"><label class="form-label">Work Email</label><input type="email" class="form-control" id="regSchoolEmail" placeholder="admin@school.com"></div>
           <div class="form-grid">
-            <div class="form-group"><label class="form-label">Password</label><div class="pw-wrapper"><input type="password" class="form-control" id="regSchoolPw" placeholder="Create password"><button class="pw-toggle" onclick="togglePw('regSchoolPw')"><i class="fas fa-eye"></i></button></div></div>
-            <div class="form-group"><label class="form-label">Confirm Password</label><div class="pw-wrapper"><input type="password" class="form-control" id="regSchoolPw2" placeholder="Confirm password"><button class="pw-toggle" onclick="togglePw('regSchoolPw2')"><i class="fas fa-eye"></i></button></div></div>
+            <div class="form-group"><label class="form-label">Password</label><div class="pw-wrapper"><input type="password" class="form-control" id="regSchoolPw" placeholder="Create password"><button type="button" class="pw-toggle" onclick="togglePw('regSchoolPw')"><i class="fas fa-eye"></i></button></div></div>
+            <div class="form-group"><label class="form-label">Confirm Password</label><div class="pw-wrapper"><input type="password" class="form-control" id="regSchoolPw2" placeholder="Confirm password"><button type="button" class="pw-toggle" onclick="togglePw('regSchoolPw2')"><i class="fas fa-eye"></i></button></div></div>
           </div>
           <button class="btn btn-accent" onclick="registerSchool()">Create School Account</button>
         </div>
@@ -266,8 +509,8 @@ export const AuthPage = () => html`
           </div>
           <div class="form-group"><label class="form-label">Email Address</label><input type="email" class="form-control" id="regTchEmail" placeholder="teacher@school.com"></div>
           <div class="form-grid">
-            <div class="form-group"><label class="form-label">Password</label><div class="pw-wrapper"><input type="password" class="form-control" id="regTchPw"><button class="pw-toggle" onclick="togglePw('regTchPw')"><i class="fas fa-eye"></i></button></div></div>
-            <div class="form-group"><label class="form-label">Confirm Password</label><div class="pw-wrapper"><input type="password" class="form-control" id="regTchPw2"><button class="pw-toggle" onclick="togglePw('regTchPw2')"><i class="fas fa-eye"></i></button></div></div>
+            <div class="form-group"><label class="form-label">Password</label><div class="pw-wrapper"><input type="password" class="form-control" id="regTchPw"><button type="button" class="pw-toggle" onclick="togglePw('regTchPw')"><i class="fas fa-eye"></i></button></div></div>
+            <div class="form-group"><label class="form-label">Confirm Password</label><div class="pw-wrapper"><input type="password" class="form-control" id="regTchPw2"><button type="button" class="pw-toggle" onclick="togglePw('regTchPw2')"><i class="fas fa-eye"></i></button></div></div>
           </div>
           <button class="btn btn-primary" onclick="registerWithCode('teacher')">Join as Teacher</button>
         </div>
@@ -285,8 +528,8 @@ export const AuthPage = () => html`
             <div class="form-group"><label class="form-label">Parent Phone</label><input type="text" class="form-control" id="regStuPhone" placeholder="03XXXXXXXXX"></div>
           </div>
           <div class="form-grid">
-            <div class="form-group"><label class="form-label">Password</label><div class="pw-wrapper"><input type="password" class="form-control" id="regStuPw"><button class="pw-toggle" onclick="togglePw('regStuPw')"><i class="fas fa-eye"></i></button></div></div>
-            <div class="form-group"><label class="form-label">Confirm Password</label><div class="pw-wrapper"><input type="password" class="form-control" id="regStuPw2"><button class="pw-toggle" onclick="togglePw('regStuPw2')"><i class="fas fa-eye"></i></button></div></div>
+            <div class="form-group"><label class="form-label">Password</label><div class="pw-wrapper"><input type="password" class="form-control" id="regStuPw"><button type="button" class="pw-toggle" onclick="togglePw('regStuPw')"><i class="fas fa-eye"></i></button></div></div>
+            <div class="form-group"><label class="form-label">Confirm Password</label><div class="pw-wrapper"><input type="password" class="form-control" id="regStuPw2"><button type="button" class="pw-toggle" onclick="togglePw('regStuPw2')"><i class="fas fa-eye"></i></button></div></div>
           </div>
           <button class="btn btn-primary" onclick="registerWithCode('student')">Create Student Profile</button>
         </div>
@@ -304,8 +547,8 @@ export const AuthPage = () => html`
             <div class="form-group"><label class="form-label">Phone No.</label><input type="text" class="form-control" id="regParPhone" placeholder="03XXXXXXXXX"></div>
           </div>
           <div class="form-grid">
-            <div class="form-group"><label class="form-label">Password</label><div class="pw-wrapper"><input type="password" class="form-control" id="regParPw"><button class="pw-toggle" onclick="togglePw('regParPw')"><i class="fas fa-eye"></i></button></div></div>
-            <div class="form-group"><label class="form-label">Confirm Password</label><div class="pw-wrapper"><input type="password" class="form-control" id="regParPw2"><button class="pw-toggle" onclick="togglePw('regParPw2')"><i class="fas fa-eye"></i></button></div></div>
+            <div class="form-group"><label class="form-label">Password</label><div class="pw-wrapper"><input type="password" class="form-control" id="regParPw"><button type="button" class="pw-toggle" onclick="togglePw('regParPw')"><i class="fas fa-eye"></i></button></div></div>
+            <div class="form-group"><label class="form-label">Confirm Password</label><div class="pw-wrapper"><input type="password" class="form-control" id="regParPw2"><button type="button" class="pw-toggle" onclick="togglePw('regParPw2')"><i class="fas fa-eye"></i></button></div></div>
           </div>
           <button class="btn btn-primary" onclick="registerWithCode('parent')">Connect Account</button>
         </div>
@@ -322,8 +565,8 @@ export const AuthPage = () => html`
             <div class="form-group"><label class="form-label">Phone No.</label><input type="text" class="form-control" id="regIndPhone" placeholder="03XXXXXXXXX"></div>
           </div>
           <div class="form-grid">
-            <div class="form-group"><label class="form-label">Password</label><div class="pw-wrapper"><input type="password" class="form-control" id="regIndPw"><button class="pw-toggle" onclick="togglePw('regIndPw')"><i class="fas fa-eye"></i></button></div></div>
-            <div class="form-group"><label class="form-label">Confirm Password</label><div class="pw-wrapper"><input type="password" class="form-control" id="regIndPw2"><button class="pw-toggle" onclick="togglePw('regIndPw2')"><i class="fas fa-eye"></i></button></div></div>
+            <div class="form-group"><label class="form-label">Password</label><div class="pw-wrapper"><input type="password" class="form-control" id="regIndPw"><button type="button" class="pw-toggle" onclick="togglePw('regIndPw')"><i class="fas fa-eye"></i></button></div></div>
+            <div class="form-group"><label class="form-label">Confirm Password</label><div class="pw-wrapper"><input type="password" class="form-control" id="regIndPw2"><button type="button" class="pw-toggle" onclick="togglePw('regIndPw2')"><i class="fas fa-eye"></i></button></div></div>
           </div>
           <button class="btn btn-primary" style="background:var(--brand-gold); color:#7c2d12;" onclick="registerIndividual()"><i class="fas fa-rocket"></i> Start 3-Day Trial</button>
         </div>
@@ -332,7 +575,7 @@ export const AuthPage = () => html`
     </section>
 
     <!-- RIGHT: Login Focus -->
-    <aside>
+    <aside class="auth-login-panel">
       <div class="auth-box" style="position:sticky; top:40px;">
         <h3 class="auth-box-title">Welcome back</h3>
         <p class="auth-box-desc">Log in to enter your portal.</p>
@@ -344,8 +587,8 @@ export const AuthPage = () => html`
         <div class="form-group">
           <label class="form-label">Password</label>
           <div class="pw-wrapper">
-            <input type="password" class="form-control" id="loginPw" placeholder="ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢">
-            <button class="pw-toggle" onclick="togglePw('loginPw')"><i class="fas fa-eye"></i></button>
+            <input type="password" class="form-control" id="loginPw" placeholder="Enter your password">
+            <button type="button" class="pw-toggle" onclick="togglePw('loginPw')"><i class="fas fa-eye"></i></button>
           </div>
         </div>
         
@@ -355,6 +598,28 @@ export const AuthPage = () => html`
     </aside>
 
   </main>
+</div>
+
+<!-- OTP VERIFICATION MODAL -->
+<div id="otpOverlay" class="modal-overlay">
+  <div class="modal-card" style="text-align:left;">
+    <div style="text-align:center; margin-bottom:18px;">
+      <i class="fas fa-envelope-open-text" style="font-size:2.6rem; color:var(--brand-pink);"></i>
+    </div>
+    <h3 class="modal-title" style="text-align:center;">Verify your email</h3>
+    <p class="modal-desc" style="text-align:center;">Enter the 6-digit code we sent to <b id="otpEmailLabel" style="color:var(--brand-navy);">your email</b>.</p>
+    <div class="form-group">
+      <input type="text" id="otpInputCode" class="otp-input" placeholder="000000" maxlength="6" inputmode="numeric" pattern="[0-9]*">
+    </div>
+    <p class="otp-info" style="text-align:center;">Didn't get it? Check spam folder.</p>
+    <div style="text-align:center;">
+      <span id="otpResendBtn" class="otp-resend disabled" onclick="resendOtp()">Resend code (<span id="otpResendTimer">60</span>s)</span>
+    </div>
+    <div style="display:flex; gap:12px; margin-top:24px;">
+      <button class="btn" style="background:#e2e8f0; color:var(--text-pri);" onclick="closeOtp()">Cancel</button>
+      <button class="btn btn-primary" onclick="verifyOtp()" id="otpVerifyBtn">Verify &amp; Continue</button>
+    </div>
+  </div>
 </div>
 
 <!-- SUCCESS MODAL -->
@@ -376,8 +641,8 @@ export const AuthPage = () => html`
     <div class="form-group"><label class="form-label">Email or Phone</label><input type="text" class="form-control" id="resetId" placeholder="e.g. name@school.com"></div>
     
     <div id="resetNewPw" style="display:none;">
-      <div class="form-group"><label class="form-label">New Password</label><div class="pw-wrapper"><input type="password" class="form-control" id="resetPwVal"><button class="pw-toggle" onclick="togglePw('resetPwVal')"><i class="fas fa-eye"></i></button></div></div>
-      <div class="form-group"><label class="form-label">Confirm Password</label><div class="pw-wrapper"><input type="password" class="form-control" id="resetPwVal2"><button class="pw-toggle" onclick="togglePw('resetPwVal2')"><i class="fas fa-eye"></i></button></div></div>
+      <div class="form-group"><label class="form-label">New Password</label><div class="pw-wrapper"><input type="password" class="form-control" id="resetPwVal"><button type="button" class="pw-toggle" onclick="togglePw('resetPwVal')"><i class="fas fa-eye"></i></button></div></div>
+      <div class="form-group"><label class="form-label">Confirm Password</label><div class="pw-wrapper"><input type="password" class="form-control" id="resetPwVal2"><button type="button" class="pw-toggle" onclick="togglePw('resetPwVal2')"><i class="fas fa-eye"></i></button></div></div>
     </div>
     
     <div style="display:flex; gap:12px; margin-top:24px;">
@@ -390,9 +655,24 @@ export const AuthPage = () => html`
 <!-- TOAST -->
 <div id="authToast" class="toast"></div>
 
+<!-- EmailJS SDK for OTP delivery -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>
+  (function() {
+    function initEmailJs() {
+      if (typeof emailjs !== 'undefined' && emailjs.init) {
+        emailjs.init({ publicKey: '3CYK0qkbGm9ciHc0i' });
+      } else {
+        setTimeout(initEmailJs, 200);
+      }
+    }
+    initEmailJs();
+  })();
+</script>
+
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, signOut } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
   import { getFirestore, doc, setDoc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
   const firebaseConfig = {
@@ -417,7 +697,22 @@ export const AuthPage = () => html`
   function genCode(prefix) { return prefix + '-' + Math.random().toString(36).substr(2,5).toUpperCase(); }
   function genId(prefix) { return prefix + '_' + Math.floor(100 + Math.random()*900); }
 
+  window.setAuthPanel = (mode) => {
+    const wrapper = document.querySelector('.auth-wrapper');
+    const loginBtn = document.getElementById('authModeLogin');
+    const registerBtn = document.getElementById('authModeRegister');
+    if (!wrapper || !loginBtn || !registerBtn) return;
+    const isRegister = mode === 'register';
+    wrapper.classList.toggle('mode-register', isRegister);
+    wrapper.classList.toggle('mode-login', !isRegister);
+    loginBtn.classList.toggle('active', !isRegister);
+    registerBtn.classList.toggle('active', isRegister);
+  };
+
+  document.addEventListener('DOMContentLoaded', () => { window.setAuthPanel('login'); });
+
   window.selectRole = (role) => {
+    if (typeof window.setAuthPanel === 'function') window.setAuthPanel('register');
     document.querySelectorAll('.role-item').forEach(c => c.classList.remove('active'));
     document.querySelectorAll('.reg-form-wrapper').forEach(f => f.classList.remove('open'));
     document.querySelector('.role-item-' + role).classList.add('active');
@@ -432,129 +727,268 @@ export const AuthPage = () => html`
     else { inp.type = 'password'; icon.className = 'fas fa-eye'; }
   };
 
-  window.closeSuccess = () => document.getElementById('successOverlay').classList.remove('show');
+  // Track the email of the just-registered user so we can prefill the login form
+  let lastRegisteredEmail = '';
+
+  window.closeSuccess = async () => {
+    document.getElementById('successOverlay').classList.remove('show');
+    // Sign the user out (Firebase auto-signs in after createUser) so they land
+    // on the login screen, then switch the panel back to "login" mode.
+    try { await signOut(auth); } catch(_) {}
+    if (typeof window.setAuthPanel === 'function') window.setAuthPanel('login');
+    if (lastRegisteredEmail) {
+      const loginIdEl = document.getElementById('loginId');
+      if (loginIdEl) loginIdEl.value = lastRegisteredEmail;
+    }
+    // Smooth-scroll to the login panel for visibility on small screens
+    setTimeout(() => {
+      const loginPanel = document.querySelector('.auth-login-panel') || document.getElementById('loginId');
+      if (loginPanel) loginPanel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 100);
+  };
+
+  // ============================================================
+  // OTP via EmailJS — shared flow for ALL registration types
+  // ============================================================
+  const EMAILJS_SERVICE_ID  = 'service_sx89aqh';
+  const EMAILJS_TEMPLATE_ID = 'template_8dlwzhj';
+  const OTP_TTL_MS = 10 * 60 * 1000;       // 10 min validity
+  const OTP_RESEND_COOLDOWN = 60;          // 60s before resend allowed
+
+  let pendingReg = null;   // { otp, expiresAt, email, name, runRegister }
+  let resendTimer = null;
+
+  function gen6DigitOtp() {
+    return String(Math.floor(100000 + Math.random() * 900000));
+  }
+
+  async function sendOtpEmail(toEmail, toName, code) {
+    if (typeof emailjs === 'undefined') {
+      throw new Error('Email service not loaded yet. Please retry in a moment.');
+    }
+    // Compute human-readable expiry time (15 min from now to match template wording)
+    const expiry = new Date(Date.now() + 15 * 60 * 1000);
+    const timeStr = expiry.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    return emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+      // Variables your EmailJS template expects
+      email:    toEmail,
+      passcode: code,
+      time:     timeStr,
+      // Extras (safe to send even if template ignores them)
+      to_email: toEmail,
+      to_name:  toName || 'User',
+      otp_code: code,
+      app_name: 'Imaan and Akhlaq'
+    });
+  }
+
+  function startResendCountdown() {
+    const btn   = document.getElementById('otpResendBtn');
+    const timer = document.getElementById('otpResendTimer');
+    let remaining = OTP_RESEND_COOLDOWN;
+    btn.classList.add('disabled');
+    timer.textContent = remaining;
+    if (resendTimer) clearInterval(resendTimer);
+    resendTimer = setInterval(() => {
+      remaining--;
+      timer.textContent = remaining;
+      if (remaining <= 0) {
+        clearInterval(resendTimer);
+        resendTimer = null;
+        btn.classList.remove('disabled');
+        btn.innerHTML = 'Resend code';
+      }
+    }, 1000);
+  }
+
+  // Begin OTP flow: send code, show modal, store pending registration callback
+  async function beginOtp(email, name, runRegister) {
+    if (!email) { showToast('Email is required', 'error'); return; }
+    const code = gen6DigitOtp();
+    pendingReg = {
+      otp: code,
+      expiresAt: Date.now() + OTP_TTL_MS,
+      email: email,
+      name: name,
+      runRegister: runRegister
+    };
+    try {
+      showToast('Sending verification code...', 'success');
+      await sendOtpEmail(email, name, code);
+      document.getElementById('otpEmailLabel').textContent = email;
+      document.getElementById('otpInputCode').value = '';
+      document.getElementById('otpOverlay').classList.add('show');
+      setTimeout(() => document.getElementById('otpInputCode').focus(), 100);
+      startResendCountdown();
+      showToast('Code sent! Check your email.', 'success');
+    } catch (err) {
+      console.error('sendOtpEmail error:', err);
+      pendingReg = null;
+      showToast('Failed to send verification code. Please check your email and try again.', 'error');
+    }
+  }
+
+  window.closeOtp = () => {
+    document.getElementById('otpOverlay').classList.remove('show');
+    pendingReg = null;
+    if (resendTimer) { clearInterval(resendTimer); resendTimer = null; }
+  };
+
+  window.resendOtp = async () => {
+    if (!pendingReg) return;
+    const code = gen6DigitOtp();
+    pendingReg.otp = code;
+    pendingReg.expiresAt = Date.now() + OTP_TTL_MS;
+    try {
+      showToast('Resending code...', 'success');
+      await sendOtpEmail(pendingReg.email, pendingReg.name, code);
+      startResendCountdown();
+      showToast('New code sent.', 'success');
+    } catch (err) {
+      console.error('resendOtp error:', err);
+      showToast('Failed to resend. Please try again.', 'error');
+    }
+  };
+
+  window.verifyOtp = async () => {
+    if (!pendingReg) { showToast('Session expired. Please start again.', 'error'); window.closeOtp(); return; }
+    const entered = (document.getElementById('otpInputCode').value || '').trim();
+    if (entered.length !== 6) return showToast('Enter the 6-digit code', 'error');
+    if (Date.now() > pendingReg.expiresAt) {
+      showToast('Code expired. Please resend a new one.', 'error');
+      return;
+    }
+    if (entered !== pendingReg.otp) {
+      showToast('Incorrect code. Please try again.', 'error');
+      return;
+    }
+    const verifyBtn = document.getElementById('otpVerifyBtn');
+    verifyBtn.disabled = true;
+    verifyBtn.textContent = 'Verifying...';
+    try {
+      const fn = pendingReg.runRegister;
+      pendingReg = null;
+      window.closeOtp();
+      await fn();
+    } catch (err) {
+      console.error('verifyOtp -> register error:', err);
+      showToast(err.message || 'Registration failed', 'error');
+    } finally {
+      verifyBtn.disabled = false;
+      verifyBtn.innerHTML = 'Verify &amp; Continue';
+    }
+  };
 
   window.registerSchool = async () => {
-    const name = document.getElementById('regSchoolName').value.trim();
+    const name  = document.getElementById('regSchoolName').value.trim();
     const admin = document.getElementById('regSchoolAdmin').value.trim();
-    const loc = document.getElementById('regSchoolLoc').value.trim();
+    const loc   = document.getElementById('regSchoolLoc').value.trim();
     const email = document.getElementById('regSchoolEmail').value.trim();
     const phone = document.getElementById('regSchoolPhone').value.trim();
-    const pw = document.getElementById('regSchoolPw').value;
-    const pw2 = document.getElementById('regSchoolPw2').value;
+    const pw    = document.getElementById('regSchoolPw').value;
+    const pw2   = document.getElementById('regSchoolPw2').value;
 
     if (!name || !admin || !email || !phone || !pw) return showToast('Please fill all fields', 'error');
     if (pw !== pw2) return showToast('Passwords do not match', 'error');
 
-    try {
-      showToast('Registering...', 'success');
+    // Send OTP first; only after verification do we actually create the account
+    beginOtp(email, admin, async () => {
+      showToast('Creating school account...', 'success');
       const userCredential = await createUserWithEmailAndPassword(auth, email, pw);
       const user = userCredential.user;
       const code = genCode('SCH');
-      const sId = genId('sch');
-      
-      await setDoc(doc(db, "schools", sId), { name: name, location: loc, school_code: code, admin_uid: user.uid });
+      const sId  = genId('sch');
+
+      // 1) Create user doc FIRST so Firestore rules see the school_admin role
       await setDoc(doc(db, "users", user.uid), { role: 'school_admin', email: email, phone: phone, name: admin, school_id: sId });
-      
+      // 2) Then create the school doc
+      await setDoc(doc(db, "schools", sId), { name: name, location: loc, school_code: code, admin_uid: user.uid });
+
+      lastRegisteredEmail = email;
       document.getElementById('successTitle').textContent = 'School Registered!';
-      document.getElementById('successMsg').textContent = 'Your school code is required to invite teachers, students and parents.';
-      document.getElementById('successCodes').innerHTML = '<div class="invitation-code-box"><div class="code-label">School Code</div><div class="code-value">'+code+'</div></div>';
+      document.getElementById('successMsg').textContent = 'Welcome ' + admin + '! Your school account is ready. You can now log in and invite teachers, students and parents from your dashboard.';
+      document.getElementById('successCodes').innerHTML = '';
       document.getElementById('successOverlay').classList.add('show');
-    } catch (error) {
-      showToast(error.message, 'error');
-    }
+    });
   };
 
   window.registerWithCode = async (role) => {
     let pre = role==='teacher'?'TCH':role==='student'?'STU':'PAR';
     let p = role === 'teacher' ? 'Tch' : role === 'student' ? 'Stu' : 'Par';
     
-    const code = document.getElementById('reg'+p+'Code').value.trim().toUpperCase();
-    const name = document.getElementById('reg'+p+'Name').value.trim();
+    const code  = document.getElementById('reg'+p+'Code').value.trim().toUpperCase();
+    const name  = document.getElementById('reg'+p+'Name').value.trim();
     const email = document.getElementById('reg'+p+'Email').value.trim();
     const phone = document.getElementById('reg'+p+'Phone').value.trim();
-    const pw = document.getElementById('reg'+p+'Pw').value;
-    const pw2 = document.getElementById('reg'+p+'Pw2').value;
+    const pw    = document.getElementById('reg'+p+'Pw').value;
+    const pw2   = document.getElementById('reg'+p+'Pw2').value;
 
     if (!code || !name || !email || !phone || !pw) return showToast('Please fill missing fields', 'error');
     if (pw !== pw2) return showToast('Passwords mismatch', 'error');
     if (!code.startsWith(pre+'-')) return showToast('Invalid code format. Must start with '+pre+'-', 'error');
 
-    try {
-      showToast('Validating code...', 'success');
-      
-      const inviteReq = await getDoc(doc(db, "invites", code));
-      if (!inviteReq.exists()) {
-         return showToast('Invalid or unrecognized code.', 'error');
-      }
+    // Validate invite BEFORE sending OTP so we don't waste codes
+    showToast('Validating code...', 'success');
+    const inviteReq = await getDoc(doc(db, "invites", code));
+    if (!inviteReq.exists()) return showToast('Invalid or unrecognized code.', 'error');
+    const inviteData = inviteReq.data();
+    if (inviteData.status !== 'pending') return showToast('This code has already been used or is inactive.', 'error');
+    if (inviteData.role !== role) return showToast('This code is not for the ' + role + ' role.', 'error');
 
-      const inviteData = inviteReq.data();
-      if (inviteData.status !== 'pending') {
-         return showToast('This code has already been used or is inactive.', 'error');
-      }
-      if (inviteData.role !== role) {
-         return showToast('This code is not for the ' + role + ' role.', 'error');
-      }
-
-      showToast('Code accepted. Creating account...', 'success');
+    beginOtp(email, name, async () => {
+      showToast('Creating account...', 'success');
       const userCredential = await createUserWithEmailAndPassword(auth, email, pw);
       const user = userCredential.user;
-      
-      const userPayload = { 
-         role: role, 
-         email: email, 
-         phone: phone, 
-         name: name, 
-         invitation_code: code,
-         school_id: inviteData.school_id
+
+      const userPayload = {
+        role: role,
+        email: email,
+        phone: phone,
+        name: name,
+        invitation_code: code,
+        school_id: inviteData.school_id
       };
-      
       if (inviteData.class_id) userPayload.class_id = inviteData.class_id;
       if (inviteData.linked_student_code) userPayload.linked_student_code = inviteData.linked_student_code;
 
-      // 1. Create User
       await setDoc(doc(db, "users", user.uid), userPayload);
-      
-      // 2. Mark invite as used
       await updateDoc(doc(db, "invites", code), {
-         status: 'used',
-         used_by_uid: user.uid,
-         used_at: new Date().toISOString()
+        status: 'used',
+        used_by_uid: user.uid,
+        used_at: new Date().toISOString()
       });
 
+      lastRegisteredEmail = email;
       document.getElementById('successTitle').textContent = 'Account Ready!';
       document.getElementById('successMsg').textContent = 'Welcome '+name+', you can log in now.';
       document.getElementById('successCodes').innerHTML = '';
       document.getElementById('successOverlay').classList.add('show');
-    } catch (error) {
-      showToast(error.message, 'error');
-    }
+    });
   };
 
   window.registerIndividual = async () => {
-    const name = document.getElementById('regIndName').value.trim();
+    const name  = document.getElementById('regIndName').value.trim();
     const email = document.getElementById('regIndEmail').value.trim();
     const phone = document.getElementById('regIndPhone').value.trim();
-    const pw = document.getElementById('regIndPw').value;
-    const pw2 = document.getElementById('regIndPw2').value;
+    const pw    = document.getElementById('regIndPw').value;
+    const pw2   = document.getElementById('regIndPw2').value;
 
     if (!name || !email || !phone || !pw) return showToast('Required fields missing', 'error');
     if (pw !== pw2) return showToast('Passwords mismatch', 'error');
 
-    try {
+    beginOtp(email, name, async () => {
       showToast('Creating trial account...', 'success');
       const userCredential = await createUserWithEmailAndPassword(auth, email, pw);
       const trialEnd = new Date(Date.now() + 3*24*60*60*1000).toISOString();
-      
+
       await setDoc(doc(db, "users", userCredential.user.uid), { role: 'individual', email: email, phone: phone, name: name, trial_end: trialEnd });
 
+      lastRegisteredEmail = email;
       document.getElementById('successTitle').textContent = 'Welcome Aboard!';
       document.getElementById('successMsg').textContent = 'Your 3-day free trial has been activated.';
       document.getElementById('successCodes').innerHTML = '';
       document.getElementById('successOverlay').classList.add('show');
-    } catch (error) {
-      showToast(error.message, 'error');
-    }
+    });
   };
 
   window.loginUser = async () => {
@@ -574,10 +1008,12 @@ export const AuthPage = () => html`
         
         showToast('Success! Redirecting...', 'success');
         setTimeout(() => {
-          if (userData.role === 'school_admin') window.location.href = './admin-dashboard.html';
+          if (userData.role === 'super_admin' || userData.role === 'superadmin') window.location.href = './super-admin-dashboard.html';
+          else if (userData.role === 'school_admin') window.location.href = './admin-dashboard.html';
           else if (userData.role === 'teacher') window.location.href = './teacher-dashboard.html';
           else if (userData.role === 'student' || userData.role === 'individual') window.location.href = './student-activities.html';
           else if (userData.role === 'parent') window.location.href = './parent-dashboard.html';
+          else showToast('Unknown role: ' + (userData.role || 'none'), 'error');
         }, 1000);
       } else {
         showToast('User record not found in system.', 'error');

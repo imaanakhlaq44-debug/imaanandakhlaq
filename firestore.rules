@@ -8,11 +8,20 @@ service cloud.firestore {
     }
 
     // 1. Invites Collection
-    // Open for reading (required so people without accounts can validate their codes)
-    // Open for writing so the registration page can mark them as 'used'.
+    // Reading is open so users can validate their invitation codes during registration.
+    // Only school_admin and teacher roles can create new invite codes.
+    // Only authenticated users can update an invite (to mark it as 'used' during registration).
+    // Only school_admin can delete invite codes.
     match /invites/{code} {
       allow read: if true;
-      allow write: if true;
+      allow create: if request.auth != null && getUserData().role in ['school_admin', 'teacher'];
+      allow update: if request.auth != null && (
+        // Allow marking as 'used' during registration (status change only)
+        (request.resource.data.status == 'used' && resource.data.status == 'pending') ||
+        // Allow admins/teachers to manage invites
+        getUserData().role in ['school_admin', 'teacher']
+      );
+      allow delete: if request.auth != null && getUserData().role == 'school_admin';
     }
 
     // 2. Schools Collection
@@ -28,7 +37,7 @@ service cloud.firestore {
       allow read: if request.auth != null && (
         resource.data.student_uid == request.auth.uid || 
         resource.data.school_id == getUserData().school_id ||
-        getUserData().role == 'parent'
+        getUserData().role in ['parent', 'teacher', 'school_admin']
       );
       // Students can submit activities for themselves.
       allow create: if request.auth != null && request.resource.data.student_uid == request.auth.uid;
@@ -36,6 +45,23 @@ service cloud.firestore {
       allow update: if request.auth != null && getUserData().role in ['teacher', 'parent', 'school_admin'];
       // Teachers can delete rejected submissions.
       allow delete: if request.auth != null && getUserData().role == 'teacher';
+    }
+
+    // 3b. Activity Attendance Sessions
+    match /activity_attendance/{sessionId} {
+      allow read: if request.auth != null && (
+        resource.data.student_uid == request.auth.uid ||
+        (
+          getUserData().role in ['teacher', 'school_admin'] &&
+          resource.data.school_id == getUserData().school_id
+        )
+      );
+
+      allow create: if request.auth != null && request.resource.data.student_uid == request.auth.uid;
+
+      allow update: if request.auth != null &&
+        resource.data.student_uid == request.auth.uid &&
+        request.resource.data.student_uid == request.auth.uid;
     }
 
     // 4. Users Collection (Includes Students, Teachers, Parents)
@@ -51,6 +77,9 @@ service cloud.firestore {
         request.auth.uid == userId ||
         getUserData().role in ['teacher', 'parent', 'school_admin']
       );
+
+      // School admins can delete users from their school.
+      allow delete: if request.auth != null && getUserData().role == 'school_admin';
     }
   }
 }

@@ -31,3 +31,8 @@ lerna-debug.log*
 
 # misc
 .DS_Store
+
+# Ignore huge build/asset folders
+imaan_hostinger/
+*.zip
+*.pdf

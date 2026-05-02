@@ -119,7 +119,7 @@ export const HeroSectionV2 = () => html`
   <div class="flashcards-container">
     
     <!-- Card 1: Books -->
-    <a href="/products/books.html" class="flashcard" data-aos="fade-up" data-aos-delay="100">
+    <a href="/products/books" class="flashcard" data-aos="fade-up" data-aos-delay="100">
       <div class="fc-bg bg-books"></div>
       <div class="fc-content">
         <div class="fc-icon">📚</div>
@@ -130,7 +130,7 @@ export const HeroSectionV2 = () => html`
     </a>
 
     <!-- Card 2: Coloring -->
-    <a href="/products/coloring.html" class="flashcard" data-aos="fade-up" data-aos-delay="200">
+    <a href="/products/coloring" class="flashcard" data-aos="fade-up" data-aos-delay="200">
       <div class="fc-bg bg-colors"></div>
       <div class="fc-content">
         <div class="fc-icon">🖍️</div>
@@ -141,7 +141,7 @@ export const HeroSectionV2 = () => html`
     </a>
 
     <!-- Card 3: Audio -->
-    <a href="/products/audio.html" class="flashcard" data-aos="fade-up" data-aos-delay="300">
+    <a href="/products/audio" class="flashcard" data-aos="fade-up" data-aos-delay="300">
       <div class="fc-bg bg-audio"></div>
       <div class="fc-content">
         <div class="fc-icon">🎧</div>
@@ -152,7 +152,7 @@ export const HeroSectionV2 = () => html`
     </a>
 
     <!-- Card 4: Puppet Shows -->
-    <a href="/products/puppet.html" class="flashcard" data-aos="fade-up" data-aos-delay="400">
+    <a href="/products/puppet" class="flashcard" data-aos="fade-up" data-aos-delay="400">
       <div class="fc-bg bg-puppet"></div>
       <div class="fc-content">
         <div class="fc-icon">🎭</div>

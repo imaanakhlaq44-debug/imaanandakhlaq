@@ -48,6 +48,45 @@ export const Header = () => html`
           <img src="/kidba_assets/img/splash_logo.jpg" alt="Imaan & Akhlaq" class="site-logo" style="border-radius: 50%; border: 3px solid #FF7681; object-fit: cover; width: 55px; height: 55px; padding: 2px; background: #fff; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
         </a>
 
+        <style>
+          /* Mobile-only Login/Register button shown next to the hamburger */
+          .btn-nav-cta-mobile { display: none; }
+          @media (max-width: 991.98px) {
+            .btn-nav-cta-mobile {
+              display: inline-flex;
+              align-items: center;
+              gap: 6px;
+              margin-left: auto;
+              margin-right: 10px;
+              padding: 7px 14px;
+              font-size: 0.82rem;
+              font-weight: 700;
+              border-radius: 999px;
+              background: linear-gradient(135deg, #D63678, #E08020);
+              color: #fff !important;
+              text-decoration: none;
+              box-shadow: 0 3px 10px rgba(214, 54, 120, 0.3);
+              white-space: nowrap;
+            }
+            .btn-nav-cta-mobile i { font-size: 0.95rem; }
+            /* Hide the in-collapse desktop button on mobile to avoid duplication */
+            #authButton { display: none !important; }
+          }
+          @media (max-width: 380px) {
+            .btn-nav-cta-mobile { padding: 6px 10px; font-size: 0.74rem; }
+            .btn-nav-cta-mobile .btn-cta-label-full { display: none; }
+            .btn-nav-cta-mobile .btn-cta-label-short { display: inline; }
+          }
+          @media (min-width: 381px) {
+            .btn-nav-cta-mobile .btn-cta-label-short { display: none; }
+          }
+        </style>
+        <a href="/auth" class="btn-nav-cta-mobile" aria-label="Login or Register">
+          <i class="fas fa-user-circle"></i>
+          <span class="btn-cta-label-full">Login / Register</span>
+          <span class="btn-cta-label-short">Login</span>
+        </a>
+
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
           <span class="toggler-icon"><span></span><span></span><span></span></span>
         </button>
@@ -60,12 +99,12 @@ export const Header = () => html`
                 About Us
               </a>
               <ul class="dropdown-menu" aria-labelledby="aboutDropdown" style="border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-radius: 12px; padding: 10px;">
-                <li><a class="dropdown-item" href="/about/intro.html">Introduction & Objective</a></li>
-                <li><a class="dropdown-item" href="/about/genesis.html">Genesis</a></li>
-                <li><a class="dropdown-item" href="/about/founder.html">Message from Founder</a></li>
-                <li><a class="dropdown-item" href="/about/team.html">Team in Vision</a></li>
-                <li><a class="dropdown-item" href="/about/sdg.html">Linked with SDGs</a></li>
-                <li><a class="dropdown-item" href="/about/nce.html">Linked NCE Framework</a></li>
+                <li><a class="dropdown-item" href="/about/intro">Introduction & Objective</a></li>
+                <li><a class="dropdown-item" href="/about/genesis">Genesis</a></li>
+                <li><a class="dropdown-item" href="/about/founder">Message from Founder</a></li>
+                <li><a class="dropdown-item" href="/about/team">Team in Vision</a></li>
+                <li><a class="dropdown-item" href="/about/sdg">Linked with SDGs</a></li>
+                <li><a class="dropdown-item" href="/about/nce">Linked NCE Framework</a></li>
               </ul>
             </li>
             <li class="nav-item dropdown">
@@ -73,13 +112,13 @@ export const Header = () => html`
                 Products
               </a>
               <ul class="dropdown-menu" aria-labelledby="productsDropdown" style="border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-radius: 12px; padding: 10px;">
-                <li><a class="dropdown-item" href="/products/books.html">Curriculum Books</a></li>
-                <li><a class="dropdown-item" href="/products/coloring.html">Coloring Books</a></li>
-                <li><a class="dropdown-item" href="/products/audio.html">Audio Story Portal</a></li>
-                <li><a class="dropdown-item" href="/products/puppet.html">Puppet Show</a></li>
-                <li><a class="dropdown-item" href="/products/games.html">Game Portal</a></li>
+                <li><a class="dropdown-item" href="/products/books">Curriculum Books</a></li>
+                <li><a class="dropdown-item" href="/products/coloring">Coloring Books</a></li>
+                <li><a class="dropdown-item" href="/products/audio">Audio Story Portal</a></li>
+                <li><a class="dropdown-item" href="/products/puppet">Puppet Show</a></li>
+                <li><a class="dropdown-item" href="/products/games">Game Portal</a></li>
                 <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="/club.html"><i class="fas fa-crown text-warning"></i> Imaan Akhlaq Club</a></li>
+                <li><a class="dropdown-item" href="/club"><i class="fas fa-crown text-warning"></i> Imaan Akhlaq Club</a></li>
               </ul>
             </li>
             <li class="nav-item dropdown">
@@ -87,7 +126,7 @@ export const Header = () => html`
                 Media
               </a>
               <ul class="dropdown-menu" aria-labelledby="mediaDropdown" style="border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-radius: 12px; padding: 10px;">
-                <li><a class="dropdown-item" href="/blog.html">Blogs</a></li>
+                <li><a class="dropdown-item" href="/blog">Blogs</a></li>
                 <li><a class="dropdown-item" href="#videos">Videos</a></li>
                 <li><a class="dropdown-item" href="#news">News</a></li>
               </ul>
@@ -128,7 +167,7 @@ export const Header = () => html`
           <i class="fas fa-crown"></i> I&A Club
         </a> -->
         <!-- LOGIN / REGISTER BUTTON -->
-        <a href="/auth.html" class="btn btn-nav-cta ms-3" id="authButton">
+        <a href="/auth" class="btn btn-nav-cta ms-3" id="authButton">
           <i class="fas fa-user-circle me-1"></i> Login / Register
         </a>
         </div>

@@ -86,9 +86,11 @@ webapp/
 
 ## 🧑‍💻 Local Development
 ```bash
-npm run build          # Build for Cloudflare Pages
-pm2 start ecosystem.config.cjs  # Start with PM2
-curl http://localhost:3000       # Test
+npm run dev                      # Run the app locally in development
+npm run build                    # Build the static output into dist/
+npm run preview                  # Preview the built site locally at 127.0.0.1:4173
+npm run preview:cf               # Preview the Cloudflare Pages build with Wrangler
+pm2 start ecosystem.config.cjs   # Optional PM2 workflow
 pm2 logs --nostream              # Check logs
 ```
 
