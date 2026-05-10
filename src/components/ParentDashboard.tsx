@@ -1114,6 +1114,7 @@ export const ParentDashboard = () => html`
           <div class="sidebar-brand-art" id="sidebarAvatarClickArea" title="Click to change photo" role="button" tabindex="0" style="position:relative; cursor:pointer; overflow:visible;">
             <img id="sidebarProfilePhoto" src="/kidba_assets/img/3d_parent.png" alt="Parent profile" style="border-radius:50%; width:100%; height:100%; object-fit:cover;">
             <div class="sidebar-cam-badge"><i class="fas fa-camera"></i></div>
+            <input type="file" id="parentProfileFileInput" accept="image/*" style="position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;cursor:pointer;z-index:10;">
           </div>
           <div class="sidebar-name-block">
             <span class="sidebar-title" id="sidebarProfileName" style="margin:0;">Parent Name</span>
@@ -1127,7 +1128,6 @@ export const ParentDashboard = () => html`
           <span class="sidebar-school-name" id="parentWelcomeName">School</span>
           <div class="sidebar-chip-actions">
             <button class="sidebar-icon-btn home" type="button" onclick="window.location.href='auth.html'" title="Home" aria-label="Home"><i class="fas fa-house"></i></button>
-            <button class="sidebar-icon-btn refresh" type="button" onclick="window.location.reload()" title="Refresh" aria-label="Refresh"><i class="fas fa-sync-alt"></i></button>
             <button class="sidebar-icon-btn logout" type="button" onclick="logoutParent()" title="Logout" aria-label="Logout"><i class="fas fa-sign-out-alt"></i></button>
           </div>
         </div>
@@ -1233,9 +1233,7 @@ export const ParentDashboard = () => html`
     <button class="mobile-action-btn" type="button" onclick="window.location.href='auth.html'">
       <i class="fas fa-house"></i><span>Home</span>
     </button>
-    <button class="mobile-action-btn" type="button" onclick="window.location.reload()">
-      <i class="fas fa-sync-alt"></i><span>Refresh</span>
-    </button>
+
     <button class="mobile-action-btn logout" type="button" onclick="window.logoutParent()">
       <i class="fas fa-sign-out-alt"></i><span>Logout</span>
     </button>
@@ -1267,12 +1265,14 @@ export const ParentDashboard = () => html`
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
   import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
   import { getFirestore, collection, query, where, getDocs, getDoc, doc, updateDoc, arrayUnion, writeBatch } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+  import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-storage.js";
 
   const firebaseConfig = ${raw(firebaseConfigJS)};
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const db = getFirestore(app);
+  const storage = getStorage(app);
   
   const ACTIVITIES_DATA = ${raw(JSON.stringify(activitiesData))};
   
@@ -1802,6 +1802,42 @@ export const ParentDashboard = () => html`
       btn.innerHTML = '<i class="fas fa-check me-2"></i> Send to Teacher';
     }
   };
+
+  // ── Parent Profile Photo Upload ──
+  async function uploadParentProfile(file) {
+    if (!currentParent || !file) return;
+    if (!file.type || !file.type.startsWith('image/')) { alert('Please select an image file.'); return; }
+    if (file.size > 5 * 1024 * 1024) { alert('File too large. Max 5MB.'); return; }
+    const sidebarPhoto = document.getElementById('sidebarProfilePhoto');
+    const badge = document.querySelector('#sidebarAvatarClickArea .sidebar-cam-badge');
+    if (badge) badge.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+    try {
+      const ext = (file.name.split('.').pop() || 'jpg').toLowerCase();
+      const scope = currentParent.school_id ? 'schools/' + currentParent.school_id : 'independent';
+      const storageRef = ref(storage, scope + '/users/' + currentParent.uid + '/profile-' + Date.now() + '.' + ext);
+      await uploadBytes(storageRef, file);
+      const downloadURL = await getDownloadURL(storageRef);
+      await updateDoc(doc(db, 'users', currentParent.uid), { photoURL: downloadURL });
+      currentParent.photoURL = downloadURL;
+      if (sidebarPhoto) sidebarPhoto.src = downloadURL;
+    } catch (err) {
+      console.error('Parent profile upload error:', err);
+      alert('Upload failed. Please try again.');
+    } finally {
+      if (badge) badge.innerHTML = '<i class="fas fa-camera"></i>';
+    }
+  }
+
+  // File input is now directly inside avatar div — direct user touch triggers picker
+  const parentFileInput = document.getElementById('parentProfileFileInput');
+  if (parentFileInput) {
+    parentFileInput.addEventListener('change', async (e) => {
+      if (e.target.files && e.target.files[0]) {
+        await uploadParentProfile(e.target.files[0]);
+        e.target.value = '';
+      }
+    });
+  }
 
   window.logoutParent = () => {
     signOut(auth).then(() => {

@@ -2203,13 +2203,19 @@ export const SchoolAdminDashboard = () => html`
         </ul>
       </div>
       <div class="nav-actions">
-        <div class="nav-profile">
-          <img src="https://ui-avatars.com/api/?name=Admin&background=243d6b&color=fff" class="avatar-mini">
+        <div class="nav-profile" id="adminAvatarClickArea" title="Click to change profile photo" style="cursor:pointer; position:relative;">
+          <div style="position:relative; display:inline-block;">
+            <img id="adminNavProfilePhoto" src="https://ui-avatars.com/api/?name=Admin&background=243d6b&color=fff" class="avatar-mini" style="border-radius:50%;">
+            <div style="position:absolute; bottom:-2px; right:-2px; background:#D63678; border-radius:50%; width:14px; height:14px; display:flex; align-items:center; justify-content:center; border:1.5px solid #fff; pointer-events:none;">
+              <i class="fas fa-camera" style="color:#fff; font-size:6px;"></i>
+            </div>
+          </div>
           <div>
             <strong id="navAdminName">School Admin</strong>
             <span>Administrator access</span>
           </div>
         </div>
+        <input type="file" id="adminProfileFileInput" accept="image/*" style="display:none;">
         <button class="btn-outline-light btn-home-nav" type="button" onclick="window.location.href='auth.html'"><i class="fas fa-house"></i><span>Home</span></button>
         <button class="btn-outline-light btn-logout" type="button" onclick="logoutAdmin()"><i class="fas fa-sign-out-alt"></i><span>Log out</span></button>
       </div>
@@ -3294,6 +3300,8 @@ export const SchoolAdminDashboard = () => html`
           const nameEl = document.getElementById('setSchoolName'); if (nameEl) nameEl.value = currentAdminSession.name || "School Admin";
           const adminNameEl = document.getElementById('navAdminName'); if (adminNameEl) adminNameEl.textContent = currentAdminSession.name || 'School Admin';
           const workspaceAdminEl = document.getElementById('workspaceAdminName'); if (workspaceAdminEl) workspaceAdminEl.textContent = currentAdminSession.name || 'School Admin';
+          const adminNavPhoto = document.getElementById('adminNavProfilePhoto');
+          if (adminNavPhoto && currentAdminSession.photoURL) adminNavPhoto.src = currentAdminSession.photoURL;
           const adminEmailEl = document.getElementById('settingsAdminEmail'); if (adminEmailEl) adminEmailEl.value = currentAdminSession.email || '';
 
           showDebug('Loading dashboard data for school_id=' + (currentAdminSession.school_id || 'unknown'));
@@ -3368,6 +3376,43 @@ export const SchoolAdminDashboard = () => html`
       window.location.href = 'auth.html';
     });
   };
+
+  // ── Admin Profile Photo Upload ──
+  async function uploadAdminProfile(file) {
+    if (!currentAdminSession || !file) return;
+    if (!file.type || !file.type.startsWith('image/')) { alert('Please select an image file.'); return; }
+    if (file.size > 5 * 1024 * 1024) { alert('File too large. Max 5MB.'); return; }
+    const navPhoto = document.getElementById('adminNavProfilePhoto');
+    const camBadge = document.querySelector('#adminAvatarClickArea .fa-camera');
+    if (camBadge) camBadge.className = 'fas fa-spinner fa-spin';
+    try {
+      const ext = (file.name.split('.').pop() || 'jpg').toLowerCase();
+      const scope = currentAdminSession.school_id ? 'schools/' + currentAdminSession.school_id : 'admins';
+      const storageRef = ref(storage, scope + '/users/' + currentAdminSession.uid + '/profile-' + Date.now() + '.' + ext);
+      await uploadBytes(storageRef, file);
+      const downloadURL = await getDownloadURL(storageRef);
+      await updateDoc(doc(db, 'users', currentAdminSession.uid), { photoURL: downloadURL });
+      currentAdminSession.photoURL = downloadURL;
+      if (navPhoto) navPhoto.src = downloadURL;
+    } catch (err) {
+      console.error('Admin profile upload error:', err);
+      alert('Upload failed. Please try again.');
+    } finally {
+      if (camBadge) camBadge.className = 'fas fa-camera';
+    }
+  }
+
+  const adminAvatarTrigger = document.getElementById('adminAvatarClickArea');
+  const adminProfileInput = document.getElementById('adminProfileFileInput');
+  if (adminAvatarTrigger && adminProfileInput) {
+    adminAvatarTrigger.addEventListener('click', () => adminProfileInput.click());
+    adminProfileInput.addEventListener('change', async (e) => {
+      if (e.target.files && e.target.files[0]) {
+        await uploadAdminProfile(e.target.files[0]);
+        e.target.value = '';
+      }
+    });
+  }
 
   // Bind logout to top nav button
   setTimeout(() => {

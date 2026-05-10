@@ -1804,29 +1804,34 @@ export const TeacherDashboard = () => html`
   .mobile-bottom-actions { display: none; }
   @media (max-width: 760px) {
     .sidebar-chip-actions { display: none !important; }
-    .teacher-page .dashboard-main { padding-bottom: 74px !important; }
+    .teacher-page .dashboard-main { padding-bottom: 82px !important; }
     .mobile-bottom-actions {
       display: flex;
       position: fixed;
       bottom: 0; left: 0; right: 0;
       background: #ffffff;
-      border-top: 1px solid rgba(0,0,0,0.06);
-      box-shadow: 0 -4px 12px rgba(30,45,90,0.08);
+      border-top: 1px solid rgba(0,0,0,0.07);
+      box-shadow: 0 -4px 16px rgba(30,45,90,0.10);
       z-index: 1000;
       justify-content: space-around;
       align-items: center;
-      padding: 10px 10px calc(10px + env(safe-area-inset-bottom)) 10px;
+      padding: 8px 4px calc(8px + env(safe-area-inset-bottom)) 4px;
     }
     .mobile-action-btn {
       display: flex; flex-direction: column; align-items: center;
-      gap: 4px; background: transparent; border: none;
-      color: #64748b; font-size: 11px; font-weight: 700; cursor: pointer;
+      gap: 3px; background: transparent; border: none;
+      color: #64748b; font-size: 10px; font-weight: 700; cursor: pointer;
+      flex: 1; padding: 4px 2px;
     }
     .mobile-action-btn i {
-      font-size: 18px; color: #1e293b; margin-bottom: 2px;
-      padding: 6px; border-radius: 10px; background: #f1f5f9;
+      font-size: 17px; color: #475569; margin-bottom: 1px;
+      padding: 7px; border-radius: 12px; background: #f1f5f9;
+      transition: background 0.2s, color 0.2s;
     }
+    .mobile-action-btn.active i { color: #fff; background: linear-gradient(135deg, #1E2D5A, #3b55a0); }
+    .mobile-action-btn.active { color: #1E2D5A; }
     .mobile-action-btn.logout i { color: #ffffff; background: #dc2626; }
+    .mobile-action-btn.logout { color: #dc2626; }
   }
 </style>
 
@@ -1840,6 +1845,7 @@ export const TeacherDashboard = () => html`
           <div class="sidebar-brand-art" id="sidebarAvatarClickArea" title="Click to change photo" role="button" tabindex="0" style="position:relative; cursor:pointer; overflow:visible;">
             <img id="sidebarProfilePhoto" src="/kidba_assets/img/3d_teacher.png" alt="Teacher profile" style="border-radius:50%; width:100%; height:100%; object-fit:cover;">
             <div class="sidebar-cam-badge"><i class="fas fa-camera"></i></div>
+            <input type="file" id="teacherProfileFileInput" accept="image/*" style="position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;cursor:pointer;z-index:10;">
           </div>
           <div class="sidebar-name-block">
             <span class="sidebar-title" id="sidebarProfileName" style="margin:0;">Teacher Name</span>
@@ -1853,20 +1859,15 @@ export const TeacherDashboard = () => html`
           <span class="sidebar-school-name" id="welcomeName">School</span>
           <div class="sidebar-chip-actions">
             <button class="sidebar-icon-btn home" type="button" onclick="window.location.href='auth.html'" title="Home" aria-label="Home"><i class="fas fa-house"></i></button>
-            <button class="sidebar-icon-btn refresh" type="button" onclick="window.location.reload()" title="Refresh" aria-label="Refresh"><i class="fas fa-sync-alt"></i></button>
             <button class="sidebar-icon-btn logout" type="button" onclick="logoutTeacher()" title="Logout" aria-label="Logout"><i class="fas fa-sign-out-alt"></i></button>
           </div>
         </div>
       </div>
       <ul class="sidebar-nav">
         <li class="active" data-section="overview" onclick="switchTeacherSection('overview')"><span class="nav-badge overview"><i class="fas fa-chart-pie"></i></span><span>Overview</span></li>
-        <li data-section="students" onclick="switchTeacherSection('students')"><span class="nav-badge students"><i class="fas fa-user-graduate"></i></span><span>Students</span></li>
         <li data-section="reviews" onclick="switchTeacherSection('reviews')"><span class="nav-badge review"><i class="fas fa-clipboard-check"></i></span><span>Reviews</span></li>
-        <li data-section="attendance" onclick="switchTeacherSection('attendance')"><span class="nav-badge attendance"><i class="fas fa-user-clock"></i></span><span>Attendance</span></li>
         <li data-section="rankings" onclick="switchTeacherSection('rankings')"><span class="nav-badge reports"><i class="fas fa-medal"></i></span><span>Rankings</span></li>
-        <li data-section="books" onclick="switchTeacherSection('books')"><span class="nav-badge overview" style="background:linear-gradient(135deg,#cf296d,#ea8300);"><i class="fas fa-book-open"></i></span><span>Books</span></li>
         <li data-section="register" onclick="switchTeacherSection('register')"><span class="nav-badge overview" style="background:linear-gradient(135deg,#3b82f6,#2563eb);"><i class="fas fa-calendar-alt"></i></span><span>Monthly Log</span></li>
-
       </ul>
       <div class="sidebar-note">
         <img src="/kidba_assets/img/3d_student.png" alt="Student 3D icon">
@@ -1878,47 +1879,70 @@ export const TeacherDashboard = () => html`
     </aside>
 
     <div class="dashboard-main">
-      <div class="summary-strip">
-        <div class="summary-card students summary-link" data-section="students" role="button" tabindex="0" onclick="switchTeacherSection('students')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();switchTeacherSection('students');}">
-          <div class="summary-copy">
-            <span class="summary-label">Students in Scope</span>
-            <strong class="summary-value" id="teacherStudentCount">0</strong>
-            <span class="summary-meta">Students currently visible in your teacher dashboard.</span>
+      <!-- ── Dashboard Stats ── -->
+      <div style="padding:16px 16px 4px 16px;">
+
+        <!-- Top row: 2 wide cards -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+
+          <!-- Students in Scope -->
+          <div onclick="switchTeacherSection('students')" style="background:#fff;border-radius:18px;padding:16px 14px 14px;box-shadow:0 2px 12px rgba(0,0,0,0.07);cursor:pointer;border:1px solid #f0f4ff;position:relative;overflow:hidden;">
+            <div style="position:absolute;top:0;left:0;width:4px;height:100%;background:linear-gradient(180deg,#1E2D5A,#4f72d0);border-radius:4px 0 0 4px;"></div>
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+              <div style="width:36px;height:36px;border-radius:10px;background:#EEF2FF;display:flex;align-items:center;justify-content:center;">
+                <i class="fas fa-user-graduate" style="color:#1E2D5A;font-size:15px;"></i>
+              </div>
+              <span style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.5px;">Students</span>
+            </div>
+            <div style="font-size:34px;font-weight:900;color:#1E2D5A;line-height:1;" id="teacherStudentCount">0</div>
+            <div style="font-size:11px;color:#94a3b8;margin-top:4px;">in your scope</div>
           </div>
-          <img src="/kidba_assets/img/3d_student.png" alt="Students 3D icon">
-        </div>
-        <div class="summary-card pending summary-link" data-section="reviews" role="button" tabindex="0" onclick="switchTeacherSection('reviews')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();switchTeacherSection('reviews');}">
-          <div class="summary-copy">
-            <span class="summary-label">Sheets to Review</span>
-            <strong class="summary-value" id="teacherPendingReviews">0</strong>
-            <span class="summary-meta">Sheets waiting for your grading decision.</span>
+
+          <!-- Sheets to Review -->
+          <div onclick="switchTeacherSection('reviews')" style="background:#fff;border-radius:18px;padding:16px 14px 14px;box-shadow:0 2px 12px rgba(0,0,0,0.07);cursor:pointer;border:1px solid #fff0f8;position:relative;overflow:hidden;">
+            <div style="position:absolute;top:0;left:0;width:4px;height:100%;background:linear-gradient(180deg,#D63678,#f97316);border-radius:4px 0 0 4px;"></div>
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+              <div style="width:36px;height:36px;border-radius:10px;background:#FFF0F8;display:flex;align-items:center;justify-content:center;">
+                <i class="fas fa-clipboard-check" style="color:#D63678;font-size:15px;"></i>
+              </div>
+              <span style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.5px;">To Review</span>
+            </div>
+            <div style="font-size:34px;font-weight:900;color:#D63678;line-height:1;" id="teacherPendingReviews">0</div>
+            <div style="font-size:11px;color:#94a3b8;margin-top:4px;">sheets pending</div>
           </div>
-          <img src="/kidba_assets/img/3d_login.png" alt="Review 3D icon">
-        </div>
-        <div class="summary-card points summary-link" data-section="rankings" role="button" tabindex="0" onclick="switchTeacherSection('rankings')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();switchTeacherSection('rankings');}">
-          <div class="summary-copy">
-            <span class="summary-label">Highest Points</span>
-            <strong class="summary-value" id="teacherTopPoints">0</strong>
-            <span class="summary-meta">Highest student point total in your current view.</span>
-          </div>
-          <img src="/kidba_assets/img/3d_individual.png" alt="Top score 3D icon">
-        </div>
-        <div class="summary-card attendance summary-link" data-section="attendance" role="button" tabindex="0" onclick="switchTeacherSection('attendance')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();switchTeacherSection('attendance');}">
-          <div class="summary-copy">
-            <span class="summary-label">Active Today</span>
-            <strong class="summary-value" id="teacherAttendanceCount">0</strong>
-            <span class="summary-meta">Students who opened learning activities today.</span>
-          </div>
-          <img src="/kidba_assets/img/3d_school.png" alt="Attendance 3D icon">
+
         </div>
 
-        <div class="summary-card absent summary-link" data-section="absent" role="button" tabindex="0" onclick="switchTeacherSection('absent')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();switchTeacherSection('absent');}">
-          <div class="summary-copy">
-            <span class="summary-label">Absent Today</span>
-            <strong class="summary-value" id="teacherAbsentCount">0</strong>
-            <span class="summary-meta">Students who haven't started any activity today.</span>
+        <!-- Bottom row: 3 mini cards -->
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
+
+          <!-- Top Points -->
+          <div onclick="switchTeacherSection('rankings')" style="background:#fff;border-radius:16px;padding:14px 10px 12px;box-shadow:0 2px 10px rgba(0,0,0,0.06);cursor:pointer;text-align:center;border:1px solid #f5f0ff;">
+            <div style="width:34px;height:34px;border-radius:10px;background:#F5F0FF;display:flex;align-items:center;justify-content:center;margin:0 auto 8px;">
+              <i class="fas fa-trophy" style="color:#7c3aed;font-size:14px;"></i>
+            </div>
+            <div style="font-size:24px;font-weight:900;color:#7c3aed;line-height:1;" id="teacherTopPoints">0</div>
+            <div style="font-size:10px;font-weight:700;color:#94a3b8;margin-top:3px;text-transform:uppercase;letter-spacing:0.3px;">Top Points</div>
           </div>
-          <img src="/kidba_assets/img/3d_login.png" alt="Absent 3D icon">
+
+          <!-- Active Today -->
+          <div onclick="switchTeacherSection('attendance')" style="background:#fff;border-radius:16px;padding:14px 10px 12px;box-shadow:0 2px 10px rgba(0,0,0,0.06);cursor:pointer;text-align:center;border:1px solid #f0fdf4;">
+            <div style="width:34px;height:34px;border-radius:10px;background:#F0FDF4;display:flex;align-items:center;justify-content:center;margin:0 auto 8px;">
+              <i class="fas fa-check-circle" style="color:#059669;font-size:14px;"></i>
+            </div>
+            <div style="font-size:24px;font-weight:900;color:#059669;line-height:1;" id="teacherAttendanceCount">0</div>
+            <div style="font-size:10px;font-weight:700;color:#94a3b8;margin-top:3px;text-transform:uppercase;letter-spacing:0.3px;">Active</div>
+          </div>
+
+          <!-- Absent Today -->
+          <div onclick="switchTeacherSection('absent')" style="background:#fff;border-radius:16px;padding:14px 10px 12px;box-shadow:0 2px 10px rgba(0,0,0,0.06);cursor:pointer;text-align:center;border:1px solid #fff5f5;">
+            <div style="width:34px;height:34px;border-radius:10px;background:#FFF5F5;display:flex;align-items:center;justify-content:center;margin:0 auto 8px;">
+              <i class="fas fa-times-circle" style="color:#dc2626;font-size:14px;"></i>
+            </div>
+            <div style="font-size:24px;font-weight:900;color:#dc2626;line-height:1;" id="teacherAbsentCount">0</div>
+            <div style="font-size:10px;font-weight:700;color:#94a3b8;margin-top:3px;text-transform:uppercase;letter-spacing:0.3px;">Absent</div>
+          </div>
+
         </div>
       </div>
 
@@ -2141,12 +2165,18 @@ export const TeacherDashboard = () => html`
       </div>
     </div>
 
-    <div class="mobile-bottom-actions">
-      <button class="mobile-action-btn" type="button" onclick="window.location.href='auth.html'">
-        <i class="fas fa-house"></i><span>Home</span>
+    <div class="mobile-bottom-actions" id="teacherMobileNav">
+      <button class="mobile-action-btn" id="tmb-books" type="button" onclick="switchTeacherSection('books'); setTeacherMobActive(this)">
+        <i class="fas fa-book-open"></i><span>Books</span>
       </button>
-      <button class="mobile-action-btn" type="button" onclick="window.location.reload()">
-        <i class="fas fa-sync-alt"></i><span>Refresh</span>
+      <button class="mobile-action-btn" id="tmb-attendance" type="button" onclick="switchTeacherSection('attendance'); setTeacherMobActive(this)">
+        <i class="fas fa-user-clock"></i><span>Attendance</span>
+      </button>
+      <button class="mobile-action-btn active" id="tmb-students" type="button" onclick="switchTeacherSection('students'); setTeacherMobActive(this)">
+        <i class="fas fa-user-graduate"></i><span>Students</span>
+      </button>
+      <button class="mobile-action-btn" id="tmb-register" type="button" onclick="switchTeacherSection('register'); setTeacherMobActive(this)">
+        <i class="fas fa-calendar-alt"></i><span>Monthly Log</span>
       </button>
       <button class="mobile-action-btn logout" type="button" onclick="window.logoutTeacher()">
         <i class="fas fa-sign-out-alt"></i><span>Logout</span>
@@ -2201,12 +2231,14 @@ export const TeacherDashboard = () => html`
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
   import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
   import { getFirestore, collection, query, where, getDocs, getDoc, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+  import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-storage.js";
 
   const firebaseConfig = ${raw(firebaseConfigJS)};
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const db = getFirestore(app);
+  const storage = getStorage(app);
 
   const ACTIVITIES_DATA = ${raw(JSON.stringify(activitiesData))};
   
@@ -2687,6 +2719,12 @@ export const TeacherDashboard = () => html`
       resetBookReaderSwipePreview(true);
     }, { passive: true });
   }
+
+  // Mobile bottom nav active state helper
+  window.setTeacherMobActive = (btn) => {
+    document.querySelectorAll('#teacherMobileNav .mobile-action-btn:not(.logout)').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+  };
 
   window.switchTeacherSection = (section, options = {}) => {
     const nextSection = teacherSectionTargets[section] ? section : 'overview';
@@ -3651,6 +3689,42 @@ export const TeacherDashboard = () => html`
       window.location.href = 'auth.html';
     });
   };
+
+  // ── Teacher Profile Photo Upload ──
+  async function uploadTeacherProfile(file) {
+    if (!currentTeacher || !file) return;
+    if (!file.type || !file.type.startsWith('image/')) { alert('Please select an image file.'); return; }
+    if (file.size > 5 * 1024 * 1024) { alert('File too large. Max 5MB.'); return; }
+    const sidebarPhoto = document.getElementById('sidebarProfilePhoto');
+    const badge = document.querySelector('#sidebarAvatarClickArea .sidebar-cam-badge');
+    if (badge) badge.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+    try {
+      const ext = (file.name.split('.').pop() || 'jpg').toLowerCase();
+      const scope = currentTeacher.school_id ? 'schools/' + currentTeacher.school_id : 'independent';
+      const storageRef = ref(storage, scope + '/users/' + currentTeacher.uid + '/profile-' + Date.now() + '.' + ext);
+      await uploadBytes(storageRef, file);
+      const downloadURL = await getDownloadURL(storageRef);
+      await updateDoc(doc(db, 'users', currentTeacher.uid), { photoURL: downloadURL });
+      currentTeacher.photoURL = downloadURL;
+      if (sidebarPhoto) sidebarPhoto.src = downloadURL;
+    } catch (err) {
+      console.error('Teacher profile upload error:', err);
+      alert('Upload failed. Please try again.');
+    } finally {
+      if (badge) badge.innerHTML = '<i class="fas fa-camera"></i>';
+    }
+  }
+
+  // File input is now directly inside avatar div — direct user touch triggers picker
+  const teacherFileInput = document.getElementById('teacherProfileFileInput');
+  if (teacherFileInput) {
+    teacherFileInput.addEventListener('change', async (e) => {
+      if (e.target.files && e.target.files[0]) {
+        await uploadTeacherProfile(e.target.files[0]);
+        e.target.value = '';
+      }
+    });
+  }
     
 </script>
 `

@@ -1830,9 +1830,10 @@ export const ActivityDashboard = () => html`
     <aside class="sidebar-panel">
       <div class="sidebar-brand sidebar-brand-v2">
         <div class="sidebar-profile-cluster">
-          <div class="sidebar-brand-art" id="sidebarAvatarClickArea" title="Click to change photo" role="button" tabindex="0" style="position:relative; cursor:pointer; overflow:visible;">
-            <img id="sidebarProfilePhoto" src="/kidba_assets/img/3d_student.png" alt="Student profile" style="border-radius:50%; width:100%; height:100%; object-fit:cover;">
+          <div class="sidebar-brand-art" id="studentAvatarClickArea" title="Click to change photo" role="button" tabindex="0" style="position:relative; cursor:pointer; overflow:visible;">
+            <img id="studentProfilePreview" src="/kidba_assets/img/3d_student.png" alt="Student profile" style="border-radius:50%; width:100%; height:100%; object-fit:cover;">
             <div class="sidebar-cam-badge"><i class="fas fa-camera"></i></div>
+            <input id="studentProfileFileInput" type="file" accept="image/*" style="position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;cursor:pointer;z-index:10;">
           </div>
           <div class="sidebar-name-block">
             <span class="sidebar-title" id="sidebarProfileName" style="margin:0;">Student Name</span>
@@ -1846,7 +1847,6 @@ export const ActivityDashboard = () => html`
           <span class="sidebar-school-name" id="studentWelcomeName">School</span>
           <div class="sidebar-chip-actions">
             <button class="sidebar-icon-btn home" type="button" onclick="window.location.href='auth.html'" title="Home" aria-label="Home"><i class="fas fa-house"></i></button>
-            <button class="sidebar-icon-btn refresh" type="button" onclick="window.location.reload()" title="Refresh" aria-label="Refresh"><i class="fas fa-sync-alt"></i></button>
             <button class="sidebar-icon-btn logout" type="button" onclick="logoutStudent()" title="Logout" aria-label="Logout"><i class="fas fa-sign-out-alt"></i></button>
           </div>
         </div>
@@ -1860,7 +1860,6 @@ export const ActivityDashboard = () => html`
     </aside>
 
     <div class="dashboard-main">
-      <input id="studentProfileFileInput" type="file" accept="image/*" hidden>
 
       <div id="championsBoard" class="champions-board" style="display:none">
         <div class="champions-header">
@@ -2023,10 +2022,7 @@ export const ActivityDashboard = () => html`
         <i class="fas fa-star"></i>
         <span>Progress</span>
       </button>
-      <button class="mobile-action-btn" type="button" onclick="window.location.reload()">
-        <i class="fas fa-sync-alt"></i>
-        <span>Refresh</span>
-      </button>
+
       <button class="mobile-action-btn logout" type="button" onclick="window.logoutStudent()">
         <i class="fas fa-sign-out-alt"></i>
         <span>Logout</span>
@@ -2719,42 +2715,13 @@ export const ActivityDashboard = () => html`
     backToBooksBtn.addEventListener('click', () => renderBooks());
   }
 
-  const openStudentProfilePicker = () => {
-    if (studentProfileFileInput) studentProfileFileInput.click();
-  };
-
-  // Profile avatar click (top bar)
-  if (studentProfileAvatarTrigger) {
-    studentProfileAvatarTrigger.addEventListener('click', openStudentProfilePicker);
-    studentProfileAvatarTrigger.addEventListener('keydown', (event) => {
-      if (event.key === 'Enter' || event.key === ' ') {
-        event.preventDefault();
-        openStudentProfilePicker();
-      }
-    });
-  }
-
-  // Sidebar avatar click
-  if (sidebarAvatarTrigger) {
-    sidebarAvatarTrigger.addEventListener('click', openStudentProfilePicker);
-    sidebarAvatarTrigger.addEventListener('keydown', (event) => {
-      if (event.key === 'Enter' || event.key === ' ') {
-        event.preventDefault();
-        openStudentProfilePicker();
-      }
-    });
-  }
-
-  if (studentProfileUploadBtn) {
-    studentProfileUploadBtn.addEventListener('click', openStudentProfilePicker);
-  }
-
+  // File input is now directly inside avatar div as transparent overlay
+  // Direct user touch triggers file picker without needing programmatic .click()
   if (studentProfileFileInput) {
     studentProfileFileInput.addEventListener('change', async (event) => {
       const input = event.target;
       if (input.files && input.files[0]) {
         await uploadStudentProfile(input.files[0]);
-        // Also update sidebar photo
         const sidebarPhoto = document.getElementById('sidebarProfilePhoto');
         if (sidebarPhoto && currentStudent && currentStudent.photoURL) {
           sidebarPhoto.src = currentStudent.photoURL;
@@ -2977,19 +2944,38 @@ export const ActivityDashboard = () => html`
     setTimeout(() => {
       const isCap = window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform();
       if (isCap && window.Capacitor.Plugins && window.Capacitor.Plugins.App) {
+        var lastBackPressStudent = 0;
         window.Capacitor.Plugins.App.removeAllListeners('backButton').then(() => {
           window.Capacitor.Plugins.App.addListener('backButton', () => {
+            // If inside a book or sub-section — just navigate back
             if (currentBookContext) {
               currentBookContext = null;
               renderBooks();
-            } else if (currentStudentSection !== 'overview') {
+              return;
+            }
+            if (currentStudentSection !== 'overview') {
               window.switchStudentSection('overview', false);
-            } else {
+              return;
+            }
+            // On overview (main screen) — show warning toast first
+            var now = new Date().getTime();
+            if (now - lastBackPressStudent < 2000) {
               if (window.Capacitor.Plugins.App.minimizeApp) {
                 window.Capacitor.Plugins.App.minimizeApp();
               } else {
                 window.Capacitor.Plugins.App.exitApp();
               }
+            } else {
+              lastBackPressStudent = now;
+              var toast = document.createElement('div');
+              toast.innerText = 'Press back again to exit';
+              toast.style.cssText = 'position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.85);color:white;padding:12px 24px;border-radius:30px;z-index:999999;font-family:sans-serif;font-size:14px;font-weight:500;text-align:center;box-shadow:0 4px 15px rgba(0,0,0,0.3);transition:opacity 0.2s ease;opacity:0;pointer-events:none;';
+              document.body.appendChild(toast);
+              setTimeout(function() { toast.style.opacity = '1'; }, 10);
+              setTimeout(function() {
+                toast.style.opacity = '0';
+                setTimeout(function() { if(toast.parentNode) toast.remove(); }, 300);
+              }, 2000);
             }
           });
         });

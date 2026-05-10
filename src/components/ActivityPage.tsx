@@ -613,12 +613,10 @@ export const ActivityPage = () => html`
     <div class="activity-container hidden" id="activityContainer">
       <div class="chapter-ribbon" id="chapRibbon">Loading...</div>
 
-      <div class="d-flex justify-content-between align-items-center mb-4">
-        <button class="btn btn-light rounded-circle shadow-sm" onclick="window.location.href='student-activities.html'" style="width: 45px; height: 45px; display:flex; align-items:center; justify-content:center; color:#333;"><i class="fas fa-arrow-left"></i></button>
-        <div class="discussion-header m-0">
+      <div class="text-center mb-4">
+        <div class="discussion-header mx-auto" style="margin-top: 50px;">
           DISCUSSION QUESTION <i class="fas fa-question-circle text-warning"></i>
         </div>
-        <div style="width:45px;"></div>
       </div>
       
       <p class="question-text" id="discussionQuestionText">Loading question...</p>
@@ -1471,6 +1469,28 @@ export const ActivityPage = () => html`
         } catch(e) { console.warn('Draft save failed', e); }
       }
 
+      async function autosaveMeta() {
+        if (!currentUser) return;
+        const discAns = document.getElementById('discussionAnswer').value;
+        const key = 'draft_' + currentUser.uid + '_' + chapterId + '_meta';
+        try {
+          await setDoc(doc(db, 'activity_drafts', key), {
+            student_uid: currentUser.uid,
+            chapter_id: chapterId,
+            discussionAnswer: discAns,
+            savedAt: new Date().toISOString()
+          }, { merge: true });
+        } catch(e) { console.warn('Meta draft save failed', e); }
+      }
+
+      const discInput = document.getElementById('discussionAnswer');
+      if (discInput) {
+         discInput.addEventListener('input', () => {
+            clearTimeout(discInput._saveTimer);
+            discInput._saveTimer = setTimeout(() => autosaveMeta(), 1500);
+         });
+      }
+
       // ── Style: today column bright, past columns tinted, future locked ──
       const isIndividual = currentUser && currentUser.role === 'individual';
 
@@ -1521,8 +1541,6 @@ export const ActivityPage = () => html`
           if (idx < todayIdx) {
             input.disabled = true;
             input.style.background = '#f8f9fa';
-            input.style.opacity = '0.7';
-            input.placeholder = 'Saved';
           } else {
             input.disabled = true;
             input.style.opacity = '0.3';
@@ -1539,7 +1557,7 @@ export const ActivityPage = () => html`
       });
 
       // ── Auto-scroll table to today's column ──
-      setTimeout(() => {
+      window.scrollToTodayColumn = () => {
         const todayHeader = document.querySelector('.day-col-header[data-day-col="' + todayIdx + '"]');
         const tableWrapper = document.querySelector('.activity-table-wrapper');
         if (todayHeader && tableWrapper) {
@@ -1550,6 +1568,10 @@ export const ActivityPage = () => html`
         // Also scroll page to table
         const tableEl = document.querySelector('.activity-table-wrapper');
         if (tableEl) tableEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      };
+
+      setTimeout(() => {
+        window.scrollToTodayColumn();
       }, 400);
 
       checkAllDaysFilled();
@@ -1568,7 +1590,7 @@ export const ActivityPage = () => html`
       } catch(e) { console.error("Error fetching submission", e); }
     }
 
-    // \u2500\u2500 Load existing day drafts (if no final submission yet) \u2500\u2500
+    // ── Load existing day drafts (if no final submission yet) ──
     if (!existingSub && currentUser) {
       try {
         const iconListD = {
@@ -1594,6 +1616,18 @@ export const ActivityPage = () => html`
             }
           }
         }
+
+        // Load meta draft (discussion answer)
+        const metaKey = 'draft_' + currentUser.uid + '_' + chapterId + '_meta';
+        const metaSnap = await getDoc(doc(db, 'activity_drafts', metaKey));
+        if (metaSnap.exists()) {
+           const mData = metaSnap.data();
+           if (mData.discussionAnswer) {
+              const discEl = document.getElementById('discussionAnswer');
+              if (discEl && !discEl.value) discEl.value = mData.discussionAnswer;
+           }
+        }
+
         // Re-check submit button after loading drafts
         const allCells7 = document.querySelectorAll('.interactive-cell');
         const checkFilled = () => {
@@ -1680,6 +1714,9 @@ export const ActivityPage = () => html`
         document.getElementById('activityContainer').classList.remove('hidden');
         document.getElementById('activityContainer').classList.add('animate__animated', 'animate__fadeInUp');
         window.scrollTo({ top: 0, behavior: 'smooth' });
+        if(window.scrollToTodayColumn) {
+          setTimeout(window.scrollToTodayColumn, 300);
+        }
       }, 500);
     });
 

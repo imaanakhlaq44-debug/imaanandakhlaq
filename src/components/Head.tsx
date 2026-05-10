@@ -64,11 +64,12 @@ export const Head = () => html`\n<!DOCTYPE html>
           var startY = 0;
           var pY = 0;
           var isPulling = false;
+          var THRESHOLD = 220; // Professional apps need big pull
           
           var ptrEl = document.createElement('div');
           ptrEl.id = 'ptrSpinner';
-          ptrEl.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-          ptrEl.style.cssText = 'position:fixed; top:-50px; left:50%; transform:translateX(-50%); z-index:99999; background:white; color:#E08020; width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 10px rgba(0,0,0,0.15); transition: top 0.2s, transform 0.2s; font-size:1.2rem; pointer-events:none;';
+          ptrEl.innerHTML = '<i class="fas fa-arrow-down"></i>';
+          ptrEl.style.cssText = 'position:fixed; top:-60px; left:50%; transform:translateX(-50%); z-index:99999; background:white; color:#E08020; width:44px; height:44px; border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 14px rgba(0,0,0,0.18); transition: top 0.25s, transform 0.25s; font-size:1.1rem; pointer-events:none;';
           document.body.appendChild(ptrEl);
 
           function getScrollTop() {
@@ -90,8 +91,21 @@ export const Head = () => html`\n<!DOCTYPE html>
             pY = y - startY;
             if (pY > 0 && getScrollTop() <= 0) {
               if (e.cancelable) e.preventDefault();
-              ptrEl.style.top = Math.min(pY - 50, 60) + 'px';
-              ptrEl.style.transform = 'translateX(-50%) rotate(' + (pY * 2) + 'deg)';
+              var topPos = Math.min(pY * 0.35 - 60, 55);
+              ptrEl.style.top = topPos + 'px';
+              ptrEl.style.transform = 'translateX(-50%) rotate(' + (pY * 1.5) + 'deg)';
+              // Turn green when threshold reached — clear visual cue
+              if (pY >= THRESHOLD) {
+                ptrEl.style.color = '#16a34a';
+                ptrEl.style.background = '#f0fdf4';
+                ptrEl.style.boxShadow = '0 4px 14px rgba(22,163,74,0.28)';
+                ptrEl.innerHTML = '<i class="fas fa-sync-alt"></i>';
+              } else {
+                ptrEl.style.color = '#E08020';
+                ptrEl.style.background = 'white';
+                ptrEl.style.boxShadow = '0 4px 14px rgba(0,0,0,0.18)';
+                ptrEl.innerHTML = '<i class="fas fa-arrow-down"></i>';
+              }
             }
           }, {passive: false});
 
@@ -99,14 +113,76 @@ export const Head = () => html`\n<!DOCTYPE html>
             if (!isPulling) return;
             isPulling = false;
             ptrEl.style.transition = 'top 0.3s';
-            if (pY > 120 && getScrollTop() <= 0) {
-              ptrEl.style.top = '60px';
-              setTimeout(function() { window.location.reload(); }, 300);
+            if (pY >= THRESHOLD && getScrollTop() <= 0) {
+              ptrEl.style.top = '55px';
+              ptrEl.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+              setTimeout(function() { window.location.reload(); }, 350);
             } else {
-              ptrEl.style.top = '-50px';
+              ptrEl.style.top = '-60px';
+              ptrEl.style.color = '#E08020';
+              ptrEl.style.background = 'white';
+              ptrEl.style.boxShadow = '0 4px 14px rgba(0,0,0,0.18)';
+              ptrEl.innerHTML = '<i class="fas fa-arrow-down"></i>';
             }
             pY = 0;
           });
+        });
+        // Hardware Back Button Handling for Android
+        document.addEventListener('DOMContentLoaded', function() {
+          if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.App) {
+            var lastBackPress = 0;
+
+            // Push a dummy history entry so system back doesn't pop the WebView
+            var isDashboard = ['/student-activities', '/teacher-dashboard', '/parent-dashboard', '/admin-dashboard', '/super-admin-dashboard'].some(function(p) {
+              return window.location.pathname.includes(p);
+            });
+            if (isDashboard) {
+              history.pushState(null, '', window.location.href);
+              window.addEventListener('popstate', function() {
+                history.pushState(null, '', window.location.href);
+              });
+            }
+
+            window.Capacitor.Plugins.App.addListener('backButton', function(data) {
+              var path = window.location.pathname;
+              
+              // Sub-pages: just go back in history
+              if (path.includes('activity.html') || path.includes('club.html') || path.includes('blog-article') || path.includes('blog.html') || path.includes('contact.html') || path.includes('about.html')) {
+                 window.history.back();
+                 return;
+              }
+
+              // Auth page: exit immediately
+              if (path.includes('auth.html')) {
+                 window.Capacitor.Plugins.App.exitApp();
+                 return;
+              }
+
+              // Dashboard pages (student, teacher, parent, admin): warn first, exit/minimize on 2nd press
+              var now = new Date().getTime();
+              if (now - lastBackPress < 2000) {
+                // Second press — minimize app (goes to background, does NOT logout)
+                if (window.Capacitor.Plugins.App.minimizeApp) {
+                  window.Capacitor.Plugins.App.minimizeApp();
+                } else {
+                  window.Capacitor.Plugins.App.exitApp();
+                }
+              } else {
+                lastBackPress = now;
+                var toast = document.createElement('div');
+                toast.innerText = 'Press back again to exit';
+                toast.style.cssText = 'position:fixed; bottom:90px; left:50%; transform:translateX(-50%); background:rgba(0,0,0,0.85); color:white; padding:12px 24px; border-radius:30px; z-index:999999; font-family:sans-serif; font-size:14px; font-weight:500; text-align:center; box-shadow:0 4px 15px rgba(0,0,0,0.3); transition:opacity 0.2s ease; opacity:0; pointer-events:none;';
+                document.body.appendChild(toast);
+                
+                setTimeout(function() { toast.style.opacity = '1'; }, 10);
+                
+                setTimeout(function() {
+                  toast.style.opacity = '0';
+                  setTimeout(function() { if(toast.parentNode) toast.remove(); }, 300);
+                }, 2000);
+              }
+            });
+          }
         });
       }
     })();
