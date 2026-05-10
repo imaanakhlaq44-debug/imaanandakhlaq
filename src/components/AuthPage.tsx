@@ -1,4 +1,4 @@
-﻿import { html } from 'hono/html'
+import { html } from 'hono/html'
 
 export const AuthPage = () => html`
 <style>
@@ -48,16 +48,16 @@ export const AuthPage = () => html`
   .auth-container {
     max-width: 1100px;
     margin: 0 auto;
-    padding: 20px 20px 60px;
+    padding: 10px 20px 60px;
     display: grid;
     grid-template-columns: 1.2fr 0.8fr;
-    gap: 60px;
+    gap: 30px;
     width: 100%;
     flex: 1;
   }
 
   @media(max-width: 900px) {
-    .auth-container { grid-template-columns: 1fr; gap: 40px; }
+    .auth-container { grid-template-columns: 1fr; gap: 24px; }
   }
 
   /* Shared Container Styles */
@@ -275,7 +275,7 @@ export const AuthPage = () => html`
       radial-gradient(circle at top left, rgba(224, 128, 32, 0.13), transparent 22rem),
       linear-gradient(180deg, #f7fbff 0%, #edf2ff 100%);
   }
-  .auth-nav { position: relative; justify-content: center; padding: 32px 16px 18px; }
+  .auth-nav { position: relative; justify-content: center; padding: 24px 16px 8px; }
   .back-link { display: none !important; }
   .brand-logo {
     display: inline-flex;
@@ -302,7 +302,7 @@ export const AuthPage = () => html`
     width: 100%;
     display: flex;
     justify-content: center;
-    padding: 22px 14px 22px;
+    padding: 8px 14px 16px;
   }
   .auth-view-switch {
     display: inline-flex;
@@ -353,18 +353,18 @@ export const AuthPage = () => html`
   .auth-wrapper.mode-register .auth-login-panel { display: none; }
 
   @media (max-width: 900px) {
-    .auth-nav { justify-content: center; padding: 22px 14px 14px; gap: 10px; flex-wrap: wrap; }
+    .auth-nav { justify-content: center; padding: 16px 14px 8px; gap: 10px; flex-wrap: wrap; }
     .brand-logo-img { width: clamp(150px, 38vw, 240px); }
-    .auth-top-switch-wrap { padding: 18px 14px 18px; }
+    .auth-top-switch-wrap { padding: 6px 14px 12px; }
     .auth-container { grid-template-columns: 1fr; }
     .auth-login-panel .auth-box { position: static !important; }
   }
 
   /* ===== Website mobile polish (<= 600px) ===== */
   @media (max-width: 600px) {
-    .auth-nav { padding: 18px 12px 10px; }
+    .auth-nav { padding: 12px 12px 4px; }
     .brand-logo-img { width: clamp(140px, 46vw, 220px); padding: 6px; border-radius: 18px; }
-    .auth-top-switch-wrap { padding: 14px 12px 16px; }
+    .auth-top-switch-wrap { padding: 4px 12px 10px; }
     .auth-view-switch { width: 100%; gap: 6px; }
     .auth-view-btn {
       width: auto;
@@ -374,7 +374,7 @@ export const AuthPage = () => html`
       padding: 0 8px;
       font-size: 0.82rem;
     }
-    .auth-container { padding: 10px 12px 40px; gap: 24px; }
+    .auth-container { padding: 0px 12px 40px; gap: 16px; }
     .auth-box { padding: 22px 18px; border-radius: 16px; }
     .auth-box-title { font-size: 1.25rem; }
     .auth-box-desc { font-size: 0.88rem; margin-bottom: 20px; }
@@ -404,8 +404,8 @@ export const AuthPage = () => html`
   
   <!-- Navigation Header -->
   <header class="auth-nav">
-    <a href="/" class="back-link"><i class="fas fa-arrow-left"></i> Back to Homepage</a>
-    <a href="/" class="brand-logo" aria-label="Imaan and Akhlaq">
+    <a href="/" class="back-link" id="authBackLink"><i class="fas fa-arrow-left"></i> Back to Homepage</a>
+    <a href="/" class="brand-logo" id="authBrandLink" aria-label="Imaan and Akhlaq">
       <img src="/kidba_assets/img/splash_logo.jpg" alt="Imaan and Akhlaq" class="brand-logo-img" />
     </a>
   </header>
@@ -582,12 +582,12 @@ export const AuthPage = () => html`
 
         <div class="form-group">
           <label class="form-label">Email or Phone Number</label>
-          <input type="text" class="form-control" id="loginId" placeholder="name@school.com">
+          <input type="text" class="form-control" id="loginId" placeholder="name@school.com" onkeydown="if(event.key==='Enter'){event.preventDefault(); document.getElementById('loginPw').focus();}">
         </div>
         <div class="form-group">
           <label class="form-label">Password</label>
           <div class="pw-wrapper">
-            <input type="password" class="form-control" id="loginPw" placeholder="Enter your password">
+            <input type="password" class="form-control" id="loginPw" placeholder="Enter your password" onkeydown="if(event.key==='Enter'){event.preventDefault(); loginUser();}">
             <button type="button" class="pw-toggle" onclick="togglePw('loginPw')"><i class="fas fa-eye"></i></button>
           </div>
         </div>
@@ -671,9 +671,29 @@ export const AuthPage = () => html`
 </script>
 
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, signOut } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
-  import { getFirestore, doc, setDoc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, onAuthStateChanged, updateProfile, setPersistence, browserLocalPersistence, indexedDBLocalPersistence } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+  import { getFirestore, doc, setDoc, getDoc, query, collection, where, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+  document.addEventListener('DOMContentLoaded', () => {
+    // Smooth scroll for inputs when focused (fixes keyboard overlap)
+    const inputs = document.querySelectorAll('.form-control');
+    inputs.forEach(input => {
+      input.addEventListener('focus', function() {
+        setTimeout(() => {
+          this.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 300); // Wait for keyboard to animate up
+      });
+    });
+
+    const isCap = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
+    const bl = document.getElementById('authBackLink');
+    const logo = document.getElementById('authBrandLink');
+    if (isCap) {
+        if (bl) bl.style.display = 'none';
+        if (logo) logo.href = 'javascript:void(0)';
+    }
+  });
 
   const firebaseConfig = {
     apiKey: "AIzaSyA4MrV-oXhK_johreyzIucti5RFrKcvyG8",
@@ -1005,6 +1025,7 @@ export const AuthPage = () => html`
       if (userDoc.exists()) {
         const userData = userDoc.data();
         sessionStorage.setItem('auth_user', JSON.stringify({ uid: user.uid, ...userData }));
+        localStorage.setItem('auth_user', JSON.stringify({ uid: user.uid, ...userData }));
         
         showToast('Success! Redirecting...', 'success');
         setTimeout(() => {
@@ -1032,15 +1053,27 @@ export const AuthPage = () => html`
     const id = document.getElementById('resetId').value.trim();
     if (!id) return showToast('Please enter your email', 'error');
     
+    const btn = document.getElementById('resetBtn');
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
+
     try {
-      showToast('Sending reset email...', 'success');
       await sendPasswordResetEmail(auth, id);
       showToast('Reset email sent! Check your inbox.', 'success');
-      setTimeout(closeReset, 2000);
+      setTimeout(() => window.closeReset(), 2000);
     } catch (error) {
-      showToast(error.message, 'error');
+      let msg = error.message;
+      if (error.code === 'auth/user-not-found') msg = 'No account found with this email.';
+      if (error.code === 'auth/invalid-email') msg = 'Please enter a valid email address.';
+      showToast(msg, 'error');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Find Account';
     }
   };
 
 </script>
+
+<link rel="stylesheet" href="kidba_assets/css/apk-bottombar.css">
+<script defer src="kidba_assets/js/apk-bottombar.js"></script>
 `

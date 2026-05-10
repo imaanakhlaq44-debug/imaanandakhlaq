@@ -37,23 +37,22 @@ export const SuperAdminDashboard = () => html`
   .main-wrapper { flex: 1; display: flex; flex-direction: column; overflow-x: hidden; }
 
   /* Header */
-  .top-header { height: 70px; background-color: var(--header-bg); display: flex; align-items: center; justify-content: space-between; padding: 0 30px; color: var(--white); box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-  .header-title { font-size: 1.3rem; font-weight: 500; }
-  .header-actions { display: flex; align-items: center; gap: 25px; }
-  .search-box { position: relative; display: flex; align-items: center; }
-  .search-box input { background-color: rgba(255, 255, 255, 0.1); border: none; border-radius: 20px; padding: 8px 15px 8px 35px; color: var(--white); font-size: 0.9rem; width: 220px; outline: none; transition: width 0.3s ease, background-color 0.3s; }
-  .search-box input::placeholder { color: rgba(255, 255, 255, 0.6); }
-  .search-box input:focus { width: 280px; background-color: rgba(255, 255, 255, 0.2); }
-  .search-box i { position: absolute; left: 12px; color: rgba(255, 255, 255, 0.6); }
-  .action-icon { font-size: 1.2rem; cursor: pointer; position: relative; color: rgba(255, 255, 255, 0.8); transition: color 0.2s; }
+  .top-header { height: 70px; background-color: var(--header-bg); display: flex; align-items: center; justify-content: space-between; padding: 0 20px 0 30px; color: var(--white); box-shadow: 0 2px 10px rgba(0,0,0,0.1); gap: 12px; flex-wrap: nowrap; }
+  .header-title { font-size: 1.1rem; font-weight: 500; white-space: nowrap; flex: 0 0 auto; }
+  .header-search { position: relative; display: flex; align-items: center; flex: 1 1 auto; max-width: 320px; margin: 0 auto; }
+  .header-search input { background-color: rgba(255,255,255,0.12); border: none; border-radius: 20px; padding: 8px 15px 8px 35px; color: var(--white); font-size: 0.9rem; width: 100%; outline: none; }
+  .header-search input::placeholder { color: rgba(255,255,255,0.6); }
+  .header-search i { position: absolute; left: 12px; color: rgba(255,255,255,0.6); }
+  .header-actions { display: flex; align-items: center; gap: 18px; flex: 0 0 auto; }
+  .action-icon { font-size: 1.2rem; cursor: pointer; position: relative; color: rgba(255,255,255,0.8); transition: color 0.2s; }
   .action-icon:hover { color: var(--white); }
   .badge { position: absolute; top: -5px; right: -5px; background-color: var(--brand-secondary); color: white; font-size: 0.6rem; padding: 2px 5px; border-radius: 10px; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
 
   /* Content */
-  .content-area { padding: 30px; flex: 1; overflow-y: auto; }
+  .content-area { padding: 24px; flex: 1; overflow-y: auto; }
 
   /* Stats */
-  .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 25px; margin-bottom: 30px; }
+  .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 24px; }
   .stat-card { border-radius: 16px; padding: 25px; color: white; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 10px 20px rgba(0,0,0,0.08); transition: transform 0.3s ease, box-shadow 0.3s; position: relative; overflow: hidden; }
   .stat-card::before { content: ''; position: absolute; top: -50%; right: -20%; width: 150px; height: 150px; background: rgba(255, 255, 255, 0.1); border-radius: 50%; z-index: 1; }
   .stat-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.12); }
@@ -126,6 +125,10 @@ export const SuperAdminDashboard = () => html`
 
   @media (max-width: 1100px) { .dash-grid { grid-template-columns: 1fr; } }
 
+  /* Reports grid — collapses on narrow screens */
+  .reports-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 25px; margin-bottom: 25px; }
+  @media (max-width: 900px) { .reports-grid { grid-template-columns: 1fr !important; } }
+
   /* ── Mobile Sidebar: slide-in from left ── */
   .mobile-menu-btn {
     display: none;
@@ -190,7 +193,61 @@ export const SuperAdminDashboard = () => html`
       box-shadow: 8px 0 30px rgba(0,0,0,0.3);
     }
 
-    .dash-main { padding-top: 60px; }
+    /* Header: smaller on mobile, shift right for hamburger */
+    .top-header { padding: 0 12px 0 68px; height: 56px; }
+    .header-title { font-size: 0.88rem; }
+    .header-search { display: none; }
+
+    /* Content */
+    .content-area { padding: 10px; padding-bottom: 72px; }
+
+    /* Stats: 2-column grid on mobile */
+    .stats-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 10px; margin-bottom: 12px; }
+    .stat-card { padding: 14px; border-radius: 12px !important; }
+    .stat-info h3 { font-size: 1.55rem !important; }
+    .stat-info p { font-size: 0.78rem; }
+    .stat-icon { font-size: 2rem; }
+
+    /* Cards */
+    .card { padding: 14px; border-radius: 12px !important; }
+    .card-header { flex-wrap: wrap; gap: 8px; }
+    .filter-tabs { flex-wrap: wrap; }
+    .filter-tab { padding: 5px 9px; font-size: 0.74rem; }
+
+    /* Table: horizontal scroll */
+    .table-responsive { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    table { min-width: 460px; }
+    th, td { padding: 10px 8px; font-size: 0.76rem; }
+
+    /* Reports */
+    .reports-grid { grid-template-columns: 1fr !important; }
+  }
+
+  /* Mobile bottom navigation bar */
+  .mobile-bottom-bar { display: none; }
+  @media (max-width: 768px) {
+    .mobile-bottom-bar {
+      display: flex;
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      background: #ffffff;
+      border-top: 1px solid rgba(0,0,0,0.08);
+      box-shadow: 0 -4px 14px rgba(30,45,90,0.1);
+      z-index: 1000;
+      justify-content: space-around;
+      align-items: center;
+      padding: 8px 4px calc(8px + env(safe-area-inset-bottom)) 4px;
+    }
+    .mob-nav-btn {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 3px; background: transparent; border: none;
+      color: #64748b; font-size: 10px; font-weight: 600; cursor: pointer;
+      font-family: 'Poppins', sans-serif; flex: 1;
+    }
+    .mob-nav-btn i { font-size: 17px; padding: 5px; border-radius: 8px; background: #f1f5f9; color: #334155; }
+    .mob-nav-btn.active i { color: #fff; background: var(--brand-primary); }
+    .mob-nav-btn.active { color: var(--brand-primary); }
+    .mob-nav-btn.danger i { color: #fff; background: #dc2626; }
   }
 
   .sidebar-cam-badge, .school-cam-badge {
@@ -279,9 +336,9 @@ export const SuperAdminDashboard = () => html`
   @media (max-width: 1199px) and (min-width: 768px) {
     .super-admin-layout .sidebar { width: 200px !important; min-width: 200px !important; }
   }
+  /* Mobile: sidebar is fixed/offcanvas — don't alter main flex layout */
   @media (max-width: 767px) {
-    .super-admin-layout { flex-direction: column !important; }
-    .super-admin-layout .sidebar { width: 100% !important; min-width: 0 !important; min-height: auto !important; flex-direction: row !important; flex-wrap: wrap !important; padding: 0.6rem 0.8rem !important; }
+    .super-admin-layout .sidebar { width: 260px !important; }
   }
 
 </style>
@@ -357,7 +414,7 @@ export const SuperAdminDashboard = () => html`
 
       <!-- Global Reports Section -->
       <div id="dash-reports" style="display: none;">
-        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 25px; margin-bottom: 25px;">
+        <div class="reports-grid">
           <!-- Bar Chart Card -->
           <div class="card" style="margin: 0;">
             <div class="card-header" style="border-bottom: none;">
@@ -507,6 +564,22 @@ export const SuperAdminDashboard = () => html`
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- Mobile bottom nav bar -->
+  <div class="mobile-bottom-bar">
+    <button class="mob-nav-btn active" id="mobBtnDash" onclick="document.querySelector('[data-target=dashboard]').click(); document.querySelectorAll('.mob-nav-btn').forEach(b=>b.classList.remove('active')); this.classList.add('active')">
+      <i class="fas fa-th-large"></i><span>Dashboard</span>
+    </button>
+    <button class="mob-nav-btn" id="mobBtnSchools" onclick="document.querySelector('[data-target=schools]').click(); document.querySelectorAll('.mob-nav-btn').forEach(b=>b.classList.remove('active')); this.classList.add('active')">
+      <i class="fas fa-school"></i><span>Schools</span>
+    </button>
+    <button class="mob-nav-btn" id="mobBtnReports" onclick="document.querySelector('[data-target=reports]').click(); document.querySelectorAll('.mob-nav-btn').forEach(b=>b.classList.remove('active')); this.classList.add('active')">
+      <i class="fas fa-chart-pie"></i><span>Reports</span>
+    </button>
+    <button class="mob-nav-btn danger" onclick="document.getElementById('logout-btn').click()">
+      <i class="fas fa-sign-out-alt"></i><span>Logout</span>
+    </button>
   </div>
 </div>
 
@@ -739,13 +812,39 @@ export const SuperAdminDashboard = () => html`
     }
   }
 
-  onAuthStateChanged(auth, (user) => {
+  onAuthStateChanged(auth, async (user) => {
     if (user) {
+      const waitOverlay = document.getElementById('authWaitOverlay');
+      if (waitOverlay) waitOverlay.remove();
       loadDashboardData();
     } else {
-      document.getElementById('loading').textContent = 'Please log in first to access the database. Redirecting...';
+      const stored = (function () {
+        try { return sessionStorage.getItem('auth_user') || localStorage.getItem('auth_user'); } catch (e) { return null; }
+      })();
+      const isCap = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
+      const maxAttempts = isCap ? 12 : 6;
+      if (stored) {
+        document.body.insertAdjacentHTML('beforeend', \`
+          <div id="authWaitOverlay" style="position:fixed; inset:0; background:rgba(30, 45, 90, 0.95); display:flex; flex-direction:column; justify-content:center; align-items:center; z-index:99999;">
+             <i class="fas fa-spinner fa-spin" style="font-size:3rem; color:#E08020; margin-bottom:20px;"></i>
+             <h3 style="font-family:'Fredoka One', cursive; color:#ffffff;">Restoring Session...</h3>
+             <p style="color:#cbd5e1;">Please wait</p>
+          </div>
+        \`);
+        let restored = false;
+        for (let attempt = 0; attempt < maxAttempts; attempt++) {
+          await new Promise(function (r) { setTimeout(r, 1000); });
+          if (auth.currentUser) { restored = true; break; }
+        }
+        const waitOverlay = document.getElementById('authWaitOverlay');
+        if (waitOverlay) waitOverlay.remove();
+        if (restored) return;
+      }
+
+      const loadingEl = document.getElementById('loading');
+      if (loadingEl) loadingEl.textContent = 'Please log in first to access the database. Redirecting...';
       setTimeout(() => {
-        window.location.href = '/auth';
+        window.location.href = 'auth.html';
       }, 2000);
     }
   });
@@ -913,7 +1012,7 @@ export const SuperAdminDashboard = () => html`
       try {
         await signOut(auth);
         localStorage.removeItem('auth_user');
-        window.location.href = '/auth';
+        window.location.href = 'auth.html';
       } catch (err) {
         alert("Error logging out: " + err.message);
       }

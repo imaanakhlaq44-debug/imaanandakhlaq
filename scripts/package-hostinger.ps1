@@ -60,6 +60,40 @@ foreach ($pattern in $excludePatterns) {
     }
 }
 
+# 2b. OVERLAY hand-edited static files from imaan_hostinger/ over the dist build.
+# These files (auth.html, teacher-dashboard.html, admin-dashboard.html, etc.) are
+# directly maintained in imaan_hostinger/ and are the source of truth for those
+# pages — Vite SSR doesn't regenerate the dashboards, so we must overwrite them.
+Write-Host "[2b] Overlaying hand-edited static files from imaan_hostinger/..." -ForegroundColor Yellow
+$hostingerSrc = Join-Path $PSScriptRoot "..\imaan_hostinger"
+$overlayFiles = @(
+    "auth.html",
+    "teacher-dashboard.html",
+    "admin-dashboard.html",
+    "parent-dashboard.html",
+    "student-activities.html",
+    "super-admin-dashboard.html",
+    "activity.html",
+    "club.html",
+    "delete-account.html",
+    "privacy.html",
+    "terms.html",
+    "contact.html",
+    "blog.html",
+    "blog-article-1.html",
+    "blog-article-2.html",
+    "blog-article-3.html",
+    "index.html"
+)
+foreach ($f in $overlayFiles) {
+    $srcFile = Join-Path $hostingerSrc $f
+    $dstFile = Join-Path $tempDir $f
+    if (Test-Path $srcFile) {
+        Copy-Item -Path $srcFile -Destination $dstFile -Force
+        Write-Host "   Overlaid: $f" -ForegroundColor DarkGray
+    }
+}
+
 # 3. Compress temp folder contents into a staging ZIP first
 Write-Host "[3] Creating ZIP..." -ForegroundColor Yellow
 Compress-Archive -Path "$tempDir\*" -DestinationPath $stagingZip -Force

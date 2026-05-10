@@ -3,6 +3,7 @@ package com.imaanakhlaq.app;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.webkit.WebView;
 
 import androidx.core.app.ActivityCompat;
@@ -19,6 +20,27 @@ public class MainActivity extends BridgeActivity {
         super.onCreate(savedInstanceState);
         requestNeededPermissions();
         tweakWebViewSettings();
+    }
+
+    /**
+     * Hardware/system BACK button:
+     *   - If WebView has navigation history → go back one page (like a browser)
+     *   - Otherwise → fall through to default (which finishes the activity / exits)
+     */
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            try {
+                WebView webView = this.bridge != null ? this.bridge.getWebView() : null;
+                if (webView != null && webView.canGoBack()) {
+                    webView.goBack();
+                    return true;
+                }
+            } catch (Throwable t) {
+                t.printStackTrace();
+            }
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     private void requestNeededPermissions() {

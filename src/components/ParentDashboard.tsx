@@ -64,7 +64,11 @@ export const ParentDashboard = () => html`
     display: flex; align-items: center; gap: 0.55rem; min-width: 0; flex: 1 1 auto;
   }
   .sidebar-profile-cluster .sidebar-brand-art {
-    width: 44px; height: 44px; flex: 0 0 44px; border-radius: 12px;
+    width: 48px;
+    height: 48px;
+    flex: 0 0 48px;
+    border-radius: 50%;
+    border-width: 2px;
   }
   .sidebar-name-block { display: flex; flex-direction: column; justify-content: center; min-width: 0; }
   .sidebar-name-block .sidebar-title {
@@ -450,35 +454,37 @@ export const ParentDashboard = () => html`
   }
 
   .surface-card {
-    background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(249,251,253,0.98));
-    border: 1px solid var(--parent-line);
-    border-radius: 16px;
-    padding: 0.9rem;
-    box-shadow: var(--parent-soft-shadow);
+    background: #ffffff;
+    border: 1px solid rgba(220,230,241,0.8);
+    border-radius: 14px;
+    padding: 0.85rem;
+    box-shadow: 0 2px 12px rgba(15,23,42,0.05);
   }
 
   .stats-card {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 0.75rem;
+    gap: 0.6rem;
     background: transparent;
     padding: 0;
     box-shadow: none;
     border: none;
+    margin-bottom: 0.6rem;
   }
 
+  /* ── Compact stat cards: icon + number + label in a tight pill ── */
   .stat-card {
     position: relative;
     overflow: hidden;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.8rem;
-    min-height: 122px;
-    border-radius: 16px;
-    padding: 0.95rem 1rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.2rem;
+    min-height: unset;
+    border-radius: 14px;
+    padding: 0.75rem 0.85rem;
     color: #ffffff;
-    box-shadow: var(--parent-soft-shadow);
+    box-shadow: 0 4px 14px rgba(15,23,42,0.14);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
 
@@ -490,61 +496,54 @@ export const ParentDashboard = () => html`
   .stat-card[data-section]:focus-visible,
   .stat-card.is-active {
     transform: translateY(-2px);
-    box-shadow: 0 16px 28px rgba(15, 23, 42, 0.16);
+    box-shadow: 0 10px 22px rgba(15, 23, 42, 0.2);
     outline: none;
   }
 
   .stat-card.points {
-    background: linear-gradient(180deg, #314a7f 0%, #243d6b 100%);
+    background: linear-gradient(135deg, #314a7f 0%, #1d3156 100%);
   }
-
   .stat-card.chapters {
-    background: linear-gradient(180deg, #df4a82 0%, #cf296d 100%);
+    background: linear-gradient(135deg, #df4a82 0%, #b91c5c 100%);
   }
-
   .stat-card.approvals {
-    background: linear-gradient(180deg, #f0a43d 0%, #ea8300 100%);
+    background: linear-gradient(135deg, #f0a43d 0%, #d97706 100%);
   }
 
   .stat-copy {
     position: relative;
     z-index: 1;
+    width: 100%;
   }
-
   .stat-label {
     display: block;
     font-family: 'Sora', sans-serif;
-    font-size: 0.64rem;
+    font-size: 0.6rem;
     font-weight: 700;
-    letter-spacing: 0.13em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: rgba(255,255,255,0.74);
-    margin-bottom: 0.3rem;
+    color: rgba(255,255,255,0.68);
+    margin-bottom: 0.12rem;
   }
-
   .stat-value {
     font-family: 'Sora', sans-serif;
-    font-size: clamp(1.65rem, 2.7vw, 2.25rem);
+    font-size: 1.55rem;
     font-weight: 800;
     color: #ffffff;
     margin: 0;
     line-height: 1;
   }
-
   .stat-meta {
     display: block;
-    margin-top: 0.35rem;
-    font-size: 0.74rem;
-    font-weight: 700;
-    color: rgba(255,255,255,0.78);
-    line-height: 1.35;
+    margin-top: 0.22rem;
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.72);
+    line-height: 1.3;
   }
-
+  /* Hide the 3D image on stat cards — keeps them tight */
   .stat-card img {
-    width: 68px;
-    height: 68px;
-    object-fit: contain;
-    filter: drop-shadow(0 14px 22px rgba(15,23,42,0.18));
+    display: none;
   }
 
   .action-queue-card {
@@ -677,18 +676,70 @@ export const ParentDashboard = () => html`
     line-height: 1.45;
   }
 
+  /* ── Compact approval item row ── */
   .approval-item {
-    background: #ffffff;
-    border: 1px solid var(--parent-line);
-    border-radius: 16px;
-    padding: 0.9rem;
-    margin-bottom: 0.75rem;
-    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.7rem;
+    background: #f8fafc;
+    border: 1px solid #e8edf5;
+    border-left: 3px solid var(--parent-pink);
+    border-radius: 10px;
+    padding: 0.6rem 0.75rem;
+    margin-bottom: 0.5rem;
+    transition: transform 0.18s, box-shadow 0.18s, border-color 0.18s;
   }
   .approval-item:hover {
+    transform: translateX(2px);
+    box-shadow: 0 4px 14px rgba(207,41,109,0.08);
+    border-left-color: #b91c5c;
+    background: #fff;
+  }
+  .approval-item-info {
+    min-width: 0;
+    flex: 1;
+  }
+  .approval-item-title {
+    margin: 0;
+    font-family: 'Sora', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--parent-ink);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .approval-item-sub {
+    font-size: 0.7rem;
+    color: var(--parent-muted);
+    font-weight: 600;
+    margin-top: 0.1rem;
+    display: block;
+  }
+  .approval-item-action {
+    flex: 0 0 auto;
+  }
+  .btn-open-sheet {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    background: linear-gradient(135deg, var(--parent-pink) 0%, #b91c5c 100%);
+    color: #fff;
+    border: none;
+    border-radius: 999px;
+    padding: 0.4rem 0.85rem;
+    font-size: 0.74rem;
+    font-weight: 700;
+    font-family: 'Sora', sans-serif;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(207,41,109,0.2);
+    transition: transform 0.15s, box-shadow 0.15s;
+    white-space: nowrap;
+  }
+  .btn-open-sheet:hover {
     transform: translateY(-1px);
-    box-shadow: 0 10px 20px rgba(15,23,42,0.06);
-    border-color: rgba(207,41,109,0.24);
+    box-shadow: 0 6px 16px rgba(207,41,109,0.28);
   }
 
   .parent-text-input {
@@ -859,8 +910,34 @@ export const ParentDashboard = () => html`
     }
 
     .stats-card {
-      grid-template-columns: 1fr;
+      grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+      gap: 0.4rem !important;
+      margin: 0 !important;
+      max-width: 100% !important;
+      min-width: 0 !important;
     }
+    .stat-card {
+      padding: 0.55rem 0.35rem !important;
+      min-height: 0 !important;
+      min-width: 0 !important;
+      border-radius: 12px !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 0.15rem !important;
+      text-align: center !important;
+      overflow: hidden !important;
+    }
+    .stat-card img { display: none !important; }
+    .stat-copy { gap: 0.1rem !important; align-items: center !important; text-align: center !important; min-width: 0 !important; }
+    .stat-label {
+      font-size: 0.55rem !important;
+      letter-spacing: 0.02em !important;
+      white-space: normal !important;
+      line-height: 1.1 !important;
+      overflow-wrap: anywhere !important;
+    }
+    .stat-value { font-size: 1.35rem !important; line-height: 1 !important; }
+    .stat-meta { display: none !important; }
 
     .link-student-card {
       grid-template-columns: 1fr;
@@ -998,6 +1075,34 @@ export const ParentDashboard = () => html`
     .parent-page .hero-card { padding: 1rem !important; }
   }
 
+  .mobile-bottom-actions { display: none; }
+  @media (max-width: 760px) {
+    .sidebar-chip-actions { display: none !important; }
+    .parent-page .dashboard-main { padding-bottom: 74px !important; }
+    .mobile-bottom-actions {
+      display: flex;
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      background: #ffffff;
+      border-top: 1px solid rgba(0,0,0,0.06);
+      box-shadow: 0 -4px 12px rgba(30,45,90,0.08);
+      z-index: 1000;
+      justify-content: space-around;
+      align-items: center;
+      padding: 10px 10px calc(10px + env(safe-area-inset-bottom)) 10px;
+    }
+    .mobile-action-btn {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 4px; background: transparent; border: none;
+      color: #64748b; font-size: 11px; font-weight: 700; cursor: pointer;
+    }
+    .mobile-action-btn i {
+      font-size: 18px; color: #1e293b; margin-bottom: 2px;
+      padding: 6px; border-radius: 10px; background: #f1f5f9;
+    }
+    .mobile-action-btn.logout i { color: #ffffff; background: #dc2626; }
+  }
+
 </style>
 
 <div class="parent-page">
@@ -1007,7 +1112,7 @@ export const ParentDashboard = () => html`
       <div class="sidebar-brand sidebar-brand-v2">
         <div class="sidebar-profile-cluster">
           <div class="sidebar-brand-art" id="sidebarAvatarClickArea" title="Click to change photo" role="button" tabindex="0" style="position:relative; cursor:pointer; overflow:visible;">
-            <img id="sidebarProfilePhoto" src="/kidba_assets/img/3d_parent.png" alt="Parent profile" style="border-radius:16px; width:100%; height:100%; object-fit:cover;">
+            <img id="sidebarProfilePhoto" src="/kidba_assets/img/3d_parent.png" alt="Parent profile" style="border-radius:50%; width:100%; height:100%; object-fit:cover;">
             <div class="sidebar-cam-badge"><i class="fas fa-camera"></i></div>
           </div>
           <div class="sidebar-name-block">
@@ -1016,14 +1121,12 @@ export const ParentDashboard = () => html`
         </div>
 
         <div class="sidebar-school-chip">
-          <div class="sidebar-school-art" id="schoolLogoClickArea" title="Click to change school logo" role="button" tabindex="0" style="position:relative; cursor:pointer; overflow:visible;">
+          <div class="sidebar-school-art" style="position:relative; overflow:hidden;">
             <img id="schoolLogoImg" src="/kidba_assets/img/3d_school.png" alt="School logo" style="border-radius:8px; width:100%; height:100%; object-fit:cover;">
-            <div class="sidebar-school-cam-badge"><i class="fas fa-camera"></i></div>
           </div>
           <span class="sidebar-school-name" id="parentWelcomeName">School</span>
           <div class="sidebar-chip-actions">
-            <button class="sidebar-icon-btn home" type="button" onclick="window.location.href='/'" title="Home" aria-label="Home"><i class="fas fa-house"></i></button>
-            <button class="sidebar-icon-btn back" type="button" onclick="window.history.back()" title="Back" aria-label="Back"><i class="fas fa-arrow-left"></i></button>
+            <button class="sidebar-icon-btn home" type="button" onclick="window.location.href='auth.html'" title="Home" aria-label="Home"><i class="fas fa-house"></i></button>
             <button class="sidebar-icon-btn refresh" type="button" onclick="window.location.reload()" title="Refresh" aria-label="Refresh"><i class="fas fa-sync-alt"></i></button>
             <button class="sidebar-icon-btn logout" type="button" onclick="logoutParent()" title="Logout" aria-label="Logout"><i class="fas fa-sign-out-alt"></i></button>
           </div>
@@ -1124,6 +1227,18 @@ export const ParentDashboard = () => html`
           <!-- Injected via JS -->
         </div>
       </section>
+  </div>
+
+  <div class="mobile-bottom-actions">
+    <button class="mobile-action-btn" type="button" onclick="window.location.href='auth.html'">
+      <i class="fas fa-house"></i><span>Home</span>
+    </button>
+    <button class="mobile-action-btn" type="button" onclick="window.location.reload()">
+      <i class="fas fa-sync-alt"></i><span>Refresh</span>
+    </button>
+    <button class="mobile-action-btn logout" type="button" onclick="window.logoutParent()">
+      <i class="fas fa-sign-out-alt"></i><span>Logout</span>
+    </button>
   </div>
 </div>
 
@@ -1277,8 +1392,19 @@ export const ParentDashboard = () => html`
 
   bindParentSectionControls();
 
+  // ─── WebView-safe auth guard ───────────────────────────────────────────────
+  // On Android WebView, Firebase fires onAuthStateChanged(null) briefly when
+  // the app resumes from background. We wait up to 12 s before redirecting.
+  let hasInitializedDashboard = false;
+
   onAuthStateChanged(auth, async (user) => {
     if (user) {
+      const waitOverlay = document.getElementById('authWaitOverlay');
+      if (waitOverlay) waitOverlay.remove();
+      const demoOverlay = document.getElementById('demoOverlay');
+      if (demoOverlay) demoOverlay.remove();
+      if (hasInitializedDashboard) return; // already loaded — ignore repeated calls
+      hasInitializedDashboard = true;
       try {
         const userDoc = await getDoc(doc(db, "users", user.uid));
         if (userDoc.exists() && userDoc.data().role === 'parent') {
@@ -1291,22 +1417,58 @@ export const ParentDashboard = () => html`
                  <i class="fas fa-lock" style="font-size:3rem; color:#E08020; margin-bottom:20px;"></i>
                  <h3 style="font-family:'Fredoka One', cursive; color:#1E2D5A;">Parent Login Required</h3>
                  <p style="color:#64748b; margin-bottom:25px;">You cannot view this page with your current account.</p>
-                 <button onclick="window.location.href='/auth'" style="width:100%; padding:12px; background:#E08020; color:white; border:none; border-radius:12px; font-weight:bold; cursor:pointer; margin-bottom:12px;">Go to Login</button>
+                 <button onclick="window.location.href = 'auth.html'" style="width:100%; padding:12px; background:#E08020; color:white; border:none; border-radius:12px; font-weight:bold; cursor:pointer; margin-bottom:12px;">Go to Login</button>
               </div>
             </div>
           \`);
         }
       } catch (err) {
         console.error("Error fetching parent profile:", err);
+        document.body.insertAdjacentHTML('beforeend', \`
+            <div id="demoOverlay" style="position:fixed; inset:0; background:rgba(30, 45, 90, 0.85); backdrop-filter:blur(8px); display:flex; justify-content:center; align-items:center; z-index:99999;">
+              <div style="background:white; padding:40px; border-radius:24px; text-align:center; max-width:400px; box-shadow: 0 20px 40px rgba(0,0,0,0.3);">
+                 <i class="fas fa-exclamation-triangle" style="font-size:3rem; color:#ef4444; margin-bottom:20px;"></i>
+                 <h3 style="font-family:'Fredoka One', cursive; color:#1E2D5A;">Connection Error</h3>
+                 <p style="color:#64748b; margin-bottom:25px;">Could not connect to the database. Please check your internet connection.</p>
+                 <button onclick="window.location.reload()" style="width:100%; padding:12px; background:#E08020; color:white; border:none; border-radius:12px; font-weight:bold; cursor:pointer; margin-bottom:12px;">Retry</button>
+              </div>
+            </div>
+          \`);
       }
     } else {
+      // null — might be a temporary WebView resume flicker; wait before redirecting
+      if (hasInitializedDashboard) return; // dashboard is already open — ignore
+
+      const stored = (function () {
+        try { return localStorage.getItem('auth_user') || sessionStorage.getItem('auth_user'); } catch (e) { return null; }
+      })();
+      const isCap = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
+      const maxAttempts = isCap ? 12 : 6;
+      if (stored) {
+        document.body.insertAdjacentHTML('beforeend', \`
+          <div id="authWaitOverlay" style="position:fixed; inset:0; background:rgba(30, 45, 90, 0.95); display:flex; flex-direction:column; justify-content:center; align-items:center; z-index:99999;">
+             <i class="fas fa-spinner fa-spin" style="font-size:3rem; color:#E08020; margin-bottom:20px;"></i>
+             <h3 style="font-family:'Fredoka One', cursive; color:#ffffff;">Restoring Session...</h3>
+             <p style="color:#cbd5e1;">Please wait</p>
+          </div>
+        \`);
+        let restored = false;
+        for (let attempt = 0; attempt < maxAttempts; attempt++) {
+          await new Promise(function (r) { setTimeout(r, 1000); });
+          if (auth.currentUser) { restored = true; break; }
+        }
+        const waitOverlay = document.getElementById('authWaitOverlay');
+        if (waitOverlay) waitOverlay.remove();
+        if (restored) return; // a fresh onAuthStateChanged with the user will fire
+      }
+
       document.body.insertAdjacentHTML('beforeend', \`
         <div id="demoOverlay" style="position:fixed; inset:0; background:rgba(30, 45, 90, 0.85); backdrop-filter:blur(8px); display:flex; justify-content:center; align-items:center; z-index:99999;">
           <div style="background:white; padding:40px; border-radius:24px; text-align:center; max-width:400px; box-shadow: 0 20px 40px rgba(0,0,0,0.3);">
              <i class="fas fa-lock" style="font-size:3rem; color:#E08020; margin-bottom:20px;"></i>
              <h3 style="font-family:'Fredoka One', cursive; color:#1E2D5A;">Parent Login Required</h3>
              <p style="color:#64748b; margin-bottom:25px;">You must be logged in as a Parent to track your child's progress.</p>
-             <button onclick="window.location.href='/auth'" style="width:100%; padding:12px; background:#E08020; color:white; border:none; border-radius:12px; font-weight:bold; cursor:pointer; margin-bottom:12px;">Go to Login</button>
+             <button onclick="window.location.href = 'auth.html'" style="width:100%; padding:12px; background:#E08020; color:white; border:none; border-radius:12px; font-weight:bold; cursor:pointer; margin-bottom:12px;">Go to Login</button>
           </div>
         </div>
       \`);
@@ -1354,6 +1516,10 @@ export const ParentDashboard = () => html`
         const schoolSnap = await getDoc(doc(db, "schools", linkedStudent.school_id));
         if (schoolSnap.exists()) {
           linkedStudent.school_name = schoolSnap.data().name;
+          if (schoolSnap.data().logo_url) {
+            const sl = document.getElementById('schoolLogoImg');
+            if (sl) sl.src = schoolSnap.data().logo_url;
+          }
         }
       } catch (e) { console.error(e); }
     }
@@ -1414,15 +1580,14 @@ export const ParentDashboard = () => html`
       pendingReviews.forEach((rev) => {
         let cTitle = getChapterTitle(rev.chapId);
         let rawData = encodeURIComponent(JSON.stringify(rev));
-        htmlSnippet += 
+        htmlSnippet +=
           '<div class="approval-item">' +
-            '<div class="d-flex justify-content-between align-items-start mb-2">' +
-              '<div><h5 style="margin:0; font-family:\\'Fredoka One\\', cursive; color:#1E2D5A;">New Activity from ' + rev.studentName + '</h5>' +
-              '<p style="font-size:0.85rem; color:#64748b; margin:0;">Chapter: <b>' + cTitle + '</b></p></div>' +
-              '<i class="fas fa-clock text-warning fs-4"></i>' +
+            '<div class="approval-item-info">' +
+              '<p class="approval-item-title"><i class="fas fa-clock" style="color:#f59e0b; font-size:0.65rem; margin-right:4px;"></i>' + escapeHtml(cTitle) + '</p>' +
+              '<span class="approval-item-sub">From: ' + escapeHtml(rev.studentName) + ' &nbsp;&middot;&nbsp; Waiting for your review</span>' +
             '</div>' +
-            '<div class="text-end mt-3">' +
-              '<button class="btn btn-primary rounded-pill px-4 fw-bold shadow-sm" onclick="openParentReviewModal(\\'' + rawData + '\\')"><i class="fas fa-search"></i> Open Sheet</button>' +
+            '<div class="approval-item-action">' +
+              '<button class="btn-open-sheet" onclick="openParentReviewModal(\\'' + rawData + '\\')"><i class="fas fa-eye"></i> Review</button>' +
             '</div>' +
           '</div>';
       });
@@ -1465,7 +1630,7 @@ export const ParentDashboard = () => html`
     };
 
     let htmlContent = '<div class="table-responsive"><table class="table table-bordered text-center align-middle" style="background:white; border-radius:10px; overflow:hidden;">';
-    htmlContent += '<thead style="background:#FDF8F5; font-family: \\'Fredoka One\\', cursive; color:#1E2D5A;"><tr><th class="text-start">Activity</th><th>M</th><th>T</th><th>W</th><th>T</th><th>F</th><th>S</th><th>S</th></tr></thead><tbody>';
+    htmlContent += '<thead style="background:#FDF8F5; font-family: &quot;Fredoka One&quot;, cursive; color:#1E2D5A;"><tr><th class="text-start">Activity</th><th>M</th><th>T</th><th>W</th><th>T</th><th>F</th><th>S</th><th>S</th></tr></thead><tbody>';
     
     let cellIndex = 0;
     chapterData.sections.forEach(section => {
@@ -1488,7 +1653,7 @@ export const ParentDashboard = () => html`
     '<div class="custom-modal-overlay" id="parentReviewModalOverlay">' +
       '<div class="custom-modal" id="parentReviewModal">' +
         '<button class="modal-close-btn" onclick="closeParentReviewModal()"><i class="fas fa-times"></i></button>' +
-        '<h3 style="font-family: \\'Fredoka One\\', cursive; color:#1e293b;"><i class="fas fa-clipboard-check text-primary"></i> Activity Sheet Review</h3>' +
+        '<h3 style="font-family: &quot;Fredoka One&quot;, cursive; color:#1e293b;"><i class="fas fa-clipboard-check text-primary"></i> Activity Sheet Review</h3>' +
         '<p class="text-muted" id="p_rmStudentInfo" style="font-size: 0.9rem; margin-bottom: 20px;"></p>' +
         '<h5 style="color:#D63678; font-weight:800; font-size:1rem;">Discussion Answer:</h5>' +
         '<div class="student-discussion-text mb-3 p-3 bg-light rounded border" id="p_rmDiscussion"></div>' +
@@ -1642,11 +1807,11 @@ export const ParentDashboard = () => html`
     signOut(auth).then(() => {
       localStorage.removeItem('auth_user');
       sessionStorage.removeItem('auth_user');
-      window.location.href = '/auth';
+      window.location.href = 'auth.html';
     }).catch(() => {
       localStorage.removeItem('auth_user');
       sessionStorage.removeItem('auth_user');
-      window.location.href = '/auth';
+      window.location.href = 'auth.html';
     });
   };
 </script>

@@ -22,14 +22,40 @@ export const ActivityPage = () => html`
     margin: 0 auto;
   }
   .reading-container {
-    background: #fff;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-    padding: 2rem;
-    position: relative;
-    max-width: 900px;
-    margin: 0 auto 2rem auto;
-    text-align: center;
+    position: fixed;
+    inset: 0;
+    background: #111;
+    z-index: 99999;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .immersive-ui {
+    position: absolute;
+    top: 0; left: 0; width: 100%;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
+    z-index: 100;
+    transition: opacity 0.3s ease;
+  }
+  .immersive-footer {
+    position: absolute;
+    bottom: 0; left: 0; width: 100%;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+    z-index: 100;
+    transition: opacity 0.3s ease;
+  }
+  .immersive-hidden {
+    opacity: 0 !important;
+    pointer-events: none;
   }
   .pdf-viewer-container {
     width: 100%;
@@ -382,9 +408,42 @@ export const ActivityPage = () => html`
     user-select: none;
     height: 40px;
   }
+  .interactive-cell.today-cell {
+    background: rgba(214,54,120,0.05);
+  }
   .interactive-cell:hover {
     background: rgba(255,255,255,0.8);
     transform: scale(1.1);
+  }
+  /* Day header row */
+  .day-header-row th {
+    text-align: center;
+    font-size: 0.78rem;
+    font-weight: 800;
+    padding: 6px 4px;
+    color: #888;
+    border-bottom: 2px solid #f0e8dc;
+    position: sticky;
+    top: 0;
+    background: #fff9f2;
+    z-index: 2;
+  }
+  .day-col-header.today-col {
+    color: #D63678;
+    background: rgba(214,54,120,0.08) !important;
+    border-radius: 8px 8px 0 0;
+  }
+  .today-dot {
+    width: 6px; height: 6px;
+    background: #D63678;
+    border-radius: 50%;
+    margin: 3px auto 0;
+  }
+  /* Submit button locked style */
+  #saveProgressBtn:disabled {
+    background: #cbd5e1 !important;
+    color: #64748b !important;
+    cursor: not-allowed;
   }
   .parents-section {
     background: #3b82f6;
@@ -517,42 +576,49 @@ export const ActivityPage = () => html`
 <script src="/kidba_assets/js/pdf.min.js"></script>
 <div class="activity-page">
   <div class="container pb-3">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-      <a href="./student-activities" class="btn btn-outline-secondary rounded-pill"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+    <div class="mb-4 text-center position-relative hidden" id="mainHeader">
+      <div class="text-start mb-3">
+        <a href="./student-activities" class="btn btn-outline-secondary rounded-pill"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+      </div>
       <h2 style="font-family: 'Fredoka One', cursive; color: #ff6b6b; margin: 0;" id="pageTitleLoading">Loading...</h2>
-      <div style="width: 150px;"></div> <!-- Spacer -->
     </div>
 
-    <!-- Phase 1: Reading Phase -->
+    <!-- Phase 1: Reading Phase (Immersive) -->
     <div class="reading-container" id="readingContainer">
-      <div class="chapter-ribbon" style="background:#0ea5e9;">Reading Phase</div>
-      <h3 style="font-family: 'Fredoka One', cursive; color: #333; margin-top:30px;">Read the Chapter</h3>
-      <p class="text-muted mb-4 fs-5" id="pageRangeInstructions">Please read the pages below to complete this chapter. When you're done, click the button to start your activities.</p>
-      
-      <div class="flipbook-wrapper" id="flipbook-wrapper">
-        <div class="flipbook-zoom-shell" id="flipbook-zoom-shell">
-          <div class="flipbook-container" id="flipbook-container"></div>
+      <div class="immersive-ui" id="immersiveUi" style="justify-content: space-between;">
+        <button class="btn btn-dark bg-opacity-75 rounded-circle border-0" onclick="window.location.href='student-activities.html'" style="width: 45px; height: 45px; color:white; display:flex; align-items:center; justify-content:center; box-shadow: 0 2px 8px rgba(0,0,0,0.5);"><i class="fas fa-arrow-left"></i></button>
+        <div id="immersiveTitle" style="color: #fff; font-family: 'Fredoka One', cursive; font-size: 1.2rem; text-shadow: 0 2px 4px rgba(0,0,0,0.8); text-align: center;">Loading...</div>
+        <div style="width:45px;"></div>
+      </div>
+
+      <div class="flipbook-wrapper" id="flipbook-wrapper" style="width:100%; height:100%; margin:0; display:flex; align-items:center; justify-content:center; overflow:hidden;">
+        <div class="flipbook-zoom-shell" id="flipbook-zoom-shell" style="width:100%; height:100%; display:flex; align-items:center; justify-content:center;">
+          <div class="flipbook-container" id="flipbook-container" style="width:100%; height:100%;"></div>
         </div>
-        <div class="flipbook-nav" id="flipbook-nav" style="display:none;">
-          <button id="flipPrevBtn" title="Previous Page"><i class="fas fa-chevron-left"></i></button>
-          <span class="flipbook-page-indicator" id="flipPageIndicator">Page 1</span>
-          <button id="flipNextBtn" title="Next Page"><i class="fas fa-chevron-right"></i></button>
-          <button id="flipResetZoomBtn" class="zoom-reset-btn" title="Reset Zoom" disabled><i class="fas fa-search-minus"></i></button>
-        </div>
-        <div class="flipbook-hint" id="flipbook-hint"><i class="fas fa-hand-pointer"></i> Swipe to turn page • Pinch to zoom</div>
       </div>
       
-      <button class="save-btn" id="finishReadingBtn" style="background: #0ea5e9;">
-        I finished reading <i class="fas fa-arrow-right"></i>
-      </button>
+      <div class="immersive-footer" id="immersiveFooter" style="flex-direction:column; gap:8px; padding-bottom: calc(12px + env(safe-area-inset-bottom));">
+        <button id="finishReadingBtn" style="display:none; background:rgba(255,255,255,0.18); color:#fff; border:1.5px solid rgba(255,255,255,0.5); border-radius:999px; padding:7px 22px; font-size:0.85rem; font-weight:700; cursor:pointer; backdrop-filter:blur(8px); letter-spacing:0.3px; transition:all 0.2s;">
+          <i class="fas fa-check-circle" style="margin-right:6px; color:#4ade80;"></i>Done Reading — Start Activities
+        </button>
+        <div style="display:flex; align-items:center; gap:0;">
+          <button class="btn btn-dark bg-opacity-75 rounded-circle border-0 me-2" id="flipbookPrevBtn" style="width: 45px; height: 45px; color:white; display:flex; align-items:center; justify-content:center;"><i class="fas fa-chevron-left"></i></button>
+          <div id="flipPageIndicator" style="color:white; font-weight:bold; font-size:1.1rem; text-shadow: 0 2px 4px rgba(0,0,0,0.8); min-width: 80px; text-align: center;">Page 1</div>
+          <button class="btn btn-dark bg-opacity-75 rounded-circle border-0 ms-2" id="flipbookNextBtn" style="width: 45px; height: 45px; color:white; display:flex; align-items:center; justify-content:center;"><i class="fas fa-chevron-right"></i></button>
+        </div>
+      </div>
     </div>
 
     <!-- Phase 2: Activity Phase -->
     <div class="activity-container hidden" id="activityContainer">
       <div class="chapter-ribbon" id="chapRibbon">Loading...</div>
 
-      <div class="discussion-header">
-        DISCUSSION QUESTION <i class="fas fa-question-circle text-warning"></i>
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <button class="btn btn-light rounded-circle shadow-sm" onclick="window.location.href='student-activities.html'" style="width: 45px; height: 45px; display:flex; align-items:center; justify-content:center; color:#333;"><i class="fas fa-arrow-left"></i></button>
+        <div class="discussion-header m-0">
+          DISCUSSION QUESTION <i class="fas fa-question-circle text-warning"></i>
+        </div>
+        <div style="width:45px;"></div>
       </div>
       
       <p class="question-text" id="discussionQuestionText">Loading question...</p>
@@ -711,6 +777,8 @@ export const ActivityPage = () => html`
     
     // Populate Header
     titleEl.textContent = chapData.title;
+    const immTitle = document.getElementById('immersiveTitle');
+    if (immTitle) immTitle.textContent = chapData.title;
     ribbonEl.textContent = "Activities for " + currentChap.replace('chapter', 'Chapter ');
     discEl.textContent = chapData.discussionQuestion;
 
@@ -720,7 +788,9 @@ export const ActivityPage = () => html`
        pageInstructions.innerHTML = \`<strong>Required Reading: Page \${chapData.pageStart} to \${chapData.pageEnd}.</strong><br> Flip through the pages below. When you're done, click the button to start your activities.\`;
     }
 
-    const pdfFileUrl = '/' + currentBook + '.pdf';
+    const pdfFileUrl = bookData.pdfUrl && bookData.pdfUrl.includes('firebasestorage') 
+                       ? bookData.pdfUrl 
+                       : '/' + currentBook + '.pdf';
     const backupPdfUrl = bookData.pdfUrl || pdfFileUrl;
     const flipbookContainer = document.getElementById('flipbook-container');
     const flipbookNav = document.getElementById('flipbook-nav');
@@ -760,17 +830,21 @@ export const ActivityPage = () => html`
     }
 
     async function mountPdfReader(pdf, start, end) {
-      const wrapperWidth = document.getElementById('flipbook-wrapper').clientWidth || 800;
+      const wrapperWidth = document.getElementById('flipbook-wrapper').clientWidth || window.innerWidth;
+      const wrapperHeight = document.getElementById('flipbook-wrapper').clientHeight || window.innerHeight;
       const isMobile = window.innerWidth < 768;
-      const pageWidth = isMobile ? Math.min(wrapperWidth - 28, 380) : Math.min(wrapperWidth - 70, 760);
-      const pageHeight = Math.round(pageWidth * 1.33);
+      const aspect = 1.33;
+      let pageWidth = wrapperWidth - (isMobile ? 20 : 60);
+      let pageHeight = Math.round(pageWidth * aspect);
+      if (pageHeight > wrapperHeight - 40) {
+        pageHeight = wrapperHeight - 40;
+        pageWidth = Math.round(pageHeight / aspect);
+      }
       const totalPages = end - start + 1;
       const swipeThreshold = isMobile ? 42 : 56;
       const renderedPages = new Map();
       const readerStage = document.createElement('div');
       const readerPage = document.createElement('div');
-      const prevBtn = document.getElementById('flipPrevBtn');
-      const nextBtn = document.getElementById('flipNextBtn');
       const pageIndicator = document.getElementById('flipPageIndicator');
       let activePage = start;
       let renderingPage = false;
@@ -792,90 +866,163 @@ export const ActivityPage = () => html`
       flipbookContainer.style.visibility = 'visible';
       flipbookContainer.style.position = 'relative';
       flipbookContainer.appendChild(readerStage);
-      flipbookNav.style.display = 'flex';
-      if (flipbookHint) {
-        flipbookHint.innerHTML = '<i class="fas fa-hand-pointer"></i> Swipe or tap the arrows to turn the page';
+
+      const prevBtn = document.getElementById('flipbookPrevBtn');
+      const nextBtn = document.getElementById('flipbookNextBtn');
+      if (prevBtn) {
+        prevBtn.onclick = function(e) {
+          e.stopPropagation();
+          if (activePage > start) showPage(activePage - 1, -1);
+        };
+      }
+      if (nextBtn) {
+        nextBtn.onclick = function(e) {
+          e.stopPropagation();
+          if (activePage < end) showPage(activePage + 1, 1);
+        };
       }
 
       function updateNav() {
         const pageIndex = activePage - start + 1;
-        pageIndicator.textContent = 'Page ' + pageIndex + ' / ' + totalPages;
-        prevBtn.disabled = activePage <= start;
-        nextBtn.disabled = activePage >= end;
+        if (pageIndicator) pageIndicator.textContent = 'Page ' + pageIndex + ' / ' + totalPages;
+        // Show "Start Activities" only on the last page
+        const finishBtn = document.getElementById('finishReadingBtn');
+        if (finishBtn) {
+          finishBtn.style.display = (activePage >= end) ? 'block' : 'none';
+        }
       }
 
       function resetSwipePreview(animateBack) {
         swipeDeltaX = 0;
         if (animateBack) {
-          readerPage.style.transition = 'transform 200ms ease-out, opacity 200ms ease-out';
-          readerPage.style.transform = 'rotateY(0deg) scale(1)';
-          readerPage.style.opacity = '1';
+          readerPage.style.transition = 'transform 300ms ease-out';
+          readerPage.style.transform = 'perspective(1500px) rotateY(0deg)';
           window.setTimeout(function() {
             readerPage.style.transition = '';
-            readerStage.style.perspective = '';
-          }, 210);
+            readerPage.style.transformOrigin = 'center center';
+          }, 310);
           return;
         }
-
         readerPage.style.transition = '';
         readerPage.style.transform = '';
-        readerPage.style.opacity = '';
-        readerStage.style.perspective = '';
+        readerPage.style.transformOrigin = 'center center';
       }
 
       function applySwipeTurnPreview(deltaX) {
-        const progress = Math.max(-1, Math.min(1, deltaX / 250));
-        readerStage.style.perspective = '1500px';
         readerPage.style.transition = '';
-        readerPage.style.transformOrigin = 'center';
-        readerPage.style.transform = 'rotateY(' + (progress * 60) + 'deg) scale(' + (1 - Math.abs(progress) * 0.05) + ')';
-        readerPage.style.opacity = String(1 - Math.abs(progress) * 0.2);
+        let maxAngle = 90;
+        let angle = (deltaX / window.innerWidth) * 180;
+        
+        if (deltaX < 0) {
+            readerPage.style.transformOrigin = 'left center';
+            if (angle < -maxAngle) angle = -maxAngle;
+            readerPage.style.transform = 'perspective(1500px) rotateY(' + angle + 'deg)';
+        } else {
+            readerPage.style.transformOrigin = 'right center';
+            if (angle > maxAngle) angle = maxAngle;
+            readerPage.style.transform = 'perspective(1500px) rotateY(' + angle + 'deg)';
+        }
+      }
+
+      // ── Beautiful real-book page-curl overlay ──
+      var curlShadow = document.createElement('div');
+      curlShadow.style.cssText = [
+        'position:absolute', 'top:0', 'left:0', 'width:100%', 'height:100%',
+        'pointer-events:none', 'z-index:10', 'opacity:0', 'border-radius:inherit',
+        'will-change:opacity'
+      ].join(';');
+      readerPage.style.position = 'relative';
+      readerPage.style.overflow = 'hidden';
+      readerPage.style.willChange = 'transform';
+      readerPage.appendChild(curlShadow);
+
+      // Duration constants — slow & cinematic
+      var FLIP_OUT_MS  = 550;   // page curls away
+      var FLIP_IN_MS   = 650;   // new page unfurls
+      // Natural book easing: starts fast (page "caught" by finger), ends slow (settles flat)
+      var EASE_OUT = 'cubic-bezier(0.33, 0, 0.66, 0)';   // accelerate out
+      var EASE_IN  = 'cubic-bezier(0.12, 0.8, 0.3, 1)';  // decelerate in — satisfying snap
+
+      function setCurlShadow(direction, opacity, animated, duration) {
+        // Radial gradient gives a paper-curl hot-spot effect
+        var grad = direction > 0
+          ? 'linear-gradient(to left, rgba(0,0,0,0.42) 0%, rgba(0,0,0,0.18) 30%, transparent 65%)'
+          : 'linear-gradient(to right, rgba(0,0,0,0.42) 0%, rgba(0,0,0,0.18) 30%, transparent 65%)';
+        curlShadow.style.background = grad;
+        curlShadow.style.transition = animated
+          ? ('opacity ' + (duration || FLIP_OUT_MS) + 'ms ease')
+          : 'none';
+        curlShadow.style.opacity = String(opacity);
       }
 
       function animatePageTurnOut(direction) {
         if (!direction || !readerPage.firstChild) return Promise.resolve();
-
         return new Promise(function(resolve) {
-          readerStage.style.perspective = '1500px';
-          readerPage.style.transition = 'transform 250ms ease-in, opacity 250ms ease-in';
-          
+          var origin = direction > 0 ? 'left center' : 'right center';
+          // Only curl 80deg — never go fully flat (more realistic)
+          var angle  = direction > 0 ? -80 : 80;
+
+          setCurlShadow(direction, 0, false, 0);
+          readerPage.style.transformOrigin = origin;
+          readerPage.style.transition = 'none';
+
           requestAnimationFrame(function() {
-            readerPage.style.transformOrigin = 'center';
-            readerPage.style.transform = 'rotateY(' + (direction > 0 ? -90 : 90) + 'deg) scale(0.95)';
-            readerPage.style.opacity = '0';
+            // Phase 1: curl away — shadow builds up
+            readerPage.style.transition =
+              'transform ' + FLIP_OUT_MS + 'ms ' + EASE_OUT + ',' +
+              'box-shadow ' + FLIP_OUT_MS + 'ms ease';
+            readerPage.style.transform =
+              'perspective(900px) rotateY(' + angle + 'deg) scaleX(0.92)';
+            setCurlShadow(direction, 0.95, true, FLIP_OUT_MS);
           });
 
           window.setTimeout(function() {
+            setCurlShadow(direction, 0, false, 0);
             resolve();
-          }, 250);
+          }, FLIP_OUT_MS);
         });
       }
 
       function animatePageEntry(direction) {
+        setCurlShadow(direction || 1, 0, false, 0);
         if (!direction) {
           resetSwipePreview(false);
           return Promise.resolve();
         }
-
         return new Promise(function(resolve) {
+          var origin     = direction > 0 ? 'right center' : 'left center';
+          var startAngle = direction > 0 ? 80 : -80;
+
+          // Start: new page is curled (hidden at 80deg)
+          readerPage.style.transformOrigin = origin;
           readerPage.style.transition = 'none';
-          readerPage.style.transformOrigin = 'center';
-          readerPage.style.transform = 'rotateY(' + (direction > 0 ? 90 : -90) + 'deg) scale(0.95)';
-          readerPage.style.opacity = '0';
+          readerPage.style.transform =
+            'perspective(900px) rotateY(' + startAngle + 'deg) scaleX(0.92)';
+          setCurlShadow(direction, 0.9, false, 0);
 
           requestAnimationFrame(function() {
-            readerPage.style.transition = 'transform 300ms ease-out, opacity 300ms ease-out';
-            readerPage.style.transform = 'rotateY(0deg) scale(1)';
-            readerPage.style.opacity = '1';
+            requestAnimationFrame(function() {
+              // Phase 2: unfurl slowly — shadow fades — ends flat
+              readerPage.style.transition =
+                'transform ' + FLIP_IN_MS + 'ms ' + EASE_IN;
+              readerPage.style.transform =
+                'perspective(900px) rotateY(0deg) scaleX(1)';
+              setCurlShadow(direction, 0, true, FLIP_IN_MS);
+            });
           });
 
           window.setTimeout(function() {
-            readerPage.style.transition = '';
-            readerStage.style.perspective = '';
+            // Clean up: remove all inline transforms so CSS classes work normally
+            readerPage.style.transition   = '';
+            readerPage.style.transform    = '';
+            readerPage.style.transformOrigin = 'center center';
+            readerPage.style.willChange   = 'transform';
+            curlShadow.style.opacity      = '0';
             resolve();
-          }, 300);
+          }, FLIP_IN_MS + 30);
         });
       }
+
 
       async function showPage(pageNumber, direction) {
         if (renderingPage || transitioningPage || pageNumber < start || pageNumber > end) return false;
@@ -914,9 +1061,6 @@ export const ActivityPage = () => html`
         return true;
       }
 
-      prevBtn.onclick = function() { showPage(activePage - 1, -1); };
-      nextBtn.onclick = function() { showPage(activePage + 1, 1); };
-
       readerStage.addEventListener('touchstart', function(e) {
         if (readerGestureState.zoomScale > 1.01 || renderingPage || transitioningPage || e.touches.length !== 1) return;
         swipeStartX = e.touches[0].clientX;
@@ -948,10 +1092,32 @@ export const ActivityPage = () => html`
 
         const endTouch = e.changedTouches && e.changedTouches[0] ? e.changedTouches[0] : null;
         const deltaX = swipeDeltaX || (endTouch ? (endTouch.clientX - swipeStartX) : 0);
+        const deltaY = endTouch ? (endTouch.clientY - swipeStartY) : 0;
         const finalAxis = swipeAxis;
         swipeStartX = null;
         swipeStartY = null;
         swipeAxis = '';
+
+        // Tap Detection
+        if (Math.abs(deltaX) < 10 && Math.abs(deltaY) < 10) {
+          if (endTouch) {
+            const tapX = endTouch.clientX;
+            if (tapX < window.innerWidth * 0.25) {
+              if (activePage > start) showPage(activePage - 1, -1);
+              return;
+            } else if (tapX > window.innerWidth * 0.75) {
+              if (activePage < end) showPage(activePage + 1, 1);
+              return;
+            }
+          }
+          // Center Tap -> Toggle UI
+          const uiTop = document.getElementById('immersiveUi');
+          const uiBottom = document.getElementById('immersiveFooter');
+          if (uiTop) uiTop.classList.toggle('immersive-hidden');
+          if (uiBottom) uiBottom.classList.toggle('immersive-hidden');
+          resetSwipePreview(true);
+          return;
+        }
 
         if (finalAxis !== 'x' || Math.abs(deltaX) < swipeThreshold) {
           resetSwipePreview(true);
@@ -1215,15 +1381,27 @@ export const ActivityPage = () => html`
       flipbookContainer.innerHTML = buildReaderFallback('The PDF engine did not load correctly. Please refresh or open the PDF directly.');
     }
 
-    // Populate Table
-    let htmlContent = '';
+    // ── Day labels & header highlight ──────────────────────────────
+    const DAY_NAMES = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    const nowPkt = new Date(new Date().getTime() + (new Date().getTimezoneOffset() * 60000) + (3600000 * 5));
+    const jsDay = nowPkt.getDay();
+    const todayIdx = jsDay === 0 ? 6 : jsDay - 1; // 0=Mon...6=Sun
+
+    // Populate Table with styled headers
+    let htmlContent = '<tr class="day-header-row"><th class="question-cell"></th>' +
+      DAY_NAMES.map((d, i) =>
+        '<th class="day-col-header' + (i === todayIdx ? ' today-col' : '') + '" data-day-col="' + i + '">' + d + (i === todayIdx ? '<div class="today-dot"></div>' : '') + '</th>'
+      ).join('') + '</tr>';
+
     let rowIndex = 0;
     chapData.sections.forEach(section => {
       htmlContent += '<tr class="group-header"><td colspan="8">' + section.heading + '</td></tr>';
       section.questions.forEach(q => {
         htmlContent += '<tr>' +
           '<td class="question-cell">' + q + '</td>' +
-          [0,1,2,3,4,5,6].map(dayIdx => '<td class="interactive-cell" data-row="' + rowIndex + '" data-day="' + dayIdx + '"></td>').join('') +
+          [0,1,2,3,4,5,6].map(dayIdx =>
+            '<td class="interactive-cell' + (dayIdx === todayIdx ? ' today-cell' : '') + '" data-row="' + rowIndex + '" data-day="' + dayIdx + '"></td>'
+          ).join('') +
         '</tr>';
         rowIndex++;
       });
@@ -1238,49 +1416,144 @@ export const ActivityPage = () => html`
       const icons = {
         '': '',
         'yes': '<i class="fas fa-check-circle text-success animate__animated animate__bounceIn"></i>',
-        'no': '<i class="fas fa-times-circle text-danger animate__animated animate__bounceIn"></i>'
+        'no':  '<i class="fas fa-times-circle text-danger animate__animated animate__bounceIn"></i>'
+      };
+      const iconsStatic = {
+        '': '', 'yes': '<i class="fas fa-check-circle text-success"></i>', 'no': '<i class="fas fa-times-circle text-danger"></i>'
       };
 
-      // Get PKT Day (0=Mon...6=Sun)
-      const now = new Date();
-      const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
-      const pktDate = new Date(utc + (3600000 * 5));
-      const jsDay = pktDate.getDay();
-      const currentPktDayIndex = jsDay === 0 ? 6 : jsDay - 1;
+      // ── Auto-day-save: draft key per chapter+day ──
+      const draftKey = (uid, chapId, dayIdx) => 'draft_' + uid + '_' + chapId + '_d' + dayIdx;
+
+      function checkAllDaysFilled() {
+        // For each of the 7 days, check if at least 1 cell has yes/no
+        let filledDays = 0;
+        for (let d = 0; d < 7; d++) {
+          const dayCells = document.querySelectorAll('.interactive-cell[data-day="' + d + '"]');
+          let dayHasAnswer = false;
+          dayCells.forEach(c => { if (parseInt(c.dataset.stateIndex) > 0) dayHasAnswer = true; });
+          if (dayHasAnswer) filledDays++;
+        }
+        const saveBtn = document.getElementById('saveProgressBtn');
+        if (saveBtn) {
+          if (filledDays >= 7) {
+            saveBtn.disabled = false;
+            saveBtn.style.opacity = '1';
+            saveBtn.style.pointerEvents = '';
+            saveBtn.innerHTML = '<i class="fas fa-save"></i> Submit for Review (All 7 Days Done ✓)';
+          } else {
+            saveBtn.disabled = true;
+            saveBtn.style.opacity = '0.45';
+            saveBtn.style.pointerEvents = 'none';
+            saveBtn.innerHTML = '<i class="fas fa-lock"></i> Fill All 7 Days to Submit (' + filledDays + '/7)';
+          }
+        }
+      }
+
+      async function autosaveDraft(dayIdx) {
+        if (!currentUser) return;
+        const dayCells = document.querySelectorAll('.interactive-cell[data-day="' + dayIdx + '"]');
+        const dayData = [];
+        dayCells.forEach(c => dayData.push(parseInt(c.dataset.stateIndex) || 0));
+        const parentNote = document.getElementById('parentNote_' + dayIdx);
+        const noteVal = parentNote ? parentNote.value : '';
+        const key = draftKey(currentUser.uid, chapterId, dayIdx);
+        try {
+          await setDoc(doc(db, 'activity_drafts', key), {
+            student_uid: currentUser.uid,
+            chapter_id: chapterId,
+            book_id: currentBook,
+            day_index: dayIdx,
+            cells: dayData,
+            parentNote: noteVal,
+            savedAt: new Date().toISOString()
+          }, { merge: true });
+        } catch(e) { console.warn('Draft save failed', e); }
+      }
+
+      // ── Style: today column bright, past columns tinted, future locked ──
+      const isIndividual = currentUser && currentUser.role === 'individual';
 
       document.querySelectorAll('.interactive-cell').forEach(cell => {
-        cell.dataset.stateIndex = "0";
-        
+        cell.dataset.stateIndex = '0';
         const cellDay = parseInt(cell.dataset.day);
-        if (cellDay !== currentPktDayIndex) {
-          cell.style.opacity = '0.35';
+
+        if (isIndividual || cellDay === todayIdx) {
+          // INDIVIDUAL or TODAY — fully interactive
+          cell.style.background = (cellDay === todayIdx) ? 'rgba(214,54,120,0.06)' : 'rgba(240,240,240,0.3)';
+          cell.style.opacity = '1';
+          cell.style.pointerEvents = 'auto';
+          if (isIndividual && cellDay !== todayIdx) cell.title = 'Available (Independent Learner)';
+        } else if (cellDay < todayIdx) {
+          // PAST — show saved data but lock new input
+          cell.style.background = '#f8f9fa';
+          cell.style.opacity = '0.7';
           cell.style.pointerEvents = 'none';
-          cell.title = 'Available only on the designated day.';
+          cell.title = 'Already saved';
+        } else {
+          // FUTURE — fully locked
+          cell.style.opacity = '0.25';
+          cell.style.pointerEvents = 'none';
+          cell.title = 'Available on ' + ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'][cellDay];
         }
 
-        cell.addEventListener('click', function() {
-          let currentIdx = parseInt(this.dataset.stateIndex);
-          let nextIdx = (currentIdx + 1) % 3;
-          this.dataset.stateIndex = nextIdx.toString();
-          let newState = states[nextIdx];
-          this.innerHTML = icons[newState];
-          
-          if(newState !== '') {
-            this.style.transform = 'scale(1.2)';
-            setTimeout(() => this.style.transform = '', 200);
-          }
-        });
+        if (isIndividual || cellDay === todayIdx) {
+          cell.addEventListener('click', function() {
+            let currentIdx = parseInt(this.dataset.stateIndex);
+            let nextIdx = (currentIdx + 1) % 3;
+            this.dataset.stateIndex = nextIdx.toString();
+            this.innerHTML = icons[states[nextIdx]];
+            if (nextIdx !== 0) {
+              this.style.transform = 'scale(1.2)';
+              setTimeout(() => this.style.transform = '', 200);
+            }
+            checkAllDaysFilled();
+            // Debounced autosave
+            clearTimeout(cell._saveTimer);
+            cell._saveTimer = setTimeout(() => autosaveDraft(cellDay), 1200);
+          });
+        }
       });
 
-        // Disable parent inputs for inactive days
-        document.querySelectorAll('.parent-input').forEach((input, idx) => {
-          if (idx !== currentPktDayIndex) {
+      // ── Parent notes: lock non-today rows ──
+      document.querySelectorAll('.parent-input').forEach((input, idx) => {
+        if (!isIndividual && idx !== todayIdx) {
+          if (idx < todayIdx) {
             input.disabled = true;
-            input.style.opacity = '0.5';
-            input.placeholder = 'Locked for today';
+            input.style.background = '#f8f9fa';
+            input.style.opacity = '0.7';
+            input.placeholder = 'Saved';
+          } else {
+            input.disabled = true;
+            input.style.opacity = '0.3';
+            input.placeholder = 'Locked';
           }
-        });
-      }
+        } else {
+          input.disabled = false;
+          input.style.opacity = '1';
+          input.addEventListener('input', () => {
+            clearTimeout(input._saveTimer);
+            input._saveTimer = setTimeout(() => autosaveDraft(idx), 1500);
+          });
+        }
+      });
+
+      // ── Auto-scroll table to today's column ──
+      setTimeout(() => {
+        const todayHeader = document.querySelector('.day-col-header[data-day-col="' + todayIdx + '"]');
+        const tableWrapper = document.querySelector('.activity-table-wrapper');
+        if (todayHeader && tableWrapper) {
+          const headerLeft = todayHeader.offsetLeft;
+          const wrapperWidth = tableWrapper.clientWidth;
+          tableWrapper.scrollLeft = Math.max(0, headerLeft - (wrapperWidth * 0.3));
+        }
+        // Also scroll page to table
+        const tableEl = document.querySelector('.activity-table-wrapper');
+        if (tableEl) tableEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 400);
+
+      checkAllDaysFilled();
+    }
 
     // CHECK FOR EXISTING SUBMISSION from Firebase
     const submissionId = currentUser ? (currentUser.uid + '_' + chapterId) : null;
@@ -1295,9 +1568,60 @@ export const ActivityPage = () => html`
       } catch(e) { console.error("Error fetching submission", e); }
     }
 
+    // \u2500\u2500 Load existing day drafts (if no final submission yet) \u2500\u2500
+    if (!existingSub && currentUser) {
+      try {
+        const iconListD = {
+          0: '', 1: '<i class="fas fa-check-circle text-success"></i>', 2: '<i class="fas fa-times-circle text-danger"></i>'
+        };
+        for (let d = 0; d < 7; d++) {
+          const dKey = 'draft_' + currentUser.uid + '_' + chapterId + '_d' + d;
+          const dSnap = await getDoc(doc(db, 'activity_drafts', dKey));
+          if (dSnap.exists()) {
+            const dData = dSnap.data();
+            if (dData.cells) {
+              const dayCells = document.querySelectorAll('.interactive-cell[data-day="' + d + '"]');
+              dData.cells.forEach((stIdx, ci) => {
+                if (dayCells[ci]) {
+                  dayCells[ci].dataset.stateIndex = String(stIdx);
+                  dayCells[ci].innerHTML = iconListD[stIdx] || '';
+                }
+              });
+            }
+            if (dData.parentNote !== undefined) {
+              const pInput = document.getElementById('parentNote_' + d);
+              if (pInput) pInput.value = dData.parentNote;
+            }
+          }
+        }
+        // Re-check submit button after loading drafts
+        const allCells7 = document.querySelectorAll('.interactive-cell');
+        const checkFilled = () => {
+          let filled = 0;
+          for (let d = 0; d < 7; d++) {
+            const dc = document.querySelectorAll('.interactive-cell[data-day="' + d + '"]');
+            let has = false;
+            dc.forEach(c => { if (parseInt(c.dataset.stateIndex) > 0) has = true; });
+            if (has) filled++;
+          }
+          const sb = document.getElementById('saveProgressBtn');
+          if (sb) {
+            sb.disabled = filled < 7;
+            sb.style.opacity = filled < 7 ? '0.45' : '1';
+            sb.style.pointerEvents = filled < 7 ? 'none' : '';
+            sb.innerHTML = filled < 7
+              ? '<i class="fas fa-lock"></i> Fill All 7 Days to Submit (' + filled + '/7)'
+              : '<i class="fas fa-save"></i> Submit for Review (All 7 Days Done \u2713)';
+          }
+        };
+        checkFilled();
+      } catch(e) { console.warn('Draft load error', e); }
+    }
+
     await recordAttendance(existingSub ? 'revisit' : 'started', {
       existingSubmission: !!existingSub
     });
+
     
     if (existingSub) {
       // Pre-fill text
@@ -1347,9 +1671,12 @@ export const ActivityPage = () => html`
 
     // Phase Transition Logic
     document.getElementById('finishReadingBtn').addEventListener('click', () => {
-      document.getElementById('readingContainer').classList.add('animate__animated', 'animate__fadeOutUp');
+      document.getElementById('readingContainer').classList.add('animate__animated', 'animate__fadeOut');
       setTimeout(() => {
         document.getElementById('readingContainer').classList.add('hidden');
+        document.getElementById('readingContainer').classList.remove('reading-container');
+        document.getElementById('mainHeader').classList.remove('hidden');
+        document.getElementById('mainHeader').classList.add('animate__animated', 'animate__fadeIn');
         document.getElementById('activityContainer').classList.remove('hidden');
         document.getElementById('activityContainer').classList.add('animate__animated', 'animate__fadeInUp');
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1638,5 +1965,17 @@ export const ActivityPage = () => html`
     });
 
   }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+      const isCap = window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform();
+      if (isCap && window.Capacitor.Plugins && window.Capacitor.Plugins.App) {
+        window.Capacitor.Plugins.App.removeAllListeners('backButton');
+        window.Capacitor.Plugins.App.addListener('backButton', () => {
+          window.location.href = 'student-activities.html';
+        });
+      }
+    }, 1000);
+  });
 </script>
 `

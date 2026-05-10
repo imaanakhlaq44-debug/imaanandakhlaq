@@ -42,7 +42,6 @@ import { ParentDashboard } from './components/ParentDashboard'
 import { TeacherDashboard } from './components/TeacherDashboard'
 import { SchoolAdminDashboard } from './components/SchoolAdminDashboard'
 import { AuthPage } from './components/AuthPage'
-import { DemoSwitcher } from './components/DemoSwitcher'
 import { SuperAdminDashboard } from './components/SuperAdminDashboard'
 import { NotFoundPage } from './components/NotFoundPage'
 

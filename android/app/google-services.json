@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "373650938167",
+    "project_id": "imaan-app-1d2da",
+    "storage_bucket": "imaan-app-1d2da.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:373650938167:android:e3d120897e7241820d22b2",
+        "android_client_info": {
+          "package_name": "com.imaanakhlaq.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "373650938167-tqhaqlg7cso84k1n25o8c7gbkhsr67o3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCHqaBbQWWYu2OOrOEpvjn94jvOYvqyWiw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "373650938167-tqhaqlg7cso84k1n25o8c7gbkhsr67o3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

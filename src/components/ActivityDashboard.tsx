@@ -74,10 +74,11 @@ export const ActivityDashboard = () => html`
     flex: 1 1 auto;
   }
   .sidebar-profile-cluster .sidebar-brand-art {
-    width: 44px;
-    height: 44px;
-    flex: 0 0 44px;
-    border-radius: 12px;
+    width: 48px;
+    height: 48px;
+    flex: 0 0 48px;
+    border-radius: 50%;
+    border-width: 2px;
   }
   .sidebar-name-block {
     display: flex;
@@ -215,41 +216,51 @@ export const ActivityDashboard = () => html`
   }
 
   .sidebar-brand-art {
-    width: 58px;
-    height: 58px;
-    flex: 0 0 58px;
-    border-radius: 16px;
-    overflow: hidden;
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.16);
-    box-shadow: 0 14px 24px rgba(7,17,29,0.22);
+    width: 64px;
+    height: 64px;
+    flex: 0 0 64px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+    border: 3px solid rgba(255,255,255,0.8);
+    box-shadow: 0 10px 24px rgba(7,17,29,0.3);
     position: relative;
     cursor: pointer;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
   }
-
+  .sidebar-brand-art:hover {
+    transform: scale(1.05);
+    box-shadow: 0 14px 28px rgba(7,17,29,0.4);
+    border-color: #ffffff;
+  }
   .sidebar-brand-art img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    border-radius: 50%;
   }
 
   .sidebar-brand-art .sidebar-cam-badge {
     position: absolute;
-    bottom: 2px;
-    right: 2px;
-    background: #D63678;
+    bottom: -2px;
+    right: -2px;
+    background: #ffffff;
     border-radius: 50%;
-    width: 18px;
-    height: 18px;
+    width: 24px;
+    height: 24px;
     display: flex;
     align-items: center;
     justify-content: center;
     pointer-events: none;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+    border: 1px solid #e2e8f0;
+    transition: background 0.2s;
   }
-
+  .sidebar-brand-art:hover .sidebar-cam-badge {
+    background: #f8fafc;
+  }
   .sidebar-brand-art .sidebar-cam-badge i {
-    color: #fff;
-    font-size: 8px;
+    color: #29416d;
+    font-size: 11px;
   }
 
   .workspace-art {
@@ -1755,6 +1766,63 @@ export const ActivityDashboard = () => html`
     border-radius: 8px;
   }
 
+  .mobile-bottom-actions {
+    display: none;
+  }
+  @media (max-width: 760px) {
+    .sidebar-chip-actions {
+      display: none !important;
+    }
+    body .student-page .sidebar-nav {
+      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+    .student-page .sidebar-nav li[data-section="books"],
+    .student-page .sidebar-nav li[data-section="progress"] {
+      display: none !important;
+    }
+    .dashboard-main {
+      padding-bottom: 74px !important;
+    }
+    .mobile-bottom-actions {
+      display: flex;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #ffffff;
+      border-top: 1px solid rgba(0,0,0,0.06);
+      box-shadow: 0 -4px 12px rgba(30,45,90,0.08);
+      z-index: 1000;
+      justify-content: space-around;
+      align-items: center;
+      padding: 10px 10px calc(10px + env(safe-area-inset-bottom)) 10px;
+    }
+    .mobile-action-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      background: transparent;
+      border: none;
+      color: #64748b;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .mobile-action-btn i {
+      font-size: 18px;
+      color: #1e293b;
+      margin-bottom: 2px;
+      padding: 6px;
+      border-radius: 10px;
+      background: #f1f5f9;
+    }
+    .mobile-action-btn.logout i {
+      color: #ffffff;
+      background: #dc2626;
+    }
+  }
+
 </style>
 
 <div class="student-page">
@@ -1763,7 +1831,7 @@ export const ActivityDashboard = () => html`
       <div class="sidebar-brand sidebar-brand-v2">
         <div class="sidebar-profile-cluster">
           <div class="sidebar-brand-art" id="sidebarAvatarClickArea" title="Click to change photo" role="button" tabindex="0" style="position:relative; cursor:pointer; overflow:visible;">
-            <img id="sidebarProfilePhoto" src="/kidba_assets/img/3d_student.png" alt="Student profile" style="border-radius:16px; width:100%; height:100%; object-fit:cover;">
+            <img id="sidebarProfilePhoto" src="/kidba_assets/img/3d_student.png" alt="Student profile" style="border-radius:50%; width:100%; height:100%; object-fit:cover;">
             <div class="sidebar-cam-badge"><i class="fas fa-camera"></i></div>
           </div>
           <div class="sidebar-name-block">
@@ -1772,14 +1840,12 @@ export const ActivityDashboard = () => html`
         </div>
 
         <div class="sidebar-school-chip">
-          <div class="sidebar-school-art" id="schoolLogoClickArea" title="Click to change school logo" role="button" tabindex="0" style="position:relative; cursor:pointer; overflow:visible;">
+          <div class="sidebar-school-art" style="position:relative; overflow:hidden;">
             <img id="schoolLogoImg" src="/kidba_assets/img/3d_school.png" alt="School logo" style="border-radius:10px; width:100%; height:100%; object-fit:cover;">
-            <div class="sidebar-school-cam-badge"><i class="fas fa-camera"></i></div>
           </div>
           <span class="sidebar-school-name" id="studentWelcomeName">School</span>
           <div class="sidebar-chip-actions">
-            <button class="sidebar-icon-btn home" type="button" onclick="window.location.href='/'" title="Home" aria-label="Home"><i class="fas fa-house"></i></button>
-            <button class="sidebar-icon-btn back" type="button" onclick="window.history.back()" title="Back" aria-label="Back"><i class="fas fa-arrow-left"></i></button>
+            <button class="sidebar-icon-btn home" type="button" onclick="window.location.href='auth.html'" title="Home" aria-label="Home"><i class="fas fa-house"></i></button>
             <button class="sidebar-icon-btn refresh" type="button" onclick="window.location.reload()" title="Refresh" aria-label="Refresh"><i class="fas fa-sync-alt"></i></button>
             <button class="sidebar-icon-btn logout" type="button" onclick="logoutStudent()" title="Logout" aria-label="Logout"><i class="fas fa-sign-out-alt"></i></button>
           </div>
@@ -1856,7 +1922,7 @@ export const ActivityDashboard = () => html`
               <h3 id="currentBookTitle">Choose a Book</h3>
               <p id="currentBookSubtitle">Select a title to open its chapters and continue your learning journey.</p>
             </div>
-            <button class="dashboard-ghost-btn d-none" id="backToBooksBtn" type="button"><i class="fas fa-arrow-left"></i><span>Back to Books</span></button>
+            <button class="dashboard-ghost-btn d-none" id="backToBooksBtn" type="button" style="display: none !important;"><i class="fas fa-arrow-left"></i><span>Back to Books</span></button>
           </div>
 
           <div id="activitiesRoot" class="catalog-grid">
@@ -1943,6 +2009,29 @@ export const ActivityDashboard = () => html`
         <button class="dashboard-ghost-btn" type="button" onclick="location.reload()"><i class="fas fa-rotate-right"></i><span>Try Again</span></button>
       </div>
     </div>
+    
+    <div class="mobile-bottom-actions">
+      <button class="mobile-action-btn" type="button" onclick="window.location.href='auth.html'">
+        <i class="fas fa-house"></i>
+        <span>Home</span>
+      </button>
+      <button class="mobile-action-btn" type="button" onclick="window.switchStudentSection('books', false)">
+        <i class="fas fa-book-open"></i>
+        <span>Books</span>
+      </button>
+      <button class="mobile-action-btn" type="button" onclick="window.switchStudentSection('progress', false)">
+        <i class="fas fa-star"></i>
+        <span>Progress</span>
+      </button>
+      <button class="mobile-action-btn" type="button" onclick="window.location.reload()">
+        <i class="fas fa-sync-alt"></i>
+        <span>Refresh</span>
+      </button>
+      <button class="mobile-action-btn logout" type="button" onclick="window.logoutStudent()">
+        <i class="fas fa-sign-out-alt"></i>
+        <span>Logout</span>
+      </button>
+    </div>
   </div>
 </div>
 
@@ -2007,13 +2096,6 @@ export const ActivityDashboard = () => html`
   const currentBookSubtitle = document.getElementById('currentBookSubtitle');
 
   const backToBooksBtn = document.getElementById('backToBooksBtn');
-
-  // School logo file input
-  const schoolLogoFileInput = document.createElement('input');
-  schoolLogoFileInput.type = 'file';
-  schoolLogoFileInput.accept = 'image/*';
-  schoolLogoFileInput.hidden = true;
-  document.body.appendChild(schoolLogoFileInput);
 
   let apiData = {};
   let currentStudent = null;
@@ -2102,6 +2184,13 @@ export const ActivityDashboard = () => html`
     const schoolNameText = currentStudent.school_name || (isIndividual ? 'Imaan & Akhlaq Academy' : 'Your School');
     studentWelcomeName.textContent = schoolNameText;
     
+    // Load saved school logo if any
+    const savedSchoolLogo = currentStudent.school_logo_url || null;
+    const schoolLogoImg = document.getElementById('schoolLogoImg');
+    if (savedSchoolLogo && schoolLogoImg) {
+      schoolLogoImg.src = savedSchoolLogo;
+    }
+
     if (studentProfileLabel) studentProfileLabel.textContent = studentName;
     if (studentProfileMeta) studentProfileMeta.textContent = classLabel;
     if (studentProfilePreview) {
@@ -2126,12 +2215,6 @@ export const ActivityDashboard = () => html`
       studentJourneyNote.textContent = isIndividual
         ? 'Independent learner mode is active. Complete tasks to unlock your next chapter.'
         : 'Track your books, unlock chapters and keep your progress moving.';
-    }
-
-    // Load saved school logo if any
-    const savedSchoolLogo = currentStudent.school_logo_url || (currentStudent.school_id ? null : null);
-    if (savedSchoolLogo && schoolLogoImg) {
-      schoolLogoImg.src = savedSchoolLogo;
     }
   }
 
@@ -2244,7 +2327,7 @@ export const ActivityDashboard = () => html`
   let _rankingCache = null;
   async function fetchRankingData() {
     if (_rankingCache) return _rankingCache;
-    const { collection, query, where, orderBy, limit, getDocs } = await import('firebase/firestore');
+    const { collection, query, where, orderBy, limit, getDocs } = await import('https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js');
     const usersRef = collection(db, 'users');
     const qS = query(usersRef, where('role', '==', 'student'), orderBy('game_state.points', 'desc'), limit(30));
     const qI = query(usersRef, where('role', '==', 'individual'), orderBy('game_state.points', 'desc'), limit(30));
@@ -2520,7 +2603,7 @@ export const ActivityDashboard = () => html`
 
       if (isUnlocked) {
         makeInteractiveCard(card, () => {
-          window.location.href = '/activity?book=' + item.bId + '&chapter=' + item.cId;
+          window.location.href = 'activity.html?book=' + item.bId + '&chapter=' + item.cId;
         });
 
         if (isTeacherApproved) {
@@ -2681,41 +2764,6 @@ export const ActivityDashboard = () => html`
     });
   }
 
-  // School logo click to change
-  if (schoolLogoClickArea) {
-    schoolLogoClickArea.addEventListener('click', () => schoolLogoFileInput.click());
-    schoolLogoClickArea.addEventListener('keydown', (event) => {
-      if (event.key === 'Enter' || event.key === ' ') {
-        event.preventDefault();
-        schoolLogoFileInput.click();
-      }
-    });
-  }
-
-  schoolLogoFileInput.addEventListener('change', async (event) => {
-    const input = event.target;
-    if (!input.files || !input.files[0] || !currentStudent) return;
-    const file = input.files[0];
-    if (!file.type.startsWith('image/')) { alert('Please select an image file.'); return; }
-    if (file.size > 5 * 1024 * 1024) { alert('Please choose an image smaller than 5 MB.'); return; }
-
-    try {
-      const extension = (file.name.split('.').pop() || 'jpg').toLowerCase();
-      const scope = currentStudent.school_id ? 'schools/' + currentStudent.school_id : 'independent/' + currentStudent.uid;
-      const storageRef = ref(storage, scope + '/school-logo-' + Date.now() + '.' + extension);
-      await uploadBytes(storageRef, file);
-      const downloadURL = await getDownloadURL(storageRef);
-      if (schoolLogoImg) schoolLogoImg.src = downloadURL;
-      // Save to user doc
-      await updateDoc(doc(db, 'users', currentStudent.uid), { school_logo_url: downloadURL });
-      currentStudent.school_logo_url = downloadURL;
-    } catch (err) {
-      console.error('School logo upload error:', err);
-      alert('There was an issue uploading the school logo.');
-    }
-    input.value = '';
-  });
-
   window.unlockNext = async (num) => {
     if (!currentStudent) return;
 
@@ -2741,20 +2789,37 @@ export const ActivityDashboard = () => html`
     }
   };
 
+  let hasInitializedDashboard = false;
+
   onAuthStateChanged(auth, async (user) => {
+    // CRITICAL: never re-run on back-navigation. Firebase re-emits on every
+    // WebView resume — we must ignore all calls after the first successful init.
+    if (hasInitializedDashboard) return;
+
     if (!user) {
       // Don't show "login required" instantly — Firebase can briefly emit
-      // null during token refresh or storage partitioning. Wait up to 6s
-      // for the session to restore before redirecting.
+      // null during token refresh, WebView resume, or back-navigation.
+      // On Capacitor/Android wait up to 12s (WebView needs more time).
       const stored = (function () {
         try { return localStorage.getItem('auth_user') || sessionStorage.getItem('auth_user'); } catch (e) { return null; }
       })();
+      const isCap = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
+      const maxAttempts = isCap ? 12 : 6;
       if (stored) {
+        document.body.insertAdjacentHTML('beforeend', \`
+          <div id="authWaitOverlay" style="position:fixed; inset:0; background:rgba(30, 45, 90, 0.95); display:flex; flex-direction:column; justify-content:center; align-items:center; z-index:99999;">
+             <i class="fas fa-spinner fa-spin" style="font-size:3rem; color:#E08020; margin-bottom:20px;"></i>
+             <h3 style="font-family:'Fredoka One', cursive; color:#ffffff;">Restoring Session...</h3>
+             <p style="color:#cbd5e1;">Please wait</p>
+          </div>
+        \`);
         let restored = false;
-        for (let attempt = 0; attempt < 6; attempt++) {
+        for (let attempt = 0; attempt < maxAttempts; attempt++) {
           await new Promise(function (r) { setTimeout(r, 1000); });
           if (auth.currentUser) { restored = true; break; }
         }
+        const waitOverlay = document.getElementById('authWaitOverlay');
+        if (waitOverlay) waitOverlay.remove();
         if (restored) return; // a fresh onAuthStateChanged with the user will fire
       }
       showAccessOverlay('Authentication Required', 'You must be logged in as a Student to view this page with real data.');
@@ -2762,6 +2827,11 @@ export const ActivityDashboard = () => html`
     }
 
     try {
+      const waitOverlay = document.getElementById('authWaitOverlay');
+      if (waitOverlay) waitOverlay.remove();
+      const demoOverlay = document.getElementById('demoOverlay');
+      if (demoOverlay) demoOverlay.remove();
+      
       const userDocRef = doc(db, 'users', user.uid);
       const userSnap = await getDoc(userDocRef);
 
@@ -2838,6 +2908,7 @@ export const ActivityDashboard = () => html`
       loadChampionsBoard();
       hydrateStudentHeader();
       studentDashboardView.classList.remove('d-none');
+      hasInitializedDashboard = true;
       await fetchActivitiesData();
       window.switchStudentSection(currentStudentSection, false);
     } catch (err) {
@@ -2850,12 +2921,306 @@ export const ActivityDashboard = () => html`
     signOut(auth).then(() => {
       localStorage.removeItem('auth_user');
       sessionStorage.removeItem('auth_user');
-      window.location.href = '/auth';
+      window.location.href = 'auth.html';
     }).catch(() => {
       localStorage.removeItem('auth_user');
       sessionStorage.removeItem('auth_user');
-      window.location.href = '/auth';
+      window.location.href = 'auth.html';
     });
   };
+
+  // ── Refresh game_state silently when student returns from /activity ─────────
+  // hasInitializedDashboard stays true so onAuthStateChanged won't re-run.
+  // We manually re-fetch so chapters/points reflect the just-completed activity.
+  async function refreshGameStateFromFirestore() {
+    if (!currentStudent || !auth.currentUser) return;
+    try {
+      const freshSnap = await getDoc(doc(db, 'users', currentStudent.uid));
+      if (!freshSnap.exists()) return;
+      const freshData = freshSnap.data();
+      if (!freshData.game_state) return;
+      const newGs = freshData.game_state;
+      const changed =
+        (newGs.points || 0) !== (gameState.points || 0) ||
+        (newGs.unlockedCount || 1) !== (gameState.unlockedCount || 1) ||
+        JSON.stringify(newGs.completed || []) !== JSON.stringify(gameState.completed || []) ||
+        JSON.stringify(newGs.teacher_approved || []) !== JSON.stringify(gameState.teacher_approved || []) ||
+        JSON.stringify(newGs.parent_approved || []) !== JSON.stringify(gameState.parent_approved || []);
+      if (!changed) return;
+      gameState = newGs;
+      currentStudent.game_state = gameState;
+      updateDashboardMetrics();
+      if (typeof hydrateStudentHeader === 'function') hydrateStudentHeader();
+      if (currentBookContext) {
+        showChapters(currentBookContext.bookId, currentBookContext.bookTitle);
+      } else {
+        if (typeof renderBooks === 'function') renderBooks();
+      }
+      console.log('[Dashboard] game_state refreshed after returning from activity.');
+    } catch (e) {
+      console.warn('[Dashboard] Silent refresh failed:', e);
+    }
+  }
+
+  // pageshow fires when bfcache restores the page (Android back button)
+  window.addEventListener('pageshow', (event) => {
+    if (event.persisted) refreshGameStateFromFirestore();
+  });
+
+  // visibilitychange fires when app resumes from background
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') refreshGameStateFromFirestore();
+  });
+
+  // ── Back button handler (Capacitor) ──────────────────────────────────────────
+  document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+      const isCap = window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform();
+      if (isCap && window.Capacitor.Plugins && window.Capacitor.Plugins.App) {
+        window.Capacitor.Plugins.App.removeAllListeners('backButton').then(() => {
+          window.Capacitor.Plugins.App.addListener('backButton', () => {
+            if (currentBookContext) {
+              currentBookContext = null;
+              renderBooks();
+            } else if (currentStudentSection !== 'overview') {
+              window.switchStudentSection('overview', false);
+            } else {
+              if (window.Capacitor.Plugins.App.minimizeApp) {
+                window.Capacitor.Plugins.App.minimizeApp();
+              } else {
+                window.Capacitor.Plugins.App.exitApp();
+              }
+            }
+          });
+        });
+      }
+    }, 1200);
+  });
+
+  // User's custom Book Accordion design
+  (function(){
+    if (window.__apkBookAccordionInit) return;
+    window.__apkBookAccordionInit = true;
+  
+    function isBooksView(root){
+      var items = root.querySelectorAll(':scope > .library-item');
+      if (!items.length) return false;
+      for (var i = 0; i < items.length; i++){
+        var img = items[i].querySelector('.library-cover img');
+        if (img && /\\/covers\\//.test(img.getAttribute('src') || '')) return true;
+      }
+      return false;
+    }
+  
+    function shortLabel(text, idx){
+      var t = (text || '').trim();
+      var m = t.match(/Book\\s*\\d+/i);
+      return m ? m[0] : 'Book ' + (idx + 1);
+    }
+  
+    function transformBooks(root){
+      var items = Array.prototype.slice.call(root.querySelectorAll(':scope > .library-item'));
+      if (!items.length) return;
+      root.dataset.apkAccordion = '1';
+      root.classList.add('apk-book-accordion');
+  
+      var frag = document.createDocumentFragment();
+      items.forEach(function(card, idx){
+        var titleEl = card.querySelector('.library-title');
+        var label = shortLabel(titleEl ? titleEl.textContent : '', idx);
+  
+        var wrap = document.createElement('div');
+        wrap.className = 'apk-book-row';
+  
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'apk-book-btn';
+        btn.setAttribute('aria-expanded', 'false');
+        btn.innerHTML = '<span class="apk-book-num">' + (idx + 1) + '</span>'
+          + '<span class="apk-book-label">' + label + '</span>'
+          + '<i class="fas fa-chevron-down apk-book-caret"></i>';
+  
+        var panel = document.createElement('div');
+        panel.className = 'apk-book-panel';
+        panel.appendChild(card);
+  
+        btn.addEventListener('click', function(){
+          var open = wrap.classList.toggle('open');
+          btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        });
+  
+        wrap.appendChild(btn);
+        wrap.appendChild(panel);
+        frag.appendChild(wrap);
+      });
+  
+      // Clear leftover children (none expected since all items moved) and append
+      while (root.firstChild) root.removeChild(root.firstChild);
+      root.appendChild(frag);
+    }
+  
+    function check(){
+      var root = document.getElementById('activitiesRoot');
+      if (!root) return;
+      var hasAccordion = root.querySelector(':scope > .apk-book-row') !== null;
+      if (hasAccordion) return;
+      root.dataset.apkAccordion = '';
+      root.classList.remove('apk-book-accordion');
+      if (isBooksView(root)) transformBooks(root);
+    }
+  
+    function init(){
+      check();
+      var root = document.getElementById('activitiesRoot');
+      if (!root) return;
+      var pending = false;
+      var obs = new MutationObserver(function(){
+        if (pending) return;
+        pending = true;
+        setTimeout(function(){ pending = false; check(); }, 0);
+      });
+      obs.observe(root, { childList: true });
+    }
+  
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+  })();
+
 </script>
+
+<style>
+  @media (max-width: 1024px) {
+    /* Summary strip -> compact 3-column row */
+    .student-page .summary-strip {
+      display: grid !important;
+      grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+      gap: 0.4rem !important;
+      margin: 0 !important;
+      max-width: 100% !important;
+      min-width: 0 !important;
+    }
+    .student-page .summary-card {
+      padding: 0.55rem 0.35rem !important;
+      min-height: 0 !important;
+      min-width: 0 !important;
+      border-radius: 12px !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 0.15rem !important;
+      text-align: center !important;
+      overflow: hidden !important;
+    }
+    .student-page .summary-card img { display: none !important; }
+    .student-page .summary-copy { gap: 0.1rem !important; align-items: center !important; text-align: center !important; min-width: 0 !important; }
+    .student-page .summary-label {
+      font-size: 0.55rem !important;
+      letter-spacing: 0.02em !important;
+      white-space: normal !important;
+      line-height: 1.1 !important;
+      overflow-wrap: anywhere !important;
+    }
+    .student-page .summary-value { font-size: 1.35rem !important; line-height: 1 !important; }
+    .student-page .summary-meta { display: none !important; }
+
+    /* Card itself: full row (override 50% rule above for chapter list view) */
+    .student-page .apk-book-row.open .apk-book-panel .library-item,
+    .student-page .catalog-grid > .library-item {
+      flex: 1 1 100% !important;
+      max-width: 100% !important;
+      width: 100% !important;
+      padding: 0 !important;
+      min-height: 0 !important;
+    }
+
+    /* Book accordion buttons (APK-only) */
+    .student-page .apk-book-accordion {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 0.4rem !important;
+    }
+    .student-page .apk-book-row { display: block; }
+    .student-page .apk-book-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.65rem 0.8rem;
+      border-radius: 12px;
+      border: 1px solid rgba(30,45,90,0.12);
+      background: linear-gradient(180deg, #ffffff 0%, #f4f7ff 100%);
+      color: #1E2D5A;
+      font-weight: 800;
+      font-family: 'Sora', sans-serif;
+      font-size: 0.85rem;
+      text-align: left;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(15,23,42,0.05);
+      transition: all 0.18s ease;
+    }
+    .apk-book-btn:active { transform: translateY(1px); }
+    .apk-book-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 26px;
+      height: 26px;
+      border-radius: 8px;
+      background: linear-gradient(180deg, #d63678, #cf296d);
+      color: #ffffff;
+      font-size: 0.75rem;
+      font-weight: 800;
+      flex: 0 0 26px;
+    }
+    .apk-book-label { flex: 1 1 auto; }
+    .apk-book-caret {
+      color: #94a3b8;
+      transition: transform 0.2s ease;
+      font-size: 0.8rem;
+    }
+    .apk-book-row.open .apk-book-caret {
+      transform: rotate(180deg);
+      color: #ffffff;
+    }
+    .apk-book-row.open .apk-book-btn {
+      background: linear-gradient(180deg, #1E2D5A 0%, #2a3d75 100%);
+      color: #ffffff;
+      border-color: transparent;
+      box-shadow: 0 8px 18px rgba(30,45,90,0.25);
+    }
+    .apk-book-row.open .apk-book-num {
+      background: rgba(255,255,255,0.18);
+    }
+    .apk-book-panel {
+      display: none;
+      padding: 0.5rem 0.25rem 0.1rem;
+    }
+    .apk-book-row.open .apk-book-panel { display: block; }
+    .apk-book-row.open .apk-book-panel .library-item {
+      flex: 1 1 100% !important;
+      max-width: 100% !important;
+      margin: 0 !important;
+    }
+    /* Open accordion: show full natural book cover, no aspect cropping */
+    .apk-book-row.open .apk-book-panel .library-cover {
+      aspect-ratio: auto !important;
+      height: auto !important;
+      max-height: none !important;
+      border-radius: 14px !important;
+      overflow: hidden !important;
+    }
+    .apk-book-row.open .apk-book-panel .library-cover img {
+      width: 100% !important;
+      height: auto !important;
+      max-height: none !important;
+      object-fit: contain !important;
+      display: block !important;
+    }
+  }
+</style>
+
+<link rel="stylesheet" href="kidba_assets/css/apk-bottombar.css">
+<script defer src="kidba_assets/js/apk-bottombar.js"></script>
 `

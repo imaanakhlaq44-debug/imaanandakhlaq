@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>FAQs</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700&family=Amiri:wght@400;700&family=Orbitron:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../kidba_assets/css/apk-bottombar.css">
+
+</head>
+<body class="apk-page">
+<header class="apk-page__header">
+  <button class="apk-page__back" onclick="history.length>1?history.back():location.href='../student-activities.html'" aria-label="Back">
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <polyline points="15 6 9 12 15 18"/>
+    </svg>
+  </button>
+  <h1 class="apk-page__title">FAQs</h1>
+</header>
+<main class="apk-page__body">
+
+<style>
+  .faq-intro {
+    background: linear-gradient(135deg, #1E2D5A, #2c3e7a);
+    color:#fff; padding: 16px 18px; border-radius: 16px;
+    margin-bottom: 14px; box-shadow: 0 4px 14px rgba(30,45,90,0.25);
+  }
+  .faq-intro h2 { margin: 0 0 6px; font-family:'Fredoka One',cursive; font-size: 18px; }
+  .faq-intro p { margin: 0; font-size: 13px; opacity: 0.92; line-height: 1.5; }
+  .faq-item {
+    background:#fff; border-radius: 14px; margin-bottom: 10px;
+    box-shadow: 0 2px 10px rgba(30,45,90,0.07);
+    border-left: 4px solid #EE4587;
+    overflow: hidden;
+  }
+  .faq-q {
+    display:flex; align-items:flex-start; gap:10px;
+    padding: 14px 16px; cursor: pointer; user-select:none;
+    background:#fff;
+  }
+  .faq-num {
+    flex: 0 0 auto;
+    background: linear-gradient(135deg, #EE4587, #c63374);
+    color:#fff; width: 28px; height: 28px; border-radius: 50%;
+    display:flex; align-items:center; justify-content:center;
+    font-weight:700; font-size: 13px; font-family:'Nunito',sans-serif;
+  }
+  .faq-q-text {
+    flex: 1; font-weight: 700; color:#1E2D5A;
+    font-size: 14px; line-height: 1.4;
+    font-family:'Nunito',sans-serif;
+  }
+  .faq-chev {
+    flex: 0 0 auto; color:#9ca3af; font-size: 18px;
+    transition: transform 0.25s ease;
+  }
+  .faq-item.open .faq-chev { transform: rotate(180deg); color:#EE4587; }
+  .faq-a {
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.35s ease, padding 0.25s ease;
+    padding: 0 16px 0 54px;
+    color:#374151; font-size: 13.5px; line-height: 1.6;
+    font-family:'Nunito',sans-serif;
+  }
+  .faq-item.open .faq-a {
+    max-height: 1200px;
+    padding: 0 16px 14px 54px;
+  }
+  .faq-a ul { margin: 6px 0 0; padding-left: 18px; }
+  .faq-a ul li { margin: 4px 0; }
+  .faq-a strong { color:#1E2D5A; }
+  .faq-cta {
+    margin-top: 18px; background: linear-gradient(135deg, #EE4587, #c63374);
+    color:#fff; padding: 16px 18px; border-radius: 16px;
+    text-align:center; box-shadow: 0 4px 14px rgba(238,69,135,0.3);
+  }
+  .faq-cta h3 { margin: 0 0 6px; font-family:'Fredoka One',cursive; font-size: 17px; }
+  .faq-cta p { margin: 0 0 10px; font-size: 13px; opacity: 0.95; }
+  .faq-cta a {
+    display:inline-block; background:#fff; color:#EE4587;
+    padding: 9px 22px; border-radius: 999px; font-weight:700;
+    text-decoration:none; font-size: 13px;
+  }
+  .faq-tabs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 14px;
+    background: #f1f4fb;
+    padding: 6px;
+    border-radius: 14px;
+  }
+  .faq-tab {
+    appearance: none;
+    border: none;
+    background: transparent;
+    color: #1E2D5A;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 13px;
+    padding: 10px 8px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+    line-height: 1.2;
+  }
+  .faq-tab.active {
+    background: linear-gradient(135deg, #1E2D5A, #2c3e7a);
+    color: #fff;
+    box-shadow: 0 4px 10px rgba(30,45,90,0.25);
+  }
+</style>
+
+<div class="faq-tabs" role="tablist">
+  <button type="button" class="faq-tab active" data-audience="school" role="tab" aria-selected="true">For School</button>
+  <button type="button" class="faq-tab" data-audience="individual" role="tab" aria-selected="false">For Individual</button>
+</div>
+
+<div class="faq-intro" id="faqIntro">
+  <h2 id="faqIntroTitle">Imaan &amp; Akhlaq for Schools</h2>
+  <p id="faqIntroSub">Frequently asked questions about our character-building program for educational institutions.</p>
+</div>
+
+<div id="faqList"></div>
+
+<div class="faq-cta">
+  <h3>Ready to get started?</h3>
+  <p>Contact our team for onboarding, pilot batches, or curriculum review.</p>
+  <a href="https://wa.me/923335756028" target="_blank">Contact Us</a>
+</div>
+
+<script>
+(function(){
+  var SCHOOL_FAQS = [
+    {
+      q: 'What is the Imaan & Akhlaq program for schools?',
+      a: 'It is a structured character-building curriculum designed for schools, helping students develop strong Islamic values, positive behavior, and ethical decision-making alongside their regular academics.'
+    },
+    {
+      q: 'How can this program be integrated into our school system?',
+      a: 'The program is designed to be flexible and easy to implement. Schools can:<ul>' +
+         '<li>Use the weekly library period for it</li>' +
+         '<li>Use it during activity or character-building warmups every day</li>' +
+         '<li>Reinforce learning through the Imaan &amp; Akhlaq Club model</li>' +
+         '</ul>'
+    },
+    {
+      q: 'What age groups does the curriculum cover?',
+      a: 'The program covers students from <strong>Early Childhood (ECCE) up to Grade 7</strong>, with content designed according to each age level.'
+    },
+    {
+      q: 'What does the school receive as part of the program?',
+      a: 'Schools get a complete package, including:<ul>' +
+         '<li>Curriculum books</li>' +
+         '<li>Workbooks and activities</li>' +
+         '<li>Teacher guidance support</li>' +
+         '<li>Access to digital portal (where applicable)</li>' +
+         '<li>Supporting content like audio stories and engagement tools</li>' +
+         '</ul>'
+    },
+    {
+      q: 'Does the program require special teacher training?',
+      a: 'Basic orientation is recommended, but the program is designed to be teacher-friendly:<ul>' +
+         '<li>Lessons are structured and easy to follow</li>' +
+         '<li>Clear objectives are provided</li>' +
+         '<li>Activities are guided step-by-step</li>' +
+         '<li>Support can be provided to ensure smooth delivery</li>' +
+         '</ul>'
+    },
+    {
+      q: 'How is student progress measured?',
+      a: 'Progress is tracked through:<ul>' +
+         '<li>Classroom participation</li>' +
+         '<li>Activity completion</li>' +
+         '<li>Behavioral observations</li>' +
+         '<li>Digital assessments (via portal)</li>' +
+         '</ul>This allows schools to monitor character development, not just academic performance.'
+    },
+    {
+      q: 'What makes this program different from traditional Islamiat subjects?',
+      a: 'This program goes beyond theory. It focuses on:<ul>' +
+         '<li>Practical application in daily life</li>' +
+         '<li>Habit-building</li>' +
+         '<li>Emotional connection through stories</li>' +
+         '<li>Continuous reinforcement through activities</li>' +
+         '</ul>'
+    },
+    {
+      q: 'Will this increase the burden on our existing timetable?',
+      a: 'No, the program is designed to be lightweight and adaptable:<ul>' +
+         '<li>Can be conducted in short weekly sessions</li>' +
+         '<li>Activities are integrated, not additional pressure</li>' +
+         '<li>Supports overall student development without overload</li>' +
+         '</ul>'
+    },
+    {
+      q: 'How does this program benefit our institution?',
+      a: 'Schools can expect:<ul>' +
+         '<li>Improved student behavior and discipline</li>' +
+         '<li>Stronger moral environment</li>' +
+         '<li>Positive school culture</li>' +
+         '<li>Increased parent satisfaction</li>' +
+         '<li>A unique value-based identity for the institution</li>' +
+         '</ul>'
+    },
+    {
+      q: 'Is there evidence or pilot success of this program?',
+      a: 'Yes, the program has already been piloted successfully and is being adopted by multiple schools, showing strong acceptance and positive feedback.'
+    },
+    {
+      q: 'How does the digital portal support schools?',
+      a: 'The portal adds value by:<ul>' +
+         '<li>Providing structured digital learning</li>' +
+         '<li>Offering quizzes and assessments</li>' +
+         '<li>Tracking student progress</li>' +
+         '<li>Creating engagement through gamification</li>' +
+         '</ul>It supports both teachers and students in maintaining consistency.'
+    },
+    {
+      q: 'Can parents be involved through this program?',
+      a: 'Yes, parent involvement is a key feature:<ul>' +
+         '<li>Home-based activities</li>' +
+         '<li>Reinforcement tasks</li>' +
+         '<li>Better school-parent connection</li>' +
+         '</ul>This ensures learning continues beyond the classroom.'
+    },
+    {
+      q: 'Who manages assessment and paper checking?',
+      a: 'The institution just has to implement the program — <strong>there is no burden of paper checking, etc.</strong> Everything is managed by our supported LMS (Learning Management System).'
+    },
+    {
+      q: 'What kind of support does the institution receive?',
+      a: 'Institutions receive:<ul>' +
+         '<li>Implementation guidance</li>' +
+         '<li>Ongoing support (where applicable)</li>' +
+         '<li>Updates and additional resources</li>' +
+         '<li>Access to evolving content ecosystem</li>' +
+         '</ul>'
+    },
+    {
+      q: 'What is the long-term vision of the program?',
+      a: 'The program aims to reach <strong>thousands of schools globally</strong>, creating a generation of students with strong faith and character, while continuously expanding through digital platforms and new content formats.'
+    },
+    {
+      q: 'How can our school get started?',
+      a: 'Schools can begin by:<ul>' +
+         '<li>Contacting the program team</li>' +
+         '<li>Reviewing the curriculum</li>' +
+         '<li>Starting with a pilot batch or selected classes</li>' +
+         '</ul>A step-by-step onboarding process is provided for smooth adoption.'
+    }
+  ];
+
+  var INDIVIDUAL_FAQS = [
+    {
+      q: 'What is Imaan & Akhlaq?',
+      a: 'Imaan &amp; Akhlaq is a children’s program that helps build strong faith (Imaan) and good character (Akhlaq) through stories, activities, and engaging learning methods. It teaches children how to live Islamic values in their daily life.'
+    },
+    {
+      q: 'Is this just a set of books?',
+      a: 'No, it is much more than books. It is a complete learning system that includes:<ul>' +
+         '<li>Story-based curriculum</li>' +
+         '<li>Activities and workbooks</li>' +
+         '<li>Audio stories</li>' +
+         '<li>Puppet shows</li>' +
+         '<li>A digital learning portal</li>' +
+         '</ul>All of these work together to shape a child’s thinking, behavior, and habits.'
+    },
+    {
+      q: 'Who is this program for?',
+      a: 'This program is designed for children from <strong>early years (ECCE) up to Grade 7</strong>, with content tailored according to age and understanding level.'
+    },
+    {
+      q: 'What makes Imaan & Akhlaq different from other programs?',
+      a: 'Most programs focus on information, but Imaan &amp; Akhlaq focuses on <strong>transformation</strong>.<ul>' +
+         '<li>It connects learning with real-life actions</li>' +
+         '<li>It uses stories children can relate to</li>' +
+         '<li>It builds habits, not just knowledge</li>' +
+         '<li>It involves both school and home</li>' +
+         '</ul>'
+    },
+    {
+      q: 'How does the program teach children?',
+      a: 'Children learn through:<ul>' +
+         '<li>Stories inspired by Qur’an and Seerah</li>' +
+         '<li>Real-life situations they can relate to</li>' +
+         '<li>Activities and practice at home</li>' +
+         '<li>Fun and engaging methods like games and storytelling</li>' +
+         '</ul>This makes learning easy, enjoyable, and meaningful.'
+    },
+    {
+      q: 'What are Imaan and Akhlaq as characters?',
+      a: 'Imaan and Akhlaq are shown as a brother and sister in the stories. They help children understand how to:<ul>' +
+         '<li>Make the right choices</li>' +
+         '<li>Stay strong in difficult situations</li>' +
+         '<li>Practice good manners in everyday life</li>' +
+         '</ul>'
+    },
+    {
+      q: 'Is this program only for schools?',
+      a: 'No, it can be used:<ul>' +
+         '<li>In schools as a structured curriculum</li>' +
+         '<li>At home by parents to guide their children</li>' +
+         '</ul>It is designed to connect both learning environments.'
+    },
+    {
+      q: 'What role do parents play in this program?',
+      a: 'Parents play a very important role. The program includes:<ul>' +
+         '<li>Home activities</li>' +
+         '<li>Practice exercises</li>' +
+         '<li>Simple tasks that strengthen family interaction</li>' +
+         '</ul>This helps children apply what they learn in real life.'
+    },
+    {
+      q: 'How does the digital portal help my child?',
+      a: 'The portal provides a safe and guided learning space where children can:<ul>' +
+         '<li>Access lessons and stories</li>' +
+         '<li>Take quizzes and earn rewards</li>' +
+         '<li>Track their progress</li>' +
+         '<li>Stay motivated through fun learning</li>' +
+         '</ul>It turns learning into a continuous and engaging journey.'
+    },
+    {
+      q: 'Is the content suitable for young children?',
+      a: 'Yes, all content is age-appropriate and designed carefully:<ul>' +
+         '<li>Simple for younger children</li>' +
+         '<li>More structured for older students</li>' +
+         '</ul>Everything is made to match the child’s level of understanding.'
+    },
+    {
+      q: 'Does the program include entertainment?',
+      a: 'Yes, but with purpose. It includes:<ul>' +
+         '<li>Audio bedtime stories</li>' +
+         '<li>Puppet shows</li>' +
+         '<li>Interactive content</li>' +
+         '</ul>All entertainment is designed to teach positive values, not just pass time.'
+    },
+    {
+      q: 'What kind of impact can I expect on my child?',
+      a: 'With consistency, you can expect:<ul>' +
+         '<li>Better behavior and manners</li>' +
+         '<li>Stronger connection with Islamic values</li>' +
+         '<li>Improved decision-making</li>' +
+         '<li>More confidence in doing the right thing</li>' +
+         '</ul>'
+    },
+    {
+      q: 'Is this program based on authentic Islamic teachings?',
+      a: 'Yes, the content is inspired by:<ul>' +
+         '<li>Qur’anic teachings</li>' +
+         '<li>Seerah (life of the Prophet ﷺ)</li>' +
+         '</ul>It presents these teachings in a way that children can understand and follow.'
+    },
+    {
+      q: 'How is this different from traditional Islamic education?',
+      a: 'Traditional education often focuses on memorization and theory, while this program focuses on:<ul>' +
+         '<li>Understanding</li>' +
+         '<li>Application</li>' +
+         '<li>Daily life behavior</li>' +
+         '</ul>'
+    },
+    {
+      q: 'What is the main goal of Imaan & Akhlaq?',
+      a: 'The goal is simple but powerful: <strong>To raise children who not only know Islam, but also live it in their character and actions.</strong>'
+    }
+  ];
+
+  var INTROS = {
+    school: {
+      title: 'Imaan &amp; Akhlaq for Schools',
+      sub: 'Frequently asked questions about our character-building program for educational institutions.'
+    },
+    individual: {
+      title: 'Imaan &amp; Akhlaq for Individuals',
+      sub: 'Frequently asked questions for parents and families using the program at home.'
+    }
+  };
+
+  var list = document.getElementById('faqList');
+  var introTitle = document.getElementById('faqIntroTitle');
+  var introSub = document.getElementById('faqIntroSub');
+  var tabs = document.querySelectorAll('.faq-tab');
+
+  function render(audience){
+    var data = audience === 'individual' ? INDIVIDUAL_FAQS : SCHOOL_FAQS;
+    var intro = INTROS[audience] || INTROS.school;
+    introTitle.innerHTML = intro.title;
+    introSub.innerHTML = intro.sub;
+
+    var html = '';
+    data.forEach(function(item, i){
+      var n = i + 1;
+      html += '<div class="faq-item" data-idx="' + i + '">' +
+        '<div class="faq-q">' +
+          '<span class="faq-num">' + n + '</span>' +
+          '<span class="faq-q-text">' + item.q + '</span>' +
+          '<span class="faq-chev">&#9662;</span>' +
+        '</div>' +
+        '<div class="faq-a">' + item.a + '</div>' +
+      '</div>';
+    });
+    list.innerHTML = html;
+
+    var first = list.querySelector('.faq-item');
+    if (first) first.classList.add('open');
+  }
+
+  tabs.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var audience = btn.getAttribute('data-audience');
+      tabs.forEach(function(b){
+        var active = b === btn;
+        b.classList.toggle('active', active);
+        b.setAttribute('aria-selected', active ? 'true' : 'false');
+      });
+      render(audience);
+    });
+  });
+
+  list.addEventListener('click', function(e){
+    var head = e.target.closest('.faq-q');
+    if (!head) return;
+    var item = head.parentElement;
+    item.classList.toggle('open');
+  });
+
+  render('school');
+})();
+</script>
+
+</main>
+<script>try{localStorage.setItem('apk_bottombar','1')}catch(e){}</script>
+<script src="../kidba_assets/js/apk-bottombar.js"></script>
+</body>
+</html>

@@ -65,7 +65,11 @@ export const TeacherDashboard = () => html`
     display: flex; align-items: center; gap: 0.55rem; min-width: 0; flex: 1 1 auto;
   }
   .sidebar-profile-cluster .sidebar-brand-art {
-    width: 44px; height: 44px; flex: 0 0 44px; border-radius: 12px;
+    width: 48px;
+    height: 48px;
+    flex: 0 0 48px;
+    border-radius: 50%;
+    border-width: 2px;
   }
   .sidebar-name-block { display: flex; flex-direction: column; justify-content: center; min-width: 0; }
   .sidebar-name-block .sidebar-title {
@@ -456,100 +460,76 @@ export const TeacherDashboard = () => html`
     color: rgba(255,255,255,0.72);
   }
 
+  /* ── Compact summary cards ── */
   .summary-strip {
     display: grid;
     grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: 0.75rem;
+    gap: 0.55rem;
+    margin-bottom: 0.55rem;
   }
 
   .summary-card {
     position: relative;
     overflow: hidden;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.9rem;
-    padding: 0.9rem 1rem;
-    border-radius: 16px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.18rem;
+    padding: 0.75rem 0.85rem;
+    border-radius: 14px;
     color: #ffffff;
-    min-height: 118px;
-    box-shadow: var(--teacher-soft-shadow);
+    min-height: unset;
+    box-shadow: 0 4px 14px rgba(15,23,42,0.14);
   }
 
   .summary-card.summary-link {
     cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
-
   .summary-card.summary-link:hover {
     transform: translateY(-2px);
-    box-shadow: 0 16px 30px rgba(15, 23, 42, 0.1);
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.2);
   }
-
   .summary-card.summary-link.is-active {
-    box-shadow: 0 18px 32px rgba(15, 23, 42, 0.16);
+    box-shadow: 0 12px 26px rgba(15, 23, 42, 0.2);
     outline: 2px solid rgba(255,255,255,0.38);
     outline-offset: -2px;
   }
 
-  .summary-card.students {
-    background: linear-gradient(180deg, #314a7f 0%, #243d6b 100%);
-  }
+  .summary-card.students  { background: linear-gradient(135deg, #314a7f 0%, #1d3156 100%); }
+  .summary-card.pending   { background: linear-gradient(135deg, #df4a82 0%, #b91c5c 100%); }
+  .summary-card.points    { background: linear-gradient(135deg, #f0a43d 0%, #d97706 100%); }
+  .summary-card.attendance{ background: linear-gradient(135deg, #d6a16d 0%, #b7763d 100%); }
+  .summary-card.absent    { background: linear-gradient(135deg, #f43f5e 0%, #c2143a 100%); }
 
-  .summary-card.pending {
-    background: linear-gradient(180deg, #df4a82 0%, #cf296d 100%);
-  }
-
-  .summary-card.points {
-    background: linear-gradient(180deg, #f0a43d 0%, #ea8300 100%);
-  }
-
-  .summary-card.attendance {
-    background: linear-gradient(180deg, #d6a16d 0%, #cb955d 100%);
-  }
-  .summary-card.absent {
-    background: linear-gradient(180deg, #f43f5e 0%, #e11d48 100%);
-  }
-
-  .summary-copy {
-    position: relative;
-    z-index: 1;
-  }
-
+  .summary-copy { position: relative; z-index: 1; width: 100%; }
   .summary-label {
     display: block;
     font-family: 'Sora', sans-serif;
-    font-size: 0.64rem;
+    font-size: 0.58rem;
     font-weight: 700;
-    letter-spacing: 0.13em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: rgba(255,255,255,0.74);
-    margin-bottom: 0.3rem;
+    color: rgba(255,255,255,0.68);
+    margin-bottom: 0.1rem;
   }
-
   .summary-value {
     display: block;
     font-family: 'Sora', sans-serif;
-    font-size: clamp(1.6rem, 2.7vw, 2.2rem);
+    font-size: 1.5rem;
     font-weight: 800;
     line-height: 1;
   }
-
   .summary-meta {
     display: block;
-    margin-top: 0.35rem;
-    font-size: 0.74rem;
-    font-weight: 700;
-    color: rgba(255,255,255,0.78);
-    line-height: 1.35;
+    margin-top: 0.2rem;
+    font-size: 0.62rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.3;
   }
-
-  .summary-card img {
-    width: 68px;
-    height: 68px;
-    object-fit: contain;
-    filter: drop-shadow(0 14px 22px rgba(15,23,42,0.18));
-  }
+  /* Hide 3D images from summary cards */
+  .summary-card img { display: none; }
 
   .teacher-grid {
     display: grid;
@@ -559,11 +539,11 @@ export const TeacherDashboard = () => html`
   }
 
   .surface-card {
-    background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(249,251,253,0.98));
-    border: 1px solid var(--teacher-line);
-    border-radius: 16px;
-    padding: 0.9rem;
-    box-shadow: var(--teacher-soft-shadow);
+    background: #ffffff;
+    border: 1px solid rgba(220,230,241,0.8);
+    border-radius: 14px;
+    padding: 0.85rem;
+    box-shadow: 0 2px 10px rgba(15,23,42,0.05);
   }
 
   .section-header {
@@ -583,21 +563,21 @@ export const TeacherDashboard = () => html`
     min-width: 0;
   }
 
+  /* Compact section asset — icon area */
   .section-asset {
-    width: 46px;
-    height: 46px;
-    flex: 0 0 46px;
-    border-radius: 14px;
+    width: 34px;
+    height: 34px;
+    flex: 0 0 34px;
+    border-radius: 10px;
     overflow: hidden;
-    background: linear-gradient(180deg, #f7fbff 0%, #eef4fb 100%);
+    background: #f0f6ff;
     border: 1px solid var(--teacher-line);
   }
-
   .section-asset img {
     width: 100%;
     height: 100%;
     object-fit: contain;
-    padding: 5px;
+    padding: 4px;
   }
 
   .section-heading h3 {
@@ -749,16 +729,24 @@ export const TeacherDashboard = () => html`
     font-weight: 800;
   }
 
+  /* ── Compact student roster items ── */
   .student-roster-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 1rem;
-    padding: 0.9rem 1rem;
-    border-radius: 18px;
-    background: #ffffff;
-    border: 1px solid var(--teacher-line);
-    box-shadow: 0 10px 22px rgba(15, 23, 42, 0.05);
+    gap: 0.7rem;
+    padding: 0.55rem 0.75rem;
+    border-radius: 10px;
+    background: #f8fafc;
+    border: 1px solid #e8edf5;
+    border-left: 3px solid var(--teacher-blue);
+    box-shadow: none;
+    transition: transform 0.16s, background 0.16s;
+  }
+  .student-roster-item:hover {
+    background: #fff;
+    transform: translateX(2px);
+    box-shadow: 0 3px 12px rgba(36,61,107,0.07);
   }
 
   .student-roster-copy {
@@ -790,50 +778,70 @@ export const TeacherDashboard = () => html`
     color: var(--teacher-blue);
   }
 
+  /* Smaller roster avatar */
   .student-roster-photo {
-    width: 44px;
-    height: 44px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     object-fit: cover;
     border: 1px solid var(--teacher-line);
-    background: #ffffff;
+    background: #fff;
+    flex: 0 0 32px;
   }
 
+  .student-roster-copy strong {
+    display: block;
+    font-family: 'Sora', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--teacher-ink);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .student-roster-copy span {
+    display: block;
+    margin-top: 0.1rem;
+    font-size: 0.68rem;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--teacher-muted);
+  }
   .student-roster-meta {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.45rem;
-    margin-top: 0.55rem;
+    gap: 0.3rem;
+    margin-top: 0.3rem;
   }
 
+  /* Compact roster action buttons */
   .student-roster-actions {
     display: flex;
-    gap: 0.55rem;
-    flex-wrap: wrap;
+    gap: 0.4rem;
+    flex-wrap: nowrap;
     justify-content: flex-end;
+    flex: 0 0 auto;
   }
-
   .quick-link-action {
     border: none;
     border-radius: 999px;
-    padding: 0.7rem 1rem;
+    padding: 0.38rem 0.75rem;
     background: linear-gradient(135deg, var(--teacher-blue) 0%, #2b4677 100%);
     color: #ffffff;
     font-family: 'Sora', sans-serif;
-    font-size: 0.76rem;
-    font-weight: 800;
+    font-size: 0.7rem;
+    font-weight: 700;
     cursor: pointer;
-    box-shadow: 0 10px 20px rgba(36, 61, 107, 0.18);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 12px rgba(36, 61, 107, 0.18);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    white-space: nowrap;
   }
-
   .quick-link-action:hover {
     transform: translateY(-1px);
-    box-shadow: 0 12px 22px rgba(36, 61, 107, 0.22);
+    box-shadow: 0 6px 16px rgba(36, 61, 107, 0.24);
   }
-
   .quick-link-action.secondary {
-    background: #ffffff;
+    background: #eef4fb;
     color: var(--teacher-blue);
     border: 1px solid var(--teacher-line);
     box-shadow: none;
@@ -1041,20 +1049,21 @@ export const TeacherDashboard = () => html`
     white-space: nowrap;
   }
 
+  /* ── Compact review items ── */
   .review-item {
-    background: #ffffff;
-    border: 1px solid var(--teacher-line);
-    border-radius: 16px;
-    padding: 0.9rem;
-    margin-bottom: 0.75rem;
+    background: #f8fafc;
+    border: 1px solid #e8edf5;
+    border-left: 3px solid var(--teacher-pink);
+    border-radius: 10px;
+    padding: 0.65rem 0.8rem;
+    margin-bottom: 0.5rem;
     position: relative;
-    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    transition: transform 0.18s, background 0.18s, box-shadow 0.18s;
   }
-
   .review-item:hover {
-    transform: translateY(-1px);
-    border-color: rgba(207,41,109,0.24);
-    box-shadow: 0 10px 20px rgba(15,23,42,0.06);
+    background: #fff;
+    transform: translateX(2px);
+    box-shadow: 0 4px 14px rgba(207,41,109,0.07);
   }
 
   .student-discussion-text {
@@ -1791,6 +1800,34 @@ export const TeacherDashboard = () => html`
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(16,185,129,0.3);
   }
+
+  .mobile-bottom-actions { display: none; }
+  @media (max-width: 760px) {
+    .sidebar-chip-actions { display: none !important; }
+    .teacher-page .dashboard-main { padding-bottom: 74px !important; }
+    .mobile-bottom-actions {
+      display: flex;
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      background: #ffffff;
+      border-top: 1px solid rgba(0,0,0,0.06);
+      box-shadow: 0 -4px 12px rgba(30,45,90,0.08);
+      z-index: 1000;
+      justify-content: space-around;
+      align-items: center;
+      padding: 10px 10px calc(10px + env(safe-area-inset-bottom)) 10px;
+    }
+    .mobile-action-btn {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 4px; background: transparent; border: none;
+      color: #64748b; font-size: 11px; font-weight: 700; cursor: pointer;
+    }
+    .mobile-action-btn i {
+      font-size: 18px; color: #1e293b; margin-bottom: 2px;
+      padding: 6px; border-radius: 10px; background: #f1f5f9;
+    }
+    .mobile-action-btn.logout i { color: #ffffff; background: #dc2626; }
+  }
 </style>
 
 <div class="teacher-page">
@@ -1801,7 +1838,7 @@ export const TeacherDashboard = () => html`
       <div class="sidebar-brand sidebar-brand-v2">
         <div class="sidebar-profile-cluster">
           <div class="sidebar-brand-art" id="sidebarAvatarClickArea" title="Click to change photo" role="button" tabindex="0" style="position:relative; cursor:pointer; overflow:visible;">
-            <img id="sidebarProfilePhoto" src="/kidba_assets/img/3d_teacher.png" alt="Teacher profile" style="border-radius:16px; width:100%; height:100%; object-fit:cover;">
+            <img id="sidebarProfilePhoto" src="/kidba_assets/img/3d_teacher.png" alt="Teacher profile" style="border-radius:50%; width:100%; height:100%; object-fit:cover;">
             <div class="sidebar-cam-badge"><i class="fas fa-camera"></i></div>
           </div>
           <div class="sidebar-name-block">
@@ -1810,14 +1847,12 @@ export const TeacherDashboard = () => html`
         </div>
 
         <div class="sidebar-school-chip">
-          <div class="sidebar-school-art" id="schoolLogoClickArea" title="Click to change school logo" role="button" tabindex="0" style="position:relative; cursor:pointer; overflow:visible;">
+          <div class="sidebar-school-art" style="position:relative; overflow:hidden;">
             <img id="schoolLogoImg" src="/kidba_assets/img/3d_school.png" alt="School logo" style="border-radius:8px; width:100%; height:100%; object-fit:cover;">
-            <div class="sidebar-school-cam-badge"><i class="fas fa-camera"></i></div>
           </div>
           <span class="sidebar-school-name" id="welcomeName">School</span>
           <div class="sidebar-chip-actions">
-            <button class="sidebar-icon-btn home" type="button" onclick="window.location.href='/'" title="Home" aria-label="Home"><i class="fas fa-house"></i></button>
-            <button class="sidebar-icon-btn back" type="button" onclick="window.history.back()" title="Back" aria-label="Back"><i class="fas fa-arrow-left"></i></button>
+            <button class="sidebar-icon-btn home" type="button" onclick="window.location.href='auth.html'" title="Home" aria-label="Home"><i class="fas fa-house"></i></button>
             <button class="sidebar-icon-btn refresh" type="button" onclick="window.location.reload()" title="Refresh" aria-label="Refresh"><i class="fas fa-sync-alt"></i></button>
             <button class="sidebar-icon-btn logout" type="button" onclick="logoutTeacher()" title="Logout" aria-label="Logout"><i class="fas fa-sign-out-alt"></i></button>
           </div>
@@ -2044,13 +2079,13 @@ export const TeacherDashboard = () => html`
                 <i class="fas fa-chevron-right teacher-book-chev"></i>
               </div>
 
-              <div class="teacher-book-row locked" aria-disabled="true">
+              <div class="teacher-book-row" role="button" tabindex="0" onclick="openBookReader('book4', 'Imaan &amp; Akhlaq - Book 4')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openBookReader('book4','Imaan &amp; Akhlaq - Book 4');}">
                 <span class="teacher-book-num">4</span>
                 <div class="teacher-book-meta">
                   <strong>Book 4</strong>
-                  <span>Islamic Stories &bull; Coming Soon</span>
+                  <span>13 Chapters &bull; 118 Pages</span>
                 </div>
-                <i class="fas fa-lock teacher-book-chev"></i>
+                <i class="fas fa-chevron-right teacher-book-chev"></i>
               </div>
 
               <div class="teacher-book-row locked" aria-disabled="true">
@@ -2104,6 +2139,18 @@ export const TeacherDashboard = () => html`
         </section>
 
       </div>
+    </div>
+
+    <div class="mobile-bottom-actions">
+      <button class="mobile-action-btn" type="button" onclick="window.location.href='auth.html'">
+        <i class="fas fa-house"></i><span>Home</span>
+      </button>
+      <button class="mobile-action-btn" type="button" onclick="window.location.reload()">
+        <i class="fas fa-sync-alt"></i><span>Refresh</span>
+      </button>
+      <button class="mobile-action-btn logout" type="button" onclick="window.logoutTeacher()">
+        <i class="fas fa-sign-out-alt"></i><span>Logout</span>
+      </button>
     </div>
   </div>
 </div>
@@ -3090,6 +3137,10 @@ export const TeacherDashboard = () => html`
 
   onAuthStateChanged(auth, async (user) => {
     if (user) {
+      const waitOverlay = document.getElementById('authWaitOverlay');
+      if (waitOverlay) waitOverlay.remove();
+      const demoOverlay = document.getElementById('demoOverlay');
+      if (demoOverlay) demoOverlay.remove();
       try {
         const userDoc = await getDoc(doc(db, "users", user.uid));
         if (userDoc.exists() && userDoc.data().role === 'teacher') {
@@ -3119,20 +3170,55 @@ export const TeacherDashboard = () => html`
                  <i class="fas fa-lock" style="font-size:3rem; color:#1E2D5A; margin-bottom:20px;"></i>
                  <h3 style="font-family:'Fredoka One', cursive; color:#1E2D5A;">Teacher Login Required</h3>
                  <p style="color:#64748b; margin-bottom:25px;">You cannot view this page with your current account.</p>
-                 <button onclick="window.location.href='/auth'" style="width:100%; padding:12px; background:#1E2D5A; color:white; border:none; border-radius:12px; font-weight:bold; cursor:pointer; margin-bottom:12px;">Go to Login</button>
+                 <button onclick="window.location.href = 'auth.html'" style="width:100%; padding:12px; background:#1E2D5A; color:white; border:none; border-radius:12px; font-weight:bold; cursor:pointer; margin-bottom:12px;">Go to Login</button>
               </div>
             </div>
           \`);
         }
-      } catch(e) { console.error(e); }
+      } catch(e) { 
+        console.error(e); 
+        document.body.insertAdjacentHTML('beforeend', \`
+            <div id="demoOverlay" style="position:fixed; inset:0; background:rgba(30, 45, 90, 0.85); backdrop-filter:blur(8px); display:flex; justify-content:center; align-items:center; z-index:99999;">
+              <div style="background:white; padding:40px; border-radius:24px; text-align:center; max-width:400px; box-shadow: 0 20px 40px rgba(0,0,0,0.3);">
+                 <i class="fas fa-exclamation-triangle" style="font-size:3rem; color:#ef4444; margin-bottom:20px;"></i>
+                 <h3 style="font-family:'Fredoka One', cursive; color:#1E2D5A;">Connection Error</h3>
+                 <p style="color:#64748b; margin-bottom:25px;">Could not connect to the database. Please check your internet connection.</p>
+                 <button onclick="window.location.reload()" style="width:100%; padding:12px; background:#1E2D5A; color:white; border:none; border-radius:12px; font-weight:bold; cursor:pointer; margin-bottom:12px;">Retry</button>
+              </div>
+            </div>
+          \`);
+      }
     } else {
+      const stored = (function () {
+        try { return localStorage.getItem('auth_user') || sessionStorage.getItem('auth_user'); } catch (e) { return null; }
+      })();
+      const isCap = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
+      const maxAttempts = isCap ? 12 : 6;
+      if (stored) {
+        document.body.insertAdjacentHTML('beforeend', \`
+          <div id="authWaitOverlay" style="position:fixed; inset:0; background:rgba(30, 45, 90, 0.95); display:flex; flex-direction:column; justify-content:center; align-items:center; z-index:99999;">
+             <i class="fas fa-spinner fa-spin" style="font-size:3rem; color:#E08020; margin-bottom:20px;"></i>
+             <h3 style="font-family:'Fredoka One', cursive; color:#ffffff;">Restoring Session...</h3>
+             <p style="color:#cbd5e1;">Please wait</p>
+          </div>
+        \`);
+        let restored = false;
+        for (let attempt = 0; attempt < maxAttempts; attempt++) {
+          await new Promise(function (r) { setTimeout(r, 1000); });
+          if (auth.currentUser) { restored = true; break; }
+        }
+        const waitOverlay = document.getElementById('authWaitOverlay');
+        if (waitOverlay) waitOverlay.remove();
+        if (restored) return;
+      }
+
       document.body.insertAdjacentHTML('beforeend', \`
         <div id="demoOverlay" style="position:fixed; inset:0; background:rgba(30, 45, 90, 0.85); backdrop-filter:blur(8px); display:flex; justify-content:center; align-items:center; z-index:99999;">
           <div style="background:white; padding:40px; border-radius:24px; text-align:center; max-width:400px; box-shadow: 0 20px 40px rgba(0,0,0,0.3);">
              <i class="fas fa-lock" style="font-size:3rem; color:#1E2D5A; margin-bottom:20px;"></i>
              <h3 style="font-family:'Fredoka One', cursive; color:#1E2D5A;">Teacher Login Required</h3>
              <p style="color:#64748b; margin-bottom:25px;">You must be logged in as a Teacher to track your class.</p>
-             <button onclick="window.location.href='/auth'" style="width:100%; padding:12px; background:#1E2D5A; color:white; border:none; border-radius:12px; font-weight:bold; cursor:pointer; margin-bottom:12px;">Go to Login</button>
+             <button onclick="window.location.href = 'auth.html'" style="width:100%; padding:12px; background:#1E2D5A; color:white; border:none; border-radius:12px; font-weight:bold; cursor:pointer; margin-bottom:12px;">Go to Login</button>
           </div>
         </div>
       \`);
@@ -3558,11 +3644,11 @@ export const TeacherDashboard = () => html`
     signOut(auth).then(() => {
       localStorage.removeItem('auth_user');
       sessionStorage.removeItem('auth_user');
-      window.location.href = '/auth';
+      window.location.href = 'auth.html';
     }).catch(() => {
       localStorage.removeItem('auth_user');
       sessionStorage.removeItem('auth_user');
-      window.location.href = '/auth';
+      window.location.href = 'auth.html';
     });
   };
     

@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tasbeeh Counter</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700&family=Amiri:wght@400;700&family=Orbitron:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../kidba_assets/css/apk-bottombar.css">
+
+</head>
+<body class="apk-page">
+<header class="apk-page__header">
+  <button class="apk-page__back" onclick="history.length>1?history.back():location.href='../student-activities.html'" aria-label="Back">
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <polyline points="15 6 9 12 15 18"/>
+    </svg>
+  </button>
+  <h1 class="apk-page__title">Tasbeeh Counter</h1>
+</header>
+<main class="apk-page__body">
+
+<style>
+  /* ===== Screen / counter ===== */
+  .tas-screen {
+    background: linear-gradient(160deg, #0c1a3d 0%, #1a2c5e 55%, #07122a 100%);
+    border-radius: 22px;
+    padding: 22px 16px 18px;
+    box-shadow: 0 14px 34px rgba(7,18,42,0.42), inset 0 0 0 2px rgba(214,54,120,0.18);
+    text-align: center;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+  }
+  .tas-screen::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(circle at 20% 0%, rgba(214,54,120,0.18), transparent 50%),
+      radial-gradient(circle at 100% 100%, rgba(255,206,80,0.12), transparent 45%),
+      repeating-linear-gradient(0deg, rgba(255,255,255,0.02) 0 2px, transparent 2px 4px);
+    pointer-events: none;
+  }
+  .tas-dhikr-ar {
+    font-family: 'Amiri', 'Scheherazade New', 'Traditional Arabic', serif;
+    font-size: clamp(28px, 7.6vw, 38px);
+    line-height: 1.6;
+    color: #FFE7AA;
+    text-shadow: 0 0 12px rgba(255,206,80,0.5);
+    direction: rtl;
+    margin-bottom: 6px;
+    font-weight: 700;
+  }
+  .tas-dhikr-translit {
+    font-size: 13px;
+    color: #fff;
+    font-style: italic;
+    margin-bottom: 4px;
+    letter-spacing: 0.3px;
+  }
+  .tas-dhikr-en {
+    font-size: 12px;
+    color: rgba(255,255,255,0.78);
+    margin-bottom: 16px;
+    line-height: 1.4;
+  }
+  .tas-lcd {
+    background: linear-gradient(180deg, #06304b 0%, #051a2c 100%);
+    border-radius: 14px;
+    padding: 14px 10px 8px;
+    margin: 0 auto 10px;
+    max-width: 280px;
+    box-shadow: inset 0 4px 14px rgba(0,0,0,0.65), inset 0 -2px 0 rgba(255,255,255,0.05);
+    position: relative;
+  }
+  .tas-lcd-num {
+    font-family: 'Orbitron', 'Courier New', monospace;
+    font-weight: 800;
+    font-size: clamp(58px, 16vw, 86px);
+    letter-spacing: 6px;
+    color: #4ee0a0;
+    text-shadow: 0 0 14px rgba(78,224,160,0.7), 0 0 24px rgba(78,224,160,0.45);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .tas-lcd-meta {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 10px; font-size: 11px; color: rgba(255,255,255,0.62);
+    letter-spacing: 1px; text-transform: uppercase;
+  }
+  .tas-lcd-meta strong { color: #FFE7AA; font-weight: 700; }
+  .tas-progress {
+    height: 6px; border-radius: 3px; background: rgba(255,255,255,0.12);
+    overflow: hidden; margin-top: 8px;
+  }
+  .tas-progress > div {
+    height: 100%; background: linear-gradient(90deg, #4ee0a0, #FFE7AA);
+    width: 0%; transition: width .25s ease-out;
+    box-shadow: 0 0 10px rgba(78,224,160,0.6);
+  }
+
+  /* ===== Big tap button ===== */
+  .tas-tap-wrap { padding: 22px 0 8px; text-align: center; min-height: 180px; }
+  .tas-tap {
+    width: 180px; height: 180px; border-radius: 50%;
+    border: none; cursor: pointer;
+    background:
+      radial-gradient(circle at 35% 30%, #ff7fb1 0%, #d63678 45%, #8a2050 100%);
+    color: #fff;
+    font-family: 'Fredoka One', cursive;
+    font-size: 26px;
+    box-shadow: 0 14px 30px rgba(214,54,120,0.45), inset 0 -8px 14px rgba(0,0,0,0.18), inset 0 4px 8px rgba(255,255,255,0.25);
+    transition: transform .08s ease, box-shadow .08s ease;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: none; /* Helps prevent default touch scrolling on button */
+  }
+  .tas-tap:active {
+    transform: scale(0.94);
+    box-shadow: 0 6px 14px rgba(214,54,120,0.4), inset 0 -4px 8px rgba(0,0,0,0.25);
+  }
+  .tas-tap small { display:block; font-size: 11px; opacity: 0.85; letter-spacing: 1px; margin-top: 4px; font-family:'Nunito',sans-serif; font-weight:700 }
+
+  /* ===== Pill controls ===== */
+  .tas-section-title {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 13px;
+    color: #1E2D5A;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 18px 4px 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .tas-section-title::before {
+    content: '';
+    display: inline-block; width: 4px; height: 16px; border-radius: 3px;
+    background: linear-gradient(180deg, #D63678, #E08020);
+  }
+  .tas-row { display:flex; gap:8px; flex-wrap:wrap; justify-content:center; margin-top: 4px; }
+  .tas-pill {
+    background: #fff; color: #1E2D5A; border: 1.5px solid #e5e7eb;
+    border-radius: 999px; padding: 8px 14px; font-weight: 700; font-size: 13px;
+    cursor: pointer; transition: all .15s; font-family:'Nunito',sans-serif;
+  }
+  .tas-pill.active { background: linear-gradient(135deg,#D63678,#E08020); color:#fff; border-color: transparent; box-shadow: 0 4px 10px rgba(214,54,120,0.3); }
+  .tas-pill.danger { color:#b91c1c; border-color:#fecaca; }
+  .tas-pill.danger:active { background:#fef2f2; }
+
+  /* ===== Dhikr selector cards ===== */
+  .tas-dhikr-grid {
+    display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 4px;
+  }
+  .tas-dhikr-card {
+    background: #fff;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 14px;
+    padding: 12px 14px;
+    cursor: pointer;
+    transition: all .18s ease;
+    text-align: right;
+    direction: rtl;
+    position: relative;
+  }
+  .tas-dhikr-card.active {
+    background: linear-gradient(135deg, #fff5f9, #fff9ef);
+    border-color: #D63678;
+    box-shadow: 0 6px 16px rgba(214,54,120,0.18);
+  }
+  .tas-dhikr-card .dc-ar {
+    font-family: 'Amiri', 'Scheherazade New', serif;
+    font-size: 22px; line-height: 1.6; color:#1E2D5A; font-weight: 700;
+  }
+  .tas-dhikr-card .dc-en {
+    font-family: 'Nunito', sans-serif;
+    direction: ltr; text-align: left;
+    font-size: 11.5px; color: #6b7280; margin-top: 4px; line-height: 1.35;
+  }
+  .tas-dhikr-card .dc-tag {
+    position: absolute; top: 8px; left: 10px;
+    font-size: 10px; padding: 2px 8px; border-radius: 999px;
+    background: #fde7f0; color: #c63374; font-weight: 800;
+    direction: ltr; letter-spacing: 0.5px;
+  }
+  .tas-dhikr-card.active .dc-tag { background:#D63678; color:#fff; }
+
+  /* ===== History panel ===== */
+  .tas-tabs {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+    background: #f1f4fb; padding: 6px; border-radius: 14px; margin-top: 8px;
+  }
+  .tas-tab {
+    appearance: none; border: none; background: transparent;
+    color: #1E2D5A; font-family:'Nunito',sans-serif;
+    font-weight: 800; font-size: 13px; padding: 10px 8px;
+    border-radius: 10px; cursor: pointer; transition: all .2s ease;
+  }
+  .tas-tab.active {
+    background: linear-gradient(135deg, #1E2D5A, #2c3e7a);
+    color:#fff; box-shadow: 0 4px 10px rgba(30,45,90,0.25);
+  }
+  .tas-panel { display: none; margin-top: 12px; }
+  .tas-panel.active { display: block; }
+
+  .tas-hist-controls {
+    display: flex; gap: 8px; align-items: center; margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+  .tas-hist-controls label {
+    font-family:'Nunito',sans-serif; font-weight: 700;
+    color: #1E2D5A; font-size: 13px;
+  }
+  .tas-hist-controls input[type=month] {
+    flex: 1; min-width: 140px;
+    padding: 9px 12px; border: 1.5px solid #e5e7eb;
+    border-radius: 10px; font-family:'Nunito',sans-serif; font-size: 14px;
+    background: #fff; color:#1E2D5A;
+  }
+  .tas-hist-summary {
+    background: linear-gradient(135deg, #1E2D5A, #2c3e7a);
+    color:#fff; border-radius: 14px; padding: 14px 16px;
+    margin-bottom: 12px; box-shadow: 0 6px 18px rgba(30,45,90,0.22);
+  }
+  .tas-hist-summary .hs-label {
+    font-size: 11px; text-transform: uppercase; letter-spacing: 1.2px;
+    opacity: 0.78;
+  }
+  .tas-hist-summary .hs-num {
+    font-family: 'Orbitron','Courier New',monospace;
+    font-size: 34px; font-weight: 800; color:#FFE7AA;
+    text-shadow: 0 0 10px rgba(255,206,80,0.45); margin-top: 4px;
+    font-variant-numeric: tabular-nums;
+  }
+  .tas-hist-summary .hs-sub {
+    font-size: 12px; opacity: 0.85; margin-top: 2px;
+  }
+  .tas-hist-row {
+    display: flex; align-items: center; justify-content: space-between;
+    background: #fff; border-radius: 12px; padding: 10px 14px;
+    margin-bottom: 8px; box-shadow: 0 2px 8px rgba(30,45,90,0.06);
+    border-left: 4px solid #D63678;
+  }
+  .tas-hist-row .hr-ar {
+    font-family:'Amiri',serif; font-size: 18px; color:#1E2D5A;
+    direction: rtl; font-weight: 700; line-height: 1.3;
+  }
+  .tas-hist-row .hr-en {
+    font-family:'Nunito',sans-serif; font-size: 11px;
+    color:#6b7280; margin-top: 2px;
+  }
+  .tas-hist-row .hr-count {
+    font-family:'Orbitron','Courier New',monospace;
+    font-weight: 800; font-size: 20px; color:#D63678;
+    flex: 0 0 auto; padding-left: 12px;
+    font-variant-numeric: tabular-nums;
+  }
+  .tas-hist-empty {
+    text-align: center; padding: 24px 12px;
+    color:#94a3b8; font-family:'Nunito',sans-serif;
+    background: #fff; border-radius: 12px;
+    border: 1.5px dashed #e5e7eb;
+  }
+</style>
+
+<div class="apk-card" style="background:transparent;box-shadow:none;padding:0">
+  <div class="tas-tabs" role="tablist">
+    <button type="button" class="tas-tab active" data-panel="counter" role="tab">Counter</button>
+    <button type="button" class="tas-tab" data-panel="history" role="tab">History</button>
+  </div>
+
+  <!-- ============== Counter panel ============== -->
+  <div class="tas-panel active" id="panelCounter">
+    <div class="tas-screen" style="margin-top:12px">
+      <div class="tas-dhikr-ar" id="tasDhikrAr">سُبْحَانَ اللَّهِ</div>
+      <div class="tas-dhikr-translit" id="tasDhikrTr">SubhanAllah</div>
+      <div class="tas-dhikr-en" id="tasDhikrEn">Glory be to Allah</div>
+      <div class="tas-lcd">
+        <div class="tas-lcd-num" id="tCount">000</div>
+        <div class="tas-lcd-meta">
+          <span>Target <strong id="tTarget">33</strong></span>
+          <span>Loops <strong id="tLoops">0</strong></span>
+          <span>Total <strong id="tTotal">0</strong></span>
+        </div>
+        <div class="tas-progress"><div id="tProg"></div></div>
+      </div>
+    </div>
+
+    <div class="tas-tap-wrap">
+      <button class="tas-tap" id="tTap">TAP<small>to count</small></button>
+    </div>
+
+    <div class="tas-section-title">Target</div>
+    <div class="tas-row">
+      <button class="tas-pill active" data-target="33">33</button>
+      <button class="tas-pill" data-target="99">99</button>
+      <button class="tas-pill" data-target="100">100</button>
+      <button class="tas-pill" data-target="500">500</button>
+    </div>
+
+    <div class="tas-section-title">Masnoon Azkar</div>
+    <div class="tas-dhikr-grid" id="tasDhikrRow"></div>
+
+    <div class="tas-row" style="margin-top:14px">
+      <button class="tas-pill danger" id="tReset">↺ Reset Session</button>
+      <button class="tas-pill" id="tVibToggle">📳 Vibrate: On</button>
+    </div>
+  </div>
+
+  <!-- ============== History panel ============== -->
+  <div class="tas-panel" id="panelHistory">
+    <div class="tas-section-title" style="margin-top:14px">Filter</div>
+    <div class="tas-hist-controls">
+      <label for="histMonth">Month:</label>
+      <input type="month" id="histMonth" />
+      <button class="tas-pill" id="histAllBtn">All Time</button>
+    </div>
+
+    <div class="tas-hist-summary">
+      <div class="hs-label">Total Azkar</div>
+      <div class="hs-num" id="histTotal">0</div>
+      <div class="hs-sub" id="histRange">All time</div>
+    </div>
+
+    <div class="tas-section-title">Breakdown</div>
+    <div id="histList"></div>
+
+    <div class="tas-row" style="margin-top:18px">
+      <button class="tas-pill danger" id="histClear">🗑 Clear All History</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  // Masnoon Azkar with full harakat
+  var DHIKR = [
+    {
+      key: 'subhanallah',
+      ar: 'سُبْحَانَ اللَّهِ',
+      tr: 'SubhanAllah',
+      en: 'Glory be to Allah',
+      tag: 'Tasbeeh'
+    },
+    {
+      key: 'alhamdulillah',
+      ar: 'ٱلْحَمْدُ لِلَّهِ',
+      tr: 'Alhamdulillah',
+      en: 'All praise is for Allah',
+      tag: 'Tahmeed'
+    },
+    {
+      key: 'allahuakbar',
+      ar: 'ٱللَّهُ أَكْبَرُ',
+      tr: 'Allahu Akbar',
+      en: 'Allah is the Greatest',
+      tag: 'Takbeer'
+    },
+    {
+      key: 'lailaha',
+      ar: 'لَا إِلَٰهَ إِلَّا ٱللَّهُ',
+      tr: 'La ilaha illa Allah',
+      en: 'There is no deity worthy of worship except Allah',
+      tag: 'Tahleel'
+    },
+    {
+      key: 'astaghfirullah',
+      ar: 'أَسْتَغْفِرُ ٱللَّهَ',
+      tr: 'Astaghfirullah',
+      en: 'I seek forgiveness from Allah',
+      tag: 'Istighfar'
+    },
+    {
+      key: 'durood-ibrahim',
+      ar: 'ٱللَّهُمَّ صَلِّ عَلَىٰ مُحَمَّدٍ وَعَلَىٰ آلِ مُحَمَّدٍ',
+      tr: 'Allahumma salli ala Muhammad wa ala aali Muhammad',
+      en: 'O Allah, send blessings upon Muhammad ﷺ and the family of Muhammad',
+      tag: 'Durood'
+    },
+    {
+      key: 'hawqala',
+      ar: 'لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِٱللَّهِ',
+      tr: 'La hawla wa la quwwata illa billah',
+      en: 'There is no power nor might except with Allah',
+      tag: 'Hawqala'
+    },
+    {
+      key: 'hasbunallah',
+      ar: 'حَسْبُنَا ٱللَّهُ وَنِعْمَ ٱلْوَكِيلُ',
+      tr: 'Hasbunallahu wa ni\u2019mal wakeel',
+      en: 'Allah is sufficient for us and the best Disposer of affairs',
+      tag: 'Tawakkul'
+    },
+    {
+      key: 'subhanallah-bihamdihi',
+      ar: 'سُبْحَانَ ٱللَّهِ وَبِحَمْدِهِ، سُبْحَانَ ٱللَّهِ ٱلْعَظِيمِ',
+      tr: 'SubhanAllahi wa bihamdihi, SubhanAllahil-\u2018Adheem',
+      en: 'Glory be to Allah and praise Him, Glory be to Allah the Magnificent',
+      tag: 'Hadith'
+    }
+  ];
+
+  var c = 0, target = 33, loops = 0, total = 0, dhikrIdx = 0, vib = true;
+  // history: { 'YYYY-MM-DD': { dhikrKey: count, ... } }
+  var history = {};
+
+  // Restore from localStorage
+  try {
+    var st = JSON.parse(localStorage.getItem('tas_state') || '{}');
+    if (typeof st.c === 'number') c = st.c;
+    if (typeof st.target === 'number') target = st.target;
+    if (typeof st.loops === 'number') loops = st.loops;
+    if (typeof st.total === 'number') total = st.total;
+    if (typeof st.dhikr === 'number') dhikrIdx = st.dhikr;
+    if (typeof st.vib === 'boolean') vib = st.vib;
+  } catch(e){}
+  try {
+    history = JSON.parse(localStorage.getItem('tas_history') || '{}') || {};
+  } catch(e){ history = {}; }
+
+  // Migrate legacy total into today's history if not yet recorded
+  // (kept simple: do nothing — history grows from new taps)
+
+  var elC = document.getElementById('tCount'),
+      elT = document.getElementById('tTarget'),
+      elL = document.getElementById('tLoops'),
+      elTotal = document.getElementById('tTotal'),
+      elProg = document.getElementById('tProg'),
+      elAr = document.getElementById('tasDhikrAr'),
+      elTr = document.getElementById('tasDhikrTr'),
+      elEn = document.getElementById('tasDhikrEn'),
+      elTap = document.getElementById('tTap'),
+      elReset = document.getElementById('tReset'),
+      elVib = document.getElementById('tVibToggle'),
+      dhikrRow = document.getElementById('tasDhikrRow');
+
+  // Build dhikr selector cards
+  DHIKR.forEach(function(d, i){
+    var card = document.createElement('div');
+    card.className = 'tas-dhikr-card' + (i === dhikrIdx ? ' active' : '');
+    card.setAttribute('data-d', i);
+    card.innerHTML =
+      '<span class="dc-tag">' + d.tag + '</span>' +
+      '<div class="dc-ar">' + d.ar + '</div>' +
+      '<div class="dc-en"><strong>' + d.tr + '</strong> &mdash; ' + d.en + '</div>';
+    card.addEventListener('click', function(){
+      dhikrIdx = i;
+      Array.prototype.forEach.call(dhikrRow.children, function(x){ x.classList.remove('active'); });
+      card.classList.add('active');
+      render();
+      save();
+    });
+    dhikrRow.appendChild(card);
+  });
+
+  function pad(n){ var s = String(n); while (s.length < 3) s = '0' + s; return s; }
+  function todayKey(){
+    var d = new Date();
+    var m = String(d.getMonth() + 1); if (m.length < 2) m = '0' + m;
+    var dd = String(d.getDate()); if (dd.length < 2) dd = '0' + dd;
+    return d.getFullYear() + '-' + m + '-' + dd;
+  }
+  function save(){
+    try { localStorage.setItem('tas_state', JSON.stringify({ c:c, target:target, loops:loops, total:total, dhikr:dhikrIdx, vib:vib })); } catch(e){}
+  }
+  function saveHistory(){
+    try { localStorage.setItem('tas_history', JSON.stringify(history)); } catch(e){}
+  }
+  function recordTap(){
+    var k = todayKey();
+    if (!history[k]) history[k] = {};
+    var dk = DHIKR[dhikrIdx].key;
+    history[k][dk] = (history[k][dk] || 0) + 1;
+    saveHistory();
+  }
+
+  function render(){
+    elC.textContent = pad(c);
+    elT.textContent = target;
+    elL.textContent = loops;
+    elTotal.textContent = total;
+    elProg.style.width = Math.min(100, (c / target) * 100) + '%';
+    elAr.textContent = DHIKR[dhikrIdx].ar;
+    elTr.textContent = DHIKR[dhikrIdx].tr;
+    elEn.textContent = DHIKR[dhikrIdx].en;
+    elVib.textContent = vib ? '📳 Vibrate: On' : '📴 Vibrate: Off';
+  }
+  function vibrate(p){ if (!vib) return; try{ navigator.vibrate && navigator.vibrate(p); }catch(e){} }
+
+  var isDragging = false, wasDragged = false, dragStartX = 0, dragStartY = 0, initialLeft = 0, initialTop = 0;
+  function setTapPos(x, y) {
+    elTap.style.position = 'fixed';
+    elTap.style.left = x + 'px';
+    elTap.style.top = y + 'px';
+    elTap.style.margin = '0';
+    elTap.style.zIndex = '9999';
+  }
+  try {
+    var pos = JSON.parse(localStorage.getItem('tas_tap_pos'));
+    if (pos && typeof pos.x === 'number' && typeof pos.y === 'number') {
+      setTapPos(pos.x, pos.y);
+    }
+  } catch(e){}
+
+  function onDragStart(e) {
+    if (e.type === 'mousedown' && e.button !== 0) return;
+    var ev = e.touches ? e.touches[0] : e;
+    isDragging = false;
+    wasDragged = false;
+    dragStartX = ev.clientX;
+    dragStartY = ev.clientY;
+    var rect = elTap.getBoundingClientRect();
+    if (elTap.style.position !== 'fixed') {
+      setTapPos(rect.left, rect.top);
+      rect = elTap.getBoundingClientRect();
+    }
+    initialLeft = rect.left;
+    initialTop = rect.top;
+    
+    document.addEventListener('mousemove', onDragMove, {passive: false});
+    document.addEventListener('touchmove', onDragMove, {passive: false});
+    document.addEventListener('mouseup', onDragEnd);
+    document.addEventListener('touchend', onDragEnd);
+  }
+
+  function onDragMove(e) {
+    var ev = e.touches ? e.touches[0] : e;
+    var dx = ev.clientX - dragStartX;
+    var dy = ev.clientY - dragStartY;
+    
+    if (!isDragging && (Math.abs(dx) > 8 || Math.abs(dy) > 8)) {
+      isDragging = true;
+      wasDragged = true;
+    }
+    
+    if (isDragging) {
+      if (e.cancelable) e.preventDefault();
+      var newX = initialLeft + dx;
+      var newY = initialTop + dy;
+      // Keep within screen bounds
+      newX = Math.max(0, Math.min(newX, window.innerWidth - elTap.offsetWidth));
+      newY = Math.max(0, Math.min(newY, window.innerHeight - elTap.offsetHeight));
+      setTapPos(newX, newY);
+    }
+  }
+
+  function onDragEnd(e) {
+    document.removeEventListener('mousemove', onDragMove);
+    document.removeEventListener('touchmove', onDragMove);
+    document.removeEventListener('mouseup', onDragEnd);
+    document.removeEventListener('touchend', onDragEnd);
+    
+    if (isDragging) {
+      var rect = elTap.getBoundingClientRect();
+      try { localStorage.setItem('tas_tap_pos', JSON.stringify({ x: rect.left, y: rect.top })); } catch(err){}
+    }
+    setTimeout(function(){ isDragging = false; }, 50);
+  }
+
+  elTap.addEventListener('mousedown', onDragStart);
+  elTap.addEventListener('touchstart', onDragStart, {passive: false});
+
+  elTap.addEventListener('click', function(e){
+    if (wasDragged) {
+      wasDragged = false;
+      return;
+    }
+    c++; total++;
+    recordTap();
+    if (c >= target) {
+      loops++;
+      vibrate([80, 40, 80]);
+      c = 0;
+    } else {
+      vibrate(15);
+    }
+    render(); save();
+  });
+  elReset.addEventListener('click', function(){
+    if (!confirm('Reset current session? (History will be kept)')) return;
+    c = 0; loops = 0; total = 0; render(); save();
+  });
+  elVib.addEventListener('click', function(){ vib = !vib; render(); save(); });
+
+  document.querySelectorAll('.tas-pill[data-target]').forEach(function(p){
+    if (parseInt(p.getAttribute('data-target'), 10) === target) p.classList.add('active');
+    p.addEventListener('click', function(){
+      target = parseInt(p.getAttribute('data-target'), 10);
+      document.querySelectorAll('.tas-pill[data-target]').forEach(function(x){ x.classList.remove('active'); });
+      p.classList.add('active');
+      c = 0; render(); save();
+    });
+  });
+
+  // Spacebar / Enter for desktop testing
+  document.addEventListener('keydown', function(e){
+    if (e.code === 'Space' || e.code === 'Enter') {
+      var hp = document.getElementById('panelCounter');
+      if (hp && hp.classList.contains('active')) { e.preventDefault(); elTap.click(); }
+    }
+  });
+
+  // ============== Tabs (Counter / History) ==============
+  var tabs = document.querySelectorAll('.tas-tab');
+  tabs.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var name = btn.getAttribute('data-panel');
+      tabs.forEach(function(b){ b.classList.toggle('active', b === btn); });
+      document.querySelectorAll('.tas-panel').forEach(function(p){
+        p.classList.toggle('active', p.id === ('panel' + name.charAt(0).toUpperCase() + name.slice(1)));
+      });
+      if (name === 'history') renderHistory();
+    });
+  });
+
+  // ============== History rendering ==============
+  var histMonth = document.getElementById('histMonth');
+  var histAllBtn = document.getElementById('histAllBtn');
+  var histTotal = document.getElementById('histTotal');
+  var histRange = document.getElementById('histRange');
+  var histList = document.getElementById('histList');
+  var histClear = document.getElementById('histClear');
+  var filterMonth = ''; // '' means All Time, else 'YYYY-MM'
+
+  function defaultMonth(){
+    var d = new Date();
+    var m = String(d.getMonth() + 1); if (m.length < 2) m = '0' + m;
+    return d.getFullYear() + '-' + m;
+  }
+
+  function aggregate(monthFilter){
+    var totals = {}; // dhikrKey -> count
+    var grand = 0;
+    Object.keys(history).forEach(function(date){
+      if (monthFilter && date.indexOf(monthFilter) !== 0) return;
+      var day = history[date] || {};
+      Object.keys(day).forEach(function(k){
+        totals[k] = (totals[k] || 0) + day[k];
+        grand += day[k];
+      });
+    });
+    return { totals: totals, grand: grand };
+  }
+
+  function monthLabel(ym){
+    if (!ym) return 'All time';
+    var parts = ym.split('-');
+    var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    var mi = parseInt(parts[1], 10) - 1;
+    return (months[mi] || '') + ' ' + parts[0];
+  }
+
+  function renderHistory(){
+    var agg = aggregate(filterMonth);
+    histTotal.textContent = agg.grand.toLocaleString();
+    histRange.textContent = monthLabel(filterMonth);
+
+    if (agg.grand === 0) {
+      histList.innerHTML = '<div class="tas-hist-empty">No azkar recorded' + (filterMonth ? ' for this month' : ' yet') + '.<br/>Start tapping in the Counter tab to build your history.</div>';
+      return;
+    }
+
+    // Sort dhikr by count desc
+    var rows = DHIKR.map(function(d){
+      return { d: d, n: agg.totals[d.key] || 0 };
+    }).filter(function(r){ return r.n > 0; })
+      .sort(function(a,b){ return b.n - a.n; });
+
+    histList.innerHTML = rows.map(function(r){
+      return '<div class="tas-hist-row">' +
+        '<div>' +
+          '<div class="hr-ar">' + r.d.ar + '</div>' +
+          '<div class="hr-en"><strong>' + r.d.tr + '</strong></div>' +
+        '</div>' +
+        '<div class="hr-count">' + r.n.toLocaleString() + '</div>' +
+      '</div>';
+    }).join('');
+  }
+
+  histMonth.value = defaultMonth();
+  filterMonth = histMonth.value;
+  histMonth.addEventListener('change', function(){
+    filterMonth = histMonth.value;
+    renderHistory();
+  });
+  histAllBtn.addEventListener('click', function(){
+    filterMonth = '';
+    histMonth.value = '';
+    renderHistory();
+  });
+  histClear.addEventListener('click', function(){
+    if (!confirm('Clear ALL azkar history? This cannot be undone.')) return;
+    history = {};
+    saveHistory();
+    renderHistory();
+  });
+
+  render();
+})();
+</script>
+
+</main>
+<script>try{localStorage.setItem('apk_bottombar','1')}catch(e){}</script>
+<script src="../kidba_assets/js/apk-bottombar.js"></script>
+</body>
+</html>

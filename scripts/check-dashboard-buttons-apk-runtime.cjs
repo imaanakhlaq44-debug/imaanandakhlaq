@@ -56,9 +56,6 @@ export function createUserWithEmailAndPassword(auth, email){
 export function sendPasswordResetEmail(){
   return Promise.resolve();
 }
-export function sendEmailVerification(){
-  return Promise.resolve();
-}
 `;
 }
 

@@ -1,5 +1,4 @@
-import { html, raw } from 'hono/html'
-import { firebaseConfigJS } from '../lib/firebaseConfig'
+import { html } from 'hono/html'
 
 export const SchoolAdminDashboard = () => html`
 <style>
@@ -586,6 +585,27 @@ export const SchoolAdminDashboard = () => html`
     object-fit: cover;
   }
 
+  .sidebar-school-cam-badge {
+    position: absolute;
+    bottom: -4px;
+    right: -4px;
+    background: #ffffff;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+    border: 1px solid #e2e8f0;
+  }
+
+  .sidebar-school-cam-badge i {
+    color: #29416d;
+    font-size: 10px;
+  }
+
   .section-shell {
     display: flex;
     align-items: flex-start;
@@ -893,14 +913,14 @@ export const SchoolAdminDashboard = () => html`
     margin-bottom: 0.85rem;
   }
 
+  /* ── Compact hero cards ── */
   .hero-card {
-    border-radius: 16px;
-    padding: 0.9rem;
+    border-radius: 14px;
+    padding: 0.82rem;
     position: relative;
     overflow: hidden;
-    min-height: 138px;
     border: 1px solid var(--admin-line);
-    box-shadow: none;
+    box-shadow: 0 2px 10px rgba(15,23,42,0.05);
   }
 
   .card-white {
@@ -1062,34 +1082,32 @@ export const SchoolAdminDashboard = () => html`
 
   .stat-title {
     font-family: 'Sora', sans-serif;
-    font-size: 0.66rem;
+    font-size: 0.60rem;
     font-weight: 700;
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: #64748b;
-    margin-bottom: 0.36rem;
+    margin-bottom: 0.22rem;
   }
-
   .stat-value-large {
     font-family: 'Sora', sans-serif;
-    font-size: clamp(1.52rem, 2.4vw, 2.24rem);
+    font-size: 1.55rem;
     font-weight: 800;
     color: var(--admin-ink);
-    line-height: 0.95;
+    line-height: 1;
   }
 
+  /* Brand colour tokens — orange=teachers, pink=students, gold=tan */
   .card-green {
-    background: linear-gradient(180deg, #f0a43d 0%, var(--admin-accent-soft) 100%);
+    background: linear-gradient(135deg, #f0a43d 0%, #d97706 100%);
     color: #ffffff;
   }
-
   .card-yellow {
-    background: linear-gradient(180deg, #dd4a83 0%, var(--admin-accent) 100%);
+    background: linear-gradient(135deg, #dd4a83 0%, #b91c5c 100%);
     color: #ffffff;
   }
-
   .card-orange {
-    background: linear-gradient(180deg, #d6a16d 0%, var(--admin-accent-gold) 100%);
+    background: linear-gradient(135deg, #d6a16d 0%, #b07540 100%);
     color: #ffffff;
   }
 
@@ -1738,21 +1756,47 @@ export const SchoolAdminDashboard = () => html`
   .modal-photo-picker {
     width: 96px;
     height: 96px;
-    border-radius: 28px;
+    border-radius: 50%;
     background: linear-gradient(180deg, #ffffff, #f8fafc);
-    border: 2px dashed #cbd5e1;
+    border: 3px solid #e2e8f0;
     display: inline-flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
-    box-shadow: 0 14px 24px rgba(15,23,42,0.06);
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    box-shadow: 0 10px 25px rgba(15,23,42,0.1);
+    position: relative;
   }
 
   .modal-photo-picker:hover {
-    transform: translateY(-2px);
-    border-color: rgba(214,54,120,0.45);
-    box-shadow: 0 18px 28px rgba(214,54,120,0.12);
+    transform: translateY(-2px) scale(1.02);
+    border-color: #cbd5e1;
+    box-shadow: 0 14px 28px rgba(15,23,42,0.15);
+  }
+
+  .modal-photo-picker::after {
+    content: '\f030';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    background: #ffffff;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #29416d;
+    font-size: 13px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    border: 1px solid #e2e8f0;
+    pointer-events: none;
+    transition: background 0.2s;
+  }
+  .modal-photo-picker:hover::after {
+    background: #f8fafc;
   }
 
   .class-chip-list {
@@ -1912,273 +1956,155 @@ export const SchoolAdminDashboard = () => html`
 
   @media (max-width: 1180px) {
     .app-container {
-      grid-template-columns: 204px minmax(0, 1fr);
+      grid-template-columns: 200px minmax(0, 1fr);
     }
-
-    .top-nav {
-      padding: 1rem;
-    }
-
-    .main-content {
-      padding: 0.9rem;
-    }
-
     .hero-grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
-
     .hero-main-card {
       grid-column: 1 / -1;
     }
-
     .overview-lower-grid {
       grid-template-columns: 1fr;
     }
-
     .panel-stack {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
+  }
+
+  /* ── Mobile: off-canvas sidebar + bottom nav ── */
+  .mobile-menu-btn {
+    display: none;
+    position: fixed;
+    top: 12px; left: 12px;
+    z-index: 1100;
+    width: 42px; height: 42px;
+    border-radius: 11px;
+    border: none;
+    background: var(--admin-blue);
+    color: #fff;
+    font-size: 1.2rem;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s;
+  }
+  .mobile-menu-btn:hover { transform: scale(1.06); }
+  .mobile-overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(15,23,42,0.55);
+    backdrop-filter: blur(4px);
+    z-index: 999;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .mobile-overlay.active { display: block; opacity: 1; }
+  .admin-mobile-bottom {
+    display: none;
   }
 
   @media (max-width: 900px) {
-    .login-wrapper {
-      padding: 0.7rem;
-    }
+    .mobile-menu-btn { display: flex; }
 
-    .login-wrapper::before {
-      inset: 8px;
-      border-radius: 22px;
-    }
-
+    /* Sidebar: fixed off-canvas drawer */
     .app-container {
       grid-template-columns: 1fr;
-      min-height: 100vh;
-      border-radius: 0;
     }
-
     .top-nav {
-      flex-direction: row;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 0.8rem;
+      position: fixed;
+      left: -270px;
+      top: 0; height: 100vh;
+      width: 250px;
+      z-index: 1050;
+      transition: left 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: none;
+      flex-direction: column;
+      flex-wrap: nowrap;
+      align-items: stretch;
       border-right: none;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-    }
-
-    .nav-brand {
-      flex: 1 1 auto;
-      padding: 0;
       border-bottom: none;
-      min-width: 0;
+    }
+    .top-nav.open {
+      left: 0;
+      box-shadow: 8px 0 28px rgba(0,0,0,0.3);
     }
 
-    .nav-center {
-      flex: 1 1 100%;
-      order: 3;
-    }
-
-    .nav-links {
-      flex-direction: row;
-      flex-wrap: wrap;
-      gap: 0.4rem;
-    }
-
-    .nav-links li {
-      padding: 0.72rem 0.85rem;
-    }
-
-    .nav-actions {
-      margin-top: 0;
-      grid-template-columns: repeat(4, auto);
-      justify-content: flex-end;
-      align-items: center;
-    }
-
-    .nav-profile,
-    .btn-logout {
-      grid-column: auto;
-    }
-
-    .btn-logout {
-      width: auto;
-    }
-
+    /* Main content: full width, pad top for hamburger */
     .main-content {
-      padding: 0.85rem;
+      padding: 0.75rem;
+      padding-top: 64px;
+      padding-bottom: 72px;
     }
 
-    .workspace-topbar {
-      flex-wrap: wrap;
-      padding: 0.85rem 1rem;
+    /* Hero grid: 2-col */
+    .hero-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+      gap: 0.55rem;
     }
-
-    .workspace-heading {
-      width: 100%;
-    }
-
-    .workspace-tools {
-      width: 100%;
-      justify-content: flex-end;
-    }
-
-    .tab-panel {
-      padding: 1rem;
-      border-radius: 18px;
-    }
-
-    .section-header {
-      align-items: flex-start;
-    }
-
-    .section-shell {
-      width: 100%;
-    }
-
-    .section-actions {
-      width: 100%;
-      justify-content: flex-start;
-    }
-
-    .hero-grid,
-    #tab-attendance .hero-grid {
-      grid-template-columns: 1fr !important;
-    }
-
     .hero-main-card {
+      grid-column: 1 / -1;
       grid-template-columns: 1fr;
     }
+    .hero-visual { display: none; } /* hide illustration on mobile */
+    .hero-score-grid { grid-template-columns: repeat(2, 1fr); }
+    .metric-illustration { display: none; }
 
-    .hero-score-grid {
-      grid-template-columns: 1fr;
-    }
+    /* Overview lower: single col */
+    .overview-lower-grid { grid-template-columns: 1fr !important; }
+    .panel-stack { grid-template-columns: 1fr; }
 
-    .hero-visual {
-      width: 100%;
-      flex-direction: row;
+    /* Table */
+    .table-header-row { display: none; }
+    .pill-row { flex-wrap: wrap; align-items: flex-start; }
+    .col-1,.col-2,.col-3,.col-4,.col-5,.col-6 { flex: 1 1 calc(50% - 0.35rem); text-align: left; }
+    .col-actions { flex: 1 1 100%; }
+
+    .modal-content { padding: 18px; border-radius: 20px; max-height: calc(100vh - 1.5rem); }
+    .modal-footer-actions { padding: 0 18px; margin: 0 -18px; bottom: -18px; }
+    .class-chip-list { grid-template-columns: 1fr; }
+
+    /* Bottom mobile navigation */
+    .admin-mobile-bottom {
+      display: flex;
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      background: #ffffff;
+      border-top: 1px solid rgba(0,0,0,0.07);
+      box-shadow: 0 -4px 14px rgba(30,45,90,0.1);
+      z-index: 1000;
+      justify-content: space-around;
       align-items: center;
-      justify-content: space-between;
+      padding: 8px 4px calc(8px + env(safe-area-inset-bottom)) 4px;
     }
-
-    .attendance-widget {
-      grid-template-columns: 1fr;
-      justify-items: center;
+    .adm-mob-btn {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 3px; background: transparent; border: none;
+      color: #64748b; font-size: 10px; font-weight: 700;
+      font-family: 'Sora', sans-serif; cursor: pointer; flex: 1;
     }
-
-    .panel-stack {
-      grid-template-columns: 1fr;
-    }
-
-    .table-header-row {
-      display: none;
-    }
-
-    .pill-row {
-      flex-wrap: wrap;
-      align-items: flex-start;
-    }
-
-    .col-1,
-    .col-2,
-    .col-3,
-    .col-4,
-    .col-5,
-    .col-6 {
-      flex: 1 1 calc(50% - 0.35rem);
-      text-align: left;
-    }
-
-    .col-actions {
-      flex: 1 1 100%;
-      text-align: left;
-    }
-
-    .modal-content {
-      padding: 22px;
-      border-radius: 22px;
-      max-height: calc(100vh - 1.5rem);
-    }
-
-    .modal-footer-actions {
-      padding-left: 22px;
-      padding-right: 22px;
-      margin-left: -22px;
-      margin-right: -22px;
-      bottom: -22px;
-    }
-
-    .class-chip-list {
-      grid-template-columns: 1fr;
-    }
-
-    .login-card {
-      padding: 2rem 1.5rem;
-    }
+    .adm-mob-btn i { font-size: 17px; padding: 5px; border-radius: 8px; background: #f1f5f9; color: #334155; }
+    .adm-mob-btn.active i { color: #fff; background: var(--admin-blue); }
+    .adm-mob-btn.active { color: var(--admin-blue); }
+    .adm-mob-btn.danger i { color: #fff; background: #dc2626; }
   }
 
   @media (max-width: 640px) {
-    .top-nav {
-      align-items: stretch;
+    .hero-grid {
+      grid-template-columns: 1fr !important;
     }
+    .hero-score-grid { grid-template-columns: 1fr; }
+    .section-title { font-size: 1.2rem; }
+    .workspace-topbar { flex-wrap: wrap; }
+    .workspace-tools { width: 100%; justify-content: flex-end; }
+    .workspace-admin-chip { width: 100%; }
+    .section-actions, .class-filter-wrap { width: 100%; }
+    .section-asset { width: 32px; height: 32px; flex: 0 0 32px; }
+    .nav-actions { display: none; } /* bottom bar handles these on small screens */
+    .login-card { padding: 1.6rem 1.2rem; }
+  }
 
-    .nav-brand {
-      width: 100%;
-    }
-
-    .brand-title {
-      font-size: 0.98rem;
-    }
-
-    .nav-actions {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      width: 100%;
-    }
-
-    .workspace-topbar {
-      align-items: stretch;
-    }
-
-    .workspace-tools {
-      justify-content: space-between;
-      flex-wrap: wrap;
-    }
-
-    .workspace-admin-chip {
-      width: 100%;
-    }
-
-    .nav-profile,
-    .btn-logout {
-      grid-column: 1 / -1;
-    }
-
-    .nav-links {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      width: 100%;
-    }
-
-    .nav-links li {
-      justify-content: center;
-      text-align: center;
-      padding: 0.76rem 0.55rem;
-      font-size: 0.78rem;
-    }
-
-    .section-title {
-      font-size: 1.35rem;
-    }
-
-    .section-actions,
-    .class-filter-wrap {
-      width: 100%;
-    }
-
-    .hero-visual {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-
-    .section-asset {
       width: 54px;
       height: 54px;
       flex-basis: 54px;
@@ -2224,143 +2150,6 @@ export const SchoolAdminDashboard = () => html`
       height: 124px;
     }
   }
-
-  .sidebar-cam-badge, .school-cam-badge {
-    position: absolute;
-    bottom: -5px;
-    right: -5px;
-    width: 28px;
-    height: 28px;
-    background: linear-gradient(135deg, #d63678 0%, #e46c2e 100%);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 0.75rem;
-    border: 2px solid white;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-    cursor: pointer;
-    transition: transform 0.2s;
-  }
-  .sidebar-cam-badge:hover, .school-cam-badge:hover {
-    transform: scale(1.1);
-  }
-
-  /* ============================================================
-     DESKTOP POLISH (web only — overrides applied at end so they
-     win over earlier rules). Brand palette enforced, modern
-     cards, responsive breakpoints, logout highlighted.
-     ============================================================ */
-  :root {
-    --brand-primary: #29416d;
-    --brand-secondary: #cf296d;
-    --brand-tertiary: #ea8300;
-    --brand-success: #34d399;
-    --brand-danger: #ef4444;
-  }
-
-  /* Wide layouts: wider sidebar + breathing room */
-  @media (min-width: 1280px) {
-    .app-container { grid-template-columns: 260px minmax(0, 1fr) !important; }
-    .top-nav { padding: 1.2rem 1rem !important; gap: 1.1rem !important; }
-    .nav-brand { padding: 0.5rem 0.5rem 1.1rem !important; }
-    .brand-mark { width: 64px !important; height: 64px !important; }
-  }
-  @media (min-width: 1600px) {
-    .app-container { grid-template-columns: 280px minmax(0, 1fr) !important; }
-    .hero-grid { gap: 1.5rem !important; }
-  }
-
-  /* Modern card styling — softer shadows, brand-tinted borders */
-  .hero-card,
-  .card-white {
-    border-radius: 20px !important;
-    box-shadow: 0 6px 22px rgba(41, 65, 109, 0.08), 0 1px 3px rgba(41, 65, 109, 0.04) !important;
-    border: 1px solid rgba(41, 65, 109, 0.06) !important;
-    transition: transform 0.25s ease, box-shadow 0.25s ease !important;
-  }
-  .hero-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 14px 34px rgba(41, 65, 109, 0.12), 0 3px 8px rgba(41, 65, 109, 0.05) !important;
-  }
-
-  /* Brand-aligned color accents on metric cards */
-  .hero-card.card-green { background: linear-gradient(135deg, rgba(52, 211, 153, 0.10), rgba(255,255,255,0.95)) !important; border-left: 4px solid var(--brand-success) !important; }
-  .hero-card.card-yellow { background: linear-gradient(135deg, rgba(234, 131, 0, 0.10), rgba(255,255,255,0.95)) !important; border-left: 4px solid var(--brand-tertiary) !important; }
-  .hero-card.card-orange { background: linear-gradient(135deg, rgba(207, 41, 109, 0.10), rgba(255,255,255,0.95)) !important; border-left: 4px solid var(--brand-secondary) !important; }
-  .hero-card.attendance-summary-card { border-radius: 18px !important; }
-
-  /* Reduce metric illustration weight on desktop (keeps it subtle, not dominant) */
-  .metric-illustration,
-  .summary-card-illustration { opacity: 0.85; max-width: 110px !important; }
-
-  /* Section / panel cards */
-  .section-card,
-  .widget-card,
-  .panel-card {
-    border-radius: 20px !important;
-    box-shadow: 0 6px 22px rgba(41, 65, 109, 0.07) !important;
-    border: 1px solid rgba(226, 232, 240, 0.85) !important;
-  }
-
-  /* Logout button — highlighted red gradient (consistent with other dashboards) */
-  .btn-logout,
-  .btn-outline-light.btn-logout {
-    background: linear-gradient(135deg, #ef4444 0%, #cf296d 100%) !important;
-    color: #ffffff !important;
-    border: 1px solid rgba(239, 68, 68, 0.4) !important;
-    box-shadow: 0 6px 16px rgba(239, 68, 68, 0.28) !important;
-    font-weight: 700 !important;
-  }
-  .btn-logout:hover,
-  .btn-outline-light.btn-logout:hover {
-    background: linear-gradient(135deg, #dc2626 0%, #b91c5e 100%) !important;
-    color: #ffffff !important;
-    transform: translateY(-1px);
-    box-shadow: 0 10px 22px rgba(239, 68, 68, 0.36) !important;
-  }
-  .btn-logout i { color: #ffffff !important; }
-
-  /* Sidebar nav: brand accent on active/hover */
-  .nav-item.active,
-  .nav-link.active,
-  a.nav-item.active {
-    background: linear-gradient(90deg, rgba(207, 41, 109, 0.18), transparent) !important;
-    border-left: 3px solid var(--brand-secondary) !important;
-    color: #ffffff !important;
-  }
-
-  /* Tablet (768-1199): collapse hero to 2-col, sidebar narrower */
-  @media (max-width: 1199px) and (min-width: 768px) {
-    .app-container { grid-template-columns: 200px minmax(0, 1fr) !important; }
-    .hero-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 1rem !important; }
-    .hero-main-card { grid-column: 1 / -1 !important; }
-    .brand-mark { width: 50px !important; height: 50px !important; }
-    .nav-brand { gap: 0.7rem !important; }
-  }
-
-  /* Mobile (<768): single col, sidebar collapses, hero stacks */
-  @media (max-width: 767px) {
-    .app-container { grid-template-columns: 1fr !important; }
-    .top-nav {
-      flex-direction: row !important;
-      flex-wrap: wrap !important;
-      padding: 0.6rem 0.8rem !important;
-      gap: 0.5rem !important;
-      border-right: none !important;
-      border-bottom: 1px solid rgba(255,255,255,0.08) !important;
-    }
-    .nav-brand { padding: 0 !important; border-bottom: none !important; flex: 1 1 auto; }
-    .brand-mark { width: 42px !important; height: 42px !important; }
-    .nav-list,
-    .nav-actions { width: 100% !important; }
-    .hero-grid { grid-template-columns: 1fr !important; gap: 0.8rem !important; }
-    .metric-illustration,
-    .summary-card-illustration { max-width: 80px !important; }
-    .hero-card { padding: 1rem !important; }
-  }
-
 </style>
 
 <!-- LOGIN VIEW (hidden by default to avoid popup after /auth login) -->
@@ -2384,18 +2173,23 @@ export const SchoolAdminDashboard = () => html`
 
 <!-- DASHBOARD VIEW -->
 <div id="adminDashboardView" class="admin-page d-none">
+  <!-- Mobile hamburger -->
+  <button class="mobile-menu-btn" id="adminMenuBtn" aria-label="Toggle menu">
+    <i class="fas fa-bars"></i>
+  </button>
+  <!-- Overlay -->
+  <div class="mobile-overlay" id="adminOverlay"></div>
   
   <div class="app-container">
     <!-- TOP NAV -->
-    <div class="top-nav">
+    <div class="top-nav" id="adminSidebar">
       <div class="nav-brand">
-        <div class="brand-mark" id="sidebarAvatarClickArea" title="Click to change photo" role="button" tabindex="0" style="position:relative; cursor:pointer; overflow:visible;">
-          <img id="sidebarProfilePhoto" src="/kidba_assets/img/3d_school.png" alt="School Admin profile" style="border-radius:14px; width:100%; height:100%; object-fit:cover;">
-          <div class="sidebar-cam-badge"><i class="fas fa-camera"></i></div>
-        </div>
+        <div class="brand-mark"><img src="/kidba_assets/img/3d_school.png" alt="School 3D icon"></div>
         <div class="brand-copy">
+          <div class="brand-kicker">Imaan & Akhlaq</div>
           <div class="brand-title-row">
-            <span class="brand-title" id="sidebarProfileName">School Admin Name</span>
+            <div class="brand-title">School Management System</div>
+            <span class="brand-status"><i class="fas fa-circle"></i> Live campus</span>
           </div>
         </div>
       </div>
@@ -2416,9 +2210,7 @@ export const SchoolAdminDashboard = () => html`
             <span>Administrator access</span>
           </div>
         </div>
-        <button class="btn-outline-light btn-home-nav" type="button" onclick="window.location.href='/'"><i class="fas fa-house"></i><span>Home</span></button>
-        <button class="btn-outline-light btn-back" type="button" onclick="window.history.back()" style="margin-right:8px; border-color: rgba(100,116,139,0.45); background: linear-gradient(135deg, #64748b 0%, #475569 100%); box-shadow: 0 4px 10px rgba(100,116,139,0.35);"><i class="fas fa-arrow-left" style="color:white;"></i><span style="color:white;margin-left:5px;">Back</span></button>
-        <button class="btn-outline-light btn-refresh" type="button" onclick="window.location.reload()" style="margin-right:8px; border-color: rgba(16,185,129,0.45); background: linear-gradient(135deg, #10b981 0%, #059669 100%); box-shadow: 0 4px 10px rgba(16,185,129,0.35);"><i class="fas fa-sync-alt" style="color:white;"></i><span style="color:white;margin-left:5px;">Refresh</span></button>
+        <button class="btn-outline-light btn-home-nav" type="button" onclick="window.location.href='auth.html'"><i class="fas fa-house"></i><span>Home</span></button>
         <button class="btn-outline-light btn-logout" type="button" onclick="logoutAdmin()"><i class="fas fa-sign-out-alt"></i><span>Log out</span></button>
       </div>
     </div>
@@ -2426,7 +2218,18 @@ export const SchoolAdminDashboard = () => html`
     <!-- MAIN AREA -->
     <div class="main-content">
       <div class="workspace-topbar">
-        
+        <div class="workspace-heading">
+            <div class="workspace-brand-asset" id="schoolAdminLogoClickArea" title="Click to change school logo" role="button" tabindex="0" style="position:relative; cursor:pointer; overflow:visible;">
+              <img id="schoolAdminLogoImg" src="/kidba_assets/img/3d_school.png" alt="School logo" style="width:100%; height:100%; object-fit:cover; border-radius:18px;">
+              <div class="sidebar-school-cam-badge"><i class="fas fa-camera"></i></div>
+            </div>
+            <input id="schoolAdminLogoInput" type="file" accept="image/*" class="d-none">
+            <div class="workspace-title-group">
+            <span class="workspace-kicker">Imaan &amp; Akhlaq ERP</span>
+            <div class="workspace-title">School Management System</div>
+            <div class="workspace-subtitle">Compact academic operations dashboard inspired by classic school ERP layouts.</div>
+          </div>
+        </div>
         <div class="workspace-tools">
           <button class="workspace-tool" type="button" aria-label="Search"><i class="fas fa-search"></i></button>
           <button class="workspace-tool notification-pill" type="button" aria-label="Notifications">
@@ -3015,16 +2818,76 @@ export const SchoolAdminDashboard = () => html`
   </div>
 </div>
 
+<!-- Mobile bottom nav bar for School Admin -->
+<div class="admin-mobile-bottom" id="adminBottomBar">
+  <button class="adm-mob-btn active" id="admMobOverview" onclick="switchAdminTab('overview', this)">
+    <i class="fas fa-th-large"></i><span>Overview</span>
+  </button>
+  <button class="adm-mob-btn" id="admMobTeachers" onclick="switchAdminTab('teachers', this)">
+    <i class="fas fa-chalkboard-teacher"></i><span>Teachers</span>
+  </button>
+  <button class="adm-mob-btn" id="admMobStudents" onclick="switchAdminTab('students', this)">
+    <i class="fas fa-user-graduate"></i><span>Students</span>
+  </button>
+  <button class="adm-mob-btn" id="admMobAttend" onclick="switchAdminTab('attendance', this)">
+    <i class="fas fa-calendar-check"></i><span>Attend.</span>
+  </button>
+  <button class="adm-mob-btn danger" onclick="logoutAdmin()">
+    <i class="fas fa-sign-out-alt"></i><span>Logout</span>
+  </button>
+</div>
+
 <!-- Load parsing libraries for browser (XLSX and mammoth) -->
 <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
 <script src="https://unpkg.com/mammoth/mammoth.browser.min.js"></script>
+<script>
+  // Mobile sidebar toggle
+  (function() {
+    const btn = document.getElementById('adminMenuBtn');
+    const sidebar = document.getElementById('adminSidebar');
+    const overlay = document.getElementById('adminOverlay');
+    if (!btn || !sidebar) return;
+    function openSidebar() {
+      sidebar.classList.add('open');
+      overlay.classList.add('active');
+      btn.innerHTML = '<i class="fas fa-times"></i>';
+    }
+    function closeSidebar() {
+      sidebar.classList.remove('open');
+      overlay.classList.remove('active');
+      btn.innerHTML = '<i class="fas fa-bars"></i>';
+    }
+    btn.addEventListener('click', () => sidebar.classList.contains('open') ? closeSidebar() : openSidebar());
+    overlay.addEventListener('click', closeSidebar);
+    // Close on nav item click on mobile
+    sidebar.querySelectorAll('.nav-links li').forEach(li => {
+      li.addEventListener('click', () => { if (window.innerWidth <= 900) closeSidebar(); });
+    });
+  })();
+
+  // Bottom nav tab switcher (delegates to existing switchTab function if present)
+  function switchAdminTab(tabName, btn) {
+    document.querySelectorAll('.adm-mob-btn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    // Trigger the sidebar nav item
+    const navItem = document.getElementById('nav-' + tabName);
+    if (navItem) navItem.click();
+  }
+</script>
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
   import { getAuth, onAuthStateChanged, signOut, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
   import { getFirestore, doc, getDoc, collection, query, where, getDocs, setDoc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
   import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-storage.js";
 
-  const firebaseConfig = ${raw(firebaseConfigJS)};
+  const firebaseConfig = {
+    apiKey: "AIzaSyA4MrV-oXhK_johreyzIucti5RFrKcvyG8",
+    authDomain: "imaan-app-1d2da.firebaseapp.com",
+    projectId: "imaan-app-1d2da",
+    storageBucket: "imaan-app-1d2da.firebasestorage.app",
+    messagingSenderId: "373650938167",
+    appId: "1:373650938167:web:e9da1317c118bc720d22b2"
+  };
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
@@ -3445,8 +3308,32 @@ export const SchoolAdminDashboard = () => html`
         }
       } else {
         showDebug('No authenticated user');
-        loginView.classList.remove('d-none');
-        dashboardView.classList.add('d-none');
+        
+        const stored = (function () {
+          try { return sessionStorage.getItem('auth_user') || localStorage.getItem('auth_user'); } catch (e) { return null; }
+        })();
+        const isCap = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
+        const maxAttempts = isCap ? 12 : 6;
+        if (stored) {
+          document.body.insertAdjacentHTML('beforeend', \`
+            <div id="authWaitOverlay" style="position:fixed; inset:0; background:rgba(30, 45, 90, 0.95); display:flex; flex-direction:column; justify-content:center; align-items:center; z-index:99999;">
+               <i class="fas fa-spinner fa-spin" style="font-size:3rem; color:#E08020; margin-bottom:20px;"></i>
+               <h3 style="font-family:'Fredoka One', cursive; color:#ffffff;">Restoring Session...</h3>
+               <p style="color:#cbd5e1;">Please wait</p>
+            </div>
+          \`);
+          let restored = false;
+          for (let attempt = 0; attempt < maxAttempts; attempt++) {
+            await new Promise(function (r) { setTimeout(r, 1000); });
+            if (auth.currentUser) { restored = true; break; }
+          }
+          const waitOverlay = document.getElementById('authWaitOverlay');
+          if (waitOverlay) waitOverlay.remove();
+          if (restored) return;
+        }
+
+        if (loginView) loginView.classList.remove('d-none');
+        if (dashboardView) dashboardView.classList.add('d-none');
       }
     } catch (err) {
       console.error('onAuthStateChanged error', err);
@@ -3475,34 +3362,11 @@ export const SchoolAdminDashboard = () => html`
     }
   };
 
-  function redirectToAuthAfterLogout() {
-    const authTarget = '/auth.html';
-    try {
-      window.location.replace(authTarget);
-    } catch (_) {
-      window.location.href = authTarget;
-    }
-  }
-
   window.logoutAdmin = () => {
-    let redirected = false;
-    const safeRedirect = () => {
-      if (redirected) return;
-      redirected = true;
-      try { sessionStorage.removeItem('auth_user'); } catch (_) {}
-      try { localStorage.removeItem('auth_user'); } catch (_) {}
-      redirectToAuthAfterLogout();
-    };
-
-    Promise.resolve()
-      .then(() => signOut(auth))
-      .catch((err) => {
-        console.warn('logoutAdmin signOut failed:', err);
-      })
-      .finally(safeRedirect);
-
-    // Ensure redirect still happens if signOut is delayed in WebView.
-    window.setTimeout(safeRedirect, 1200);
+    signOut(auth).then(() => {
+      sessionStorage.removeItem('auth_user');
+      window.location.href = 'auth.html';
+    });
   };
 
   // Bind logout to top nav button
@@ -3518,16 +3382,16 @@ export const SchoolAdminDashboard = () => html`
     
     try {
       const schoolId = currentAdminSession.school_id;
-        const sidebarName = document.getElementById('sidebarProfileName');
-        if (sidebarName) sidebarName.textContent = currentAdminSession.name || 'Admin';
-        const sidebarPhoto = document.getElementById('sidebarProfilePhoto');
-        if (sidebarPhoto && currentAdminSession.photoURL) sidebarPhoto.src = currentAdminSession.photoURL;
-        const workspaceSchoolName = document.getElementById('workspaceSchoolName');
-        if (workspaceSchoolName) workspaceSchoolName.textContent = currentAdminSession.school_name || 'School Name';
-        const schoolLogo = document.getElementById('schoolLogoImg');
-        if (schoolLogo && currentAdminSession.school_logo_url) schoolLogo.src = currentAdminSession.school_logo_url;
-  
       
+      // Load school profile
+      const schoolDoc = await getDoc(doc(db, "schools", schoolId));
+      if (schoolDoc.exists()) {
+        const schoolData = schoolDoc.data();
+        if (schoolData.logo_url) {
+          document.getElementById('schoolAdminLogoImg').src = schoolData.logo_url;
+        }
+      }
+
       const usersQuery = query(collection(db, "users"), where("school_id", "==", schoolId));
       const usersSnap = await getDocs(usersQuery);
       
@@ -3550,6 +3414,40 @@ export const SchoolAdminDashboard = () => html`
     } catch(err) {
       console.error("Error loading dashboard:", err);
     }
+  }
+
+  const schoolAdminLogoClickArea = document.getElementById('schoolAdminLogoClickArea');
+  const schoolAdminLogoInput = document.getElementById('schoolAdminLogoInput');
+
+  if (schoolAdminLogoClickArea && schoolAdminLogoInput) {
+    schoolAdminLogoClickArea.addEventListener('click', () => schoolAdminLogoInput.click());
+    
+    schoolAdminLogoInput.addEventListener('change', async (event) => {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      try {
+        const extension = (file.name.split('.').pop() || 'jpg').toLowerCase();
+        const scope = 'schools/' + currentAdminSession.school_id;
+        const storageRef = ref(storage, scope + '/school-logo-' + Date.now() + '.' + extension);
+        
+        // Show loading state
+        document.getElementById('schoolAdminLogoImg').style.opacity = '0.5';
+
+        await uploadBytes(storageRef, file);
+        const downloadURL = await getDownloadURL(storageRef);
+        
+        document.getElementById('schoolAdminLogoImg').src = downloadURL;
+        document.getElementById('schoolAdminLogoImg').style.opacity = '1';
+        
+        await updateDoc(doc(db, 'schools', currentAdminSession.school_id), { logo_url: downloadURL });
+        
+      } catch (err) {
+        console.error('School logo upload error:', err);
+        alert('Failed to upload school logo. Please try again.');
+        document.getElementById('schoolAdminLogoImg').style.opacity = '1';
+      }
+    });
   }
 
   function renderUI() {
@@ -3659,7 +3557,7 @@ export const SchoolAdminDashboard = () => html`
       const motif = themeColors[index % 3];
       const color = bgColors[index % 3];
       const imgSrc = student.photoURL ? student.photoURL : ('https://ui-avatars.com/api/?name=' + student.name.replace(' ', '+') + '&background=fff&color=' + color.replace('#',''));
-      const points = (student.game_state && student.game_state.points) ? student.game_state.points : 0;
+      const points = (student.game_state && student.game_state.totalPoints) ? student.game_state.totalPoints : 0;
       const completed = (student.game_state && student.game_state.completed) ? student.game_state.completed.length : 0;
       totalSchoolScore += points;
 

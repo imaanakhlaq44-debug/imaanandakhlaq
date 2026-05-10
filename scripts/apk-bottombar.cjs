@@ -2834,6 +2834,37 @@ function run() {
     if (injectIntoPage(p)) injected++;
   });
 
+  // --- APK INDEX REDIRECT PATCH ---
+  // When running inside the Android APK (Capacitor), index.html (website homepage)
+  // should redirect to auth.html so users see the login screen, not the marketing site.
+  const indexPath = path.join(distDir, 'index.html');
+  if (fs.existsSync(indexPath)) {
+    let indexHtml = fs.readFileSync(indexPath, 'utf8');
+    const redirectScript = `\n<script>
+  // APK: redirect to login if running inside Capacitor (Android/iOS native app)
+  (function() {
+    var isCap = (typeof window !== 'undefined') &&
+      (window.Capacitor !== undefined ||
+       window.location.protocol === 'capacitor:' ||
+       navigator.userAgent.indexOf('imaanakhlaq') !== -1 ||
+       window.location.href.indexOf('localhost') !== -1 &&
+       typeof window.Capacitor !== 'undefined');
+    if (
+      typeof window !== 'undefined' &&
+      (window.Capacitor !== undefined || window.location.protocol === 'capacitor:')
+    ) {
+      window.location.replace('auth.html');
+    }
+  })();
+</script>`;
+    // Only inject if not already patched
+    if (!indexHtml.includes('APK: redirect to login')) {
+      indexHtml = indexHtml.replace('</head>', redirectScript + '\n</head>');
+      fs.writeFileSync(indexPath, indexHtml, 'utf8');
+      console.log('[apk-bottombar] index.html patched with APK auth redirect');
+    }
+  }
+
   console.log('[apk-bottombar] css/js written, ' + injected + ' pages injected, sub-pages created in dist/apk/');
 }
 

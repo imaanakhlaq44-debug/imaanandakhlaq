@@ -1,7 +1,7 @@
 {
   "book1": {
     "title": "Imaan and Akhlaaq - Book 1",
-    "pdfUrl": "https://drive.google.com/file/d/1yOPz5oYlDF4Aj41WQmcxSHbti2shDDpz/preview",
+    "pdfUrl": "https://firebasestorage.googleapis.com/v0/b/imaan-app-1d2da.firebasestorage.app/o/pdf%2Fbook1.pdf?alt=media&token=43d00972-69c1-417c-9e9c-449560f8c43b",
     "chapters": {
       "chapter1": {
         "id": "b1_c1",
@@ -601,7 +601,7 @@
   },
   "book2": {
     "title": "Imaan and Akhlaaq - Book 2",
-    "pdfUrl": "https://drive.google.com/file/d/1rmYenOjmunRkdl3NdQfDgdw7UTyAKdgP/preview",
+    "pdfUrl": "https://firebasestorage.googleapis.com/v0/b/imaan-app-1d2da.firebasestorage.app/o/pdf%2FBook2.pdf?alt=media&token=8204caa1-d0bf-486a-8d09-42c985d32f6c",
     "chapters": {
       "chapter1": {
         "id": "b2_c1",
@@ -1102,7 +1102,7 @@
   },
   "book3": {
     "title": "Imaan and Akhlaaq - Book 3",
-    "pdfUrl": "https://drive.google.com/file/d/1bjbVY9gTGqj8LMfc3-lSNmMbcE_1_9_g/preview",
+    "pdfUrl": "https://firebasestorage.googleapis.com/v0/b/imaan-app-1d2da.firebasestorage.app/o/pdf%2FBook3.pdf?alt=media&token=5e591dc2-19ef-40e9-94e8-aaf6b3bfc299",
     "chapters": {
       "chapter1": {
         "id": "b3_c1",
@@ -1603,7 +1603,7 @@
   },
   "book4": {
     "title": "Imaan and Akhlaaq - Book 4",
-    "pdfUrl": "https://imaanakhlaq.org/Book4.pdf",
+    "pdfUrl": "https://firebasestorage.googleapis.com/v0/b/imaan-app-1d2da.firebasestorage.app/o/pdf%2FBook4.pdf?alt=media&token=b96e4fc8-cf4f-4ce6-8813-f17db00d04a7",
     "chapters": {
       "chapter1": {
         "id": "b4_c1",

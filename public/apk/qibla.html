@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Qibla Direction</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700&family=Amiri:wght@400;700&family=Orbitron:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../kidba_assets/css/apk-bottombar.css">
+
+</head>
+<body class="apk-page">
+<header class="apk-page__header">
+  <button class="apk-page__back" onclick="history.length>1?history.back():location.href='../student-activities.html'" aria-label="Back">
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <polyline points="15 6 9 12 15 18"/>
+    </svg>
+  </button>
+  <h1 class="apk-page__title">Qibla Direction</h1>
+</header>
+<main class="apk-page__body">
+
+<div id="qiblaVersionBanner" style="background:#D63678;color:#fff;padding:8px 12px;text-align:center;font-weight:700;font-size:13px;border-radius:8px;margin:0 0 10px">v3.2 — Keyboard black gap direct fix</div>
+<div id="qiblaGlobalError" style="display:none;background:#fee2e2;color:#991b1b;border:2px solid #dc2626;padding:10px 12px;border-radius:8px;margin:0 0 10px;font-family:monospace;font-size:11px;white-space:pre-wrap;word-break:break-word"></div>
+<style>
+  .qibla-stage {
+    position:relative;
+    width: min(86vw, 320px);
+    aspect-ratio: 1 / 1;
+    margin:18px auto 8px;
+    /* Outer green ring */
+    background:
+      radial-gradient(circle at 50% 50%, #fff 0%, #fff 56%, transparent 56.5%),
+      conic-gradient(from 0deg, #16a34a, #16a34a);
+    border-radius:50%;
+    box-shadow:
+      0 0 0 6px #16a34a,
+      0 0 0 10px #fff,
+      0 0 0 13px #16a34a,
+      0 14px 30px rgba(20,90,40,0.28);
+  }
+  /* Inner white face with light-green map texture */
+  .qibla-face {
+    position:absolute;
+    inset:8.5%;
+    border-radius:50%;
+    background:
+      radial-gradient(circle at 30% 35%, rgba(22,163,74,0.10) 0%, transparent 42%),
+      radial-gradient(circle at 70% 60%, rgba(22,163,74,0.08) 0%, transparent 50%),
+      repeating-linear-gradient(45deg, rgba(22,163,74,0.05) 0 6px, transparent 6px 14px),
+      repeating-linear-gradient(-45deg, rgba(22,163,74,0.05) 0 6px, transparent 6px 14px),
+      #ffffff;
+    overflow:hidden;
+  }
+  /* Tick marks around the inner dial */
+  .qibla-tick {
+    position:absolute; left:50%; top:4%;
+    width:2px; height:8px; background:#1E2D5A;
+    transform-origin:50% calc(46vmin); /* will be overridden by JS-friendly per-element transform */
+    opacity:0.5;
+  }
+  .qibla-tick.major { width:3px; height:14px; background:#dc2626; opacity:0.95; }
+
+  /* Cardinal letters (red, bold serif feel) */
+  .qibla-card {
+    position:absolute;
+    font-family: 'Fredoka One', Georgia, serif;
+    color:#dc2626;
+    font-size: clamp(18px, 5vw, 24px);
+    font-weight:900;
+    text-shadow:0 1px 0 rgba(255,255,255,0.6);
+  }
+  .qibla-card.n { top:6%;    left:50%; transform:translate(-50%,0); }
+  .qibla-card.s { bottom:6%; left:50%; transform:translate(-50%,0); }
+  .qibla-card.e { right:6%;  top:50%;  transform:translate(0,-50%); }
+  .qibla-card.w { left:6%;   top:50%;  transform:translate(0,-50%); }
+
+  /* Center grey arrow needle (rotates) */
+  .qibla-needle {
+    position:absolute; left:50%; top:50%;
+    width: 38%; height: 38%;
+    transform-origin:50% 50%;
+    transform:translate(-50%,-50%) rotate(0deg);
+    transition:transform .25s ease-out;
+    pointer-events:none;
+    z-index:3;
+  }
+  /* Center hub */
+  .qibla-hub {
+    position:absolute; left:50%; top:50%;
+    width:14px; height:14px; border-radius:50%;
+    transform:translate(-50%,-50%);
+    background:#6b7280;
+    box-shadow:0 0 0 2px #fff, 0 2px 4px rgba(0,0,0,0.3);
+    z-index:4;
+  }
+
+  /* Kaaba badge sitting on the outer rim (top-left), and dashed line to needle */
+  .qibla-kaaba {
+    position:absolute;
+    top:-4%; left:-4%;
+    width:22%; aspect-ratio:1/1;
+    z-index:5;
+    transform-origin:50% 50%;
+    pointer-events:none;
+  }
+  .qibla-dashline {
+    position:absolute; left:0; top:0; width:100%; height:100%;
+    pointer-events:none;
+    z-index:2;
+  }
+
+  /* Readout cards under compass */
+  .qibla-readout { display:flex; justify-content:space-around; margin-top:18px; gap:10px; }
+  .qibla-readout div { background:#fff; border-radius:14px; padding:10px 14px; box-shadow:0 2px 10px rgba(30,45,90,0.06); flex:1; text-align:center; }
+  .qibla-readout span { display:block; font-size:11px; color:#888; text-transform:uppercase; letter-spacing:1px; }
+  .qibla-readout strong { font-family:'Fredoka One',cursive; color:#16a34a; font-size:18px; }
+</style>
+<div class="apk-card" style="text-align:center;background:transparent;box-shadow:none;padding:6px">
+  <!-- Big hero camera launcher -->
+  <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:30px 12px 18px">
+    <div style="font-family:'Fredoka One',serif;color:#1E2D5A;font-size:22px;margin-bottom:6px">Qibla Finder</div>
+    <p style="margin:0 0 24px;color:#64748b;font-size:13.5px;max-width:280px;line-height:1.5">Open the camera and hold your phone in front of you — a blue beam and Kaaba pin will guide you toward the Qibla.</p>
+    <button class="apk-btn" id="qiblaArBtn" type="button"
+            onclick="document.getElementById('qiblaArStatus').textContent='✅ Starting camera...';if(window.__qiblaArHandler){window.__qiblaArHandler();}else if(window.__qiblaEnableHandler){window.__qiblaEnableHandler();setTimeout(function(){if(window.__qiblaArHandler)window.__qiblaArHandler();},150);}else{document.getElementById('qiblaArStatus').textContent='⚠️ Page is still loading. Please try again in a second.';}"
+            style="background:linear-gradient(135deg,#1E2D5A,#D63678);color:#fff;border:none;width:140px;height:140px;border-radius:50%;cursor:pointer;-webkit-tap-highlight-color:rgba(255,0,255,0.3);box-shadow:0 14px 36px rgba(214,54,120,0.45),0 0 0 8px rgba(214,54,120,0.10);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px;padding:0">
+      <svg width="58" height="58" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+        <path fill="#fff" d="M11 6 L13 4 H19 L21 6 H26 A3 3 0 0 1 29 9 V23 A3 3 0 0 1 26 26 H6 A3 3 0 0 1 3 23 V9 A3 3 0 0 1 6 6 Z"/>
+        <circle cx="16" cy="16" r="6.5" fill="none" stroke="#1E2D5A" stroke-width="2.2"/>
+        <circle cx="16" cy="16" r="3" fill="#1E2D5A"/>
+        <circle cx="24.5" cy="10.5" r="1.2" fill="#1E2D5A"/>
+      </svg>
+      <span style="font-size:13px;font-weight:800;letter-spacing:0.4px">START</span>
+    </button>
+    <p id="qiblaArStatus" style="margin:18px 0 0;color:#1E2D5A;font-weight:700;min-height:18px;font-size:13px"></p>
+  </div>
+
+  <!-- Hidden legacy compass UI (kept for JS compatibility — IDs referenced by handlers) -->
+  <div style="display:none" aria-hidden="true">
+    <div class="qibla-stage" id="qiblaCompass">
+      <div class="qibla-face"></div>
+      <div id="qiblaTicks"></div>
+      <svg class="qibla-dashline" id="qiblaDashSvg" viewBox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <line id="qiblaDashLine" x1="11" y1="11" x2="50" y2="50" stroke="#dc2626" stroke-width="1.4" stroke-dasharray="3 3" stroke-linecap="round"/>
+      </svg>
+      <div class="qibla-kaaba" id="qiblaKaaba"></div>
+      <svg class="qibla-needle" id="qiblaArrow" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"></svg>
+      <div class="qibla-hub"></div>
+    </div>
+    <p id="qiblaStatus"></p>
+    <strong id="qiblaBearingTxt">—</strong>
+    <strong id="qiblaHeadingTxt">—</strong>
+    <strong id="qiblaDistTxt">—</strong>
+    <button id="qiblaEnable" type="button"></button>
+  </div>
+</div>
+
+<!-- ===== AR Camera Overlay (Google Qibla Finder style) ===== -->
+<div id="qiblaAr" style="display:none;position:fixed;inset:0;z-index:2147483600;background:#000;overflow:hidden">
+  <video id="qiblaVideo" autoplay playsinline muted style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#000"></video>
+
+  <!-- Top bar -->
+  <div style="position:absolute;top:0;left:0;right:0;padding:calc(10px + env(safe-area-inset-top)) 14px 10px;display:flex;align-items:center;justify-content:space-between;z-index:5;pointer-events:none">
+    <button id="qiblaArClose" aria-label="Close" style="pointer-events:auto;background:rgba(0,0,0,0.55);border:none;color:#fff;width:42px;height:42px;border-radius:50%;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center">✕</button>
+    <div id="qiblaArTopBadge" style="pointer-events:auto;background:rgba(0,0,0,0.55);color:#fff;border-radius:24px;padding:6px 8px;display:none;align-items:center;gap:6px;font-size:13px">
+      <span id="qiblaArTick" style="width:24px;height:24px;border-radius:50%;background:#3b6df7;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:14px;font-weight:700">✓</span>
+      <span style="opacity:0.85;font-size:11px;padding:0 6px">Facing Qibla</span>
+    </div>
+  </div>
+
+  <!-- Vertical Qibla BEAM (the blue ribbon) — starts BELOW the Kaaba pin and runs to bottom -->
+  <div id="qiblaArBeam" style="position:absolute;left:50%;top:30%;bottom:0;width:60px;transform:translateX(-50%);pointer-events:none;z-index:2;transition:left .12s linear, top .15s linear, opacity .15s linear, width .12s linear">
+    <!-- Beam body: narrow at top (where pin sits), wider at bottom -->
+    <div style="position:absolute;inset:0;background:linear-gradient(180deg, rgba(64,150,238,0.55) 0%, rgba(40,120,220,0.85) 70%, rgba(30,100,200,0.95) 100%);clip-path:polygon(38% 0%, 62% 0%, 100% 100%, 0% 100%);box-shadow:0 0 30px rgba(60,140,230,0.45)"></div>
+  </div>
+
+  <!-- LEFT arrow (shown when Qibla is to the LEFT of camera view) -->
+  <div id="qiblaArArrowLeft" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);z-index:6;pointer-events:none;display:none;color:#3b6df7;font-size:80px;line-height:1;text-shadow:0 0 14px rgba(255,255,255,0.85),0 0 30px rgba(60,140,230,0.9);font-family:Arial,sans-serif;font-weight:900">←</div>
+
+  <!-- RIGHT arrow (shown when Qibla is to the RIGHT of camera view) -->
+  <div id="qiblaArArrowRight" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);z-index:6;pointer-events:none;display:none;color:#3b6df7;font-size:80px;line-height:1;text-shadow:0 0 14px rgba(255,255,255,0.85),0 0 30px rgba(60,140,230,0.9);font-family:Arial,sans-serif;font-weight:900">→</div>
+
+  <!-- Kaaba PIN (drops onto beam from top when in FOV) -->
+  <div id="qiblaArPin" style="position:absolute;left:50%;top:30%;transform:translate(-50%,-100%);z-index:4;pointer-events:none;transition:left .15s linear, top .25s ease-out, opacity .2s">
+    <svg width="100" height="120" viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="qpinG" cx="50%" cy="40%" r="55%">
+          <stop offset="0%" stop-color="#3a5db8"/>
+          <stop offset="60%" stop-color="#1d3578"/>
+          <stop offset="100%" stop-color="#0f1f4a"/>
+        </radialGradient>
+      </defs>
+      <!-- Pin teardrop shape -->
+      <path d="M50 4 C 22 4, 6 26, 6 50 C 6 78, 36 102, 50 116 C 64 102, 94 78, 94 50 C 94 26, 78 4, 50 4 Z" fill="url(#qpinG)" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
+      <!-- Inner circle -->
+      <circle cx="50" cy="48" r="28" fill="#13245c" stroke="rgba(255,255,255,0.18)" stroke-width="1"/>
+      <!-- Kaaba icon -->
+      <g transform="translate(50 48)">
+        <rect x="-14" y="-12" width="28" height="24" rx="2" fill="#1a1a1a" stroke="#fff" stroke-width="1"/>
+        <rect x="-14" y="-5" width="28" height="4" fill="#E0B341"/>
+        <rect x="-4" y="0" width="8" height="12" fill="#5a3a18"/>
+      </g>
+    </svg>
+  </div>
+
+  <!-- Distance pill -->
+  <div id="qiblaArDistPill" style="position:absolute;left:50%;top:55%;transform:translateX(-50%);background:#fff;color:#1d2c5a;font-weight:700;font-size:14px;padding:6px 14px;border-radius:14px;box-shadow:0 6px 18px rgba(0,0,0,0.35);z-index:4;pointer-events:none;transition:left .15s linear">
+    <span id="qiblaArDistance">— km</span>
+    <div style="position:absolute;left:50%;bottom:-7px;transform:translateX(-50%);width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:8px solid #fff"></div>
+  </div>
+
+  <!-- Center reticle (white circle aim) -->
+  <div style="position:absolute;left:50%;top:50%;width:88px;height:88px;transform:translate(-50%,-50%);border:2.5px solid rgba(255,255,255,0.9);border-radius:50%;z-index:3;pointer-events:none;box-shadow:0 0 0 1px rgba(0,0,0,0.15) inset"></div>
+
+  <!-- Bottom-CENTER mini compass widget (bigger) -->
+  <div style="position:absolute;left:50%;bottom:calc(20px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:5;pointer-events:none">
+    <div id="qiblaArMiniWrap" style="position:relative;width:140px;height:140px;border-radius:50%;background:radial-gradient(circle at 50% 50%, rgba(120,90,60,0.55) 0%, rgba(40,20,10,0.75) 100%);box-shadow:0 8px 22px rgba(0,0,0,0.55);border:2px solid rgba(255,255,255,0.45)">
+      <!-- 8 tiny tick dots around -->
+      <div id="qiblaArMiniTicks"></div>
+      <!-- Rotating wedge pointing to Qibla -->
+      <div id="qiblaArMiniWedge" style="position:absolute;left:50%;top:50%;width:66px;height:66px;transform:translate(-50%,-50%) rotate(0deg);transform-origin:50% 50%;transition:transform .2s ease-out">
+        <svg viewBox="0 0 42 42" width="66" height="66" xmlns="http://www.w3.org/2000/svg">
+          <!-- triangular wedge slice from center upward -->
+          <path d="M21 21 L8 4 L34 4 Z" fill="rgba(255,255,255,0.9)" stroke="rgba(255,255,255,0.45)" stroke-width="0.5"/>
+          <!-- small kaaba on tip -->
+          <g transform="translate(21 6)">
+            <rect x="-4.5" y="-4.5" width="9" height="9" rx="1" fill="#1a1a1a" stroke="#fff" stroke-width="0.6"/>
+            <rect x="-4.5" y="-1.7" width="9" height="1.7" fill="#E0B341"/>
+          </g>
+        </svg>
+      </div>
+      <!-- Center hub dot -->
+      <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,0.9);box-shadow:0 0 8px rgba(0,0,0,0.45)"></div>
+      <!-- Cardinal labels -->
+      <div style="position:absolute;left:50%;top:6px;transform:translateX(-50%);color:#fff;font-size:13px;font-weight:800;text-shadow:0 1px 3px rgba(0,0,0,0.7)">N</div>
+      <div style="position:absolute;left:50%;bottom:6px;transform:translateX(-50%);color:#fff;font-size:11px;font-weight:700;text-shadow:0 1px 3px rgba(0,0,0,0.7);opacity:0.75">S</div>
+      <div style="position:absolute;right:6px;top:50%;transform:translateY(-50%);color:#fff;font-size:11px;font-weight:700;text-shadow:0 1px 3px rgba(0,0,0,0.7);opacity:0.75">E</div>
+      <div style="position:absolute;left:6px;top:50%;transform:translateY(-50%);color:#fff;font-size:11px;font-weight:700;text-shadow:0 1px 3px rgba(0,0,0,0.7);opacity:0.75">W</div>
+      <div id="qiblaArMiniN" style="display:none"></div>
+    </div>
+  </div>
+
+  <!-- Bottom-right share/info button -->
+  <button id="qiblaArInfo" aria-label="Info" style="position:absolute;right:14px;bottom:calc(14px + env(safe-area-inset-bottom));width:54px;height:54px;border-radius:50%;border:none;background:#5b6df0;color:#fff;font-size:22px;box-shadow:0 6px 18px rgba(0,0,0,0.45);z-index:5;cursor:pointer;display:flex;align-items:center;justify-content:center">ⓘ</button>
+
+  <!-- Hint chip (only shown briefly) -->
+  <div id="qiblaArHint" style="position:absolute;left:50%;bottom:calc(180px + env(safe-area-inset-bottom));transform:translateX(-50%);background:rgba(0,0,0,0.55);color:#fff;font-size:12px;padding:6px 14px;border-radius:14px;z-index:4;text-align:center;max-width:80%">Hold your phone upright and turn slowly…</div>
+
+  <!-- Hidden legacy flat-overlay slots (kept so JS that references these IDs doesn't crash) -->
+  <div id="qiblaFlatOverlay" style="display:none"></div>
+  <div id="qiblaFlatDial" style="display:none"></div>
+  <div id="qiblaFlatNeedle" style="display:none"></div>
+  <div id="qiblaFlatKaaba" style="display:none"></div>
+  <span id="qiblaFlatBearingTxt" style="display:none"></span>
+
+  <!-- Hidden legacy slots (kept for JS compatibility) -->
+  <span id="qiblaArBearing" style="display:none"></span>
+  <span id="qiblaArHeading" style="display:none"></span>
+  <span id="qiblaArDelta" style="display:none"></span>
+  <div id="qiblaArDial" style="display:none"></div>
+  <div id="qiblaArMarker" style="display:none"></div>
+  <div id="qiblaArOk" style="display:none"></div>
+  <div id="qiblaArLeft" style="display:none"></div>
+  <div id="qiblaArRight" style="display:none"></div>
+  <div id="qiblaArLabel" style="display:none"></div>
+</div>
+
+<script>
+// Global error catcher — shows any JS error visibly on the page so we can debug.
+window.addEventListener('error', function(ev){
+  try {
+    var box = document.getElementById('qiblaGlobalError');
+    if (box) {
+      box.style.display = 'block';
+      box.textContent = 'JS ERROR: ' + (ev.message || ev) + '\n@ ' + (ev.filename || '') + ':' + (ev.lineno || '?') + ':' + (ev.colno || '?');
+    }
+  } catch(e){}
+});
+window.addEventListener('unhandledrejection', function(ev){
+  try {
+    var box = document.getElementById('qiblaGlobalError');
+    if (box) {
+      box.style.display = 'block';
+      box.textContent = 'PROMISE REJECTED: ' + (ev.reason && ev.reason.message ? ev.reason.message : ev.reason);
+    }
+  } catch(e){}
+});
+(function(){
+  var KAABA = { lat: 21.4225, lng: 39.8262 };
+  var arrow = document.getElementById('qiblaArrow');
+  var status = document.getElementById('qiblaStatus');
+  var btn = document.getElementById('qiblaEnable');
+  var arBtn = document.getElementById('qiblaArBtn');
+  var bearingTxt = document.getElementById('qiblaBearingTxt');
+  var headingTxt = document.getElementById('qiblaHeadingTxt');
+  var distTxt = document.getElementById('qiblaDistTxt');
+  var ticksHost = document.getElementById('qiblaTicks');
+  var qiblaBearing = null;
+  var lastUserPos = null;
+
+  // ===== Visible diagnostic panel (helps debug on real device / APK) =====
+  var diag = document.createElement('div');
+  diag.id = 'qiblaDiag';
+  diag.style.cssText = 'margin:10px auto 0;max-width:340px;background:#0b1a3d;color:#9fe6c4;font-family:monospace;font-size:11px;padding:8px 10px;border-radius:8px;text-align:left;line-height:1.5;white-space:pre-wrap;word-break:break-word';
+  diag.textContent = 'diag: JS loaded — tap "Enable Compass"';
+  if (status && status.parentNode) status.parentNode.insertBefore(diag, status.nextSibling);
+  var diagState = { geo:'-', perm:'-', orient:'-', cam:'-' };
+  function setDiag(key, val){ diagState[key] = val; diag.textContent = 'geo: ' + diagState.geo + '\nperm: ' + diagState.perm + '\norient: ' + diagState.orient + '\ncam: ' + diagState.cam; }
+  // Expose for camera section
+  window.__qiblaSetDiag = setDiag;
+
+  // Render tick marks via SVG inside the dial (24 ticks, major every 30deg)
+  if (ticksHost) {
+    var svgNS = 'http://www.w3.org/2000/svg';
+    var svg = document.createElementNS(svgNS, 'svg');
+    svg.setAttribute('viewBox', '0 0 100 100');
+    svg.setAttribute('preserveAspectRatio', 'none');
+    svg.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1';
+    for (var i = 0; i < 24; i++) {
+      var ang = i * 15;
+      var major = (i % 2 === 0);
+      var len = major ? 6 : 3;
+      var x1 = 50, y1 = 12;
+      var x2 = 50, y2 = 12 + len;
+      var line = document.createElementNS(svgNS, 'line');
+      line.setAttribute('x1', x1); line.setAttribute('y1', y1);
+      line.setAttribute('x2', x2); line.setAttribute('y2', y2);
+      line.setAttribute('stroke', major ? '#dc2626' : '#1E2D5A');
+      line.setAttribute('stroke-width', major ? 1.4 : 0.8);
+      line.setAttribute('opacity', major ? '0.9' : '0.45');
+      line.setAttribute('stroke-linecap', 'round');
+      line.setAttribute('transform', 'rotate(' + ang + ' 50 50)');
+      svg.appendChild(line);
+    }
+    ticksHost.appendChild(svg);
+  }
+
+  function toRad(d){ return d*Math.PI/180; }
+  function toDeg(r){ return r*180/Math.PI; }
+  function bearing(lat1, lng1, lat2, lng2){
+    var dLng = toRad(lng2 - lng1);
+    var y = Math.sin(dLng) * Math.cos(toRad(lat2));
+    var x = Math.cos(toRad(lat1))*Math.sin(toRad(lat2)) - Math.sin(toRad(lat1))*Math.cos(toRad(lat2))*Math.cos(dLng);
+    return (Math.atan2(y, x) * 180/Math.PI + 360) % 360;
+  }
+  function distanceKm(lat1, lng1, lat2, lng2){
+    var R = 6371;
+    var dLat = toRad(lat2-lat1), dLng = toRad(lng2-lng1);
+    var a = Math.sin(dLat/2)*Math.sin(dLat/2) + Math.cos(toRad(lat1))*Math.cos(toRad(lat2))*Math.sin(dLng/2)*Math.sin(dLng/2);
+    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  }
+
+  // Read current screen-rotation offset (0/90/180/270). Phone "upside-down" me yeh
+  // 180 hota hai — us se compass output adjust karna zaroori hai warna teer ulta dikhata hai.
+  function screenAngle(){
+    try {
+      if (screen.orientation && typeof screen.orientation.angle === 'number') return screen.orientation.angle;
+    } catch(e){}
+    if (typeof window.orientation === 'number') return window.orientation;
+    return 0;
+  }
+
+  // Tilt-compensated compass heading (heading of phone's TOP edge — works flat).
+  // alpha: rot around Z (yaw), beta: rot around X (pitch), gamma: rot around Y (roll).
+  function compassHeadingFlat(alpha, beta, gamma){
+    var _x = toRad(beta || 0);
+    var _y = toRad(gamma || 0);
+    var _z = toRad(alpha || 0);
+    var cX = Math.cos(_x), cY = Math.cos(_y), cZ = Math.cos(_z);
+    var sX = Math.sin(_x), sY = Math.sin(_y), sZ = Math.sin(_z);
+    var Vx = -cZ * sY - sZ * sX * cY;
+    var Vy = -sZ * sY + cZ * sX * cY;
+    var h = Math.atan2(Vx, Vy);
+    if (h < 0) h += 2 * Math.PI;
+    var deg = toDeg(h);
+    // Compensate for screen rotation (portrait-inverted / landscape).
+    deg = (deg + screenAngle() + 360) % 360;
+    return deg;
+  }
+
+  // Heading of the BACK CAMERA axis (phone held vertically, camera pointing forward).
+  // Builds rotation matrix from alpha/beta/gamma and finds compass heading of -Z phone axis.
+  function cameraHeading(alpha, beta, gamma){
+    var a = toRad(alpha || 0);
+    var b = toRad(beta || 0);
+    var g = toRad(gamma || 0);
+    var ca = Math.cos(a), sa = Math.sin(a);
+    var cb = Math.cos(b), sb = Math.sin(b);
+    var cg = Math.cos(g), sg = Math.sin(g);
+    // Rotation matrix R = Rz(a) * Rx(b) * Ry(g)  (W3C device orientation spec).
+    // Camera looks along -Z device axis. World vector = R * (0,0,-1).
+    var wx = -(ca * sg + sa * sb * cg);
+    var wy = -(sa * sg - ca * sb * cg);
+    // Project to horizontal plane (drop wz) and convert to compass heading.
+    var h = Math.atan2(wx, wy);
+    if (h < 0) h += 2 * Math.PI;
+    var deg = toDeg(h);
+    deg = (deg + screenAngle() + 360) % 360;
+    return deg;
+  }
+
+  // Smoothing (circular EMA) so the needle/marker don't jitter.
+  var smoothFlat = null, smoothCam = null;
+  // Reset smoothing when device rotates (screen orientation changes) so needle
+  // doesn't take 1-2s to catch up to the new offset.
+  function resetSmooth(){ smoothFlat = null; smoothCam = null; }
+  window.addEventListener('orientationchange', resetSmooth);
+  if (screen.orientation && screen.orientation.addEventListener) {
+    try { screen.orientation.addEventListener('change', resetSmooth); } catch(e){}
+  }
+  function smoothAngle(prev, next, alpha){
+    if (prev == null) return next;
+    var diff = ((next - prev + 540) % 360) - 180;
+    return (prev + alpha * diff + 360) % 360;
+  }
+
+  function onOrient(e){
+    if (qiblaBearing == null) return;
+    var rawFlat, rawCam;
+    if (e.webkitCompassHeading != null) {
+      // iOS gives true compass heading directly (heading of top of screen when flat).
+      rawFlat = e.webkitCompassHeading;
+      rawCam  = e.webkitCompassHeading; // iOS: in AR we still use this; phone tilt handled by Safari.
+    } else {
+      rawFlat = compassHeadingFlat(e.alpha, e.beta, e.gamma);
+      rawCam  = cameraHeading(e.alpha, e.beta, e.gamma);
+    }
+    smoothFlat = smoothAngle(smoothFlat, rawFlat, 0.25);
+    smoothCam  = smoothAngle(smoothCam,  rawCam,  0.25);
+
+    // ----- Compass dial (phone flat) -----
+    var headingFlat = smoothFlat;
+    var rot = (qiblaBearing - headingFlat + 360) % 360;
+    if (arrow) arrow.style.transform = 'translate(-50%,-50%) rotate(' + rot.toFixed(1) + 'deg)';
+    if (headingTxt) headingTxt.textContent = headingFlat.toFixed(0) + '°';
+
+    // Rotate Kaaba badge around the outer ring; dashed SVG line follows
+    var kaaba = document.getElementById('qiblaKaaba');
+    var dashSvg = document.getElementById('qiblaDashSvg');
+    if (kaaba) {
+      // Place Kaaba at angle 'rot' from north of dial. Using polar coords on a 100-unit canvas.
+      // Center (50,50), radius ~46 (just outside inner face on the ring).
+      var rad = (rot - 90) * Math.PI / 180; // 0deg = up, but math 0 = right -> shift -90
+      var kx = 50 + 46 * Math.cos(rad);
+      var ky = 50 + 46 * Math.sin(rad);
+      // Translate kaaba container (it's 22% wide, anchor center)
+      kaaba.style.left = (kx - 11) + '%';
+      kaaba.style.top  = (ky - 11) + '%';
+      // Update dashed line endpoint
+      var dashLine = document.getElementById('qiblaDashLine');
+      if (dashLine) {
+        dashLine.setAttribute('x1', kx.toFixed(2));
+        dashLine.setAttribute('y1', ky.toFixed(2));
+      }
+    }
+
+    // ----- AR camera mode (phone vertical) -----
+    var headingCam = smoothCam;
+    var rotCam = (qiblaBearing - headingCam + 360) % 360;
+    updateAr(headingCam, rotCam);
+
+    // ----- Tilt-down FLAT compass overlay: DISABLED (per design feedback) -----
+    // Mini-compass at bottom is enough; no extra full-screen dial when phone tilts down.
+    try {
+      var flatOverlay = document.getElementById('qiblaFlatOverlay');
+      if (flatOverlay) flatOverlay.style.display = 'none';
+    } catch(e2){}
+
+    // Calibration warning
+    if (e.absolute === false && status && qiblaBearing != null) {
+      status.innerHTML = 'Qibla — <span style="color:#cf6f00">Calibrate the compass: move your phone in a figure-8 motion</span>';
+    }
+  }
+
+  // ===== AR Camera =====
+  var arEl = document.getElementById('qiblaAr');
+  var arVideo = document.getElementById('qiblaVideo');
+  var arClose = document.getElementById('qiblaArClose');
+  var arBeam = document.getElementById('qiblaArBeam');
+  var arPin = document.getElementById('qiblaArPin');
+  var arDistPill = document.getElementById('qiblaArDistPill');
+  var arDistance = document.getElementById('qiblaArDistance');
+  var arArrowLeft = document.getElementById('qiblaArArrowLeft');
+  var arArrowRight = document.getElementById('qiblaArArrowRight');
+  var arTopBadge = document.getElementById('qiblaArTopBadge');
+  var arMiniWedge = document.getElementById('qiblaArMiniWedge');
+  var arHint = document.getElementById('qiblaArHint');
+  var arInfo = document.getElementById('qiblaArInfo');
+  var arStream = null;
+  var arActive = false;
+  var hintTimer = null;
+
+  function updateAr(heading, rot){
+    if (!arActive || qiblaBearing == null) return;
+    // Signed delta in [-180, 180]: how far right (+) or left (-) is qibla from current heading
+    var delta = ((qiblaBearing - heading + 540) % 360) - 180;
+    var absD = Math.abs(delta);
+
+    // Camera horizontal FOV ~ 60deg. Map delta -> screen X percentage (clamped).
+    var fov = 60;
+    var pct = 50 + (delta / (fov / 2)) * 50;
+    var inFov = pct >= 5 && pct <= 95;
+
+    // ----- Blue beam: slides horizontally to qibla direction -----
+    if (arBeam) {
+      if (absD > 100) {
+        // Qibla is behind the user — fade beam out
+        arBeam.style.opacity = '0.15';
+      } else {
+        arBeam.style.opacity = '1';
+      }
+      arBeam.style.left = Math.max(2, Math.min(98, pct)) + '%';
+    }
+
+    // ----- LEFT / RIGHT directional arrows -----
+    // Show when Qibla is OUTSIDE the camera FOV (or noticeably off-center).
+    // Negative delta = Qibla is to the LEFT, positive = RIGHT.
+    var showSide = absD > 8;
+    if (arArrowLeft)  arArrowLeft.style.display  = (showSide && delta < 0) ? 'block' : 'none';
+    if (arArrowRight) arArrowRight.style.display = (showSide && delta > 0) ? 'block' : 'none';
+
+    // ----- Kaaba pin: visible only when qibla is within camera FOV -----
+    if (arPin) {
+      if (inFov && absD < 60) {
+        arPin.style.opacity = '1';
+        arPin.style.left = pct + '%';
+      } else {
+        arPin.style.opacity = '0';
+      }
+    }
+
+    // ----- Distance pill follows beam -----
+    if (arDistPill) {
+      arDistPill.style.left = Math.max(8, Math.min(92, pct)) + '%';
+      arDistPill.style.opacity = (absD < 100) ? '1' : '0.4';
+    }
+
+    // ----- Mini-compass wedge: rotate to point at qibla relative to phone heading -----
+    if (arMiniWedge) {
+      arMiniWedge.style.transform = 'translate(-50%,-50%) rotate(' + rot.toFixed(1) + 'deg)';
+    }
+
+    // ----- Top "Facing Qibla" badge: show when within ±5° -----
+    if (arTopBadge) {
+      arTopBadge.style.display = (absD < 5) ? 'flex' : 'none';
+    }
+
+    // ----- Hide hint after first orientation update -----
+    if (arHint && !hintTimer) {
+      hintTimer = setTimeout(function(){ if (arHint) arHint.style.opacity = '0'; }, 3000);
+    }
+  }
+
+  function startCamera(){
+    // Hide bottom shortcut bar so it doesn't cover the mini-compass / AR controls.
+    document.body.classList.add('qibla-ar-open');
+    var __style = document.getElementById('qiblaArHideBar');
+    if (!__style) {
+      __style = document.createElement('style');
+      __style.id = 'qiblaArHideBar';
+      __style.textContent = 'body.qibla-ar-open .apk-bottombar { display:none !important; } body.qibla-ar-open .apk-page__body, body.qibla-ar-open .apk-page__header { padding-bottom:0 !important; }';
+      document.head.appendChild(__style);
+    }
+    arHint.textContent = 'Starting camera…';
+    setDiag('cam', 'requesting...');
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      arHint.textContent = 'Camera is not supported on this device.';
+      setDiag('cam', 'getUserMedia missing');
+      return;
+    }
+    navigator.mediaDevices.getUserMedia({
+      video: { facingMode: { ideal: 'environment' }, width: { ideal: 1280 }, height: { ideal: 720 } },
+      audio: false
+    }).then(function(stream){
+      arStream = stream;
+      arVideo.srcObject = stream;
+      arHint.textContent = 'Hold your phone upright and turn slowly…';
+      setDiag('cam', 'OK stream');
+    }).catch(function(err){
+      arHint.textContent = 'Camera permission denied: ' + (err && err.message ? err.message : err);
+      setDiag('cam', 'ERR ' + (err && err.name ? err.name : '') + ' ' + (err && err.message ? err.message : err));
+    });
+  }
+  function stopCamera(){
+    arActive = false;
+    arEl.style.display = 'none';
+    var __flat = document.getElementById('qiblaFlatOverlay');
+    if (__flat) __flat.style.display = 'none';
+    // Restore bottom shortcut bar.
+    document.body.classList.remove('qibla-ar-open');
+    if (arStream) {
+      try { arStream.getTracks().forEach(function(t){ t.stop(); }); } catch(e){}
+      arStream = null;
+    }
+    arVideo.srcObject = null;
+  }
+
+  function ensureLocationThen(cb){
+    if (qiblaBearing != null) { cb(); return; }
+    setDiag('geo', 'AR requesting...');
+    if (!navigator.geolocation){ setDiag('geo', 'API missing'); alert('Geolocation not supported'); return; }
+    navigator.geolocation.getCurrentPosition(function(pos){
+      setDiag('geo', 'AR OK ' + pos.coords.latitude.toFixed(2) + ',' + pos.coords.longitude.toFixed(2));
+      lastUserPos = pos;
+      qiblaBearing = bearing(pos.coords.latitude, pos.coords.longitude, KAABA.lat, KAABA.lng);
+      var dist = distanceKm(pos.coords.latitude, pos.coords.longitude, KAABA.lat, KAABA.lng);
+      if (bearingTxt) bearingTxt.textContent = qiblaBearing.toFixed(0) + '°';
+      if (distTxt) distTxt.textContent = dist.toFixed(0) + ' km';
+      if (arDistance) arDistance.textContent = Math.round(dist).toLocaleString() + ' km';
+      cb();
+    }, function(err){ setDiag('geo', 'AR ERR code=' + err.code + ' ' + err.message); alert('Location error: ' + err.message); }, { enableHighAccuracy:true, timeout:10000 });
+  }
+
+  // Render 8 tiny tick-dots around mini compass
+  var miniTicksHost = document.getElementById('qiblaArMiniTicks');
+  if (miniTicksHost) {
+    for (var k = 0; k < 8; k++) {
+      var d = document.createElement('div');
+      var ang = k * 45;
+      d.style.cssText = 'position:absolute;left:50%;top:50%;width:3px;height:3px;border-radius:50%;background:rgba(255,255,255,0.55);transform:translate(-50%,-50%) rotate(' + ang + 'deg) translateY(-38px)';
+      miniTicksHost.appendChild(d);
+    }
+  }
+
+  if (arInfo) arInfo.addEventListener('click', function(){
+    var dist = (lastUserPos && qiblaBearing != null)
+      ? distanceKm(lastUserPos.coords.latitude, lastUserPos.coords.longitude, KAABA.lat, KAABA.lng).toFixed(0) + ' km'
+      : 'unknown';
+    alert('Qibla bearing: ' + (qiblaBearing != null ? qiblaBearing.toFixed(1) + '\u00b0' : '—') + '\nDistance to Kaaba: ' + dist + '\n\nThe blue beam shows the direction of the Qibla. Turn the camera until the Kaaba pin sits inside the reticle.');
+  });
+
+  function attachOrientation(){
+    var attached = false;
+    var orientCount = 0;
+    var attach = function(){
+      if (attached) return;
+      attached = true;
+      // Prefer absolute (true-north) event; only fall back to relative if absolute never fires.
+      var gotAbsolute = false;
+      var onAbs = function(e){ gotAbsolute = true; orientCount++; setDiag('orient', 'ABS #' + orientCount + ' a=' + (e.alpha!=null?e.alpha.toFixed(0):'-')); onOrient(e); };
+      window.addEventListener('deviceorientationabsolute', onAbs, true);
+      window.addEventListener('deviceorientation', function(e){
+        orientCount++;
+        if (!gotAbsolute) setDiag('orient', 'REL #' + orientCount + ' a=' + (e.alpha!=null?e.alpha.toFixed(0):'-'));
+        if (gotAbsolute) return; // ignore relative if absolute is working
+        onOrient(e);
+      }, true);
+      // After 2 seconds, if no events fired, warn
+      setTimeout(function(){
+        if (orientCount === 0) {
+          setDiag('orient', 'NO EVENTS — device sensor missing or blocked');
+          if (status) status.innerHTML = '<span style="color:#dc2626">No compass sensor data. Please check your device’s magnetometer. The compass does not work on emulators — use a real phone.</span>';
+        }
+      }, 2500);
+    };
+    if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function'){
+      setDiag('perm', 'iOS perm prompt...');
+      DeviceOrientationEvent.requestPermission().then(function(r){ setDiag('perm', 'iOS perm: ' + r); if (r === 'granted') attach(); }).catch(function(e){ setDiag('perm', 'iOS perm err: ' + e); attach(); });
+    } else { setDiag('perm', 'no iOS perm needed'); attach(); }
+  }
+
+  if (arBtn) arBtn.addEventListener('click', function(){
+    ensureLocationThen(function(){
+      arEl.style.display = 'block';
+      arActive = true;
+      startCamera();
+      attachOrientation();
+    });
+  });
+  // Also expose as global so inline onclick fallback can call it
+  window.__qiblaArHandler = function(){
+    ensureLocationThen(function(){
+      arEl.style.display = 'block';
+      arActive = true;
+      startCamera();
+      attachOrientation();
+    });
+  };
+  if (arClose) arClose.addEventListener('click', stopCamera);
+  document.addEventListener('visibilitychange', function(){
+    if (document.hidden && arActive) stopCamera();
+  });
+
+  var enableHandler = function(){
+    setDiag('geo', 'requesting...');
+    if (!navigator.geolocation){ status.textContent = 'Geolocation not supported'; setDiag('geo', 'API missing'); return; }
+    status.textContent = 'Getting your location...';
+    navigator.geolocation.getCurrentPosition(function(pos){
+      setDiag('geo', 'OK ' + pos.coords.latitude.toFixed(2) + ',' + pos.coords.longitude.toFixed(2));
+      lastUserPos = pos;
+      qiblaBearing = bearing(pos.coords.latitude, pos.coords.longitude, KAABA.lat, KAABA.lng);
+      var dist = distanceKm(pos.coords.latitude, pos.coords.longitude, KAABA.lat, KAABA.lng);
+      if (bearingTxt) bearingTxt.textContent = qiblaBearing.toFixed(0) + '°';
+      if (distTxt) distTxt.textContent = dist.toFixed(0) + ' km';
+      if (arDistance) arDistance.textContent = Math.round(dist).toLocaleString() + ' km';
+      status.textContent = 'Phone ko flat pakdein — teer Kaaba ki taraf ghoomega.';
+      attachOrientation();
+    }, function(err){ status.textContent = 'Location error: ' + err.message; setDiag('geo', 'ERR code=' + err.code + ' ' + err.message); }, { enableHighAccuracy:true, timeout:10000 });
+  };
+  if (btn) btn.addEventListener('click', enableHandler);
+  // Also expose as global so inline onclick fallback can call it
+  window.__qiblaEnableHandler = enableHandler;
+})();
+</script>
+
+</main>
+<script>try{localStorage.setItem('apk_bottombar','1')}catch(e){}</script>
+<script src="../kidba_assets/js/apk-bottombar.js"></script>
+</body>
+</html>
