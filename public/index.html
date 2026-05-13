@@ -1,66 +1,63 @@
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Imaan & Akhlaq - Islamic Stories & Education for Kids</title>
-  <meta name="description" content="Imaan & Akhlaq - Fun Islamic stories, puppet shows, and educational programs teaching faith, manners, and good character to children." />
-  <meta property="og:title" content="Imaan & Akhlaq - Islamic Education for Kids" />
-  <meta property="og:description" content="Join Imaan and Akhlaq on magical adventures learning about Islam, Prophets, and good manners!" />
-  <meta property="og:type" content="website" />
-  <link rel="icon" type="image/jpeg" href="/kidba_assets/favicon.jpg" />
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Imaan &amp; Akhlaq - Islamic Stories &amp; Education for Kids</title>
+  <meta name="description" content="Imaan &amp; Akhlaq - Fun Islamic stories, puppet shows, and educational programs teaching faith, manners, and good character to children.">
+  <meta property="og:title" content="Imaan &amp; Akhlaq - Islamic Education for Kids">
+  <meta property="og:description" content="Join Imaan and Akhlaq on magical adventures learning about Islam, Prophets, and good manners!">
+  <meta property="og:type" content="website">
+  <link rel="icon" type="image/jpeg" href="/kidba_assets/favicon.jpg">
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&amp;family=Nunito:wght@400;500;600;700;800;900&amp;family=Poppins:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
 
   <!-- Bootstrap 5 -->
-  <link rel="stylesheet" href="/kidba_assets/vendor/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/kidba_assets/vendor/css/bootstrap.min.css">
 
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="/kidba_assets/vendor/css/all.min.css" />
+  <link rel="stylesheet" href="/kidba_assets/vendor/css/all.min.css">
 
   <!-- Animate.css -->
-  <link rel="stylesheet" href="/kidba_assets/vendor/css/animate.min.css" />
+  <link rel="stylesheet" href="/kidba_assets/vendor/css/animate.min.css">
 
   <!-- Swiper CSS -->
-  <link rel="stylesheet" href="/kidba_assets/vendor/css/swiper-bundle.min.css" />
+  <link rel="stylesheet" href="/kidba_assets/vendor/css/swiper-bundle.min.css">
 
   <!-- AOS CSS -->
-  <link rel="stylesheet" href="/kidba_assets/vendor/css/aos.css" />
+  <link rel="stylesheet" href="/kidba_assets/vendor/css/aos.css">
 
   <!-- Custom CSS -->
   <link rel="stylesheet" href="/kidba_assets/css/style.css">
 
   <!-- Capacitor Mobile App: always redirect to Auth on public pages -->
   <script>
-    (function() {
-      // Capacitor injects its bridge automatically
-      var isCap = false;
-      try {
-        isCap = window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform();
-      } catch(e) {}
-      if (isCap) {
-        var host = window.location.hostname;
-        var protocol = window.location.protocol;
-        if ((host === '127.0.0.1' || host === '0.0.0.0') || (host === 'localhost' && protocol !== 'https:')) {
-          var normalizedUrl = 'https://localhost' + window.location.pathname + window.location.search + window.location.hash;
-          if (window.location.href !== normalizedUrl) {
-            window.location.replace(normalizedUrl);
-            return;
-          }
-        }
-        var path = window.location.pathname.replace(/\/index\.html$/, '/').replace(/\.html$/, '').replace(/\/$/, '') || '/';
-        // Only allow these pages in app
-        var allowed = ['/auth', '/student-activities', '/parent-dashboard', '/teacher-dashboard', '/admin-dashboard', '/activity'];
-        if (!allowed.some(p => path === p)) {
-          window.location.replace('https://localhost/auth');
-        }
+(function () {
+  // Capacitor injects its bridge automatically
+  var isCap = false;
+  try {
+    isCap = window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform();
+  } catch (e) {}
+  if (isCap) {
+    var host = window.location.hostname;
+    var protocol = window.location.protocol;
+    if (host === '127.0.0.1' || host === '0.0.0.0' || host === 'localhost' && protocol !== 'https:') {
+      var normalizedUrl = 'https://localhost' + window.location.pathname + window.location.search + window.location.hash;
+      if (window.location.href !== normalizedUrl) {
+        window.location.replace(normalizedUrl);
+        return;
       }
-    })();
-  </script>
+    }
+    var path = window.location.pathname.replace(/\/index\.html$/, '/').replace(/\.html$/, '').replace(/\/$/, '') || '/';
+    // Only allow these pages in app
+    var allowed = ['/auth', '/student-activities', '/parent-dashboard', '/teacher-dashboard', '/admin-dashboard', '/activity'];
+    if (!allowed.some(p => path === p)) {
+      window.location.replace('https://localhost/auth');
+    }
+  }
+})();
+</script>
 </head>
 <body>
 
@@ -91,7 +88,7 @@
     <div class="splash-center">
       <!-- Logo with glow -->
       <div class="splash-logo-wrap">
-        <img src="/kidba_assets/img/splash_logo.jpg" alt="Imaan & Akhlaq" class="splash-logo" />
+        <img src="/kidba_assets/img/splash_logo.jpg" alt="Imaan &amp; Akhlaq" class="splash-logo">
       </div>
 
       <!-- Animated brand wordmark Ã¢â‚¬â€ Kidba style colorful text -->
@@ -103,18 +100,18 @@
       <div class="splash-icon">
         <svg viewBox="0 0 64 64" width="42" height="42" class="splash-pen-svg">
           <g transform="rotate(-30 32 32)">
-            <rect x="14" y="12" width="36" height="40" rx="3" fill="#D63678" opacity="0.9"/>
-            <rect x="18" y="16" width="28" height="32" rx="2" fill="#fff" opacity="0.95"/>
-            <line x1="22" y1="24" x2="42" y2="24" stroke="#E08020" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
-            <line x1="22" y1="30" x2="38" y2="30" stroke="#D63678" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
-            <line x1="22" y1="36" x2="40" y2="36" stroke="#1E2D5A" stroke-width="2" stroke-linecap="round" opacity="0.3"/>
-            <path d="M 30 8 A 6 6 0 0 1 30 20 A 4 4 0 0 0 30 8" fill="#E08020" opacity="0.85"/>
-            <circle cx="33" cy="11" r="1" fill="#E08020"/>
-            <line x1="44" y1="8" x2="38" y2="42" stroke="#1E2D5A" stroke-width="2.5" stroke-linecap="round"/>
-            <polygon points="38,42 36,48 40,48" fill="#D63678"/>
-            <circle cx="48" cy="6" r="1.5" fill="#E08020" class="splash-sparkle sp-1"/>
-            <circle cx="52" cy="12" r="1" fill="#D63678" class="splash-sparkle sp-2"/>
-            <circle cx="46" cy="14" r="1.2" fill="#C99A6B" class="splash-sparkle sp-3"/>
+            <rect x="14" y="12" width="36" height="40" rx="3" fill="#D63678" opacity="0.9"></rect>
+            <rect x="18" y="16" width="28" height="32" rx="2" fill="#fff" opacity="0.95"></rect>
+            <line x1="22" y1="24" x2="42" y2="24" stroke="#E08020" stroke-width="2" stroke-linecap="round" opacity="0.5"></line>
+            <line x1="22" y1="30" x2="38" y2="30" stroke="#D63678" stroke-width="2" stroke-linecap="round" opacity="0.4"></line>
+            <line x1="22" y1="36" x2="40" y2="36" stroke="#1E2D5A" stroke-width="2" stroke-linecap="round" opacity="0.3"></line>
+            <path d="M 30 8 A 6 6 0 0 1 30 20 A 4 4 0 0 0 30 8" fill="#E08020" opacity="0.85"></path>
+            <circle cx="33" cy="11" r="1" fill="#E08020"></circle>
+            <line x1="44" y1="8" x2="38" y2="42" stroke="#1E2D5A" stroke-width="2.5" stroke-linecap="round"></line>
+            <polygon points="38,42 36,48 40,48" fill="#D63678"></polygon>
+            <circle cx="48" cy="6" r="1.5" fill="#E08020" class="splash-sparkle sp-1"></circle>
+            <circle cx="52" cy="12" r="1" fill="#D63678" class="splash-sparkle sp-2"></circle>
+            <circle cx="46" cy="14" r="1.2" fill="#C99A6B" class="splash-sparkle sp-3"></circle>
           </g>
         </svg>
       </div>
@@ -224,7 +221,7 @@
     <nav class="navbar navbar-expand-lg main-navbar" id="mainNavbar">
       <div class="container">
         <a class="navbar-brand" href="#">
-          <img src="/kidba_assets/img/splash_logo.jpg" alt="Imaan & Akhlaq" class="site-logo" style="border-radius: 50%; border: 3px solid #FF7681; object-fit: cover; width: 55px; height: 55px; padding: 2px; background: #fff; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+          <img src="/kidba_assets/img/splash_logo.jpg" alt="Imaan &amp; Akhlaq" class="site-logo" style="border-radius: 50%; border: 3px solid #FF7681; object-fit: cover; width: 55px; height: 55px; padding: 2px; background: #fff; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
         </a>
 
         <style>
@@ -278,7 +275,7 @@
                 About Us
               </a>
               <ul class="dropdown-menu" aria-labelledby="aboutDropdown" style="border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-radius: 12px; padding: 10px;">
-                <li><a class="dropdown-item" href="/about/intro">Introduction & Objective</a></li>
+                <li><a class="dropdown-item" href="/about/intro">Introduction &amp; Objective</a></li>
                 <li><a class="dropdown-item" href="/about/genesis">Genesis</a></li>
                 <li><a class="dropdown-item" href="/about/founder">Message from Founder</a></li>
                 <li><a class="dropdown-item" href="/about/team">Team in Vision</a></li>
@@ -633,7 +630,7 @@
     <div class="problem-visual">
       <div class="problem-blob"></div>
       <div class="video-container" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 20px; box-shadow: 0 20px 40px rgba(30, 45, 90, 0.15);">
-        <iframe src="https://www.youtube.com/embed/nDI47Tgrgh4?si=DBw-eQXIXyYxcDgC" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <iframe src="https://www.youtube.com/embed/nDI47Tgrgh4?si=DBw-eQXIXyYxcDgC" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen=""></iframe>
       </div>
     </div>
     
@@ -650,7 +647,7 @@
       </ul>
       
       <div class="closing-line">
-        The question is no longer what children know&hellip; but who they become.
+        The question is no longer what children know… but who they become.
       </div>
     </div>
   </div>
@@ -786,7 +783,7 @@
   <div class="solution-bg-shape"></div>
   <div class="solution-container">
     <div class="solution-icon-main"><i class="fas fa-magic"></i></div>
-    <h2>Introducing Imaan & Akhlaq</h2>
+    <h2>Introducing Imaan &amp; Akhlaq</h2>
     <p class="solution-subtitle">Where faith meets character, and learning becomes living.</p>
     
     <p style="font-size: 1.2rem; color: #64748b; margin-bottom: 40px; max-width: 600px; margin-inline: auto;">
@@ -795,17 +792,17 @@
 
     <div class="features-row">
       <div class="solution-card" style="--card-color: #E08020; --card-shadow: rgba(224, 128, 32, 0.3);" data-aos="zoom-in" data-aos-delay="100">
-        <div class="sol-image-container"><img src="./kidba_assets/img/icon_conviction.png" alt="Believe with Conviction" /></div>
+        <div class="sol-image-container"><img src="./kidba_assets/img/icon_conviction.png" alt="Believe with Conviction"></div>
         <h4>Believe with Conviction</h4>
       </div>
       
       <div class="solution-card" style="--card-color: #D63678; --card-shadow: rgba(214, 54, 120, 0.3);" data-aos="zoom-in" data-aos-delay="200">
-        <div class="sol-image-container"><img src="./kidba_assets/img/icon_integrity.png" alt="Act with Integrity" /></div>
+        <div class="sol-image-container"><img src="./kidba_assets/img/icon_integrity.png" alt="Act with Integrity"></div>
         <h4>Act with Integrity</h4>
       </div>
       
       <div class="solution-card" style="--card-color: #6382EB; --card-shadow: rgba(99, 130, 235, 0.3);" data-aos="zoom-in" data-aos-delay="300">
-        <div class="sol-image-container"><img src="./kidba_assets/img/icon_purpose.png" alt="Live with Purpose" /></div>
+        <div class="sol-image-container"><img src="./kidba_assets/img/icon_purpose.png" alt="Live with Purpose"></div>
         <h4>Live with Purpose</h4>
       </div>
     </div>
@@ -975,9 +972,9 @@
 
 <section class="story-world" id="stories">
   <div class="story-container">
-    <h2>Enter the World of Imaan & Akhlaq</h2>
+    <h2>Enter the World of Imaan &amp; Akhlaq</h2>
     <p class="story-text">
-      Follow two young heroes as they navigate challenges, defeat negative traits, and grow into symbols of faith and character.<br/><strong>From Imaan & Akhlaq… to Raiah & Naseer.</strong>
+      Follow two young heroes as they navigate challenges, defeat negative traits, and grow into symbols of faith and character.<br><strong>From Imaan &amp; Akhlaq… to Raiah &amp; Naseer.</strong>
     </p>
 
     <div class="character-stage">
@@ -1069,7 +1066,7 @@
       <div class="unique-pill" data-aos="fade-up" data-aos-delay="100"><i class="fas fa-book-open"></i> Interactive Storytelling</div>
       <div class="unique-pill" data-aos="fade-up" data-aos-delay="200"><i class="fas fa-gamepad"></i> Gamified Learning (No Exams)</div>
       <div class="unique-pill" data-aos="fade-up" data-aos-delay="300"><i class="fas fa-heart"></i> Behavioral Transformation</div>
-      <div class="unique-pill" data-aos="fade-up" data-aos-delay="400"><i class="fas fa-theater-masks"></i> Puppet Shows & Animations</div>
+      <div class="unique-pill" data-aos="fade-up" data-aos-delay="400"><i class="fas fa-theater-masks"></i> Puppet Shows &amp; Animations</div>
       <div class="unique-pill" data-aos="fade-up" data-aos-delay="500"><i class="fas fa-hands-helping"></i> Parent + Teacher Integration</div>
     </div>
   </div>
@@ -1182,7 +1179,7 @@
 
       <a href="/club" class="eco-card" style="--card-color: #1A936F; --card-shadow: rgba(26, 147, 111, 0.3);" data-aos="zoom-in" data-aos-delay="300">
         <div class="eco-image-container"><i class="fas fa-users"></i></div>
-        <h4>Imaan & Akhlaq Clubs</h4>
+        <h4>Imaan &amp; Akhlaq Clubs</h4>
       </a>
 
       <a href="/products/puppet" class="eco-card" style="--card-color: #6382EB; --card-shadow: rgba(99, 130, 235, 0.3);" data-aos="zoom-in" data-aos-delay="400">
@@ -1451,7 +1448,7 @@
       
       <div class="progression-grid">
         <div class="prog-card prog-green" data-aos="fade-up" data-aos-delay="100">
-          <div class="img-wrapper"><img src="./kidba_assets/img/prog_new_p1.png" alt="Phase 1" class="prog-img" /></div>
+          <div class="img-wrapper"><img src="./kidba_assets/img/prog_new_p1.png" alt="Phase 1" class="prog-img"></div>
           <div class="prog-content">
             <span class="prog-label">Phase 1</span>
             Ages 5 - 8
@@ -1464,7 +1461,7 @@
         </div>
 
         <div class="prog-card prog-blue" data-aos="fade-up" data-aos-delay="200">
-          <div class="img-wrapper"><img src="./kidba_assets/img/prog_new_p2.png" alt="Phase 2" class="prog-img" /></div>
+          <div class="img-wrapper"><img src="./kidba_assets/img/prog_new_p2.png" alt="Phase 2" class="prog-img"></div>
           <div class="prog-content">
             <span class="prog-label">Phase 2</span>
             Ages 9 - 10
@@ -1477,7 +1474,7 @@
         </div>
 
         <div class="prog-card prog-yellow" data-aos="fade-up" data-aos-delay="300">
-          <div class="img-wrapper"><img src="./kidba_assets/img/prog_new_p3.png" alt="Phase 3" class="prog-img" /></div>
+          <div class="img-wrapper"><img src="./kidba_assets/img/prog_new_p3.png" alt="Phase 3" class="prog-img"></div>
           <div class="prog-content">
             <span class="prog-label">Phase 3</span>
             Ages 11 - 13
@@ -1490,7 +1487,7 @@
         </div>
 
         <div class="prog-card prog-red" data-aos="fade-up" data-aos-delay="400">
-          <div class="img-wrapper"><img src="./kidba_assets/img/prog_new_p4.png" alt="Phase 4" class="prog-img" /></div>
+          <div class="img-wrapper"><img src="./kidba_assets/img/prog_new_p4.png" alt="Phase 4" class="prog-img"></div>
           <div class="prog-content">
             <span class="prog-label">Phase 4</span>
             Age 14+
@@ -1705,9 +1702,9 @@
       A vision that started with a concern close to home has now grown into a nationwide movement. See how the journey began and meet the team shaping the future.
     </p>
     
-    <a href="/about" class="btn-outline-gold"><i class="fas fa-book-open me-2"></i>Read Detailed Message & Vision</a>
+    <a href="/about" class="btn-outline-gold"><i class="fas fa-book-open me-2"></i>Read Detailed Message &amp; Vision</a>
 
-    <hr class="divider-fancy" />
+    <hr class="divider-fancy">
 
     <h2 class="cta-heading">Join the Movement of Character Transformation</h2>
     <div class="cta-buttons">
@@ -1726,7 +1723,7 @@
     <div class="kidba-newsletter" data-aos="fade-up">
       <div class="kn-content">
         <h3>Join Our Newsletter</h3>
-        <p>Subscribe to get our latest news & updates!</p>
+        <p>Subscribe to get our latest news &amp; updates!</p>
       </div>
       <div class="kn-form">
         <input type="email" placeholder="Your email address">
@@ -1749,7 +1746,7 @@
           <div class="col-lg-4">
             <div class="kfm-about">
               <!-- Using text instead of image for simple placeholder -->
-              <h2 style="font-family: 'Fredoka One', cursive; color: #fff; margin-bottom: 20px;">Imaan & Akhlaq</h2>
+              <h2 style="font-family: 'Fredoka One', cursive; color: #fff; margin-bottom: 20px;">Imaan &amp; Akhlaq</h2>
               <p>Bringing Islamic values to life through joyful storytelling, puppet shows, and educational adventures for children aged 5-12.</p>
               <div class="kfm-social">
                 <a href="https://www.facebook.com/ImaanAkhlaqTalks/" target="_blank"><i class="fab fa-facebook-f"></i></a>
@@ -1797,19 +1794,12 @@
 
     <!-- Google Map -->
     <div class="kidba-map-section">
-      <iframe 
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1660.2!2d73.1767332!3d33.5784375!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38dfed00214d3841%3A0x3029ccd22ce26b5a!2sSEERAHT%20Initiatives!5e0!3m2!1sen!2spk!4v1711836000000"
-        width="100%" 
-        height="350" 
-        style="border:0;" 
-        allowfullscreen="" 
-        loading="lazy" 
-        referrerpolicy="no-referrer-when-downgrade">
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1660.2!2d73.1767332!3d33.5784375!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38dfed00214d3841%3A0x3029ccd22ce26b5a!2sSEERAHT%20Initiatives!5e0!3m2!1sen!2spk!4v1711836000000" width="100%" height="350" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
       </iframe>
     </div>
 
     <div class="kidba-footer-bottom px-4" style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;">
-      <span>&copy; 2026 Imaan & Akhlaq - An Ilm O Amal Initiative. All rights reserved.</span>
+      <span>© 2026 Imaan &amp; Akhlaq - An Ilm O Amal Initiative. All rights reserved.</span>
       <div class="legal-links mt-2 mt-md-0">
         <a href="/privacy" class="text-white-50 text-decoration-none mx-2 hover-white">Privacy Policy</a>
         <a href="/terms" class="text-white-50 text-decoration-none mx-2 hover-white">Terms of Use</a>
@@ -1833,6 +1823,7 @@
 
   <!-- Custom JS -->
   <script src="/kidba_assets/js/main.js"></script>
-</body>
-</html>
 
+
+
+</body></html>

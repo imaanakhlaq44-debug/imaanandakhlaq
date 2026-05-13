@@ -22,13 +22,14 @@ const HTML_FILES = [
 
 const FIREBASE_CDN_RE = /import\s*\{([^}]+)\}\s*from\s*["']https:\/\/www\.gstatic\.com\/firebasejs\/[\d.]+\/firebase-[^"']+["'];?\n?/g;
 
-// ── Step 1: Build Firebase ESM bundle ──────────────────────────────────────
+// ── Step 1: Build Firebase IIFE bundle ──────────────────────────────────────
 async function buildBundle() {
   const entryContent = `
-export * from 'firebase/app';
-export * from 'firebase/auth';
-export * from 'firebase/firestore';
-export * from 'firebase/storage';
+import * as app from 'firebase/app';
+import * as auth from 'firebase/auth';
+import * as firestore from 'firebase/firestore';
+import * as storage from 'firebase/storage';
+window.firebase = { ...app, ...auth, ...firestore, ...storage };
 `;
   const tmpEntry = path.join(__dirname, '_fb_bundle_entry_tmp.js');
   fs.writeFileSync(tmpEntry, entryContent, 'utf8');
@@ -37,11 +38,11 @@ export * from 'firebase/storage';
     await esbuild.build({
       entryPoints: [tmpEntry],
       bundle: true,
-      format: 'esm',
+      format: 'iife',
       outfile: bundleOut,
       minify: true,
       platform: 'browser',
-      target: ['chrome85'], // API 34 WebView = Chrome 85+
+      target: ['es2015'], 
       define: {
         'process.env.NODE_ENV': '"production"',
       },
@@ -55,56 +56,61 @@ export * from 'firebase/storage';
 // ── Step 2: Patch each HTML file ───────────────────────────────────────────
 function patchHtmlFile(filePath) {
   let html = fs.readFileSync(filePath, 'utf8');
+  let changed = false;
 
-  // Collect all named imports from firebase CDN lines
-  const allImports = new Set();
-  let match;
-  const re = new RegExp(FIREBASE_CDN_RE.source, 'g');
-  while ((match = re.exec(html)) !== null) {
-    match[1].split(',').forEach(imp => {
-      const trimmed = imp.trim().replace(/\s+as\s+\w+/, ''); // strip aliases for detection
-      if (trimmed) allImports.add(match[1].trim()); // keep full import group
-    });
+  // ── Always inject the bundle <script> into <head> if not already there ──
+  if (!html.includes(localBundlePath)) {
+    html = html.replace('</head>', `<script src="${localBundlePath}"></script>\n</head>`);
+    changed = true;
   }
 
-  // Collect raw named import tokens (preserving aliases like "getDoc as _getDoc")
+  // ── Replace Firebase CDN import lines with window.firebase destructure ──
   const allTokens = [];
+  let match;
   const re2 = new RegExp(FIREBASE_CDN_RE.source, 'g');
   while ((match = re2.exec(html)) !== null) {
     match[1].split(',').forEach(tok => {
       const t = tok.trim();
-      if (t) allTokens.push(t);
+      if (t) allTokens.push(t.replace(/\s+as\s+/, ': '));
     });
   }
 
-  if (allTokens.length === 0) return false; // no firebase CDN in this file
+  if (allTokens.length > 0) {
+    // Deduplicate tokens
+    const seen = new Set();
+    const dedupedTokens = [];
+    allTokens.forEach(tok => {
+      const key = tok.split(':')[0].trim();
+      if (!seen.has(key)) {
+        seen.add(key);
+        dedupedTokens.push(tok);
+      }
+    });
 
-  // Deduplicate tokens (by alias name if present, else by symbol name)
-  const seen = new Set();
-  const dedupedTokens = [];
-  allTokens.forEach(tok => {
-    const key = tok.replace(/\s+as\s+\S+/, '').trim();
-    if (!seen.has(key)) {
-      seen.add(key);
-      dedupedTokens.push(tok);
-    }
-  });
+    const singleImport = `const { ${dedupedTokens.join(', ')} } = window.firebase;`;
 
-  const singleImport = `import { ${dedupedTokens.join(', ')} } from "${localBundlePath}";`;
+    let firstReplaced = false;
+    const re3 = new RegExp(FIREBASE_CDN_RE.source, 'g');
+    html = html.replace(re3, (full) => {
+      if (!firstReplaced) {
+        firstReplaced = true;
+        return singleImport + '\n';
+      }
+      return '';
+    });
+    changed = true;
+  }
 
-  // Remove all firebase CDN import lines, insert single local import in their place
-  let firstReplaced = false;
-  const re3 = new RegExp(FIREBASE_CDN_RE.source, 'g');
-  html = html.replace(re3, (full) => {
-    if (!firstReplaced) {
-      firstReplaced = true;
-      return singleImport + '\n';
-    }
-    return ''; // remove subsequent firebase CDN lines
-  });
+  // also remove type="module" from scripts (ES module imports no longer needed)
+  if (html.includes('<script type="module">')) {
+    html = html.replace(/<script type="module">/g, '<script>');
+    changed = true;
+  }
 
-  fs.writeFileSync(filePath, html, 'utf8');
-  return true;
+  if (changed) {
+    fs.writeFileSync(filePath, html, 'utf8');
+  }
+  return changed;
 }
 
 // ── Main ───────────────────────────────────────────────────────────────────

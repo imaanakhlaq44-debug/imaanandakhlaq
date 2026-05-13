@@ -514,7 +514,15 @@ const BOTTOMBAR_JS = `/* APK-only bottom bar injector. Auto-generated. */
             if (typeof modal.close === 'function') { try { modal.close(); return; } catch(e){} }
           }
         } catch(e){}
-        // 3) If history has a previous in-app entry, go back.
+        // 3) Activity page: always go back to student dashboard explicitly
+        try {
+          var p3 = (location.pathname || '').toLowerCase();
+          if (p3.indexOf('activity') !== -1 && p3.indexOf('student-activities') === -1) {
+            window.location.href = 'student-activities.html';
+            return;
+          }
+        } catch(e){}
+        // 4) If history has a previous in-app entry, go back.
         try {
           if (window.history && window.history.length > 1 && !isHomeLikePage()) {
             window.history.back();

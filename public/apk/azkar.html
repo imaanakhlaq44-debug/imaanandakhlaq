@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+<!DOCTYPE html><html lang="en"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Daily Azkar</title>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700&family=Amiri:wght@400;700&family=Orbitron:wght@700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&amp;family=Nunito:wght@400;600;700&amp;family=Amiri:wght@400;700&amp;family=Orbitron:wght@700;800&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../kidba_assets/css/apk-bottombar.css">
 
 </head>
@@ -12,7 +10,7 @@
 <header class="apk-page__header">
   <button class="apk-page__back" onclick="history.length>1?history.back():location.href='../student-activities.html'" aria-label="Back">
     <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <polyline points="15 6 9 12 15 18"/>
+      <polyline points="15 6 9 12 15 18"></polyline>
     </svg>
   </button>
   <h1 class="apk-page__title">Daily Azkar</h1>
@@ -82,223 +80,201 @@
 <div id="azkarContent"></div>
 
 <script>
-(function(){
+(function () {
   var DATA = {
     morning: {
       title: 'Morning Azkar (Adhkar al-Sabah)',
-      items: [
-        {
-          ar: 'أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ',
-          tr: 'Asbahna wa asbahal-mulku lillah, walhamdu lillah, la ilaha illallahu wahdahu la sharika lah, lahul-mulku wa lahul-hamd, wa huwa ala kulli shay\'in qadeer.',
-          en: 'We have entered the morning and so has all sovereignty, which belongs to Allah. Praise is to Allah. None has the right to be worshipped but Allah, alone, without partner. To Him belongs all sovereignty and praise, and He is over all things omnipotent.',
-          times: '1×',
-          ref: 'Muslim 4/2088'
-        },
-        {
-          ar: 'اللَّهُمَّ بِكَ أَصْبَحْنَا، وَبِكَ أَمْسَيْنَا، وَبِكَ نَحْيَا، وَبِكَ نَمُوتُ، وَإِلَيْكَ النُّشُورُ',
-          tr: 'Allahumma bika asbahna, wa bika amsayna, wa bika nahya, wa bika namootu, wa ilayka-n-nushoor.',
-          en: 'O Allah, by You we enter the morning and by You we enter the evening, by You we live and by You we die, and to You is the resurrection.',
-          times: '1×',
-          ref: 'Tirmidhi 5/466'
-        },
-        {
-          ar: 'سُبْحَانَ اللَّهِ وَبِحَمْدِهِ',
-          tr: 'SubhanAllahi wa bihamdih.',
-          en: 'Glory is to Allah, and praise is to Him.',
-          times: '100×',
-          ref: 'Bukhari 7/168, Muslim 4/2071'
-        },
-        {
-          ar: 'لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ',
-          tr: 'La ilaha illallahu wahdahu la sharika lah, lahul-mulku wa lahul-hamd, wa huwa ala kulli shay\'in qadeer.',
-          en: 'None has the right to be worshipped but Allah, alone, without partner. To Him belongs all sovereignty and praise, and He is over all things omnipotent.',
-          times: '10× or 100×',
-          ref: 'Bukhari, Muslim'
-        },
-        {
-          ar: 'بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ',
-          tr: 'Bismillahil-ladhi la yadurru ma\'asmihi shay\'un fil-ardi wa la fis-samaa\'i wa huwas-Samee\'ul-Aleem.',
-          en: 'In the name of Allah, with whose name nothing on earth or in the heavens can cause harm. He is the All-Hearing, the All-Knowing.',
-          times: '3×',
-          ref: 'Abu Dawud, Tirmidhi'
-        },
-        {
-          ar: 'حَسْبِيَ اللَّهُ لَا إِلَهَ إِلَّا هُوَ عَلَيْهِ تَوَكَّلْتُ وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ',
-          tr: 'Hasbiyallahu la ilaha illa huwa, alayhi tawakkaltu wa huwa Rabbul-Arshil-Adheem.',
-          en: 'Allah is sufficient for me. None has the right to be worshipped except Him. Upon Him I rely, and He is the Lord of the Magnificent Throne.',
-          times: '7×',
-          ref: 'Abu Dawud 4/321'
-        }
-      ]
+      items: [{
+        ar: 'أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ',
+        tr: 'Asbahna wa asbahal-mulku lillah, walhamdu lillah, la ilaha illallahu wahdahu la sharika lah, lahul-mulku wa lahul-hamd, wa huwa ala kulli shay\'in qadeer.',
+        en: 'We have entered the morning and so has all sovereignty, which belongs to Allah. Praise is to Allah. None has the right to be worshipped but Allah, alone, without partner. To Him belongs all sovereignty and praise, and He is over all things omnipotent.',
+        times: '1×',
+        ref: 'Muslim 4/2088'
+      }, {
+        ar: 'اللَّهُمَّ بِكَ أَصْبَحْنَا، وَبِكَ أَمْسَيْنَا، وَبِكَ نَحْيَا، وَبِكَ نَمُوتُ، وَإِلَيْكَ النُّشُورُ',
+        tr: 'Allahumma bika asbahna, wa bika amsayna, wa bika nahya, wa bika namootu, wa ilayka-n-nushoor.',
+        en: 'O Allah, by You we enter the morning and by You we enter the evening, by You we live and by You we die, and to You is the resurrection.',
+        times: '1×',
+        ref: 'Tirmidhi 5/466'
+      }, {
+        ar: 'سُبْحَانَ اللَّهِ وَبِحَمْدِهِ',
+        tr: 'SubhanAllahi wa bihamdih.',
+        en: 'Glory is to Allah, and praise is to Him.',
+        times: '100×',
+        ref: 'Bukhari 7/168, Muslim 4/2071'
+      }, {
+        ar: 'لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ',
+        tr: 'La ilaha illallahu wahdahu la sharika lah, lahul-mulku wa lahul-hamd, wa huwa ala kulli shay\'in qadeer.',
+        en: 'None has the right to be worshipped but Allah, alone, without partner. To Him belongs all sovereignty and praise, and He is over all things omnipotent.',
+        times: '10× or 100×',
+        ref: 'Bukhari, Muslim'
+      }, {
+        ar: 'بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ',
+        tr: 'Bismillahil-ladhi la yadurru ma\'asmihi shay\'un fil-ardi wa la fis-samaa\'i wa huwas-Samee\'ul-Aleem.',
+        en: 'In the name of Allah, with whose name nothing on earth or in the heavens can cause harm. He is the All-Hearing, the All-Knowing.',
+        times: '3×',
+        ref: 'Abu Dawud, Tirmidhi'
+      }, {
+        ar: 'حَسْبِيَ اللَّهُ لَا إِلَهَ إِلَّا هُوَ عَلَيْهِ تَوَكَّلْتُ وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ',
+        tr: 'Hasbiyallahu la ilaha illa huwa, alayhi tawakkaltu wa huwa Rabbul-Arshil-Adheem.',
+        en: 'Allah is sufficient for me. None has the right to be worshipped except Him. Upon Him I rely, and He is the Lord of the Magnificent Throne.',
+        times: '7×',
+        ref: 'Abu Dawud 4/321'
+      }]
     },
     evening: {
       title: 'Evening Azkar (Adhkar al-Masaa)',
-      items: [
-        {
-          ar: 'أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ',
-          tr: 'Amsayna wa amsal-mulku lillah, walhamdu lillah, la ilaha illallahu wahdahu la sharika lah...',
-          en: 'We have entered the evening and so has all sovereignty, which belongs to Allah. Praise is to Allah. None has the right to be worshipped but Allah alone...',
-          times: '1×',
-          ref: 'Muslim 4/2088'
-        },
-        {
-          ar: 'اللَّهُمَّ بِكَ أَمْسَيْنَا، وَبِكَ أَصْبَحْنَا، وَبِكَ نَحْيَا، وَبِكَ نَمُوتُ، وَإِلَيْكَ الْمَصِيرُ',
-          tr: 'Allahumma bika amsayna, wa bika asbahna, wa bika nahya, wa bika namootu, wa ilaykal-maseer.',
-          en: 'O Allah, by You we enter the evening and by You we enter the morning, by You we live and by You we die, and to You is the final return.',
-          times: '1×',
-          ref: 'Tirmidhi 5/466'
-        },
-        {
-          ar: 'أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ',
-          tr: 'A\'oodhu bi-kalimatillahit-tammati min sharri ma khalaq.',
-          en: 'I seek refuge in the perfect words of Allah from the evil of what He has created.',
-          times: '3×',
-          ref: 'Muslim 4/2081'
-        },
-        {
-          ar: 'سُبْحَانَ اللَّهِ وَبِحَمْدِهِ',
-          tr: 'SubhanAllahi wa bihamdih.',
-          en: 'Glory is to Allah, and praise is to Him.',
-          times: '100×',
-          ref: 'Muslim 4/2071'
-        },
-        {
-          ar: 'بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ',
-          tr: 'Bismillahil-ladhi la yadurru ma\'asmihi shay\'un fil-ardi wa la fis-samaa\'i wa huwas-Samee\'ul-Aleem.',
-          en: 'In the name of Allah, with whose name nothing on earth or in the heavens can cause harm. He is the All-Hearing, the All-Knowing.',
-          times: '3×',
-          ref: 'Abu Dawud, Tirmidhi'
-        }
-      ]
+      items: [{
+        ar: 'أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ',
+        tr: 'Amsayna wa amsal-mulku lillah, walhamdu lillah, la ilaha illallahu wahdahu la sharika lah...',
+        en: 'We have entered the evening and so has all sovereignty, which belongs to Allah. Praise is to Allah. None has the right to be worshipped but Allah alone...',
+        times: '1×',
+        ref: 'Muslim 4/2088'
+      }, {
+        ar: 'اللَّهُمَّ بِكَ أَمْسَيْنَا، وَبِكَ أَصْبَحْنَا، وَبِكَ نَحْيَا، وَبِكَ نَمُوتُ، وَإِلَيْكَ الْمَصِيرُ',
+        tr: 'Allahumma bika amsayna, wa bika asbahna, wa bika nahya, wa bika namootu, wa ilaykal-maseer.',
+        en: 'O Allah, by You we enter the evening and by You we enter the morning, by You we live and by You we die, and to You is the final return.',
+        times: '1×',
+        ref: 'Tirmidhi 5/466'
+      }, {
+        ar: 'أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ',
+        tr: 'A\'oodhu bi-kalimatillahit-tammati min sharri ma khalaq.',
+        en: 'I seek refuge in the perfect words of Allah from the evil of what He has created.',
+        times: '3×',
+        ref: 'Muslim 4/2081'
+      }, {
+        ar: 'سُبْحَانَ اللَّهِ وَبِحَمْدِهِ',
+        tr: 'SubhanAllahi wa bihamdih.',
+        en: 'Glory is to Allah, and praise is to Him.',
+        times: '100×',
+        ref: 'Muslim 4/2071'
+      }, {
+        ar: 'بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ',
+        tr: 'Bismillahil-ladhi la yadurru ma\'asmihi shay\'un fil-ardi wa la fis-samaa\'i wa huwas-Samee\'ul-Aleem.',
+        en: 'In the name of Allah, with whose name nothing on earth or in the heavens can cause harm. He is the All-Hearing, the All-Knowing.',
+        times: '3×',
+        ref: 'Abu Dawud, Tirmidhi'
+      }]
     },
     'after-salah': {
       title: 'Azkar After Obligatory Salah',
-      items: [
-        {
-          ar: 'أَسْتَغْفِرُ اللَّهَ',
-          tr: 'Astaghfirullah.',
-          en: 'I seek the forgiveness of Allah.',
-          times: '3×',
-          ref: 'Muslim 1/414'
-        },
-        {
-          ar: 'اللَّهُمَّ أَنْتَ السَّلَامُ وَمِنْكَ السَّلَامُ، تَبَارَكْتَ يَا ذَا الْجَلَالِ وَالْإِكْرَامِ',
-          tr: 'Allahumma antas-Salaam, wa minkas-salaam, tabarakta ya Dhal-Jalali wal-Ikram.',
-          en: 'O Allah, You are Peace, and from You comes peace. Blessed are You, O Owner of Majesty and Honor.',
-          times: '1×',
-          ref: 'Muslim 1/414'
-        },
-        {
-          ar: 'سُبْحَانَ اللَّهِ',
-          tr: 'SubhanAllah.',
-          en: 'Glory is to Allah.',
-          times: '33×',
-          ref: 'Muslim 1/418'
-        },
-        {
-          ar: 'الْحَمْدُ لِلَّهِ',
-          tr: 'Alhamdulillah.',
-          en: 'All praise is for Allah.',
-          times: '33×',
-          ref: 'Muslim 1/418'
-        },
-        {
-          ar: 'اللَّهُ أَكْبَرُ',
-          tr: 'Allahu Akbar.',
-          en: 'Allah is the Greatest.',
-          times: '34×',
-          ref: 'Muslim 1/418'
-        },
-        {
-          ar: 'لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ',
-          tr: 'La ilaha illallahu wahdahu la sharika lah, lahul-mulku wa lahul-hamd, wa huwa ala kulli shay\'in qadeer.',
-          en: 'None has the right to be worshipped but Allah, alone, without partner. To Him belongs all sovereignty and praise, and He is over all things omnipotent.',
-          times: '1×',
-          ref: 'Muslim 1/418'
-        }
-      ]
+      items: [{
+        ar: 'أَسْتَغْفِرُ اللَّهَ',
+        tr: 'Astaghfirullah.',
+        en: 'I seek the forgiveness of Allah.',
+        times: '3×',
+        ref: 'Muslim 1/414'
+      }, {
+        ar: 'اللَّهُمَّ أَنْتَ السَّلَامُ وَمِنْكَ السَّلَامُ، تَبَارَكْتَ يَا ذَا الْجَلَالِ وَالْإِكْرَامِ',
+        tr: 'Allahumma antas-Salaam, wa minkas-salaam, tabarakta ya Dhal-Jalali wal-Ikram.',
+        en: 'O Allah, You are Peace, and from You comes peace. Blessed are You, O Owner of Majesty and Honor.',
+        times: '1×',
+        ref: 'Muslim 1/414'
+      }, {
+        ar: 'سُبْحَانَ اللَّهِ',
+        tr: 'SubhanAllah.',
+        en: 'Glory is to Allah.',
+        times: '33×',
+        ref: 'Muslim 1/418'
+      }, {
+        ar: 'الْحَمْدُ لِلَّهِ',
+        tr: 'Alhamdulillah.',
+        en: 'All praise is for Allah.',
+        times: '33×',
+        ref: 'Muslim 1/418'
+      }, {
+        ar: 'اللَّهُ أَكْبَرُ',
+        tr: 'Allahu Akbar.',
+        en: 'Allah is the Greatest.',
+        times: '34×',
+        ref: 'Muslim 1/418'
+      }, {
+        ar: 'لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ',
+        tr: 'La ilaha illallahu wahdahu la sharika lah, lahul-mulku wa lahul-hamd, wa huwa ala kulli shay\'in qadeer.',
+        en: 'None has the right to be worshipped but Allah, alone, without partner. To Him belongs all sovereignty and praise, and He is over all things omnipotent.',
+        times: '1×',
+        ref: 'Muslim 1/418'
+      }]
     },
     sleep: {
       title: 'Azkar Before Sleep',
-      items: [
-        {
-          ar: 'بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا',
-          tr: 'Bismika Allahumma amootu wa ahya.',
-          en: 'In Your name, O Allah, I die and I live.',
-          times: '1×',
-          ref: 'Bukhari 11/113'
-        },
-        {
-          ar: 'اللَّهُمَّ قِنِي عَذَابَكَ يَوْمَ تَبْعَثُ عِبَادَكَ',
-          tr: 'Allahumma qini adhabaka yawma tab\'athu ibadak.',
-          en: 'O Allah, save me from Your punishment on the day You resurrect Your servants.',
-          times: '3×',
-          ref: 'Abu Dawud, Tirmidhi'
-        },
-        {
-          ar: 'سُبْحَانَ اللَّهِ ٣٣ ، الْحَمْدُ لِلَّهِ ٣٣ ، اللَّهُ أَكْبَرُ ٣٤',
-          tr: 'SubhanAllah (33×), Alhamdulillah (33×), Allahu Akbar (34×).',
-          en: 'Recite SubhanAllah 33 times, Alhamdulillah 33 times, and Allahu Akbar 34 times before sleeping.',
-          times: 'as shown',
-          ref: 'Bukhari, Muslim'
-        },
-        {
-          ar: 'اللَّهُمَّ أَسْلَمْتُ نَفْسِي إِلَيْكَ، وَفَوَّضْتُ أَمْرِي إِلَيْكَ، وَوَجَّهْتُ وَجْهِي إِلَيْكَ، وَأَلْجَأْتُ ظَهْرِي إِلَيْكَ، رَغْبَةً وَرَهْبَةً إِلَيْكَ، لَا مَلْجَأَ وَلَا مَنْجَا مِنْكَ إِلَّا إِلَيْكَ، آمَنْتُ بِكِتَابِكَ الَّذِي أَنْزَلْتَ، وَبِنَبِيِّكَ الَّذِي أَرْسَلْتَ',
-          tr: 'Allahumma aslamtu nafsi ilayk...',
-          en: 'O Allah, I submit myself to You, entrust my affairs to You, turn my face to You, and lay myself down depending upon You, hoping in You and fearing You. There is no refuge nor escape from You except to You. I believe in Your Book which You revealed, and in Your Prophet whom You sent.',
-          times: '1×',
-          ref: 'Bukhari, Muslim'
-        },
-        {
-          ar: 'Recite Ayat-ul-Kursi (سورة البقرة ٢٥٥)',
-          tr: 'Read Ayat al-Kursi.',
-          en: 'Whoever recites Ayat al-Kursi before sleeping, Allah will appoint a guardian over him, and no devil will come near him until morning.',
-          times: '1×',
-          ref: 'Bukhari 4/487'
-        }
-      ]
+      items: [{
+        ar: 'بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا',
+        tr: 'Bismika Allahumma amootu wa ahya.',
+        en: 'In Your name, O Allah, I die and I live.',
+        times: '1×',
+        ref: 'Bukhari 11/113'
+      }, {
+        ar: 'اللَّهُمَّ قِنِي عَذَابَكَ يَوْمَ تَبْعَثُ عِبَادَكَ',
+        tr: 'Allahumma qini adhabaka yawma tab\'athu ibadak.',
+        en: 'O Allah, save me from Your punishment on the day You resurrect Your servants.',
+        times: '3×',
+        ref: 'Abu Dawud, Tirmidhi'
+      }, {
+        ar: 'سُبْحَانَ اللَّهِ ٣٣ ، الْحَمْدُ لِلَّهِ ٣٣ ، اللَّهُ أَكْبَرُ ٣٤',
+        tr: 'SubhanAllah (33×), Alhamdulillah (33×), Allahu Akbar (34×).',
+        en: 'Recite SubhanAllah 33 times, Alhamdulillah 33 times, and Allahu Akbar 34 times before sleeping.',
+        times: 'as shown',
+        ref: 'Bukhari, Muslim'
+      }, {
+        ar: 'اللَّهُمَّ أَسْلَمْتُ نَفْسِي إِلَيْكَ، وَفَوَّضْتُ أَمْرِي إِلَيْكَ، وَوَجَّهْتُ وَجْهِي إِلَيْكَ، وَأَلْجَأْتُ ظَهْرِي إِلَيْكَ، رَغْبَةً وَرَهْبَةً إِلَيْكَ، لَا مَلْجَأَ وَلَا مَنْجَا مِنْكَ إِلَّا إِلَيْكَ، آمَنْتُ بِكِتَابِكَ الَّذِي أَنْزَلْتَ، وَبِنَبِيِّكَ الَّذِي أَرْسَلْتَ',
+        tr: 'Allahumma aslamtu nafsi ilayk...',
+        en: 'O Allah, I submit myself to You, entrust my affairs to You, turn my face to You, and lay myself down depending upon You, hoping in You and fearing You. There is no refuge nor escape from You except to You. I believe in Your Book which You revealed, and in Your Prophet whom You sent.',
+        times: '1×',
+        ref: 'Bukhari, Muslim'
+      }, {
+        ar: 'Recite Ayat-ul-Kursi (سورة البقرة ٢٥٥)',
+        tr: 'Read Ayat al-Kursi.',
+        en: 'Whoever recites Ayat al-Kursi before sleeping, Allah will appoint a guardian over him, and no devil will come near him until morning.',
+        times: '1×',
+        ref: 'Bukhari 4/487'
+      }]
     }
   };
-
   var content = document.getElementById('azkarContent');
   var tabs = document.querySelectorAll('.azkar-tab');
-
-  function escapeHtml(s){ return String(s).replace(/[&<>"']/g, function(c){
-    return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c];
-  }); }
-
-  function render(key){
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+      }[c];
+    });
+  }
+  function render(key) {
     var section = DATA[key];
     if (!section) return;
     var html = '<h3 class="azkar-section-title">' + escapeHtml(section.title) + '</h3>';
-    section.items.forEach(function(it, idx){
-      html += '<div class="azkar-card">' +
-        '<span class="azkar-num">' + (idx+1) + '</span>' +
-        '<span class="azkar-times">' + escapeHtml(it.times) + '</span>' +
-        '<div class="azkar-ar">' + escapeHtml(it.ar) + '</div>' +
-        '<div class="azkar-tr">' + escapeHtml(it.tr) + '</div>' +
-        '<div class="azkar-en">' + escapeHtml(it.en) + '</div>' +
-        '<div class="azkar-ref">📚 ' + escapeHtml(it.ref) + '</div>' +
-      '</div>';
+    section.items.forEach(function (it, idx) {
+      html += '<div class="azkar-card">' + '<span class="azkar-num">' + (idx + 1) + '</span>' + '<span class="azkar-times">' + escapeHtml(it.times) + '</span>' + '<div class="azkar-ar">' + escapeHtml(it.ar) + '</div>' + '<div class="azkar-tr">' + escapeHtml(it.tr) + '</div>' + '<div class="azkar-en">' + escapeHtml(it.en) + '</div>' + '<div class="azkar-ref">📚 ' + escapeHtml(it.ref) + '</div>' + '</div>';
     });
     content.innerHTML = html;
   }
-
-  tabs.forEach(function(t){
-    t.addEventListener('click', function(){
-      tabs.forEach(function(x){ x.classList.remove('active'); });
+  tabs.forEach(function (t) {
+    t.addEventListener('click', function () {
+      tabs.forEach(function (x) {
+        x.classList.remove('active');
+      });
       t.classList.add('active');
       render(t.getAttribute('data-tab'));
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
     });
   });
 
   // Default tab based on time of day
   var hour = new Date().getHours();
-  var defaultTab = (hour >= 4 && hour < 15) ? 'morning' : (hour >= 15 && hour < 20 ? 'evening' : 'sleep');
+  var defaultTab = hour >= 4 && hour < 15 ? 'morning' : hour >= 15 && hour < 20 ? 'evening' : 'sleep';
   var defBtn = document.querySelector('[data-tab="' + defaultTab + '"]');
   if (defBtn) {
-    tabs.forEach(function(x){ x.classList.remove('active'); });
+    tabs.forEach(function (x) {
+      x.classList.remove('active');
+    });
     defBtn.classList.add('active');
   }
   render(defaultTab);
@@ -306,7 +282,11 @@
 </script>
 
 </main>
-<script>try{localStorage.setItem('apk_bottombar','1')}catch(e){}</script>
+<script>
+try {
+  localStorage.setItem('apk_bottombar', '1');
+} catch (e) {}
+</script>
 <script src="../kidba_assets/js/apk-bottombar.js"></script>
-</body>
-</html>
+
+</body></html>

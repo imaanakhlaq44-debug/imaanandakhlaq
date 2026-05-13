@@ -1,35 +1,33 @@
+<!DOCTYPE html><html lang="en"><head><script src="/kidba_assets/js/regenerator-runtime.min.js"></script>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Imaan & Akhlaq - Islamic Stories & Education for Kids</title>
-  <meta name="description" content="Imaan & Akhlaq - Fun Islamic stories, puppet shows, and educational programs teaching faith, manners, and good character to children." />
-  <meta property="og:title" content="Imaan & Akhlaq - Islamic Education for Kids" />
-  <meta property="og:description" content="Join Imaan and Akhlaq on magical adventures learning about Islam, Prophets, and good manners!" />
-  <meta property="og:type" content="website" />
-  <link rel="icon" type="image/jpeg" href="/kidba_assets/favicon.jpg" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Imaan &amp; Akhlaq - Islamic Stories &amp; Education for Kids</title>
+  <meta name="description" content="Imaan &amp; Akhlaq - Fun Islamic stories, puppet shows, and educational programs teaching faith, manners, and good character to children.">
+  <meta property="og:title" content="Imaan &amp; Akhlaq - Islamic Education for Kids">
+  <meta property="og:description" content="Join Imaan and Akhlaq on magical adventures learning about Islam, Prophets, and good manners!">
+  <meta property="og:type" content="website">
+  <link rel="icon" type="image/jpeg" href="/kidba_assets/favicon.jpg">
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&amp;family=Nunito:wght@400;500;600;700;800;900&amp;family=Poppins:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
 
   <!-- Bootstrap 5 -->
-  <link rel="stylesheet" href="/kidba_assets/vendor/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/kidba_assets/vendor/css/bootstrap.min.css">
 
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="/kidba_assets/vendor/css/all.min.css" />
+  <link rel="stylesheet" href="/kidba_assets/vendor/css/all.min.css">
 
   <!-- Animate.css -->
-  <link rel="stylesheet" href="/kidba_assets/vendor/css/animate.min.css" />
+  <link rel="stylesheet" href="/kidba_assets/vendor/css/animate.min.css">
 
   <!-- Swiper CSS -->
-  <link rel="stylesheet" href="/kidba_assets/vendor/css/swiper-bundle.min.css" />
+  <link rel="stylesheet" href="/kidba_assets/vendor/css/swiper-bundle.min.css">
 
   <!-- AOS CSS -->
-  <link rel="stylesheet" href="/kidba_assets/vendor/css/aos.css" />
+  <link rel="stylesheet" href="/kidba_assets/vendor/css/aos.css">
 
   <!-- Custom CSS -->
   <link rel="stylesheet" href="/kidba_assets/css/style.css">
@@ -37,31 +35,31 @@
 
   <!-- Capacitor Mobile App: always redirect to Auth on public pages -->
   <script>
-    (function() {
-      // Capacitor injects its bridge automatically
-      var isCap = false;
-      try {
-        isCap = window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform();
-      } catch(e) {}
-      if (isCap) {
-        var host = window.location.hostname;
-        var protocol = window.location.protocol;
-        if ((host === '127.0.0.1' || host === '0.0.0.0') || (host === 'localhost' && protocol !== 'https:')) {
-          var normalizedUrl = 'https://localhost' + window.location.pathname + window.location.search + window.location.hash;
-          if (window.location.href !== normalizedUrl) {
-            window.location.replace(normalizedUrl);
-            return;
-          }
-        }
-        var path = window.location.pathname.replace(/\/index\.html$/, '/').replace(/\.html$/, '').replace(/\/$/, '') || '/';
-        // Only allow these pages in app
-        var allowed = ['/auth', '/student-activities', '/parent-dashboard', '/teacher-dashboard', '/admin-dashboard', '/activity'];
-        if (!allowed.some(p => path === p)) {
-          window.location.replace('https://localhost/auth');
-        }
+(function () {
+  // Capacitor injects its bridge automatically
+  var isCap = false;
+  try {
+    isCap = window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform();
+  } catch (e) {}
+  if (isCap) {
+    var host = window.location.hostname;
+    var protocol = window.location.protocol;
+    if (host === '127.0.0.1' || host === '0.0.0.0' || host === 'localhost' && protocol !== 'https:') {
+      var normalizedUrl = 'https://localhost' + window.location.pathname + window.location.search + window.location.hash;
+      if (window.location.href !== normalizedUrl) {
+        window.location.replace(normalizedUrl);
+        return;
       }
-    })();
-  </script>
+    }
+    var path = window.location.pathname.replace(/\/index\.html$/, '/').replace(/\.html$/, '').replace(/\/$/, '') || '/';
+    // Only allow these pages in app
+    var allowed = ['/auth', '/student-activities', '/parent-dashboard', '/teacher-dashboard', '/admin-dashboard', '/activity'];
+    if (!allowed.some(p => path === p)) {
+      window.location.replace('https://localhost/auth');
+    }
+  }
+})();
+</script>
 </head>
 <body>
 
@@ -1689,7 +1687,7 @@ table { max-width: 100%; }
                 <div class="section-heading">
                   <div class="section-asset"><img src="/kidba_assets/img/3d_teacher.png" alt="Teaching snapshot 3D icon"></div>
                   <div>
-                    <h3>Today&apos;s Snapshot</h3>
+                    <h3>Today's Snapshot</h3>
                     <p>One glance summary for your next best action.</p>
                   </div>
                 </div>
@@ -1700,7 +1698,7 @@ table { max-width: 100%; }
                 <div class="snapshot-item"><strong id="overviewReviewSummary">Loading review queue...</strong><span>Review pressure</span></div>
                 <div class="snapshot-item"><strong id="overviewAttendanceSummary">Loading attendance panel...</strong><span>Attendance pulse</span></div>
               </div>
-              <p class="section-caption" id="overviewFocusNote">Preparing today&apos;s teaching focus...</p>
+              <p class="section-caption" id="overviewFocusNote">Preparing today's teaching focus...</p>
             </section>
           </div>
         </section>
@@ -1794,37 +1792,37 @@ table { max-width: 100%; }
             <p class="section-caption">Only live books are shown here so the teacher dashboard stays focused on real classroom material.</p>
             <div class="books-grid">
 
-              <div class="book-card" onclick="openBookReader('book1', 'Imaan & Akhlaq - Book 1')">
+              <div class="book-card" onclick="openBookReader('book1', 'Imaan &amp; Akhlaq - Book 1')">
                 <div class="book-card-cover" style="background-image:url('/assets/covers/book1.jpg');">
                   <span class="book-badge">Book 1</span>
                 </div>
                 <div class="book-card-info">
                   <strong>Book 1</strong>
-                  <span>18 Chapters &bull; 74 Pages</span>
+                  <span>18 Chapters • 74 Pages</span>
                 </div>
                 <button class="book-card-btn" type="button" onclick="event.stopPropagation();openBookReader('book1', 'Imaan &amp; Akhlaq - Book 1')"><i class="fas fa-book-reader"></i> Read Book</button>
               </div>
-              <div class="book-card" onclick="openBookReader('book2', 'Imaan & Akhlaq - Book 2')">
+              <div class="book-card" onclick="openBookReader('book2', 'Imaan &amp; Akhlaq - Book 2')">
                 <div class="book-card-cover" style="background-image:url('/assets/covers/book2.jpg');">
                   <span class="book-badge">Book 2</span>
                 </div>
                 <div class="book-card-info">
                   <strong>Book 2</strong>
-                  <span>15 Chapters &bull; 93 Pages</span>
+                  <span>15 Chapters • 93 Pages</span>
                 </div>
                 <button class="book-card-btn" type="button" onclick="event.stopPropagation();openBookReader('book2', 'Imaan &amp; Akhlaq - Book 2')"><i class="fas fa-book-reader"></i> Read Book</button>
               </div>
-              <div class="book-card" onclick="openBookReader('book3', 'Imaan & Akhlaq - Book 3')">
+              <div class="book-card" onclick="openBookReader('book3', 'Imaan &amp; Akhlaq - Book 3')">
                 <div class="book-card-cover" style="background-image:url('/assets/covers/book3.jpg');">
                   <span class="book-badge">Book 3</span>
                 </div>
                 <div class="book-card-info">
                   <strong>Book 3</strong>
-                  <span>15 Chapters &bull; 96 Pages</span>
+                  <span>15 Chapters • 96 Pages</span>
                 </div>
                 <button class="book-card-btn" type="button" onclick="event.stopPropagation();openBookReader('book3', 'Imaan &amp; Akhlaq - Book 3')"><i class="fas fa-book-reader"></i> Read Book</button>
               </div>
-              <div class="book-card" onclick="openBookReader('book4', 'Imaan & Akhlaq - Book 4')">
+              <div class="book-card" onclick="openBookReader('book4', 'Imaan &amp; Akhlaq - Book 4')">
                 <div class="book-card-cover" style="background-image:url('/assets/covers/book4.jpg');">
                   <span class="book-badge">Book 4</span>
                 </div>
@@ -1834,7 +1832,7 @@ table { max-width: 100%; }
                 </div>
                 <button class="book-card-btn" type="button" onclick="event.stopPropagation();openBookReader('book4', 'Imaan &amp; Akhlaq - Book 4')"><i class="fas fa-book-reader"></i> Read Book</button>
               </div>
-              <div class="book-card" onclick="openBookReader('book5', 'Imaan & Akhlaq - Book 5')">
+              <div class="book-card" onclick="openBookReader('book5', 'Imaan &amp; Akhlaq - Book 5')">
                 <div class="book-card-cover" style="background-image:url('/assets/covers/book5.jpg');">
                   <span class="book-badge">Book 5</span>
                 </div>
@@ -1844,7 +1842,7 @@ table { max-width: 100%; }
                 </div>
                 <button class="book-card-btn" type="button" onclick="event.stopPropagation();openBookReader('book5', 'Imaan &amp; Akhlaq - Book 5')"><i class="fas fa-book-reader"></i> Read Book</button>
               </div>
-              <div class="book-card" onclick="openBookReader('book6', 'Imaan & Akhlaq - Book 6')">
+              <div class="book-card" onclick="openBookReader('book6', 'Imaan &amp; Akhlaq - Book 6')">
                 <div class="book-card-cover" style="background-image:url('/assets/covers/book6.jpg');">
                   <span class="book-badge">Book 6</span>
                 </div>
@@ -1854,7 +1852,7 @@ table { max-width: 100%; }
                 </div>
                 <button class="book-card-btn" type="button" onclick="event.stopPropagation();openBookReader('book6', 'Imaan &amp; Akhlaq - Book 6')"><i class="fas fa-book-reader"></i> Read Book</button>
               </div>
-              <div class="book-card" onclick="openBookReader('book7', 'Imaan & Akhlaq - Book 7')">
+              <div class="book-card" onclick="openBookReader('book7', 'Imaan &amp; Akhlaq - Book 7')">
                 <div class="book-card-cover" style="background-image:url('/assets/covers/book7.jpg');">
                   <span class="book-badge">Book 7</span>
                 </div>
@@ -1884,204 +1882,1023 @@ table { max-width: 100%; }
     <span id="bookReaderPageInfo">Page 1 / 1</span>
     <button id="bookReaderNext" onclick="bookReaderGo(1)"><i class="fas fa-chevron-right"></i></button>
   </div>
-  <div class="book-reader-lock"><i class="fas fa-lock"></i> Download disabled &mdash; View only mode</div>
+  <div class="book-reader-lock"><i class="fas fa-lock"></i> Download disabled — View only mode</div>
 </div>
 
 <script src="/kidba_assets/js/pdf.min.js"></script>
 
-<script type="module">
-  // Defensive shim: ensure DOM elements that legacy JS writes to always exist.
-  // Some IDs (schoolNameTag, classInfo, teacherInfo) used to live in the
-  // workspace bar and were removed/redesigned; the JS still references them,
-  // so a missing element used to crash initDashboard with
-  // "Cannot set properties of null (setting 'innerHTML')". This shim creates
-  // hidden stubs for any missing IDs at boot, before scripts run.
-  (function ensureLegacyDomIds() {
-    var ids = ['welcomeName', 'schoolNameTag', 'classInfo', 'teacherInfo'];
-    function ensure() {
-      ids.forEach(function (id) {
-        if (!document.getElementById(id)) {
-          var s = document.createElement('span');
-          s.id = id;
-          s.style.display = 'none';
-          (document.body || document.documentElement).appendChild(s);
-        }
-      });
-    }
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', ensure, { once: true });
-    } else {
-      ensure();
-    }
-  })();
-
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-  import { getAuth, onAuthStateChanged, signOut, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
-  import { getFirestore, collection, query, where, getDocs, getDoc, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyA4MrV-oXhK_johreyzIucti5RFrKcvyG8",
-    authDomain: "imaan-app-1d2da.firebaseapp.com",
-    projectId: "imaan-app-1d2da",
-    storageBucket: "imaan-app-1d2da.firebasestorage.app",
-    messagingSenderId: "373650938167",
-    appId: "1:373650938167:web:e9da1317c118bc720d22b2"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
-
-  // CRITICAL: Force LOCAL persistence so the session restored from auth.html
-  // doesn't get dropped after ~10s due to iframe sync failures.
-  setPersistence(auth, browserLocalPersistence).catch(e => console.warn('setPersistence failed:', e));
-
-  const ACTIVITIES_DATA = {"book1":{"title":"Imaan and Akhlaaq - Book 1","pdfUrl":"https://drive.google.com/file/d/1yOPz5oYlDF4Aj41WQmcxSHbti2shDDpz/preview","chapters":{"chapter1":{"id":"b1_c1","title":"The Farm and the Brave Sister","pageStart":1,"pageEnd":6,"discussionQuestion":"How does staying near safe people make us feel?","sections":[{"heading":"My Daily Actions:","questions":["I stayed near safe people ?","I spoke clearly when I felt unsafe ?","I followed the rules while playing ?"]},{"heading":"Ethics in Class:","questions":["I raise my hand and speak when I need anything ?","I stay within classroom rules ?","I respect my teacher's instructions ?"]},{"heading":"With My Family:","questions":["I told my parents about a fear ?","I practiced saying 'No' politely ?","I thanked Allah for keeping me safe ?"]}]},"chapter2":{"id":"b1_c2","title":"The Giant Burger","pageStart":7,"pageEnd":10,"discussionQuestion":"How did I show good manners while talking today?","sections":[{"heading":"My Daily Actions:","questions":["I waited before speaking ?","I used polite words ?","I helped after meals ?"]},{"heading":"Ethics in Class:","questions":["I wait for my turn before speaking ?","I use polite words in class ?","I listen quietly when others speak ?"]},{"heading":"With My Family:","questions":["I helped with a household task ?","I listened to the elders ?","I said Bismillah and Alhamdulillah ?"]}]},"chapter3":{"id":"b1_c3","title":"Goodbyes and New Beginnings","pageStart":11,"pageEnd":13,"discussionQuestion":"Why is it important to have good manners when entering a new house?","sections":[{"heading":"My Daily Actions:","questions":["I said Salam when entering ?","I helped unpack my things ?","I kept my room tidy ?"]},{"heading":"Ethics in Class:","questions":["I welcomed a new student ?","I shared my things gracefully ?","I listened to the teacher attentively ?"]},{"heading":"With My Family:","questions":["I respected my older siblings ?","I didn't complain about the move ?","I appreciated my parents' hard work ?"]}]},"chapter4":{"id":"b1_c4","title":"Chapter 4","pageStart":14,"pageEnd":17,"discussionQuestion":"What is the main lesson from this chapter?","sections":[{"heading":"My Daily Actions:","questions":["I applied the core learning today ?","I helped a friend understand this ?","I practiced the sunnah associated with this ?"]},{"heading":"Ethics in Class:","questions":["I listened when the teacher spoke about this ?","I asked questions to clarify my doubts ?","I didn't distract others during the lesson ?"]},{"heading":"With My Family:","questions":["I shared this story with my parents ?","I promised to improve my character ?","I thanked Allah for the guidance ?"]}]},"chapter5":{"id":"b1_c5","title":"Chapter 5","pageStart":18,"pageEnd":21,"discussionQuestion":"How does this lesson improve our character?","sections":[{"heading":"My Daily Actions:","questions":["I applied the core learning today ?","I helped a friend understand this ?","I practiced the sunnah associated with this ?"]},{"heading":"Ethics in Class:","questions":["I listened when the teacher spoke about this ?","I asked questions to clarify my doubts ?","I didn't distract others during the lesson ?"]},{"heading":"With My Family:","questions":["I shared this story with my parents ?","I promised to improve my character ?","I thanked Allah for the guidance ?"]}]},"chapter6":{"id":"b1_c6","title":"Chapter 6","pageStart":22,"pageEnd":25,"discussionQuestion":"How does this lesson improve our character?","sections":[{"heading":"My Daily Actions:","questions":["I applied the core learning today ?","I helped a friend understand this ?","I practiced the sunnah associated with this ?"]},{"heading":"Ethics in Class:","questions":["I listened when the teacher spoke about this ?","I asked questions to clarify my doubts ?","I didn't distract others during the lesson ?"]},{"heading":"With My Family:","questions":["I shared this story with my parents ?","I promised to improve my character ?","I thanked Allah for the guidance ?"]}]},"chapter7":{"id":"b1_c7","title":"Chapter 7","pageStart":26,"pageEnd":29,"discussionQuestion":"How does this lesson improve our character?","sections":[{"heading":"My Daily Actions:","questions":["I applied the core learning today ?","I helped a friend understand this ?","I practiced the sunnah associated with this ?"]},{"heading":"Ethics in Class:","questions":["I listened when the teacher spoke about this ?","I asked questions to clarify my doubts ?","I didn't distract others during the lesson ?"]},{"heading":"With My Family:","questions":["I shared this story with my parents ?","I promised to improve my character ?","I thanked Allah for the guidance ?"]}]},"chapter8":{"id":"b1_c8","title":"Chapter 8","pageStart":30,"pageEnd":33,"discussionQuestion":"How does this lesson improve our character?","sections":[{"heading":"My Daily Actions:","questions":["I applied the core learning today ?","I helped a friend understand this ?","I practiced the sunnah associated with this ?"]},{"heading":"Ethics in Class:","questions":["I listened when the teacher spoke about this ?","I asked questions to clarify my doubts ?","I didn't distract others during the lesson ?"]},{"heading":"With My Family:","questions":["I shared this story with my parents ?","I promised to improve my character ?","I thanked Allah for the guidance ?"]}]},"chapter9":{"id":"b1_c9","title":"Chapter 9","pageStart":34,"pageEnd":37,"discussionQuestion":"How does this lesson improve our character?","sections":[{"heading":"My Daily Actions:","questions":["I applied the core learning today ?","I helped a friend understand this ?","I practiced the sunnah associated with this ?"]},{"heading":"Ethics in Class:","questions":["I listened when the teacher spoke about this ?","I asked questions to clarify my doubts ?","I didn't distract others during the lesson ?"]},{"heading":"With My Family:","questions":["I shared this story with my parents ?","I promised to improve my character ?","I thanked Allah for the guidance ?"]}]},"chapter10":{"id":"b1_c10","title":"Chapter 10","pageStart":38,"pageEnd":42,"discussionQuestion":"How does this lesson improve our character?","sections":[{"heading":"My Daily Actions:","questions":["I applied the core learning today ?","I helped a friend understand this ?","I practiced the sunnah associated with this ?"]},{"heading":"Ethics in Class:","questions":["I listened when the teacher spoke about this ?","I asked questions to clarify my doubts ?","I didn't distract others during the lesson ?"]},{"heading":"With My Family:","questions":["I shared this story with my parents ?","I promised to improve my character ?","I thanked Allah for the guidance ?"]}]},"chapter11":{"id":"b1_c11","title":"Chapter 11","pageStart":43,"pageEnd":46,"discussionQuestion":"How does this lesson improve our character?","sections":[{"heading":"My Daily Actions:","questions":["I applied the core learning today ?","I helped a friend understand this ?","I practiced the sunnah associated with this ?"]},{"heading":"Ethics in Class:","questions":["I listened when the teacher spoke about this ?","I asked questions to clarify my doubts ?","I didn't distract others during the lesson ?"]},{"heading":"With My Family:","questions":["I shared this story with my parents ?","I promised to improve my character ?","I thanked Allah for the guidance ?"]}]},"chapter12":{"id":"b1_c12","title":"Chapter 12","pageStart":47,"pageEnd":51,"discussionQuestion":"How does this lesson improve our character?","sections":[{"heading":"My Daily Actions:","questions":["I applied the core learning today ?","I helped a friend understand this ?","I practiced the sunnah associated with this ?"]},{"heading":"Ethics in Class:","questions":["I listened when the teacher spoke about this ?","I asked questions to clarify my doubts ?","I didn't distract others during the lesson ?"]},{"heading":"With My Family:","questions":["I shared this story with my parents ?","I promised to improve my character ?","I thanked Allah for the guidance ?"]}]},"chapter13":{"id":"b1_c13","title":"Chapter 13","pageStart":52,"pageEnd":56,"discussionQuestion":"How does this lesson improve our character?","sections":[{"heading":"My Daily Actions:","questions":["I applied the core learning today ?","I helped a friend understand this ?","I practiced the sunnah associated with this ?"]},{"heading":"Ethics in Class:","questions":["I listened when the teacher spoke about this ?","I asked questions to clarify my doubts ?","I didn't distract others during the lesson ?"]},{"heading":"With My Family:","questions":["I shared this story with my parents ?","I promised to improve my character ?","I thanked Allah for the guidance ?"]}]},"chapter14":{"id":"b1_c14","title":"Chapter 14","pageStart":57,"pageEnd":60,"discussionQuestion":"How does this lesson improve our character?","sections":[{"heading":"My Daily Actions:","questions":["I applied the core learning today ?","I helped a friend understand this ?","I practiced the sunnah associated with this ?"]},{"heading":"Ethics in Class:","questions":["I listened when the teacher spoke about this ?","I asked questions to clarify my doubts ?","I didn't distract others during the lesson ?"]},{"heading":"With My Family:","questions":["I shared this story with my parents ?","I promised to improve my character ?","I thanked Allah for the guidance ?"]}]},"chapter15":{"id":"b1_c15","title":"Chapter 15","pageStart":61,"pageEnd":63,"discussionQuestion":"How does this lesson improve our character?","sections":[{"heading":"My Daily Actions:","questions":["I applied the core learning today ?","I helped a friend understand this ?","I practiced the sunnah associated with this ?"]},{"heading":"Ethics in Class:","questions":["I listened when the teacher spoke about this ?","I asked questions to clarify my doubts ?","I didn't distract others during the lesson ?"]},{"heading":"With My Family:","questions":["I shared this story with my parents ?","I promised to improve my character ?","I thanked Allah for the guidance ?"]}]},"chapter16":{"id":"b1_c16","title":"Chapter 16","pageStart":64,"pageEnd":66,"discussionQuestion":"How does this lesson improve our character?","sections":[{"heading":"My Daily Actions:","questions":["I applied the core learning today ?","I helped a friend understand this ?","I practiced the sunnah associated with this ?"]},{"heading":"Ethics in Class:","questions":["I listened when the teacher spoke about this ?","I asked questions to clarify my doubts ?","I didn't distract others during the lesson ?"]},{"heading":"With My Family:","questions":["I shared this story with my parents ?","I promised to improve my character ?","I thanked Allah for the guidance ?"]}]},"chapter17":{"id":"b1_c17","title":"Chapter 17","pageStart":67,"pageEnd":69,"discussionQuestion":"How does this lesson improve our character?","sections":[{"heading":"My Daily Actions:","questions":["I applied the core learning today ?","I helped a friend understand this ?","I practiced the sunnah associated with this ?"]},{"heading":"Ethics in Class:","questions":["I listened when the teacher spoke about this ?","I asked questions to clarify my doubts ?","I didn't distract others during the lesson ?"]},{"heading":"With My Family:","questions":["I shared this story with my parents ?","I promised to improve my character ?","I thanked Allah for the guidance ?"]}]},"chapter18":{"id":"b1_c18","title":"Chapter 18","pageStart":70,"pageEnd":74,"discussionQuestion":"How does this lesson improve our character?","sections":[{"heading":"My Daily Actions:","questions":["I applied the core learning today ?","I helped a friend understand this ?","I practiced the sunnah associated with this ?"]},{"heading":"Ethics in Class:","questions":["I listened when the teacher spoke about this ?","I asked questions to clarify my doubts ?","I didn't distract others during the lesson ?"]},{"heading":"With My Family:","questions":["I shared this story with my parents ?","I promised to improve my character ?","I thanked Allah for the guidance ?"]}]}}},"book2":{"title":"Imaan and Akhlaaq - Book 2","pdfUrl":"https://drive.google.com/file/d/1rmYenOjmunRkdl3NdQfDgdw7UTyAKdgP/preview","chapters":{"chapter1":{"id":"b2_c1","title":"The First Flight","pageStart":1,"pageEnd":8,"discussionQuestion":"What is the main lesson from this chapter?","sections":[{"heading":"My Daily Actions:","questions":["I applied the core learning today ?","I helped a friend understand this ?","I practiced the sunnah associated with this ?"]},{"heading":"Ethics in Class:","questions":["I listened when the teacher spoke about this ?","I asked questions to clarify my doubts ?","I didn't distract others during the lesson ?"]},{"heading":"With My Family:","questions":["I shared this story with my parents ?","I promised to improve my character ?","I thanked Allah for the guidance ?"]}]},"chapter2":{"id":"b2_c2","title":"The Best Answer","pageStart":9,"pageEnd":14,"discussionQuestion":"What is the main lesson from this chapter?","sections":[{"heading":"My Daily Actions:","questions":["I applied the core learning today ?","I helped a friend understand this ?","I practiced the sunnah associated with this ?"]},{"heading":"Ethics in Class:","questions":["I listened when the teacher spoke about this ?","I asked questions to clarify my doubts ?","I didn't distract others during the lesson ?"]},{"heading":"With My Family:","questions":["I shared this story with my parents ?","I promised to improve my character ?","I thanked Allah for the guidance ?"]}]},"chapter3":{"id":"b2_c3","title":"A Surprise Visit","pageStart":15,"pageEnd":19,"discussionQuestion":"What is the main lesson from this chapter?","sections":[{"heading":"My Daily Actions:","questions":["I applied the core learning today ?","I helped a friend understand this ?","I practiced the sunnah associated with this ?"]},{"heading":"Ethics in Class:","questions":["I listened when the teacher spoke about this ?","I asked questions to clarify my doubts ?","I didn't distract others during the lesson ?"]},{"heading":"With My Family:","questions":["I shared this story with my parents ?","I promised to improve my character ?","I thanked Allah for the guidance ?"]}]},"chapter4":{"id":"b2_c4","title":"Chapter 4","pageStart":20,"pageEnd":25,"discussionQuestion":"What is the main lesson from this chapter?","sections":[{"heading":"My Daily Actions:","questions":["I applied the core learning today ?","I helped a friend understand this ?","I practiced the sunnah associated with this ?"]},{"heading":"Ethics in Class:","questions":["I listened when the teacher spoke about this ?","I asked questions to clarify my doubts ?","I didn't distract others during the lesson ?"]},{"heading":"With My Family:","questions":["I shared this story with my parents ?","I promised to improve my character ?","I thanked Allah for the guidance ?"]}]},"chapter5":{"id":"b2_c5","title":"Chapter 5","pageStart":26,"pageEnd":30,"discussionQuestion":"What is the main lesson from this chapter?","sections":[{"heading":"My Daily Actions:","questions":["I applied the core learning today ?","I helped a friend understand this ?","I practiced the sunnah associated with this ?"]},{"heading":"Ethics in Class:","questions":["I listened when the teacher spoke about this ?","I asked questions to clarify my doubts ?","I didn't distract others during the lesson ?"]},{"heading":"With My Family:","questions":["I shared this story with my parents ?","I promised to improve my character ?","I thanked Allah for the guidance ?"]}]},"chapter6":{"id":"b2_c6","title":"Chapter 6","pageStart":31,"pageEnd":37,"discussionQuestion":"What is the main lesson from this chapter?","sections":[{"heading":"My Daily Actions:","questions":["I applied the core learning today ?","I helped a friend understand this ?","I practiced the sunnah associated with this ?"]},{"heading":"Ethics in Class:","questions":["I listened when the teacher spoke about this ?","I asked questions to clarify my doubts ?","I didn't distract others during the lesson ?"]},{"heading":"With My Family:","questions":["I shared this story with my parents ?","I promised to improve my character ?","I thanked Allah for the guidance ?"]}]},"chapter7":{"id":"b2_c7","title":"Chapter 7","pageStart":38,"pageEnd":43,"discussionQuestion":"What is the main lesson from this chapter?","sections":[{"heading":"My Daily Actions:","questions":["I applied the core learning today ?","I helped a friend understand this ?","I practiced the sunnah associated with this ?"]},{"heading":"Ethics in Class:","questions":["I listened when the teacher spoke about this ?","I asked questions to clarify my doubts ?","I didn't distract others during the lesson ?"]},{"heading":"With My Family:","questions":["I shared this story with my parents ?","I promised to improve my character ?","I thanked Allah for the guidance ?"]}]},"chapter8":{"id":"b2_c8","title":"Chapter 8","pageStart":44,"pageEnd":49,"discussionQuestion":"What is the main lesson from this chapter?","sections":[{"heading":"My Daily Actions:","questions":["I applied the core learning today ?","I helped a friend understand this ?","I practiced the sunnah associated with this ?"]},{"heading":"Ethics in Class:","questions":["I listened when the teacher spoke about this ?","I asked questions to clarify my doubts ?","I didn't distract others during the lesson ?"]},{"heading":"With My Family:","questions":["I shared this story with my parents ?","I promised to improve my character ?","I thanked Allah for the guidance ?"]}]},"chapter9":{"id":"b2_c9","title":"Chapter 9","pageStart":50,"pageEnd":54,"discussionQuestion":"What is the main lesson from this chapter?","sections":[{"heading":"My Daily Actions:","questions":["I applied the core learning today ?","I helped a friend understand this ?","I practiced the sunnah associated with this ?"]},{"heading":"Ethics in Class:","questions":["I listened when the teacher spoke about this ?","I asked questions to clarify my doubts ?","I didn't distract others during the lesson ?"]},{"heading":"With My Family:","questions":["I shared this story with my parents ?","I promised to improve my character ?","I thanked Allah for the guidance ?"]}]},"chapter10":{"id":"b2_c10","title":"Chapter 10","pageStart":55,"pageEnd":59,"discussionQuestion":"What is the main lesson from this chapter?","sections":[{"heading":"My Daily Actions:","questions":["I applied the core learning today ?","I helped a friend understand this ?","I practiced the sunnah associated with this ?"]},{"heading":"Ethics in Class:","questions":["I listened when the teacher spoke about this ?","I asked questions to clarify my doubts ?","I didn't distract others during the lesson ?"]},{"heading":"With My Family:","questions":["I shared this story with my parents ?","I promised to improve my character ?","I thanked Allah for the guidance ?"]}]},"chapter11":{"id":"b2_c11","title":"Chapter 11","pageStart":60,"pageEnd":66,"discussionQuestion":"What is the main lesson from this chapter?","sections":[{"heading":"My Daily Actions:","questions":["I applied the core learning today ?","I helped a friend understand this ?","I practiced the sunnah associated with this ?"]},{"heading":"Ethics in Class:","questions":["I listened when the teacher spoke about this ?","I asked questions to clarify my doubts ?","I didn't distract others during the lesson ?"]},{"heading":"With My Family:","questions":["I shared this story with my parents ?","I promised to improve my character ?","I thanked Allah for the guidance ?"]}]},"chapter12":{"id":"b2_c12","title":"Chapter 12","pageStart":67,"pageEnd":74,"discussionQuestion":"What is the main lesson from this chapter?","sections":[{"heading":"My Daily Actions:","questions":["I applied the core learning today ?","I helped a friend understand this ?","I practiced the sunnah associated with this ?"]},{"heading":"Ethics in Class:","questions":["I listened when the teacher spoke about this ?","I asked questions to clarify my doubts ?","I didn't distract others during the lesson ?"]},{"heading":"With My Family:","questions":["I shared this story with my parents ?","I promised to improve my character ?","I thanked Allah for the guidance ?"]}]},"chapter13":{"id":"b2_c13","title":"Chapter 13","pageStart":75,"pageEnd":80,"discussionQuestion":"What is the main lesson from this chapter?","sections":[{"heading":"My Daily Actions:","questions":["I applied the core learning today ?","I helped a friend understand this ?","I practiced the sunnah associated with this ?"]},{"heading":"Ethics in Class:","questions":["I listened when the teacher spoke about this ?","I asked questions to clarify my doubts ?","I didn't distract others during the lesson ?"]},{"heading":"With My Family:","questions":["I shared this story with my parents ?","I promised to improve my character ?","I thanked Allah for the guidance ?"]}]},"chapter14":{"id":"b2_c14","title":"Chapter 14","pageStart":81,"pageEnd":86,"discussionQuestion":"What is the main lesson from this chapter?","sections":[{"heading":"My Daily Actions:","questions":["I applied the core learning today ?","I helped a friend understand this ?","I practiced the sunnah associated with this ?"]},{"heading":"Ethics in Class:","questions":["I listened when the teacher spoke about this ?","I asked questions to clarify my doubts ?","I didn't distract others during the lesson ?"]},{"heading":"With My Family:","questions":["I shared this story with my parents ?","I promised to improve my character ?","I thanked Allah for the guidance ?"]}]},"chapter15":{"id":"b2_c15","title":"Chapter 15","pageStart":87,"pageEnd":93,"discussionQuestion":"What is the main lesson from this chapter?","sections":[{"heading":"My Daily Actions:","questions":["I applied the core learning today ?","I helped a friend understand this ?","I practiced the sunnah associated with this ?"]},{"heading":"Ethics in Class:","questions":["I listened when the teacher spoke about this ?","I asked questions to clarify my doubts ?","I didn't distract others during the lesson ?"]},{"heading":"With My Family:","questions":["I shared this story with my parents ?","I promised to improve my character ?","I thanked Allah for the guidance ?"]}]}}},"book3":{"title":"Imaan and Akhlaaq - Book 3","pdfUrl":"https://drive.google.com/file/d/1bjbVY9gTGqj8LMfc3-lSNmMbcE_1_9_g/preview","chapters":{"chapter1":{"id":"b3_c1","title":"The Meaning of Patience","pageStart":1,"pageEnd":9,"discussionQuestion":"Why is being patient important even when things are difficult?","sections":[{"heading":"My Daily Actions:","questions":["I stayed calm when things didn't go my way ?","I didn't rush or complain during a hard task ?","I waited nicely for my turn ?"]},{"heading":"Ethics in Class:","questions":["I listened quietly when the teacher was busy ?","I was patient during challenging lessons ?","I helped a classmate without getting frustrated ?"]},{"heading":"With My Family:","questions":["I was patient when my parents asked me to wait ?","I handled disagreement with my siblings calmly ?","I remembered Allah helps the patient ?"]}]},"chapter2":{"id":"b3_c2","title":"A Caring Heart","pageStart":10,"pageEnd":14,"discussionQuestion":"How does helping others make our own hearts feel better?","sections":[{"heading":"My Daily Actions:","questions":["I offered a smile to someone who seemed sad ?","I shared something I value with a friend ?","I said a kind word to someone today ?"]},{"heading":"Ethics in Class:","questions":["I noticed someone struggling and offered help ?","I included everyone in the group activity ?","I said 'please' and 'thank you' sincerely ?"]},{"heading":"With My Family:","questions":["I asked my parents how their day was ?","I comforted a sibling who was upset ?","I made dua for my family's well-being ?"]}]},"chapter3":{"id":"b3_c3","title":"Standing for Truth","pageStart":15,"pageEnd":20,"discussionQuestion":"Why does speaking the truth require courage?","sections":[{"heading":"My Daily Actions:","questions":["I stood up for what is right today ?","I didn't agree with a wrong action ?","I admitted fault immediately ?"]},{"heading":"Ethics in Class:","questions":["I was honest even when it could have gotten me in trouble ?","I didn't let others cheat or copy ?","I reported an incident fairly ?"]},{"heading":"With My Family:","questions":["I told the complete truth to my parents ?","I supported truth over taking sides ?","I sought forgiveness from Allah for past lies ?"]}]},"chapter4":{"id":"b3_c4","title":"Chapter 4","pageStart":21,"pageEnd":26,"discussionQuestion":"What is the main lesson from this chapter?","sections":[{"heading":"My Daily Actions:","questions":["I applied the core learning today ?","I helped a friend understand this ?","I practiced the sunnah associated with this ?"]},{"heading":"Ethics in Class:","questions":["I listened when the teacher spoke about this ?","I asked questions to clarify my doubts ?","I didn't distract others during the lesson ?"]},{"heading":"With My Family:","questions":["I shared this story with my parents ?","I promised to improve my character ?","I thanked Allah for the guidance ?"]}]},"chapter5":{"id":"b3_c5","title":"Chapter 5","pageStart":27,"pageEnd":32,"discussionQuestion":"What is the main lesson from this chapter?","sections":[{"heading":"My Daily Actions:","questions":["I applied the core learning today ?","I helped a friend understand this ?","I practiced the sunnah associated with this ?"]},{"heading":"Ethics in Class:","questions":["I listened when the teacher spoke about this ?","I asked questions to clarify my doubts ?","I didn't distract others during the lesson ?"]},{"heading":"With My Family:","questions":["I shared this story with my parents ?","I promised to improve my character ?","I thanked Allah for the guidance ?"]}]},"chapter6":{"id":"b3_c6","title":"Chapter 6","pageStart":33,"pageEnd":38,"discussionQuestion":"What is the main lesson from this chapter?","sections":[{"heading":"My Daily Actions:","questions":["I applied the core learning today ?","I helped a friend understand this ?","I practiced the sunnah associated with this ?"]},{"heading":"Ethics in Class:","questions":["I listened when the teacher spoke about this ?","I asked questions to clarify my doubts ?","I didn't distract others during the lesson ?"]},{"heading":"With My Family:","questions":["I shared this story with my parents ?","I promised to improve my character ?","I thanked Allah for the guidance ?"]}]},"chapter7":{"id":"b3_c7","title":"Chapter 7","pageStart":39,"pageEnd":43,"discussionQuestion":"Why is halal earning important for a peaceful life?","sections":[{"heading":"My Daily Actions:","questions":["I stayed honest ?","I worked sincerely ?","I avoided shortcuts ?"]},{"heading":"Ethics in Class:","questions":["I completed work fairly ?","I respected responsibilities ?","I valued teamwork ?"]},{"heading":"With My Family:","questions":["I appreciated effort ?","I respected struggle ?","I thanked Allah for rizq ?"]}]},"chapter8":{"id":"b3_c8","title":"Chapter 8","pageStart":44,"pageEnd":49,"discussionQuestion":"What is the main lesson from this chapter?","sections":[{"heading":"My Daily Actions:","questions":["I applied the core learning today ?","I helped a friend understand this ?","I practiced the sunnah associated with this ?"]},{"heading":"Ethics in Class:","questions":["I listened when the teacher spoke about this ?","I asked questions to clarify my doubts ?","I didn't distract others during the lesson ?"]},{"heading":"With My Family:","questions":["I shared this story with my parents ?","I promised to improve my character ?","I thanked Allah for the guidance ?"]}]},"chapter9":{"id":"b3_c9","title":"Chapter 9","pageStart":50,"pageEnd":55,"discussionQuestion":"What is the main lesson from this chapter?","sections":[{"heading":"My Daily Actions:","questions":["I applied the core learning today ?","I helped a friend understand this ?","I practiced the sunnah associated with this ?"]},{"heading":"Ethics in Class:","questions":["I listened when the teacher spoke about this ?","I asked questions to clarify my doubts ?","I didn't distract others during the lesson ?"]},{"heading":"With My Family:","questions":["I shared this story with my parents ?","I promised to improve my character ?","I thanked Allah for the guidance ?"]}]},"chapter10":{"id":"b3_c10","title":"Chapter 10","pageStart":56,"pageEnd":62,"discussionQuestion":"What is the main lesson from this chapter?","sections":[{"heading":"My Daily Actions:","questions":["I applied the core learning today ?","I helped a friend understand this ?","I practiced the sunnah associated with this ?"]},{"heading":"Ethics in Class:","questions":["I listened when the teacher spoke about this ?","I asked questions to clarify my doubts ?","I didn't distract others during the lesson ?"]},{"heading":"With My Family:","questions":["I shared this story with my parents ?","I promised to improve my character ?","I thanked Allah for the guidance ?"]}]},"chapter11":{"id":"b3_c11","title":"Chapter 11","pageStart":63,"pageEnd":69,"discussionQuestion":"What is the main lesson from this chapter?","sections":[{"heading":"My Daily Actions:","questions":["I applied the core learning today ?","I helped a friend understand this ?","I practiced the sunnah associated with this ?"]},{"heading":"Ethics in Class:","questions":["I listened when the teacher spoke about this ?","I asked questions to clarify my doubts ?","I didn't distract others during the lesson ?"]},{"heading":"With My Family:","questions":["I shared this story with my parents ?","I promised to improve my character ?","I thanked Allah for the guidance ?"]}]},"chapter12":{"id":"b3_c12","title":"Chapter 12","pageStart":70,"pageEnd":75,"discussionQuestion":"What is the main lesson from this chapter?","sections":[{"heading":"My Daily Actions:","questions":["I applied the core learning today ?","I helped a friend understand this ?","I practiced the sunnah associated with this ?"]},{"heading":"Ethics in Class:","questions":["I listened when the teacher spoke about this ?","I asked questions to clarify my doubts ?","I didn't distract others during the lesson ?"]},{"heading":"With My Family:","questions":["I shared this story with my parents ?","I promised to improve my character ?","I thanked Allah for the guidance ?"]}]},"chapter13":{"id":"b3_c13","title":"Chapter 13","pageStart":76,"pageEnd":83,"discussionQuestion":"What is the main lesson from this chapter?","sections":[{"heading":"My Daily Actions:","questions":["I applied the core learning today ?","I helped a friend understand this ?","I practiced the sunnah associated with this ?"]},{"heading":"Ethics in Class:","questions":["I listened when the teacher spoke about this ?","I asked questions to clarify my doubts ?","I didn't distract others during the lesson ?"]},{"heading":"With My Family:","questions":["I shared this story with my parents ?","I promised to improve my character ?","I thanked Allah for the guidance ?"]}]},"chapter14":{"id":"b3_c14","title":"Chapter 14","pageStart":84,"pageEnd":89,"discussionQuestion":"What is the main lesson from this chapter?","sections":[{"heading":"My Daily Actions:","questions":["I applied the core learning today ?","I helped a friend understand this ?","I practiced the sunnah associated with this ?"]},{"heading":"Ethics in Class:","questions":["I listened when the teacher spoke about this ?","I asked questions to clarify my doubts ?","I didn't distract others during the lesson ?"]},{"heading":"With My Family:","questions":["I shared this story with my parents ?","I promised to improve my character ?","I thanked Allah for the guidance ?"]}]},"chapter15":{"id":"b3_c15","title":"Chapter 15","pageStart":90,"pageEnd":96,"discussionQuestion":"What is the main lesson from this chapter?","sections":[{"heading":"My Daily Actions:","questions":["I applied the core learning today ?","I helped a friend understand this ?","I practiced the sunnah associated with this ?"]},{"heading":"Ethics in Class:","questions":["I listened when the teacher spoke about this ?","I asked questions to clarify my doubts ?","I didn't distract others during the lesson ?"]},{"heading":"With My Family:","questions":["I shared this story with my parents ?","I promised to improve my character ?","I thanked Allah for the guidance ?"]}]}}}};
-  
-  let currentTeacher = null;
-  let teacherSchoolId = null;
-  let currentTeacherSection = 'overview';
-  const teacherSectionTargets = {
-    overview: 'teacherPanelOverview',
-    students: 'teacherPanelStudents',
-    reviews: 'teacherPanelReviews',
-    attendance: 'teacherPanelAttendance',
-    rankings: 'teacherPanelRankings',
-    books: 'teacherPanelBooks'
-  };
-
-  /* === Book Reader (canvas-based, no download) === */
-  let bookReaderPdf = null;
-  let bookReaderPage = 1;
-  let bookReaderTotal = 1;
-  let bookReaderTouchStartX = null;
-  let bookReaderTouchDeltaX = 0;
-  let bookReaderRendering = false;
-  let bookReaderAnimating = false;
-
-  function getActiveBookReaderShell() {
-    const canvasWrap = document.getElementById('bookReaderCanvasWrap');
-    return canvasWrap ? canvasWrap.querySelector('.book-reader-page-shell') : null;
+<script>
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+// Defensive shim: ensure DOM elements that legacy JS writes to always exist.
+// Some IDs (schoolNameTag, classInfo, teacherInfo) used to live in the
+// workspace bar and were removed/redesigned; the JS still references them,
+// so a missing element used to crash initDashboard with
+// "Cannot set properties of null (setting 'innerHTML')". This shim creates
+// hidden stubs for any missing IDs at boot, before scripts run.
+(function ensureLegacyDomIds() {
+  var ids = ['welcomeName', 'schoolNameTag', 'classInfo', 'teacherInfo'];
+  function ensure() {
+    ids.forEach(function (id) {
+      if (!document.getElementById(id)) {
+        var s = document.createElement('span');
+        s.id = id;
+        s.style.display = 'none';
+        (document.body || document.documentElement).appendChild(s);
+      }
+    });
   }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', ensure, {
+      once: true
+    });
+  } else {
+    ensure();
+  }
+})();
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+import { getFirestore, collection, query, where, getDocs, getDoc, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+const firebaseConfig = {
+  apiKey: "AIzaSyA4MrV-oXhK_johreyzIucti5RFrKcvyG8",
+  authDomain: "imaan-app-1d2da.firebaseapp.com",
+  projectId: "imaan-app-1d2da",
+  storageBucket: "imaan-app-1d2da.firebasestorage.app",
+  messagingSenderId: "373650938167",
+  appId: "1:373650938167:web:e9da1317c118bc720d22b2"
+};
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
 
-  function ensureBookReaderOverlayMounted() {
-    const overlay = document.getElementById('bookReaderOverlay');
-    if (overlay && overlay.parentElement !== document.body) {
-      document.body.appendChild(overlay);
+// CRITICAL: Force LOCAL persistence so the session restored from auth.html
+// doesn't get dropped after ~10s due to iframe sync failures.
+setPersistence(auth, browserLocalPersistence).catch(e => console.warn('setPersistence failed:', e));
+const ACTIVITIES_DATA = {
+  "book1": {
+    "title": "Imaan and Akhlaaq - Book 1",
+    "pdfUrl": "https://drive.google.com/file/d/1yOPz5oYlDF4Aj41WQmcxSHbti2shDDpz/preview",
+    "chapters": {
+      "chapter1": {
+        "id": "b1_c1",
+        "title": "The Farm and the Brave Sister",
+        "pageStart": 1,
+        "pageEnd": 6,
+        "discussionQuestion": "How does staying near safe people make us feel?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I stayed near safe people ?", "I spoke clearly when I felt unsafe ?", "I followed the rules while playing ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I raise my hand and speak when I need anything ?", "I stay within classroom rules ?", "I respect my teacher's instructions ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I told my parents about a fear ?", "I practiced saying 'No' politely ?", "I thanked Allah for keeping me safe ?"]
+        }]
+      },
+      "chapter2": {
+        "id": "b1_c2",
+        "title": "The Giant Burger",
+        "pageStart": 7,
+        "pageEnd": 10,
+        "discussionQuestion": "How did I show good manners while talking today?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I waited before speaking ?", "I used polite words ?", "I helped after meals ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I wait for my turn before speaking ?", "I use polite words in class ?", "I listen quietly when others speak ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I helped with a household task ?", "I listened to the elders ?", "I said Bismillah and Alhamdulillah ?"]
+        }]
+      },
+      "chapter3": {
+        "id": "b1_c3",
+        "title": "Goodbyes and New Beginnings",
+        "pageStart": 11,
+        "pageEnd": 13,
+        "discussionQuestion": "Why is it important to have good manners when entering a new house?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I said Salam when entering ?", "I helped unpack my things ?", "I kept my room tidy ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I welcomed a new student ?", "I shared my things gracefully ?", "I listened to the teacher attentively ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I respected my older siblings ?", "I didn't complain about the move ?", "I appreciated my parents' hard work ?"]
+        }]
+      },
+      "chapter4": {
+        "id": "b1_c4",
+        "title": "Chapter 4",
+        "pageStart": 14,
+        "pageEnd": 17,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter5": {
+        "id": "b1_c5",
+        "title": "Chapter 5",
+        "pageStart": 18,
+        "pageEnd": 21,
+        "discussionQuestion": "How does this lesson improve our character?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter6": {
+        "id": "b1_c6",
+        "title": "Chapter 6",
+        "pageStart": 22,
+        "pageEnd": 25,
+        "discussionQuestion": "How does this lesson improve our character?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter7": {
+        "id": "b1_c7",
+        "title": "Chapter 7",
+        "pageStart": 26,
+        "pageEnd": 29,
+        "discussionQuestion": "How does this lesson improve our character?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter8": {
+        "id": "b1_c8",
+        "title": "Chapter 8",
+        "pageStart": 30,
+        "pageEnd": 33,
+        "discussionQuestion": "How does this lesson improve our character?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter9": {
+        "id": "b1_c9",
+        "title": "Chapter 9",
+        "pageStart": 34,
+        "pageEnd": 37,
+        "discussionQuestion": "How does this lesson improve our character?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter10": {
+        "id": "b1_c10",
+        "title": "Chapter 10",
+        "pageStart": 38,
+        "pageEnd": 42,
+        "discussionQuestion": "How does this lesson improve our character?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter11": {
+        "id": "b1_c11",
+        "title": "Chapter 11",
+        "pageStart": 43,
+        "pageEnd": 46,
+        "discussionQuestion": "How does this lesson improve our character?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter12": {
+        "id": "b1_c12",
+        "title": "Chapter 12",
+        "pageStart": 47,
+        "pageEnd": 51,
+        "discussionQuestion": "How does this lesson improve our character?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter13": {
+        "id": "b1_c13",
+        "title": "Chapter 13",
+        "pageStart": 52,
+        "pageEnd": 56,
+        "discussionQuestion": "How does this lesson improve our character?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter14": {
+        "id": "b1_c14",
+        "title": "Chapter 14",
+        "pageStart": 57,
+        "pageEnd": 60,
+        "discussionQuestion": "How does this lesson improve our character?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter15": {
+        "id": "b1_c15",
+        "title": "Chapter 15",
+        "pageStart": 61,
+        "pageEnd": 63,
+        "discussionQuestion": "How does this lesson improve our character?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter16": {
+        "id": "b1_c16",
+        "title": "Chapter 16",
+        "pageStart": 64,
+        "pageEnd": 66,
+        "discussionQuestion": "How does this lesson improve our character?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter17": {
+        "id": "b1_c17",
+        "title": "Chapter 17",
+        "pageStart": 67,
+        "pageEnd": 69,
+        "discussionQuestion": "How does this lesson improve our character?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter18": {
+        "id": "b1_c18",
+        "title": "Chapter 18",
+        "pageStart": 70,
+        "pageEnd": 74,
+        "discussionQuestion": "How does this lesson improve our character?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      }
     }
-    return overlay;
-  }
-
-  function clearBookReaderTurnStyles(element) {
-    if (!element) return;
-    element.style.transformOrigin = '';
-    element.style.setProperty('--page-turn-direction', 'to right');
-    element.style.setProperty('--page-turn-gloss', '0');
-    element.style.setProperty('--page-turn-shadow', '0');
-  }
-
-  function applyBookReaderSwipePreview(deltaX) {
-    const activeShell = getActiveBookReaderShell();
-    if (!activeShell) return;
-
-    const direction = deltaX < 0 ? 1 : -1;
-    const progress = Math.min(1, Math.abs(deltaX) / 140);
-    const angle = progress * 18;
-
-    activeShell.style.transition = '';
-    activeShell.style.transformOrigin = direction > 0 ? 'left center' : 'right center';
-    activeShell.style.setProperty('--page-turn-direction', direction > 0 ? 'to right' : 'to left');
-    activeShell.style.setProperty('--page-turn-gloss', String(0.12 + (progress * 0.44)));
-    activeShell.style.setProperty('--page-turn-shadow', String(0.08 + (progress * 0.28)));
-    activeShell.style.transform = 'perspective(2200px) translateX(' + (deltaX * 0.16) + 'px) rotateY(' + (direction > 0 ? angle : -angle) + 'deg) scale(' + (1 - (progress * 0.012)) + ')';
-    activeShell.style.opacity = String(1 - (progress * 0.14));
-  }
-
-  function resetBookReaderSwipePreview(animateBack) {
-    const activeShell = getActiveBookReaderShell();
-    bookReaderTouchDeltaX = 0;
-    if (!activeShell) return;
-
-    if (animateBack) {
-      activeShell.style.transition = 'transform 180ms ease, opacity 180ms ease';
-      activeShell.style.transform = 'perspective(2200px) translateX(0px) rotateY(0deg) scale(1)';
-      activeShell.style.opacity = '1';
-      clearBookReaderTurnStyles(activeShell);
-      window.setTimeout(function() {
-        activeShell.style.transition = '';
-      }, 190);
-      return;
+  },
+  "book2": {
+    "title": "Imaan and Akhlaaq - Book 2",
+    "pdfUrl": "https://drive.google.com/file/d/1rmYenOjmunRkdl3NdQfDgdw7UTyAKdgP/preview",
+    "chapters": {
+      "chapter1": {
+        "id": "b2_c1",
+        "title": "The First Flight",
+        "pageStart": 1,
+        "pageEnd": 8,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter2": {
+        "id": "b2_c2",
+        "title": "The Best Answer",
+        "pageStart": 9,
+        "pageEnd": 14,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter3": {
+        "id": "b2_c3",
+        "title": "A Surprise Visit",
+        "pageStart": 15,
+        "pageEnd": 19,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter4": {
+        "id": "b2_c4",
+        "title": "Chapter 4",
+        "pageStart": 20,
+        "pageEnd": 25,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter5": {
+        "id": "b2_c5",
+        "title": "Chapter 5",
+        "pageStart": 26,
+        "pageEnd": 30,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter6": {
+        "id": "b2_c6",
+        "title": "Chapter 6",
+        "pageStart": 31,
+        "pageEnd": 37,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter7": {
+        "id": "b2_c7",
+        "title": "Chapter 7",
+        "pageStart": 38,
+        "pageEnd": 43,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter8": {
+        "id": "b2_c8",
+        "title": "Chapter 8",
+        "pageStart": 44,
+        "pageEnd": 49,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter9": {
+        "id": "b2_c9",
+        "title": "Chapter 9",
+        "pageStart": 50,
+        "pageEnd": 54,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter10": {
+        "id": "b2_c10",
+        "title": "Chapter 10",
+        "pageStart": 55,
+        "pageEnd": 59,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter11": {
+        "id": "b2_c11",
+        "title": "Chapter 11",
+        "pageStart": 60,
+        "pageEnd": 66,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter12": {
+        "id": "b2_c12",
+        "title": "Chapter 12",
+        "pageStart": 67,
+        "pageEnd": 74,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter13": {
+        "id": "b2_c13",
+        "title": "Chapter 13",
+        "pageStart": 75,
+        "pageEnd": 80,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter14": {
+        "id": "b2_c14",
+        "title": "Chapter 14",
+        "pageStart": 81,
+        "pageEnd": 86,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter15": {
+        "id": "b2_c15",
+        "title": "Chapter 15",
+        "pageStart": 87,
+        "pageEnd": 93,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      }
     }
+  },
+  "book3": {
+    "title": "Imaan and Akhlaaq - Book 3",
+    "pdfUrl": "https://drive.google.com/file/d/1bjbVY9gTGqj8LMfc3-lSNmMbcE_1_9_g/preview",
+    "chapters": {
+      "chapter1": {
+        "id": "b3_c1",
+        "title": "The Meaning of Patience",
+        "pageStart": 1,
+        "pageEnd": 9,
+        "discussionQuestion": "Why is being patient important even when things are difficult?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I stayed calm when things didn't go my way ?", "I didn't rush or complain during a hard task ?", "I waited nicely for my turn ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened quietly when the teacher was busy ?", "I was patient during challenging lessons ?", "I helped a classmate without getting frustrated ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I was patient when my parents asked me to wait ?", "I handled disagreement with my siblings calmly ?", "I remembered Allah helps the patient ?"]
+        }]
+      },
+      "chapter2": {
+        "id": "b3_c2",
+        "title": "A Caring Heart",
+        "pageStart": 10,
+        "pageEnd": 14,
+        "discussionQuestion": "How does helping others make our own hearts feel better?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I offered a smile to someone who seemed sad ?", "I shared something I value with a friend ?", "I said a kind word to someone today ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I noticed someone struggling and offered help ?", "I included everyone in the group activity ?", "I said 'please' and 'thank you' sincerely ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I asked my parents how their day was ?", "I comforted a sibling who was upset ?", "I made dua for my family's well-being ?"]
+        }]
+      },
+      "chapter3": {
+        "id": "b3_c3",
+        "title": "Standing for Truth",
+        "pageStart": 15,
+        "pageEnd": 20,
+        "discussionQuestion": "Why does speaking the truth require courage?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I stood up for what is right today ?", "I didn't agree with a wrong action ?", "I admitted fault immediately ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I was honest even when it could have gotten me in trouble ?", "I didn't let others cheat or copy ?", "I reported an incident fairly ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I told the complete truth to my parents ?", "I supported truth over taking sides ?", "I sought forgiveness from Allah for past lies ?"]
+        }]
+      },
+      "chapter4": {
+        "id": "b3_c4",
+        "title": "Chapter 4",
+        "pageStart": 21,
+        "pageEnd": 26,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter5": {
+        "id": "b3_c5",
+        "title": "Chapter 5",
+        "pageStart": 27,
+        "pageEnd": 32,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter6": {
+        "id": "b3_c6",
+        "title": "Chapter 6",
+        "pageStart": 33,
+        "pageEnd": 38,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter7": {
+        "id": "b3_c7",
+        "title": "Chapter 7",
+        "pageStart": 39,
+        "pageEnd": 43,
+        "discussionQuestion": "Why is halal earning important for a peaceful life?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I stayed honest ?", "I worked sincerely ?", "I avoided shortcuts ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I completed work fairly ?", "I respected responsibilities ?", "I valued teamwork ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I appreciated effort ?", "I respected struggle ?", "I thanked Allah for rizq ?"]
+        }]
+      },
+      "chapter8": {
+        "id": "b3_c8",
+        "title": "Chapter 8",
+        "pageStart": 44,
+        "pageEnd": 49,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter9": {
+        "id": "b3_c9",
+        "title": "Chapter 9",
+        "pageStart": 50,
+        "pageEnd": 55,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter10": {
+        "id": "b3_c10",
+        "title": "Chapter 10",
+        "pageStart": 56,
+        "pageEnd": 62,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter11": {
+        "id": "b3_c11",
+        "title": "Chapter 11",
+        "pageStart": 63,
+        "pageEnd": 69,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter12": {
+        "id": "b3_c12",
+        "title": "Chapter 12",
+        "pageStart": 70,
+        "pageEnd": 75,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter13": {
+        "id": "b3_c13",
+        "title": "Chapter 13",
+        "pageStart": 76,
+        "pageEnd": 83,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter14": {
+        "id": "b3_c14",
+        "title": "Chapter 14",
+        "pageStart": 84,
+        "pageEnd": 89,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter15": {
+        "id": "b3_c15",
+        "title": "Chapter 15",
+        "pageStart": 90,
+        "pageEnd": 96,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      }
+    }
+  }
+};
+let currentTeacher = null;
+let teacherSchoolId = null;
+let currentTeacherSection = 'overview';
+const teacherSectionTargets = {
+  overview: 'teacherPanelOverview',
+  students: 'teacherPanelStudents',
+  reviews: 'teacherPanelReviews',
+  attendance: 'teacherPanelAttendance',
+  rankings: 'teacherPanelRankings',
+  books: 'teacherPanelBooks'
+};
 
-    activeShell.style.transition = '';
-    activeShell.style.transform = '';
-    activeShell.style.opacity = '';
+/* === Book Reader (canvas-based, no download) === */
+let bookReaderPdf = null;
+let bookReaderPage = 1;
+let bookReaderTotal = 1;
+let bookReaderTouchStartX = null;
+let bookReaderTouchDeltaX = 0;
+let bookReaderRendering = false;
+let bookReaderAnimating = false;
+function getActiveBookReaderShell() {
+  const canvasWrap = document.getElementById('bookReaderCanvasWrap');
+  return canvasWrap ? canvasWrap.querySelector('.book-reader-page-shell') : null;
+}
+function ensureBookReaderOverlayMounted() {
+  const overlay = document.getElementById('bookReaderOverlay');
+  if (overlay && overlay.parentElement !== document.body) {
+    document.body.appendChild(overlay);
+  }
+  return overlay;
+}
+function clearBookReaderTurnStyles(element) {
+  if (!element) return;
+  element.style.transformOrigin = '';
+  element.style.setProperty('--page-turn-direction', 'to right');
+  element.style.setProperty('--page-turn-gloss', '0');
+  element.style.setProperty('--page-turn-shadow', '0');
+}
+function applyBookReaderSwipePreview(deltaX) {
+  const activeShell = getActiveBookReaderShell();
+  if (!activeShell) return;
+  const direction = deltaX < 0 ? 1 : -1;
+  const progress = Math.min(1, Math.abs(deltaX) / 140);
+  const angle = progress * 18;
+  activeShell.style.transition = '';
+  activeShell.style.transformOrigin = direction > 0 ? 'left center' : 'right center';
+  activeShell.style.setProperty('--page-turn-direction', direction > 0 ? 'to right' : 'to left');
+  activeShell.style.setProperty('--page-turn-gloss', String(0.12 + progress * 0.44));
+  activeShell.style.setProperty('--page-turn-shadow', String(0.08 + progress * 0.28));
+  activeShell.style.transform = 'perspective(2200px) translateX(' + deltaX * 0.16 + 'px) rotateY(' + (direction > 0 ? angle : -angle) + 'deg) scale(' + (1 - progress * 0.012) + ')';
+  activeShell.style.opacity = String(1 - progress * 0.14);
+}
+function resetBookReaderSwipePreview(animateBack) {
+  const activeShell = getActiveBookReaderShell();
+  bookReaderTouchDeltaX = 0;
+  if (!activeShell) return;
+  if (animateBack) {
+    activeShell.style.transition = 'transform 180ms ease, opacity 180ms ease';
+    activeShell.style.transform = 'perspective(2200px) translateX(0px) rotateY(0deg) scale(1)';
+    activeShell.style.opacity = '1';
     clearBookReaderTurnStyles(activeShell);
+    window.setTimeout(function () {
+      activeShell.style.transition = '';
+    }, 190);
+    return;
   }
-
-  function animateBookReaderExit(element, direction) {
-    if (!element || !direction) return Promise.resolve();
-
-    bookReaderAnimating = true;
-
-    return new Promise(function(resolve) {
-      element.style.transition = 'transform 220ms cubic-bezier(0.4, 0, 0.2, 1), opacity 200ms ease';
-      element.style.transformOrigin = direction > 0 ? 'left center' : 'right center';
-      element.style.setProperty('--page-turn-direction', direction > 0 ? 'to right' : 'to left');
-      element.style.setProperty('--page-turn-gloss', '0.56');
-      element.style.setProperty('--page-turn-shadow', '0.38');
-
-      requestAnimationFrame(function() {
-        element.style.transform = 'perspective(2200px) translateX(' + (direction > 0 ? -18 : 18) + 'px) rotateY(' + (direction > 0 ? 68 : -68) + 'deg) scale(0.972)';
-        element.style.opacity = '0.18';
-      });
-
-      window.setTimeout(function() {
-        resolve();
-      }, 225);
-    });
-  }
-
-  function animateBookReaderEntry(element, direction) {
-    if (!element || !direction) {
-      bookReaderAnimating = false;
-      if (element) clearBookReaderTurnStyles(element);
-      return Promise.resolve();
-    }
-
-    bookReaderAnimating = true;
-
-    return new Promise(function(resolve) {
-      element.style.transition = 'none';
-      element.style.transformOrigin = direction > 0 ? 'left center' : 'right center';
-      element.style.setProperty('--page-turn-direction', direction > 0 ? 'to right' : 'to left');
-      element.style.setProperty('--page-turn-gloss', '0.56');
-      element.style.setProperty('--page-turn-shadow', '0.38');
-      element.style.transform = 'perspective(2200px) translateX(' + (direction > 0 ? 18 : -18) + 'px) rotateY(' + (direction > 0 ? -68 : 68) + 'deg) scale(0.972)';
+  activeShell.style.transition = '';
+  activeShell.style.transform = '';
+  activeShell.style.opacity = '';
+  clearBookReaderTurnStyles(activeShell);
+}
+function animateBookReaderExit(element, direction) {
+  if (!element || !direction) return Promise.resolve();
+  bookReaderAnimating = true;
+  return new Promise(function (resolve) {
+    element.style.transition = 'transform 220ms cubic-bezier(0.4, 0, 0.2, 1), opacity 200ms ease';
+    element.style.transformOrigin = direction > 0 ? 'left center' : 'right center';
+    element.style.setProperty('--page-turn-direction', direction > 0 ? 'to right' : 'to left');
+    element.style.setProperty('--page-turn-gloss', '0.56');
+    element.style.setProperty('--page-turn-shadow', '0.38');
+    requestAnimationFrame(function () {
+      element.style.transform = 'perspective(2200px) translateX(' + (direction > 0 ? -18 : 18) + 'px) rotateY(' + (direction > 0 ? 68 : -68) + 'deg) scale(0.972)';
       element.style.opacity = '0.18';
-
-      requestAnimationFrame(function() {
-        element.style.transition = 'transform 300ms cubic-bezier(0.16, 1, 0.3, 1), opacity 240ms ease';
-        element.style.transform = 'perspective(2200px) translateX(0px) rotateY(0deg) scale(1)';
-        element.style.opacity = '1';
-        element.style.setProperty('--page-turn-gloss', '0');
-        element.style.setProperty('--page-turn-shadow', '0');
-      });
-
-      window.setTimeout(function() {
-        element.style.transition = '';
-        clearBookReaderTurnStyles(element);
-        bookReaderAnimating = false;
-        resolve();
-      }, 310);
     });
+    window.setTimeout(function () {
+      resolve();
+    }, 225);
+  });
+}
+function animateBookReaderEntry(element, direction) {
+  if (!element || !direction) {
+    bookReaderAnimating = false;
+    if (element) clearBookReaderTurnStyles(element);
+    return Promise.resolve();
   }
-
-  window.openBookReader = async function(bookKey, bookTitle) {
+  bookReaderAnimating = true;
+  return new Promise(function (resolve) {
+    element.style.transition = 'none';
+    element.style.transformOrigin = direction > 0 ? 'left center' : 'right center';
+    element.style.setProperty('--page-turn-direction', direction > 0 ? 'to right' : 'to left');
+    element.style.setProperty('--page-turn-gloss', '0.56');
+    element.style.setProperty('--page-turn-shadow', '0.38');
+    element.style.transform = 'perspective(2200px) translateX(' + (direction > 0 ? 18 : -18) + 'px) rotateY(' + (direction > 0 ? -68 : 68) + 'deg) scale(0.972)';
+    element.style.opacity = '0.18';
+    requestAnimationFrame(function () {
+      element.style.transition = 'transform 300ms cubic-bezier(0.16, 1, 0.3, 1), opacity 240ms ease';
+      element.style.transform = 'perspective(2200px) translateX(0px) rotateY(0deg) scale(1)';
+      element.style.opacity = '1';
+      element.style.setProperty('--page-turn-gloss', '0');
+      element.style.setProperty('--page-turn-shadow', '0');
+    });
+    window.setTimeout(function () {
+      element.style.transition = '';
+      clearBookReaderTurnStyles(element);
+      bookReaderAnimating = false;
+      resolve();
+    }, 310);
+  });
+}
+window.openBookReader = /*#__PURE__*/function () {
+  var _ref = _asyncToGenerator(function* (bookKey, bookTitle) {
     const overlay = ensureBookReaderOverlayMounted();
     const canvasWrap = document.getElementById('bookReaderCanvasWrap');
     const titleEl = document.getElementById('bookReaderTitle');
-
     titleEl.textContent = bookTitle;
     canvasWrap.innerHTML = '<div id="bookReaderProgressWrap" style="color:#fff;text-align:center;padding:60px;"><i class="fas fa-spinner fa-spin fa-2x"></i><br><br>Loading book... <span id="bookReaderProgressPct">0%</span><div style="width:240px;height:6px;background:rgba(255,255,255,0.18);border-radius:3px;margin:14px auto 0;overflow:hidden;"><div id="bookReaderProgressBar" style="height:100%;width:0%;background:linear-gradient(90deg,#cf296d,#ea8300);transition:width 0.2s;"></div></div></div>';
     overlay.classList.add('active');
@@ -2095,11 +2912,10 @@ table { max-width: 100%; }
     bookReaderTouchDeltaX = 0;
     bookReaderRendering = false;
     bookReaderAnimating = false;
-
     try {
       // Robust pdfjs loader: try existing global, then local, then CDN fallback.
       if (typeof window.pdfjsLib === 'undefined') {
-        const tryLoad = (src) => new Promise((resolve, reject) => {
+        const tryLoad = src => new Promise((resolve, reject) => {
           const s = document.createElement('script');
           s.src = src;
           s.onload = () => resolve(true);
@@ -2107,9 +2923,9 @@ table { max-width: 100%; }
           document.head.appendChild(s);
         });
         try {
-          await tryLoad('/kidba_assets/js/pdf.min.js');
-        } catch(_) {
-          await tryLoad('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js');
+          yield tryLoad('/kidba_assets/js/pdf.min.js');
+        } catch (_) {
+          yield tryLoad('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js');
         }
       }
       if (typeof window.pdfjsLib === 'undefined') {
@@ -2118,11 +2934,11 @@ table { max-width: 100%; }
       }
       // Worker: prefer local, but fall back to CDN.
       try {
-        const workerProbe = await fetch('/kidba_assets/js/pdf.worker.min.js', { method: 'HEAD' });
-        window.pdfjsLib.GlobalWorkerOptions.workerSrc = workerProbe.ok
-          ? '/kidba_assets/js/pdf.worker.min.js'
-          : 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
-      } catch(_) {
+        const workerProbe = yield fetch('/kidba_assets/js/pdf.worker.min.js', {
+          method: 'HEAD'
+        });
+        window.pdfjsLib.GlobalWorkerOptions.workerSrc = workerProbe.ok ? '/kidba_assets/js/pdf.worker.min.js' : 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+      } catch (_) {
         window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
       }
       // Resolve PDF URL with multiple fallbacks so it works on:
@@ -2130,12 +2946,7 @@ table { max-width: 100%; }
       //  - Hostinger live (uppercase: /Book1.pdf)
       //  - Localhost dev (no local PDF -> remote https://imaanakhlaq.org/Book1.pdf)
       const bookNum = (bookKey || '').replace(/^book/i, '');
-      const candidateUrls = [
-        '/' + bookKey + '.pdf',
-        '/Book' + bookNum + '.pdf',
-        'https://imaanakhlaq.org/Book' + bookNum + '.pdf',
-        'https://www.imaanakhlaq.org/Book' + bookNum + '.pdf'
-      ];
+      const candidateUrls = ['/' + bookKey + '.pdf', '/Book' + bookNum + '.pdf', 'https://imaanakhlaq.org/Book' + bookNum + '.pdf', 'https://www.imaanakhlaq.org/Book' + bookNum + '.pdf'];
       // Try each URL by actually attempting to load with pdfjs (HEAD probes can
       // get blocked by CORS even when GET works). First successful load wins.
       let bookReaderPdfTmp = null;
@@ -2149,18 +2960,18 @@ table { max-width: 100%; }
             disableAutoFetch: true,
             rangeChunkSize: 131072
           });
-          task.onProgress = function(p) {
+          task.onProgress = function (p) {
             if (!p || !p.total) return;
-            const pct = Math.min(100, Math.round((p.loaded / p.total) * 100));
+            const pct = Math.min(100, Math.round(p.loaded / p.total * 100));
             const pctEl = document.getElementById('bookReaderProgressPct');
             const barEl = document.getElementById('bookReaderProgressBar');
             if (pctEl) pctEl.textContent = pct + '%';
             if (barEl) barEl.style.width = pct + '%';
           };
-          bookReaderPdfTmp = await task.promise;
+          bookReaderPdfTmp = yield task.promise;
           console.log('[BookReader] Loaded PDF from:', u);
           break;
-        } catch(err) {
+        } catch (err) {
           console.warn('[BookReader] Failed to load from', u, err && err.message);
           lastErr = err;
         }
@@ -2171,44 +2982,54 @@ table { max-width: 100%; }
       bookReaderPdf = bookReaderPdfTmp;
       bookReaderTotal = bookReaderPdf.numPages;
       renderBookReaderPage(0);
-    } catch(e) {
+    } catch (e) {
       console.error('openBookReader error:', e);
       canvasWrap.innerHTML = '<p style="color:#ff6b6b;text-align:center;padding:40px;"><i class="fas fa-exclamation-triangle"></i> Could not load PDF. Make sure the book file exists on the server.</p>';
     }
+  });
+  return function (_x, _x2) {
+    return _ref.apply(this, arguments);
   };
-
-  async function renderBookReaderPage(direction) {
+}();
+function renderBookReaderPage(_x3) {
+  return _renderBookReaderPage.apply(this, arguments);
+}
+function _renderBookReaderPage() {
+  _renderBookReaderPage = _asyncToGenerator(function* (direction) {
     const canvasWrap = document.getElementById('bookReaderCanvasWrap');
     if (!canvasWrap || !bookReaderPdf || bookReaderRendering || bookReaderAnimating) return false;
-
     bookReaderRendering = true;
-
     try {
       const currentShell = getActiveBookReaderShell();
-      const page = await bookReaderPdf.getPage(bookReaderPage);
+      const page = yield bookReaderPdf.getPage(bookReaderPage);
       const pixelRatio = window.devicePixelRatio || 1;
       const wrapWidth = canvasWrap.clientWidth - 24;
-      const unscaled = page.getViewport({ scale: 1 });
+      const unscaled = page.getViewport({
+        scale: 1
+      });
       const baseScale = Math.min(wrapWidth / unscaled.width, 1.8);
-      const viewport = page.getViewport({ scale: baseScale * pixelRatio });
+      const viewport = page.getViewport({
+        scale: baseScale * pixelRatio
+      });
       const canvas = document.createElement('canvas');
       canvas.width = viewport.width;
       canvas.height = viewport.height;
-      canvas.style.width = (viewport.width / pixelRatio) + 'px';
-      canvas.style.height = (viewport.height / pixelRatio) + 'px';
-      await page.render({ canvasContext: canvas.getContext('2d'), viewport }).promise;
+      canvas.style.width = viewport.width / pixelRatio + 'px';
+      canvas.style.height = viewport.height / pixelRatio + 'px';
+      yield page.render({
+        canvasContext: canvas.getContext('2d'),
+        viewport
+      }).promise;
       const shell = document.createElement('div');
       shell.className = 'book-reader-page-shell';
-
       if (currentShell && direction) {
-        await animateBookReaderExit(currentShell, direction);
+        yield animateBookReaderExit(currentShell, direction);
       }
-
       canvasWrap.innerHTML = '';
       shell.appendChild(canvas);
       canvasWrap.appendChild(shell);
-      await animateBookReaderEntry(shell, direction || 0);
-    } catch(e) {
+      yield animateBookReaderEntry(shell, direction || 0);
+    } catch (e) {
       canvasWrap.innerHTML = '<p style="color:#ff6b6b;">Error rendering page ' + bookReaderPage + '</p>';
       bookReaderAnimating = false;
     } finally {
@@ -2218,496 +3039,407 @@ table { max-width: 100%; }
       canvasWrap.scrollTop = 0;
       bookReaderRendering = false;
     }
-
     return true;
-  }
-
-  window.bookReaderGo = function(dir) {
-    if (bookReaderRendering || bookReaderAnimating) return false;
-    const next = bookReaderPage + dir;
-    if (next < 1 || next > bookReaderTotal) return false;
-    bookReaderPage = next;
-    renderBookReaderPage(dir);
-    return true;
-  };
-
-  window.closeBookReader = function() {
-    document.getElementById('bookReaderOverlay').classList.remove('active');
-    document.body.style.overflow = '';
-    bookReaderTouchStartX = null;
-    bookReaderTouchDeltaX = 0;
-    bookReaderRendering = false;
-    bookReaderAnimating = false;
-    resetBookReaderSwipePreview(false);
-    bookReaderPdf = null;
-  };
-
-  document.addEventListener('keydown', function(e) {
-    const overlay = document.getElementById('bookReaderOverlay');
-    if (!overlay || !overlay.classList.contains('active')) return;
-    if (e.key === 'Escape') window.closeBookReader();
-    if (bookReaderRendering || bookReaderAnimating) return;
-    if (e.key === 'ArrowLeft') window.bookReaderGo(-1);
-    if (e.key === 'ArrowRight') window.bookReaderGo(1);
   });
-
-  ensureBookReaderOverlayMounted();
-
-  const bookReaderCanvasWrap = document.getElementById('bookReaderCanvasWrap');
-  if (bookReaderCanvasWrap && bookReaderCanvasWrap.dataset.swipeBound !== 'true') {
-    bookReaderCanvasWrap.dataset.swipeBound = 'true';
-
-    bookReaderCanvasWrap.addEventListener('touchstart', function(e) {
-      if (!bookReaderPdf || bookReaderRendering || bookReaderAnimating || e.touches.length !== 1) return;
-      bookReaderTouchStartX = e.touches[0].clientX;
-      bookReaderTouchDeltaX = 0;
-    }, { passive: true });
-
-    bookReaderCanvasWrap.addEventListener('touchmove', function(e) {
-      if (bookReaderTouchStartX === null || bookReaderRendering || bookReaderAnimating || e.touches.length !== 1) return;
-
-      bookReaderTouchDeltaX = e.touches[0].clientX - bookReaderTouchStartX;
-      applyBookReaderSwipePreview(bookReaderTouchDeltaX);
-    }, { passive: true });
-
-    bookReaderCanvasWrap.addEventListener('touchend', function() {
-      if (bookReaderTouchStartX === null || bookReaderRendering || bookReaderAnimating) {
-        bookReaderTouchStartX = null;
-        return;
-      }
-
-      const deltaX = bookReaderTouchDeltaX;
+  return _renderBookReaderPage.apply(this, arguments);
+}
+window.bookReaderGo = function (dir) {
+  if (bookReaderRendering || bookReaderAnimating) return false;
+  const next = bookReaderPage + dir;
+  if (next < 1 || next > bookReaderTotal) return false;
+  bookReaderPage = next;
+  renderBookReaderPage(dir);
+  return true;
+};
+window.closeBookReader = function () {
+  document.getElementById('bookReaderOverlay').classList.remove('active');
+  document.body.style.overflow = '';
+  bookReaderTouchStartX = null;
+  bookReaderTouchDeltaX = 0;
+  bookReaderRendering = false;
+  bookReaderAnimating = false;
+  resetBookReaderSwipePreview(false);
+  bookReaderPdf = null;
+};
+document.addEventListener('keydown', function (e) {
+  const overlay = document.getElementById('bookReaderOverlay');
+  if (!overlay || !overlay.classList.contains('active')) return;
+  if (e.key === 'Escape') window.closeBookReader();
+  if (bookReaderRendering || bookReaderAnimating) return;
+  if (e.key === 'ArrowLeft') window.bookReaderGo(-1);
+  if (e.key === 'ArrowRight') window.bookReaderGo(1);
+});
+ensureBookReaderOverlayMounted();
+const bookReaderCanvasWrap = document.getElementById('bookReaderCanvasWrap');
+if (bookReaderCanvasWrap && bookReaderCanvasWrap.dataset.swipeBound !== 'true') {
+  bookReaderCanvasWrap.dataset.swipeBound = 'true';
+  bookReaderCanvasWrap.addEventListener('touchstart', function (e) {
+    if (!bookReaderPdf || bookReaderRendering || bookReaderAnimating || e.touches.length !== 1) return;
+    bookReaderTouchStartX = e.touches[0].clientX;
+    bookReaderTouchDeltaX = 0;
+  }, {
+    passive: true
+  });
+  bookReaderCanvasWrap.addEventListener('touchmove', function (e) {
+    if (bookReaderTouchStartX === null || bookReaderRendering || bookReaderAnimating || e.touches.length !== 1) return;
+    bookReaderTouchDeltaX = e.touches[0].clientX - bookReaderTouchStartX;
+    applyBookReaderSwipePreview(bookReaderTouchDeltaX);
+  }, {
+    passive: true
+  });
+  bookReaderCanvasWrap.addEventListener('touchend', function () {
+    if (bookReaderTouchStartX === null || bookReaderRendering || bookReaderAnimating) {
       bookReaderTouchStartX = null;
-
-      if (Math.abs(deltaX) < 55) {
-        resetBookReaderSwipePreview(true);
-        return;
-      }
-
-      const moved = deltaX < 0 ? window.bookReaderGo(1) : window.bookReaderGo(-1);
-      if (!moved) {
-        resetBookReaderSwipePreview(true);
-      }
-    }, { passive: true });
-
-    bookReaderCanvasWrap.addEventListener('touchcancel', function() {
-      bookReaderTouchStartX = null;
+      return;
+    }
+    const deltaX = bookReaderTouchDeltaX;
+    bookReaderTouchStartX = null;
+    if (Math.abs(deltaX) < 55) {
       resetBookReaderSwipePreview(true);
-    }, { passive: true });
-  }
-
-  window.switchTeacherSection = (section, options = {}) => {
-    const nextSection = teacherSectionTargets[section] ? section : 'overview';
-    const shouldScroll = options && typeof options === 'object' ? options.scroll !== false : true;
-    currentTeacherSection = nextSection;
-
-    document.querySelectorAll('.sidebar-nav li[data-section]').forEach((item) => {
-      item.classList.toggle('active', item.dataset.section === nextSection);
-    });
-
-    document.querySelectorAll('.teacher-panel').forEach((panel) => {
-      panel.classList.toggle('active', panel.id === teacherSectionTargets[nextSection]);
-    });
-
-    document.querySelectorAll('.summary-card.summary-link').forEach((card) => {
-      card.classList.toggle('is-active', card.dataset.section === nextSection);
-    });
-
-    if (shouldScroll) {
-      const activePanel = document.getElementById(teacherSectionTargets[nextSection]);
-      if (activePanel) {
-        window.requestAnimationFrame(function() {
-          activePanel.scrollIntoView({ block: 'start', behavior: 'smooth' });
+      return;
+    }
+    const moved = deltaX < 0 ? window.bookReaderGo(1) : window.bookReaderGo(-1);
+    if (!moved) {
+      resetBookReaderSwipePreview(true);
+    }
+  }, {
+    passive: true
+  });
+  bookReaderCanvasWrap.addEventListener('touchcancel', function () {
+    bookReaderTouchStartX = null;
+    resetBookReaderSwipePreview(true);
+  }, {
+    passive: true
+  });
+}
+window.switchTeacherSection = (section, options = {}) => {
+  const nextSection = teacherSectionTargets[section] ? section : 'overview';
+  const shouldScroll = options && typeof options === 'object' ? options.scroll !== false : true;
+  currentTeacherSection = nextSection;
+  document.querySelectorAll('.sidebar-nav li[data-section]').forEach(item => {
+    item.classList.toggle('active', item.dataset.section === nextSection);
+  });
+  document.querySelectorAll('.teacher-panel').forEach(panel => {
+    panel.classList.toggle('active', panel.id === teacherSectionTargets[nextSection]);
+  });
+  document.querySelectorAll('.summary-card.summary-link').forEach(card => {
+    card.classList.toggle('is-active', card.dataset.section === nextSection);
+  });
+  if (shouldScroll) {
+    const activePanel = document.getElementById(teacherSectionTargets[nextSection]);
+    if (activePanel) {
+      window.requestAnimationFrame(function () {
+        activePanel.scrollIntoView({
+          block: 'start',
+          behavior: 'smooth'
         });
-      }
-    }
-  };
-
-  function escapeHtml(value) {
-    return String(value || '').replace(/[&<>"']/g, (char) => ({
-      '&': '&amp;',
-      '<': '&lt;',
-      '>': '&gt;',
-      '"': '&quot;',
-      "'": '&#39;'
-    }[char]));
-  }
-
-  function normalizeGameState(state) {
-    const nextState = state && typeof state === 'object' ? { ...state } : {};
-    if (!Array.isArray(nextState.completed)) nextState.completed = [];
-    if (!Array.isArray(nextState.parent_approved)) nextState.parent_approved = [];
-    if (!Array.isArray(nextState.teacher_approved)) nextState.teacher_approved = [];
-    if (typeof nextState.points !== 'number') {
-      nextState.points = typeof nextState.totalPoints === 'number' ? nextState.totalPoints : 50;
-    }
-    if (typeof nextState.unlockedCount !== 'number' || nextState.unlockedCount < 1) {
-      nextState.unlockedCount = 1;
-    }
-    return nextState;
-  }
-
-  function hasMeaningfulParentNote(notes) {
-    return Array.isArray(notes) && notes.some((note) => String(note || '').trim().length > 1);
-  }
-
-  function getReviewTimestamp(reviewLike) {
-    const value = reviewLike && (reviewLike.parentApprovedAt || reviewLike.submittedAt || reviewLike.updatedAt || reviewLike.activityCompletedAt || reviewLike.activityStartedAt);
-    const timestamp = new Date(value || 0).getTime();
-    return Number.isNaN(timestamp) ? 0 : timestamp;
-  }
-
-  function buildPendingReviewQueue(studentMap, submissionDocs) {
-    const submissionByKey = {};
-    const pendingByKey = {};
-
-    submissionDocs.forEach((submission) => {
-      if (!submission || !submission.student_uid || !submission.chapter_id || !studentMap[submission.student_uid]) return;
-
-      const key = submission.student_uid + '::' + submission.chapter_id;
-      const existingSubmission = submissionByKey[key];
-      if (!existingSubmission || getReviewTimestamp(submission) >= getReviewTimestamp(existingSubmission)) {
-        submissionByKey[key] = submission;
-      }
-    });
-
-    Object.keys(submissionByKey).forEach((key) => {
-      const submission = submissionByKey[key];
-      const student = studentMap[submission.student_uid];
-      const state = normalizeGameState(student.game_state);
-      const isTeacherApproved = state.teacher_approved.includes(submission.chapter_id) || submission.reviewStatus === 'teacher_approved' || !!submission.teacherApprovedAt;
-      const isReadyForTeacher = state.parent_approved.includes(submission.chapter_id) || submission.reviewStatus === 'pending_teacher' || !!submission.parentApprovedAt || hasMeaningfulParentNote(submission.parentNotes);
-      const hasStudentSubmission = !!(submission.submittedAt || submission.activityCompletedAt || submission.discussionText || submission.gridState);
-
-      if (!hasStudentSubmission || isTeacherApproved) return;
-
-      pendingByKey[key] = {
-        subId: submission.id,
-        studentUid: submission.student_uid,
-        studentName: student.name,
-        chapId: submission.chapter_id,
-        answer: submission.discussionText || 'No written answer provided.',
-        grid: submission.gridState || null,
-        parents: submission.parentNotes || [],
-        isSubmissionMissing: false,
-        canTeacherApprove: isReadyForTeacher,
-        statusLabel: isReadyForTeacher ? 'Teacher Review Pending' : 'Waiting for Parent',
-        statusClass: isReadyForTeacher ? 'bg-warning text-dark' : 'bg-info text-dark',
-        blockedReason: isReadyForTeacher ? '' : 'This activity is visible for teacher tracking, but approval stays locked until the parent completes their review.',
-        updatedAt: getReviewTimestamp(submission)
-      };
-    });
-
-    Object.values(studentMap).forEach((student) => {
-      const state = normalizeGameState(student.game_state);
-      state.parent_approved.forEach((chapterId) => {
-        const key = student.uid + '::' + chapterId;
-        if (state.teacher_approved.includes(chapterId) || pendingByKey[key]) return;
-
-        const submission = submissionByKey[key] || null;
-        pendingByKey[key] = {
-          subId: submission ? submission.id : student.uid + '_' + chapterId,
-          studentUid: student.uid,
-          studentName: student.name,
-          chapId: chapterId,
-          answer: submission && submission.discussionText ? submission.discussionText : 'Submission details are missing for this chapter. Ask the student to reopen the activity if this review looks empty.',
-          grid: submission ? submission.gridState || null : null,
-          parents: submission ? submission.parentNotes || [] : [],
-          isSubmissionMissing: !submission,
-          canTeacherApprove: !!submission,
-          statusLabel: submission ? 'Teacher Review Pending' : 'Submission Missing',
-          statusClass: submission ? 'bg-warning text-dark' : 'bg-danger',
-          blockedReason: submission ? '' : 'The student state shows parent approval, but the saved activity sheet is missing. Ask the student to reopen and resubmit this chapter.',
-          updatedAt: submission ? getReviewTimestamp(submission) : 0
-        };
       });
+    }
+  }
+};
+function escapeHtml(value) {
+  return String(value || '').replace(/[&<>"']/g, char => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;'
+  })[char]);
+}
+function normalizeGameState(state) {
+  const nextState = state && typeof state === 'object' ? _objectSpread({}, state) : {};
+  if (!Array.isArray(nextState.completed)) nextState.completed = [];
+  if (!Array.isArray(nextState.parent_approved)) nextState.parent_approved = [];
+  if (!Array.isArray(nextState.teacher_approved)) nextState.teacher_approved = [];
+  if (typeof nextState.points !== 'number') {
+    nextState.points = typeof nextState.totalPoints === 'number' ? nextState.totalPoints : 50;
+  }
+  if (typeof nextState.unlockedCount !== 'number' || nextState.unlockedCount < 1) {
+    nextState.unlockedCount = 1;
+  }
+  return nextState;
+}
+function hasMeaningfulParentNote(notes) {
+  return Array.isArray(notes) && notes.some(note => String(note || '').trim().length > 1);
+}
+function getReviewTimestamp(reviewLike) {
+  const value = reviewLike && (reviewLike.parentApprovedAt || reviewLike.submittedAt || reviewLike.updatedAt || reviewLike.activityCompletedAt || reviewLike.activityStartedAt);
+  const timestamp = new Date(value || 0).getTime();
+  return Number.isNaN(timestamp) ? 0 : timestamp;
+}
+function buildPendingReviewQueue(studentMap, submissionDocs) {
+  const submissionByKey = {};
+  const pendingByKey = {};
+  submissionDocs.forEach(submission => {
+    if (!submission || !submission.student_uid || !submission.chapter_id || !studentMap[submission.student_uid]) return;
+    const key = submission.student_uid + '::' + submission.chapter_id;
+    const existingSubmission = submissionByKey[key];
+    if (!existingSubmission || getReviewTimestamp(submission) >= getReviewTimestamp(existingSubmission)) {
+      submissionByKey[key] = submission;
+    }
+  });
+  Object.keys(submissionByKey).forEach(key => {
+    const submission = submissionByKey[key];
+    const student = studentMap[submission.student_uid];
+    const state = normalizeGameState(student.game_state);
+    const isTeacherApproved = state.teacher_approved.includes(submission.chapter_id) || submission.reviewStatus === 'teacher_approved' || !!submission.teacherApprovedAt;
+    const isReadyForTeacher = state.parent_approved.includes(submission.chapter_id) || submission.reviewStatus === 'pending_teacher' || !!submission.parentApprovedAt || hasMeaningfulParentNote(submission.parentNotes);
+    const hasStudentSubmission = !!(submission.submittedAt || submission.activityCompletedAt || submission.discussionText || submission.gridState);
+    if (!hasStudentSubmission || isTeacherApproved) return;
+    pendingByKey[key] = {
+      subId: submission.id,
+      studentUid: submission.student_uid,
+      studentName: student.name,
+      chapId: submission.chapter_id,
+      answer: submission.discussionText || 'No written answer provided.',
+      grid: submission.gridState || null,
+      parents: submission.parentNotes || [],
+      isSubmissionMissing: false,
+      canTeacherApprove: isReadyForTeacher,
+      statusLabel: isReadyForTeacher ? 'Teacher Review Pending' : 'Waiting for Parent',
+      statusClass: isReadyForTeacher ? 'bg-warning text-dark' : 'bg-info text-dark',
+      blockedReason: isReadyForTeacher ? '' : 'This activity is visible for teacher tracking, but approval stays locked until the parent completes their review.',
+      updatedAt: getReviewTimestamp(submission)
+    };
+  });
+  Object.values(studentMap).forEach(student => {
+    const state = normalizeGameState(student.game_state);
+    state.parent_approved.forEach(chapterId => {
+      const key = student.uid + '::' + chapterId;
+      if (state.teacher_approved.includes(chapterId) || pendingByKey[key]) return;
+      const submission = submissionByKey[key] || null;
+      pendingByKey[key] = {
+        subId: submission ? submission.id : student.uid + '_' + chapterId,
+        studentUid: student.uid,
+        studentName: student.name,
+        chapId: chapterId,
+        answer: submission && submission.discussionText ? submission.discussionText : 'Submission details are missing for this chapter. Ask the student to reopen the activity if this review looks empty.',
+        grid: submission ? submission.gridState || null : null,
+        parents: submission ? submission.parentNotes || [] : [],
+        isSubmissionMissing: !submission,
+        canTeacherApprove: !!submission,
+        statusLabel: submission ? 'Teacher Review Pending' : 'Submission Missing',
+        statusClass: submission ? 'bg-warning text-dark' : 'bg-danger',
+        blockedReason: submission ? '' : 'The student state shows parent approval, but the saved activity sheet is missing. Ask the student to reopen and resubmit this chapter.',
+        updatedAt: submission ? getReviewTimestamp(submission) : 0
+      };
     });
-
-    return Object.values(pendingByKey).sort((left, right) => right.updatedAt - left.updatedAt);
-  }
-
-  function formatClockTime(isoString) {
-    if (!isoString) return 'No time recorded';
-    const date = new Date(isoString);
-    if (Number.isNaN(date.getTime())) return 'No time recorded';
-    return date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
-  }
-
-  function formatAttendanceDate(dateKey) {
-    if (!dateKey) return 'Today';
-    const date = new Date(dateKey + 'T00:00:00');
-    if (Number.isNaN(date.getTime())) return 'Today';
-    return date.toLocaleDateString([], { month: 'short', day: 'numeric' });
-  }
-
-  function formatDuration(seconds) {
-    if (typeof seconds !== 'number' || Number.isNaN(seconds) || seconds <= 0) return 'In progress';
-    if (seconds < 60) return seconds + ' sec';
-
-    const minutes = Math.round(seconds / 60);
-    if (minutes < 60) return minutes + ' min';
-
-    const hours = Math.floor(minutes / 60);
-    const remainingMinutes = minutes % 60;
-    return remainingMinutes ? hours + 'h ' + remainingMinutes + 'm' : hours + 'h';
-  }
-
-  function getClassLabel(classId) {
-    const value = String(classId || '').trim();
-    return value || 'No class assigned';
-  }
-
-  function getClassScopeMeta(leaderboardData) {
-    const uniqueClasses = [...new Set((leaderboardData || []).map((student) => getClassLabel(student.classId)))];
-
-    if (!uniqueClasses.length) {
-      return {
-        chipText: 'No classes yet',
-        workspaceText: 'No students linked to this school yet.',
-        rosterText: 'Students will appear here with class / section labels after they join the school.',
-        rankingText: 'No ranking data yet'
-      };
-    }
-
-    if (uniqueClasses.length === 1) {
-      const classLabel = uniqueClasses[0];
-      return {
-        chipText: 'Class / Section: ' + classLabel,
-        workspaceText: 'Class / Section in view: ' + classLabel,
-        rosterText: 'Browse learners in ' + classLabel + ' with progress, review status and the latest activity update.',
-        rankingText: 'Single class ranking'
-      };
-    }
-
-    const classPreview = uniqueClasses.slice(0, 3).join(', ');
-    const extraClasses = uniqueClasses.length - 3;
-    const previewText = extraClasses > 0 ? classPreview + ' +' + extraClasses + ' more' : classPreview;
-
+  });
+  return Object.values(pendingByKey).sort((left, right) => right.updatedAt - left.updatedAt);
+}
+function formatClockTime(isoString) {
+  if (!isoString) return 'No time recorded';
+  const date = new Date(isoString);
+  if (Number.isNaN(date.getTime())) return 'No time recorded';
+  return date.toLocaleTimeString([], {
+    hour: 'numeric',
+    minute: '2-digit'
+  });
+}
+function formatAttendanceDate(dateKey) {
+  if (!dateKey) return 'Today';
+  const date = new Date(dateKey + 'T00:00:00');
+  if (Number.isNaN(date.getTime())) return 'Today';
+  return date.toLocaleDateString([], {
+    month: 'short',
+    day: 'numeric'
+  });
+}
+function formatDuration(seconds) {
+  if (typeof seconds !== 'number' || Number.isNaN(seconds) || seconds <= 0) return 'In progress';
+  if (seconds < 60) return seconds + ' sec';
+  const minutes = Math.round(seconds / 60);
+  if (minutes < 60) return minutes + ' min';
+  const hours = Math.floor(minutes / 60);
+  const remainingMinutes = minutes % 60;
+  return remainingMinutes ? hours + 'h ' + remainingMinutes + 'm' : hours + 'h';
+}
+function getClassLabel(classId) {
+  const value = String(classId || '').trim();
+  return value || 'No class assigned';
+}
+function getClassScopeMeta(leaderboardData) {
+  const uniqueClasses = [...new Set((leaderboardData || []).map(student => getClassLabel(student.classId)))];
+  if (!uniqueClasses.length) {
     return {
-      chipText: uniqueClasses.length + ' classes visible',
-      workspaceText: 'School-wide teacher view | ' + uniqueClasses.length + ' classes visible',
-      rosterText: 'Browse learners across ' + uniqueClasses.length + ' classes. Current classes: ' + previewText + '.',
-      rankingText: 'School-wide ranking'
+      chipText: 'No classes yet',
+      workspaceText: 'No students linked to this school yet.',
+      rosterText: 'Students will appear here with class / section labels after they join the school.',
+      rankingText: 'No ranking data yet'
     };
   }
-
-  function getAttendanceStatusMeta(session) {
-    if (session.activityCompletedAt || session.status === 'completed') {
-      return { className: 'completed', label: 'Completed', icon: 'fa-check-double' };
-    }
-
-    if (session.status === 'revisit') {
-      return { className: 'revisit', label: 'Opened Again', icon: 'fa-rotate-right' };
-    }
-
-    return { className: 'started', label: 'Started', icon: 'fa-right-to-bracket' };
+  if (uniqueClasses.length === 1) {
+    const classLabel = uniqueClasses[0];
+    return {
+      chipText: 'Class / Section: ' + classLabel,
+      workspaceText: 'Class / Section in view: ' + classLabel,
+      rosterText: 'Browse learners in ' + classLabel + ' with progress, review status and the latest activity update.',
+      rankingText: 'Single class ranking'
+    };
   }
-
-  function renderAttendancePanel(attendanceDocs, studentMap) {
-    const attendanceListEl = document.getElementById('attendanceList');
-    const attendanceCountEl = document.getElementById('teacherAttendanceCount');
-    const attendanceDateBadgeEl = document.getElementById('attendanceDateBadge');
-    const todayKey = new Date().toISOString().slice(0, 10);
-
-    if (attendanceDateBadgeEl) {
-      attendanceDateBadgeEl.innerHTML = '<i class="fas fa-calendar-day"></i> ' + formatAttendanceDate(todayKey);
-    }
-
-    const todaysAttendance = attendanceDocs
-      .filter((session) => {
-        const sessionKey = session.sessionDate || String(session.activityStartedAt || '').slice(0, 10);
-        return sessionKey === todayKey && studentMap[session.student_uid];
-      })
-      .sort((a, b) => new Date(b.activityStartedAt || b.lastUpdatedAt || 0) - new Date(a.activityStartedAt || a.lastUpdatedAt || 0));
-
-    const uniqueStudents = new Set(todaysAttendance.map((session) => session.student_uid));
-    if (attendanceCountEl) {
-      attendanceCountEl.textContent = String(uniqueStudents.size);
-    }
-
-    if (!attendanceListEl) return;
-
-    if (!todaysAttendance.length) {
-      attendanceListEl.innerHTML = '<div class="attendance-empty"><i class="fas fa-user-clock" style="font-size:1.35rem; color:#243d6b; margin-bottom:0.5rem;"></i><br>No student activity attendance has been logged yet today.</div>';
-      return;
-    }
-
-    let attendanceHtml = '';
-    todaysAttendance.forEach((session) => {
-      const statusMeta = getAttendanceStatusMeta(session);
-      const studentName = session.student_name || (studentMap[session.student_uid] && studentMap[session.student_uid].name) || 'Student';
-      const chapterTitle = session.chapter_title || getChapterTitle(session.chapter_id);
-      const startedLabel = formatClockTime(session.activityStartedAt || session.lastUpdatedAt || session.activityCompletedAt);
-      const durationLabel = formatDuration(session.activityDurationSeconds);
-
-      attendanceHtml +=
-        '<div class="attendance-item">' +
-          '<div class="attendance-stamp"><i class="fas fa-clock"></i></div>' +
-          '<div class="attendance-copy">' +
-            '<strong>' + escapeHtml(studentName) + '</strong>' +
-            '<span>' + escapeHtml(chapterTitle) + '</span>' +
-            '<div class="attendance-meta">' +
-              '<span class="attendance-pill ' + statusMeta.className + '"><i class="fas ' + statusMeta.icon + '"></i> ' + escapeHtml(statusMeta.label) + '</span>' +
-              '<span class="attendance-pill time"><i class="fas fa-right-to-bracket"></i> ' + escapeHtml(startedLabel) + '</span>' +
-              '<span class="attendance-pill duration"><i class="fas fa-stopwatch"></i> ' + escapeHtml(durationLabel) + '</span>' +
-            '</div>' +
-          '</div>' +
-        '</div>';
-    });
-
-    attendanceListEl.innerHTML = attendanceHtml;
+  const classPreview = uniqueClasses.slice(0, 3).join(', ');
+  const extraClasses = uniqueClasses.length - 3;
+  const previewText = extraClasses > 0 ? classPreview + ' +' + extraClasses + ' more' : classPreview;
+  return {
+    chipText: uniqueClasses.length + ' classes visible',
+    workspaceText: 'School-wide teacher view | ' + uniqueClasses.length + ' classes visible',
+    rosterText: 'Browse learners across ' + uniqueClasses.length + ' classes. Current classes: ' + previewText + '.',
+    rankingText: 'School-wide ranking'
+  };
+}
+function getAttendanceStatusMeta(session) {
+  if (session.activityCompletedAt || session.status === 'completed') {
+    return {
+      className: 'completed',
+      label: 'Completed',
+      icon: 'fa-check-double'
+    };
   }
-
-  function renderOverviewSnapshot(leaderboardData, pendingReviews, attendanceDocs) {
-    const studentSummaryEl = document.getElementById('overviewStudentSummary');
-    const reviewSummaryEl = document.getElementById('overviewReviewSummary');
-    const attendanceSummaryEl = document.getElementById('overviewAttendanceSummary');
-    const focusNoteEl = document.getElementById('overviewFocusNote');
-    const todayKey = new Date().toISOString().slice(0, 10);
-    const todaysSessions = attendanceDocs.filter((session) => {
-      const sessionKey = session.sessionDate || String(session.activityStartedAt || '').slice(0, 10);
-      return sessionKey === todayKey;
+  if (session.status === 'revisit') {
+    return {
+      className: 'revisit',
+      label: 'Opened Again',
+      icon: 'fa-rotate-right'
+    };
+  }
+  return {
+    className: 'started',
+    label: 'Started',
+    icon: 'fa-right-to-bracket'
+  };
+}
+function renderAttendancePanel(attendanceDocs, studentMap) {
+  const attendanceListEl = document.getElementById('attendanceList');
+  const attendanceCountEl = document.getElementById('teacherAttendanceCount');
+  const attendanceDateBadgeEl = document.getElementById('attendanceDateBadge');
+  const todayKey = new Date().toISOString().slice(0, 10);
+  if (attendanceDateBadgeEl) {
+    attendanceDateBadgeEl.innerHTML = '<i class="fas fa-calendar-day"></i> ' + formatAttendanceDate(todayKey);
+  }
+  const todaysAttendance = attendanceDocs.filter(session => {
+    const sessionKey = session.sessionDate || String(session.activityStartedAt || '').slice(0, 10);
+    return sessionKey === todayKey && studentMap[session.student_uid];
+  }).sort((a, b) => new Date(b.activityStartedAt || b.lastUpdatedAt || 0) - new Date(a.activityStartedAt || a.lastUpdatedAt || 0));
+  const uniqueStudents = new Set(todaysAttendance.map(session => session.student_uid));
+  if (attendanceCountEl) {
+    attendanceCountEl.textContent = String(uniqueStudents.size);
+  }
+  if (!attendanceListEl) return;
+  if (!todaysAttendance.length) {
+    attendanceListEl.innerHTML = '<div class="attendance-empty"><i class="fas fa-user-clock" style="font-size:1.35rem; color:#243d6b; margin-bottom:0.5rem;"></i><br>No student activity attendance has been logged yet today.</div>';
+    return;
+  }
+  let attendanceHtml = '';
+  todaysAttendance.forEach(session => {
+    const statusMeta = getAttendanceStatusMeta(session);
+    const studentName = session.student_name || studentMap[session.student_uid] && studentMap[session.student_uid].name || 'Student';
+    const chapterTitle = session.chapter_title || getChapterTitle(session.chapter_id);
+    const startedLabel = formatClockTime(session.activityStartedAt || session.lastUpdatedAt || session.activityCompletedAt);
+    const durationLabel = formatDuration(session.activityDurationSeconds);
+    attendanceHtml += '<div class="attendance-item">' + '<div class="attendance-stamp"><i class="fas fa-clock"></i></div>' + '<div class="attendance-copy">' + '<strong>' + escapeHtml(studentName) + '</strong>' + '<span>' + escapeHtml(chapterTitle) + '</span>' + '<div class="attendance-meta">' + '<span class="attendance-pill ' + statusMeta.className + '"><i class="fas ' + statusMeta.icon + '"></i> ' + escapeHtml(statusMeta.label) + '</span>' + '<span class="attendance-pill time"><i class="fas fa-right-to-bracket"></i> ' + escapeHtml(startedLabel) + '</span>' + '<span class="attendance-pill duration"><i class="fas fa-stopwatch"></i> ' + escapeHtml(durationLabel) + '</span>' + '</div>' + '</div>' + '</div>';
+  });
+  attendanceListEl.innerHTML = attendanceHtml;
+}
+function renderOverviewSnapshot(leaderboardData, pendingReviews, attendanceDocs) {
+  const studentSummaryEl = document.getElementById('overviewStudentSummary');
+  const reviewSummaryEl = document.getElementById('overviewReviewSummary');
+  const attendanceSummaryEl = document.getElementById('overviewAttendanceSummary');
+  const focusNoteEl = document.getElementById('overviewFocusNote');
+  const todayKey = new Date().toISOString().slice(0, 10);
+  const todaysSessions = attendanceDocs.filter(session => {
+    const sessionKey = session.sessionDate || String(session.activityStartedAt || '').slice(0, 10);
+    return sessionKey === todayKey;
+  });
+  const activeTodayCount = new Set(todaysSessions.map(session => session.student_uid)).size;
+  const completedTodayCount = todaysSessions.filter(session => session.activityCompletedAt || session.status === 'completed').length;
+  if (studentSummaryEl) {
+    studentSummaryEl.textContent = leaderboardData.length ? leaderboardData.length + ' students are visible in your teacher scope.' : 'No students are linked to this teacher scope yet.';
+  }
+  if (reviewSummaryEl) {
+    reviewSummaryEl.textContent = pendingReviews.length ? pendingReviews.length + ' student sheet' + (pendingReviews.length === 1 ? ' is' : 's are') + ' waiting for review.' : 'All student sheets are currently reviewed.';
+  }
+  if (attendanceSummaryEl) {
+    attendanceSummaryEl.textContent = activeTodayCount ? activeTodayCount + ' learner' + (activeTodayCount === 1 ? ' has' : 's have') + ' opened activities today.' : 'No activity attendance has been logged today yet.';
+  }
+  if (focusNoteEl) {
+    if (pendingReviews.length) {
+      focusNoteEl.textContent = 'Priority: ' + pendingReviews[0].studentName + ' is waiting for review in ' + getChapterTitle(pendingReviews[0].chapId) + '.';
+    } else if (completedTodayCount) {
+      focusNoteEl.textContent = completedTodayCount + ' activity session' + (completedTodayCount === 1 ? ' has' : 's have') + ' already been completed today.';
+    } else if (leaderboardData.length) {
+      focusNoteEl.textContent = 'No urgent review is pending. Open the Students page to monitor class readiness in detail.';
+    } else {
+      focusNoteEl.textContent = 'No learners are visible yet. Ask the school admin to connect students to this school scope.';
+    }
+  }
+}
+function renderStudentRoster(leaderboardData, pendingReviews, attendanceDocs) {
+  const rosterEl = document.getElementById('teacherStudentRoster');
+  if (!rosterEl) return;
+  if (!leaderboardData.length) {
+    rosterEl.innerHTML = '<div class="attendance-empty"><i class="fas fa-user-graduate" style="font-size:1.35rem; color:#243d6b; margin-bottom:0.5rem;"></i><br>No students are available in your current teacher scope.</div>';
+    return;
+  }
+  const pendingByStudent = {};
+  pendingReviews.forEach(review => {
+    pendingByStudent[review.studentUid] = (pendingByStudent[review.studentUid] || 0) + 1;
+  });
+  const todayKey = new Date().toISOString().slice(0, 10);
+  const latestAttendanceByStudent = {};
+  attendanceDocs.forEach(session => {
+    const sessionKey = session.sessionDate || String(session.activityStartedAt || '').slice(0, 10);
+    if (sessionKey !== todayKey) return;
+    const existing = latestAttendanceByStudent[session.student_uid];
+    const sessionTime = new Date(session.activityStartedAt || session.lastUpdatedAt || session.activityCompletedAt || 0).getTime();
+    const existingTime = existing ? new Date(existing.activityStartedAt || existing.lastUpdatedAt || existing.activityCompletedAt || 0).getTime() : -1;
+    if (!existing || sessionTime > existingTime) {
+      latestAttendanceByStudent[session.student_uid] = session;
+    }
+  });
+  let rosterHtml = '';
+  let currentClassGroup = '';
+  [...leaderboardData].sort((left, right) => {
+    const leftClass = getClassLabel(left.classId);
+    const rightClass = getClassLabel(right.classId);
+    return leftClass.localeCompare(rightClass, undefined, {
+      sensitivity: 'base'
+    }) || left.name.localeCompare(right.name, undefined, {
+      sensitivity: 'base'
     });
-    const activeTodayCount = new Set(todaysSessions.map((session) => session.student_uid)).size;
-    const completedTodayCount = todaysSessions.filter((session) => session.activityCompletedAt || session.status === 'completed').length;
-
-    if (studentSummaryEl) {
-      studentSummaryEl.textContent = leaderboardData.length
-        ? leaderboardData.length + ' students are visible in your teacher scope.'
-        : 'No students are linked to this teacher scope yet.';
-    }
-
-    if (reviewSummaryEl) {
-      reviewSummaryEl.textContent = pendingReviews.length
-        ? pendingReviews.length + ' student sheet' + (pendingReviews.length === 1 ? ' is' : 's are') + ' waiting for review.'
-        : 'All student sheets are currently reviewed.';
-    }
-
-    if (attendanceSummaryEl) {
-      attendanceSummaryEl.textContent = activeTodayCount
-        ? activeTodayCount + ' learner' + (activeTodayCount === 1 ? ' has' : 's have') + ' opened activities today.'
-        : 'No activity attendance has been logged today yet.';
-    }
-
-    if (focusNoteEl) {
-      if (pendingReviews.length) {
-        focusNoteEl.textContent = 'Priority: ' + pendingReviews[0].studentName + ' is waiting for review in ' + getChapterTitle(pendingReviews[0].chapId) + '.';
-      } else if (completedTodayCount) {
-        focusNoteEl.textContent = completedTodayCount + ' activity session' + (completedTodayCount === 1 ? ' has' : 's have') + ' already been completed today.';
-      } else if (leaderboardData.length) {
-        focusNoteEl.textContent = 'No urgent review is pending. Open the Students page to monitor class readiness in detail.';
-      } else {
-        focusNoteEl.textContent = 'No learners are visible yet. Ask the school admin to connect students to this school scope.';
+  }).forEach(student => {
+    const latestSession = latestAttendanceByStudent[student.uid];
+    const latestMeta = latestSession ? getAttendanceStatusMeta(latestSession) : null;
+    const latestTitle = latestSession ? latestSession.chapter_title || getChapterTitle(latestSession.chapter_id) : 'No activity opened today';
+    const latestTime = latestSession ? formatClockTime(latestSession.activityStartedAt || latestSession.lastUpdatedAt || latestSession.activityCompletedAt) : 'Awaiting activity';
+    const reviewCount = pendingByStudent[student.uid] || 0;
+    const completedCount = student.completedCount || 0;
+    const studentName = escapeHtml(student.name);
+    const classLabel = escapeHtml(getClassLabel(student.classId));
+    const photoMarkup = student.photoURL ? '<img class="student-roster-photo" src="' + escapeHtml(student.photoURL) + '" alt="' + studentName + '">' : '<div class="student-avatar"><i class="fas fa-user-graduate"></i></div>';
+    const reviewMarkup = reviewCount ? '<span class="attendance-pill revisit"><i class="fas fa-clipboard-check"></i> ' + reviewCount + ' pending review' + (reviewCount > 1 ? 's' : '') + '</span>' : '<span class="attendance-pill completed"><i class="fas fa-circle-check"></i> Reviews clear</span>';
+    const attendanceMarkup = latestMeta ? '<span class="attendance-pill ' + latestMeta.className + '"><i class="fas ' + latestMeta.icon + '"></i> ' + escapeHtml(latestMeta.label) + '</span>' : '<span class="attendance-pill time"><i class="fas fa-clock"></i> No activity yet</span>';
+    const currentStudentClass = getClassLabel(student.classId);
+    if (currentStudentClass !== currentClassGroup) {
+      if (currentClassGroup) {
+        rosterHtml += '</div>';
       }
+      currentClassGroup = currentStudentClass;
+      rosterHtml += '<div class="student-roster-group">' + '<div class="student-roster-group-title"><i class="fas fa-layer-group"></i> Class / Section: ' + escapeHtml(currentStudentClass) + '</div>';
     }
+    const rosterActionMarkup = reviewCount ? '<div class="student-roster-actions"><button class="quick-link-action" type="button" onclick="switchTeacherSection(&quot;reviews&quot;)">Open Review Queue</button></div>' : latestSession ? '<div class="student-roster-actions"><button class="quick-link-action secondary" type="button" onclick="switchTeacherSection(&quot;attendance&quot;)">Open Activity Log</button></div>' : '';
+    rosterHtml += '<div class="student-roster-item">' + '<div class="student-roster-copy">' + photoMarkup + '<div>' + '<strong>' + studentName + '</strong>' + '<span class="student-roster-classline">Class / Section: ' + classLabel + '</span>' + '<span>Points earned: ' + student.totalPoints + ' points | Chapters completed: ' + completedCount + '</span>' + '<div class="student-roster-meta">' + reviewMarkup + attendanceMarkup + '<span class="attendance-pill duration"><i class="fas fa-book-open"></i> ' + escapeHtml(latestTitle) + '</span>' + '<span class="attendance-pill time"><i class="fas fa-clock"></i> ' + escapeHtml(latestTime) + '</span>' + '</div>' + '</div>' + '</div>' + rosterActionMarkup + '</div>';
+  });
+  if (currentClassGroup) {
+    rosterHtml += '</div>';
   }
-
-  function renderStudentRoster(leaderboardData, pendingReviews, attendanceDocs) {
-    const rosterEl = document.getElementById('teacherStudentRoster');
-    if (!rosterEl) return;
-
-    if (!leaderboardData.length) {
-      rosterEl.innerHTML = '<div class="attendance-empty"><i class="fas fa-user-graduate" style="font-size:1.35rem; color:#243d6b; margin-bottom:0.5rem;"></i><br>No students are available in your current teacher scope.</div>';
-      return;
-    }
-
-    const pendingByStudent = {};
-    pendingReviews.forEach((review) => {
-      pendingByStudent[review.studentUid] = (pendingByStudent[review.studentUid] || 0) + 1;
-    });
-
-    const todayKey = new Date().toISOString().slice(0, 10);
-    const latestAttendanceByStudent = {};
-    attendanceDocs.forEach((session) => {
-      const sessionKey = session.sessionDate || String(session.activityStartedAt || '').slice(0, 10);
-      if (sessionKey !== todayKey) return;
-
-      const existing = latestAttendanceByStudent[session.student_uid];
-      const sessionTime = new Date(session.activityStartedAt || session.lastUpdatedAt || session.activityCompletedAt || 0).getTime();
-      const existingTime = existing ? new Date(existing.activityStartedAt || existing.lastUpdatedAt || existing.activityCompletedAt || 0).getTime() : -1;
-      if (!existing || sessionTime > existingTime) {
-        latestAttendanceByStudent[session.student_uid] = session;
-      }
-    });
-
-    let rosterHtml = '';
-    let currentClassGroup = '';
-    [...leaderboardData]
-      .sort((left, right) => {
-        const leftClass = getClassLabel(left.classId);
-        const rightClass = getClassLabel(right.classId);
-        return leftClass.localeCompare(rightClass, undefined, { sensitivity: 'base' }) || left.name.localeCompare(right.name, undefined, { sensitivity: 'base' });
-      })
-      .forEach((student) => {
-        const latestSession = latestAttendanceByStudent[student.uid];
-        const latestMeta = latestSession ? getAttendanceStatusMeta(latestSession) : null;
-        const latestTitle = latestSession ? (latestSession.chapter_title || getChapterTitle(latestSession.chapter_id)) : 'No activity opened today';
-        const latestTime = latestSession ? formatClockTime(latestSession.activityStartedAt || latestSession.lastUpdatedAt || latestSession.activityCompletedAt) : 'Awaiting activity';
-        const reviewCount = pendingByStudent[student.uid] || 0;
-        const completedCount = student.completedCount || 0;
-        const studentName = escapeHtml(student.name);
-        const classLabel = escapeHtml(getClassLabel(student.classId));
-        const photoMarkup = student.photoURL
-          ? '<img class="student-roster-photo" src="' + escapeHtml(student.photoURL) + '" alt="' + studentName + '">'
-          : '<div class="student-avatar"><i class="fas fa-user-graduate"></i></div>';
-        const reviewMarkup = reviewCount
-          ? '<span class="attendance-pill revisit"><i class="fas fa-clipboard-check"></i> ' + reviewCount + ' pending review' + (reviewCount > 1 ? 's' : '') + '</span>'
-          : '<span class="attendance-pill completed"><i class="fas fa-circle-check"></i> Reviews clear</span>';
-        const attendanceMarkup = latestMeta
-          ? '<span class="attendance-pill ' + latestMeta.className + '"><i class="fas ' + latestMeta.icon + '"></i> ' + escapeHtml(latestMeta.label) + '</span>'
-          : '<span class="attendance-pill time"><i class="fas fa-clock"></i> No activity yet</span>';
-
-        const currentStudentClass = getClassLabel(student.classId);
-        if (currentStudentClass !== currentClassGroup) {
-          if (currentClassGroup) {
-            rosterHtml += '</div>';
-          }
-
-          currentClassGroup = currentStudentClass;
-          rosterHtml +=
-            '<div class="student-roster-group">' +
-              '<div class="student-roster-group-title"><i class="fas fa-layer-group"></i> Class / Section: ' + escapeHtml(currentStudentClass) + '</div>';
-        }
-
-        const rosterActionMarkup = reviewCount
-          ? '<div class="student-roster-actions"><button class="quick-link-action" type="button" onclick="switchTeacherSection(&quot;reviews&quot;)">Open Review Queue</button></div>'
-          : (latestSession
-            ? '<div class="student-roster-actions"><button class="quick-link-action secondary" type="button" onclick="switchTeacherSection(&quot;attendance&quot;)">Open Activity Log</button></div>'
-            : '');
-
-        rosterHtml +=
-          '<div class="student-roster-item">' +
-            '<div class="student-roster-copy">' +
-              photoMarkup +
-              '<div>' +
-                '<strong>' + studentName + '</strong>' +
-                '<span class="student-roster-classline">Class / Section: ' + classLabel + '</span>' +
-                '<span>Points earned: ' + student.totalPoints + ' points | Chapters completed: ' + completedCount + '</span>' +
-                '<div class="student-roster-meta">' +
-                  reviewMarkup +
-                  attendanceMarkup +
-                  '<span class="attendance-pill duration"><i class="fas fa-book-open"></i> ' + escapeHtml(latestTitle) + '</span>' +
-                  '<span class="attendance-pill time"><i class="fas fa-clock"></i> ' + escapeHtml(latestTime) + '</span>' +
-                '</div>' +
-              '</div>' +
-            '</div>' +
-            rosterActionMarkup +
-          '</div>';
-      });
-
-    if (currentClassGroup) {
-      rosterHtml += '</div>';
-    }
-
-    rosterEl.innerHTML = rosterHtml;
-  }
-
-  let teacherAuthInitialized = false;
-  let teacherOverlayShown = false;
-  function showTeacherLoginOverlay(message) {
-    if (teacherOverlayShown) return;
-    teacherOverlayShown = true;
-    document.body.insertAdjacentHTML('beforeend', `
+  rosterEl.innerHTML = rosterHtml;
+}
+let teacherAuthInitialized = false;
+let teacherOverlayShown = false;
+function showTeacherLoginOverlay(message) {
+  if (teacherOverlayShown) return;
+  teacherOverlayShown = true;
+  document.body.insertAdjacentHTML('beforeend', `
       <div id="demoOverlay" style="position:fixed; inset:0; background:rgba(30, 45, 90, 0.85); backdrop-filter:blur(8px); display:flex; justify-content:center; align-items:center; z-index:99999;">
         <div style="background:white; padding:40px; border-radius:24px; text-align:center; max-width:400px; box-shadow: 0 20px 40px rgba(0,0,0,0.3);">
            <i class="fas fa-lock" style="font-size:3rem; color:#1E2D5A; margin-bottom:20px;"></i>
@@ -2717,27 +3449,28 @@ table { max-width: 100%; }
         </div>
       </div>
     `);
-  }
-  function hideTeacherLoginOverlay() {
-    const existing = document.getElementById('demoOverlay');
-    if (existing) existing.remove();
-    teacherOverlayShown = false;
-  }
-
-  onAuthStateChanged(auth, async (user) => {
+}
+function hideTeacherLoginOverlay() {
+  const existing = document.getElementById('demoOverlay');
+  if (existing) existing.remove();
+  teacherOverlayShown = false;
+}
+onAuthStateChanged(auth, /*#__PURE__*/function () {
+  var _ref2 = _asyncToGenerator(function* (user) {
     if (user) {
       // User signed in - hide any stale overlay and load dashboard
       hideTeacherLoginOverlay();
       try {
-        const userDoc = await getDoc(doc(db, "users", user.uid));
+        const userDoc = yield getDoc(doc(db, "users", user.uid));
         if (userDoc.exists() && userDoc.data().role === 'teacher') {
           teacherAuthInitialized = true;
-          currentTeacher = { uid: user.uid, ...userDoc.data() };
+          currentTeacher = _objectSpread({
+            uid: user.uid
+          }, userDoc.data());
           teacherSchoolId = currentTeacher.school_id;
-          
           if (teacherSchoolId && !currentTeacher.school_name) {
             try {
-              const schoolSnap = await getDoc(doc(db, 'schools', teacherSchoolId));
+              const schoolSnap = yield getDoc(doc(db, 'schools', teacherSchoolId));
               if (schoolSnap.exists()) {
                 currentTeacher.school_name = schoolSnap.data().name || teacherSchoolId;
                 if (!currentTeacher.school_logo_url && schoolSnap.data().logo_url) {
@@ -2748,13 +3481,12 @@ table { max-width: 100%; }
               console.warn('Failed to load school details:', e);
             }
           }
-          
           document.getElementById('teacherDashboardView').classList.remove('d-none');
           initDashboard();
         } else {
           showTeacherLoginOverlay('You cannot view this page with your current account.');
         }
-      } catch(e) {
+      } catch (e) {
         console.error('Auth check error:', e);
         // Don't kick out an authenticated user just because Firestore read failed transiently
         if (!teacherAuthInitialized) {
@@ -2777,25 +3509,31 @@ table { max-width: 100%; }
       }
     }
   });
-
-  async function initDashboard() {
+  return function (_x4) {
+    return _ref2.apply(this, arguments);
+  };
+}());
+function initDashboard() {
+  return _initDashboard.apply(this, arguments);
+}
+function _initDashboard() {
+  _initDashboard = _asyncToGenerator(function* () {
     const schoolNameText = currentTeacher.school_name || 'Your School';
-      document.getElementById('welcomeName').textContent = schoolNameText;
-      const sidebarName = document.getElementById('sidebarProfileName');
-      if (sidebarName) sidebarName.textContent = currentTeacher.name || 'Teacher';
-      const sidebarPhoto = document.getElementById('sidebarProfilePhoto');
-      if (sidebarPhoto && currentTeacher.photoURL) sidebarPhoto.src = currentTeacher.photoURL;
-      const schoolLogo = document.getElementById('schoolLogoImg');
-      if (schoolLogo && currentTeacher.school_logo_url) schoolLogo.src = currentTeacher.school_logo_url;
+    document.getElementById('welcomeName').textContent = schoolNameText;
+    const sidebarName = document.getElementById('sidebarProfileName');
+    if (sidebarName) sidebarName.textContent = currentTeacher.name || 'Teacher';
+    const sidebarPhoto = document.getElementById('sidebarProfilePhoto');
+    if (sidebarPhoto && currentTeacher.photoURL) sidebarPhoto.src = currentTeacher.photoURL;
+    const schoolLogo = document.getElementById('schoolLogoImg');
+    if (schoolLogo && currentTeacher.school_logo_url) schoolLogo.src = currentTeacher.school_logo_url;
     document.getElementById('schoolNameTag').innerHTML = '<i class="fas fa-school"></i> School Access Granted';
     document.getElementById('classInfo').textContent = 'Loading class scope...';
 
     // 1. Fetch all students in the teacher's school
     const usersRef = collection(db, "users");
     let leaderboardData = [];
-    let studentMap = {}; 
+    let studentMap = {};
     let studentsSnap;
-
     if (!teacherSchoolId) {
       console.warn('[Teacher Dashboard] teacherSchoolId is missing. Skipping student fetch.');
       const rosterEl = document.getElementById('teacherStudentRoster');
@@ -2803,18 +3541,18 @@ table { max-width: 100%; }
     } else {
       const qStudents = query(usersRef, where("school_id", "==", teacherSchoolId));
       try {
-        studentsSnap = await getDocs(qStudents);
-      } catch(e) { console.error('[Teacher Dashboard] Failed to fetch students:', e); }
+        studentsSnap = yield getDocs(qStudents);
+      } catch (e) {
+        console.error('[Teacher Dashboard] Failed to fetch students:', e);
+      }
     }
-    
     if (studentsSnap) {
       studentsSnap.forEach(docSnap => {
-          let stu = docSnap.data();
-          if (stu.role !== 'student') return;
+        let stu = docSnap.data();
+        if (stu.role !== 'student') return;
         stu.uid = docSnap.id;
         stu.game_state = normalizeGameState(stu.game_state);
         studentMap[stu.uid] = stu;
-        
         let points = stu.game_state.points;
         leaderboardData.push({
           uid: stu.uid,
@@ -2827,104 +3565,91 @@ table { max-width: 100%; }
         });
       });
     }
-
     console.log('[Teacher Dashboard] Found', Object.keys(studentMap).length, 'students for school', teacherSchoolId);
-    Object.values(studentMap).forEach(function(s) {
+    Object.values(studentMap).forEach(function (s) {
       var gs = s.game_state || {};
-      console.log('[Teacher Dashboard] Student:', s.name, '| completed:', (gs.completed||[]).length, '| parent_approved:', (gs.parent_approved||[]).length, '| teacher_approved:', (gs.teacher_approved||[]).length);
+      console.log('[Teacher Dashboard] Student:', s.name, '| completed:', (gs.completed || []).length, '| parent_approved:', (gs.parent_approved || []).length, '| teacher_approved:', (gs.teacher_approved || []).length);
     });
 
     // Sort and Render Leaderboard
-    leaderboardData.sort((a,b) => b.totalPoints - a.totalPoints);
+    leaderboardData.sort((a, b) => b.totalPoints - a.totalPoints);
     const classScopeMeta = getClassScopeMeta(leaderboardData);
     document.getElementById('teacherStudentCount').textContent = String(leaderboardData.length);
     document.getElementById('teacherTopPoints').textContent = leaderboardData.length ? String(leaderboardData[0].totalPoints) : '0';
-    
+
     // Inject Auto-Sync Utility if 0 students
     if (leaderboardData.length === 0) {
-      document.getElementById('classInfo').innerHTML = classScopeMeta.workspaceText + 
-        '<br><br><button id="forceSyncBtn" style="background:var(--student-purple); color:white; border:none; padding:8px 16px; border-radius:8px; cursor:pointer; font-weight:bold; font-family:Sora, sans-serif;"><i class="fas fa-link"></i> Force Sync Unlinked Students</button>';
-        
+      document.getElementById('classInfo').innerHTML = classScopeMeta.workspaceText + '<br><br><button id="forceSyncBtn" style="background:var(--student-purple); color:white; border:none; padding:8px 16px; border-radius:8px; cursor:pointer; font-weight:bold; font-family:Sora, sans-serif;"><i class="fas fa-link"></i> Force Sync Unlinked Students</button>';
       setTimeout(() => {
         const syncBtn = document.getElementById('forceSyncBtn');
         if (syncBtn) {
-          syncBtn.addEventListener('click', async () => {
+          syncBtn.addEventListener('click', /*#__PURE__*/_asyncToGenerator(function* () {
             syncBtn.textContent = 'Syncing... Please wait';
             syncBtn.disabled = true;
             try {
-              const allUsersSnap = await getDocs(collection(db, 'users'));
+              const allUsersSnap = yield getDocs(collection(db, 'users'));
               let fixed = 0;
               for (const d of allUsersSnap.docs) {
                 const u = d.data();
                 if (u.role === 'student' && (!u.school_id || u.school_id !== teacherSchoolId)) {
-                  await updateDoc(doc(db, 'users', d.id), { school_id: teacherSchoolId });
+                  yield updateDoc(doc(db, 'users', d.id), {
+                    school_id: teacherSchoolId
+                  });
                   fixed++;
                 }
               }
               alert(fixed + ' students have been forcefully linked to your school! Please refresh the page.');
               window.location.reload();
-            } catch(err) {
+            } catch (err) {
               console.error(err);
               alert('Could not sync automatically. You may need to register the students using the correct Invitation Code. Error: ' + err.message);
               syncBtn.textContent = 'Force Sync Unlinked Students';
               syncBtn.disabled = false;
             }
-          });
+          }));
         }
       }, 500);
     } else {
       document.getElementById('classInfo').textContent = classScopeMeta.workspaceText;
     }
-
     const rosterClassChip = document.getElementById('teacherRosterClassChip');
     if (rosterClassChip) {
       rosterClassChip.innerHTML = '<i class="fas fa-user-group"></i> ' + escapeHtml(classScopeMeta.chipText);
     }
-
     const rosterSummary = document.getElementById('teacherRosterSummary');
     if (rosterSummary) {
       rosterSummary.textContent = classScopeMeta.rosterText;
     }
-
     const rankingScopeChip = document.getElementById('teacherRankingScopeChip');
     if (rankingScopeChip) {
       rankingScopeChip.innerHTML = '<i class="fas fa-trophy"></i> ' + escapeHtml(classScopeMeta.rankingText);
     }
-
     let lbHtml = '';
     leaderboardData.forEach((s, idx) => {
-      let rankClass = idx === 0 ? 'rank-1' : (idx === 1 ? 'rank-2' : (idx === 2 ? 'rank-3' : 'rank-other'));
+      let rankClass = idx === 0 ? 'rank-1' : idx === 1 ? 'rank-2' : idx === 2 ? 'rank-3' : 'rank-other';
       const studentName = escapeHtml(s.name);
       const classLabel = escapeHtml(getClassLabel(s.classId));
-      lbHtml += 
-        '<div class="student-rank-item">' +
-          '<div class="rank-badge ' + rankClass + '">' + (idx + 1) + '</div>' +
-          '<div class="student-avatar"><i class="fas fa-user-graduate"></i></div>' +
-          '<div class="student-rank-copy">' +
-            '<div class="student-name">' + studentName + '</div>' +
-            '<div class="student-rank-subtitle">Class / Section: ' + classLabel + '</div>' +
-          '</div>' +
-          '<div class="student-score">' + s.totalPoints + ' points</div>' +
-        '</div>';
+      lbHtml += '<div class="student-rank-item">' + '<div class="rank-badge ' + rankClass + '">' + (idx + 1) + '</div>' + '<div class="student-avatar"><i class="fas fa-user-graduate"></i></div>' + '<div class="student-rank-copy">' + '<div class="student-name">' + studentName + '</div>' + '<div class="student-rank-subtitle">Class / Section: ' + classLabel + '</div>' + '</div>' + '<div class="student-score">' + s.totalPoints + ' points</div>' + '</div>';
     });
     document.getElementById('leaderboardList').innerHTML = lbHtml;
 
     // 2. Fetch specific submissions matching teacher's students
     let pendingReviews = [];
     let subDocs = [];
-
     const seenSubmissionIds = new Set();
-    const pushUniqueSubmissions = (snapshot) => {
-        snapshot.forEach((docSnap) => {
+    const pushUniqueSubmissions = snapshot => {
+      snapshot.forEach(docSnap => {
         if (seenSubmissionIds.has(docSnap.id)) return;
         seenSubmissionIds.add(docSnap.id);
-        subDocs.push({ id: docSnap.id, ...docSnap.data() });
+        subDocs.push(_objectSpread({
+          id: docSnap.id
+        }, docSnap.data()));
       });
     };
 
     // Attempt primary school_id query
     const qSub = query(collection(db, "activity_submissions"), where("school_id", "==", teacherSchoolId));
-    pushUniqueSubmissions(await getDocs(qSub));
+    pushUniqueSubmissions(yield getDocs(qSub));
     console.log('[Teacher Dashboard] Primary query returned', subDocs.length, 'submissions for school', teacherSchoolId);
 
     // Fallback for older or partially migrated submissions that are missing school_id.
@@ -2933,17 +3658,17 @@ table { max-width: 100%; }
       for (let index = 0; index < studentUids.length; index += 10) {
         const studentUidChunk = studentUids.slice(index, index + 10);
         if (!studentUidChunk.length) continue;
-
         const qSubFallback = query(collection(db, "activity_submissions"), where("student_uid", "in", studentUidChunk));
-        pushUniqueSubmissions(await getDocs(qSubFallback));
+        pushUniqueSubmissions(yield getDocs(qSubFallback));
       }
       console.log('[Teacher Dashboard] After fallback, total submissions:', subDocs.length);
-    } catch(fallbackErr) {
+    } catch (fallbackErr) {
       console.warn('[Teacher Dashboard] Fallback submission query skipped (permission):', fallbackErr.message);
     }
-
     pendingReviews = buildPendingReviewQueue(studentMap, subDocs);
-    console.log('[Teacher Dashboard] Pending reviews for teacher:', pendingReviews.length, pendingReviews.map(function(r){ return r.studentName + ' / ' + r.chapId + ' / ready=' + r.canTeacherApprove; }));
+    console.log('[Teacher Dashboard] Pending reviews for teacher:', pendingReviews.length, pendingReviews.map(function (r) {
+      return r.studentName + ' / ' + r.chapId + ' / ready=' + r.canTeacherApprove;
+    }));
 
     // Render Review Queue
     document.getElementById('pendingCountBadge').textContent = pendingReviews.length;
@@ -2952,32 +3677,14 @@ table { max-width: 100%; }
     if (pendingReviews.length === 0) {
       revHtml = '<div class="text-center p-5"><i class="fas fa-glass-cheers text-success fa-3x mb-3"></i><h4>All Caught Up!</h4><p class="text-muted">You have reviewed all student answers.</p></div>';
     } else {
-      pendingReviews.forEach((rev) => {
+      pendingReviews.forEach(rev => {
         let cTitle = getChapterTitle(rev.chapId);
         let rawData = encodeURIComponent(JSON.stringify(rev));
         let statusLabel = rev.statusLabel || (rev.isSubmissionMissing ? 'Submission Missing' : 'Teacher Review Pending');
         let statusClass = rev.statusClass || (rev.isSubmissionMissing ? 'bg-danger' : 'bg-warning text-dark');
-        let answerPreview = rev.isSubmissionMissing
-          ? 'The chapter is marked as waiting for teacher review, but the saved submission sheet is missing. Open the full sheet to see the recovery note.'
-          : rev.answer;
-        let actionButton = rev.canTeacherApprove
-          ? '<button class="btn-approve" onclick="awardTeacherPoints(\'' + rev.studentUid + '\', \'' + rev.chapId + '\', \'' + rev.subId + '\')"><i class="fas fa-check"></i> Quick Pass</button>'
-          : '<button class="btn btn-secondary rounded-pill" type="button" disabled><i class="fas fa-lock"></i> ' + (rev.isSubmissionMissing ? 'Sheet Missing' : 'Waiting for Parent') + '</button>';
-        
-        revHtml += 
-          '<div class="review-item">' +
-            '<div class="d-flex align-items-center mb-2">' +
-              '<div class="student-avatar" style="width:30px; height:30px; font-size:1rem; margin-right:10px;"><i class="fas fa-user-graduate"></i></div>' +
-              '<strong style="font-size: 1.1rem; color: #1e293b;">' + rev.studentName + '</strong>' +
-              '<span class="ms-auto" style="font-size: 0.85rem; color: #64748b; background: white; padding: 2px 8px; border-radius: 10px; border: 1px solid #cbd5e1;">' + cTitle + '</span>' +
-            '</div>' +
-            '<div style="font-size:0.9rem; font-weight:bold; color:#D63678;">Status: <span class="badge ' + statusClass + '">' + statusLabel + '</span></div>' +
-            '<div class="student-discussion-text" style="max-height:80px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">"' + answerPreview + '"</div>' +
-            '<div class="d-flex justify-content-end mt-3">' +
-              '<button class="btn btn-primary rounded-pill me-2" onclick="openReviewModal(\'' + rawData + '\')"><i class="fas fa-search"></i> View Full Sheet</button>' +
-              actionButton +
-            '</div>' +
-          '</div>';
+        let answerPreview = rev.isSubmissionMissing ? 'The chapter is marked as waiting for teacher review, but the saved submission sheet is missing. Open the full sheet to see the recovery note.' : rev.answer;
+        let actionButton = rev.canTeacherApprove ? '<button class="btn-approve" onclick="awardTeacherPoints(\'' + rev.studentUid + '\', \'' + rev.chapId + '\', \'' + rev.subId + '\')"><i class="fas fa-check"></i> Quick Pass</button>' : '<button class="btn btn-secondary rounded-pill" type="button" disabled><i class="fas fa-lock"></i> ' + (rev.isSubmissionMissing ? 'Sheet Missing' : 'Waiting for Parent') + '</button>';
+        revHtml += '<div class="review-item">' + '<div class="d-flex align-items-center mb-2">' + '<div class="student-avatar" style="width:30px; height:30px; font-size:1rem; margin-right:10px;"><i class="fas fa-user-graduate"></i></div>' + '<strong style="font-size: 1.1rem; color: #1e293b;">' + rev.studentName + '</strong>' + '<span class="ms-auto" style="font-size: 0.85rem; color: #64748b; background: white; padding: 2px 8px; border-radius: 10px; border: 1px solid #cbd5e1;">' + cTitle + '</span>' + '</div>' + '<div style="font-size:0.9rem; font-weight:bold; color:#D63678;">Status: <span class="badge ' + statusClass + '">' + statusLabel + '</span></div>' + '<div class="student-discussion-text" style="max-height:80px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">"' + answerPreview + '"</div>' + '<div class="d-flex justify-content-end mt-3">' + '<button class="btn btn-primary rounded-pill me-2" onclick="openReviewModal(\'' + rawData + '\')"><i class="fas fa-search"></i> View Full Sheet</button>' + actionButton + '</div>' + '</div>';
       });
     }
     document.getElementById('reviewsList').innerHTML = revHtml;
@@ -2985,221 +3692,195 @@ table { max-width: 100%; }
     // 3. Fetch today's attendance sessions for this school
     let attendanceDocs = [];
     try {
-      const attendanceSnap = await getDocs(query(collection(db, "activity_attendance"), where("school_id", "==", teacherSchoolId)));
-      attendanceSnap.forEach((docSnap) => attendanceDocs.push({ id: docSnap.id, ...docSnap.data() }));
+      const attendanceSnap = yield getDocs(query(collection(db, "activity_attendance"), where("school_id", "==", teacherSchoolId)));
+      attendanceSnap.forEach(docSnap => attendanceDocs.push(_objectSpread({
+        id: docSnap.id
+      }, docSnap.data())));
     } catch (attendanceError) {
       console.error('Attendance query error:', attendanceError);
     }
-
     renderAttendancePanel(attendanceDocs, studentMap);
     renderStudentRoster(leaderboardData, pendingReviews, attendanceDocs);
     renderOverviewSnapshot(leaderboardData, pendingReviews, attendanceDocs);
-    window.switchTeacherSection(currentTeacherSection, { scroll: false });
-  }
-
-  window.awardTeacherPoints = async (studentUid, chapterId, submissionId = '') => {
+    window.switchTeacherSection(currentTeacherSection, {
+      scroll: false
+    });
+  });
+  return _initDashboard.apply(this, arguments);
+}
+window.awardTeacherPoints = /*#__PURE__*/function () {
+  var _ref3 = _asyncToGenerator(function* (studentUid, chapterId, submissionId = '') {
     try {
-      const reviewRef = doc(db, "activity_submissions", submissionId || (studentUid + '_' + chapterId));
-      const reviewSnap = await getDoc(reviewRef);
+      const reviewRef = doc(db, "activity_submissions", submissionId || studentUid + '_' + chapterId);
+      const reviewSnap = yield getDoc(reviewRef);
       const studentRef = doc(db, "users", studentUid);
-      const studentDoc = await getDoc(studentRef);
+      const studentDoc = yield getDoc(studentRef);
       if (!studentDoc.exists()) {
         alert("Student record not found.");
         return;
       }
-
       let state = normalizeGameState(studentDoc.data().game_state);
       const reviewData = reviewSnap.exists() ? reviewSnap.data() : null;
-      const isReadyForTeacher = state.parent_approved.includes(chapterId) || (reviewData && (reviewData.reviewStatus === 'pending_teacher' || !!reviewData.parentApprovedAt || hasMeaningfulParentNote(reviewData.parentNotes)));
-
+      const isReadyForTeacher = state.parent_approved.includes(chapterId) || reviewData && (reviewData.reviewStatus === 'pending_teacher' || !!reviewData.parentApprovedAt || hasMeaningfulParentNote(reviewData.parentNotes));
       if (!reviewSnap.exists()) {
         alert("This submission sheet is missing. Ask the student to reopen and resubmit the chapter first.");
         return;
       }
-
       if (!isReadyForTeacher) {
         alert("This activity is still waiting for parent approval.");
         return;
       }
-
       if (!state.teacher_approved.includes(chapterId)) {
         state.teacher_approved.push(chapterId);
         state.points += 50;
-        await updateDoc(studentRef, { game_state: state });
+        yield updateDoc(studentRef, {
+          game_state: state
+        });
       }
-
-      await updateDoc(reviewRef, {
+      yield updateDoc(reviewRef, {
         reviewStatus: 'teacher_approved',
         teacherApprovedAt: new Date().toISOString(),
         teacherApprovedBy: currentTeacher ? currentTeacher.uid : '',
         updatedAt: new Date().toISOString()
       });
-      
       closeReviewModal();
       initDashboard(); // Re-render
       alert("Answer marked as Excellent. 50 points awarded to the student.");
-    } catch(err) {
+    } catch (err) {
       console.error(err);
       alert("Error saving approval.");
     }
+  });
+  return function (_x5, _x6) {
+    return _ref3.apply(this, arguments);
   };
-
-  window.rejectTeacherPoints = async (studentUid, chapterId, submissionId = '') => {
+}();
+window.rejectTeacherPoints = /*#__PURE__*/function () {
+  var _ref4 = _asyncToGenerator(function* (studentUid, chapterId, submissionId = '') {
     if (confirm("Are you sure you want to reject this answer? The student will have to fill it out again.")) {
       try {
         // Remove from student completed list so they can do it again
         const studentRef = doc(db, "users", studentUid);
-        const studentDoc = await getDoc(studentRef);
+        const studentDoc = yield getDoc(studentRef);
         if (studentDoc.exists()) {
           let state = normalizeGameState(studentDoc.data().game_state);
           state.completed = state.completed.filter(id => id !== chapterId);
           state.parent_approved = state.parent_approved.filter(id => id !== chapterId);
           state.teacher_approved = state.teacher_approved.filter(id => id !== chapterId);
-          await updateDoc(studentRef, { game_state: state });
+          yield updateDoc(studentRef, {
+            game_state: state
+          });
         }
-        
+
         // Delete submission entirely
-        await deleteDoc(doc(db, "activity_submissions", submissionId || ("" + studentUid + "_" + chapterId)));
-        
+        yield deleteDoc(doc(db, "activity_submissions", submissionId || "" + studentUid + "_" + chapterId));
         closeReviewModal();
         initDashboard();
-          alert("Submission rejected. It has been sent back to the student.");
-      } catch(e) {
+        alert("Submission rejected. It has been sent back to the student.");
+      } catch (e) {
         console.error(e);
         alert("Error rejecting submission.");
       }
     }
+  });
+  return function (_x7, _x8) {
+    return _ref4.apply(this, arguments);
   };
-
-  function getChapterTitle(chapId) {
-    let title = chapId;
-    ['book1', 'book2', 'book3'].forEach(b => {
-      if(ACTIVITIES_DATA[b] && ACTIVITIES_DATA[b].chapters) {
-        Object.values(ACTIVITIES_DATA[b].chapters).forEach(c => {
-          if(c.id === chapId) title = c.title;
-        });
-      }
-    });
-    return title;
-  }
-
-    // Modal Logic
-    const modalHTML = 
-      '<div class="custom-modal-overlay" id="reviewModalOverlay">' +
-        '<div class="custom-modal" id="reviewModal">' +
-          '<button class="modal-close-btn" onclick="closeReviewModal()"><i class="fas fa-times"></i></button>' +
-          '<h3 style="font-family: \'Fredoka One\', cursive; color:#1e293b;"><i class="fas fa-clipboard-check text-primary"></i> Activity Sheet Review</h3>' +
-          '<p class="text-muted" id="rmStudentInfo" style="font-size: 0.9rem; margin-bottom: 20px;"></p>' +
-          '<h5 style="color:#D63678; font-weight:800; font-size:1rem;">Discussion Answer:</h5>' +
-          '<div class="student-discussion-text" id="rmDiscussion" style="background:#FDF8F5; border-color:#D63678;"></div>' +
-          '<h5 style="color:#D63678; font-weight:800; font-size:1rem; margin-top:15px;">Daily Action Grid Summary:</h5>' +
-          '<div class="grid-summary" id="rmGrid"></div>' +
-          '<h5 style="color:#D63678; font-weight:800; font-size:1rem; margin-top:15px;">Parent Feedback:</h5>' +
-          '<div class="grid-summary" id="rmParents" style="background: #FDF8F5; border-color:#E08020;"></div>' +
-          '<div class="text-center mt-4" id="rmActionBtn">' +
-            '<!-- Injected dynamically -->' +
-          '</div>' +
-        '</div>' +
-      '</div>';
-    
-    document.body.insertAdjacentHTML('beforeend', modalHTML);
-
-    function generateGridHtml(chapId, gridState) {
-      let chapterData = null;
-      ['book1', 'book2', 'book3'].forEach(b => {
-        if(ACTIVITIES_DATA[b] && ACTIVITIES_DATA[b].chapters) {
-          Object.values(ACTIVITIES_DATA[b].chapters).forEach(c => {
-            if(c.id === chapId) {
-               chapterData = c;
-            }
-          });
-        }
+}();
+function getChapterTitle(chapId) {
+  let title = chapId;
+  ['book1', 'book2', 'book3'].forEach(b => {
+    if (ACTIVITIES_DATA[b] && ACTIVITIES_DATA[b].chapters) {
+      Object.values(ACTIVITIES_DATA[b].chapters).forEach(c => {
+        if (c.id === chapId) title = c.title;
       });
-      
-      if (!chapterData || !chapterData.sections) return '<p class="text-danger">Activity details not found.</p>';
-      
-      const statesList = ['', 'yes', 'no'];
-      const iconList = {
-        '': '<span style="color:#cbd5e1;">-</span>',
-        'yes': '<i class="fas fa-check-circle text-success fs-5"></i>',
-        'no': '<i class="fas fa-times-circle text-danger fs-5"></i>'
-      };
-
-      let htmlContent = '<div class="table-responsive"><table class="table table-bordered text-center align-middle" style="background:white; border-radius:10px; overflow:hidden;">';
-      htmlContent += '<thead style="background:#FDF8F5; font-family: \'Fredoka One\', cursive; color:#1E2D5A;"><tr><th class="text-start">Activity</th><th>M</th><th>T</th><th>W</th><th>T</th><th>F</th><th>S</th><th>S</th></tr></thead><tbody>';
-      
-      let cellIndex = 0;
-      chapterData.sections.forEach(section => {
-        htmlContent += '<tr style="background:rgba(214,54,120,0.05); font-weight:bold; color:#D63678;"><td colspan="8" class="text-start p-2">' + section.heading + '</td></tr>';
-        
-        section.questions.forEach(q => {
-          htmlContent += '<tr><td class="text-start fw-bold text-secondary p-2" style="font-size:0.85rem;">' + q + '</td>';
-          for (let d = 0; d < 7; d++) {
-             let stIdx = (gridState && gridState.cells && gridState.cells.length > cellIndex) ? gridState.cells[cellIndex] : 0;
-             htmlContent += '<td class="p-1">' + iconList[statesList[stIdx]] + '</td>';
-             cellIndex++;
-          }
-          htmlContent += '</tr>';
-        });
-      });
-      htmlContent += '</tbody></table></div>';
-      return htmlContent;
     }
+  });
+  return title;
+}
 
-    window.openReviewModal = (rawData) => {
-      let rev = JSON.parse(decodeURIComponent(rawData));
-      document.getElementById('rmStudentInfo').innerHTML = '<strong>' + rev.studentName + '</strong> &bull; ' + getChapterTitle(rev.chapId);
-      document.getElementById('rmDiscussion').innerText = rev.answer;
-      
-      let gridHtml = 'No grid data captured.';
-      if(rev.grid && rev.chapId) {
-        gridHtml = generateGridHtml(rev.chapId, rev.grid);
-      }
-      document.getElementById('rmGrid').innerHTML = gridHtml;
-
-      let parentHtml = '';
-      if(rev.parents && rev.parents.length > 0) {
-        let validNotes = rev.parents.filter(n => n.trim() !== '');
-        if(validNotes.length > 0) {
-           parentHtml = '<ul>' + validNotes.map(n => '<li>"' + n + '"</li>').join('') + '</ul>';
-        } else {
-           parentHtml = 'No parent notes provided.';
+// Modal Logic
+const modalHTML = '<div class="custom-modal-overlay" id="reviewModalOverlay">' + '<div class="custom-modal" id="reviewModal">' + '<button class="modal-close-btn" onclick="closeReviewModal()"><i class="fas fa-times"></i></button>' + '<h3 style="font-family: \'Fredoka One\', cursive; color:#1e293b;"><i class="fas fa-clipboard-check text-primary"></i> Activity Sheet Review</h3>' + '<p class="text-muted" id="rmStudentInfo" style="font-size: 0.9rem; margin-bottom: 20px;"></p>' + '<h5 style="color:#D63678; font-weight:800; font-size:1rem;">Discussion Answer:</h5>' + '<div class="student-discussion-text" id="rmDiscussion" style="background:#FDF8F5; border-color:#D63678;"></div>' + '<h5 style="color:#D63678; font-weight:800; font-size:1rem; margin-top:15px;">Daily Action Grid Summary:</h5>' + '<div class="grid-summary" id="rmGrid"></div>' + '<h5 style="color:#D63678; font-weight:800; font-size:1rem; margin-top:15px;">Parent Feedback:</h5>' + '<div class="grid-summary" id="rmParents" style="background: #FDF8F5; border-color:#E08020;"></div>' + '<div class="text-center mt-4" id="rmActionBtn">' + '<!-- Injected dynamically -->' + '</div>' + '</div>' + '</div>';
+document.body.insertAdjacentHTML('beforeend', modalHTML);
+function generateGridHtml(chapId, gridState) {
+  let chapterData = null;
+  ['book1', 'book2', 'book3'].forEach(b => {
+    if (ACTIVITIES_DATA[b] && ACTIVITIES_DATA[b].chapters) {
+      Object.values(ACTIVITIES_DATA[b].chapters).forEach(c => {
+        if (c.id === chapId) {
+          chapterData = c;
         }
-      } else {
-        parentHtml = 'No parent notes provided.';
-      }
-      document.getElementById('rmParents').innerHTML = parentHtml;
-
-      if (rev.canTeacherApprove) {
-        document.getElementById('rmActionBtn').innerHTML = 
-          '<button class="btn btn-outline-danger px-4 rounded-pill fw-bold mb-2 me-2" onclick="rejectTeacherPoints(\'' + rev.studentUid + '\', \'' + rev.chapId + '\', \'' + rev.subId + '\')"><i class="fas fa-undo"></i> Reject (Needs Changes)</button>' +
-          '<button class="btn btn-success px-4 rounded-pill fw-bold mb-2 shadow-sm" onclick="awardTeacherPoints(\'' + rev.studentUid + '\', \'' + rev.chapId + '\', \'' + rev.subId + '\')"><i class="fas fa-star text-warning"></i> Mark Excellent & Award 50 points</button>';
-      } else {
-        document.getElementById('rmActionBtn').innerHTML =
-          '<div class="alert ' + (rev.isSubmissionMissing ? 'alert-danger' : 'alert-info') + ' text-start mb-0">' +
-            (rev.blockedReason || 'This activity is still waiting for the parent review before teacher approval can continue.') +
-          '</div>';
-      }
-
-      document.getElementById('reviewModalOverlay').style.display = 'flex';
-      document.getElementById('reviewModal').classList.add('animate__animated', 'animate__zoomIn');
-    };
-
-    window.closeReviewModal = () => {
-      document.getElementById('reviewModalOverlay').style.display = 'none';
-      document.getElementById('reviewModal').classList.remove('animate__animated', 'animate__zoomIn');
-    };
-
-  window.logoutTeacher = () => {
-    signOut(auth).then(() => {
-      localStorage.removeItem('auth_user');
-      sessionStorage.removeItem('auth_user');
-      window.location.href = '/auth';
-    }).catch(() => {
-      localStorage.removeItem('auth_user');
-      sessionStorage.removeItem('auth_user');
-      window.location.href = '/auth';
-    });
+      });
+    }
+  });
+  if (!chapterData || !chapterData.sections) return '<p class="text-danger">Activity details not found.</p>';
+  const statesList = ['', 'yes', 'no'];
+  const iconList = {
+    '': '<span style="color:#cbd5e1;">-</span>',
+    'yes': '<i class="fas fa-check-circle text-success fs-5"></i>',
+    'no': '<i class="fas fa-times-circle text-danger fs-5"></i>'
   };
-    
+  let htmlContent = '<div class="table-responsive"><table class="table table-bordered text-center align-middle" style="background:white; border-radius:10px; overflow:hidden;">';
+  htmlContent += '<thead style="background:#FDF8F5; font-family: \'Fredoka One\', cursive; color:#1E2D5A;"><tr><th class="text-start">Activity</th><th>M</th><th>T</th><th>W</th><th>T</th><th>F</th><th>S</th><th>S</th></tr></thead><tbody>';
+  let cellIndex = 0;
+  chapterData.sections.forEach(section => {
+    htmlContent += '<tr style="background:rgba(214,54,120,0.05); font-weight:bold; color:#D63678;"><td colspan="8" class="text-start p-2">' + section.heading + '</td></tr>';
+    section.questions.forEach(q => {
+      htmlContent += '<tr><td class="text-start fw-bold text-secondary p-2" style="font-size:0.85rem;">' + q + '</td>';
+      for (let d = 0; d < 7; d++) {
+        let stIdx = gridState && gridState.cells && gridState.cells.length > cellIndex ? gridState.cells[cellIndex] : 0;
+        htmlContent += '<td class="p-1">' + iconList[statesList[stIdx]] + '</td>';
+        cellIndex++;
+      }
+      htmlContent += '</tr>';
+    });
+  });
+  htmlContent += '</tbody></table></div>';
+  return htmlContent;
+}
+window.openReviewModal = rawData => {
+  let rev = JSON.parse(decodeURIComponent(rawData));
+  document.getElementById('rmStudentInfo').innerHTML = '<strong>' + rev.studentName + '</strong> &bull; ' + getChapterTitle(rev.chapId);
+  document.getElementById('rmDiscussion').innerText = rev.answer;
+  let gridHtml = 'No grid data captured.';
+  if (rev.grid && rev.chapId) {
+    gridHtml = generateGridHtml(rev.chapId, rev.grid);
+  }
+  document.getElementById('rmGrid').innerHTML = gridHtml;
+  let parentHtml = '';
+  if (rev.parents && rev.parents.length > 0) {
+    let validNotes = rev.parents.filter(n => n.trim() !== '');
+    if (validNotes.length > 0) {
+      parentHtml = '<ul>' + validNotes.map(n => '<li>"' + n + '"</li>').join('') + '</ul>';
+    } else {
+      parentHtml = 'No parent notes provided.';
+    }
+  } else {
+    parentHtml = 'No parent notes provided.';
+  }
+  document.getElementById('rmParents').innerHTML = parentHtml;
+  if (rev.canTeacherApprove) {
+    document.getElementById('rmActionBtn').innerHTML = '<button class="btn btn-outline-danger px-4 rounded-pill fw-bold mb-2 me-2" onclick="rejectTeacherPoints(\'' + rev.studentUid + '\', \'' + rev.chapId + '\', \'' + rev.subId + '\')"><i class="fas fa-undo"></i> Reject (Needs Changes)</button>' + '<button class="btn btn-success px-4 rounded-pill fw-bold mb-2 shadow-sm" onclick="awardTeacherPoints(\'' + rev.studentUid + '\', \'' + rev.chapId + '\', \'' + rev.subId + '\')"><i class="fas fa-star text-warning"></i> Mark Excellent & Award 50 points</button>';
+  } else {
+    document.getElementById('rmActionBtn').innerHTML = '<div class="alert ' + (rev.isSubmissionMissing ? 'alert-danger' : 'alert-info') + ' text-start mb-0">' + (rev.blockedReason || 'This activity is still waiting for the parent review before teacher approval can continue.') + '</div>';
+  }
+  document.getElementById('reviewModalOverlay').style.display = 'flex';
+  document.getElementById('reviewModal').classList.add('animate__animated', 'animate__zoomIn');
+};
+window.closeReviewModal = () => {
+  document.getElementById('reviewModalOverlay').style.display = 'none';
+  document.getElementById('reviewModal').classList.remove('animate__animated', 'animate__zoomIn');
+};
+window.logoutTeacher = () => {
+  signOut(auth).then(() => {
+    localStorage.removeItem('auth_user');
+    sessionStorage.removeItem('auth_user');
+    window.location.href = '/auth';
+  }).catch(() => {
+    localStorage.removeItem('auth_user');
+    sessionStorage.removeItem('auth_user');
+    window.location.href = '/auth';
+  });
+};
 </script>
+</body></html>

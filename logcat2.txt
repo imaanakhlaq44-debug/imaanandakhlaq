@@ -1,0 +1,255 @@
+﻿--------- beginning of main
+05-12 13:45:32.398  2700  2700 D AndroidRuntime: >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+05-12 13:45:32.400  2700  2700 D AndroidRuntime: CheckJNI is OFF
+05-12 13:45:32.433  2700  2700 W art     : Unexpected CPU variant for X86 using defaults: x86
+05-12 13:45:32.436  2700  2700 D ICU     : No timezone override file found: /data/misc/zoneinfo/current/icu/icu_tzdata.dat
+05-12 13:45:32.451  2700  2700 E memtrack: Couldn't load memtrack module (No such file or directory)
+05-12 13:45:32.451  2700  2700 E android.os.Debug: failed to load memtrack module: -2
+05-12 13:45:32.451  2700  2700 I Radio-JNI: register_android_hardware_Radio DONE
+05-12 13:45:32.457  2700  2700 D AndroidRuntime: Calling main entry com.android.commands.am.Am
+--------- beginning of system
+05-12 13:45:32.463  1675  1686 I ActivityManager: START u0 {flg=0x10000000 cmp=com.imaanakhlaq.app/.MainActivity} from uid 2000 on display 0
+05-12 13:45:32.468  2700  2700 D AndroidRuntime: Shutting down VM
+05-12 13:45:32.473  2710  2710 I art     : Late-enabling -Xcheck:jni
+05-12 13:45:32.473  2710  2710 W art     : Unexpected CPU variant for X86 using defaults: x86
+05-12 13:45:32.479  1675  1822 I ActivityManager: Start proc 2710:com.imaanakhlaq.app/u0a72 for activity com.imaanakhlaq.app/.MainActivity
+05-12 13:45:32.506  2710  2710 W System  : ClassLoader referenced unknown path: /data/app/com.imaanakhlaq.app-1/lib/x86
+05-12 13:45:32.515  1427  1430 D gralloc_ranchu: gralloc_alloc: Creating ashmem region of size 819200
+05-12 13:45:32.553  2710  2710 D AppCompatDelegate: Checking for metadata for AppLocalesMetadataHolderService : Service not found
+05-12 13:45:32.567  2710  2710 W art     : Before Android 4.1, method android.graphics.PorterDuffColorFilter androidx.vectordrawable.graphics.drawable.VectorDrawableCompat.updateTintFilter(android.graphics.PorterDuffColorFilter, android.content.res.ColorStateList, android.graphics.PorterDuff$Mode) would have incorrectly overridden the package-private method in android.graphics.drawable.Drawable
+05-12 13:45:32.581  2710  2710 W System  : ClassLoader referenced unknown path: /system/app/webview/lib/x86
+05-12 13:45:32.581  2710  2710 D ApplicationLoaders: ignored Vulkan layer search path /system/app/webview/lib/x86:/system/app/webview/webview.apk!/lib/x86:/system/lib:/vendor/lib for namespace 0xb61a2090
+05-12 13:45:32.582  2710  2710 I WebViewFactory: Loading com.android.webview version 52.0.2743.100 (code 275610010)
+05-12 13:45:32.583  2110  2209 D EGL_emulation: eglMakeCurrent: 0xad505300: ver 2 0 (tinfo 0xad503220)
+05-12 13:45:32.594  2710  2710 I cr_LibraryLoader: Time to load native libraries: 2 ms (timestamps 2199-2201)
+05-12 13:45:32.594  2710  2710 I cr_LibraryLoader: Expected native library version number "52.0.2743.100", actual native library version number "52.0.2743.100"
+05-12 13:45:32.601  2710  2710 V WebViewChromiumFactoryProvider: Binding Chromium to main looper Looper (main, tid 1) {cf95d9c}
+05-12 13:45:32.602  2710  2710 I cr_LibraryLoader: Expected native library version number "52.0.2743.100", actual native library version number "52.0.2743.100"
+05-12 13:45:32.602  2710  2710 I chromium: [INFO:library_loader_hooks.cc(143)] Chromium logging enabled: level = 0, default verbosity = 0
+05-12 13:45:32.606  2710  2710 I cr_BrowserStartup: Initializing chromium process, singleProcess=true
+05-12 13:45:32.620  2710  2710 D         : HostConnection::get() New Host Connection established 0x9a954200, tid 2710
+05-12 13:45:32.624  2710  2710 D EGL_emulation: eglCreateContext: 0xa6dbc240: maj 2 min 0 rcv 2
+05-12 13:45:32.625  2710  2710 D EGL_emulation: eglMakeCurrent: 0xa6dbc240: ver 2 0 (tinfo 0x9a9484b0)
+05-12 13:45:32.655  2710  2734 W cr_media: Requires BLUETOOTH permission
+05-12 13:45:32.657  2710  2710 I cr_DRP  : No DRP key due to exception:java.lang.ClassNotFoundException: com.android.webview.chromium.Drp
+05-12 13:45:32.680  2710  2710 W cr_AwContents: onDetachedFromWindow called when already detached. Ignoring
+05-12 13:45:32.681  2710  2710 D Capacitor: Starting BridgeActivity
+05-12 13:45:32.705  2710  2710 D Capacitor: Registering plugin instance: CapacitorCookies
+05-12 13:45:32.708  2710  2710 D Capacitor: Registering plugin instance: WebView
+05-12 13:45:32.711  2710  2710 D Capacitor: Registering plugin instance: CapacitorHttp
+05-12 13:45:32.713  2710  2710 D Capacitor: Registering plugin instance: SystemBars
+05-12 13:45:32.722  2710  2710 W Capacitor: Unable to read file at path public/plugins
+05-12 13:45:32.723  2710  2710 D Capacitor: Loading app at https://localhost
+05-12 13:45:32.732  2710  2710 W Capacitor: Unable to get package info for 'com.google.android.webview'android.content.pm.PackageManager$NameNotFoundException: com.android.chrome
+05-12 13:45:32.732  2710  2710 E Capacitor: System WebView is not supported
+05-12 13:45:32.740  2710  2710 I cr_Ime  : ImeThread is not enabled.
+05-12 13:45:32.768  2710  2710 D Capacitor: App started
+05-12 13:45:32.769  2710  2710 D Capacitor: App resumed
+05-12 13:45:32.774  1427  1428 E SurfaceFlinger: ro.sf.lcd_density must be defined as a build property
+05-12 13:45:32.816  2710  2750 I OpenGLRenderer: Initialized EGL, version 1.4
+05-12 13:45:32.816  2710  2750 D OpenGLRenderer: Swap behavior 1
+05-12 13:45:32.816  2710  2750 D         : HostConnection::get() New Host Connection established 0x98ce5e40, tid 2750
+05-12 13:45:32.816  2710  2751 E libEGL  : validate_display:99 error 3008 (EGL_BAD_DISPLAY)
+05-12 13:45:32.819  2710  2750 D EGL_emulation: eglCreateContext: 0xad505cc0: maj 2 min 0 rcv 2
+05-12 13:45:32.820  2710  2750 D EGL_emulation: eglMakeCurrent: 0xad505cc0: ver 2 0 (tinfo 0xad503c50)
+05-12 13:45:32.834  2710  2751 I VideoCapabilities: Unsupported profile 4 for video/mp4v-es
+05-12 13:45:32.839  2710  2751 D         : HostConnection::get() New Host Connection established 0x97a40180, tid 2751
+05-12 13:45:32.844  2710  2751 D EGL_emulation: eglCreateContext: 0x98cd4d20: maj 2 min 0 rcv 2
+05-12 13:45:32.845  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:32.846  2710  2751 D EGL_emulation: eglMakeCurrent: 0x98cd4d20: ver 2 0 (tinfo 0x986afa50)
+05-12 13:45:32.850  2710  2750 D EGL_emulation: eglMakeCurrent: 0xad505cc0: ver 2 0 (tinfo 0xad503c50)
+05-12 13:45:33.084  2710  2728 D Capacitor: Handling local request: https://localhost/
+05-12 13:45:33.095  1675  1697 I ActivityManager: Displayed com.imaanakhlaq.app/.MainActivity: +627ms
+05-12 13:45:33.115  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:33.189  2710  2710 W cr_BindingManager: Cannot call determinedVisibility() - never saw a connection for the pid: 2710
+05-12 13:45:33.198  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:33.216  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:33.233  2710  2728 D Capacitor: Handling local request: https://localhost/kidba_assets/css/style.css
+05-12 13:45:33.234  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:33.235  2710  2710 E Capacitor/Console: File: https://localhost/ - Line 54 - Msg: Uncaught SyntaxError: Unexpected token (
+05-12 13:45:33.240  2710  2728 D Capacitor: Handling local request: https://localhost/kidba_assets/img/splash_logo.jpg
+05-12 13:45:33.255  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:33.265  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:33.285  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:33.300  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:33.320  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:33.331  2110  2209 W OpenGLRenderer: Incorrectly called buildLayer on View: ShortcutAndWidgetContainer, destroying layer...
+05-12 13:45:33.333  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:33.347  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:33.368  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:33.394  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:33.399  2710  2728 D Capacitor: Handling local request: https://localhost/favicon.ico
+05-12 13:45:33.410  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:33.425  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:33.440  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:33.455  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:33.472  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:33.504  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:33.517  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:33.533  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:33.548  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:33.560  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:33.575  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:33.590  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:33.606  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:33.623  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:33.639  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:33.654  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:33.672  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:33.691  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:33.707  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:33.723  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:33.742  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:33.757  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:33.773  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:33.792  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:33.811  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:33.825  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:33.841  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:33.856  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:33.873  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:33.890  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:33.907  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:33.928  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:33.947  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:33.965  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:33.985  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:34.003  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:34.020  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:34.034  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:34.052  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:34.068  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:34.085  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:34.100  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:34.121  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:34.139  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:34.154  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:34.174  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:34.192  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:34.208  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:34.225  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:34.241  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:34.257  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:34.279  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:34.296  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:34.312  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:34.330  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:34.348  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:34.365  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:34.380  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:34.398  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:34.411  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:34.433  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:34.449  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:34.464  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:34.476  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:34.491  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:34.508  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:34.526  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:34.549  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:34.565  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:34.582  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:34.602  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:34.616  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:34.630  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:34.647  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:34.659  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:34.676  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:34.692  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:34.712  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:34.729  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:34.742  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:34.764  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:34.781  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:34.798  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:34.822  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:34.838  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:34.860  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:34.883  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:34.901  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:34.922  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:34.937  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:34.949  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:34.965  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:34.984  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:35.006  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:35.019  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:35.031  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:35.053  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:35.066  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:35.080  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:35.096  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:35.113  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:35.129  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:35.145  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:35.160  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:35.162  2710  2728 D Capacitor: Handling local request: https://localhost/teacher-dashboard.html
+05-12 13:45:35.176  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:35.203  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:35.205  2710  2710 W cr_BindingManager: Cannot call determinedVisibility() - never saw a connection for the pid: 2710
+05-12 13:45:35.211  2710  2728 D Capacitor: Handling local request: https://localhost/kidba_assets/vendor/css/bootstrap.min.css
+05-12 13:45:35.216  2710  2728 D Capacitor: Handling local request: https://localhost/kidba_assets/vendor/css/all.min.css
+05-12 13:45:35.216  2710  2728 D Capacitor: Handling local request: https://localhost/kidba_assets/vendor/css/animate.min.css
+05-12 13:45:35.217  2710  2728 D Capacitor: Handling local request: https://localhost/kidba_assets/vendor/css/swiper-bundle.min.css
+05-12 13:45:35.217  2710  2728 D Capacitor: Handling local request: https://localhost/kidba_assets/vendor/css/aos.css
+05-12 13:45:35.219  2710  2728 D Capacitor: Handling local request: https://localhost/kidba_assets/css/style.css
+05-12 13:45:35.223  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:35.232  2710  2728 D Capacitor: Handling local request: https://localhost/kidba_assets/js/pdf.min.js
+05-12 13:45:35.247  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:35.250  2710  2710 E Capacitor/Console: File: https://localhost/teacher-dashboard.html - Line 55 - Msg: Uncaught SyntaxError: Unexpected token (
+05-12 13:45:35.265  2710  2728 D Capacitor: Handling local request: https://localhost/kidba_assets/img/3d_teacher.png
+05-12 13:45:35.276  2710  2728 D Capacitor: Handling local request: https://localhost/kidba_assets/img/3d_student.png
+05-12 13:45:35.277  2710  2728 D Capacitor: Handling local request: https://localhost/kidba_assets/img/3d_school.png
+05-12 13:45:35.278  2710  2728 D Capacitor: Handling local request: https://localhost/kidba_assets/img/3d_login.png
+05-12 13:45:35.279  2710  2728 D Capacitor: Handling local request: https://localhost/kidba_assets/img/3d_individual.png
+05-12 13:45:35.280  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:35.308  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:35.324  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:35.340  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:35.356  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:35.372  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:35.392  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:35.406  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:35.432  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:35.444  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:35.466  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:35.487  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:35.509  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:35.523  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:35.540  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:35.567  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:35.592  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:35.593  2710  2710 E Capacitor/Console: File: https://localhost/kidba_assets/js/pdf.min.js - Line 22 - Msg: Uncaught SyntaxError: Unexpected token function
+05-12 13:45:35.599  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:35.603  2710  2728 D Capacitor: Handling local request: https://localhost/kidba_assets/favicon.jpg
+05-12 13:45:35.615  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:35.665  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:35.687  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:35.713  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:35.739  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:35.764  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:35.790  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:35.799  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:35.804  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:35.866  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:35.881  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:35.904  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:35.910  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:35.922  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:35.934  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:35.951  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:35.993  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:36.026  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:36.034  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:36.059  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:36.076  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:36.089  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:36.108  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:36.117  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:36.152  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:36.166  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:36.203  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:36.218  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:36.261  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:36.271  2710  2710 W art     : Attempt to remove non-JNI local reference, dumping thread
+05-12 13:45:38.313  2710  2759 D ProfileInstaller: Installing profile for com.imaanakhlaq.app

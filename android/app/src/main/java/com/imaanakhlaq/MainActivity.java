@@ -1,4 +1,4 @@
-package com.imaanakhlaq.app;
+package com.imaanakhlaq;
 
 import android.Manifest;
 import android.content.pm.PackageManager;

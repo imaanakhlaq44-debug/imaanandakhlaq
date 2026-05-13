@@ -1,66 +1,64 @@
+<!DOCTYPE html><html lang="en"><head><script src="/kidba_assets/js/regenerator-runtime.min.js"></script>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Imaan & Akhlaq - Islamic Stories & Education for Kids</title>
-  <meta name="description" content="Imaan & Akhlaq - Fun Islamic stories, puppet shows, and educational programs teaching faith, manners, and good character to children." />
-  <meta property="og:title" content="Imaan & Akhlaq - Islamic Education for Kids" />
-  <meta property="og:description" content="Join Imaan and Akhlaq on magical adventures learning about Islam, Prophets, and good manners!" />
-  <meta property="og:type" content="website" />
-  <link rel="icon" type="image/jpeg" href="/kidba_assets/favicon.jpg" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Imaan &amp; Akhlaq - Islamic Stories &amp; Education for Kids</title>
+  <meta name="description" content="Imaan &amp; Akhlaq - Fun Islamic stories, puppet shows, and educational programs teaching faith, manners, and good character to children.">
+  <meta property="og:title" content="Imaan &amp; Akhlaq - Islamic Education for Kids">
+  <meta property="og:description" content="Join Imaan and Akhlaq on magical adventures learning about Islam, Prophets, and good manners!">
+  <meta property="og:type" content="website">
+  <link rel="icon" type="image/jpeg" href="/kidba_assets/favicon.jpg">
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&amp;family=Nunito:wght@400;500;600;700;800;900&amp;family=Poppins:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
 
   <!-- Bootstrap 5 -->
-  <link rel="stylesheet" href="/kidba_assets/vendor/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/kidba_assets/vendor/css/bootstrap.min.css">
 
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="/kidba_assets/vendor/css/all.min.css" />
+  <link rel="stylesheet" href="/kidba_assets/vendor/css/all.min.css">
 
   <!-- Animate.css -->
-  <link rel="stylesheet" href="/kidba_assets/vendor/css/animate.min.css" />
+  <link rel="stylesheet" href="/kidba_assets/vendor/css/animate.min.css">
 
   <!-- Swiper CSS -->
-  <link rel="stylesheet" href="/kidba_assets/vendor/css/swiper-bundle.min.css" />
+  <link rel="stylesheet" href="/kidba_assets/vendor/css/swiper-bundle.min.css">
 
   <!-- AOS CSS -->
-  <link rel="stylesheet" href="/kidba_assets/vendor/css/aos.css" />
+  <link rel="stylesheet" href="/kidba_assets/vendor/css/aos.css">
 
   <!-- Custom CSS -->
   <link rel="stylesheet" href="/kidba_assets/css/style.css">
 
   <!-- Capacitor Mobile App: always redirect to Auth on public pages -->
   <script>
-    (function() {
-      // Capacitor injects its bridge automatically
-      var isCap = false;
-      try {
-        isCap = window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform();
-      } catch(e) {}
-      if (isCap) {
-        var host = window.location.hostname;
-        var protocol = window.location.protocol;
-        if ((host === '127.0.0.1' || host === '0.0.0.0') || (host === 'localhost' && protocol !== 'https:')) {
-          var normalizedUrl = 'https://localhost' + window.location.pathname + window.location.search + window.location.hash;
-          if (window.location.href !== normalizedUrl) {
-            window.location.replace(normalizedUrl);
-            return;
-          }
-        }
-        var path = window.location.pathname.replace(/\/index\.html$/, '/').replace(/\.html$/, '').replace(/\/$/, '') || '/';
-        // Only allow these pages in app
-        var allowed = ['/auth', '/student-activities', '/parent-dashboard', '/teacher-dashboard', '/admin-dashboard', '/activity'];
-        if (!allowed.some(p => path === p)) {
-          window.location.replace('https://localhost/auth');
-        }
+(function () {
+  // Capacitor injects its bridge automatically
+  var isCap = false;
+  try {
+    isCap = window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform();
+  } catch (e) {}
+  if (isCap) {
+    var host = window.location.hostname;
+    var protocol = window.location.protocol;
+    if (host === '127.0.0.1' || host === '0.0.0.0' || host === 'localhost' && protocol !== 'https:') {
+      var normalizedUrl = 'https://localhost' + window.location.pathname + window.location.search + window.location.hash;
+      if (window.location.href !== normalizedUrl) {
+        window.location.replace(normalizedUrl);
+        return;
       }
-    })();
-  </script>
+    }
+    var path = window.location.pathname.replace(/\/index\.html$/, '/').replace(/\.html$/, '').replace(/\/$/, '') || '/';
+    // Only allow these pages in app
+    var allowed = ['/auth', '/student-activities', '/parent-dashboard', '/teacher-dashboard', '/admin-dashboard', '/activity'];
+    if (!allowed.some(p => path === p)) {
+      window.location.replace('https://localhost/auth');
+    }
+  }
+})();
+</script>
 </head>
 <body>
 
@@ -589,7 +587,7 @@
   <header class="auth-nav">
     <a href="/" class="back-link"><i class="fas fa-arrow-left"></i> Back to Homepage</a>
     <a href="/" class="brand-logo" aria-label="Imaan and Akhlaq">
-      <img src="/kidba_assets/img/splash_logo.jpg" alt="Imaan and Akhlaq" class="brand-logo-img" />
+      <img src="/kidba_assets/img/splash_logo.jpg" alt="Imaan and Akhlaq" class="brand-logo-img">
     </a>
   </header>
 
@@ -839,159 +837,193 @@
 <div id="authToast" class="toast"></div>
 
 <!-- EmailJS SDK for OTP delivery -->
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 <script>
-  (function() {
-    function initEmailJs() {
-      if (typeof emailjs !== 'undefined' && emailjs.init) {
-        emailjs.init({ publicKey: '3CYK0qkbGm9ciHc0i' });
-      } else {
-        setTimeout(initEmailJs, 200);
-      }
+(function () {
+  function initEmailJs() {
+    if (typeof emailjs !== 'undefined' && emailjs.init) {
+      emailjs.init({
+        publicKey: '3CYK0qkbGm9ciHc0i'
+      });
+    } else {
+      setTimeout(initEmailJs, 200);
     }
-    initEmailJs();
-  })();
+  }
+  initEmailJs();
+})();
 </script>
 
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, signOut, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
-  import { getFirestore, doc, setDoc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+<script>
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, signOut, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+import { getFirestore, doc, setDoc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+const firebaseConfig = {
+  apiKey: "AIzaSyA4MrV-oXhK_johreyzIucti5RFrKcvyG8",
+  authDomain: "imaan-app-1d2da.firebaseapp.com",
+  projectId: "imaan-app-1d2da",
+  storageBucket: "imaan-app-1d2da.firebasestorage.app",
+  messagingSenderId: "373650938167",
+  appId: "1:373650938167:web:e9da1317c118bc720d22b2"
+};
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyA4MrV-oXhK_johreyzIucti5RFrKcvyG8",
-    authDomain: "imaan-app-1d2da.firebaseapp.com",
-    projectId: "imaan-app-1d2da",
-    storageBucket: "imaan-app-1d2da.firebasestorage.app",
-    messagingSenderId: "373650938167",
-    appId: "1:373650938167:web:e9da1317c118bc720d22b2"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
-
-  // CRITICAL: Force LOCAL persistence so the auth session survives page navigation
-  // (auth.html -> teacher-dashboard.html). Without this, sessions can drop in ~10s
-  // when the cross-domain auth iframe fails to sync.
-  setPersistence(auth, browserLocalPersistence).catch(e => console.warn('setPersistence failed:', e));
-
-  function showToast(msg, type) {
-    const t = document.getElementById('authToast');
-    t.textContent = msg; t.className = 'toast ' + type + ' show';
-    setTimeout(() => t.classList.remove('show'), 3500);
+// CRITICAL: Force LOCAL persistence so the auth session survives page navigation
+// (auth.html -> teacher-dashboard.html). Without this, sessions can drop in ~10s
+// when the cross-domain auth iframe fails to sync.
+setPersistence(auth, browserLocalPersistence).catch(e => console.warn('setPersistence failed:', e));
+function showToast(msg, type) {
+  const t = document.getElementById('authToast');
+  t.textContent = msg;
+  t.className = 'toast ' + type + ' show';
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+function genCode(prefix) {
+  return prefix + '-' + Math.random().toString(36).substr(2, 5).toUpperCase();
+}
+function genId(prefix) {
+  return prefix + '_' + Math.floor(100 + Math.random() * 900);
+}
+window.setAuthPanel = mode => {
+  const wrapper = document.querySelector('.auth-wrapper');
+  const loginBtn = document.getElementById('authModeLogin');
+  const registerBtn = document.getElementById('authModeRegister');
+  if (!wrapper || !loginBtn || !registerBtn) return;
+  const isRegister = mode === 'register';
+  wrapper.classList.toggle('mode-register', isRegister);
+  wrapper.classList.toggle('mode-login', !isRegister);
+  loginBtn.classList.toggle('active', !isRegister);
+  registerBtn.classList.toggle('active', isRegister);
+};
+document.addEventListener('DOMContentLoaded', () => {
+  window.setAuthPanel('login');
+});
+window.selectRole = role => {
+  if (typeof window.setAuthPanel === 'function') window.setAuthPanel('register');
+  document.querySelectorAll('.role-item').forEach(c => c.classList.remove('active'));
+  document.querySelectorAll('.reg-form-wrapper').forEach(f => f.classList.remove('open'));
+  document.querySelector('.role-item-' + role).classList.add('active');
+  document.getElementById('form-' + role).classList.add('open');
+  setTimeout(() => document.getElementById('form-' + role).scrollIntoView({
+    behavior: 'smooth',
+    block: 'center'
+  }), 100);
+};
+window.togglePw = id => {
+  var _inp$nextElementSibli;
+  const inp = document.getElementById(id);
+  const icon = ((_inp$nextElementSibli = inp.nextElementSibling) === null || _inp$nextElementSibli === void 0 ? void 0 : _inp$nextElementSibli.querySelector('i')) || inp.parentElement.querySelector('.pw-toggle i');
+  if (inp.type === 'password') {
+    inp.type = 'text';
+    icon.className = 'fas fa-eye-slash';
+  } else {
+    inp.type = 'password';
+    icon.className = 'fas fa-eye';
   }
+};
 
-  function genCode(prefix) { return prefix + '-' + Math.random().toString(36).substr(2,5).toUpperCase(); }
-  function genId(prefix) { return prefix + '_' + Math.floor(100 + Math.random()*900); }
-
-  window.setAuthPanel = (mode) => {
-    const wrapper = document.querySelector('.auth-wrapper');
-    const loginBtn = document.getElementById('authModeLogin');
-    const registerBtn = document.getElementById('authModeRegister');
-    if (!wrapper || !loginBtn || !registerBtn) return;
-    const isRegister = mode === 'register';
-    wrapper.classList.toggle('mode-register', isRegister);
-    wrapper.classList.toggle('mode-login', !isRegister);
-    loginBtn.classList.toggle('active', !isRegister);
-    registerBtn.classList.toggle('active', isRegister);
-  };
-
-  document.addEventListener('DOMContentLoaded', () => { window.setAuthPanel('login'); });
-
-  window.selectRole = (role) => {
-    if (typeof window.setAuthPanel === 'function') window.setAuthPanel('register');
-    document.querySelectorAll('.role-item').forEach(c => c.classList.remove('active'));
-    document.querySelectorAll('.reg-form-wrapper').forEach(f => f.classList.remove('open'));
-    document.querySelector('.role-item-' + role).classList.add('active');
-    document.getElementById('form-' + role).classList.add('open');
-    setTimeout(() => document.getElementById('form-' + role).scrollIntoView({ behavior:'smooth', block:'center' }), 100);
-  };
-
-  window.togglePw = (id) => {
-    const inp = document.getElementById(id);
-    const icon = inp.nextElementSibling?.querySelector('i') || inp.parentElement.querySelector('.pw-toggle i');
-    if (inp.type === 'password') { inp.type = 'text'; icon.className = 'fas fa-eye-slash'; }
-    else { inp.type = 'password'; icon.className = 'fas fa-eye'; }
-  };
-
-  // Track the email of the just-registered user so we can prefill the login form
-  let lastRegisteredEmail = '';
-
-  window.closeSuccess = async () => {
-    document.getElementById('successOverlay').classList.remove('show');
-    // Sign the user out (Firebase auto-signs in after createUser) so they land
-    // on the login screen, then switch the panel back to "login" mode.
-    try { await signOut(auth); } catch(_) {}
-    if (typeof window.setAuthPanel === 'function') window.setAuthPanel('login');
-    if (lastRegisteredEmail) {
-      const loginIdEl = document.getElementById('loginId');
-      if (loginIdEl) loginIdEl.value = lastRegisteredEmail;
-    }
-    // Smooth-scroll to the login panel for visibility on small screens
-    setTimeout(() => {
-      const loginPanel = document.querySelector('.auth-login-panel') || document.getElementById('loginId');
-      if (loginPanel) loginPanel.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }, 100);
-  };
-
-  // ============================================================
-  // OTP via EmailJS — shared flow for ALL registration types
-  // ============================================================
-  const EMAILJS_SERVICE_ID  = 'service_sx89aqh';
-  const EMAILJS_TEMPLATE_ID = 'template_8dlwzhj';
-  const OTP_TTL_MS = 10 * 60 * 1000;       // 10 min validity
-  const OTP_RESEND_COOLDOWN = 60;          // 60s before resend allowed
-
-  let pendingReg = null;   // { otp, expiresAt, email, name, runRegister }
-  let resendTimer = null;
-
-  function gen6DigitOtp() {
-    return String(Math.floor(100000 + Math.random() * 900000));
+// Track the email of the just-registered user so we can prefill the login form
+let lastRegisteredEmail = '';
+window.closeSuccess = /*#__PURE__*/_asyncToGenerator(function* () {
+  document.getElementById('successOverlay').classList.remove('show');
+  // Sign the user out (Firebase auto-signs in after createUser) so they land
+  // on the login screen, then switch the panel back to "login" mode.
+  try {
+    yield signOut(auth);
+  } catch (_) {}
+  if (typeof window.setAuthPanel === 'function') window.setAuthPanel('login');
+  if (lastRegisteredEmail) {
+    const loginIdEl = document.getElementById('loginId');
+    if (loginIdEl) loginIdEl.value = lastRegisteredEmail;
   }
+  // Smooth-scroll to the login panel for visibility on small screens
+  setTimeout(() => {
+    const loginPanel = document.querySelector('.auth-login-panel') || document.getElementById('loginId');
+    if (loginPanel) loginPanel.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center'
+    });
+  }, 100);
+});
 
-  async function sendOtpEmail(toEmail, toName, code) {
+// ============================================================
+// OTP via EmailJS — shared flow for ALL registration types
+// ============================================================
+const EMAILJS_SERVICE_ID = 'service_sx89aqh';
+const EMAILJS_TEMPLATE_ID = 'template_8dlwzhj';
+const OTP_TTL_MS = 10 * 60 * 1000; // 10 min validity
+const OTP_RESEND_COOLDOWN = 60; // 60s before resend allowed
+
+let pendingReg = null; // { otp, expiresAt, email, name, runRegister }
+let resendTimer = null;
+function gen6DigitOtp() {
+  return String(Math.floor(100000 + Math.random() * 900000));
+}
+function sendOtpEmail(_x, _x2, _x3) {
+  return _sendOtpEmail.apply(this, arguments);
+}
+function _sendOtpEmail() {
+  _sendOtpEmail = _asyncToGenerator(function* (toEmail, toName, code) {
     if (typeof emailjs === 'undefined') {
       throw new Error('Email service not loaded yet. Please retry in a moment.');
     }
     // Compute human-readable expiry time (15 min from now to match template wording)
     const expiry = new Date(Date.now() + 15 * 60 * 1000);
-    const timeStr = expiry.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    const timeStr = expiry.toLocaleTimeString([], {
+      hour: '2-digit',
+      minute: '2-digit'
+    });
     return emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
       // Variables your EmailJS template expects
-      email:    toEmail,
+      email: toEmail,
       passcode: code,
-      time:     timeStr,
+      time: timeStr,
       // Extras (safe to send even if template ignores them)
       to_email: toEmail,
-      to_name:  toName || 'User',
+      to_name: toName || 'User',
       otp_code: code,
       app_name: 'Imaan and Akhlaq'
     });
-  }
-
-  function startResendCountdown() {
-    const btn   = document.getElementById('otpResendBtn');
-    const timer = document.getElementById('otpResendTimer');
-    let remaining = OTP_RESEND_COOLDOWN;
-    btn.classList.add('disabled');
+  });
+  return _sendOtpEmail.apply(this, arguments);
+}
+function startResendCountdown() {
+  const btn = document.getElementById('otpResendBtn');
+  const timer = document.getElementById('otpResendTimer');
+  let remaining = OTP_RESEND_COOLDOWN;
+  btn.classList.add('disabled');
+  timer.textContent = remaining;
+  if (resendTimer) clearInterval(resendTimer);
+  resendTimer = setInterval(() => {
+    remaining--;
     timer.textContent = remaining;
-    if (resendTimer) clearInterval(resendTimer);
-    resendTimer = setInterval(() => {
-      remaining--;
-      timer.textContent = remaining;
-      if (remaining <= 0) {
-        clearInterval(resendTimer);
-        resendTimer = null;
-        btn.classList.remove('disabled');
-        btn.innerHTML = 'Resend code';
-      }
-    }, 1000);
-  }
+    if (remaining <= 0) {
+      clearInterval(resendTimer);
+      resendTimer = null;
+      btn.classList.remove('disabled');
+      btn.innerHTML = 'Resend code';
+    }
+  }, 1000);
+}
 
-  // Begin OTP flow: send code, show modal, store pending registration callback
-  async function beginOtp(email, name, runRegister) {
-    if (!email) { showToast('Email is required', 'error'); return; }
+// Begin OTP flow: send code, show modal, store pending registration callback
+function beginOtp(_x4, _x5, _x6) {
+  return _beginOtp.apply(this, arguments);
+}
+function _beginOtp() {
+  _beginOtp = _asyncToGenerator(function* (email, name, runRegister) {
+    if (!email) {
+      showToast('Email is required', 'error');
+      return;
+    }
     const code = gen6DigitOtp();
     pendingReg = {
       otp: code,
@@ -1002,7 +1034,7 @@
     };
     try {
       showToast('Sending verification code...', 'success');
-      await sendOtpEmail(email, name, code);
+      yield sendOtpEmail(email, name, code);
       document.getElementById('otpEmailLabel').textContent = email;
       document.getElementById('otpInputCode').value = '';
       document.getElementById('otpOverlay').classList.add('show');
@@ -1014,120 +1046,130 @@
       pendingReg = null;
       showToast('Failed to send verification code. Please check your email and try again.', 'error');
     }
+  });
+  return _beginOtp.apply(this, arguments);
+}
+window.closeOtp = () => {
+  document.getElementById('otpOverlay').classList.remove('show');
+  pendingReg = null;
+  if (resendTimer) {
+    clearInterval(resendTimer);
+    resendTimer = null;
   }
-
-  window.closeOtp = () => {
-    document.getElementById('otpOverlay').classList.remove('show');
+};
+window.resendOtp = /*#__PURE__*/_asyncToGenerator(function* () {
+  if (!pendingReg) return;
+  const code = gen6DigitOtp();
+  pendingReg.otp = code;
+  pendingReg.expiresAt = Date.now() + OTP_TTL_MS;
+  try {
+    showToast('Resending code...', 'success');
+    yield sendOtpEmail(pendingReg.email, pendingReg.name, code);
+    startResendCountdown();
+    showToast('New code sent.', 'success');
+  } catch (err) {
+    console.error('resendOtp error:', err);
+    showToast('Failed to resend. Please try again.', 'error');
+  }
+});
+window.verifyOtp = /*#__PURE__*/_asyncToGenerator(function* () {
+  if (!pendingReg) {
+    showToast('Session expired. Please start again.', 'error');
+    window.closeOtp();
+    return;
+  }
+  const entered = (document.getElementById('otpInputCode').value || '').trim();
+  if (entered.length !== 6) return showToast('Enter the 6-digit code', 'error');
+  if (Date.now() > pendingReg.expiresAt) {
+    showToast('Code expired. Please resend a new one.', 'error');
+    return;
+  }
+  if (entered !== pendingReg.otp) {
+    showToast('Incorrect code. Please try again.', 'error');
+    return;
+  }
+  const verifyBtn = document.getElementById('otpVerifyBtn');
+  verifyBtn.disabled = true;
+  verifyBtn.textContent = 'Verifying...';
+  try {
+    const fn = pendingReg.runRegister;
     pendingReg = null;
-    if (resendTimer) { clearInterval(resendTimer); resendTimer = null; }
-  };
+    window.closeOtp();
+    yield fn();
+  } catch (err) {
+    console.error('verifyOtp -> register error:', err);
+    showToast(err.message || 'Registration failed', 'error');
+  } finally {
+    verifyBtn.disabled = false;
+    verifyBtn.innerHTML = 'Verify &amp; Continue';
+  }
+});
+window.registerSchool = /*#__PURE__*/_asyncToGenerator(function* () {
+  const name = document.getElementById('regSchoolName').value.trim();
+  const admin = document.getElementById('regSchoolAdmin').value.trim();
+  const loc = document.getElementById('regSchoolLoc').value.trim();
+  const email = document.getElementById('regSchoolEmail').value.trim();
+  const phone = document.getElementById('regSchoolPhone').value.trim();
+  const pw = document.getElementById('regSchoolPw').value;
+  const pw2 = document.getElementById('regSchoolPw2').value;
+  if (!name || !admin || !email || !phone || !pw) return showToast('Please fill all fields', 'error');
+  if (pw !== pw2) return showToast('Passwords do not match', 'error');
 
-  window.resendOtp = async () => {
-    if (!pendingReg) return;
-    const code = gen6DigitOtp();
-    pendingReg.otp = code;
-    pendingReg.expiresAt = Date.now() + OTP_TTL_MS;
-    try {
-      showToast('Resending code...', 'success');
-      await sendOtpEmail(pendingReg.email, pendingReg.name, code);
-      startResendCountdown();
-      showToast('New code sent.', 'success');
-    } catch (err) {
-      console.error('resendOtp error:', err);
-      showToast('Failed to resend. Please try again.', 'error');
-    }
-  };
+  // Send OTP first; only after verification do we actually create the account
+  beginOtp(email, admin, /*#__PURE__*/_asyncToGenerator(function* () {
+    showToast('Creating school account...', 'success');
+    const userCredential = yield createUserWithEmailAndPassword(auth, email, pw);
+    const user = userCredential.user;
+    const code = genCode('SCH');
+    const sId = genId('sch');
 
-  window.verifyOtp = async () => {
-    if (!pendingReg) { showToast('Session expired. Please start again.', 'error'); window.closeOtp(); return; }
-    const entered = (document.getElementById('otpInputCode').value || '').trim();
-    if (entered.length !== 6) return showToast('Enter the 6-digit code', 'error');
-    if (Date.now() > pendingReg.expiresAt) {
-      showToast('Code expired. Please resend a new one.', 'error');
-      return;
-    }
-    if (entered !== pendingReg.otp) {
-      showToast('Incorrect code. Please try again.', 'error');
-      return;
-    }
-    const verifyBtn = document.getElementById('otpVerifyBtn');
-    verifyBtn.disabled = true;
-    verifyBtn.textContent = 'Verifying...';
-    try {
-      const fn = pendingReg.runRegister;
-      pendingReg = null;
-      window.closeOtp();
-      await fn();
-    } catch (err) {
-      console.error('verifyOtp -> register error:', err);
-      showToast(err.message || 'Registration failed', 'error');
-    } finally {
-      verifyBtn.disabled = false;
-      verifyBtn.innerHTML = 'Verify &amp; Continue';
-    }
-  };
-
-  window.registerSchool = async () => {
-    const name  = document.getElementById('regSchoolName').value.trim();
-    const admin = document.getElementById('regSchoolAdmin').value.trim();
-    const loc   = document.getElementById('regSchoolLoc').value.trim();
-    const email = document.getElementById('regSchoolEmail').value.trim();
-    const phone = document.getElementById('regSchoolPhone').value.trim();
-    const pw    = document.getElementById('regSchoolPw').value;
-    const pw2   = document.getElementById('regSchoolPw2').value;
-
-    if (!name || !admin || !email || !phone || !pw) return showToast('Please fill all fields', 'error');
-    if (pw !== pw2) return showToast('Passwords do not match', 'error');
-
-    // Send OTP first; only after verification do we actually create the account
-    beginOtp(email, admin, async () => {
-      showToast('Creating school account...', 'success');
-      const userCredential = await createUserWithEmailAndPassword(auth, email, pw);
-      const user = userCredential.user;
-      const code = genCode('SCH');
-      const sId  = genId('sch');
-
-      // 1) Create user doc FIRST so Firestore rules see the school_admin role
-      await setDoc(doc(db, "users", user.uid), { role: 'school_admin', email: email, phone: phone, name: admin, school_id: sId });
-      // 2) Then create the school doc
-      await setDoc(doc(db, "schools", sId), { name: name, location: loc, school_code: code, admin_uid: user.uid });
-
-      lastRegisteredEmail = email;
-      document.getElementById('successTitle').textContent = 'School Registered!';
-      document.getElementById('successMsg').textContent = 'Welcome ' + admin + '! Your school account is ready. You can now log in and invite teachers, students and parents from your dashboard.';
-      document.getElementById('successCodes').innerHTML = '';
-      document.getElementById('successOverlay').classList.add('show');
+    // 1) Create user doc FIRST so Firestore rules see the school_admin role
+    yield setDoc(doc(db, "users", user.uid), {
+      role: 'school_admin',
+      email: email,
+      phone: phone,
+      name: admin,
+      school_id: sId
     });
-  };
-
-  window.registerWithCode = async (role) => {
-    let pre = role==='teacher'?'TCH':role==='student'?'STU':'PAR';
+    // 2) Then create the school doc
+    yield setDoc(doc(db, "schools", sId), {
+      name: name,
+      location: loc,
+      school_code: code,
+      admin_uid: user.uid
+    });
+    lastRegisteredEmail = email;
+    document.getElementById('successTitle').textContent = 'School Registered!';
+    document.getElementById('successMsg').textContent = 'Welcome ' + admin + '! Your school account is ready. You can now log in and invite teachers, students and parents from your dashboard.';
+    document.getElementById('successCodes').innerHTML = '';
+    document.getElementById('successOverlay').classList.add('show');
+  }));
+});
+window.registerWithCode = /*#__PURE__*/function () {
+  var _ref6 = _asyncToGenerator(function* (role) {
+    let pre = role === 'teacher' ? 'TCH' : role === 'student' ? 'STU' : 'PAR';
     let p = role === 'teacher' ? 'Tch' : role === 'student' ? 'Stu' : 'Par';
-    
-    const code  = document.getElementById('reg'+p+'Code').value.trim().toUpperCase();
-    const name  = document.getElementById('reg'+p+'Name').value.trim();
-    const email = document.getElementById('reg'+p+'Email').value.trim();
-    const phone = document.getElementById('reg'+p+'Phone').value.trim();
-    const pw    = document.getElementById('reg'+p+'Pw').value;
-    const pw2   = document.getElementById('reg'+p+'Pw2').value;
-
+    const code = document.getElementById('reg' + p + 'Code').value.trim().toUpperCase();
+    const name = document.getElementById('reg' + p + 'Name').value.trim();
+    const email = document.getElementById('reg' + p + 'Email').value.trim();
+    const phone = document.getElementById('reg' + p + 'Phone').value.trim();
+    const pw = document.getElementById('reg' + p + 'Pw').value;
+    const pw2 = document.getElementById('reg' + p + 'Pw2').value;
     if (!code || !name || !email || !phone || !pw) return showToast('Please fill missing fields', 'error');
     if (pw !== pw2) return showToast('Passwords mismatch', 'error');
-    if (!code.startsWith(pre+'-')) return showToast('Invalid code format. Must start with '+pre+'-', 'error');
+    if (!code.startsWith(pre + '-')) return showToast('Invalid code format. Must start with ' + pre + '-', 'error');
 
     // Validate invite BEFORE sending OTP so we don't waste codes
     showToast('Validating code...', 'success');
-    const inviteReq = await getDoc(doc(db, "invites", code));
+    const inviteReq = yield getDoc(doc(db, "invites", code));
     if (!inviteReq.exists()) return showToast('Invalid or unrecognized code.', 'error');
     const inviteData = inviteReq.data();
     if (inviteData.status !== 'pending') return showToast('This code has already been used or is inactive.', 'error');
     if (inviteData.role !== role) return showToast('This code is not for the ' + role + ' role.', 'error');
-
-    beginOtp(email, name, async () => {
+    beginOtp(email, name, /*#__PURE__*/_asyncToGenerator(function* () {
       showToast('Creating account...', 'success');
-      const userCredential = await createUserWithEmailAndPassword(auth, email, pw);
+      const userCredential = yield createUserWithEmailAndPassword(auth, email, pw);
       const user = userCredential.user;
-
       const userPayload = {
         role: role,
         email: email,
@@ -1138,10 +1180,9 @@
       };
       if (inviteData.class_id) userPayload.class_id = inviteData.class_id;
       if (inviteData.linked_student_code) userPayload.linked_student_code = inviteData.linked_student_code;
-
-      await setDoc(doc(db, "users", user.uid), userPayload);
+      yield setDoc(doc(db, "users", user.uid), userPayload);
       try {
-        await updateDoc(doc(db, "invites", code), {
+        yield updateDoc(doc(db, "invites", code), {
           status: 'used',
           used_by_uid: user.uid,
           used_at: new Date().toISOString()
@@ -1150,99 +1191,95 @@
         console.error('CRITICAL: Failed to mark invite as used:', inviteErr);
         // Fallback: try setDoc with merge in case updateDoc was blocked by rules
         try {
-          await setDoc(doc(db, "invites", code), {
+          yield setDoc(doc(db, "invites", code), {
             status: 'used',
             used_by_uid: user.uid,
             used_at: new Date().toISOString()
-          }, { merge: true });
+          }, {
+            merge: true
+          });
         } catch (e2) {
           console.error('Fallback setDoc also failed:', e2);
           showToast('Account created but admin status update failed. Please notify admin.', 'error');
         }
       }
-
       lastRegisteredEmail = email;
       document.getElementById('successTitle').textContent = 'Account Ready!';
-      document.getElementById('successMsg').textContent = 'Welcome '+name+', you can log in now.';
+      document.getElementById('successMsg').textContent = 'Welcome ' + name + ', you can log in now.';
       document.getElementById('successCodes').innerHTML = '';
       document.getElementById('successOverlay').classList.add('show');
+    }));
+  });
+  return function (_x7) {
+    return _ref6.apply(this, arguments);
+  };
+}();
+window.registerIndividual = /*#__PURE__*/_asyncToGenerator(function* () {
+  const name = document.getElementById('regIndName').value.trim();
+  const email = document.getElementById('regIndEmail').value.trim();
+  const phone = document.getElementById('regIndPhone').value.trim();
+  const pw = document.getElementById('regIndPw').value;
+  const pw2 = document.getElementById('regIndPw2').value;
+  if (!name || !email || !phone || !pw) return showToast('Required fields missing', 'error');
+  if (pw !== pw2) return showToast('Passwords mismatch', 'error');
+  beginOtp(email, name, /*#__PURE__*/_asyncToGenerator(function* () {
+    showToast('Creating trial account...', 'success');
+    const userCredential = yield createUserWithEmailAndPassword(auth, email, pw);
+    const trialEnd = new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString();
+    yield setDoc(doc(db, "users", userCredential.user.uid), {
+      role: 'individual',
+      email: email,
+      phone: phone,
+      name: name,
+      trial_end: trialEnd
     });
-  };
-
-  window.registerIndividual = async () => {
-    const name  = document.getElementById('regIndName').value.trim();
-    const email = document.getElementById('regIndEmail').value.trim();
-    const phone = document.getElementById('regIndPhone').value.trim();
-    const pw    = document.getElementById('regIndPw').value;
-    const pw2   = document.getElementById('regIndPw2').value;
-
-    if (!name || !email || !phone || !pw) return showToast('Required fields missing', 'error');
-    if (pw !== pw2) return showToast('Passwords mismatch', 'error');
-
-    beginOtp(email, name, async () => {
-      showToast('Creating trial account...', 'success');
-      const userCredential = await createUserWithEmailAndPassword(auth, email, pw);
-      const trialEnd = new Date(Date.now() + 3*24*60*60*1000).toISOString();
-
-      await setDoc(doc(db, "users", userCredential.user.uid), { role: 'individual', email: email, phone: phone, name: name, trial_end: trialEnd });
-
-      lastRegisteredEmail = email;
-      document.getElementById('successTitle').textContent = 'Welcome Aboard!';
-      document.getElementById('successMsg').textContent = 'Your 3-day free trial has been activated.';
-      document.getElementById('successCodes').innerHTML = '';
-      document.getElementById('successOverlay').classList.add('show');
-    });
-  };
-
-  window.loginUser = async () => {
-    const id = document.getElementById('loginId').value.trim();
-    const pw = document.getElementById('loginPw').value;
-    if (!id || !pw) return showToast('Enter email and password', 'error');
-
-    try {
-      showToast('Logging in...', 'success');
-      const userCredential = await signInWithEmailAndPassword(auth, id, pw);
-      const user = userCredential.user;
-      
-      const userDoc = await getDoc(doc(db, "users", user.uid));
-      if (userDoc.exists()) {
-        const userData = userDoc.data();
-        sessionStorage.setItem('auth_user', JSON.stringify({ uid: user.uid, ...userData }));
-        
-        showToast('Success! Redirecting...', 'success');
-        setTimeout(() => {
-          if (userData.role === 'super_admin' || userData.role === 'superadmin') window.location.href = './super-admin-dashboard.html';
-          else if (userData.role === 'school_admin') window.location.href = './admin-dashboard.html';
-          else if (userData.role === 'teacher') window.location.href = './teacher-dashboard.html';
-          else if (userData.role === 'student' || userData.role === 'individual') window.location.href = './student-activities.html';
-          else if (userData.role === 'parent') window.location.href = './parent-dashboard.html';
-          else showToast('Unknown role: ' + (userData.role || 'none'), 'error');
-        }, 1000);
-      } else {
-        showToast('User record not found in system.', 'error');
-      }
-    } catch (error) {
-      showToast(error.message, 'error');
+    lastRegisteredEmail = email;
+    document.getElementById('successTitle').textContent = 'Welcome Aboard!';
+    document.getElementById('successMsg').textContent = 'Your 3-day free trial has been activated.';
+    document.getElementById('successCodes').innerHTML = '';
+    document.getElementById('successOverlay').classList.add('show');
+  }));
+});
+window.loginUser = /*#__PURE__*/_asyncToGenerator(function* () {
+  const id = document.getElementById('loginId').value.trim();
+  const pw = document.getElementById('loginPw').value;
+  if (!id || !pw) return showToast('Enter email and password', 'error');
+  try {
+    showToast('Logging in...', 'success');
+    const userCredential = yield signInWithEmailAndPassword(auth, id, pw);
+    const user = userCredential.user;
+    const userDoc = yield getDoc(doc(db, "users", user.uid));
+    if (userDoc.exists()) {
+      const userData = userDoc.data();
+      sessionStorage.setItem('auth_user', JSON.stringify(_objectSpread({
+        uid: user.uid
+      }, userData)));
+      showToast('Success! Redirecting...', 'success');
+      setTimeout(() => {
+        if (userData.role === 'super_admin' || userData.role === 'superadmin') window.location.href = './super-admin-dashboard.html';else if (userData.role === 'school_admin') window.location.href = './admin-dashboard.html';else if (userData.role === 'teacher') window.location.href = './teacher-dashboard.html';else if (userData.role === 'student' || userData.role === 'individual') window.location.href = './student-activities.html';else if (userData.role === 'parent') window.location.href = './parent-dashboard.html';else showToast('Unknown role: ' + (userData.role || 'none'), 'error');
+      }, 1000);
+    } else {
+      showToast('User record not found in system.', 'error');
     }
-  };
-
-  window.showResetModal = () => document.getElementById('resetOverlay').classList.add('show');
-  window.closeReset = () => {
-    document.getElementById('resetOverlay').classList.remove('show');
-  };
-  
-  window.resetPassword = async () => {
-    const id = document.getElementById('resetId').value.trim();
-    if (!id) return showToast('Please enter your email', 'error');
-    
-    try {
-      showToast('Sending reset email...', 'success');
-      await sendPasswordResetEmail(auth, id);
-      showToast('Reset email sent! Check your inbox.', 'success');
-      setTimeout(closeReset, 2000);
-    } catch (error) {
-      showToast(error.message, 'error');
-    }
-  };
-
+  } catch (error) {
+    showToast(error.message, 'error');
+  }
+});
+window.showResetModal = () => document.getElementById('resetOverlay').classList.add('show');
+window.closeReset = () => {
+  document.getElementById('resetOverlay').classList.remove('show');
+};
+window.resetPassword = /*#__PURE__*/_asyncToGenerator(function* () {
+  const id = document.getElementById('resetId').value.trim();
+  if (!id) return showToast('Please enter your email', 'error');
+  try {
+    showToast('Sending reset email...', 'success');
+    yield sendPasswordResetEmail(auth, id);
+    showToast('Reset email sent! Check your inbox.', 'success');
+    setTimeout(closeReset, 2000);
+  } catch (error) {
+    showToast(error.message, 'error');
+  }
+});
 </script>
+</body></html>

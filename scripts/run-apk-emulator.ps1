@@ -1,6 +1,6 @@
 param(
-  [string]$PackageId = "com.imaanakhlaq.app",
-  [string]$PreferredAvd = "copilot_api25",
+  [string]$PackageId = "com.imaanakhlaq",
+  [string]$PreferredAvd = "imaan_api34",
   [string]$ApkPath = "android\app\build\outputs\apk\debug\app-debug.apk",
   [switch]$Install
 )

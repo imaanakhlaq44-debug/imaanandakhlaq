@@ -1,0 +1,74 @@
+﻿
+05-12 13:59:24.231  3003  3003 E Capacitor/Console: File: 
+https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js - Line 1 - Msg: Uncaught SyntaxError: Unexpected 
+token function
+05-12 13:59:24.806  3003  3027 D Capacitor: Handling local request: https://localhost/kidba_assets/favicon.jpg
+05-12 14:04:11.113  3164  3164 D Capacitor: Starting BridgeActivity
+05-12 14:04:11.136  3164  3164 D Capacitor: Registering plugin instance: CapacitorCookies
+05-12 14:04:11.142  3164  3164 D Capacitor: Registering plugin instance: WebView
+05-12 14:04:11.143  3164  3164 D Capacitor: Registering plugin instance: CapacitorHttp
+05-12 14:04:11.145  3164  3164 D Capacitor: Registering plugin instance: SystemBars
+05-12 14:04:11.147  3164  3164 D Capacitor: Registering plugin instance: App
+05-12 14:04:11.149  3164  3164 D Capacitor: Registering plugin instance: Keyboard
+05-12 14:04:11.151  3164  3164 D Capacitor: Registering plugin instance: SplashScreen
+05-12 14:04:11.158  3164  3164 W Capacitor: Unable to get package info for 
+'com.google.android.webview'android.content.pm.PackageManager$NameNotFoundException: com.android.chrome
+05-12 14:04:11.162  3164  3164 D Capacitor: Registering plugin instance: StatusBar
+05-12 14:04:11.166  3164  3164 V Capacitor/StatusBarPlugin: Notifying listeners for event statusBarOverlayChanged
+05-12 14:04:11.166  3164  3164 D Capacitor/StatusBarPlugin: No listeners found for event statusBarOverlayChanged
+05-12 14:04:11.166  3164  3164 V Capacitor/StatusBarPlugin: Notifying listeners for event statusBarOverlayChanged
+05-12 14:04:11.166  3164  3164 D Capacitor/StatusBarPlugin: No listeners found for event statusBarOverlayChanged
+05-12 14:04:11.177  3164  3164 W Capacitor: Unable to read file at path public/plugins
+05-12 14:04:11.178  3164  3164 D Capacitor: Loading app at https://localhost
+05-12 14:04:11.184  3164  3164 W Capacitor: Unable to get package info for 
+'com.google.android.webview'android.content.pm.PackageManager$NameNotFoundException: com.android.chrome
+05-12 14:04:11.184  3164  3164 E Capacitor: System WebView is not supported
+05-12 14:04:11.235  3164  3164 D Capacitor: App started
+05-12 14:04:11.238  3164  3164 D Capacitor/AppPlugin: Firing change: true
+05-12 14:04:11.238  3164  3164 V Capacitor/AppPlugin: Notifying listeners for event appStateChange
+05-12 14:04:11.238  3164  3164 D Capacitor/AppPlugin: No listeners found for event appStateChange
+05-12 14:04:11.238  3164  3164 D Capacitor: App resumed
+05-12 14:04:11.618  3164  3184 D Capacitor: Handling local request: https://localhost/
+05-12 14:04:11.658  3164  3184 D Capacitor: Handling local request: https://localhost/kidba_assets/css/style.css
+05-12 14:04:11.661  3164  3184 D Capacitor: Handling local request: https://localhost/kidba_assets/img/splash_logo.jpg
+05-12 14:04:11.671  3164  3164 E Capacitor/Console: File: https://localhost/ - Line 54 - Msg: Uncaught SyntaxError: 
+Unexpected token (
+05-12 14:04:13.576  3164  3184 D Capacitor: Handling local request: https://localhost/auth.html
+05-12 14:04:13.649  3164  3184 D Capacitor: Handling local request: 
+https://localhost/kidba_assets/vendor/css/bootstrap.min.css
+05-12 14:04:13.652  3164  3184 D Capacitor: Handling local request: 
+https://localhost/kidba_assets/vendor/css/all.min.css
+05-12 14:04:13.653  3164  3184 D Capacitor: Handling local request: 
+https://localhost/kidba_assets/vendor/css/animate.min.css
+05-12 14:04:13.653  3164  3184 D Capacitor: Handling local request: 
+https://localhost/kidba_assets/vendor/css/swiper-bundle.min.css
+05-12 14:04:13.654  3164  3184 D Capacitor: Handling local request: https://localhost/kidba_assets/vendor/css/aos.css
+05-12 14:04:13.657  3164  3184 D Capacitor: Handling local request: https://localhost/kidba_assets/css/style.css
+05-12 14:04:13.658  3164  3184 D Capacitor: Handling local request: 
+https://localhost/kidba_assets/css/apk-bottombar.css
+05-12 14:04:13.672  3164  3184 D Capacitor: Handling local request: https://localhost/kidba_assets/js/apk-bottombar.js
+05-12 14:04:13.681  3164  3184 D Capacitor: Handling local request: https://localhost/kidba_assets/img/splash_logo.jpg
+05-12 14:04:13.859  3164  3184 D Capacitor: Handling local request: 
+https://localhost/kidba_assets/vendor/webfonts/fa-solid-900.woff2
+05-12 14:04:13.913  3164  3184 D Capacitor: Handling local request: 
+https://localhost/kidba_assets/vendor/webfonts/fa-solid-900.ttf
+05-12 14:04:14.015  3164  3164 E Capacitor/Console: File: https://localhost/auth.html - Line 55 - Msg: Uncaught 
+SyntaxError: Unexpected token (
+05-12 14:04:14.017  3164  3164 E Capacitor/Console: File: 
+https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js - Line 1 - Msg: Uncaught SyntaxError: Unexpected 
+token function
+05-12 14:04:14.018  3164  3164 W Capacitor/Console: File: https://localhost/auth.html - Line 0 - Msg: Failed to decode 
+downloaded font: https://localhost/kidba_assets/vendor/webfonts/fa-solid-900.woff2
+05-12 14:04:14.019  3164  3164 W Capacitor/Console: File: https://localhost/auth.html - Line 0 - Msg: OTS parsing 
+error: Failed to convert WOFF 2.0 font to SFNT
+05-12 14:04:14.019  3164  3164 W Capacitor/Console: File: https://localhost/auth.html - Line 0 - Msg: Failed to decode 
+downloaded font: https://localhost/kidba_assets/vendor/webfonts/fa-solid-900.woff2
+05-12 14:04:14.019  3164  3164 W Capacitor/Console: File: https://localhost/auth.html - Line 0 - Msg: OTS parsing 
+error: Failed to convert WOFF 2.0 font to SFNT
+05-12 14:04:14.019  3164  3164 W Capacitor/Console: File: https://localhost/auth.html - Line 0 - Msg: Failed to decode 
+downloaded font: https://localhost/kidba_assets/vendor/webfonts/fa-solid-900.woff2
+05-12 14:04:14.019  3164  3164 W Capacitor/Console: File: https://localhost/auth.html - Line 0 - Msg: OTS parsing 
+error: Failed to convert WOFF 2.0 font to SFNT
+05-12 14:04:14.022  3164  3184 D Capacitor: Handling local request: https://localhost/kidba_assets/favicon.jpg
+
+

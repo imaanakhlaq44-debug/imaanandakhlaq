@@ -80,7 +80,7 @@ export const ActivityPage = () => html`
     overflow: hidden;
   }
   .flipbook-zoom-shell {
-    transform-origin: top center;
+    transform-origin: center center;
     will-change: transform;
     transform: translate3d(0px, 0px, 0px) scale(1);
   }
@@ -198,6 +198,61 @@ export const ActivityPage = () => html`
   .pdf-reader-link:hover {
     color: #fff;
     transform: translateY(-1px);
+  }
+  .pdf-reader-cover, .pdf-reader-end {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(135deg, #1e3a5f 0%, #2d5a8e 100%);
+    color: white;
+    text-align: center;
+    padding: 30px;
+    box-shadow: inset 0 0 40px rgba(0,0,0,0.3);
+  }
+  .pf-cover-icon {
+    font-size: 3rem;
+    color: rgba(255, 255, 255, 0.4);
+    margin-bottom: 20px;
+  }
+  .pf-cover-kicker {
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #ffd700;
+    margin-bottom: 8px;
+    font-weight: 800;
+  }
+  .pdf-reader-cover h2, .pdf-reader-end h2 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 2rem;
+    margin-bottom: 15px;
+    line-height: 1.2;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  }
+  .pdf-reader-cover p, .pdf-reader-end p {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.8);
+    max-width: 80%;
+  }
+  .start-activities-btn {
+    margin-top: 25px;
+    background: #10b981;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 999px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.1rem;
+    cursor: pointer;
+    box-shadow: 0 6px 15px rgba(16, 185, 129, 0.4);
+    transition: all 0.2s;
+  }
+  .start-activities-btn:hover {
+    transform: scale(1.05);
+    background: #059669;
   }
   .flipbook-page {
     background: #fff;
@@ -700,6 +755,19 @@ export const ActivityPage = () => html`
     );
   }
 
+  // In Capacitor APK, Firebase auth session can be lost on page navigation.
+  // Always try localStorage first as fallback so saves don't fail.
+  function loadUserFromStorage() {
+    try {
+      var raw = localStorage.getItem('auth_user') || sessionStorage.getItem('auth_user');
+      if (raw) {
+        var d = JSON.parse(raw);
+        if (d && d.uid) return d;
+      }
+    } catch(e) {}
+    return null;
+  }
+
   onAuthStateChanged(auth, async (user) => {
     if (hasInitializedPage) return;
 
@@ -718,6 +786,28 @@ export const ActivityPage = () => html`
         }
       } catch(e) {
         console.error(e);
+      }
+    } else {
+      // Firebase auth null — try localStorage fallback (common in Capacitor WebView)
+      var storedUser = loadUserFromStorage();
+      if (storedUser && storedUser.uid) {
+        currentUser = storedUser;
+        try {
+          const userDocRef = doc(db, "users", storedUser.uid);
+          const userSnap = await getDoc(userDocRef);
+          if (userSnap.exists()) {
+            const uData = userSnap.data();
+            currentUser.school_id = uData.school_id || storedUser.school_id;
+            currentUser.name = uData.name || storedUser.name || 'Student';
+            currentUser.role = uData.role || storedUser.role || 'student';
+            if (uData.game_state) state = uData.game_state;
+          }
+        } catch(e) {
+          // Use stored data as-is
+          currentUser.school_id = storedUser.school_id || '';
+          currentUser.name = storedUser.name || 'Student';
+          currentUser.role = storedUser.role || 'student';
+        }
       }
     }
 
@@ -828,324 +918,201 @@ export const ActivityPage = () => html`
     }
 
     async function mountPdfReader(pdf, start, end) {
-      const wrapperWidth = document.getElementById('flipbook-wrapper').clientWidth || window.innerWidth;
-      const wrapperHeight = document.getElementById('flipbook-wrapper').clientHeight || window.innerHeight;
+      // ── Professional book reader powered by StPageFlip ─────────
+      const wrapperWidth = document.getElementById('flipbook-wrapper').clientWidth || 800;
+      const wrapperHeight = document.getElementById('flipbook-wrapper').clientHeight || 600;
       const isMobile = window.innerWidth < 768;
-      const aspect = 1.33;
-      let pageWidth = wrapperWidth - (isMobile ? 20 : 60);
-      let pageHeight = Math.round(pageWidth * aspect);
-      if (pageHeight > wrapperHeight - 40) {
-        pageHeight = wrapperHeight - 40;
-        pageWidth = Math.round(pageHeight / aspect);
-      }
+      // Single-page on phones, two-page spread on tablets/desktop
+      const usePortrait = isMobile;
+      
+      // Calculate max width based on available screen space
+      const maxWidthByWidth = usePortrait ? (wrapperWidth - 36) : Math.floor((wrapperWidth - 60) / 2);
+      // Calculate max width based on available height (aspect ratio is ~1:1.4)
+      const maxWidthByHeight = (wrapperHeight - 40) / 1.4;
+      
+      // Take the largest size that fits both constraints (but cap at reasonable extreme max so it doesn't get absurdly huge on 4K)
+      const pageWidth = Math.min(maxWidthByWidth, maxWidthByHeight, 800);
+      const pageHeight = Math.round(pageWidth * 1.4);
       const totalPages = end - start + 1;
-      const swipeThreshold = isMobile ? 42 : 56;
-      const renderedPages = new Map();
-      const readerStage = document.createElement('div');
-      const readerPage = document.createElement('div');
-      const pageIndicator = document.getElementById('flipPageIndicator');
-      let activePage = start;
-      let renderingPage = false;
-      let transitioningPage = false;
-      let swipeStartX = null;
-      let swipeStartY = null;
-      let swipeDeltaX = 0;
-      let swipeAxis = '';
-
-      readerStage.className = 'pdf-reader-stage';
-      readerPage.className = 'pdf-reader-page';
-      readerPage.style.width = pageWidth + 'px';
-      readerPage.style.minHeight = pageHeight + 'px';
-      readerStage.appendChild(readerPage);
-
-      flipbookContainer.innerHTML = '';
-      flipbookContainer.style.width = '100%';
-      flipbookContainer.style.height = 'auto';
-      flipbookContainer.style.visibility = 'visible';
-      flipbookContainer.style.position = 'relative';
-      flipbookContainer.appendChild(readerStage);
 
       const prevBtn = document.getElementById('flipbookPrevBtn');
       const nextBtn = document.getElementById('flipbookNextBtn');
-      if (prevBtn) {
-        prevBtn.onclick = function(e) {
-          e.stopPropagation();
-          if (activePage > start) showPage(activePage - 1, -1);
-        };
+      const pageIndicator = document.getElementById('flipPageIndicator');
+      const progressEl = document.getElementById('flipbook-progress');
+      const progressFill = document.getElementById('flipbook-progress-fill');
+      
+      // Wait for PageFlip library
+      let attempts = 0;
+      while (typeof window.St === 'undefined' && attempts < 30) {
+        await new Promise(r => setTimeout(r, 100));
+        attempts++;
       }
-      if (nextBtn) {
-        nextBtn.onclick = function(e) {
-          e.stopPropagation();
-          if (activePage < end) showPage(activePage + 1, 1);
-        };
+      
+      // Fallback: if not loaded, try dynamically loading from CDN
+      if (typeof window.St === 'undefined') {
+        const tryLoad = (src) => new Promise((resolve, reject) => {
+          const s = document.createElement('script');
+          s.src = src;
+          s.onload = () => resolve(true);
+          s.onerror = () => reject(new Error('script load failed'));
+          document.head.appendChild(s);
+        });
+        try {
+          await tryLoad('/kidba_assets/js/page-flip.browser.min.js');
+        } catch(_) {
+          try { await tryLoad('https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.min.js'); } catch(__) {}
+        }
       }
+
+      if (typeof window.St === 'undefined' || typeof window.St.PageFlip !== 'function') {
+        flipbookContainer.innerHTML = buildReaderFallback('Page-flip engine could not load.');
+        flipbookContainer.style.visibility = 'visible';
+        flipbookContainer.style.position = 'relative';
+        return;
+      }
+
+      // Build page DOM elements (cover + content + end)
+      flipbookContainer.innerHTML = '';
+      flipbookContainer.style.visibility = 'visible';
+      flipbookContainer.style.position = 'relative';
+
+      const bookEl = document.createElement('div');
+      bookEl.className = 'flipbook-book';
+      flipbookContainer.appendChild(bookEl);
+
+      function makePageEl(extraClass, density) {
+        const el = document.createElement('div');
+        el.className = 'pdf-reader-page-host ' + (extraClass || '');
+        if (density) el.dataset.density = density;
+        return el;
+      }
+
+      // Cover page (hard)
+      const coverEl = makePageEl('pf-cover', 'hard');
+      coverEl.innerHTML =
+        '<div class="pdf-reader-cover">' +
+          '<div class="pf-cover-icon"><i class="fas fa-book-open"></i></div>' +
+          '<div class="pf-cover-kicker">Imaan & Akhlaaq</div>' +
+          '<h2>' + (chapData.title || 'Chapter') + '</h2>' +
+          '<p>Pages ' + start + '–' + end + '. Drag a corner or swipe to flip.</p>' +
+        '</div>';
+      bookEl.appendChild(coverEl);
+
+      // Content pages (soft) — rendered async, placeholders first
+      const contentEls = [];
+      for (let i = 0; i < totalPages; i++) {
+        const el = makePageEl('pf-content');
+        el.innerHTML =
+          '<div class="pdf-reader-page">' +
+            '<div class="pdf-reader-loading"><strong>Loading page ' + (i + 1) + '…</strong></div>' +
+            '<span class="pf-page-num">' + (i + 1) + ' / ' + totalPages + '</span>' +
+          '</div>';
+        contentEls.push(el);
+        bookEl.appendChild(el);
+      }
+
+      // End page (hard) — Start Activities CTA
+      const endEl = makePageEl('pf-end', 'hard');
+      endEl.innerHTML =
+        '<div class="pdf-reader-end">' +
+          '<div class="pf-cover-kicker">Reading Complete</div>' +
+          '<h2>Mashallah!</h2>' +
+          '<p>You finished the chapter. Ready to do your activities?</p>' +
+          '<button type="button" class="start-activities-btn" id="endPageStartBtn"><i class="fas fa-play"></i> Start Activities</button>' +
+        '</div>';
+      bookEl.appendChild(endEl);
+
+      // Initialize PageFlip
+      const pageFlip = new window.St.PageFlip(bookEl, {
+        width: pageWidth,
+        height: pageHeight,
+        size: 'stretch',
+        minWidth: 240,
+        maxWidth: pageWidth,
+        minHeight: 320,
+        maxHeight: pageHeight,
+        maxShadowOpacity: 0.6,
+        showCover: true,
+        usePortrait: true,
+        mobileScrollSupport: false,
+        flippingTime: 750,
+        drawShadow: true,
+        autoSize: true,
+        clickEventForward: true,
+        useMouseEvents: true,
+        showPageCorners: true,
+        swipeDistance: 24
+      });
+
+      pageFlip.loadFromHTML(bookEl.querySelectorAll('.pdf-reader-page-host'));
+
+      const flipbookNav = document.getElementById('flipbook-nav');
+      if (flipbookNav) flipbookNav.style.display = 'flex';
+      if (progressEl) progressEl.style.display = 'block';
 
       function updateNav() {
-        const pageIndex = activePage - start + 1;
-        if (pageIndicator) pageIndicator.textContent = 'Page ' + pageIndex + ' / ' + totalPages;
-        // Show "Start Activities" only on the last page
+        const idx = pageFlip.getCurrentPageIndex();
+        const total = pageFlip.getPageCount();
+        // Display: cover=0, pages 1..N, end=N+1 → show "Page i / N" only on content pages
+        if (idx === 0) {
+          if (pageIndicator) pageIndicator.textContent = 'Cover';
+        } else if (idx >= total - 1) {
+          if (pageIndicator) pageIndicator.textContent = 'Finish';
+        } else {
+          if (pageIndicator) pageIndicator.textContent = 'Page ' + idx + ' / ' + (total - 2);
+        }
+        if (prevBtn) prevBtn.disabled = idx <= 0;
+        if (nextBtn) nextBtn.disabled = idx >= total - 1;
+        if (progressFill) {
+          const pct = total > 1 ? Math.round((idx / (total - 1)) * 100) : 0;
+          progressFill.style.width = pct + '%';
+        }
+        
+        // Show "Start Activities" main button at the bottom if on the last page
         const finishBtn = document.getElementById('finishReadingBtn');
         if (finishBtn) {
-          finishBtn.style.display = (activePage >= end) ? 'block' : 'none';
+          finishBtn.style.display = (idx >= total - 1) ? 'block' : 'none';
         }
       }
 
-      function resetSwipePreview(animateBack) {
-        swipeDeltaX = 0;
-        if (animateBack) {
-          readerPage.style.transition = 'transform 300ms ease-out';
-          readerPage.style.transform = 'perspective(1500px) rotateY(0deg)';
-          window.setTimeout(function() {
-            readerPage.style.transition = '';
-            readerPage.style.transformOrigin = 'center center';
-          }, 310);
-          return;
-        }
-        readerPage.style.transition = '';
-        readerPage.style.transform = '';
-        readerPage.style.transformOrigin = 'center center';
-      }
-
-      function applySwipeTurnPreview(deltaX) {
-        readerPage.style.transition = '';
-        let maxAngle = 90;
-        let angle = (deltaX / window.innerWidth) * 180;
-        
-        if (deltaX < 0) {
-            readerPage.style.transformOrigin = 'left center';
-            if (angle < -maxAngle) angle = -maxAngle;
-            readerPage.style.transform = 'perspective(1500px) rotateY(' + angle + 'deg)';
-        } else {
-            readerPage.style.transformOrigin = 'right center';
-            if (angle > maxAngle) angle = maxAngle;
-            readerPage.style.transform = 'perspective(1500px) rotateY(' + angle + 'deg)';
-        }
-      }
-
-      // ── Beautiful real-book page-curl overlay ──
-      var curlShadow = document.createElement('div');
-      curlShadow.style.cssText = [
-        'position:absolute', 'top:0', 'left:0', 'width:100%', 'height:100%',
-        'pointer-events:none', 'z-index:10', 'opacity:0', 'border-radius:inherit',
-        'will-change:opacity'
-      ].join(';');
-      readerPage.style.position = 'relative';
-      readerPage.style.overflow = 'hidden';
-      readerPage.style.willChange = 'transform';
-      readerPage.appendChild(curlShadow);
-
-      // Duration constants — slow & cinematic
-      var FLIP_OUT_MS  = 550;   // page curls away
-      var FLIP_IN_MS   = 650;   // new page unfurls
-      // Natural book easing: starts fast (page "caught" by finger), ends slow (settles flat)
-      var EASE_OUT = 'cubic-bezier(0.33, 0, 0.66, 0)';   // accelerate out
-      var EASE_IN  = 'cubic-bezier(0.12, 0.8, 0.3, 1)';  // decelerate in — satisfying snap
-
-      function setCurlShadow(direction, opacity, animated, duration) {
-        // Radial gradient gives a paper-curl hot-spot effect
-        var grad = direction > 0
-          ? 'linear-gradient(to left, rgba(0,0,0,0.42) 0%, rgba(0,0,0,0.18) 30%, transparent 65%)'
-          : 'linear-gradient(to right, rgba(0,0,0,0.42) 0%, rgba(0,0,0,0.18) 30%, transparent 65%)';
-        curlShadow.style.background = grad;
-        curlShadow.style.transition = animated
-          ? ('opacity ' + (duration || FLIP_OUT_MS) + 'ms ease')
-          : 'none';
-        curlShadow.style.opacity = String(opacity);
-      }
-
-      function animatePageTurnOut(direction) {
-        if (!direction || !readerPage.firstChild) return Promise.resolve();
-        return new Promise(function(resolve) {
-          var origin = direction > 0 ? 'left center' : 'right center';
-          // Only curl 80deg — never go fully flat (more realistic)
-          var angle  = direction > 0 ? -80 : 80;
-
-          setCurlShadow(direction, 0, false, 0);
-          readerPage.style.transformOrigin = origin;
-          readerPage.style.transition = 'none';
-
-          requestAnimationFrame(function() {
-            // Phase 1: curl away — shadow builds up
-            readerPage.style.transition =
-              'transform ' + FLIP_OUT_MS + 'ms ' + EASE_OUT + ',' +
-              'box-shadow ' + FLIP_OUT_MS + 'ms ease';
-            readerPage.style.transform =
-              'perspective(900px) rotateY(' + angle + 'deg) scaleX(0.92)';
-            setCurlShadow(direction, 0.95, true, FLIP_OUT_MS);
-          });
-
-          window.setTimeout(function() {
-            setCurlShadow(direction, 0, false, 0);
-            resolve();
-          }, FLIP_OUT_MS);
-        });
-      }
-
-      function animatePageEntry(direction) {
-        setCurlShadow(direction || 1, 0, false, 0);
-        if (!direction) {
-          resetSwipePreview(false);
-          return Promise.resolve();
-        }
-        return new Promise(function(resolve) {
-          var origin     = direction > 0 ? 'right center' : 'left center';
-          var startAngle = direction > 0 ? 80 : -80;
-
-          // Start: new page is curled (hidden at 80deg)
-          readerPage.style.transformOrigin = origin;
-          readerPage.style.transition = 'none';
-          readerPage.style.transform =
-            'perspective(900px) rotateY(' + startAngle + 'deg) scaleX(0.92)';
-          setCurlShadow(direction, 0.9, false, 0);
-
-          requestAnimationFrame(function() {
-            requestAnimationFrame(function() {
-              // Phase 2: unfurl slowly — shadow fades — ends flat
-              readerPage.style.transition =
-                'transform ' + FLIP_IN_MS + 'ms ' + EASE_IN;
-              readerPage.style.transform =
-                'perspective(900px) rotateY(0deg) scaleX(1)';
-              setCurlShadow(direction, 0, true, FLIP_IN_MS);
-            });
-          });
-
-          window.setTimeout(function() {
-            // Clean up: remove all inline transforms so CSS classes work normally
-            readerPage.style.transition   = '';
-            readerPage.style.transform    = '';
-            readerPage.style.transformOrigin = 'center center';
-            readerPage.style.willChange   = 'transform';
-            curlShadow.style.opacity      = '0';
-            resolve();
-          }, FLIP_IN_MS + 30);
-        });
-      }
-
-
-      async function showPage(pageNumber, direction) {
-        if (renderingPage || transitioningPage || pageNumber < start || pageNumber > end) return false;
-        renderingPage = true;
-        transitioningPage = !!direction;
-
-        if (!readerPage.firstChild) {
-          readerPage.innerHTML = '<div class="pdf-reader-loading"><strong>Loading page ' + (pageNumber - start + 1) + '...</strong><div>Please wait while your chapter is rendered.</div></div>';
-        }
-
-        try {
-          let canvas = renderedPages.get(pageNumber);
-          if (!canvas) {
-            canvas = await createPdfCanvas(pdf, pageNumber, pageWidth, pageHeight);
-            renderedPages.set(pageNumber, canvas);
-          }
-
-          if (direction && readerPage.firstChild) {
-            await animatePageTurnOut(direction);
-          }
-
-          readerPage.innerHTML = '';
-          readerPage.appendChild(canvas);
-          activePage = pageNumber;
-          updateNav();
-          await animatePageEntry(direction || 0);
-        } catch (pageErr) {
-          console.error('PDF page render error:', pageErr);
-          readerPage.innerHTML = buildReaderFallback('Page ' + pageNumber + ' could not be rendered.');
-        } finally {
-          renderingPage = false;
-          transitioningPage = false;
-          resetSwipePreview(false);
-        }
-
-        return true;
-      }
-
-      readerStage.addEventListener('touchstart', function(e) {
-        if (readerGestureState.zoomScale > 1.01 || renderingPage || transitioningPage || e.touches.length !== 1) return;
-        swipeStartX = e.touches[0].clientX;
-        swipeStartY = e.touches[0].clientY;
-        swipeDeltaX = 0;
-        swipeAxis = '';
-      }, { passive: true });
-
-      readerStage.addEventListener('touchmove', function(e) {
-        if (swipeStartX === null || renderingPage || transitioningPage || e.touches.length !== 1) return;
-        const moveX = e.touches[0].clientX;
-        const moveY = e.touches[0].clientY;
-        const deltaX = moveX - swipeStartX;
-        const deltaY = moveY - swipeStartY;
-
-        if (!swipeAxis && (Math.abs(deltaX) > 8 || Math.abs(deltaY) > 8)) {
-          swipeAxis = Math.abs(deltaX) >= Math.abs(deltaY) ? 'x' : 'y';
-        }
-
-        if (swipeAxis === 'x') {
-          swipeDeltaX = deltaX;
-          applySwipeTurnPreview(swipeDeltaX);
-          if (e.cancelable) e.preventDefault();
-        }
-      }, { passive: false });
-
-      readerStage.addEventListener('touchend', function(e) {
-        if (swipeStartX === null || renderingPage || transitioningPage) return;
-
-        const endTouch = e.changedTouches && e.changedTouches[0] ? e.changedTouches[0] : null;
-        const deltaX = swipeDeltaX || (endTouch ? (endTouch.clientX - swipeStartX) : 0);
-        const deltaY = endTouch ? (endTouch.clientY - swipeStartY) : 0;
-        const finalAxis = swipeAxis;
-        swipeStartX = null;
-        swipeStartY = null;
-        swipeAxis = '';
-
-        // Tap Detection
-        if (Math.abs(deltaX) < 10 && Math.abs(deltaY) < 10) {
-          if (endTouch) {
-            const tapX = endTouch.clientX;
-            if (tapX < window.innerWidth * 0.25) {
-              if (activePage > start) showPage(activePage - 1, -1);
-              return;
-            } else if (tapX > window.innerWidth * 0.75) {
-              if (activePage < end) showPage(activePage + 1, 1);
-              return;
-            }
-          }
-          // Center Tap -> Toggle UI
-          const uiTop = document.getElementById('immersiveUi');
-          const uiBottom = document.getElementById('immersiveFooter');
-          if (uiTop) uiTop.classList.toggle('immersive-hidden');
-          if (uiBottom) uiBottom.classList.toggle('immersive-hidden');
-          resetSwipePreview(true);
-          return;
-        }
-
-        if (finalAxis !== 'x' || Math.abs(deltaX) < swipeThreshold) {
-          resetSwipePreview(true);
-          return;
-        }
-
-        if (deltaX < 0) {
-          if (activePage >= end) {
-            resetSwipePreview(true);
-            return;
-          }
-          showPage(activePage + 1, 1);
-        } else {
-          if (activePage <= start) {
-            resetSwipePreview(true);
-            return;
-          }
-          showPage(activePage - 1, -1);
-        }
-      }, { passive: true });
-
-      readerStage.addEventListener('touchcancel', function() {
-        swipeStartX = null;
-        swipeStartY = null;
-        swipeAxis = '';
-        resetSwipePreview(true);
-      }, { passive: true });
-
+      pageFlip.on('flip', updateNav);
+      pageFlip.on('changeOrientation', updateNav);
       updateNav();
-      await showPage(start, 0);
+
+      if (prevBtn) prevBtn.onclick = function() { pageFlip.flipPrev(); };
+      if (nextBtn) nextBtn.onclick = function() { pageFlip.flipNext(); };
+
+      // End page button → finish reading
+      const endBtn = document.getElementById('endPageStartBtn');
+      if (endBtn) {
+        endBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          const finishBtn = document.getElementById('finishReadingBtn');
+          if (finishBtn) finishBtn.click();
+        });
+      }
+
+      // Render PDF pages into placeholders progressively
+      (async function renderAllPages() {
+        for (let i = 0; i < totalPages; i++) {
+          try {
+            const canvas = await createPdfCanvas(pdf, start + i, pageWidth, pageHeight);
+            const host = contentEls[i];
+            if (!host) continue;
+            host.innerHTML = '';
+            const wrap = document.createElement('div');
+            wrap.className = 'pdf-reader-page';
+            wrap.appendChild(canvas);
+            const num = document.createElement('span');
+            num.className = 'pf-page-num';
+            num.textContent = (i + 1) + ' / ' + totalPages;
+            wrap.appendChild(num);
+            host.appendChild(wrap);
+          } catch (e) {
+            console.warn('Page ' + (start + i) + ' render failed', e);
+          }
+        }
+      })();
     }
     
     // Show loading state
