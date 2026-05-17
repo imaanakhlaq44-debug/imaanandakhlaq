@@ -64,6 +64,10 @@ foreach ($pattern in $excludePatterns) {
 # These files (auth.html, teacher-dashboard.html, admin-dashboard.html, etc.) are
 # directly maintained in imaan_hostinger/ and are the source of truth for those
 # pages — Vite SSR doesn't regenerate the dashboards, so we must overwrite them.
+# 2b. OVERLAY hand-edited static files from imaan_hostinger/ over the dist build.
+# These files (auth.html, teacher-dashboard.html, admin-dashboard.html, etc.) are
+# directly maintained in imaan_hostinger/ and are the source of truth for those
+# pages — Vite SSR doesn't regenerate the dashboards, so we must overwrite them.
 Write-Host "[2b] Overlaying hand-edited static files from imaan_hostinger/..." -ForegroundColor Yellow
 $hostingerSrc = Join-Path $PSScriptRoot "..\imaan_hostinger"
 $overlayFiles = @(

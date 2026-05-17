@@ -1,66 +1,99 @@
-<!DOCTYPE html><html lang="en"><head><script src="/kidba_assets/js/regenerator-runtime.min.js"></script>
 
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Imaan &amp; Akhlaq - Islamic Stories &amp; Education for Kids</title>
-  <meta name="description" content="Imaan &amp; Akhlaq - Fun Islamic stories, puppet shows, and educational programs teaching faith, manners, and good character to children.">
-  <meta property="og:title" content="Imaan &amp; Akhlaq - Islamic Education for Kids">
-  <meta property="og:description" content="Join Imaan and Akhlaq on magical adventures learning about Islam, Prophets, and good manners!">
-  <meta property="og:type" content="website">
-  <link rel="icon" type="image/jpeg" href="/kidba_assets/favicon.jpg">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Imaan & Akhlaq - Islamic Stories & Education for Kids</title>
+  <meta name="description" content="Imaan & Akhlaq - Fun Islamic stories, puppet shows, and educational programs teaching faith, manners, and good character to children." />
+  <meta property="og:title" content="Imaan & Akhlaq - Islamic Education for Kids" />
+  <meta property="og:description" content="Join Imaan and Akhlaq on magical adventures learning about Islam, Prophets, and good manners!" />
+  <meta property="og:type" content="website" />
+  <link rel="icon" type="image/jpeg" href="/kidba_assets/favicon.jpg" />
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&amp;family=Nunito:wght@400;500;600;700;800;900&amp;family=Poppins:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <!-- Bootstrap 5 -->
-  <link rel="stylesheet" href="/kidba_assets/vendor/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/kidba_assets/vendor/css/bootstrap.min.css" />
 
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="/kidba_assets/vendor/css/all.min.css">
+  <link rel="stylesheet" href="/kidba_assets/vendor/css/all.min.css" />
 
   <!-- Animate.css -->
-  <link rel="stylesheet" href="/kidba_assets/vendor/css/animate.min.css">
+  <link rel="stylesheet" href="/kidba_assets/vendor/css/animate.min.css" />
 
   <!-- Swiper CSS -->
-  <link rel="stylesheet" href="/kidba_assets/vendor/css/swiper-bundle.min.css">
+  <link rel="stylesheet" href="/kidba_assets/vendor/css/swiper-bundle.min.css" />
 
   <!-- AOS CSS -->
-  <link rel="stylesheet" href="/kidba_assets/vendor/css/aos.css">
+  <link rel="stylesheet" href="/kidba_assets/vendor/css/aos.css" />
 
   <!-- Custom CSS -->
   <link rel="stylesheet" href="/kidba_assets/css/style.css">
-
-  <!-- Capacitor Mobile App: always redirect to Auth on public pages -->
-  <script>
-(function () {
-  // Capacitor injects its bridge automatically
-  var isCap = false;
-  try {
-    isCap = window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform();
-  } catch (e) {}
-  if (isCap) {
-    var host = window.location.hostname;
-    var protocol = window.location.protocol;
-    if (host === '127.0.0.1' || host === '0.0.0.0' || host === 'localhost' && protocol !== 'https:') {
-      var normalizedUrl = 'https://localhost' + window.location.pathname + window.location.search + window.location.hash;
-      if (window.location.href !== normalizedUrl) {
-        window.location.replace(normalizedUrl);
-        return;
-      }
-    }
-    var path = window.location.pathname.replace(/\/index\.html$/, '/').replace(/\.html$/, '').replace(/\/$/, '') || '/';
-    // Only allow these pages in app
-    var allowed = ['/auth', '/student-activities', '/parent-dashboard', '/teacher-dashboard', '/admin-dashboard', '/activity'];
-    if (!allowed.some(p => path === p)) {
-      window.location.replace('https://localhost/auth');
-    }
-  }
-})();
-</script>
 </head>
 <body>
+
+<!-- ===== MOBILE APP SPLASH SCREEN (matches Hostinger) ===== -->
+<div id="appSplash" style="position:fixed;inset:0;z-index:99999;background:#FDF8F5;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 0.5s ease;">
+  <!-- Floating decorative shapes -->
+  <div style="position:absolute;inset:0;overflow:hidden;pointer-events:none;">
+    <div style="position:absolute;width:80px;height:80px;border-radius:50%;background:rgba(214,54,120,0.12);top:8%;left:6%;animation:splFloat 6s ease-in-out infinite;"></div>
+    <div style="position:absolute;width:60px;height:60px;border-radius:50%;background:rgba(224,128,32,0.10);top:14%;right:10%;animation:splFloat 7s ease-in-out infinite 1s;"></div>
+    <div style="position:absolute;width:50px;height:50px;border-radius:50%;background:rgba(201,154,107,0.12);bottom:18%;left:12%;animation:splFloat 5s ease-in-out infinite 0.5s;"></div>
+    <div style="position:absolute;width:70px;height:70px;border-radius:50%;background:rgba(30,45,90,0.06);bottom:12%;right:8%;animation:splFloat 8s ease-in-out infinite 2s;"></div>
+    <div style="position:absolute;width:40px;height:40px;border-radius:50%;background:rgba(214,54,120,0.08);top:45%;left:4%;animation:splFloat 6.5s ease-in-out infinite 3s;"></div>
+    <div style="position:absolute;width:55px;height:55px;border-radius:50%;background:rgba(224,128,32,0.08);top:35%;right:5%;animation:splFloat 7.5s ease-in-out infinite 1.5s;"></div>
+  </div>
+
+  <!-- Center content -->
+  <div style="text-align:center;position:relative;z-index:2;">
+    <!-- Logo with glow ring -->
+    <div style="width:130px;height:130px;margin:0 auto 18px;border-radius:50%;padding:4px;background:linear-gradient(135deg,#D63678,#E08020,#f4c542,#1E2D5A);box-shadow:0 14px 40px rgba(214,54,120,0.22),0 6px 16px rgba(30,45,90,0.12);animation:splPulse 2.5s ease-in-out infinite;">
+      <img src="/kidba_assets/img/splash_logo.jpg" alt="Imaan & Akhlaq" style="width:100%;height:100%;border-radius:50%;object-fit:cover;background:#fff;border:3px solid #fff;" />
+    </div>
+
+    <!-- Animated brand wordmark -->
+    <div style="font-family:'Fredoka One',cursive;font-size:clamp(24px,6.5vw,34px);letter-spacing:1px;margin-bottom:6px;line-height:1.2;">
+      <span style="color:#D63678;animation:splBounce 0.6s ease 0.05s both;">I</span><span style="color:#E08020;animation:splBounce 0.6s ease 0.1s both;">m</span><span style="color:#1E2D5A;animation:splBounce 0.6s ease 0.15s both;">a</span><span style="color:#C99A6B;animation:splBounce 0.6s ease 0.2s both;">a</span><span style="color:#D63678;animation:splBounce 0.6s ease 0.25s both;">n</span><span style="color:#94a3b8;font-size:0.7em;margin:0 4px;">&amp;</span><span style="color:#1E2D5A;animation:splBounce 0.6s ease 0.35s both;">A</span><span style="color:#D63678;animation:splBounce 0.6s ease 0.4s both;">k</span><span style="color:#E08020;animation:splBounce 0.6s ease 0.45s both;">h</span><span style="color:#C99A6B;animation:splBounce 0.6s ease 0.5s both;">l</span><span style="color:#1E2D5A;animation:splBounce 0.6s ease 0.55s both;">a</span><span style="color:#D63678;animation:splBounce 0.6s ease 0.6s both;">q</span>
+    </div>
+
+    <!-- Progress bar -->
+    <div style="width:180px;height:5px;background:rgba(30,45,90,0.08);border-radius:999px;margin:16px auto 10px;overflow:hidden;">
+      <div id="splProgressBar" style="height:100%;width:0%;background:linear-gradient(90deg,#D63678,#E08020);border-radius:999px;transition:width 0.3s ease;"></div>
+    </div>
+
+    <!-- Loading text -->
+    <p style="font-family:'Nunito',sans-serif;font-size:13px;color:#94a3b8;font-weight:600;margin:0;">Loading joyful learning<span id="splDots">...</span></p>
+  </div>
+
+  <!-- Bottom tagline -->
+  <p style="position:absolute;bottom:28px;left:0;right:0;text-align:center;font-family:'Nunito',sans-serif;font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#b0bec5;margin:0;">Islamic Stories &amp; Education for Kids</p>
+</div>
+<style>
+  @keyframes splFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-18px)} }
+  @keyframes splPulse { 0%,100%{transform:scale(1);box-shadow:0 14px 40px rgba(214,54,120,0.22)} 50%{transform:scale(1.04);box-shadow:0 18px 50px rgba(214,54,120,0.32)} }
+  @keyframes splBounce { 0%{opacity:0;transform:translateY(12px)} 100%{opacity:1;transform:translateY(0)} }
+</style>
+<script>
+(function(){
+  var bar = document.getElementById('splProgressBar');
+  var w = 0;
+  var iv = setInterval(function(){ w += Math.random()*12+3; if(w>90) w=90; bar.style.width=w+'%'; }, 200);
+  function hideSplash(){
+    clearInterval(iv);
+    bar.style.width='100%';
+    var el = document.getElementById('appSplash');
+    if(!el) return;
+    setTimeout(function(){ el.style.opacity='0'; setTimeout(function(){ el.remove(); },500); },300);
+  }
+  // Hide after 2.5s max or when auth wrapper renders
+  setTimeout(hideSplash, 2500);
+  window._hideSplash = hideSplash;
+})();
+</script>
 
 
 <style>
@@ -110,16 +143,16 @@
   .auth-container {
     max-width: 1100px;
     margin: 0 auto;
-    padding: 20px 20px 60px;
+    padding: 10px 20px 60px;
     display: grid;
     grid-template-columns: 1.2fr 0.8fr;
-    gap: 60px;
+    gap: 30px;
     width: 100%;
     flex: 1;
   }
 
   @media(max-width: 900px) {
-    .auth-container { grid-template-columns: 1fr; gap: 40px; }
+    .auth-container { grid-template-columns: 1fr; gap: 24px; }
   }
 
   /* Shared Container Styles */
@@ -337,7 +370,7 @@
       radial-gradient(circle at top left, rgba(224, 128, 32, 0.13), transparent 22rem),
       linear-gradient(180deg, #f7fbff 0%, #edf2ff 100%);
   }
-  .auth-nav { position: relative; justify-content: center; padding: 26px 16px 14px; }
+  .auth-nav { position: relative; justify-content: center; padding: 24px 16px 8px; }
   .back-link { display: none !important; }
   .brand-logo {
     display: inline-flex;
@@ -351,62 +384,55 @@
   }
   .brand-logo-img {
     display: block;
-    width: min(86vw, 340px);
+    width: clamp(160px, 28vw, 320px);
     height: auto;
-    border-radius: 20px;
+    border-radius: 22px;
     background: #fff;
-    padding: 6px;
-    box-shadow: 0 14px 32px rgba(30, 45, 90, 0.15), 0 4px 12px rgba(214, 54, 120, 0.10);
+    padding: 8px;
+    box-shadow: 0 16px 36px rgba(30, 45, 90, 0.16), 0 4px 14px rgba(214, 54, 120, 0.12);
     object-fit: contain;
   }
 
   .auth-top-switch-wrap {
     width: 100%;
-    max-width: 420px;
-    margin: 0 auto;
     display: flex;
     justify-content: center;
-    padding: 6px;
-    background: #ffffff;
-    border: 1px solid #dbe4f0;
-    border-radius: 999px;
-    box-shadow: 0 8px 22px rgba(15,23,42,0.07), 0 2px 6px rgba(15,23,42,0.04);
-    box-sizing: border-box;
+    padding: 8px 14px 16px;
   }
   .auth-view-switch {
-    display: flex;
-    align-items: stretch;
-    width: 100%;
-    gap: 4px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
     background: transparent;
     border: none;
     box-shadow: none;
     padding: 0;
   }
   .auth-view-btn {
-    flex: 1 1 0;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border: none;
+    border: 1px solid #dbe4f0;
     border-radius: 999px;
     height: 42px;
+    width: 180px;
     padding: 0 12px;
     font-size: 0.9rem;
     line-height: 1;
     font-weight: 700;
     white-space: nowrap;
     color: #64748b;
-    background: transparent;
+    background: #ffffff;
     cursor: pointer;
     transition: all 0.2s ease;
     font-family: 'Nunito', 'Poppins', sans-serif;
     box-sizing: border-box;
   }
-  .auth-view-btn:hover:not(.active) { color: var(--brand-navy); background: #f1f5f9; }
+  .auth-view-btn:hover:not(.active) { color: var(--brand-navy); border-color: var(--brand-navy); }
   .auth-view-btn.active {
     color: #ffffff;
     background: var(--brand-navy);
+    border-color: var(--brand-navy);
     box-shadow: 0 4px 12px rgba(41, 65, 109, 0.25);
   }
 
@@ -421,145 +447,33 @@
   .auth-wrapper.mode-register .auth-register-panel { display: block; }
   .auth-wrapper.mode-register .auth-login-panel { display: none; }
 
-  /* ===== Desktop polish (>= 901px) — modern SaaS two-column auth layout.
-       Left side: branding panel with logo + tagline.
-       Right side: login/register form, vertically centered. ===== */
-  @media (min-width: 901px) {
-    html, body { height: 100%; }
-    .auth-wrapper {
-      min-height: 100vh;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      grid-template-rows: 1fr;
-      gap: 0;
-      background: #ffffff;
-      position: relative;
-    }
-    /* Left branding panel */
-    .auth-wrapper::before {
-      content: '';
-      grid-column: 1;
-      grid-row: 1;
-      background:
-        radial-gradient(circle at 20% 20%, rgba(207,41,109,0.18), transparent 50%),
-        radial-gradient(circle at 80% 75%, rgba(234,131,0,0.18), transparent 55%),
-        linear-gradient(135deg, #1e2d5a 0%, #29416d 100%);
-    }
-    .auth-nav {
-      grid-column: 1;
-      grid-row: 1;
-      align-self: start;
-      padding: 28px 36px !important;
-      z-index: 2;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      pointer-events: auto;
-      width: 100%;
-      height: 100%;
-    }
-    .brand-logo {
-      flex-direction: column !important;
-      gap: 24px !important;
-      text-align: center;
-    }
-    .brand-logo-img {
-      width: 240px !important;
-      padding: 8px !important;
-      border-radius: 22px !important;
-      box-shadow: 0 18px 40px rgba(0,0,0,0.30), 0 4px 12px rgba(214,54,120,0.20) !important;
-    }
-    .brand-logo::after {
-      content: 'Imaan & Akhlaq';
-      display: block;
-      color: #fff;
-      font-family: 'Fredoka One', cursive;
-      font-size: 2rem;
-      letter-spacing: 0.5px;
-      margin-top: 4px;
-    }
-    /* Tagline below logo */
-    .auth-nav::after {
-      content: 'Building character, one chapter at a time.';
-      color: rgba(255,255,255,0.78);
-      font-size: 1rem;
-      font-weight: 500;
-      max-width: 320px;
-      text-align: center;
-      margin-top: 14px;
-      line-height: 1.5;
-      font-family: 'Inter', 'Nunito', sans-serif;
-    }
-
-    /* Right form column */
-    .auth-top-switch-wrap {
-      grid-column: 2;
-      grid-row: 1;
-      align-self: start;
-      justify-self: center;
-      margin: 32px auto 0 !important;
-      max-width: 380px !important;
-      padding: 6px !important;
-      z-index: 2;
-    }
-    .auth-view-btn { height: 40px !important; font-size: 0.88rem !important; width: auto !important; }
-
-    .auth-container {
-      grid-column: 2;
-      grid-row: 1;
-      align-self: center;
-      justify-self: center;
-      padding: 24px 40px !important;
-      gap: 18px !important;
-      flex: 0 0 auto !important;
-      margin: 0 !important;
-      width: 100%;
-      max-width: 460px !important;
-      grid-template-columns: 1fr !important;
-    }
-    .auth-wrapper.mode-login .auth-container { max-width: 460px !important; }
-    .auth-wrapper.mode-login .auth-login-panel .auth-box {
-      max-width: 100% !important;
-      padding: 36px 36px !important;
-      border-radius: 18px !important;
-      box-shadow: 0 20px 50px rgba(15,23,42,0.10), 0 4px 12px rgba(15,23,42,0.04) !important;
-    }
-    .auth-wrapper.mode-register .auth-container { max-width: 560px !important; }
-    .auth-wrapper.mode-register .auth-register-panel .auth-box {
-      padding: 30px 32px !important;
-    }
-    .auth-box-title { font-size: 1.6rem !important; }
-    .auth-box-desc { font-size: 0.95rem !important; margin-bottom: 22px !important; color: #64748b !important; }
-    .form-control { padding: 11px 14px !important; font-size: 0.95rem !important; }
-    .btn { padding: 12px 18px !important; font-size: 0.95rem !important; }
-  }
-
   @media (max-width: 900px) {
-    .auth-nav { justify-content: center; padding: 16px 14px 10px; gap: 10px; flex-wrap: wrap; }
+    .auth-nav { justify-content: center; padding: 16px 14px 8px; gap: 10px; flex-wrap: wrap; }
+    .brand-logo-img { width: clamp(150px, 38vw, 240px); }
+    .auth-top-switch-wrap { padding: 6px 14px 12px; }
     .auth-container { grid-template-columns: 1fr; }
     .auth-login-panel .auth-box { position: static !important; }
   }
 
   /* ===== Website mobile polish (<= 600px) ===== */
   @media (max-width: 600px) {
-    .auth-nav { padding: 10px 10px 4px; }
-    .brand-logo-img { width: min(56vw, 200px); padding: 4px; border-radius: 14px; }
-    .auth-top-switch-wrap { padding: 5px; max-width: 100%; margin: 6px auto 4px; }
-    .auth-view-switch { width: 100%; gap: 4px; }
+    .auth-nav { padding: 12px 12px 4px; }
+    .brand-logo-img { width: clamp(140px, 46vw, 220px); padding: 6px; border-radius: 18px; }
+    .auth-top-switch-wrap { padding: 4px 12px 10px; }
+    .auth-view-switch { width: 100%; gap: 6px; }
     .auth-view-btn {
       width: auto;
       flex: 1 1 0;
       min-width: 0;
-      height: 38px;
+      height: 40px;
       padding: 0 8px;
       font-size: 0.82rem;
     }
-    .auth-container { padding: 6px 12px 24px !important; gap: 14px !important; }
-    .auth-box { padding: 20px 18px; border-radius: 16px; }
-    .auth-box-title { font-size: 1.2rem; }
-    .auth-box-desc { font-size: 0.86rem; margin-bottom: 16px; }
-    .auth-wrapper.mode-login .auth-login-panel .auth-box { padding: 20px 18px; max-width: 100%; }
+    .auth-container { padding: 0px 12px 40px; gap: 16px; }
+    .auth-box { padding: 22px 18px; border-radius: 16px; }
+    .auth-box-title { font-size: 1.25rem; }
+    .auth-box-desc { font-size: 0.88rem; margin-bottom: 20px; }
+    .auth-wrapper.mode-login .auth-login-panel .auth-box { padding: 22px 18px; max-width: 100%; }
     .auth-register-panel h1 { font-size: 1.4rem !important; }
     .auth-register-panel > p { font-size: 0.85rem !important; margin-bottom: 18px !important; }
     .role-list { grid-template-columns: 1fr; gap: 8px; margin-bottom: 20px; }
@@ -575,25 +489,546 @@
   /* ===== Very small screens (<= 380px) ===== */
   @media (max-width: 380px) {
     .auth-view-btn { font-size: 0.76rem; height: 38px; }
-    .brand-logo-img { width: min(64vw, 200px); }
+    .brand-logo-img { width: 140px; }
     .auth-box { padding: 18px 14px; }
   }
 
+
+
+  /* APK_AUTH_DESIGN_PATCH */
+  .auth-wrapper {
+    background:
+      radial-gradient(circle at top right, rgba(214, 54, 120, 0.16), transparent 28rem),
+      radial-gradient(circle at top left, rgba(224, 128, 32, 0.13), transparent 22rem),
+      linear-gradient(180deg, #f7fbff 0%, #edf2ff 100%);
+  }
+
+  .auth-nav {
+    position: relative;
+    justify-content: center;
+    padding: 18px 12px 12px;
+  }
+
+  .back-link {
+    display: none !important;
+  }
+
+  .brand-logo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    border-radius: 26px;
+    background: linear-gradient(135deg, #d63678 0%, #e08020 45%, #f4c542 70%, #1e2d5a 100%);
+    box-shadow: 0 12px 28px rgba(30, 45, 90, 0.20), 0 3px 8px rgba(214, 54, 120, 0.20);
+    text-decoration: none;
+  }
+
+  .brand-logo-img {
+    display: block;
+    width: clamp(120px, 32vw, 180px);
+    height: clamp(120px, 32vw, 180px);
+    border-radius: 22px;
+    background: #fff;
+    object-fit: contain;
+  }
+
+  .auth-top-switch-wrap { padding: 18px 14px 8px !important; margin: 0 !important; }
+
+  .auth-top-switch-wrap {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 18px 14px 8px;
+  }
+
+  .auth-view-switch {
+    width: min(340px, 100%) !important;
+    height: 38px !important;
+    min-height: 0 !important;
+    max-height: 38px !important;
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: stretch !important;
+    gap: 0 !important;
+    padding: 4px !important;
+    border-radius: 999px !important;
+    border: 1px solid #d7deef !important;
+    background: linear-gradient(180deg, #eef2ff 0%, #e7eefc 100%) !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.8), 0 6px 14px rgba(30,45,90,0.08) !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+  }
+
+  .auth-view-btn {
+    flex: 1 1 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border: none !important;
+    border-radius: 999px !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    padding: 0 8px !important;
+    margin: 0 !important;
+    font-size: 0.66rem !important;
+    line-height: 1 !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.03em !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    color: #61708d !important;
+    background: transparent !important;
+    cursor: pointer !important;
+    transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease !important;
+    box-sizing: border-box !important;
+  }
+
+  .auth-view-btn:hover:not(.active) {
+    background: rgba(255,255,255,0.65) !important;
+    color: var(--brand-navy) !important;
+  }
+
+  .auth-view-btn.active {
+    color: var(--brand-navy) !important;
+    background: linear-gradient(180deg, #ffffff 0%, #f4f7ff 100%) !important;
+    box-shadow: 0 4px 10px rgba(30,45,90,0.14), inset 0 0 0 1px rgba(255,255,255,0.9) !important;
+  }
+
+  .auth-container {
+    max-width: 1140px;
+    grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
+    gap: 12px;
+    padding: 4px 14px 12px;
+    margin-top: 0 !important;
+    flex: 0 0 auto !important;
+  }
+
+  /* Center the entire auth shell vertically */
+  .auth-wrapper { 
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important; 
+    min-height: 100vh !important; 
+  }
+  .auth-wrapper > * { flex: 0 0 auto !important; }
+  .auth-login-panel, .auth-register-panel { margin-top: 0 !important; }
+
+  .auth-box {
+    border-radius: 18px;
+    border-color: #dbe4f0;
+    padding: 18px 18px;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06), 0 2px 6px rgba(15, 23, 42, 0.03);
+  }
+
+  .auth-box-title { font-size: 1.15rem !important; margin-bottom: 4px !important; }
+  .auth-box-desc  { font-size: 0.82rem !important; margin-bottom: 14px !important; }
+
+  .auth-login-panel .auth-box {
+    position: sticky !important;
+    top: 24px !important;
+  }
+
+  .role-list {
+    gap: 14px;
+  }
+
+  .role-item {
+    border-radius: 16px;
+    border-color: #dbe4f0;
+    box-shadow: 0 6px 14px rgba(15, 23, 42, 0.03);
+  }
+
+  .role-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08);
+  }
+
+  .role-item.active {
+    background: #fff1f6;
+    box-shadow: 0 0 0 1px var(--brand-pink), 0 14px 30px rgba(214,54,120,0.14);
+  }
+
+  .btn {
+    border-radius: 12px;
+  }
+
+  .auth-wrapper.mode-login .auth-container {
+    max-width: 650px;
+    grid-template-columns: 1fr;
+  }
+
+  .auth-wrapper.mode-login .auth-register-panel {
+    display: none;
+  }
+
+  .auth-wrapper.mode-login .auth-login-panel {
+    display: block;
+  }
+
+  .auth-wrapper.mode-login .auth-login-panel .auth-box {
+    position: static !important;
+  }
+
+  .auth-wrapper.mode-register .auth-container {
+    max-width: 900px;
+    grid-template-columns: 1fr;
+  }
+
+  .auth-wrapper.mode-register .auth-register-panel {
+    display: block;
+  }
+
+  .auth-wrapper.mode-register .auth-login-panel {
+    display: none;
+  }
+
+  @media (max-width: 900px) {
+    .auth-nav {
+      justify-content: center;
+      padding: 14px 12px 10px;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .brand-logo {
+      order: 1;
+      padding: 4px;
+    }
+
+    .brand-logo-img {
+      width: clamp(110px, 36vw, 160px);
+      height: clamp(110px, 36vw, 160px);
+    }
+
+    .auth-top-switch-wrap { padding: 14px 14px 8px !important; }
+
+    .auth-container {
+      grid-template-columns: 1fr;
+      padding: 4px 12px 10px !important;
+      gap: 8px !important;
+      margin-top: 0 !important;
+    }
+
+    .auth-box { padding: 14px; margin-top: 0 !important; }
+    .role-list { gap: 8px !important; margin-bottom: 12px !important; }
+    .role-item { padding: 10px 12px !important; }
+
+    .auth-login-panel .auth-box {
+      position: static !important;
+    }
+  }
+
+  /* Tablet portrait */
+  @media (min-width: 600px) and (max-width: 1024px) {
+    .brand-logo-img {
+      width: clamp(140px, 24vw, 180px);
+      height: clamp(140px, 24vw, 180px);
+    }
+    .auth-nav { padding: 22px 14px 14px; }
+    .auth-top-switch-wrap { padding: 18px 14px 12px !important; }
+  }
+
+  /* Small phones */
+  @media (max-width: 380px) {
+    .brand-logo-img {
+      width: 110px;
+      height: 110px;
+    }
+    .auth-nav { padding: 12px 10px 8px; }
+    .auth-top-switch-wrap { padding: 12px 10px 6px !important; }
+  }
+
+  /* ===== APK overflow safety net (login + register cards going off-screen) ===== */
+  html, body {
+    overflow-x: hidden !important;
+    max-width: 100% !important;
+  }
+  .auth-wrapper {
+    overflow-x: hidden !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+  .auth-container,
+  .auth-box,
+  .auth-login-panel,
+  .auth-register-panel,
+  .auth-login-panel > *,
+  .auth-register-panel > *,
+  .role-list,
+  .role-item,
+  .form-grid,
+  .form-group,
+  .form-control,
+  .pw-wrapper,
+  .btn {
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  .form-control { width: 100% !important; min-width: 0 !important; }
+
+  /* Force single-column form grid on phones (was 600px in base CSS, too tight) */
+  @media (max-width: 760px) {
+    .form-grid { grid-template-columns: 1fr !important; gap: 12px !important; }
+    .auth-container {
+      max-width: 100% !important;
+      padding: 4px 10px 14px !important;
+      gap: 10px !important;
+    }
+    .auth-box {
+      padding: 16px 14px !important;
+      border-radius: 14px !important;
+    }
+    .auth-box-title { font-size: 1.05rem !important; }
+    .auth-box-desc  { font-size: 0.78rem !important; margin-bottom: 12px !important; }
+    .role-item { padding: 10px 12px !important; }
+    .role-item-title { font-size: 0.92rem !important; }
+    .role-item-desc  { font-size: 0.76rem !important; }
+    .form-label { font-size: 0.82rem !important; }
+    .form-control {
+      padding: 11px 13px !important;
+      font-size: 0.92rem !important;
+    }
+    .btn {
+      padding: 13px 16px !important;
+      font-size: 0.95rem !important;
+    }
+    .auth-login-panel .auth-box,
+    .auth-register-panel .auth-box {
+      position: static !important;
+      top: auto !important;
+    }
+  }
+
+  /* Very small phones (<= 380px) — tighten further */
+  @media (max-width: 380px) {
+    .auth-container { padding: 2px 8px 12px !important; }
+    .auth-box { padding: 14px 12px !important; }
+    .form-control { padding: 10px 12px !important; font-size: 0.9rem !important; }
+    .role-item { padding: 9px 10px !important; }
+    .auth-view-switch { width: min(300px, 100%) !important; }
+  }
+  
 </style>
 
+<!-- ===== SPLIT-SCREEN DESKTOP DESIGN OVERRIDE ===== -->
+<style>
+@media (min-width: 1025px) {
+
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  /* Body becomes a flex row */
+  body {
+    display: flex !important;
+    flex-direction: row !important;
+  }
+
+  /* ── LEFT PANEL ── */
+  .auth-left-panel {
+    width: 42% !important;
+    min-width: 42% !important;
+    height: 100vh !important;
+    position: fixed !important;
+    left: 0 !important;
+    top: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 48px 40px !important;
+    text-align: center !important;
+    background:
+      radial-gradient(ellipse at 25% 20%, rgba(214,54,120,0.20) 0%, transparent 50%),
+      radial-gradient(ellipse at 75% 80%, rgba(224,128,32,0.14) 0%, transparent 50%),
+      linear-gradient(155deg, #1a2547 0%, #1E2D5A 50%, #15203a 100%);
+    z-index: 10 !important;
+    overflow: hidden !important;
+  }
+
+  /* ── RIGHT PANEL ── */
+  .auth-right-panel {
+    margin-left: 42% !important;
+    width: 58% !important;
+    height: 100vh !important;
+    overflow-y: auto !important;
+    background: #f8fafc !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    position: relative !important;
+    z-index: 5 !important;
+  }
+
+  /* Right-panel nav buttons */
+  .auth-right-nav {
+    width: 100% !important;
+    padding: 28px 40px 0 !important;
+    display: flex !important;
+    justify-content: flex-end !important;
+    align-items: center !important;
+    gap: 10px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .auth-right-nav .auth-view-btn {
+    height: 44px !important;
+    padding: 0 24px !important;
+    width: auto !important;
+    min-width: 160px !important;
+    font-size: 0.82rem !important;
+    border-radius: 999px !important;
+    font-weight: 700 !important;
+    border: 2px solid #dbe4f0 !important;
+    background: #fff !important;
+    color: #64748b !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    font-family: 'Inter', sans-serif !important;
+    letter-spacing: 0.02em !important;
+    text-transform: uppercase !important;
+  }
+  .auth-right-nav .auth-view-btn.active {
+    background: #1E2D5A !important;
+    color: #fff !important;
+    border-color: #1E2D5A !important;
+    box-shadow: 0 4px 14px rgba(30,45,90,0.28) !important;
+  }
+  .auth-right-nav .auth-view-btn:hover:not(.active) {
+    border-color: #1E2D5A !important;
+    color: #1E2D5A !important;
+    background: #fff !important;
+  }
+
+  /* Hide old top nav & switch — replaced by in-card tabs */
+  .auth-nav { display: none !important; }
+  .auth-top-switch-wrap { display: none !important; }
+  .auth-right-nav { display: none !important; }
+
+  /* Card TRULY centered in right panel */
+  .auth-right-panel {
+    justify-content: center !important;
+    align-items: center !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  /* Center the form container */
+  .auth-container {
+    width: 100% !important;
+    max-width: 560px !important;
+    grid-template-columns: 1fr !important;
+    padding: 24px !important;
+    gap: 20px !important;
+    margin: 0 auto !important;
+    flex: unset !important;
+  }
+
+  .auth-wrapper.mode-login .auth-container  { max-width: 500px !important; }
+  .auth-wrapper.mode-register .auth-container { max-width: 700px !important; }
+
+
+  /* auth-wrapper — flex column centered inside right panel */
+  .auth-wrapper {
+    width: 100% !important;
+    max-width: 100% !important;
+    background: none !important;
+    min-height: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    overflow: visible !important;
+    flex: unset !important;
+  }
+
+  .auth-wrapper.mode-login .auth-register-panel  { display: none !important; }
+  .auth-wrapper.mode-login .auth-login-panel     { display: block !important; }
+  .auth-wrapper.mode-register .auth-register-panel { display: block !important; }
+  .auth-wrapper.mode-register .auth-login-panel  { display: none !important; }
+
+
+  .auth-box {
+    border-radius: 20px !important;
+    padding: 32px 32px !important;
+    box-shadow: 0 8px 28px rgba(15,23,42,0.08), 0 2px 6px rgba(15,23,42,0.04) !important;
+    border: 1px solid #e2e8f0 !important;
+    background: #fff !important;
+  }
+  .auth-login-panel .auth-box { position: static !important; }
+  .auth-box-title { font-size: 1.5rem !important; margin-bottom: 6px !important; }
+  .auth-box-desc  { font-size: 0.93rem !important; margin-bottom: 22px !important; }
+  .btn { border-radius: 10px !important; }
+}
+</style>
+
+
+<!-- Left branding panel (only visible on desktop via CSS) -->
+<div class="auth-left-panel" id="authLeftPanel">
+  <!-- Logo glow ring -->
+  <div style="width:150px;height:150px;border-radius:50%;padding:4px;background:linear-gradient(135deg,#D63678,#E08020,#f4c542,#1E2D5A);box-shadow:0 18px 48px rgba(214,54,120,0.28),0 6px 20px rgba(0,0,0,0.25);margin-bottom:28px;flex-shrink:0;">
+    <img src="/kidba_assets/img/splash_logo.jpg" alt="Imaan & Akhlaq" style="width:100%;height:100%;border-radius:50%;object-fit:cover;border:4px solid #fff;" />
+  </div>
+
+  <!-- Brand name -->
+  <div style="font-family:'Fredoka One',cursive;font-size:2.4rem;color:#fff;line-height:1.1;margin-bottom:10px;letter-spacing:0.5px;">
+    Imaan<br><span style="color:#f4c542;">&</span> Akhlaq
+  </div>
+
+  <p style="color:rgba(255,255,255,0.65);font-size:1rem;font-weight:500;max-width:260px;line-height:1.6;margin-bottom:36px;">
+    Moral education for kids — building character, values &amp; good manners.
+  </p>
+
+  <!-- Feature highlights -->
+  <div style="display:flex;flex-direction:column;gap:14px;width:100%;max-width:280px;">
+    <div style="display:flex;align-items:center;gap:12px;background:rgba(255,255,255,0.07);border-radius:12px;padding:12px 16px;border:1px solid rgba(255,255,255,0.1);">
+      <div style="width:36px;height:36px;border-radius:10px;background:rgba(214,54,120,0.25);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <i class="fas fa-star" style="color:#f48fb1;font-size:0.95rem;"></i>
+      </div>
+      <span style="color:rgba(255,255,255,0.85);font-size:0.88rem;font-weight:600;">Character & Values Education</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;background:rgba(255,255,255,0.07);border-radius:12px;padding:12px 16px;border:1px solid rgba(255,255,255,0.1);">
+      <div style="width:36px;height:36px;border-radius:10px;background:rgba(224,128,32,0.25);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <i class="fas fa-school" style="color:#ffcc80;font-size:0.95rem;"></i>
+      </div>
+      <span style="color:rgba(255,255,255,0.85);font-size:0.88rem;font-weight:600;">School &amp; Parent Portals</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;background:rgba(255,255,255,0.07);border-radius:12px;padding:12px 16px;border:1px solid rgba(255,255,255,0.1);">
+      <div style="width:36px;height:36px;border-radius:10px;background:rgba(244,197,66,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <i class="fas fa-gamepad" style="color:#f4c542;font-size:0.95rem;"></i>
+      </div>
+      <span style="color:rgba(255,255,255,0.85);font-size:0.88rem;font-weight:600;">Gamified Learning Journey</span>
+    </div>
+  </div>
+
+  <!-- Bottom copyright -->
+  <p style="position:absolute;bottom:24px;color:rgba(255,255,255,0.3);font-size:0.75rem;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;">
+    © 2025 Imaan & Akhlaq
+  </p>
+</div>
+
+<!-- Right panel wrapper -->
+<div class="auth-right-panel" id="authRightPanel">
+
 <div class="auth-wrapper">
-  
-  <!-- Navigation Header -->
+
+  <!-- Navigation Header (hidden on desktop) -->
   <header class="auth-nav">
-    <a href="/" class="back-link"><i class="fas fa-arrow-left"></i> Back to Homepage</a>
-    <a href="/" class="brand-logo" aria-label="Imaan and Akhlaq">
-      <img src="/kidba_assets/img/splash_logo.jpg" alt="Imaan and Akhlaq" class="brand-logo-img">
+    <a href="/" class="back-link" id="authBackLink"><i class="fas fa-arrow-left"></i> Back to Homepage</a>
+    <a href="/" class="brand-logo" id="authBrandLink" aria-label="Imaan and Akhlaq">
+      <img src="/kidba_assets/img/splash_logo.jpg" alt="Imaan and Akhlaq" class="brand-logo-img" />
     </a>
   </header>
 
   <main class="auth-container">
-    
-    <!-- Mode switch: Login / Register -->
+
+    <!-- Mode switch (mobile only) -->
     <div class="auth-top-switch-wrap" style="grid-column: 1 / -1;">
       <div class="auth-view-switch">
         <button id="authModeLogin" type="button" class="auth-view-btn active" onclick="setAuthPanel('login')">Already Registered</button>
@@ -603,6 +1038,20 @@
 
     <!-- LEFT: Registration Focus -->
     <section class="auth-register-panel">
+
+      <!-- Tab switcher sticky at top -->
+      <div style="display:flex;gap:0;margin-bottom:28px;background:#f1f5f9;border-radius:10px;padding:4px;max-width:340px;">
+        <button type="button" onclick="setAuthPanel('login')"
+          id="regTabLogin"
+          style="flex:1;padding:9px 12px;border:none;border-radius:8px;font-size:0.82rem;font-weight:700;cursor:pointer;transition:all 0.2s;font-family:'Inter',sans-serif;letter-spacing:0.02em;background:transparent;color:#64748b;">
+          &#8592; Already Registered
+        </button>
+        <button type="button" onclick="setAuthPanel('register')"
+          style="flex:1;padding:9px 12px;border:none;border-radius:8px;font-size:0.82rem;font-weight:700;cursor:pointer;transition:all 0.2s;font-family:'Inter',sans-serif;letter-spacing:0.02em;background:#1E2D5A;color:#fff;box-shadow:0 2px 8px rgba(30,45,90,0.2);">
+          New Registration
+        </button>
+      </div>
+
       <h1 style="font-size:1.75rem; font-weight:800; color:var(--brand-navy); margin-bottom:8px; letter-spacing:-0.02em;">Create your account</h1>
       <p style="color:var(--text-sec); font-size:0.92rem; margin-bottom:24px; max-width:520px; line-height:1.5;">Choose a role to get started. Schools register directly. Teachers, Students, and Parents need a school invitation code.</p>
 
@@ -758,17 +1207,30 @@
     <!-- RIGHT: Login Focus -->
     <aside class="auth-login-panel">
       <div class="auth-box" style="position:sticky; top:40px;">
+
+        <!-- Tab switcher inside card -->
+        <div style="display:flex;gap:0;margin-bottom:22px;background:#f1f5f9;border-radius:10px;padding:4px;">
+          <button id="authRightLogin" type="button" onclick="setAuthPanel('login')"
+            style="flex:1;padding:9px 12px;border:none;border-radius:8px;font-size:0.82rem;font-weight:700;cursor:pointer;transition:all 0.2s;font-family:'Inter',sans-serif;letter-spacing:0.02em;background:#1E2D5A;color:#fff;box-shadow:0 2px 8px rgba(30,45,90,0.2);">
+            Already Registered
+          </button>
+          <button id="authRightRegister" type="button" onclick="setAuthPanel('register')"
+            style="flex:1;padding:9px 12px;border:none;border-radius:8px;font-size:0.82rem;font-weight:700;cursor:pointer;transition:all 0.2s;font-family:'Inter',sans-serif;letter-spacing:0.02em;background:transparent;color:#64748b;">
+            New Registration
+          </button>
+        </div>
+
         <h3 class="auth-box-title">Welcome back</h3>
         <p class="auth-box-desc">Log in to enter your portal.</p>
 
         <div class="form-group">
           <label class="form-label">Email or Phone Number</label>
-          <input type="text" class="form-control" id="loginId" placeholder="name@school.com">
+          <input type="text" class="form-control" id="loginId" placeholder="name@school.com" onkeydown="if(event.key==='Enter'){event.preventDefault(); document.getElementById('loginPw').focus();}">
         </div>
         <div class="form-group">
           <label class="form-label">Password</label>
           <div class="pw-wrapper">
-            <input type="password" class="form-control" id="loginPw" placeholder="Enter your password">
+            <input type="password" class="form-control" id="loginPw" placeholder="Enter your password" onkeydown="if(event.key==='Enter'){event.preventDefault(); loginUser();}">
             <button type="button" class="pw-toggle" onclick="togglePw('loginPw')"><i class="fas fa-eye"></i></button>
           </div>
         </div>
@@ -779,7 +1241,8 @@
     </aside>
 
   </main>
-</div>
+</div><!-- /auth-wrapper -->
+</div><!-- /auth-right-panel -->
 
 <!-- OTP VERIFICATION MODAL -->
 <div id="otpOverlay" class="modal-overlay">
@@ -837,193 +1300,497 @@
 <div id="authToast" class="toast"></div>
 
 <!-- EmailJS SDK for OTP delivery -->
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>
-(function () {
-  function initEmailJs() {
-    if (typeof emailjs !== 'undefined' && emailjs.init) {
-      emailjs.init({
-        publicKey: '3CYK0qkbGm9ciHc0i'
-      });
-    } else {
-      setTimeout(initEmailJs, 200);
+  (function() {
+    function initEmailJs() {
+      if (typeof emailjs !== 'undefined' && emailjs.init) {
+        emailjs.init({ publicKey: '3CYK0qkbGm9ciHc0i' });
+      } else {
+        setTimeout(initEmailJs, 200);
+      }
     }
-  }
-  initEmailJs();
-})();
+    initEmailJs();
+  })();
 </script>
 
 <script>
-function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
-function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
-function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, signOut, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
-import { getFirestore, doc, setDoc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
-const firebaseConfig = {
-  apiKey: "AIzaSyA4MrV-oXhK_johreyzIucti5RFrKcvyG8",
-  authDomain: "imaan-app-1d2da.firebaseapp.com",
-  projectId: "imaan-app-1d2da",
-  storageBucket: "imaan-app-1d2da.firebasestorage.app",
-  messagingSenderId: "373650938167",
-  appId: "1:373650938167:web:e9da1317c118bc720d22b2"
-};
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
+  window.setAuthPanel = function (mode) {
+    var wrapper = document.querySelector('.auth-wrapper');
+    var loginBtn = document.getElementById('authModeLogin');
+    var registerBtn = document.getElementById('authModeRegister');
+    if (!wrapper || !loginBtn || !registerBtn) return;
 
-// CRITICAL: Force LOCAL persistence so the auth session survives page navigation
-// (auth.html -> teacher-dashboard.html). Without this, sessions can drop in ~10s
-// when the cross-domain auth iframe fails to sync.
-setPersistence(auth, browserLocalPersistence).catch(e => console.warn('setPersistence failed:', e));
-function showToast(msg, type) {
-  const t = document.getElementById('authToast');
-  t.textContent = msg;
-  t.className = 'toast ' + type + ' show';
-  setTimeout(() => t.classList.remove('show'), 3500);
-}
-function genCode(prefix) {
-  return prefix + '-' + Math.random().toString(36).substr(2, 5).toUpperCase();
-}
-function genId(prefix) {
-  return prefix + '_' + Math.floor(100 + Math.random() * 900);
-}
-window.setAuthPanel = mode => {
-  const wrapper = document.querySelector('.auth-wrapper');
-  const loginBtn = document.getElementById('authModeLogin');
-  const registerBtn = document.getElementById('authModeRegister');
-  if (!wrapper || !loginBtn || !registerBtn) return;
-  const isRegister = mode === 'register';
-  wrapper.classList.toggle('mode-register', isRegister);
-  wrapper.classList.toggle('mode-login', !isRegister);
-  loginBtn.classList.toggle('active', !isRegister);
-  registerBtn.classList.toggle('active', isRegister);
-};
-document.addEventListener('DOMContentLoaded', () => {
-  window.setAuthPanel('login');
-});
-window.selectRole = role => {
-  if (typeof window.setAuthPanel === 'function') window.setAuthPanel('register');
-  document.querySelectorAll('.role-item').forEach(c => c.classList.remove('active'));
-  document.querySelectorAll('.reg-form-wrapper').forEach(f => f.classList.remove('open'));
-  document.querySelector('.role-item-' + role).classList.add('active');
-  document.getElementById('form-' + role).classList.add('open');
-  setTimeout(() => document.getElementById('form-' + role).scrollIntoView({
-    behavior: 'smooth',
-    block: 'center'
-  }), 100);
-};
-window.togglePw = id => {
-  var _inp$nextElementSibli;
-  const inp = document.getElementById(id);
-  const icon = ((_inp$nextElementSibli = inp.nextElementSibling) === null || _inp$nextElementSibli === void 0 ? void 0 : _inp$nextElementSibli.querySelector('i')) || inp.parentElement.querySelector('.pw-toggle i');
-  if (inp.type === 'password') {
-    inp.type = 'text';
-    icon.className = 'fas fa-eye-slash';
-  } else {
-    inp.type = 'password';
-    icon.className = 'fas fa-eye';
-  }
-};
+    var isRegister = mode === 'register';
+    if (isRegister) {
+      wrapper.classList.add('mode-register');
+      wrapper.classList.remove('mode-login');
+      registerBtn.classList.add('active');
+      loginBtn.classList.remove('active');
+    } else {
+      wrapper.classList.add('mode-login');
+      wrapper.classList.remove('mode-register');
+      loginBtn.classList.add('active');
+      registerBtn.classList.remove('active');
+    }
+  };
 
-// Track the email of the just-registered user so we can prefill the login form
-let lastRegisteredEmail = '';
-window.closeSuccess = /*#__PURE__*/_asyncToGenerator(function* () {
-  document.getElementById('successOverlay').classList.remove('show');
-  // Sign the user out (Firebase auto-signs in after createUser) so they land
-  // on the login screen, then switch the panel back to "login" mode.
-  try {
-    yield signOut(auth);
-  } catch (_) {}
-  if (typeof window.setAuthPanel === 'function') window.setAuthPanel('login');
-  if (lastRegisteredEmail) {
-    const loginIdEl = document.getElementById('loginId');
-    if (loginIdEl) loginIdEl.value = lastRegisteredEmail;
-  }
-  // Smooth-scroll to the login panel for visibility on small screens
-  setTimeout(() => {
-    const loginPanel = document.querySelector('.auth-login-panel') || document.getElementById('loginId');
-    if (loginPanel) loginPanel.scrollIntoView({
-      behavior: 'smooth',
-      block: 'center'
+  document.addEventListener('DOMContentLoaded', function () {
+    window.setAuthPanel('login');
+  });
+</script>
+
+<script>
+  (function () {
+    if (window.__apkLegacyAuthInit) return;
+    window.__apkLegacyAuthInit = true;
+
+    var FIREBASE_API_KEY = 'AIzaSyA4MrV-oXhK_johreyzIucti5RFrKcvyG8';
+    var FIREBASE_PROJECT_ID = 'imaan-app-1d2da';
+
+    function showLegacyToast(message, type) {
+      var toast = document.getElementById('authToast');
+      if (!toast) {
+        alert(message);
+        return;
+      }
+      toast.textContent = message;
+      toast.className = 'toast show ' + (type || 'error');
+      setTimeout(function () {
+        toast.className = 'toast';
+      }, 2500);
+    }
+
+    function showToastCompat(message, type) {
+      if (typeof window.showToast === 'function') {
+        try {
+          window.showToast(message, type);
+          return;
+        } catch (e) {}
+      }
+      showLegacyToast(message, type);
+    }
+
+    function normalizePhone(value) {
+      return String(value || '').replace(/[\s\-()]/g, '');
+    }
+
+    function decodeFsValue(value) {
+      if (!value) return null;
+      if (Object.prototype.hasOwnProperty.call(value, 'stringValue')) return value.stringValue;
+      if (Object.prototype.hasOwnProperty.call(value, 'integerValue')) return Number(value.integerValue);
+      if (Object.prototype.hasOwnProperty.call(value, 'doubleValue')) return Number(value.doubleValue);
+      if (Object.prototype.hasOwnProperty.call(value, 'booleanValue')) return !!value.booleanValue;
+      if (Object.prototype.hasOwnProperty.call(value, 'timestampValue')) return value.timestampValue;
+      if (Object.prototype.hasOwnProperty.call(value, 'nullValue')) return null;
+      return null;
+    }
+
+    function decodeFsFields(fields) {
+      var out = {};
+      if (!fields) return out;
+      for (var key in fields) {
+        if (!Object.prototype.hasOwnProperty.call(fields, key)) continue;
+        out[key] = decodeFsValue(fields[key]);
+      }
+      return out;
+    }
+
+    function mapAuthError(message) {
+      if (!message) return 'Login failed. Please retry.';
+      if (message === 'INVALID_LOGIN_CREDENTIALS') return 'Invalid email or password.';
+      if (message === 'INVALID_PASSWORD') return 'Invalid password.';
+      if (message === 'EMAIL_NOT_FOUND') return 'Email not found.';
+      if (message === 'USER_DISABLED') return 'This account is disabled.';
+      if (message === 'TOO_MANY_ATTEMPTS_TRY_LATER') return 'Too many attempts. Try later.';
+      return message;
+    }
+
+    function xhrJson(method, url, body, headers, cb) {
+      var req = new XMLHttpRequest();
+      req.open(method, url, true);
+      req.setRequestHeader('Content-Type', 'application/json');
+      if (headers) {
+        for (var key in headers) {
+          if (Object.prototype.hasOwnProperty.call(headers, key)) {
+            req.setRequestHeader(key, headers[key]);
+          }
+        }
+      }
+
+      req.onreadystatechange = function () {
+        if (req.readyState !== 4) return;
+
+        var parsed = null;
+        try {
+          parsed = req.responseText ? JSON.parse(req.responseText) : {};
+        } catch (e) {
+          parsed = {};
+        }
+
+        if (req.status >= 200 && req.status < 300) cb(null, parsed);
+        else cb(parsed || { error: { message: 'HTTP_' + req.status } }, null);
+      };
+
+      req.onerror = function () {
+        cb({ error: { message: 'NETWORK_ERROR' } }, null);
+      };
+
+      req.send(body ? JSON.stringify(body) : null);
+    }
+
+    function lookupEmailByPhone(phone, done) {
+      var candidates = [phone];
+      if (phone.charAt(0) === '+') candidates.push(phone.slice(1));
+      else candidates.push('+' + phone);
+
+      var index = 0;
+      function next() {
+        if (index >= candidates.length) {
+          done('');
+          return;
+        }
+
+        var candidate = candidates[index++];
+        var queryUrl = 'https://firestore.googleapis.com/v1/projects/' + FIREBASE_PROJECT_ID + '/databases/(default)/documents:runQuery?key=' + FIREBASE_API_KEY;
+        var queryBody = {
+          structuredQuery: {
+            from: [{ collectionId: 'users' }],
+            where: {
+              fieldFilter: {
+                field: { fieldPath: 'phone' },
+                op: 'EQUAL',
+                value: { stringValue: candidate }
+              }
+            },
+            limit: 1
+          }
+        };
+
+        xhrJson('POST', queryUrl, queryBody, null, function (err, data) {
+          if (err || !data || !data.length || !data[0].document || !data[0].document.fields) {
+            next();
+            return;
+          }
+
+          var userFields = decodeFsFields(data[0].document.fields);
+          done(userFields.email || '');
+        });
+      }
+
+      next();
+    }
+
+    function fetchUserDoc(uid, idToken, cb) {
+      var docUrl = 'https://firestore.googleapis.com/v1/projects/' + FIREBASE_PROJECT_ID + '/databases/(default)/documents/users/' + encodeURIComponent(uid) + '?key=' + FIREBASE_API_KEY;
+      xhrJson('GET', docUrl, null, { Authorization: 'Bearer ' + idToken }, function (err, data) {
+        if (err || !data || !data.fields) {
+          cb(new Error('User record not found in system.'), null);
+          return;
+        }
+        cb(null, decodeFsFields(data.fields));
+      });
+    }
+
+    function saveAuthAndRedirect(uid, userData) {
+      var payload = { uid: uid };
+      for (var key in userData) {
+        if (Object.prototype.hasOwnProperty.call(userData, key)) payload[key] = userData[key];
+      }
+
+      var authData = JSON.stringify(payload);
+      localStorage.setItem('auth_user', authData);
+      sessionStorage.setItem('auth_user', authData);
+
+      showToastCompat('Success! Redirecting...', 'success');
+      setTimeout(function () {
+        if (userData.role === 'super_admin') window.location.href = './super-admin-dashboard.html';
+        else if (userData.role === 'school_admin') window.location.href = './admin-dashboard.html';
+        else if (userData.role === 'teacher') window.location.href = './teacher-dashboard.html';
+        else if (userData.role === 'student' || userData.role === 'individual') window.location.href = './student-activities.html';
+        else if (userData.role === 'parent') window.location.href = './parent-dashboard.html';
+        else showToastCompat('User role not configured.', 'error');
+      }, 700);
+    }
+
+    function signInWithEmail(email, password, onDone, onError) {
+      var authUrl = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' + FIREBASE_API_KEY;
+      var authBody = { email: email, password: password, returnSecureToken: true };
+
+      xhrJson('POST', authUrl, authBody, null, function (err, data) {
+        if (err || !data || !data.localId || !data.idToken) {
+          var code = err && err.error && err.error.message ? err.error.message : 'LOGIN_FAILED';
+          onError(mapAuthError(code));
+          return;
+        }
+        onDone(data.localId, data.idToken);
+      });
+    }
+
+    window.togglePw = function (id) {
+      var inp = document.getElementById(id);
+      if (!inp) return;
+
+      var btn = inp.nextElementSibling;
+      var icon = null;
+      if (btn && btn.querySelector) icon = btn.querySelector('i');
+      if (!icon && inp.parentElement && inp.parentElement.querySelector) icon = inp.parentElement.querySelector('.pw-toggle i');
+
+      if (inp.type === 'password') {
+        inp.type = 'text';
+        if (icon) icon.className = 'fas fa-eye-slash';
+      } else {
+        inp.type = 'password';
+        if (icon) icon.className = 'fas fa-eye';
+      }
+    };
+
+    window.selectRole = function (role) {
+      if (typeof window.setAuthPanel === 'function') window.setAuthPanel('register');
+
+      var cards = document.querySelectorAll('.role-item');
+      for (var i = 0; i < cards.length; i++) cards[i].classList.remove('active');
+
+      var forms = document.querySelectorAll('.reg-form-wrapper');
+      for (var j = 0; j < forms.length; j++) forms[j].classList.remove('open');
+
+      var targetCard = document.querySelector('.role-item-' + role);
+      if (targetCard) targetCard.classList.add('active');
+
+      var targetForm = document.getElementById('form-' + role);
+      if (targetForm) {
+        targetForm.classList.add('open');
+        if (targetForm.scrollIntoView) targetForm.scrollIntoView();
+      }
+    };
+
+    window.closeSuccess = function () {
+      var overlay = document.getElementById('successOverlay');
+      if (overlay) overlay.classList.remove('show');
+    };
+
+    window.loginUser = function () {
+      var loginIdEl = document.getElementById('loginId');
+      var loginPwEl = document.getElementById('loginPw');
+      if (!loginIdEl || !loginPwEl) return;
+
+      var rawId = String(loginIdEl.value || '').trim();
+      var pw = loginPwEl.value;
+      if (!rawId || !pw) {
+        showToastCompat('Enter email and password', 'error');
+        return;
+      }
+
+      showToastCompat('Logging in...', 'success');
+
+      function completeLogin(uid, idToken) {
+        fetchUserDoc(uid, idToken, function (err, userData) {
+          if (err) {
+            showToastCompat(err.message || 'User record not found in system.', 'error');
+            return;
+          }
+          saveAuthAndRedirect(uid, userData || {});
+        });
+      }
+
+      if (rawId.indexOf('@') !== -1) {
+        signInWithEmail(rawId, pw, completeLogin, function (msg) {
+          showToastCompat(msg, 'error');
+        });
+        return;
+      }
+
+      var normalizedPhone = normalizePhone(rawId);
+      lookupEmailByPhone(normalizedPhone, function (email) {
+        if (!email) {
+          showToastCompat('No account found for this phone number. Try email login.', 'error');
+          return;
+        }
+        signInWithEmail(email, pw, completeLogin, function (msg) {
+          showToastCompat(msg, 'error');
+        });
+      });
+    };
+  })();
+</script>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, signOut, onAuthStateChanged, updateProfile, setPersistence, browserLocalPersistence, indexedDBLocalPersistence } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+  import { getFirestore, doc, setDoc, getDoc, updateDoc, query, collection, where, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+  document.addEventListener('DOMContentLoaded', () => {
+    // Smooth scroll for inputs when focused (fixes keyboard overlap)
+    const inputs = document.querySelectorAll('.form-control');
+    inputs.forEach(input => {
+      input.addEventListener('focus', function() {
+        setTimeout(() => {
+          this.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 300); // Wait for keyboard to animate up
+      });
     });
-  }, 100);
-});
 
-// ============================================================
-// OTP via EmailJS — shared flow for ALL registration types
-// ============================================================
-const EMAILJS_SERVICE_ID = 'service_sx89aqh';
-const EMAILJS_TEMPLATE_ID = 'template_8dlwzhj';
-const OTP_TTL_MS = 10 * 60 * 1000; // 10 min validity
-const OTP_RESEND_COOLDOWN = 60; // 60s before resend allowed
+    const isCap = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
+    const bl = document.getElementById('authBackLink');
+    const logo = document.getElementById('authBrandLink');
+    if (isCap) {
+        if (bl) bl.style.display = 'none';
+        if (logo) logo.href = 'javascript:void(0)';
+    }
+  });
 
-let pendingReg = null; // { otp, expiresAt, email, name, runRegister }
-let resendTimer = null;
-function gen6DigitOtp() {
-  return String(Math.floor(100000 + Math.random() * 900000));
-}
-function sendOtpEmail(_x, _x2, _x3) {
-  return _sendOtpEmail.apply(this, arguments);
-}
-function _sendOtpEmail() {
-  _sendOtpEmail = _asyncToGenerator(function* (toEmail, toName, code) {
+  const firebaseConfig = {
+    apiKey: "AIzaSyA4MrV-oXhK_johreyzIucti5RFrKcvyG8",
+    authDomain: "imaan-app-1d2da.firebaseapp.com",
+    projectId: "imaan-app-1d2da",
+    storageBucket: "imaan-app-1d2da.firebasestorage.app",
+    messagingSenderId: "373650938167",
+    appId: "1:373650938167:web:e9da1317c118bc720d22b2"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  function showToast(msg, type) {
+    const t = document.getElementById('authToast');
+    t.textContent = msg; t.className = 'toast ' + type + ' show';
+    setTimeout(() => t.classList.remove('show'), 3500);
+  }
+
+  function genCode(prefix) { return prefix + '-' + Math.random().toString(36).substr(2,5).toUpperCase(); }
+  function genId(prefix) { return prefix + '_' + Math.floor(100 + Math.random()*900); }
+
+  window.setAuthPanel = (mode) => {
+    const wrapper = document.querySelector('.auth-wrapper');
+    const loginBtn = document.getElementById('authModeLogin');
+    const registerBtn = document.getElementById('authModeRegister');
+    // Inline card tab buttons
+    const rightLoginBtn = document.getElementById('authRightLogin');
+    const rightRegisterBtn = document.getElementById('authRightRegister');
+    if (!wrapper) return;
+    const isRegister = mode === 'register';
+    wrapper.classList.toggle('mode-register', isRegister);
+    wrapper.classList.toggle('mode-login', !isRegister);
+    if (loginBtn)    loginBtn.classList.toggle('active', !isRegister);
+    if (registerBtn) registerBtn.classList.toggle('active', isRegister);
+    // Style card tabs
+    if (rightLoginBtn) {
+      rightLoginBtn.style.background = isRegister ? 'transparent' : '#1E2D5A';
+      rightLoginBtn.style.color = isRegister ? '#64748b' : '#fff';
+      rightLoginBtn.style.boxShadow = isRegister ? 'none' : '0 2px 8px rgba(30,45,90,0.2)';
+    }
+    if (rightRegisterBtn) {
+      rightRegisterBtn.style.background = isRegister ? '#1E2D5A' : 'transparent';
+      rightRegisterBtn.style.color = isRegister ? '#fff' : '#64748b';
+      rightRegisterBtn.style.boxShadow = isRegister ? '0 2px 8px rgba(30,45,90,0.2)' : 'none';
+    }
+  };
+
+  document.addEventListener('DOMContentLoaded', () => { window.setAuthPanel('login'); });
+
+  window.selectRole = (role) => {
+    if (typeof window.setAuthPanel === 'function') window.setAuthPanel('register');
+    document.querySelectorAll('.role-item').forEach(c => c.classList.remove('active'));
+    document.querySelectorAll('.reg-form-wrapper').forEach(f => f.classList.remove('open'));
+    document.querySelector('.role-item-' + role).classList.add('active');
+    document.getElementById('form-' + role).classList.add('open');
+    setTimeout(() => document.getElementById('form-' + role).scrollIntoView({ behavior:'smooth', block:'center' }), 100);
+  };
+
+  window.togglePw = (id) => {
+    const inp = document.getElementById(id);
+    if (!inp) return;
+
+    const btn = inp.nextElementSibling;
+    const icon = (btn && btn.querySelector('i')) || inp.parentElement.querySelector('.pw-toggle i');
+
+    if (inp.type === 'password') {
+      inp.type = 'text';
+      if (icon) icon.className = 'fas fa-eye-slash';
+    } else {
+      inp.type = 'password';
+      if (icon) icon.className = 'fas fa-eye';
+    }
+  };
+
+  // Track the email of the just-registered user so we can prefill the login form
+  let lastRegisteredEmail = '';
+
+  window.closeSuccess = async () => {
+    document.getElementById('successOverlay').classList.remove('show');
+    // Sign the user out (Firebase auto-signs in after createUser) so they land
+    // on the login screen, then switch the panel back to "login" mode.
+    try { await signOut(auth); } catch(_) {}
+    if (typeof window.setAuthPanel === 'function') window.setAuthPanel('login');
+    if (lastRegisteredEmail) {
+      const loginIdEl = document.getElementById('loginId');
+      if (loginIdEl) loginIdEl.value = lastRegisteredEmail;
+    }
+    // Smooth-scroll to the login panel for visibility on small screens
+    setTimeout(() => {
+      const loginPanel = document.querySelector('.auth-login-panel') || document.getElementById('loginId');
+      if (loginPanel) loginPanel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 100);
+  };
+
+  // ============================================================
+  // OTP via EmailJS — shared flow for ALL registration types
+  // ============================================================
+  const EMAILJS_SERVICE_ID  = 'service_sx89aqh';
+  const EMAILJS_TEMPLATE_ID = 'template_8dlwzhj';
+  const OTP_TTL_MS = 10 * 60 * 1000;       // 10 min validity
+  const OTP_RESEND_COOLDOWN = 60;          // 60s before resend allowed
+
+  let pendingReg = null;   // { otp, expiresAt, email, name, runRegister }
+  let resendTimer = null;
+
+  function gen6DigitOtp() {
+    return String(Math.floor(100000 + Math.random() * 900000));
+  }
+
+  async function sendOtpEmail(toEmail, toName, code) {
     if (typeof emailjs === 'undefined') {
       throw new Error('Email service not loaded yet. Please retry in a moment.');
     }
     // Compute human-readable expiry time (15 min from now to match template wording)
     const expiry = new Date(Date.now() + 15 * 60 * 1000);
-    const timeStr = expiry.toLocaleTimeString([], {
-      hour: '2-digit',
-      minute: '2-digit'
-    });
+    const timeStr = expiry.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     return emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
       // Variables your EmailJS template expects
-      email: toEmail,
+      email:    toEmail,
       passcode: code,
-      time: timeStr,
+      time:     timeStr,
       // Extras (safe to send even if template ignores them)
       to_email: toEmail,
-      to_name: toName || 'User',
+      to_name:  toName || 'User',
       otp_code: code,
       app_name: 'Imaan and Akhlaq'
     });
-  });
-  return _sendOtpEmail.apply(this, arguments);
-}
-function startResendCountdown() {
-  const btn = document.getElementById('otpResendBtn');
-  const timer = document.getElementById('otpResendTimer');
-  let remaining = OTP_RESEND_COOLDOWN;
-  btn.classList.add('disabled');
-  timer.textContent = remaining;
-  if (resendTimer) clearInterval(resendTimer);
-  resendTimer = setInterval(() => {
-    remaining--;
-    timer.textContent = remaining;
-    if (remaining <= 0) {
-      clearInterval(resendTimer);
-      resendTimer = null;
-      btn.classList.remove('disabled');
-      btn.innerHTML = 'Resend code';
-    }
-  }, 1000);
-}
+  }
 
-// Begin OTP flow: send code, show modal, store pending registration callback
-function beginOtp(_x4, _x5, _x6) {
-  return _beginOtp.apply(this, arguments);
-}
-function _beginOtp() {
-  _beginOtp = _asyncToGenerator(function* (email, name, runRegister) {
-    if (!email) {
-      showToast('Email is required', 'error');
-      return;
-    }
+  function startResendCountdown() {
+    const btn   = document.getElementById('otpResendBtn');
+    const timer = document.getElementById('otpResendTimer');
+    let remaining = OTP_RESEND_COOLDOWN;
+    btn.classList.add('disabled');
+    timer.textContent = remaining;
+    if (resendTimer) clearInterval(resendTimer);
+    resendTimer = setInterval(() => {
+      remaining--;
+      timer.textContent = remaining;
+      if (remaining <= 0) {
+        clearInterval(resendTimer);
+        resendTimer = null;
+        btn.classList.remove('disabled');
+        btn.innerHTML = 'Resend code';
+      }
+    }, 1000);
+  }
+
+  // Begin OTP flow: send code, show modal, store pending registration callback
+  async function beginOtp(email, name, runRegister) {
+    if (!email) { showToast('Email is required', 'error'); return; }
     const code = gen6DigitOtp();
     pendingReg = {
       otp: code,
@@ -1034,7 +1801,7 @@ function _beginOtp() {
     };
     try {
       showToast('Sending verification code...', 'success');
-      yield sendOtpEmail(email, name, code);
+      await sendOtpEmail(email, name, code);
       document.getElementById('otpEmailLabel').textContent = email;
       document.getElementById('otpInputCode').value = '';
       document.getElementById('otpOverlay').classList.add('show');
@@ -1046,240 +1813,353 @@ function _beginOtp() {
       pendingReg = null;
       showToast('Failed to send verification code. Please check your email and try again.', 'error');
     }
-  });
-  return _beginOtp.apply(this, arguments);
-}
-window.closeOtp = () => {
-  document.getElementById('otpOverlay').classList.remove('show');
-  pendingReg = null;
-  if (resendTimer) {
-    clearInterval(resendTimer);
-    resendTimer = null;
   }
-};
-window.resendOtp = /*#__PURE__*/_asyncToGenerator(function* () {
-  if (!pendingReg) return;
-  const code = gen6DigitOtp();
-  pendingReg.otp = code;
-  pendingReg.expiresAt = Date.now() + OTP_TTL_MS;
-  try {
-    showToast('Resending code...', 'success');
-    yield sendOtpEmail(pendingReg.email, pendingReg.name, code);
-    startResendCountdown();
-    showToast('New code sent.', 'success');
-  } catch (err) {
-    console.error('resendOtp error:', err);
-    showToast('Failed to resend. Please try again.', 'error');
-  }
-});
-window.verifyOtp = /*#__PURE__*/_asyncToGenerator(function* () {
-  if (!pendingReg) {
-    showToast('Session expired. Please start again.', 'error');
-    window.closeOtp();
-    return;
-  }
-  const entered = (document.getElementById('otpInputCode').value || '').trim();
-  if (entered.length !== 6) return showToast('Enter the 6-digit code', 'error');
-  if (Date.now() > pendingReg.expiresAt) {
-    showToast('Code expired. Please resend a new one.', 'error');
-    return;
-  }
-  if (entered !== pendingReg.otp) {
-    showToast('Incorrect code. Please try again.', 'error');
-    return;
-  }
-  const verifyBtn = document.getElementById('otpVerifyBtn');
-  verifyBtn.disabled = true;
-  verifyBtn.textContent = 'Verifying...';
-  try {
-    const fn = pendingReg.runRegister;
+
+  window.closeOtp = () => {
+    document.getElementById('otpOverlay').classList.remove('show');
     pendingReg = null;
-    window.closeOtp();
-    yield fn();
-  } catch (err) {
-    console.error('verifyOtp -> register error:', err);
-    showToast(err.message || 'Registration failed', 'error');
-  } finally {
-    verifyBtn.disabled = false;
-    verifyBtn.innerHTML = 'Verify &amp; Continue';
-  }
-});
-window.registerSchool = /*#__PURE__*/_asyncToGenerator(function* () {
-  const name = document.getElementById('regSchoolName').value.trim();
-  const admin = document.getElementById('regSchoolAdmin').value.trim();
-  const loc = document.getElementById('regSchoolLoc').value.trim();
-  const email = document.getElementById('regSchoolEmail').value.trim();
-  const phone = document.getElementById('regSchoolPhone').value.trim();
-  const pw = document.getElementById('regSchoolPw').value;
-  const pw2 = document.getElementById('regSchoolPw2').value;
-  if (!name || !admin || !email || !phone || !pw) return showToast('Please fill all fields', 'error');
-  if (pw !== pw2) return showToast('Passwords do not match', 'error');
+    if (resendTimer) { clearInterval(resendTimer); resendTimer = null; }
+  };
 
-  // Send OTP first; only after verification do we actually create the account
-  beginOtp(email, admin, /*#__PURE__*/_asyncToGenerator(function* () {
-    showToast('Creating school account...', 'success');
-    const userCredential = yield createUserWithEmailAndPassword(auth, email, pw);
-    const user = userCredential.user;
-    const code = genCode('SCH');
-    const sId = genId('sch');
+  window.resendOtp = async () => {
+    if (!pendingReg) return;
+    const code = gen6DigitOtp();
+    pendingReg.otp = code;
+    pendingReg.expiresAt = Date.now() + OTP_TTL_MS;
+    try {
+      showToast('Resending code...', 'success');
+      await sendOtpEmail(pendingReg.email, pendingReg.name, code);
+      startResendCountdown();
+      showToast('New code sent.', 'success');
+    } catch (err) {
+      console.error('resendOtp error:', err);
+      showToast('Failed to resend. Please try again.', 'error');
+    }
+  };
 
-    // 1) Create user doc FIRST so Firestore rules see the school_admin role
-    yield setDoc(doc(db, "users", user.uid), {
-      role: 'school_admin',
-      email: email,
-      phone: phone,
-      name: admin,
-      school_id: sId
-    });
-    // 2) Then create the school doc
-    yield setDoc(doc(db, "schools", sId), {
-      name: name,
-      location: loc,
-      school_code: code,
-      admin_uid: user.uid
-    });
-    lastRegisteredEmail = email;
-    document.getElementById('successTitle').textContent = 'School Registered!';
-    document.getElementById('successMsg').textContent = 'Welcome ' + admin + '! Your school account is ready. You can now log in and invite teachers, students and parents from your dashboard.';
-    document.getElementById('successCodes').innerHTML = '';
-    document.getElementById('successOverlay').classList.add('show');
-  }));
-});
-window.registerWithCode = /*#__PURE__*/function () {
-  var _ref6 = _asyncToGenerator(function* (role) {
-    let pre = role === 'teacher' ? 'TCH' : role === 'student' ? 'STU' : 'PAR';
-    let p = role === 'teacher' ? 'Tch' : role === 'student' ? 'Stu' : 'Par';
-    const code = document.getElementById('reg' + p + 'Code').value.trim().toUpperCase();
-    const name = document.getElementById('reg' + p + 'Name').value.trim();
-    const email = document.getElementById('reg' + p + 'Email').value.trim();
-    const phone = document.getElementById('reg' + p + 'Phone').value.trim();
-    const pw = document.getElementById('reg' + p + 'Pw').value;
-    const pw2 = document.getElementById('reg' + p + 'Pw2').value;
-    if (!code || !name || !email || !phone || !pw) return showToast('Please fill missing fields', 'error');
-    if (pw !== pw2) return showToast('Passwords mismatch', 'error');
-    if (!code.startsWith(pre + '-')) return showToast('Invalid code format. Must start with ' + pre + '-', 'error');
+  window.verifyOtp = async () => {
+    if (!pendingReg) { showToast('Session expired. Please start again.', 'error'); window.closeOtp(); return; }
+    const entered = (document.getElementById('otpInputCode').value || '').trim();
+    if (entered.length !== 6) return showToast('Enter the 6-digit code', 'error');
+    if (Date.now() > pendingReg.expiresAt) {
+      showToast('Code expired. Please resend a new one.', 'error');
+      return;
+    }
+    if (entered !== pendingReg.otp) {
+      showToast('Incorrect code. Please try again.', 'error');
+      return;
+    }
+    const verifyBtn = document.getElementById('otpVerifyBtn');
+    verifyBtn.disabled = true;
+    verifyBtn.textContent = 'Verifying...';
+    try {
+      const fn = pendingReg.runRegister;
+      pendingReg = null;
+      window.closeOtp();
+      await fn();
+    } catch (err) {
+      console.error('verifyOtp -> register error:', err);
+      showToast(err.message || 'Registration failed', 'error');
+    } finally {
+      verifyBtn.disabled = false;
+      verifyBtn.innerHTML = 'Verify &amp; Continue';
+    }
+  };
 
-    // Validate invite BEFORE sending OTP so we don't waste codes
-    showToast('Validating code...', 'success');
-    const inviteReq = yield getDoc(doc(db, "invites", code));
-    if (!inviteReq.exists()) return showToast('Invalid or unrecognized code.', 'error');
-    const inviteData = inviteReq.data();
-    if (inviteData.status !== 'pending') return showToast('This code has already been used or is inactive.', 'error');
-    if (inviteData.role !== role) return showToast('This code is not for the ' + role + ' role.', 'error');
-    beginOtp(email, name, /*#__PURE__*/_asyncToGenerator(function* () {
-      showToast('Creating account...', 'success');
-      const userCredential = yield createUserWithEmailAndPassword(auth, email, pw);
+  window.registerSchool = async () => {
+    const name  = document.getElementById('regSchoolName').value.trim();
+    const admin = document.getElementById('regSchoolAdmin').value.trim();
+    const loc   = document.getElementById('regSchoolLoc').value.trim();
+    const email = document.getElementById('regSchoolEmail').value.trim();
+    const phone = document.getElementById('regSchoolPhone').value.trim();
+    const pw    = document.getElementById('regSchoolPw').value;
+    const pw2   = document.getElementById('regSchoolPw2').value;
+
+    if (!name || !admin || !email || !phone || !pw) return showToast('Please fill all fields', 'error');
+    if (pw !== pw2) return showToast('Passwords do not match', 'error');
+
+    // Send OTP first; only after verification do we actually create the account
+    beginOtp(email, admin, async () => {
+      showToast('Creating school account...', 'success');
+      const userCredential = await createUserWithEmailAndPassword(auth, email, pw);
       const user = userCredential.user;
+      const code = genCode('SCH');
+      const sId  = genId('sch');
+
+      // 1) Create user doc FIRST so Firestore rules see the school_admin role
+      await setDoc(doc(db, "users", user.uid), { role: 'school_admin', email: email, phone: phone, name: admin, school_id: sId });
+      // 2) Then create the school doc
+      await setDoc(doc(db, "schools", sId), { name: name, location: loc, school_code: code, admin_uid: user.uid });
+
+      lastRegisteredEmail = email;
+      document.getElementById('successTitle').textContent = 'School Registered!';
+      document.getElementById('successMsg').textContent = 'Welcome ' + admin + '! Your school account is ready. You can now log in and invite teachers, students and parents from your dashboard.';
+      document.getElementById('successCodes').innerHTML = '';
+      document.getElementById('successOverlay').classList.add('show');
+    });
+  };
+
+  window.registerWithCode = async (role) => {
+    let pre = role==='teacher'?'TCH':role==='student'?'STU':'PAR';
+    let p = role === 'teacher' ? 'Tch' : role === 'student' ? 'Stu' : 'Par';
+
+    const rawCode = (document.getElementById('reg'+p+'Code').value || '').trim().toUpperCase();
+    const name    = document.getElementById('reg'+p+'Name').value.trim();
+    const email   = document.getElementById('reg'+p+'Email').value.trim();
+    const phone   = document.getElementById('reg'+p+'Phone').value.trim();
+    const pw      = document.getElementById('reg'+p+'Pw').value;
+    const pw2     = document.getElementById('reg'+p+'Pw2').value;
+
+    if (!rawCode || !name || !email || !phone || !pw) return showToast('Please fill all fields', 'error');
+    if (pw !== pw2) return showToast('Passwords do not match', 'error');
+    if (!rawCode.startsWith(pre + '-')) return showToast('Wrong code format. Code must start with ' + pre + '-', 'error');
+
+    showToast('Validating code...', 'success');
+
+    let inviteData = null;
+    try {
+      // Primary: try Firebase SDK (requires Firestore rules to allow public reads on invites)
+      const inviteSnap = await getDoc(doc(db, 'invites', rawCode));
+      if (inviteSnap.exists()) {
+        inviteData = inviteSnap.data();
+      }
+    } catch (sdkErr) {
+      // SDK read blocked (e.g. Firestore rules require auth) — fallback to REST API
+      console.warn('Firestore SDK read failed, trying REST fallback:', sdkErr.code || sdkErr.message);
+      try {
+        const PROJ = firebaseConfig.projectId;
+        const KEY  = firebaseConfig.apiKey;
+        const url  = 'https://firestore.googleapis.com/v1/projects/' + PROJ + '/databases/(default)/documents/invites/' + encodeURIComponent(rawCode) + '?key=' + KEY;
+        const resp = await fetch(url);
+        if (resp.ok) {
+          const json = await resp.json();
+          if (json && json.fields) {
+            // Decode Firestore REST response format
+            const decode = (fields) => {
+              const out = {};
+              for (const k in fields) {
+                const v = fields[k];
+                out[k] = v.stringValue !== undefined ? v.stringValue
+                       : v.booleanValue !== undefined ? v.booleanValue
+                       : v.integerValue !== undefined ? Number(v.integerValue)
+                       : v.nullValue !== undefined ? null : String(Object.values(v)[0] || '');
+              }
+              return out;
+            };
+            inviteData = decode(json.fields);
+          }
+        }
+      } catch (restErr) {
+        console.error('REST fallback also failed:', restErr);
+      }
+    }
+
+    if (!inviteData) {
+      return showToast('Code not found. Please check and try again.', 'error');
+    }
+    if (inviteData.status !== 'pending') {
+      return showToast('This code has already been used or is no longer active.', 'error');
+    }
+    if (inviteData.role !== role) {
+      return showToast('This code is for a ' + inviteData.role + ', not a ' + role + '.', 'error');
+    }
+
+    beginOtp(email, name, async () => {
+      showToast('Creating account...', 'success');
+      const userCredential = await createUserWithEmailAndPassword(auth, email, pw);
+      const user = userCredential.user;
+
       const userPayload = {
         role: role,
         email: email,
         phone: phone,
         name: name,
-        invitation_code: code,
-        school_id: inviteData.school_id
+        invitation_code: rawCode,
+        school_id: inviteData.school_id || ''
       };
       if (inviteData.class_id) userPayload.class_id = inviteData.class_id;
       if (inviteData.linked_student_code) userPayload.linked_student_code = inviteData.linked_student_code;
-      yield setDoc(doc(db, "users", user.uid), userPayload);
+
+      await setDoc(doc(db, 'users', user.uid), userPayload);
+
+      // Mark invite as used — wrapped separately so a failure here doesn't block account creation
       try {
-        yield updateDoc(doc(db, "invites", code), {
+        await updateDoc(doc(db, 'invites', rawCode), {
           status: 'used',
           used_by_uid: user.uid,
           used_at: new Date().toISOString()
         });
-      } catch (inviteErr) {
-        console.error('CRITICAL: Failed to mark invite as used:', inviteErr);
-        // Fallback: try setDoc with merge in case updateDoc was blocked by rules
-        try {
-          yield setDoc(doc(db, "invites", code), {
-            status: 'used',
-            used_by_uid: user.uid,
-            used_at: new Date().toISOString()
-          }, {
-            merge: true
-          });
-        } catch (e2) {
-          console.error('Fallback setDoc also failed:', e2);
-          showToast('Account created but admin status update failed. Please notify admin.', 'error');
-        }
+      } catch (updErr) {
+        console.warn('Could not mark invite as used (non-critical):', updErr.message);
       }
+
       lastRegisteredEmail = email;
       document.getElementById('successTitle').textContent = 'Account Ready!';
-      document.getElementById('successMsg').textContent = 'Welcome ' + name + ', you can log in now.';
+      document.getElementById('successMsg').textContent = 'Welcome ' + name + '! Your account is ready. Please log in now.';
       document.getElementById('successCodes').innerHTML = '';
       document.getElementById('successOverlay').classList.add('show');
-    }));
-  });
-  return function (_x7) {
-    return _ref6.apply(this, arguments);
-  };
-}();
-window.registerIndividual = /*#__PURE__*/_asyncToGenerator(function* () {
-  const name = document.getElementById('regIndName').value.trim();
-  const email = document.getElementById('regIndEmail').value.trim();
-  const phone = document.getElementById('regIndPhone').value.trim();
-  const pw = document.getElementById('regIndPw').value;
-  const pw2 = document.getElementById('regIndPw2').value;
-  if (!name || !email || !phone || !pw) return showToast('Required fields missing', 'error');
-  if (pw !== pw2) return showToast('Passwords mismatch', 'error');
-  beginOtp(email, name, /*#__PURE__*/_asyncToGenerator(function* () {
-    showToast('Creating trial account...', 'success');
-    const userCredential = yield createUserWithEmailAndPassword(auth, email, pw);
-    const trialEnd = new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString();
-    yield setDoc(doc(db, "users", userCredential.user.uid), {
-      role: 'individual',
-      email: email,
-      phone: phone,
-      name: name,
-      trial_end: trialEnd
     });
-    lastRegisteredEmail = email;
-    document.getElementById('successTitle').textContent = 'Welcome Aboard!';
-    document.getElementById('successMsg').textContent = 'Your 3-day free trial has been activated.';
-    document.getElementById('successCodes').innerHTML = '';
-    document.getElementById('successOverlay').classList.add('show');
-  }));
-});
-window.loginUser = /*#__PURE__*/_asyncToGenerator(function* () {
-  const id = document.getElementById('loginId').value.trim();
-  const pw = document.getElementById('loginPw').value;
-  if (!id || !pw) return showToast('Enter email and password', 'error');
-  try {
-    showToast('Logging in...', 'success');
-    const userCredential = yield signInWithEmailAndPassword(auth, id, pw);
-    const user = userCredential.user;
-    const userDoc = yield getDoc(doc(db, "users", user.uid));
-    if (userDoc.exists()) {
-      const userData = userDoc.data();
-      sessionStorage.setItem('auth_user', JSON.stringify(_objectSpread({
-        uid: user.uid
-      }, userData)));
-      showToast('Success! Redirecting...', 'success');
-      setTimeout(() => {
-        if (userData.role === 'super_admin' || userData.role === 'superadmin') window.location.href = './super-admin-dashboard.html';else if (userData.role === 'school_admin') window.location.href = './admin-dashboard.html';else if (userData.role === 'teacher') window.location.href = './teacher-dashboard.html';else if (userData.role === 'student' || userData.role === 'individual') window.location.href = './student-activities.html';else if (userData.role === 'parent') window.location.href = './parent-dashboard.html';else showToast('Unknown role: ' + (userData.role || 'none'), 'error');
-      }, 1000);
-    } else {
-      showToast('User record not found in system.', 'error');
+  };
+
+  window.registerIndividual = async () => {
+    const name  = document.getElementById('regIndName').value.trim();
+    const email = document.getElementById('regIndEmail').value.trim();
+    const phone = document.getElementById('regIndPhone').value.trim();
+    const pw    = document.getElementById('regIndPw').value;
+    const pw2   = document.getElementById('regIndPw2').value;
+
+    if (!name || !email || !phone || !pw) return showToast('Required fields missing', 'error');
+    if (pw !== pw2) return showToast('Passwords mismatch', 'error');
+
+    beginOtp(email, name, async () => {
+      showToast('Creating trial account...', 'success');
+      const userCredential = await createUserWithEmailAndPassword(auth, email, pw);
+      const trialEnd = new Date(Date.now() + 3*24*60*60*1000).toISOString();
+
+      await setDoc(doc(db, "users", userCredential.user.uid), { role: 'individual', email: email, phone: phone, name: name, trial_end: trialEnd });
+
+      lastRegisteredEmail = email;
+      document.getElementById('successTitle').textContent = 'Welcome Aboard!';
+      document.getElementById('successMsg').textContent = 'Your 3-day free trial has been activated.';
+      document.getElementById('successCodes').innerHTML = '';
+      document.getElementById('successOverlay').classList.add('show');
+    });
+  };
+
+  window.loginUser = async () => {
+    const rawId = document.getElementById('loginId').value.trim();
+    const id = rawId.replace(/[\s\-()]/g, '');
+    const pw = document.getElementById('loginPw').value;
+    if (!id || !pw) return showToast('Enter email and password', 'error');
+
+    try {
+      showToast('Logging in...', 'success');
+
+      let emailToUse = id;
+      if (!id.includes('@')) {
+        const phoneCandidates = [id, id.startsWith('+') ? id.slice(1) : '+' + id];
+        let matchedEmail = '';
+
+        // Try Firestore SDK first (works if user has cached auth session)
+        for (const phone of phoneCandidates) {
+          try {
+            const usersRef = collection(db, 'users');
+            const q = query(usersRef, where('phone', '==', phone));
+            const snap = await getDocs(q);
+            if (!snap.empty) {
+              const data = snap.docs[0].data();
+              if (data && data.email) {
+                matchedEmail = data.email;
+                break;
+              }
+            }
+          } catch (sdkErr) {
+            console.warn('SDK phone lookup failed (expected on new device):', sdkErr.code || sdkErr.message);
+          }
+        }
+
+        // Fallback: REST API for phone lookup (works without auth session)
+        if (!matchedEmail) {
+          const PROJ = firebaseConfig.projectId;
+          const KEY  = firebaseConfig.apiKey;
+          for (const phone of phoneCandidates) {
+            try {
+              const restUrl = 'https://firestore.googleapis.com/v1/projects/' + PROJ +
+                '/databases/(default)/documents:runQuery?key=' + KEY;
+              const resp = await fetch(restUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  structuredQuery: {
+                    from: [{ collectionId: 'users' }],
+                    where: {
+                      fieldFilter: {
+                        field: { fieldPath: 'phone' },
+                        op: 'EQUAL',
+                        value: { stringValue: phone }
+                      }
+                    },
+                    limit: 1
+                  }
+                })
+              });
+              if (resp.ok) {
+                const results = await resp.json();
+                if (results && results.length > 0 && results[0].document && results[0].document.fields) {
+                  const emailField = results[0].document.fields.email;
+                  if (emailField && emailField.stringValue) {
+                    matchedEmail = emailField.stringValue;
+                    break;
+                  }
+                }
+              }
+            } catch (restErr) {
+              console.warn('REST phone lookup failed:', restErr);
+            }
+          }
+        }
+
+        if (!matchedEmail) {
+          return showToast('No account found for this phone number. Try using your email instead.', 'error');
+        }
+        emailToUse = matchedEmail;
+      }
+
+      const userCredential = await signInWithEmailAndPassword(auth, emailToUse, pw);
+      const user = userCredential.user;
+
+      const userDoc = await getDoc(doc(db, "users", user.uid));
+      if (userDoc.exists()) {
+        const userData = userDoc.data();
+        const authData = JSON.stringify({ uid: user.uid, ...userData });
+        localStorage.setItem('auth_user', authData);
+        sessionStorage.setItem('auth_user', authData);
+
+        showToast('Success! Redirecting...', 'success');
+        setTimeout(() => {
+          if (userData.role === 'super_admin') window.location.href = './super-admin-dashboard.html';
+        else if (userData.role === 'school_admin') window.location.href = './admin-dashboard.html';
+          else if (userData.role === 'teacher') window.location.href = './teacher-dashboard.html';
+          else if (userData.role === 'student' || userData.role === 'individual') window.location.href = './student-activities.html';
+          else if (userData.role === 'parent') window.location.href = './parent-dashboard.html';
+        }, 1000);
+      } else {
+        showToast('User record not found in system.', 'error');
+      }
+    } catch (error) {
+      showToast(error.message, 'error');
     }
-  } catch (error) {
-    showToast(error.message, 'error');
-  }
-});
-window.showResetModal = () => document.getElementById('resetOverlay').classList.add('show');
-window.closeReset = () => {
-  document.getElementById('resetOverlay').classList.remove('show');
-};
-window.resetPassword = /*#__PURE__*/_asyncToGenerator(function* () {
-  const id = document.getElementById('resetId').value.trim();
-  if (!id) return showToast('Please enter your email', 'error');
-  try {
-    showToast('Sending reset email...', 'success');
-    yield sendPasswordResetEmail(auth, id);
-    showToast('Reset email sent! Check your inbox.', 'success');
-    setTimeout(closeReset, 2000);
-  } catch (error) {
-    showToast(error.message, 'error');
-  }
-});
+  };
+
+  window.showResetModal = () => document.getElementById('resetOverlay').classList.add('show');
+  window.closeReset = () => {
+    document.getElementById('resetOverlay').classList.remove('show');
+  };
+  
+  window.resetPassword = async () => {
+    const id = document.getElementById('resetId').value.trim();
+    if (!id) return showToast('Please enter your email', 'error');
+    
+    const btn = document.getElementById('resetBtn');
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
+
+    try {
+      await sendPasswordResetEmail(auth, id);
+      showToast('Reset email sent! Check your inbox.', 'success');
+      setTimeout(() => window.closeReset(), 2000);
+    } catch (error) {
+      let msg = error.message;
+      if (error.code === 'auth/user-not-found') msg = 'No account found with this email.';
+      if (error.code === 'auth/invalid-email') msg = 'Please enter a valid email address.';
+      showToast(msg, 'error');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Find Account';
+    }
+  };
+
 </script>
-</body></html>
+
+<link rel="stylesheet" href="kidba_assets/css/apk-bottombar.css">
+<script defer src="kidba_assets/js/apk-bottombar.js"></script>

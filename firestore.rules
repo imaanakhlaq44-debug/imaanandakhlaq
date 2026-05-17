@@ -66,8 +66,9 @@ service cloud.firestore {
 
     // 4. Users Collection (Includes Students, Teachers, Parents)
     match /users/{userId} {
-      // Logged in users can look up other users (needed for Leaderboard and parent-student lookup).
-      allow read: if request.auth != null;
+      // Public reads allowed so phone-to-email login lookup works from any device
+      // (even before the user is authenticated). User docs contain only profile data.
+      allow read: if true;
       
       // Creating accounts requires auth (handled by Firebase Auth).
       allow create: if request.auth != null && request.auth.uid == userId;

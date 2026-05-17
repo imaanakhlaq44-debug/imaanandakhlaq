@@ -1,65 +1,216 @@
-<!DOCTYPE html><html lang="en"><head><script src="/kidba_assets/js/regenerator-runtime.min.js"></script>
 
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Imaan &amp; Akhlaq - Islamic Stories &amp; Education for Kids</title>
-  <meta name="description" content="Imaan &amp; Akhlaq - Fun Islamic stories, puppet shows, and educational programs teaching faith, manners, and good character to children.">
-  <meta property="og:title" content="Imaan &amp; Akhlaq - Islamic Education for Kids">
-  <meta property="og:description" content="Join Imaan and Akhlaq on magical adventures learning about Islam, Prophets, and good manners!">
-  <meta property="og:type" content="website">
-  <link rel="icon" type="image/jpeg" href="/kidba_assets/favicon.jpg">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Imaan & Akhlaq - Islamic Stories & Education for Kids</title>
+  <meta name="description" content="Imaan & Akhlaq - Fun Islamic stories, puppet shows, and educational programs teaching faith, manners, and good character to children." />
+  <meta property="og:title" content="Imaan & Akhlaq - Islamic Education for Kids" />
+  <meta property="og:description" content="Join Imaan and Akhlaq on magical adventures learning about Islam, Prophets, and good manners!" />
+  <meta property="og:type" content="website" />
+  <link rel="icon" type="image/jpeg" href="/kidba_assets/favicon.jpg" />
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&amp;family=Nunito:wght@400;500;600;700;800;900&amp;family=Poppins:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <!-- Bootstrap 5 -->
-  <link rel="stylesheet" href="/kidba_assets/vendor/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/kidba_assets/vendor/css/bootstrap.min.css" />
 
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="/kidba_assets/vendor/css/all.min.css">
+  <link rel="stylesheet" href="/kidba_assets/vendor/css/all.min.css" />
 
   <!-- Animate.css -->
-  <link rel="stylesheet" href="/kidba_assets/vendor/css/animate.min.css">
+  <link rel="stylesheet" href="/kidba_assets/vendor/css/animate.min.css" />
 
   <!-- Swiper CSS -->
-  <link rel="stylesheet" href="/kidba_assets/vendor/css/swiper-bundle.min.css">
+  <link rel="stylesheet" href="/kidba_assets/vendor/css/swiper-bundle.min.css" />
 
   <!-- AOS CSS -->
-  <link rel="stylesheet" href="/kidba_assets/vendor/css/aos.css">
+  <link rel="stylesheet" href="/kidba_assets/vendor/css/aos.css" />
 
   <!-- Custom CSS -->
   <link rel="stylesheet" href="/kidba_assets/css/style.css">
-  <link rel="stylesheet" href="/kidba_assets/css/dashboard-buttons.css">
+  <link rel="stylesheet" href="/kidba_assets/css/dashboard-buttons.css?v=4">
 
   <!-- Capacitor Mobile App: always redirect to Auth on public pages -->
   <script>
-(function () {
-  // Capacitor injects its bridge automatically
-  var isCap = false;
-  try {
-    isCap = window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform();
-  } catch (e) {}
-  if (isCap) {
-    var host = window.location.hostname;
-    var protocol = window.location.protocol;
-    if (host === '127.0.0.1' || host === '0.0.0.0' || host === 'localhost' && protocol !== 'https:') {
-      var normalizedUrl = 'https://localhost' + window.location.pathname + window.location.search + window.location.hash;
-      if (window.location.href !== normalizedUrl) {
-        window.location.replace(normalizedUrl);
-        return;
+    (function() {
+      // Capacitor injects its bridge automatically
+      var isCap = false;
+      try {
+        isCap = window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform();
+      } catch(e) {}
+      if (isCap) {
+        var host = window.location.hostname;
+        var protocol = window.location.protocol;
+        if ((host === '127.0.0.1' || host === '0.0.0.0') || (host === 'localhost' && protocol !== 'https:')) {
+          var normalizedUrl = 'https://localhost' + window.location.pathname + window.location.search + window.location.hash;
+          if (window.location.href !== normalizedUrl) {
+            window.location.replace(normalizedUrl);
+            return;
+          }
+        }
+        var path = window.location.pathname.replace(/\/index\.html$/, '/').replace(/\.html$/, '').replace(/\/$/, '') || '/';
+        // Only allow these pages in app
+        var allowed = ['/auth', '/student-activities', '/parent-dashboard', '/teacher-dashboard', '/admin-dashboard', '/super-admin-dashboard', '/activity'];
+        if (!allowed.some(p => path === p)) {
+          window.location.replace('auth.html');
+        }
+
+        // Add custom Pull-to-Refresh for Capacitor (Facebook-style)
+        document.addEventListener('DOMContentLoaded', function() {
+          var startY = 0;
+          var pY = 0;
+          var isPulling = false;
+          var pullConfirmed = false;
+          var THRESHOLD = 380;
+          var DEAD_ZONE = 40;
+          var isScrolling = false;
+          var scrollTimer = null;
+          
+          var ptrEl = document.createElement('div');
+          ptrEl.id = 'ptrSpinner';
+          ptrEl.innerHTML = '<i class="fas fa-arrow-down"></i>';
+          ptrEl.style.cssText = 'position:fixed; top:-60px; left:50%; transform:translateX(-50%); z-index:99999; background:white; color:#E08020; width:44px; height:44px; border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 14px rgba(0,0,0,0.18); transition: top 0.25s, transform 0.25s; font-size:1.1rem; pointer-events:none;';
+          document.body.appendChild(ptrEl);
+
+          function getScrollTop() {
+            var el = document.querySelector('.dashboard-main') || document.querySelector('.main-content') || window;
+            return el === window ? window.scrollY : el.scrollTop;
+          }
+
+          window.addEventListener('scroll', function() {
+            isScrolling = true;
+            clearTimeout(scrollTimer);
+            scrollTimer = setTimeout(function() { isScrolling = false; }, 150);
+          }, {passive: true});
+
+          document.addEventListener('touchstart', function(e) {
+            if (getScrollTop() <= 2 && !isScrolling) {
+              startY = e.touches[0].clientY;
+              isPulling = true;
+              pullConfirmed = false;
+              ptrEl.style.transition = 'none';
+            } else {
+              isPulling = false;
+              pullConfirmed = false;
+            }
+          }, {passive: true});
+
+          document.addEventListener('touchmove', function(e) {
+            if (!isPulling) return;
+            if (getScrollTop() > 2) {
+              isPulling = false;
+              pullConfirmed = false;
+              ptrEl.style.transition = 'top 0.2s';
+              ptrEl.style.top = '-60px';
+              return;
+            }
+            var y = e.touches[0].clientY;
+            pY = y - startY;
+            if (pY < DEAD_ZONE) return;
+            if (!pullConfirmed) { pullConfirmed = true; ptrEl.style.transition = 'none'; }
+            if (e.cancelable) e.preventDefault();
+            var pullDist = pY - DEAD_ZONE;
+            var topPos = Math.min(pullDist * 0.28 - 60, 55);
+            ptrEl.style.top = topPos + 'px';
+            ptrEl.style.transform = 'translateX(-50%) rotate(' + (pullDist * 1.2) + 'deg)';
+            if (pullDist >= THRESHOLD) {
+              ptrEl.style.color = '#16a34a';
+              ptrEl.style.background = '#f0fdf4';
+              ptrEl.style.boxShadow = '0 4px 14px rgba(22,163,74,0.28)';
+              ptrEl.innerHTML = '<i class="fas fa-sync-alt"></i>';
+            } else {
+              ptrEl.style.color = '#E08020';
+              ptrEl.style.background = 'white';
+              ptrEl.style.boxShadow = '0 4px 14px rgba(0,0,0,0.18)';
+              ptrEl.innerHTML = '<i class="fas fa-arrow-down"></i>';
+            }
+          }, {passive: false});
+
+          document.addEventListener('touchend', function(e) {
+            if (!isPulling) return;
+            isPulling = false;
+            pullConfirmed = false;
+            ptrEl.style.transition = 'top 0.3s';
+            var pullDist = pY - DEAD_ZONE;
+            if (pullDist >= THRESHOLD && getScrollTop() <= 2) {
+              ptrEl.style.top = '55px';
+              ptrEl.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+              setTimeout(function() { window.location.reload(); }, 350);
+            } else {
+              ptrEl.style.top = '-60px';
+              ptrEl.style.color = '#E08020';
+              ptrEl.style.background = 'white';
+              ptrEl.style.boxShadow = '0 4px 14px rgba(0,0,0,0.18)';
+              ptrEl.innerHTML = '<i class="fas fa-arrow-down"></i>';
+            }
+            pY = 0;
+          });
+        });
+        // Hardware Back Button Handling for Android
+        document.addEventListener('DOMContentLoaded', function() {
+          if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.App) {
+            var lastBackPress = 0;
+
+            // Push a dummy history entry so system back doesn't pop the WebView
+            var isDashboard = ['/student-activities', '/teacher-dashboard', '/parent-dashboard', '/admin-dashboard', '/super-admin-dashboard'].some(function(p) {
+              return window.location.pathname.includes(p);
+            });
+            if (isDashboard) {
+              history.pushState(null, '', window.location.href);
+              window.addEventListener('popstate', function() {
+                history.pushState(null, '', window.location.href);
+              });
+            }
+
+            window.Capacitor.Plugins.App.addListener('backButton', function(data) {
+              var path = window.location.pathname;
+              
+              // Sub-pages: just go back in history
+              if (path.includes('activity.html') || path.includes('club.html') || path.includes('blog-article') || path.includes('blog.html') || path.includes('contact.html') || path.includes('about.html')) {
+                 window.history.back();
+                 return;
+              }
+
+              // Auth page: exit immediately
+              if (path.includes('auth.html')) {
+                 window.Capacitor.Plugins.App.exitApp();
+                 return;
+              }
+
+              // Dashboard pages (student, teacher, parent, admin): warn first, exit/minimize on 2nd press
+              var now = new Date().getTime();
+              if (now - lastBackPress < 2000) {
+                // Second press — minimize app (goes to background, does NOT logout)
+                if (window.Capacitor.Plugins.App.minimizeApp) {
+                  window.Capacitor.Plugins.App.minimizeApp();
+                } else {
+                  window.Capacitor.Plugins.App.exitApp();
+                }
+              } else {
+                lastBackPress = now;
+                var toast = document.createElement('div');
+                toast.innerText = 'Press back again to exit';
+                toast.style.cssText = 'position:fixed; bottom:90px; left:50%; transform:translateX(-50%); background:rgba(0,0,0,0.85); color:white; padding:12px 24px; border-radius:30px; z-index:999999; font-family:sans-serif; font-size:14px; font-weight:500; text-align:center; box-shadow:0 4px 15px rgba(0,0,0,0.3); transition:opacity 0.2s ease; opacity:0; pointer-events:none;';
+                document.body.appendChild(toast);
+                
+                setTimeout(function() { toast.style.opacity = '1'; }, 10);
+                
+                setTimeout(function() {
+                  toast.style.opacity = '0';
+                  setTimeout(function() { if(toast.parentNode) toast.remove(); }, 300);
+                }, 2000);
+              }
+            });
+          }
+        });
       }
-    }
-    var path = window.location.pathname.replace(/\/index\.html$/, '/').replace(/\.html$/, '').replace(/\/$/, '') || '/';
-    // Only allow these pages in app
-    var allowed = ['/auth', '/student-activities', '/parent-dashboard', '/teacher-dashboard', '/admin-dashboard', '/activity'];
-    if (!allowed.some(p => path === p)) {
-      window.location.replace('https://localhost/auth');
-    }
-  }
-})();
-</script>
+    })();
+  </script>
 </head>
 <body>
 
@@ -648,6 +799,27 @@
     object-fit: cover;
   }
 
+  .sidebar-school-cam-badge {
+    position: absolute;
+    bottom: -4px;
+    right: -4px;
+    background: #ffffff;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+    border: 1px solid #e2e8f0;
+  }
+
+  .sidebar-school-cam-badge i {
+    color: #29416d;
+    font-size: 10px;
+  }
+
   .section-shell {
     display: flex;
     align-items: flex-start;
@@ -955,14 +1127,14 @@
     margin-bottom: 0.85rem;
   }
 
+  /* ── Compact hero cards ── */
   .hero-card {
-    border-radius: 16px;
-    padding: 0.9rem;
+    border-radius: 14px;
+    padding: 0.82rem;
     position: relative;
     overflow: hidden;
-    min-height: 138px;
     border: 1px solid var(--admin-line);
-    box-shadow: none;
+    box-shadow: 0 2px 10px rgba(15,23,42,0.05);
   }
 
   .card-white {
@@ -1124,34 +1296,32 @@
 
   .stat-title {
     font-family: 'Sora', sans-serif;
-    font-size: 0.66rem;
+    font-size: 0.60rem;
     font-weight: 700;
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: #64748b;
-    margin-bottom: 0.36rem;
+    margin-bottom: 0.22rem;
   }
-
   .stat-value-large {
     font-family: 'Sora', sans-serif;
-    font-size: clamp(1.52rem, 2.4vw, 2.24rem);
+    font-size: 1.55rem;
     font-weight: 800;
     color: var(--admin-ink);
-    line-height: 0.95;
+    line-height: 1;
   }
 
+  /* Brand colour tokens — orange=teachers, pink=students, gold=tan */
   .card-green {
-    background: linear-gradient(180deg, #f0a43d 0%, var(--admin-accent-soft) 100%);
+    background: linear-gradient(135deg, #f0a43d 0%, #d97706 100%);
     color: #ffffff;
   }
-
   .card-yellow {
-    background: linear-gradient(180deg, #dd4a83 0%, var(--admin-accent) 100%);
+    background: linear-gradient(135deg, #dd4a83 0%, #b91c5c 100%);
     color: #ffffff;
   }
-
   .card-orange {
-    background: linear-gradient(180deg, #d6a16d 0%, var(--admin-accent-gold) 100%);
+    background: linear-gradient(135deg, #d6a16d 0%, #b07540 100%);
     color: #ffffff;
   }
 
@@ -1800,21 +1970,47 @@
   .modal-photo-picker {
     width: 96px;
     height: 96px;
-    border-radius: 28px;
+    border-radius: 50%;
     background: linear-gradient(180deg, #ffffff, #f8fafc);
-    border: 2px dashed #cbd5e1;
+    border: 3px solid #e2e8f0;
     display: inline-flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
-    box-shadow: 0 14px 24px rgba(15,23,42,0.06);
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    box-shadow: 0 10px 25px rgba(15,23,42,0.1);
+    position: relative;
   }
 
   .modal-photo-picker:hover {
-    transform: translateY(-2px);
-    border-color: rgba(214,54,120,0.45);
-    box-shadow: 0 18px 28px rgba(214,54,120,0.12);
+    transform: translateY(-2px) scale(1.02);
+    border-color: #cbd5e1;
+    box-shadow: 0 14px 28px rgba(15,23,42,0.15);
+  }
+
+  .modal-photo-picker::after {
+    content: '030';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    background: #ffffff;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #29416d;
+    font-size: 13px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    border: 1px solid #e2e8f0;
+    pointer-events: none;
+    transition: background 0.2s;
+  }
+  .modal-photo-picker:hover::after {
+    background: #f8fafc;
   }
 
   .class-chip-list {
@@ -1974,273 +2170,155 @@
 
   @media (max-width: 1180px) {
     .app-container {
-      grid-template-columns: 204px minmax(0, 1fr);
+      grid-template-columns: 200px minmax(0, 1fr);
     }
-
-    .top-nav {
-      padding: 1rem;
-    }
-
-    .main-content {
-      padding: 0.9rem;
-    }
-
     .hero-grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
-
     .hero-main-card {
       grid-column: 1 / -1;
     }
-
     .overview-lower-grid {
       grid-template-columns: 1fr;
     }
-
     .panel-stack {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
+  }
+
+  /* ── Mobile: off-canvas sidebar + bottom nav ── */
+  .mobile-menu-btn {
+    display: none;
+    position: fixed;
+    top: 12px; left: 12px;
+    z-index: 1100;
+    width: 42px; height: 42px;
+    border-radius: 11px;
+    border: none;
+    background: var(--admin-blue);
+    color: #fff;
+    font-size: 1.2rem;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s;
+  }
+  .mobile-menu-btn:hover { transform: scale(1.06); }
+  .mobile-overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(15,23,42,0.55);
+    backdrop-filter: blur(4px);
+    z-index: 999;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .mobile-overlay.active { display: block; opacity: 1; }
+  .admin-mobile-bottom {
+    display: none;
   }
 
   @media (max-width: 900px) {
-    .login-wrapper {
-      padding: 0.7rem;
-    }
+    .mobile-menu-btn { display: flex; }
 
-    .login-wrapper::before {
-      inset: 8px;
-      border-radius: 22px;
-    }
-
+    /* Sidebar: fixed off-canvas drawer */
     .app-container {
       grid-template-columns: 1fr;
-      min-height: 100vh;
-      border-radius: 0;
     }
-
     .top-nav {
-      flex-direction: row;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 0.8rem;
+      position: fixed;
+      left: -270px;
+      top: 0; height: 100vh;
+      width: 250px;
+      z-index: 1050;
+      transition: left 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: none;
+      flex-direction: column;
+      flex-wrap: nowrap;
+      align-items: stretch;
       border-right: none;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-    }
-
-    .nav-brand {
-      flex: 1 1 auto;
-      padding: 0;
       border-bottom: none;
-      min-width: 0;
+    }
+    .top-nav.open {
+      left: 0;
+      box-shadow: 8px 0 28px rgba(0,0,0,0.3);
     }
 
-    .nav-center {
-      flex: 1 1 100%;
-      order: 3;
-    }
-
-    .nav-links {
-      flex-direction: row;
-      flex-wrap: wrap;
-      gap: 0.4rem;
-    }
-
-    .nav-links li {
-      padding: 0.72rem 0.85rem;
-    }
-
-    .nav-actions {
-      margin-top: 0;
-      grid-template-columns: repeat(4, auto);
-      justify-content: flex-end;
-      align-items: center;
-    }
-
-    .nav-profile,
-    .btn-logout {
-      grid-column: auto;
-    }
-
-    .btn-logout {
-      width: auto;
-    }
-
+    /* Main content: full width, pad top for hamburger */
     .main-content {
-      padding: 0.85rem;
+      padding: 0.75rem;
+      padding-top: 64px;
+      padding-bottom: 72px;
     }
 
-    .workspace-topbar {
-      flex-wrap: wrap;
-      padding: 0.85rem 1rem;
+    /* Hero grid: 2-col */
+    .hero-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+      gap: 0.55rem;
     }
-
-    .workspace-heading {
-      width: 100%;
-    }
-
-    .workspace-tools {
-      width: 100%;
-      justify-content: flex-end;
-    }
-
-    .tab-panel {
-      padding: 1rem;
-      border-radius: 18px;
-    }
-
-    .section-header {
-      align-items: flex-start;
-    }
-
-    .section-shell {
-      width: 100%;
-    }
-
-    .section-actions {
-      width: 100%;
-      justify-content: flex-start;
-    }
-
-    .hero-grid,
-    #tab-attendance .hero-grid {
-      grid-template-columns: 1fr !important;
-    }
-
     .hero-main-card {
+      grid-column: 1 / -1;
       grid-template-columns: 1fr;
     }
+    .hero-visual { display: none; } /* hide illustration on mobile */
+    .hero-score-grid { grid-template-columns: repeat(2, 1fr); }
+    .metric-illustration { display: none; }
 
-    .hero-score-grid {
-      grid-template-columns: 1fr;
-    }
+    /* Overview lower: single col */
+    .overview-lower-grid { grid-template-columns: 1fr !important; }
+    .panel-stack { grid-template-columns: 1fr; }
 
-    .hero-visual {
-      width: 100%;
-      flex-direction: row;
+    /* Table */
+    .table-header-row { display: none; }
+    .pill-row { flex-wrap: wrap; align-items: flex-start; }
+    .col-1,.col-2,.col-3,.col-4,.col-5,.col-6 { flex: 1 1 calc(50% - 0.35rem); text-align: left; }
+    .col-actions { flex: 1 1 100%; }
+
+    .modal-content { padding: 18px; border-radius: 20px; max-height: calc(100vh - 1.5rem); }
+    .modal-footer-actions { padding: 0 18px; margin: 0 -18px; bottom: -18px; }
+    .class-chip-list { grid-template-columns: 1fr; }
+
+    /* Bottom mobile navigation */
+    .admin-mobile-bottom {
+      display: flex;
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      background: #ffffff;
+      border-top: 1px solid rgba(0,0,0,0.07);
+      box-shadow: 0 -4px 14px rgba(30,45,90,0.1);
+      z-index: 1000;
+      justify-content: space-around;
       align-items: center;
-      justify-content: space-between;
+      padding: 8px 4px calc(8px + env(safe-area-inset-bottom)) 4px;
     }
-
-    .attendance-widget {
-      grid-template-columns: 1fr;
-      justify-items: center;
+    .adm-mob-btn {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 3px; background: transparent; border: none;
+      color: #64748b; font-size: 10px; font-weight: 700;
+      font-family: 'Sora', sans-serif; cursor: pointer; flex: 1;
     }
-
-    .panel-stack {
-      grid-template-columns: 1fr;
-    }
-
-    .table-header-row {
-      display: none;
-    }
-
-    .pill-row {
-      flex-wrap: wrap;
-      align-items: flex-start;
-    }
-
-    .col-1,
-    .col-2,
-    .col-3,
-    .col-4,
-    .col-5,
-    .col-6 {
-      flex: 1 1 calc(50% - 0.35rem);
-      text-align: left;
-    }
-
-    .col-actions {
-      flex: 1 1 100%;
-      text-align: left;
-    }
-
-    .modal-content {
-      padding: 22px;
-      border-radius: 22px;
-      max-height: calc(100vh - 1.5rem);
-    }
-
-    .modal-footer-actions {
-      padding-left: 22px;
-      padding-right: 22px;
-      margin-left: -22px;
-      margin-right: -22px;
-      bottom: -22px;
-    }
-
-    .class-chip-list {
-      grid-template-columns: 1fr;
-    }
-
-    .login-card {
-      padding: 2rem 1.5rem;
-    }
+    .adm-mob-btn i { font-size: 17px; padding: 5px; border-radius: 8px; background: #f1f5f9; color: #334155; }
+    .adm-mob-btn.active i { color: #fff; background: var(--admin-blue); }
+    .adm-mob-btn.active { color: var(--admin-blue); }
+    .adm-mob-btn.danger i { color: #fff; background: #dc2626; }
   }
 
   @media (max-width: 640px) {
-    .top-nav {
-      align-items: stretch;
+    .hero-grid {
+      grid-template-columns: 1fr !important;
     }
+    .hero-score-grid { grid-template-columns: 1fr; }
+    .section-title { font-size: 1.2rem; }
+    .workspace-topbar { flex-wrap: wrap; }
+    .workspace-tools { width: 100%; justify-content: flex-end; }
+    .workspace-admin-chip { width: 100%; }
+    .section-actions, .class-filter-wrap { width: 100%; }
+    .section-asset { width: 32px; height: 32px; flex: 0 0 32px; }
+    .nav-actions { display: none; } /* bottom bar handles these on small screens */
+    .login-card { padding: 1.6rem 1.2rem; }
+  }
 
-    .nav-brand {
-      width: 100%;
-    }
-
-    .brand-title {
-      font-size: 0.98rem;
-    }
-
-    .nav-actions {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      width: 100%;
-    }
-
-    .workspace-topbar {
-      align-items: stretch;
-    }
-
-    .workspace-tools {
-      justify-content: space-between;
-      flex-wrap: wrap;
-    }
-
-    .workspace-admin-chip {
-      width: 100%;
-    }
-
-    .nav-profile,
-    .btn-logout {
-      grid-column: 1 / -1;
-    }
-
-    .nav-links {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      width: 100%;
-    }
-
-    .nav-links li {
-      justify-content: center;
-      text-align: center;
-      padding: 0.76rem 0.55rem;
-      font-size: 0.78rem;
-    }
-
-    .section-title {
-      font-size: 1.35rem;
-    }
-
-    .section-actions,
-    .class-filter-wrap {
-      width: 100%;
-    }
-
-    .hero-visual {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-
-    .section-asset {
       width: 54px;
       height: 54px;
       flex-basis: 54px;
@@ -2287,210 +2365,265 @@
     }
   }
 
-  .sidebar-cam-badge, .school-cam-badge {
-    position: absolute;
-    bottom: -5px;
-    right: -5px;
-    width: 28px;
-    height: 28px;
-    background: linear-gradient(135deg, #d63678 0%, #e46c2e 100%);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 0.75rem;
-    border: 2px solid white;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-    cursor: pointer;
-    transition: transform 0.2s;
-  }
-  .sidebar-cam-badge:hover, .school-cam-badge:hover {
-    transform: scale(1.1);
-  }
 
-  /* ============================================================
-     DESKTOP POLISH (web only — overrides applied at end so they
-     win over earlier rules). Brand palette enforced, modern
-     cards, responsive breakpoints, logout highlighted.
-     ============================================================ */
-  :root {
-    --brand-primary: #29416d;
-    --brand-secondary: #cf296d;
-    --brand-tertiary: #ea8300;
-    --brand-success: #34d399;
-    --brand-danger: #ef4444;
-  }
+  /* APK_ADMIN_DASHBOARD_COMPACT */
+  /* APK_DASHBOARD_OVERFLOW_GUARD */
+  html, body { max-width: 100% !important; overflow-x: hidden !important; }
+  .admin-page { max-width: 100% !important; overflow-x: hidden !important; }
+  .admin-page .app-container,
+  .admin-page .top-nav,
+  .admin-page .workspace-topbar { min-width: 0 !important; max-width: 100% !important; }
+  .admin-page img,
+  .admin-page video,
+  .admin-page iframe,
+  .admin-page table { max-width: 100% !important; height: auto; }
 
-  /* Wide layouts: wider sidebar + breathing room */
-  @media (min-width: 1280px) {
-    .app-container { grid-template-columns: 260px minmax(0, 1fr) !important; }
-    .top-nav { padding: 1.2rem 1rem !important; gap: 1.1rem !important; }
-    .nav-brand { padding: 0.5rem 0.5rem 1.1rem !important; }
-    .brand-mark { width: 64px !important; height: 64px !important; }
-  }
-  @media (min-width: 1600px) {
-    .app-container { grid-template-columns: 280px minmax(0, 1fr) !important; }
-    .hero-grid { gap: 1.5rem !important; }
-  }
+  @media (max-width: 1024px) {
+    .admin-page { padding: 0.5rem !important; }
+    .admin-page .app-container { gap: 0.5rem !important; padding: 0 !important; }
 
-  /* Modern card styling — softer shadows, brand-tinted borders */
-  .hero-card,
-  .card-white {
-    border-radius: 20px !important;
-    box-shadow: 0 6px 22px rgba(41, 65, 109, 0.08), 0 1px 3px rgba(41, 65, 109, 0.04) !important;
-    border: 1px solid rgba(41, 65, 109, 0.06) !important;
-    transition: transform 0.25s ease, box-shadow 0.25s ease !important;
-  }
-  .hero-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 14px 34px rgba(41, 65, 109, 0.12), 0 3px 8px rgba(41, 65, 109, 0.05) !important;
-  }
-
-  /* Brand-aligned color accents on metric cards */
-  .hero-card.card-green { background: linear-gradient(135deg, rgba(52, 211, 153, 0.10), rgba(255,255,255,0.95)) !important; border-left: 4px solid var(--brand-success) !important; }
-  .hero-card.card-yellow { background: linear-gradient(135deg, rgba(234, 131, 0, 0.10), rgba(255,255,255,0.95)) !important; border-left: 4px solid var(--brand-tertiary) !important; }
-  .hero-card.card-orange { background: linear-gradient(135deg, rgba(207, 41, 109, 0.10), rgba(255,255,255,0.95)) !important; border-left: 4px solid var(--brand-secondary) !important; }
-  .hero-card.attendance-summary-card { border-radius: 18px !important; }
-
-  /* Reduce metric illustration weight on desktop (keeps it subtle, not dominant) */
-  .metric-illustration,
-  .summary-card-illustration { opacity: 0.85; max-width: 110px !important; }
-
-  /* Section / panel cards */
-  .section-card,
-  .widget-card,
-  .panel-card {
-    border-radius: 20px !important;
-    box-shadow: 0 6px 22px rgba(41, 65, 109, 0.07) !important;
-    border: 1px solid rgba(226, 232, 240, 0.85) !important;
-  }
-
-  /* Logout button — highlighted red gradient (consistent with other dashboards) */
-  .btn-logout,
-  .btn-outline-light.btn-logout {
-    background: linear-gradient(135deg, #ef4444 0%, #cf296d 100%) !important;
-    color: #ffffff !important;
-    border: 1px solid rgba(239, 68, 68, 0.4) !important;
-    box-shadow: 0 6px 16px rgba(239, 68, 68, 0.28) !important;
-    font-weight: 700 !important;
-  }
-  .btn-logout:hover,
-  .btn-outline-light.btn-logout:hover {
-    background: linear-gradient(135deg, #dc2626 0%, #b91c5e 100%) !important;
-    color: #ffffff !important;
-    transform: translateY(-1px);
-    box-shadow: 0 10px 22px rgba(239, 68, 68, 0.36) !important;
-  }
-  .btn-logout i { color: #ffffff !important; }
-
-  /* Sidebar nav: brand accent on active/hover */
-  .nav-item.active,
-  .nav-link.active,
-  a.nav-item.active {
-    background: linear-gradient(90deg, rgba(207, 41, 109, 0.18), transparent) !important;
-    border-left: 3px solid var(--brand-secondary) !important;
-    color: #ffffff !important;
-  }
-
-  /* Tablet (768-1199): collapse hero to 2-col, sidebar narrower */
-  @media (max-width: 1199px) and (min-width: 768px) {
-    .app-container { grid-template-columns: 200px minmax(0, 1fr) !important; }
-    .hero-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 1rem !important; }
-    .hero-main-card { grid-column: 1 / -1 !important; }
-    .brand-mark { width: 50px !important; height: 50px !important; }
-    .nav-brand { gap: 0.7rem !important; }
-  }
-
-  /* Mobile (<768): single col, sidebar collapses, hero stacks */
-  @media (max-width: 767px) {
-    .app-container { grid-template-columns: 1fr !important; }
-    .top-nav {
-      flex-direction: row !important;
-      flex-wrap: wrap !important;
-      padding: 0.6rem 0.8rem !important;
-      gap: 0.5rem !important;
-      border-right: none !important;
-      border-bottom: 1px solid rgba(255,255,255,0.08) !important;
+    /* Top nav -> stacked compact strip */
+    .admin-page .top-nav {
+      flex-direction: column !important;
+      align-items: stretch !important;
+      gap: 0.4rem !important;
+      padding: 0.55rem 0.65rem !important;
+      border-radius: 14px !important;
     }
-    .nav-brand { padding: 0 !important; border-bottom: none !important; flex: 1 1 auto; }
-    .brand-mark { width: 42px !important; height: 42px !important; }
-    .nav-list,
-    .nav-actions { width: 100% !important; }
-    .hero-grid { grid-template-columns: 1fr !important; gap: 0.8rem !important; }
-    .metric-illustration,
-    .summary-card-illustration { max-width: 80px !important; }
-    .hero-card { padding: 1rem !important; }
-  }
+    .admin-page .nav-brand {
+      display: flex !important;
+      flex-direction: row !important;
+      align-items: center !important;
+      gap: 0.5rem !important;
+      width: 100% !important;
+    }
+    .admin-page .brand-mark {
+      width: 36px !important;
+      height: 36px !important;
+      flex: 0 0 36px !important;
+    }
+    .admin-page .brand-mark .sidebar-cam-badge { display: none !important; }
+    .admin-page .brand-title { font-size: 0.9rem !important; line-height: 1.1 !important; }
+    .admin-page .brand-copy span:not(.brand-title) { font-size: 0.65rem !important; }
 
+    /* Nav links -> 5-column pill row */
+    .admin-page .nav-center { width: 100% !important; }
+    .admin-page .nav-links {
+      display: grid !important;
+      grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+      gap: 0.25rem !important;
+      width: 100% !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      list-style: none !important;
+    }
+    .admin-page .nav-links li {
+      padding: 0.4rem 0.2rem !important;
+      font-size: 0.6rem !important;
+      text-align: center !important;
+      border-radius: 9px !important;
+      line-height: 1.1 !important;
+      min-height: 0 !important;
+      cursor: pointer !important;
+    }
 
-/* ===== DASHBOARD_MOBILE_PATCH (universal safety net) ===== */
-html, body {
-  overflow-x: hidden !important;
-  max-width: 100% !important;
-  -webkit-text-size-adjust: 100%;
-}
-*, *::before, *::after { box-sizing: border-box; }
+    /* Remove redundant duplicate admin chip in nav-actions and workspace bar */
+    .admin-page .nav-actions .nav-profile { display: none !important; }
+    .admin-page .workspace-topbar { padding: 0 !important; margin: 0 !important; }
+    .admin-page .workspace-tools { gap: 0.4rem !important; }
+    .admin-page .workspace-admin-chip { display: none !important; }
+    .admin-page .workspace-tool {
+      padding: 0.4rem 0.55rem !important;
+      font-size: 0.75rem !important;
+    }
 
-/* Tables: scroll horizontally instead of breaking layout */
-.table-responsive, .table-wrap, .data-table-wrap {
-  width: 100% !important;
-  overflow-x: auto !important;
-  -webkit-overflow-scrolling: touch;
-}
-table { max-width: 100%; }
+    /* Nav action buttons */
+    .admin-page .nav-actions {
+      display: flex !important;
+      flex-direction: row !important;
+      gap: 0.35rem !important;
+      width: 100% !important;
+    }
+    .admin-page .nav-actions .btn-home-nav,
+    .admin-page .nav-actions .btn-logout {
+      flex: 1 1 0 !important;
+      padding: 0.45rem 0.5rem !important;
+      font-size: 0.7rem !important;
+      border-radius: 10px !important;
+      min-height: 0 !important;
+      justify-content: center !important;
+    }
 
-@media (max-width: 760px) {
-  .app-container, .login-wrapper, .main-content,
-  .dashboard-container, .container, .container-fluid {
-    max-width: 100% !important;
-    overflow-x: hidden !important;
-  }
-  /* Long words / URLs do not push the layout */
-  body, p, h1, h2, h3, h4, h5, h6, span, div, a, td, th, li {
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-  }
-  /* Images / videos / iframes stay in bounds */
-  img, video, iframe, svg, canvas {
-    max-width: 100% !important;
-    height: auto;
-  }
-  /* Tighter mobile padding */
-  .main-content, .workspace-topbar, .tab-panel,
-  .panel, .card, .login-card {
-    padding-left: 0.75rem !important;
-    padding-right: 0.75rem !important;
-  }
-  /* Buttons / inputs full-width but not overflow */
-  input, select, textarea, button {
-    max-width: 100% !important;
-  }
-  /* Modal: never overflow viewport */
-  .modal, .modal-dialog, .modal-content {
-    max-width: calc(100% - 1rem) !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-  }
-  /* Sticky / fixed bars: respect safe area */
-  .top-nav, .workspace-topbar, .nav-bar {
-    padding-left: 0.65rem !important;
-    padding-right: 0.65rem !important;
-  }
-}
+    /* Highlighted logout (red-pink) */
+    .admin-page .nav-actions .btn-logout {
+      background: linear-gradient(180deg, #e85a4f 0%, #d63678 100%) !important;
+      color: #ffffff !important;
+      border: 1px solid rgba(255,255,255,0.28) !important;
+      box-shadow: 0 8px 18px rgba(214,54,120,0.38) !important;
+      font-weight: 800 !important;
+      letter-spacing: 0.05em !important;
+      text-transform: uppercase !important;
+    }
+    .admin-page .nav-actions .btn-logout i { color: #ffffff !important; }
 
-@media (max-width: 480px) {
-  .nav-brand .brand-title, .brand-title {
-    font-size: 0.92rem !important;
+    /* Hide repeating 3D decorative images everywhere on admin */
+    .admin-page .section-asset { display: none !important; }
+    .admin-page .widget-asset { display: none !important; }
+    .admin-page .summary-card-illustration { display: none !important; }
+    .admin-page .section-shell { gap: 0.4rem !important; }
+
+    /* Compact section headers */
+    .admin-page .section-header {
+      padding: 0.6rem 0.7rem !important;
+      gap: 0.4rem !important;
+      flex-wrap: wrap !important;
+      margin-bottom: 0.5rem !important;
+    }
+    .admin-page .section-eyebrow { font-size: 0.6rem !important; padding: 0.2rem 0.45rem !important; }
+    .admin-page .section-title { font-size: 1rem !important; line-height: 1.15 !important; margin: 0 !important; }
+    .admin-page .section-subtitle { display: none !important; }
+    .admin-page .section-actions { gap: 0.3rem !important; flex-wrap: wrap !important; }
+    .admin-page .class-filter-wrap { gap: 0.25rem !important; }
+    .admin-page .class-filter-label { font-size: 0.6rem !important; }
+    .admin-page .class-filter-select { padding: 0.35rem 0.5rem !important; font-size: 0.72rem !important; }
+    .admin-page .filter-summary { font-size: 0.62rem !important; }
+
+    /* Tab panels */
+    .admin-page .tab-panel { padding: 0 !important; }
+    .admin-page .surface-card,
+    .admin-page .erp-card,
+    .admin-page .panel-card {
+      padding: 0.7rem !important;
+      border-radius: 14px !important;
+      margin-bottom: 0.5rem !important;
+    }
+
+    /* Summary cards -> 2-column compact grid */
+    .admin-page .summary-card {
+      padding: 0.55rem !important;
+      min-height: 0 !important;
+      border-radius: 12px !important;
+      gap: 0.25rem !important;
+    }
+    .admin-page .summary-card .summary-card-meta { font-size: 0.6rem !important; }
+    .admin-page .summary-card .summary-card-value,
+    .admin-page .summary-card .summary-value { font-size: 1.3rem !important; line-height: 1 !important; }
+    .admin-page .summary-card .summary-card-label,
+    .admin-page .summary-card .summary-label { font-size: 0.6rem !important; letter-spacing: 0.04em !important; }
+
+    /* Class chips */
+    .admin-page .class-chip {
+      padding: 0.25rem 0.5rem !important;
+      font-size: 0.65rem !important;
+      border-radius: 8px !important;
+    }
+
+    /* Forms inside modals */
+    .admin-page .form-group { margin-bottom: 0.5rem !important; gap: 0.25rem !important; }
+    .admin-page .form-input,
+    .admin-page .form-select {
+      padding: 0.45rem 0.6rem !important;
+      font-size: 0.8rem !important;
+      border-radius: 10px !important;
+    }
+    .admin-page .modal-content {
+      padding: 0.9rem !important;
+      border-radius: 16px !important;
+      max-height: 90vh !important;
+      overflow-y: auto !important;
+    }
+
+    /* Tables compact */
+    .admin-page table { font-size: 0.72rem !important; }
+    .admin-page th, .admin-page td { padding: 0.4rem 0.5rem !important; }
+
+    /* === Overview tab cleanup === */
+    /* Hide the redundant hero-main-card: profile pic is already shown in
+       top-nav, "All Classes" is already in the filter dropdown above, and
+       teacher/student counts appear in the metric cards just below. */
+    .admin-page .hero-main-card { display: none !important; }
+
+    /* Compact 3 oversized metric cards (Teachers / Students / Pending Invites)
+       into a single tight 3-column row, no decorative illustrations. */
+    .admin-page .hero-grid {
+      display: grid !important;
+      grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+      gap: 0.4rem !important;
+      margin: 0 0 0.5rem 0 !important;
+    }
+    .admin-page .hero-card.tall-card,
+    .admin-page .hero-card.metric-card {
+      padding: 0.6rem 0.45rem !important;
+      min-height: 0 !important;
+      border-radius: 12px !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      text-align: center !important;
+      gap: 0.2rem !important;
+    }
+    .admin-page .metric-card-copy {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 0.2rem !important;
+      width: 100% !important;
+    }
+    .admin-page .metric-illustration { display: none !important; }
+    .admin-page .metric-icon {
+      width: 28px !important;
+      height: 28px !important;
+      font-size: 0.85rem !important;
+      margin: 0 !important;
+    }
+    .admin-page .metric-label {
+      font-size: 0.62rem !important;
+      letter-spacing: 0.04em !important;
+      text-transform: uppercase !important;
+      margin: 0 !important;
+    }
+    .admin-page .tall-stat {
+      font-size: 1.5rem !important;
+      line-height: 1 !important;
+      margin: 0 !important;
+    }
+    .admin-page .metric-meta { display: none !important; }
+
+    /* Lower grid: stack widgets on mobile, drop excessive padding */
+    .admin-page .overview-lower-grid {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 0.5rem !important;
+    }
+    .admin-page .panel-stack {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 0.5rem !important;
+    }
+    .admin-page .widget-panel {
+      padding: 0.7rem !important;
+      border-radius: 14px !important;
+    }
+    .admin-page .subsection-toolbar,
+    .admin-page .widget-heading {
+      gap: 0.4rem !important;
+      flex-wrap: wrap !important;
+    }
+    .admin-page .widget-heading strong { font-size: 0.85rem !important; }
+
+    /* Attendance ring (already a graph) - keep but compact */
+    .admin-page .attendance-widget { gap: 0.6rem !important; flex-wrap: wrap !important; justify-content: center !important; }
+    .admin-page .attendance-ring { width: 110px !important; height: 110px !important; }
+    .admin-page .chart-legend { font-size: 0.7rem !important; gap: 0.3rem !important; }
+
+    /* Hide the non-functional layout grid toggle button on mobile */
+    .admin-page .layout-toggle { display: none !important; }
+    .admin-page .status-pill {
+      font-size: 0.6rem !important;
+      padding: 0.25rem 0.5rem !important;
+      border-radius: 8px !important;
+    }
   }
-  .stat-card, .summary-card, .info-card {
-    padding: 0.75rem !important;
-  }
-  /* Reduce huge headings on small phones */
-  h1 { font-size: 1.4rem !important; }
-  h2 { font-size: 1.2rem !important; }
-}
-/* ===== END DASHBOARD_MOBILE_PATCH ===== */
+  
 </style>
 
 <!-- LOGIN VIEW (hidden by default to avoid popup after /auth login) -->
@@ -2514,18 +2647,23 @@ table { max-width: 100%; }
 
 <!-- DASHBOARD VIEW -->
 <div id="adminDashboardView" class="admin-page d-none">
+  <!-- Mobile hamburger -->
+  <button class="mobile-menu-btn" id="adminMenuBtn" aria-label="Toggle menu">
+    <i class="fas fa-bars"></i>
+  </button>
+  <!-- Overlay -->
+  <div class="mobile-overlay" id="adminOverlay"></div>
   
   <div class="app-container">
     <!-- TOP NAV -->
-    <div class="top-nav">
+    <div class="top-nav" id="adminSidebar">
       <div class="nav-brand">
-        <div class="brand-mark" id="sidebarAvatarClickArea" title="Click to change photo" role="button" tabindex="0" style="position:relative; cursor:pointer; overflow:visible;">
-          <img id="sidebarProfilePhoto" src="/kidba_assets/img/3d_school.png" alt="School Admin profile" style="border-radius:14px; width:100%; height:100%; object-fit:cover;">
-          <div class="sidebar-cam-badge"><i class="fas fa-camera"></i></div>
-        </div>
+        <div class="brand-mark"><img src="/kidba_assets/img/3d_school.png" alt="School 3D icon"></div>
         <div class="brand-copy">
+          <div class="brand-kicker">Imaan & Akhlaq</div>
           <div class="brand-title-row">
-            <span class="brand-title" id="sidebarProfileName">School Admin Name</span>
+            <div class="brand-title">School Management System</div>
+            <span class="brand-status"><i class="fas fa-circle"></i> Live campus</span>
           </div>
         </div>
       </div>
@@ -2539,14 +2677,20 @@ table { max-width: 100%; }
         </ul>
       </div>
       <div class="nav-actions">
-        <div class="nav-profile">
-          <img src="https://ui-avatars.com/api/?name=Admin&amp;background=243d6b&amp;color=fff" class="avatar-mini">
+        <div class="nav-profile" id="adminAvatarClickArea" title="Click to change profile photo" style="cursor:pointer; position:relative;">
+          <div style="position:relative; display:inline-block;">
+            <img id="adminNavProfilePhoto" src="https://ui-avatars.com/api/?name=Admin&background=243d6b&color=fff" class="avatar-mini" style="border-radius:50%;">
+            <div style="position:absolute; bottom:-2px; right:-2px; background:#D63678; border-radius:50%; width:14px; height:14px; display:flex; align-items:center; justify-content:center; border:1.5px solid #fff; pointer-events:none;">
+              <i class="fas fa-camera" style="color:#fff; font-size:6px;"></i>
+            </div>
+          </div>
           <div>
             <strong id="navAdminName">School Admin</strong>
             <span>Administrator access</span>
           </div>
         </div>
-        <button class="btn-outline-light btn-home-nav" type="button" onclick="window.location.href='/'"><i class="fas fa-house"></i><span>Home</span></button>
+        <input type="file" id="adminProfileFileInput" accept="image/*" style="display:none;">
+        <button class="btn-outline-light btn-home-nav" type="button" onclick="window.location.href='auth.html'"><i class="fas fa-house"></i><span>Home</span></button>
         <button class="btn-outline-light btn-logout" type="button" onclick="logoutAdmin()"><i class="fas fa-sign-out-alt"></i><span>Log out</span></button>
       </div>
     </div>
@@ -2554,7 +2698,18 @@ table { max-width: 100%; }
     <!-- MAIN AREA -->
     <div class="main-content">
       <div class="workspace-topbar">
-        
+        <div class="workspace-heading">
+            <div class="workspace-brand-asset" id="schoolAdminLogoClickArea" title="Click to change school logo" role="button" tabindex="0" style="position:relative; cursor:pointer; overflow:visible;">
+              <img id="schoolAdminLogoImg" src="/kidba_assets/img/3d_school.png" alt="School logo" style="width:100%; height:100%; object-fit:cover; border-radius:18px;">
+              <div class="sidebar-school-cam-badge"><i class="fas fa-camera"></i></div>
+            </div>
+            <input id="schoolAdminLogoInput" type="file" accept="image/*" class="d-none">
+            <div class="workspace-title-group">
+            <span class="workspace-kicker">Imaan &amp; Akhlaq ERP</span>
+            <div class="workspace-title">School Management System</div>
+            <div class="workspace-subtitle">Compact academic operations dashboard inspired by classic school ERP layouts.</div>
+          </div>
+        </div>
         <div class="workspace-tools">
           <button class="workspace-tool" type="button" aria-label="Search"><i class="fas fa-search"></i></button>
           <button class="workspace-tool notification-pill" type="button" aria-label="Notifications">
@@ -2910,14 +3065,14 @@ table { max-width: 100%; }
           </div>
           <div class="form-group mb-4">
             <label>Administrator Name</label>
-            <input type="text" class="form-input" id="setSchoolName" disabled="" value="">
+            <input type="text" class="form-input" id="setSchoolName" disabled value="">
           </div>
           <div class="form-group mb-4">
             <label>Admin Email</label>
-            <input type="email" class="form-input" id="settingsAdminEmail" disabled="" value="">
+            <input type="email" class="form-input" id="settingsAdminEmail" disabled value="">
           </div>
           <p style="margin:0 0 0.85rem; color:#64748b; font-size:0.82rem; font-weight:700;">Settings are view-only right now. Editing will be added in a later update.</p>
-          <button class="btn-solid" type="button" disabled="" style="opacity:0.6; cursor:not-allowed;">Editing Coming Soon</button>
+          <button class="btn-solid" type="button" disabled style="opacity:0.6; cursor:not-allowed;">Editing Coming Soon</button>
         </div>
       </div>
 
@@ -3001,7 +3156,7 @@ table { max-width: 100%; }
     <div class="form-group mb-4">
       <label><i class="fas fa-chalkboard text-muted me-1"></i> Assign Class</label>
       <select id="newStuClass" class="form-input" style="cursor: pointer;">
-        <option value="" disabled="" selected="">-- Select Grade --</option>
+        <option value="" disabled selected>-- Select Grade --</option>
         <option value="Class 1">Class 1</option>
         <option value="Class 2">Class 2</option>
         <option value="Class 3">Class 3</option>
@@ -3143,168 +3298,229 @@ table { max-width: 100%; }
   </div>
 </div>
 
+<!-- Mobile bottom nav bar for School Admin -->
+<div class="admin-mobile-bottom" id="adminBottomBar">
+  <button class="adm-mob-btn active" id="admMobOverview" onclick="switchAdminTab('overview', this)">
+    <i class="fas fa-th-large"></i><span>Overview</span>
+  </button>
+  <button class="adm-mob-btn" id="admMobTeachers" onclick="switchAdminTab('teachers', this)">
+    <i class="fas fa-chalkboard-teacher"></i><span>Teachers</span>
+  </button>
+  <button class="adm-mob-btn" id="admMobStudents" onclick="switchAdminTab('students', this)">
+    <i class="fas fa-user-graduate"></i><span>Students</span>
+  </button>
+  <button class="adm-mob-btn" id="admMobAttend" onclick="switchAdminTab('attendance', this)">
+    <i class="fas fa-calendar-check"></i><span>Attend.</span>
+  </button>
+  <button class="adm-mob-btn danger" onclick="logoutAdmin()">
+    <i class="fas fa-sign-out-alt"></i><span>Logout</span>
+  </button>
+</div>
+
 <!-- Load parsing libraries for browser (XLSX and mammoth) -->
 <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
 <script src="https://unpkg.com/mammoth/mammoth.browser.min.js"></script>
 <script>
-function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
-function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
-function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-import { getAuth, onAuthStateChanged, signOut, signInWithEmailAndPassword, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
-import { getFirestore, doc, getDoc, collection, query, where, getDocs, setDoc, updateDoc, deleteDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-storage.js";
-const firebaseConfig = {
-  apiKey: "AIzaSyA4MrV-oXhK_johreyzIucti5RFrKcvyG8",
-  authDomain: "imaan-app-1d2da.firebaseapp.com",
-  projectId: "imaan-app-1d2da",
-  storageBucket: "imaan-app-1d2da.firebasestorage.app",
-  messagingSenderId: "373650938167",
-  appId: "1:373650938167:web:e9da1317c118bc720d22b2"
-};
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-const storage = getStorage(app);
-
-// CRITICAL: Force LOCAL persistence so admin stays logged in across navigation.
-setPersistence(auth, browserLocalPersistence).catch(e => console.warn('setPersistence failed:', e));
-
-// Live listener handle for invites - so admin sees status change to 'used' instantly
-let invitesUnsubscribe = null;
-function showDebug(msg) {
-  void msg;
-}
-function genCode(prefix) {
-  return prefix + '-' + Math.random().toString(36).substr(2, 5).toUpperCase();
-}
-const loginView = document.getElementById('adminLoginView');
-const dashboardView = document.getElementById('adminDashboardView');
-// Hide the admin login card by default to avoid showing it
-// when the user is already authenticated via the main /auth page.
-if (loginView) loginView.classList.add('d-none');
-let currentAdminSession = null;
-let teachersList = [];
-let studentsList = [];
-let invitesList = [];
-let currentClassFilter = 'all';
-const defaultClassOptions = Array.from({
-  length: 10
-}, (_, index) => 'Class ' + (index + 1));
-function normalizeClassName(value) {
-  const raw = String(value || '').trim().replace(/\s+/g, ' ');
-  if (!raw) return '';
-  const lower = raw.toLowerCase();
-  if (lower === 'all classes' || lower === 'all' || lower === 'school-wide' || lower === 'school wide') return 'All Classes';
-  const numberMatch = lower.match(/(\d{1,2})/);
-  if (numberMatch) {
-    const classNumber = Number.parseInt(numberMatch[1], 10);
-    if (!Number.isNaN(classNumber) && classNumber >= 1 && classNumber <= 10) return 'Class ' + classNumber;
-  }
-  return raw;
-}
-function splitClassNames(value) {
-  if (Array.isArray(value)) return value.map(normalizeClassName).filter(Boolean);
-  return String(value || '').split(/[;,|&\n]+/).map(item => normalizeClassName(item)).filter(Boolean);
-}
-function getClassNamesFromRecord(record) {
-  if (!record) return [];
-  const rawData = record.raw || {};
-  const classSource = record.class_id || record.assigned_class || record.class || rawData.class_id || rawData.Class || rawData.class || rawData['Class Name'] || '';
-  return splitClassNames(classSource);
-}
-function sortClassNames(classNames) {
-  return classNames.sort((left, right) => {
-    const leftNumber = Number.parseInt((left.match(/\d+/) || [])[0] || '', 10);
-    const rightNumber = Number.parseInt((right.match(/\d+/) || [])[0] || '', 10);
-    if (!Number.isNaN(leftNumber) && !Number.isNaN(rightNumber) && leftNumber !== rightNumber) return leftNumber - rightNumber;
-    return left.localeCompare(right, undefined, {
-      numeric: true,
-      sensitivity: 'base'
+  // Mobile sidebar toggle
+  (function() {
+    const btn = document.getElementById('adminMenuBtn');
+    const sidebar = document.getElementById('adminSidebar');
+    const overlay = document.getElementById('adminOverlay');
+    if (!btn || !sidebar) return;
+    function openSidebar() {
+      sidebar.classList.add('open');
+      overlay.classList.add('active');
+      btn.innerHTML = '<i class="fas fa-times"></i>';
+    }
+    function closeSidebar() {
+      sidebar.classList.remove('open');
+      overlay.classList.remove('active');
+      btn.innerHTML = '<i class="fas fa-bars"></i>';
+    }
+    btn.addEventListener('click', () => sidebar.classList.contains('open') ? closeSidebar() : openSidebar());
+    overlay.addEventListener('click', closeSidebar);
+    // Close on nav item click on mobile
+    sidebar.querySelectorAll('.nav-links li').forEach(li => {
+      li.addEventListener('click', () => { if (window.innerWidth <= 900) closeSidebar(); });
     });
-  });
-}
-function getAvailableClassOptions() {
-  const classSet = new Set(defaultClassOptions);
-  [...teachersList, ...studentsList, ...invitesList.filter(invite => invite.role === 'teacher' || invite.role === 'student')].forEach(record => {
-    getClassNamesFromRecord(record).forEach(className => {
-      const normalized = normalizeClassName(className);
-      const lower = normalized.toLowerCase();
-      if (normalized && lower !== 'all classes' && lower !== 'school-wide' && lower !== 'all') classSet.add(normalized);
-    });
-  });
-  return sortClassNames(Array.from(classSet));
-}
-function recordMatchesClassFilter(record) {
-  if (currentClassFilter === 'all') return true;
-  const classes = getClassNamesFromRecord(record);
-  if (!classes.length) return false;
-  return classes.some(className => {
-    const lower = className.toLowerCase();
-    if (lower === 'all classes' || lower === 'school-wide' || lower === 'all') return true;
-    return lower === currentClassFilter.toLowerCase();
-  });
-}
-function syncClassFilterSelect(classOptions) {
-  const select = document.getElementById('classFilterSelect');
-  if (!select) return;
-  const nextMarkup = ['<option value="all">All Classes</option>'].concat(classOptions.map(className => '<option value="' + className + '">' + className + '</option>')).join('');
-  if (select.innerHTML !== nextMarkup) select.innerHTML = nextMarkup;
-  if (currentClassFilter !== 'all' && !classOptions.includes(currentClassFilter)) currentClassFilter = 'all';
-  select.value = currentClassFilter;
-}
-function getCurrentFilterLabel() {
-  return currentClassFilter === 'all' ? 'All Classes' : currentClassFilter;
-}
-window.applyClassFilter = value => {
-  currentClassFilter = value || 'all';
-  renderUI();
-};
-window.previewStuImage = input => {
-  if (input.files && input.files[0]) {
-    const reader = new FileReader();
-    reader.onload = e => {
-      const wrap = document.getElementById('newStuPicWrap');
-      wrap.innerHTML = '<img src="' + e.target.result + '" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">';
-      wrap.style.border = 'none';
-    };
-    reader.readAsDataURL(input.files[0]);
+  })();
+
+  // Bottom nav tab switcher (delegates to existing switchTab function if present)
+  function switchAdminTab(tabName, btn) {
+    document.querySelectorAll('.adm-mob-btn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    // Trigger the sidebar nav item
+    const navItem = document.getElementById('nav-' + tabName);
+    if (navItem) navItem.click();
   }
-};
-window.previewTchImage = (input, wrapId) => {
-  if (input.files && input.files[0]) {
-    const reader = new FileReader();
-    reader.onload = e => {
-      const wrap = document.getElementById(wrapId);
-      if (wrap) {
+</script>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged, signOut, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+  import { getFirestore, doc, getDoc, collection, query, where, getDocs, setDoc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+  import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-storage.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyA4MrV-oXhK_johreyzIucti5RFrKcvyG8",
+    authDomain: "imaan-app-1d2da.firebaseapp.com",
+    projectId: "imaan-app-1d2da",
+    storageBucket: "imaan-app-1d2da.firebasestorage.app",
+    messagingSenderId: "373650938167",
+    appId: "1:373650938167:web:e9da1317c118bc720d22b2"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+  const storage = getStorage(app);
+
+  function showDebug(msg) {
+    void msg;
+  }
+
+  function genCode(prefix) { return prefix + '-' + Math.random().toString(36).substr(2,5).toUpperCase(); }
+
+  const loginView = document.getElementById('adminLoginView');
+  const dashboardView = document.getElementById('adminDashboardView');
+  // Hide the admin login card by default to avoid showing it
+  // when the user is already authenticated via the main /auth page.
+  if (loginView) loginView.classList.add('d-none');
+  
+  let currentAdminSession = null;
+  let teachersList = [];
+  let studentsList = [];
+  let invitesList = [];
+  let currentClassFilter = 'all';
+  const defaultClassOptions = Array.from({ length: 10 }, (_, index) => 'Class ' + (index + 1));
+
+  function normalizeClassName(value) {
+    const raw = String(value || '').trim().replace(/\s+/g, ' ');
+    if (!raw) return '';
+
+    const lower = raw.toLowerCase();
+    if (lower === 'all classes' || lower === 'all' || lower === 'school-wide' || lower === 'school wide') return 'All Classes';
+
+    const numberMatch = lower.match(/(\d{1,2})/);
+    if (numberMatch) {
+      const classNumber = Number.parseInt(numberMatch[1], 10);
+      if (!Number.isNaN(classNumber) && classNumber >= 1 && classNumber <= 10) return 'Class ' + classNumber;
+    }
+
+    return raw;
+  }
+
+  function splitClassNames(value) {
+    if (Array.isArray(value)) return value.map(normalizeClassName).filter(Boolean);
+    return String(value || '')
+      .split(/[;,|&\n]+/)
+      .map((item) => normalizeClassName(item))
+      .filter(Boolean);
+  }
+
+  function getClassNamesFromRecord(record) {
+    if (!record) return [];
+    const rawData = record.raw || {};
+    const classSource = record.class_id || record.assigned_class || record.class || rawData.class_id || rawData.Class || rawData.class || rawData['Class Name'] || '';
+    return splitClassNames(classSource);
+  }
+
+  function sortClassNames(classNames) {
+    return classNames.sort((left, right) => {
+      const leftNumber = Number.parseInt((left.match(/\d+/) || [])[0] || '', 10);
+      const rightNumber = Number.parseInt((right.match(/\d+/) || [])[0] || '', 10);
+      if (!Number.isNaN(leftNumber) && !Number.isNaN(rightNumber) && leftNumber !== rightNumber) return leftNumber - rightNumber;
+      return left.localeCompare(right, undefined, { numeric: true, sensitivity: 'base' });
+    });
+  }
+
+  function getAvailableClassOptions() {
+    const classSet = new Set(defaultClassOptions);
+    [...teachersList, ...studentsList, ...invitesList.filter((invite) => invite.role === 'teacher' || invite.role === 'student')].forEach((record) => {
+      getClassNamesFromRecord(record).forEach((className) => {
+        const normalized = normalizeClassName(className);
+        const lower = normalized.toLowerCase();
+        if (normalized && lower !== 'all classes' && lower !== 'school-wide' && lower !== 'all') classSet.add(normalized);
+      });
+    });
+
+    return sortClassNames(Array.from(classSet));
+  }
+
+  function recordMatchesClassFilter(record) {
+    if (currentClassFilter === 'all') return true;
+    const classes = getClassNamesFromRecord(record);
+    if (!classes.length) return false;
+    return classes.some((className) => {
+      const lower = className.toLowerCase();
+      if (lower === 'all classes' || lower === 'school-wide' || lower === 'all') return true;
+      return lower === currentClassFilter.toLowerCase();
+    });
+  }
+
+  function syncClassFilterSelect(classOptions) {
+    const select = document.getElementById('classFilterSelect');
+    if (!select) return;
+
+    const nextMarkup = ['<option value="all">All Classes</option>']
+      .concat(classOptions.map((className) => '<option value="' + className + '">' + className + '</option>'))
+      .join('');
+
+    if (select.innerHTML !== nextMarkup) select.innerHTML = nextMarkup;
+    if (currentClassFilter !== 'all' && !classOptions.includes(currentClassFilter)) currentClassFilter = 'all';
+    select.value = currentClassFilter;
+  }
+
+  function getCurrentFilterLabel() {
+    return currentClassFilter === 'all' ? 'All Classes' : currentClassFilter;
+  }
+
+  window.applyClassFilter = (value) => {
+    currentClassFilter = value || 'all';
+    renderUI();
+  };
+
+  window.previewStuImage = (input) => {
+    if (input.files && input.files[0]) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const wrap = document.getElementById('newStuPicWrap');
         wrap.innerHTML = '<img src="' + e.target.result + '" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">';
         wrap.style.border = 'none';
-      }
-    };
-    reader.readAsDataURL(input.files[0]);
+      };
+      reader.readAsDataURL(input.files[0]);
+    }
+  };
+
+  window.previewTchImage = (input, wrapId) => {
+    if (input.files && input.files[0]) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const wrap = document.getElementById(wrapId);
+        if (wrap) {
+          wrap.innerHTML = '<img src="' + e.target.result + '" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">';
+          wrap.style.border = 'none';
+        }
+      };
+      reader.readAsDataURL(input.files[0]);
+    }
+  };
+
+  function readFileAsDataUrl(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(typeof reader.result === 'string' ? reader.result : null);
+      reader.onerror = () => reject(reader.error || new Error('Unable to read image.'));
+      reader.readAsDataURL(file);
+    });
   }
-};
-function readFileAsDataUrl(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(typeof reader.result === 'string' ? reader.result : null);
-    reader.onerror = () => reject(reader.error || new Error('Unable to read image.'));
-    reader.readAsDataURL(file);
-  });
-}
-function prepareProfilePhoto(_x) {
-  return _prepareProfilePhoto.apply(this, arguments);
-}
-function _prepareProfilePhoto() {
-  _prepareProfilePhoto = _asyncToGenerator(function* (file) {
+
+  async function prepareProfilePhoto(file) {
     if (!file) return null;
-    const sourceDataUrl = yield readFileAsDataUrl(file);
+
+    const sourceDataUrl = await readFileAsDataUrl(file);
     if (!sourceDataUrl) return null;
-    return yield new Promise(resolve => {
+
+    return await new Promise((resolve) => {
       const img = new Image();
       img.onload = () => {
         const longestSide = Math.max(img.width || 1, img.height || 1);
@@ -3312,257 +3528,192 @@ function _prepareProfilePhoto() {
         const canvas = document.createElement('canvas');
         canvas.width = Math.max(1, Math.round((img.width || 1) * scale));
         canvas.height = Math.max(1, Math.round((img.height || 1) * scale));
+
         const context = canvas.getContext('2d');
         if (!context) {
           resolve(sourceDataUrl);
           return;
         }
+
         context.drawImage(img, 0, 0, canvas.width, canvas.height);
         resolve(canvas.toDataURL('image/jpeg', 0.82));
       };
       img.onerror = () => resolve(sourceDataUrl);
       img.src = sourceDataUrl;
     });
-  });
-  return _prepareProfilePhoto.apply(this, arguments);
-}
-function getSelectedClasses(name) {
-  return Array.from(document.querySelectorAll('input[name="' + name + '"]:checked')).map(cb => cb.value);
-}
+  }
 
-// Bulk import helpers: parsing and preview
-window.openBulkImportModal = () => {
-  const modal = document.getElementById('bulkImportModal');
-  if (modal) modal.classList.remove('d-none');
-};
-window.handleBulkFileInput = /*#__PURE__*/function () {
-  var _ref = _asyncToGenerator(function* (input) {
+  function getSelectedClasses(name) {
+    return Array.from(document.querySelectorAll('input[name="' + name + '"]:checked')).map(cb => cb.value);
+  }
+
+  // Bulk import helpers: parsing and preview
+  window.openBulkImportModal = () => {
+    const modal = document.getElementById('bulkImportModal'); if(modal) modal.classList.remove('d-none');
+  };
+
+  window.handleBulkFileInput = async (input) => {
     const file = input.files && input.files[0];
-    if (!file) return;
+    if(!file) return;
     const fname = (file.name || '').toLowerCase();
     document.getElementById('bulkImportCounts').textContent = 'Parsing file...';
     let rows = [];
     try {
       if (fname.endsWith('.csv') || fname.endsWith('.txt')) {
-        const text = yield file.text();
+        const text = await file.text();
         rows = parseCSV(text);
       } else if (fname.endsWith('.xlsx') || fname.endsWith('.xls')) {
-        rows = yield parseXLSX(file);
+        rows = await parseXLSX(file);
       } else if (fname.endsWith('.docx')) {
-        rows = yield parseDOCX(file);
+        rows = await parseDOCX(file);
       } else {
-        const text = yield file.text();
+        const text = await file.text();
         rows = parseCSV(text);
       }
-    } catch (err) {
+    } catch(err) {
       document.getElementById('bulkPreviewBody').textContent = 'Error parsing file: ' + err.message;
       document.getElementById('bulkImportCounts').textContent = '';
       return;
     }
-    const teachers = [],
-      students = [],
-      parents = [];
+
+    const teachers = [], students = [], parents = [];
     rows.forEach(r => {
       const role = detectRole(r);
-      if (role === 'teacher') teachers.push(r);else if (role === 'parent') parents.push(r);else students.push(r);
+      if (role === 'teacher') teachers.push(r);
+      else if (role === 'parent') parents.push(r);
+      else students.push(r);
     });
-    window.bulkImportPreview = {
-      rows: rows,
-      teachers: teachers,
-      students: students,
-      parents: parents
-    };
+
+    window.bulkImportPreview = { rows: rows, teachers: teachers, students: students, parents: parents };
+
     document.getElementById('bulkImportCounts').textContent = 'Detected: ' + teachers.length + ' teachers, ' + students.length + ' students, ' + parents.length + ' parents';
+
     function makeTable(arr, title, limit) {
-      if (!arr || arr.length === 0) return '<div style="margin-bottom:8px; color:#94a3b8;">No ' + title + '</div>';
+      if(!arr || arr.length === 0) return '<div style="margin-bottom:8px; color:#94a3b8;">No ' + title + '</div>';
       let t = '<div style="margin-bottom:10px;"><b>' + title + ' (' + arr.length + ')</b><table style="width:100%; border-collapse:collapse; margin-top:6px;">';
-      const cols = Object.keys(arr[0]).slice(0, 8);
+      const cols = Object.keys(arr[0]).slice(0,8);
       t += '<tr>';
-      cols.forEach(c => {
-        t += '<th style="text-align:left; padding:6px 8px; color:#64748b; font-weight:700;">' + c + '</th>';
-      });
+      cols.forEach(c => { t += '<th style="text-align:left; padding:6px 8px; color:#64748b; font-weight:700;">' + c + '</th>'; });
       t += '</tr>';
       const lim = Math.min(arr.length, limit || 5);
       for (let i = 0; i < lim; i++) {
         t += '<tr>';
-        cols.forEach(c => {
-          t += '<td style="padding:6px 8px; border-top:1px solid #f1f5f9;">' + (arr[i][c] || '') + '</td>';
-        });
+        cols.forEach(c => { t += '<td style="padding:6px 8px; border-top:1px solid #f1f5f9;">' + (arr[i][c] || '') + '</td>'; });
         t += '</tr>';
       }
       t += '</table></div>';
       return t;
     }
+
     let html = '';
     html += makeTable(teachers, 'Teachers', 5);
     html += makeTable(students, 'Students', 5);
     html += makeTable(parents, 'Parents', 5);
     html += '<div style="color:#94a3b8; font-size:0.9rem; margin-top:6px;">Preview shows first 5 rows of each group. Click Import to confirm.</div>';
     document.getElementById('bulkPreviewBody').innerHTML = html;
-  });
-  return function (_x2) {
-    return _ref.apply(this, arguments);
   };
-}();
-window.confirmBulkImport = /*#__PURE__*/_asyncToGenerator(function* () {
-  const preview = window.bulkImportPreview;
-  if (!preview) return alert('No data to import. Upload a file first.');
-  const btn = event && event.target ? event.target : null;
-  if (btn) {
-    btn.disabled = true;
-    btn.textContent = 'Importing...';
+
+  window.confirmBulkImport = async () => {
+    const preview = window.bulkImportPreview;
+    if(!preview) return alert('No data to import. Upload a file first.');
+    const btn = event && event.target ? event.target : null; if(btn) { btn.disabled = true; btn.textContent = 'Importing...'; }
+    try {
+      let tCount = 0, sCount = 0, pCount = 0;
+      // Teachers
+      for (const r of preview.teachers) {
+        const code = genCode('TCH');
+        const name = r.name || r['Full Name'] || r['full name'] || r['Name'] || '';
+        const payload = { code: code, role: 'teacher', school_id: currentAdminSession.school_id, name: name, raw: r, status: 'pending', created_at: new Date().toISOString() };
+        await setDoc(doc(db, 'invites', code), payload);
+        tCount++;
+      }
+      // Students (create parent invites as well)
+      for (const r of preview.students) {
+        const code = genCode('STU');
+        const parCode = genCode('PAR');
+        const name = r.name || r['Full Name'] || r['Name'] || '';
+        const classId = r.class || r.Class || r['class_id'] || r['Class'] || r['Class Name'] || '';
+        const payload = { code: code, role: 'student', school_id: currentAdminSession.school_id, class_id: classId, name: name, raw: r, status: 'pending', created_at: new Date().toISOString() };
+        const parPayload = { code: parCode, role: 'parent', school_id: currentAdminSession.school_id, linked_student_code: code, status: 'pending', created_at: new Date().toISOString() };
+        await setDoc(doc(db, 'invites', code), payload);
+        await setDoc(doc(db, 'invites', parCode), parPayload);
+        sCount++;
+      }
+      // Parents only (no linked student)
+      for (const r of preview.parents) {
+        const code = genCode('PAR');
+        const name = r.name || r['Name'] || '';
+        const payload = { code: code, role: 'parent', school_id: currentAdminSession.school_id, name: name, raw: r, status: 'pending', created_at: new Date().toISOString() };
+        await setDoc(doc(db, 'invites', code), payload);
+        pCount++;
+      }
+
+      closeModal('bulkImportModal');
+      await loadDashboardData();
+      alert('Imported: ' + tCount + ' teachers, ' + sCount + ' students, ' + pCount + ' parents.');
+    } catch(err) {
+      alert('Import failed: ' + err.message);
+    } finally {
+      if(btn) { btn.disabled = false; btn.textContent = 'Confirm Import'; }
+    }
+  };
+
+  function parseCSV(text) {
+    const out = [];
+    // Normalize all CR/LF variations to LF using character codes to avoid
+    // accidental escape-sequence mangling inside template literals.
+    const CR = String.fromCharCode(13);
+    const LF = String.fromCharCode(10);
+    const normalized = text.split(CR + LF).join(LF).split(CR).join(LF);
+    const lines = normalized.split(LF);
+    if (!lines.length) return out;
+
+    function parseLine(line) {
+      const res = [];
+      let cur = ''; let inQuotes = false;
+      for (let i = 0; i < line.length; i++) {
+        const ch = line[i];
+        if (ch === '"') {
+          if (inQuotes && i + 1 < line.length && line[i+1] === '"') { cur += '"'; i++; }
+          else inQuotes = !inQuotes;
+        } else if (ch === ',' && !inQuotes) { res.push(cur); cur = ''; }
+        else cur += ch;
+      }
+      res.push(cur);
+      return res;
+    }
+
+    const header = parseLine((lines[0] || '')).map(h => h.trim());
+    for (let i = 1; i < lines.length; i++) {
+      let line = lines[i];
+      if (!line || !line.trim()) continue;
+      // strip any stray CR remaining at line end
+      if (line.charCodeAt(line.length - 1) === 13) line = line.slice(0, -1);
+      const vals = parseLine(line);
+      const obj = {};
+      for (let j = 0; j < header.length; j++) { obj[header[j]] = vals[j] ? vals[j].trim() : ''; }
+      out.push(obj);
+    }
+    return out;
   }
-  try {
-    let tCount = 0,
-      sCount = 0,
-      pCount = 0;
-    // Teachers
-    for (const r of preview.teachers) {
-      const code = genCode('TCH');
-      const name = r.name || r['Full Name'] || r['full name'] || r['Name'] || '';
-      const payload = {
-        code: code,
-        role: 'teacher',
-        school_id: currentAdminSession.school_id,
-        name: name,
-        raw: r,
-        status: 'pending',
-        created_at: new Date().toISOString()
-      };
-      yield setDoc(doc(db, 'invites', code), payload);
-      tCount++;
-    }
-    // Students (create parent invites as well)
-    for (const r of preview.students) {
-      const code = genCode('STU');
-      const parCode = genCode('PAR');
-      const name = r.name || r['Full Name'] || r['Name'] || '';
-      const classId = r.class || r.Class || r['class_id'] || r['Class'] || r['Class Name'] || '';
-      const payload = {
-        code: code,
-        role: 'student',
-        school_id: currentAdminSession.school_id,
-        class_id: classId,
-        name: name,
-        raw: r,
-        status: 'pending',
-        created_at: new Date().toISOString()
-      };
-      const parPayload = {
-        code: parCode,
-        role: 'parent',
-        school_id: currentAdminSession.school_id,
-        linked_student_code: code,
-        status: 'pending',
-        created_at: new Date().toISOString()
-      };
-      yield setDoc(doc(db, 'invites', code), payload);
-      yield setDoc(doc(db, 'invites', parCode), parPayload);
-      sCount++;
-    }
-    // Parents only (no linked student)
-    for (const r of preview.parents) {
-      const code = genCode('PAR');
-      const name = r.name || r['Name'] || '';
-      const payload = {
-        code: code,
-        role: 'parent',
-        school_id: currentAdminSession.school_id,
-        name: name,
-        raw: r,
-        status: 'pending',
-        created_at: new Date().toISOString()
-      };
-      yield setDoc(doc(db, 'invites', code), payload);
-      pCount++;
-    }
-    closeModal('bulkImportModal');
-    yield loadDashboardData();
-    alert('Imported: ' + tCount + ' teachers, ' + sCount + ' students, ' + pCount + ' parents.');
-  } catch (err) {
-    alert('Import failed: ' + err.message);
-  } finally {
-    if (btn) {
-      btn.disabled = false;
-      btn.textContent = 'Confirm Import';
-    }
-  }
-});
-function parseCSV(text) {
-  const out = [];
-  // Normalize all CR/LF variations to LF using character codes to avoid
-  // accidental escape-sequence mangling inside template literals.
-  const CR = String.fromCharCode(13);
-  const LF = String.fromCharCode(10);
-  const normalized = text.split(CR + LF).join(LF).split(CR).join(LF);
-  const lines = normalized.split(LF);
-  if (!lines.length) return out;
-  function parseLine(line) {
-    const res = [];
-    let cur = '';
-    let inQuotes = false;
-    for (let i = 0; i < line.length; i++) {
-      const ch = line[i];
-      if (ch === '"') {
-        if (inQuotes && i + 1 < line.length && line[i + 1] === '"') {
-          cur += '"';
-          i++;
-        } else inQuotes = !inQuotes;
-      } else if (ch === ',' && !inQuotes) {
-        res.push(cur);
-        cur = '';
-      } else cur += ch;
-    }
-    res.push(cur);
-    return res;
-  }
-  const header = parseLine(lines[0] || '').map(h => h.trim());
-  for (let i = 1; i < lines.length; i++) {
-    let line = lines[i];
-    if (!line || !line.trim()) continue;
-    // strip any stray CR remaining at line end
-    if (line.charCodeAt(line.length - 1) === 13) line = line.slice(0, -1);
-    const vals = parseLine(line);
-    const obj = {};
-    for (let j = 0; j < header.length; j++) {
-      obj[header[j]] = vals[j] ? vals[j].trim() : '';
-    }
-    out.push(obj);
-  }
-  return out;
-}
-function parseXLSX(_x3) {
-  return _parseXLSX.apply(this, arguments);
-}
-function _parseXLSX() {
-  _parseXLSX = _asyncToGenerator(function* (file) {
-    const ab = yield file.arrayBuffer();
-    const wb = window.XLSX.read(ab, {
-      type: 'array'
-    });
+
+  async function parseXLSX(file) {
+    const ab = await file.arrayBuffer();
+    const wb = window.XLSX.read(ab, { type: 'array' });
     const first = wb.SheetNames[0];
     const ws = wb.Sheets[first];
-    const json = window.XLSX.utils.sheet_to_json(ws, {
-      defval: ''
-    });
+    const json = window.XLSX.utils.sheet_to_json(ws, { defval: '' });
     return json;
-  });
-  return _parseXLSX.apply(this, arguments);
-}
-function parseDOCX(_x4) {
-  return _parseDOCX.apply(this, arguments);
-}
-function _parseDOCX() {
-  _parseDOCX = _asyncToGenerator(function* (file) {
-    const ab = yield file.arrayBuffer();
+  }
+
+  async function parseDOCX(file) {
+    const ab = await file.arrayBuffer();
     if (!window.mammoth) {
       // fallback to text
       const text = new TextDecoder().decode(ab);
       return parseCSV(text);
     }
-    const result = yield window.mammoth.convertToHtml({
-      arrayBuffer: ab
-    });
+    const result = await window.mammoth.convertToHtml({ arrayBuffer: ab });
     const parser = new DOMParser();
     const doc = parser.parseFromString(result.value || '', 'text/html');
     const table = doc.querySelector('table');
@@ -3574,9 +3725,7 @@ function _parseDOCX() {
       for (let i = 1; i < trs.length; i++) {
         const cells = Array.from(trs[i].querySelectorAll('td,th'));
         const obj = {};
-        for (let j = 0; j < headers.length; j++) {
-          obj[headers[j]] = cells[j] ? (cells[j].textContent || '').trim() : '';
-        }
+        for (let j = 0; j < headers.length; j++) { obj[headers[j]] = cells[j] ? (cells[j].textContent || '').trim() : ''; }
         out.push(obj);
       }
       return out;
@@ -3584,74 +3733,89 @@ function _parseDOCX() {
     // fallback: treat text content as CSV-like
     const plain = doc.body ? doc.body.textContent || '' : '';
     if (plain.includes(',')) return parseCSV(plain);
-    return [{
-      content: plain
-    }];
-  });
-  return _parseDOCX.apply(this, arguments);
-}
-function detectRole(row) {
-  const lower = {};
-  Object.keys(row).forEach(k => lower[k.toLowerCase()] = String(row[k] || '').toLowerCase());
-  if (lower.role || lower.type || lower.user_type) {
-    const v = lower.role || lower.type || lower.user_type;
-    if (v.indexOf('teach') !== -1) return 'teacher';
-    if (v.indexOf('student') !== -1 || v.indexOf('stu') !== -1) return 'student';
-    if (v.indexOf('parent') !== -1 || v.indexOf('par') !== -1) return 'parent';
+    return [{ content: plain }];
   }
-  const keys = Object.keys(lower);
-  if (keys.some(k => k.indexOf('class') !== -1 || k.indexOf('grade') !== -1 || k.indexOf('student') !== -1 || k.indexOf('roll') !== -1)) return 'student';
-  if (keys.some(k => k.indexOf('subject') !== -1 || k.indexOf('qualification') !== -1 || k.indexOf('teacher') !== -1 || k.indexOf('employee') !== -1)) return 'teacher';
-  if (keys.some(k => k.indexOf('parent') !== -1 || k.indexOf('guardian') !== -1 || k.indexOf('linked') !== -1)) return 'parent';
-  const vals = Object.values(lower).join(' ');
-  if (vals.indexOf('parent') !== -1) return 'parent';
-  return 'student';
-}
-onAuthStateChanged(auth, /*#__PURE__*/function () {
-  var _ref3 = _asyncToGenerator(function* (user) {
+
+  function detectRole(row) {
+    const lower = {};
+    Object.keys(row).forEach(k => lower[k.toLowerCase()] = String(row[k] || '').toLowerCase());
+    if (lower.role || lower.type || lower.user_type) {
+      const v = lower.role || lower.type || lower.user_type;
+      if (v.indexOf('teach') !== -1) return 'teacher';
+      if (v.indexOf('student') !== -1 || v.indexOf('stu') !== -1) return 'student';
+      if (v.indexOf('parent') !== -1 || v.indexOf('par') !== -1) return 'parent';
+    }
+    const keys = Object.keys(lower);
+    if (keys.some(k => k.indexOf('class') !== -1 || k.indexOf('grade') !== -1 || k.indexOf('student') !== -1 || k.indexOf('roll') !== -1)) return 'student';
+    if (keys.some(k => k.indexOf('subject') !== -1 || k.indexOf('qualification') !== -1 || k.indexOf('teacher') !== -1 || k.indexOf('employee') !== -1)) return 'teacher';
+    if (keys.some(k => k.indexOf('parent') !== -1 || k.indexOf('guardian') !== -1 || k.indexOf('linked') !== -1)) return 'parent';
+    const vals = Object.values(lower).join(' ');
+    if (vals.indexOf('parent') !== -1) return 'parent';
+    return 'student';
+  }
+
+  onAuthStateChanged(auth, async (user) => {
     try {
       showDebug('onAuthStateChanged fired — user: ' + (user ? user.uid : 'null'));
       if (user) {
-        const userDoc = yield getDoc(doc(db, "users", user.uid));
+        const userDoc = await getDoc(doc(db, "users", user.uid));
         showDebug('Fetched users/' + user.uid + ' exists=' + (userDoc.exists() ? 'yes' : 'no'));
         const data = userDoc.exists() ? userDoc.data() : null;
         showDebug('role=' + (data ? data.role : 'n/a'));
         if (userDoc.exists() && data && data.role === 'school_admin') {
-          currentAdminSession = _objectSpread(_objectSpread({}, data), {}, {
-            uid: user.uid
-          });
+          currentAdminSession = { ...data, uid: user.uid };
           // hide login UI and ensure dashboard is visible
           if (loginView) loginView.classList.add('d-none');
           if (dashboardView) dashboardView.classList.remove('d-none');
 
           // persist a brief session snapshot for other pages
-          try {
-            sessionStorage.setItem('auth_user', JSON.stringify(currentAdminSession));
-          } catch (e) {
-            showDebug('sessionStorage set failed');
-          }
-          const nameEl = document.getElementById('setSchoolName');
-          if (nameEl) nameEl.value = currentAdminSession.name || "School Admin";
-          const adminNameEl = document.getElementById('navAdminName');
-          if (adminNameEl) adminNameEl.textContent = currentAdminSession.name || 'School Admin';
-          const workspaceAdminEl = document.getElementById('workspaceAdminName');
-          if (workspaceAdminEl) workspaceAdminEl.textContent = currentAdminSession.name || 'School Admin';
-          const adminEmailEl = document.getElementById('settingsAdminEmail');
-          if (adminEmailEl) adminEmailEl.value = currentAdminSession.email || '';
+          try { sessionStorage.setItem('auth_user', JSON.stringify(currentAdminSession)); } catch(e) { showDebug('sessionStorage set failed'); }
+
+          const nameEl = document.getElementById('setSchoolName'); if (nameEl) nameEl.value = currentAdminSession.name || "School Admin";
+          const adminNameEl = document.getElementById('navAdminName'); if (adminNameEl) adminNameEl.textContent = currentAdminSession.name || 'School Admin';
+          const workspaceAdminEl = document.getElementById('workspaceAdminName'); if (workspaceAdminEl) workspaceAdminEl.textContent = currentAdminSession.name || 'School Admin';
+          const adminNavPhoto = document.getElementById('adminNavProfilePhoto');
+          if (adminNavPhoto && currentAdminSession.photoURL) adminNavPhoto.src = currentAdminSession.photoURL;
+          const adminEmailEl = document.getElementById('settingsAdminEmail'); if (adminEmailEl) adminEmailEl.value = currentAdminSession.email || '';
+
           showDebug('Loading dashboard data for school_id=' + (currentAdminSession.school_id || 'unknown'));
-          yield loadDashboardData();
+          await loadDashboardData();
           showDebug('Dashboard data load complete');
         } else {
-          showDebug('Unauthorized or missing user doc — signing out');
-          alert("Unauthorized. This portal is for School Admins only.");
-          signOut(auth);
-          loginView.classList.remove('d-none');
-          dashboardView.classList.add('d-none');
+           showDebug('Unauthorized or missing user doc — signing out');
+           alert("Unauthorized. This portal is for School Admins only.");
+           signOut(auth);
+           loginView.classList.remove('d-none');
+           dashboardView.classList.add('d-none');
         }
       } else {
         showDebug('No authenticated user');
-        loginView.classList.remove('d-none');
-        dashboardView.classList.add('d-none');
+        
+        const stored = (function () {
+          try { return sessionStorage.getItem('auth_user') || localStorage.getItem('auth_user'); } catch (e) { return null; }
+        })();
+        const isCap = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
+        const maxAttempts = isCap ? 12 : 6;
+        if (stored) {
+          document.body.insertAdjacentHTML('beforeend', `
+            <div id="authWaitOverlay" style="position:fixed; inset:0; background:rgba(30, 45, 90, 0.95); display:flex; flex-direction:column; justify-content:center; align-items:center; z-index:99999;">
+               <i class="fas fa-spinner fa-spin" style="font-size:3rem; color:#E08020; margin-bottom:20px;"></i>
+               <h3 style="font-family:'Fredoka One', cursive; color:#ffffff;">Restoring Session...</h3>
+               <p style="color:#cbd5e1;">Please wait</p>
+            </div>
+          `);
+          let restored = false;
+          for (let attempt = 0; attempt < maxAttempts; attempt++) {
+            await new Promise(function (r) { setTimeout(r, 1000); });
+            if (auth.currentUser) { restored = true; break; }
+          }
+          const waitOverlay = document.getElementById('authWaitOverlay');
+          if (waitOverlay) waitOverlay.remove();
+          if (restored) return;
+        }
+
+        if (loginView) loginView.classList.remove('d-none');
+        if (dashboardView) dashboardView.classList.add('d-none');
       }
     } catch (err) {
       console.error('onAuthStateChanged error', err);
@@ -3661,318 +3825,445 @@ onAuthStateChanged(auth, /*#__PURE__*/function () {
       if (dashboardView) dashboardView.classList.add('d-none');
     }
   });
-  return function (_x5) {
-    return _ref3.apply(this, arguments);
-  };
-}());
-window.attemptAdminLogin = /*#__PURE__*/_asyncToGenerator(function* () {
-  try {
-    const emailEl = document.getElementById('adminEmailInput');
-    const passEl = document.getElementById('adminPasswordInput');
-    const email = emailEl ? String(emailEl.value || '').trim() : '';
-    const password = passEl ? String(passEl.value || '') : '';
-    if (!email || !password) return alert('Please enter email and password.');
-    showDebug('attemptAdminLogin: ' + email);
-    const cred = yield signInWithEmailAndPassword(auth, email, password);
-    showDebug('signInWithEmailAndPassword success uid=' + (cred && cred.user ? cred.user.uid : 'unknown'));
-    // onAuthStateChanged will pick up the signed-in user and load dashboard
-  } catch (err) {
-    console.error('Login failed', err);
-    showDebug('attemptAdminLogin error: ' + (err && err.message ? err.message : err));
-    alert('Login failed: ' + (err && err.message ? err.message : err));
-  }
-});
-function redirectToAuthAfterLogout() {
-  const authTarget = '/auth.html';
-  try {
-    window.location.replace(authTarget);
-  } catch (_) {
-    window.location.href = authTarget;
-  }
-}
-window.logoutAdmin = () => {
-  let redirected = false;
-  const safeRedirect = () => {
-    if (redirected) return;
-    redirected = true;
+
+  window.attemptAdminLogin = async () => {
     try {
+      const emailEl = document.getElementById('adminEmailInput');
+      const passEl = document.getElementById('adminPasswordInput');
+      const email = emailEl ? String(emailEl.value || '').trim() : '';
+      const password = passEl ? String(passEl.value || '') : '';
+      if (!email || !password) return alert('Please enter email and password.');
+      showDebug('attemptAdminLogin: ' + email);
+      const cred = await signInWithEmailAndPassword(auth, email, password);
+      showDebug('signInWithEmailAndPassword success uid=' + (cred && cred.user ? cred.user.uid : 'unknown'));
+      // onAuthStateChanged will pick up the signed-in user and load dashboard
+    } catch (err) {
+      console.error('Login failed', err);
+      showDebug('attemptAdminLogin error: ' + (err && err.message ? err.message : err));
+      alert('Login failed: ' + (err && err.message ? err.message : err));
+    }
+  };
+
+  window.logoutAdmin = () => {
+    signOut(auth).then(() => {
       sessionStorage.removeItem('auth_user');
-    } catch (_) {}
-    try {
-      localStorage.removeItem('auth_user');
-    } catch (_) {}
-    redirectToAuthAfterLogout();
+      window.location.href = 'auth.html';
+    });
   };
-  Promise.resolve().then(() => signOut(auth)).catch(err => {
-    console.warn('logoutAdmin signOut failed:', err);
-  }).finally(safeRedirect);
 
-  // Ensure redirect still happens if signOut is delayed in WebView.
-  window.setTimeout(safeRedirect, 1200);
-};
+  // ── Admin Profile Photo Upload ──
+  async function uploadAdminProfile(file) {
+    if (!currentAdminSession || !file) return;
+    if (!file.type || !file.type.startsWith('image/')) { alert('Please select an image file.'); return; }
+    if (file.size > 5 * 1024 * 1024) { alert('File too large. Max 5MB.'); return; }
+    const navPhoto = document.getElementById('adminNavProfilePhoto');
+    const camBadge = document.querySelector('#adminAvatarClickArea .fa-camera');
+    if (camBadge) camBadge.className = 'fas fa-spinner fa-spin';
+    try {
+      const ext = (file.name.split('.').pop() || 'jpg').toLowerCase();
+      const scope = currentAdminSession.school_id ? 'schools/' + currentAdminSession.school_id : 'admins';
+      const storageRef = ref(storage, scope + '/users/' + currentAdminSession.uid + '/profile-' + Date.now() + '.' + ext);
+      await uploadBytes(storageRef, file);
+      const downloadURL = await getDownloadURL(storageRef);
+      await updateDoc(doc(db, 'users', currentAdminSession.uid), { photoURL: downloadURL });
+      currentAdminSession.photoURL = downloadURL;
+      if (navPhoto) navPhoto.src = downloadURL;
+    } catch (err) {
+      console.error('Admin profile upload error:', err);
+      alert('Upload failed. Please try again.');
+    } finally {
+      if (camBadge) camBadge.className = 'fas fa-camera';
+    }
+  }
 
-// Bind logout to top nav button
-setTimeout(() => {
-  document.querySelectorAll('.fa-sign-out-alt').forEach(el => {
-    el.parentElement.onclick = window.logoutAdmin;
-  });
-}, 1000);
-function loadDashboardData() {
-  return _loadDashboardData.apply(this, arguments);
-}
-function _loadDashboardData() {
-  _loadDashboardData = _asyncToGenerator(function* () {
+  const adminAvatarTrigger = document.getElementById('adminAvatarClickArea');
+  const adminProfileInput = document.getElementById('adminProfileFileInput');
+  if (adminAvatarTrigger && adminProfileInput) {
+    adminAvatarTrigger.addEventListener('click', () => adminProfileInput.click());
+    adminProfileInput.addEventListener('change', async (e) => {
+      if (e.target.files && e.target.files[0]) {
+        await uploadAdminProfile(e.target.files[0]);
+        e.target.value = '';
+      }
+    });
+  }
+
+  // Bind logout to top nav button
+  setTimeout(() => {
+     document.querySelectorAll('.fa-sign-out-alt').forEach(el => {
+       el.parentElement.onclick = window.logoutAdmin;
+     });
+  }, 1000);
+
+  async function loadDashboardData() {
     dashboardView.classList.remove('d-none');
     document.body.style.margin = '0';
+    
     try {
       const schoolId = currentAdminSession.school_id;
-      const sidebarName = document.getElementById('sidebarProfileName');
-      if (sidebarName) sidebarName.textContent = currentAdminSession.name || 'Admin';
-      const sidebarPhoto = document.getElementById('sidebarProfilePhoto');
-      if (sidebarPhoto && currentAdminSession.photoURL) sidebarPhoto.src = currentAdminSession.photoURL;
-      const workspaceSchoolName = document.getElementById('workspaceSchoolName');
-      if (workspaceSchoolName) workspaceSchoolName.textContent = currentAdminSession.school_name || 'School Name';
-      const schoolLogo = document.getElementById('schoolLogoImg');
-      if (schoolLogo && currentAdminSession.school_logo_url) schoolLogo.src = currentAdminSession.school_logo_url;
+      
+      // Load school profile
+      const schoolDoc = await getDoc(doc(db, "schools", schoolId));
+      if (schoolDoc.exists()) {
+        const schoolData = schoolDoc.data();
+        if (schoolData.logo_url) {
+          document.getElementById('schoolAdminLogoImg').src = schoolData.logo_url;
+        }
+      }
+
       const usersQuery = query(collection(db, "users"), where("school_id", "==", schoolId));
-      const usersSnap = yield getDocs(usersQuery);
+      const usersSnap = await getDocs(usersQuery);
+      
       teachersList = [];
       studentsList = [];
+      
       usersSnap.forEach(d => {
-        const data = d.data();
-        data.uid = d.id;
-        if (data.role === 'teacher') teachersList.push(data);
-        if (data.role === 'student') studentsList.push(data);
-      });
-      const invitesQuery = query(collection(db, "invites"), where("school_id", "==", schoolId));
-      const invitesSnap = yield getDocs(invitesQuery);
-      invitesList = [];
-      invitesSnap.forEach(d => {
-        invitesList.push(d.data());
+         const data = d.data();
+         data.uid = d.id;
+         if(data.role === 'teacher') teachersList.push(data);
+         if(data.role === 'student') studentsList.push(data);
       });
 
-      // Attach live listener so any invite status change (e.g. teacher just registered
-      // and the invite became 'used') reflects in the dashboard without manual refresh.
-      if (invitesUnsubscribe) {
-        try {
-          invitesUnsubscribe();
-        } catch (_) {}
-      }
-      invitesUnsubscribe = onSnapshot(invitesQuery, snap => {
-        invitesList = [];
-        snap.forEach(d => {
-          invitesList.push(d.data());
-        });
-        try {
-          renderUI();
-        } catch (_) {}
-      }, err => console.warn('invites listener error:', err));
+      const invitesQuery = query(collection(db, "invites"), where("school_id", "==", schoolId));
+      const invitesSnap = await getDocs(invitesQuery);
+      invitesList = [];
+      invitesSnap.forEach(d => { invitesList.push(d.data()); });
+
       renderUI();
-    } catch (err) {
+    } catch(err) {
       console.error("Error loading dashboard:", err);
     }
-  });
-  return _loadDashboardData.apply(this, arguments);
-}
-function renderUI() {
-  const classOptions = getAvailableClassOptions();
-  syncClassFilterSelect(classOptions);
-  const teachers = teachersList.filter(recordMatchesClassFilter);
-  const students = studentsList.filter(recordMatchesClassFilter);
-  const pendingTeacherInvites = invitesList.filter(invite => invite.role === 'teacher' && invite.status === 'pending' && recordMatchesClassFilter(invite));
-  const pendingStudentInvites = invitesList.filter(invite => invite.role === 'student' && invite.status === 'pending' && recordMatchesClassFilter(invite));
-  const pendingInvites = pendingTeacherInvites.length + pendingStudentInvites.length;
-  const currentLabel = getCurrentFilterLabel();
-  const viewPopulation = teachers.length + students.length;
-  const discoveredClasses = new Set();
-  [...teachers, ...students, ...pendingTeacherInvites, ...pendingStudentInvites].forEach(record => {
-    getClassNamesFromRecord(record).forEach(className => discoveredClasses.add(className));
-  });
-  const classesInScope = currentClassFilter === 'all' ? discoveredClasses.size : 1;
-  const themeColors = ['row-peach', 'row-yellow', 'row-green'];
-  const bgColors = ['#fb923c', '#fbbf24', '#4ade80'];
-  const now = new Date();
-  document.getElementById('heroScopeLabel').textContent = currentLabel;
-  document.getElementById('heroScopeMeta').textContent = currentClassFilter === 'all' ? 'Review live student, teacher and attendance figures across the whole school.' : 'Focused academic operations for ' + currentLabel + '.';
-  document.getElementById('classFilterSummary').textContent = currentClassFilter === 'all' ? 'Showing every active class' : 'Showing records for ' + currentLabel;
-  document.getElementById('activeScopeBadge').textContent = currentLabel;
-  document.getElementById('statClassesInScope').textContent = String(classesInScope);
-  document.getElementById('statTeachers').textContent = String(teachers.length);
-  document.getElementById('statStudents').textContent = String(students.length);
-  document.getElementById('statPending').textContent = String(pendingInvites);
-  document.getElementById('statTotalPop').textContent = String(viewPopulation);
-  document.getElementById('teachersMeta').textContent = teachers.length ? teachers.length + ' faculty records in scope' : 'No teachers in this view';
-  document.getElementById('studentsMeta').textContent = students.length ? students.length + ' learner records in scope' : 'No students in this view';
-  document.getElementById('pendingMeta').textContent = pendingInvites ? pendingInvites + ' invitations are still pending' : 'No pending invites';
-  document.getElementById('statPopulationMeta').textContent = viewPopulation ? teachers.length + ' teachers and ' + students.length + ' students' : '0 teachers and 0 students';
-  document.getElementById('currentDateDisplay').textContent = now.toLocaleDateString(undefined, {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric'
-  });
+  }
 
-  // Teachers
-  let tchHtml = '';
-  teachers.forEach((teacher, index) => {
-    const motif = themeColors[index % 3];
-    const color = bgColors[index % 3];
-    const code = teacher.invitation_code || 'Accepted';
-    const imgSrc = teacher.photoURL ? teacher.photoURL : 'https://ui-avatars.com/api/?name=' + teacher.name.replace(' ', '+') + '&background=fff&color=' + color.replace('#', '');
-    tchHtml += '<div class="pill-row ' + motif + '">' + '<div class="col-1 d-flex align-items-center gap-3"><img src="' + imgSrc + '" style="border-radius:50%; width:40px; height:40px; object-fit:cover;">' + teacher.name + '</div>' + '<div class="col-3"><span style="background:rgba(255,255,255,0.7); padding:5px 12px; border-radius:20px; font-weight:800;">' + (teacher.class_id || teacher.assigned_class || 'All Classes') + '</span></div>' + '<div class="col-2"><code style="background:rgba(255,255,255,0.7); padding:4px 8px; border-radius:8px; font-size:0.8rem;">' + code + '</code></div>' + '<div class="col-2"><span style="color:#22c55e;font-weight:800;"><i class="fas fa-check-circle"></i> Active</span></div>' + '<div class="col-actions"><button class="action-btn" onclick="editTeacher(\'' + teacher.uid + '\')"><i class="fas fa-edit"></i></button><button class="action-btn text-danger ms-2" onclick="deleteTeacher(\'' + teacher.uid + '\')"><i class="fas fa-trash"></i></button></div></div>';
-  });
-  pendingTeacherInvites.forEach(invite => {
-    const pendingImage = invite.photoURL ? '<img src="' + invite.photoURL + '" style="border-radius:50%; width:40px; height:40px; object-fit:cover;">' : '<div style="width:40px;height:40px;border-radius:50%;background:#e2e8f0;display:flex;align-items:center;justify-content:center;color:#94a3b8;"><i class="fas fa-user-clock"></i></div>';
-    tchHtml += '<div class="pill-row row-peach" style="opacity:0.6;">' + '<div class="col-1 d-flex align-items-center gap-3">' + pendingImage + invite.name + '</div>' + '<div class="col-3"><span style="background:rgba(255,255,255,0.7); padding:5px 12px; border-radius:20px; font-weight:800;">' + (invite.class_id || 'Unassigned') + '</span></div>' + '<div class="col-2"><code style="background:rgba(255,255,255,0.7); padding:4px 8px; border-radius:8px; font-size:0.8rem;">' + invite.code + '</code></div>' + '<div class="col-2"><span style="color:#f59e0b;font-weight:800;"><i class="fas fa-clock"></i> Pending</span></div>' + '<div class="col-actions"><button class="action-btn text-danger" title="Cancel invite" onclick="deleteInvite(\'' + invite.code + '\', \'teacher\')"><i class="fas fa-trash"></i></button></div></div>';
-  });
-  document.getElementById('teacherTableBody').innerHTML = tchHtml || '<div style="text-align:center; padding:2rem; color:#94a3b8; font-weight:700;">No teachers added yet.</div>';
+  const schoolAdminLogoClickArea = document.getElementById('schoolAdminLogoClickArea');
+  const schoolAdminLogoInput = document.getElementById('schoolAdminLogoInput');
 
-  // Students Directory
-  let stuDirHtml = '';
-  students.forEach((student, index) => {
-    const motif = themeColors[(index + 1) % 3];
-    const color = bgColors[(index + 1) % 3];
-    const stuCode = student.invitation_code || 'Accepted';
-    const imgSrc = student.photoURL ? student.photoURL : 'https://ui-avatars.com/api/?name=' + student.name.replace(' ', '+') + '&background=fff&color=' + color.replace('#', '');
-    stuDirHtml += '<div class="pill-row ' + motif + '">' + '<div class="col-1 d-flex align-items-center gap-3"><img src="' + imgSrc + '" style="border-radius:50%; width:40px; height:40px; object-fit:cover;">' + student.name + '</div>' + '<div class="col-2"><span style="background:rgba(255,255,255,0.7); padding:5px 12px; border-radius:20px; font-weight:800;">' + (student.class_id || 'Unknown') + '</span></div>' + '<div class="col-2"><code class="copyable-code" onclick="copyCodeInteractive(this, \'' + stuCode + '\')" title="Click to copy">' + stuCode + (stuCode !== 'Accepted' ? ' <i class="far fa-copy text-muted"></i>' : '') + '</code></div>' + '<div class="col-2"><span style="font-size:0.8rem; font-weight:800; color:#94a3b8; background:rgba(0,0,0,0.05); padding:4px 10px; border-radius:12px;"><i class="fas fa-link"></i> Linked</span></div>' + '<div class="col-2"><span style="color:#22c55e;"><i class="fas fa-check-circle"></i> Active</span></div>' + '<div class="col-actions"><button class="action-btn" onclick="editStudent(\'' + student.uid + '\')"><i class="fas fa-edit"></i></button><button class="action-btn text-danger ms-2" onclick="deleteStudent(\'' + student.uid + '\')"><i class="fas fa-trash"></i></button></div></div>';
-  });
-  pendingStudentInvites.forEach(invite => {
-    const parentInvite = invitesList.find(parent => parent.role === 'parent' && parent.linked_student_code === invite.code);
-    const parentCode = parentInvite ? parentInvite.code : 'N/A';
-    const pendingImage = invite.photoURL ? '<img src="' + invite.photoURL + '" style="border-radius:50%; width:40px; height:40px; object-fit:cover;">' : '<div style="width:40px;height:40px;border-radius:50%;background:#e2e8f0;display:flex;align-items:center;justify-content:center;color:#94a3b8;"><i class="fas fa-user-clock"></i></div>';
-    stuDirHtml += '<div class="pill-row row-yellow" style="opacity:0.6;">' + '<div class="col-1 d-flex align-items-center gap-3">' + pendingImage + invite.name + '</div>' + '<div class="col-2"><span style="background:rgba(255,255,255,0.7); padding:5px 12px; border-radius:20px; font-weight:800;">' + (invite.class_id || 'Unknown') + '</span></div>' + '<div class="col-2"><code class="copyable-code" onclick="copyCodeInteractive(this, \'' + invite.code + '\')" title="Click to copy">' + invite.code + ' <i class="far fa-copy text-muted"></i></code></div>' + '<div class="col-2"><code class="copyable-code" onclick="copyCodeInteractive(this, \'' + parentCode + '\')" title="Click to copy">' + parentCode + (parentCode !== 'N/A' ? ' <i class="far fa-copy text-muted"></i>' : '') + '</code></div>' + '<div class="col-2"><span style="color:#f59e0b; font-weight:800;"><i class="fas fa-clock"></i> Pending</span></div>' + '<div class="col-actions"><button class="action-btn text-danger" title="Cancel invite" onclick="deleteInvite(\'' + invite.code + '\', \'student\')"><i class="fas fa-trash"></i></button></div></div>';
-  });
-  document.getElementById('studentDirectoryBody').innerHTML = stuDirHtml || '<div style="text-align:center; padding:2rem; color:#94a3b8; font-weight:700;">No students enrolled yet.</div>';
+  if (schoolAdminLogoClickArea && schoolAdminLogoInput) {
+    schoolAdminLogoClickArea.addEventListener('click', () => schoolAdminLogoInput.click());
+    
+    schoolAdminLogoInput.addEventListener('change', async (event) => {
+      const file = event.target.files[0];
+      if (!file) return;
 
-  // Analytics
-  let analyticsHtml = '';
-  let totalSchoolScore = 0;
-  students.forEach((student, index) => {
-    const motif = themeColors[index % 3];
-    const color = bgColors[index % 3];
-    const imgSrc = student.photoURL ? student.photoURL : 'https://ui-avatars.com/api/?name=' + student.name.replace(' ', '+') + '&background=fff&color=' + color.replace('#', '');
-    const points = student.game_state && student.game_state.totalPoints ? student.game_state.totalPoints : 0;
-    const completed = student.game_state && student.game_state.completed ? student.game_state.completed.length : 0;
-    totalSchoolScore += points;
-    let statusRank = 'Beginner';
-    if (points > 300) statusRank = 'Gold <i class="fas fa-medal text-warning"></i>';else if (points > 100) statusRank = 'Silver <i class="fas fa-medal" style="color:#94a3b8;"></i>';
-    analyticsHtml += '<div class="pill-row ' + motif + '">' + '<div class="col-1 d-flex align-items-center gap-3"><img src="' + imgSrc + '" style="border-radius:50%; width:40px; height:40px; object-fit:cover;">' + student.name + '</div>' + '<div class="col-3"><span style="background:rgba(255,255,255,0.7); padding:5px 12px; border-radius:20px; font-weight:800;">' + (student.class_id || 'Unknown') + '</span></div>' + '<div class="col-2"><span style="color:#d946ef; font-weight:800;"><i class="fas fa-book-open me-1"></i> ' + completed + ' Chapters</span></div>' + '<div class="col-2"><span style="color:#eab308; font-weight:800; background:#fef08a; padding:4px 10px; border-radius:12px;">' + points + ' XP</span></div>' + '<div class="col-2"><span style="font-weight:800;">' + statusRank + '</span></div>' + '<div class="col-actions"></div></div>';
-  });
-  document.getElementById('studentTableBody').innerHTML = analyticsHtml || '<div style="text-align:center; padding:2rem; color:#94a3b8; font-weight:700;">No student data available.</div>';
-  const avgScore = students.length > 0 ? Math.round(totalSchoolScore / students.length) : 0;
-  document.getElementById('statPoints').textContent = avgScore + ' XP';
-  document.getElementById('statPointsMeta').textContent = students.length ? 'Average progress across ' + students.length + ' learners' : 'No student activity yet';
-  const mixMax = Math.max(students.length, teachers.length, pendingInvites, 1);
-  const setMixBar = (id, value) => {
-    const bar = document.getElementById(id);
-    if (!bar) return;
-    const width = value === 0 ? 0 : Math.max(12, Math.round(value / mixMax * 100));
-    bar.style.width = width + '%';
-  };
-  document.getElementById('mixStudentsValue').textContent = String(students.length);
-  document.getElementById('mixTeachersValue').textContent = String(teachers.length);
-  document.getElementById('mixPendingValue').textContent = String(pendingInvites);
-  setMixBar('mixStudentsBar', students.length);
-  setMixBar('mixTeachersBar', teachers.length);
-  setMixBar('mixPendingBar', pendingInvites);
+      try {
+        const extension = (file.name.split('.').pop() || 'jpg').toLowerCase();
+        const scope = 'schools/' + currentAdminSession.school_id;
+        const storageRef = ref(storage, scope + '/school-logo-' + Date.now() + '.' + extension);
+        
+        // Show loading state
+        document.getElementById('schoolAdminLogoImg').style.opacity = '0.5';
 
-  // Attendance
-  let attHtml = '';
-  let presentCount = 0;
-  let absentCount = 0;
-  students.forEach((student, index) => {
-    const motif = themeColors[index % 3];
-    const color = bgColors[index % 3];
-    const imgSrc = student.photoURL ? student.photoURL : 'https://ui-avatars.com/api/?name=' + student.name.replace(' ', '+') + '&background=fff&color=' + color.replace('#', '');
-    let loginStatus = '<span style="color:#ef4444;"><i class="fas fa-times-circle"></i> No Login Yet</span>';
-    let hoursAgo = 'N/A';
-    if (student.last_login_at) {
-      const loginDate = new Date(student.last_login_at);
-      const diffMs = now - loginDate;
-      const diffHrs = Math.floor(diffMs / (1000 * 60 * 60));
-      const diffDays = Math.floor(diffHrs / 24);
-      if (diffHrs < 24) {
-        presentCount += 1;
-        loginStatus = '<span style="color:#22c55e;"><i class="fas fa-check-circle"></i> Present (Today)</span>';
-        hoursAgo = diffHrs === 0 ? 'Just now' : diffHrs + ' hrs ago';
+        await uploadBytes(storageRef, file);
+        const downloadURL = await getDownloadURL(storageRef);
+        
+        document.getElementById('schoolAdminLogoImg').src = downloadURL;
+        document.getElementById('schoolAdminLogoImg').style.opacity = '1';
+        
+        await updateDoc(doc(db, 'schools', currentAdminSession.school_id), { logo_url: downloadURL });
+        
+      } catch (err) {
+        console.error('School logo upload error:', err);
+        alert('Failed to upload school logo. Please try again.');
+        document.getElementById('schoolAdminLogoImg').style.opacity = '1';
+      }
+    });
+  }
+
+  function renderUI() {
+    const classOptions = getAvailableClassOptions();
+    syncClassFilterSelect(classOptions);
+
+    const teachers = teachersList.filter(recordMatchesClassFilter);
+    const students = studentsList.filter(recordMatchesClassFilter);
+    const pendingTeacherInvites = invitesList.filter((invite) => invite.role === 'teacher' && invite.status === 'pending' && recordMatchesClassFilter(invite));
+    const pendingStudentInvites = invitesList.filter((invite) => invite.role === 'student' && invite.status === 'pending' && recordMatchesClassFilter(invite));
+    const pendingInvites = pendingTeacherInvites.length + pendingStudentInvites.length;
+
+    const currentLabel = getCurrentFilterLabel();
+    const viewPopulation = teachers.length + students.length;
+    const discoveredClasses = new Set();
+    [...teachers, ...students, ...pendingTeacherInvites, ...pendingStudentInvites].forEach((record) => {
+      getClassNamesFromRecord(record).forEach((className) => discoveredClasses.add(className));
+    });
+
+    const classesInScope = currentClassFilter === 'all' ? discoveredClasses.size : 1;
+    const themeColors = ['row-peach', 'row-yellow', 'row-green'];
+    const bgColors = ['#fb923c', '#fbbf24', '#4ade80'];
+    const now = new Date();
+
+    document.getElementById('heroScopeLabel').textContent = currentLabel;
+    document.getElementById('heroScopeMeta').textContent = currentClassFilter === 'all'
+      ? 'Review live student, teacher and attendance figures across the whole school.'
+      : 'Focused academic operations for ' + currentLabel + '.';
+    document.getElementById('classFilterSummary').textContent = currentClassFilter === 'all'
+      ? 'Showing every active class'
+      : 'Showing records for ' + currentLabel;
+    document.getElementById('activeScopeBadge').textContent = currentLabel;
+    document.getElementById('statClassesInScope').textContent = String(classesInScope);
+    document.getElementById('statTeachers').textContent = String(teachers.length);
+    document.getElementById('statStudents').textContent = String(students.length);
+    document.getElementById('statPending').textContent = String(pendingInvites);
+    document.getElementById('statTotalPop').textContent = String(viewPopulation);
+    document.getElementById('teachersMeta').textContent = teachers.length ? teachers.length + ' faculty records in scope' : 'No teachers in this view';
+    document.getElementById('studentsMeta').textContent = students.length ? students.length + ' learner records in scope' : 'No students in this view';
+    document.getElementById('pendingMeta').textContent = pendingInvites ? pendingInvites + ' invitations are still pending' : 'No pending invites';
+    document.getElementById('statPopulationMeta').textContent = viewPopulation ? teachers.length + ' teachers and ' + students.length + ' students' : '0 teachers and 0 students';
+    document.getElementById('currentDateDisplay').textContent = now.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
+
+    // Teachers
+    let tchHtml = '';
+    teachers.forEach((teacher, index) => {
+      const motif = themeColors[index % 3];
+      const color = bgColors[index % 3];
+      const code = teacher.invitation_code || 'Accepted';
+      const imgSrc = teacher.photoURL ? teacher.photoURL : ('https://ui-avatars.com/api/?name=' + teacher.name.replace(' ', '+') + '&background=fff&color=' + color.replace('#',''));
+      tchHtml += '<div class="pill-row ' + motif + '">' +
+        '<div class="col-1 d-flex align-items-center gap-3"><img src="' + imgSrc + '" style="border-radius:50%; width:40px; height:40px; object-fit:cover;">' + teacher.name + '</div>' +
+        '<div class="col-3"><span style="background:rgba(255,255,255,0.7); padding:5px 12px; border-radius:20px; font-weight:800;">' + (teacher.class_id || teacher.assigned_class || 'All Classes') + '</span></div>' +
+        '<div class="col-2"><code style="background:rgba(255,255,255,0.7); padding:4px 8px; border-radius:8px; font-size:0.8rem;">' + code + '</code></div>' +
+        '<div class="col-2"><span style="color:#22c55e;font-weight:800;"><i class="fas fa-check-circle"></i> Active</span></div>' +
+        '<div class="col-actions"><button class="action-btn" onclick="editTeacher(\'' + teacher.uid + '\')"><i class="fas fa-edit"></i></button><button class="action-btn text-danger ms-2" onclick="deleteTeacher(\'' + teacher.uid + '\')"><i class="fas fa-trash"></i></button></div></div>';
+    });
+
+    pendingTeacherInvites.forEach((invite) => {
+      const pendingImage = invite.photoURL ? '<img src="' + invite.photoURL + '" style="border-radius:50%; width:40px; height:40px; object-fit:cover;">' : '<div style="width:40px;height:40px;border-radius:50%;background:#e2e8f0;display:flex;align-items:center;justify-content:center;color:#94a3b8;"><i class="fas fa-user-clock"></i></div>';
+      tchHtml += '<div class="pill-row row-peach" style="opacity:0.6;">' +
+        '<div class="col-1 d-flex align-items-center gap-3">' + pendingImage + invite.name + '</div>' +
+        '<div class="col-3"><span style="background:rgba(255,255,255,0.7); padding:5px 12px; border-radius:20px; font-weight:800;">' + (invite.class_id || 'Unassigned') + '</span></div>' +
+        '<div class="col-2"><code style="background:rgba(255,255,255,0.7); padding:4px 8px; border-radius:8px; font-size:0.8rem;">' + invite.code + '</code></div>' +
+        '<div class="col-2"><span style="color:#f59e0b;font-weight:800;"><i class="fas fa-clock"></i> Pending</span></div>' +
+        '<div class="col-actions"></div></div>';
+    });
+    document.getElementById('teacherTableBody').innerHTML = tchHtml || '<div style="text-align:center; padding:2rem; color:#94a3b8; font-weight:700;">No teachers added yet.</div>';
+
+    // Students Directory
+    let stuDirHtml = '';
+    students.forEach((student, index) => {
+      const motif = themeColors[(index + 1) % 3];
+      const color = bgColors[(index + 1) % 3];
+      const stuCode = student.invitation_code || 'Accepted';
+      const imgSrc = student.photoURL ? student.photoURL : ('https://ui-avatars.com/api/?name=' + student.name.replace(' ', '+') + '&background=fff&color=' + color.replace('#',''));
+
+      // Find parent code linked to this student's invite code
+      let parentInvite = invitesList.find((inv) => inv.role === 'parent' && inv.linked_student_code === stuCode);
+      
+      // Fallback for legacy students: check if any parent invite was used by this student's UID
+      if (!parentInvite && student.uid) {
+        parentInvite = invitesList.find((inv) => inv.role === 'parent' && inv.used_by_uid === student.uid);
+      }
+
+      const parCode = parentInvite ? parentInvite.code : null;
+      const parStatus = parentInvite ? parentInvite.status : null;
+
+      let parCell = '';
+      if (!parCode) {
+        // No parent invite found at all
+        parCell = '<span style="font-size:0.8rem; font-weight:800; color:#ef4444; background:rgba(239,68,68,0.08); padding:4px 10px; border-radius:12px;"><i class="fas fa-times-circle"></i> None</span>';
+      } else if (parStatus === 'used') {
+        // Parent already registered
+        parCell = '<span style="font-size:0.8rem; font-weight:800; color:#22c55e; background:rgba(34,197,94,0.08); padding:4px 10px; border-radius:12px;"><i class="fas fa-check-circle"></i> Registered</span>';
+      } else {
+        // Parent not yet registered — show the actual PAR code
+        parCell = '<code class="copyable-code" onclick="copyCodeInteractive(this, \'' + parCode + '\')" title="Click to copy">' + parCode + ' <i class="far fa-copy text-muted"></i></code>';
+      }
+
+      // Check student invite status — if student is already in users collection, their code is effectively used
+      let studentInvite = invitesList.find((inv) => inv.role === 'student' && inv.code === stuCode);
+      const stuInviteStatus = studentInvite ? studentInvite.status : null;
+
+      let stuCell = '';
+      if (stuInviteStatus === 'used' || stuCode === 'Accepted') {
+        // Student already registered — show Registered badge
+        stuCell = '<span style="font-size:0.8rem; font-weight:800; color:#22c55e; background:rgba(34,197,94,0.08); padding:4px 10px; border-radius:12px;"><i class="fas fa-check-circle"></i> Registered</span>';
+      } else {
+        // Student code exists but the student registered directly — since they're in users, show Registered
+        stuCell = '<span style="font-size:0.8rem; font-weight:800; color:#22c55e; background:rgba(34,197,94,0.08); padding:4px 10px; border-radius:12px;"><i class="fas fa-check-circle"></i> Registered</span>';
+      }
+
+      stuDirHtml += '<div class="pill-row ' + motif + '">' +
+        '<div class="col-1 d-flex align-items-center gap-3"><img src="' + imgSrc + '" style="border-radius:50%; width:40px; height:40px; object-fit:cover;">' + student.name + '</div>' +
+        '<div class="col-2"><span style="background:rgba(255,255,255,0.7); padding:5px 12px; border-radius:20px; font-weight:800;">' + (student.class_id || 'Unknown') + '</span></div>' +
+        '<div class="col-2">' + stuCell + '</div>' +
+        '<div class="col-2">' + parCell + '</div>' +
+        '<div class="col-2"><span style="color:#22c55e;"><i class="fas fa-check-circle"></i> Active</span></div>' +
+        '<div class="col-actions"><button class="action-btn" onclick="editStudent(\'' + student.uid + '\')"><i class="fas fa-edit"></i></button><button class="action-btn text-danger ms-2" onclick="deleteStudent(\'' + student.uid + '\')"><i class="fas fa-trash"></i></button></div></div>';
+    });
+
+    pendingStudentInvites.forEach((invite) => {
+      const parentInvite = invitesList.find((parent) => parent.role === 'parent' && parent.linked_student_code === invite.code);
+      const parentCode = parentInvite ? parentInvite.code : 'N/A';
+      const pendingImage = invite.photoURL ? '<img src="' + invite.photoURL + '" style="border-radius:50%; width:40px; height:40px; object-fit:cover;">' : '<div style="width:40px;height:40px;border-radius:50%;background:#e2e8f0;display:flex;align-items:center;justify-content:center;color:#94a3b8;"><i class="fas fa-user-clock"></i></div>';
+
+      stuDirHtml += '<div class="pill-row row-yellow" style="opacity:0.6;">' +
+        '<div class="col-1 d-flex align-items-center gap-3">' + pendingImage + invite.name + '</div>' +
+        '<div class="col-2"><span style="background:rgba(255,255,255,0.7); padding:5px 12px; border-radius:20px; font-weight:800;">' + (invite.class_id || 'Unknown') + '</span></div>' +
+        '<div class="col-2"><code class="copyable-code" onclick="copyCodeInteractive(this, \'' + invite.code + '\')" title="Click to copy">' + invite.code + ' <i class="far fa-copy text-muted"></i></code></div>' +
+        '<div class="col-2"><code class="copyable-code" onclick="copyCodeInteractive(this, \'' + parentCode + '\')" title="Click to copy">' + parentCode + (parentCode !== 'N/A' ? ' <i class="far fa-copy text-muted"></i>' : '') + '</code></div>' +
+        '<div class="col-2"><span style="color:#f59e0b; font-weight:800;"><i class="fas fa-clock"></i> Pending</span></div>' +
+        '<div class="col-actions"></div></div>';
+    });
+    document.getElementById('studentDirectoryBody').innerHTML = stuDirHtml || '<div style="text-align:center; padding:2rem; color:#94a3b8; font-weight:700;">No students enrolled yet.</div>';
+
+    // Analytics
+    let analyticsHtml = '';
+    let totalSchoolScore = 0;
+
+    students.forEach((student, index) => {
+      const motif = themeColors[index % 3];
+      const color = bgColors[index % 3];
+      const imgSrc = student.photoURL ? student.photoURL : ('https://ui-avatars.com/api/?name=' + student.name.replace(' ', '+') + '&background=fff&color=' + color.replace('#',''));
+      const points = (student.game_state && student.game_state.totalPoints) ? student.game_state.totalPoints : 0;
+      const completed = (student.game_state && student.game_state.completed) ? student.game_state.completed.length : 0;
+      totalSchoolScore += points;
+
+      let statusRank = 'Beginner';
+      if (points > 300) statusRank = 'Gold <i class="fas fa-medal text-warning"></i>';
+      else if (points > 100) statusRank = 'Silver <i class="fas fa-medal" style="color:#94a3b8;"></i>';
+
+      analyticsHtml += '<div class="pill-row ' + motif + '">' +
+        '<div class="col-1 d-flex align-items-center gap-3"><img src="' + imgSrc + '" style="border-radius:50%; width:40px; height:40px; object-fit:cover;">' + student.name + '</div>' +
+        '<div class="col-3"><span style="background:rgba(255,255,255,0.7); padding:5px 12px; border-radius:20px; font-weight:800;">' + (student.class_id || 'Unknown') + '</span></div>' +
+        '<div class="col-2"><span style="color:#d946ef; font-weight:800;"><i class="fas fa-book-open me-1"></i> ' + completed + ' Chapters</span></div>' +
+        '<div class="col-2"><span style="color:#eab308; font-weight:800; background:#fef08a; padding:4px 10px; border-radius:12px;">' + points + ' XP</span></div>' +
+        '<div class="col-2"><span style="font-weight:800;">' + statusRank + '</span></div>' +
+        '<div class="col-actions"></div></div>';
+    });
+
+    document.getElementById('studentTableBody').innerHTML = analyticsHtml || '<div style="text-align:center; padding:2rem; color:#94a3b8; font-weight:700;">No student data available.</div>';
+
+    const avgScore = students.length > 0 ? Math.round(totalSchoolScore / students.length) : 0;
+    document.getElementById('statPoints').textContent = avgScore + ' XP';
+    document.getElementById('statPointsMeta').textContent = students.length ? 'Average progress across ' + students.length + ' learners' : 'No student activity yet';
+
+    const mixMax = Math.max(students.length, teachers.length, pendingInvites, 1);
+    const setMixBar = (id, value) => {
+      const bar = document.getElementById(id);
+      if (!bar) return;
+      const width = value === 0 ? 0 : Math.max(12, Math.round((value / mixMax) * 100));
+      bar.style.width = width + '%';
+    };
+
+    document.getElementById('mixStudentsValue').textContent = String(students.length);
+    document.getElementById('mixTeachersValue').textContent = String(teachers.length);
+    document.getElementById('mixPendingValue').textContent = String(pendingInvites);
+    setMixBar('mixStudentsBar', students.length);
+    setMixBar('mixTeachersBar', teachers.length);
+    setMixBar('mixPendingBar', pendingInvites);
+
+    // Attendance
+    let attHtml = '';
+    let presentCount = 0;
+    let absentCount = 0;
+
+    students.forEach((student, index) => {
+      const motif = themeColors[index % 3];
+      const color = bgColors[index % 3];
+      const imgSrc = student.photoURL ? student.photoURL : ('https://ui-avatars.com/api/?name=' + student.name.replace(' ', '+') + '&background=fff&color=' + color.replace('#',''));
+      let loginStatus = '<span style="color:#ef4444;"><i class="fas fa-times-circle"></i> No Login Yet</span>';
+      let hoursAgo = 'N/A';
+
+      if (student.last_login_at) {
+        const loginDate = new Date(student.last_login_at);
+        const diffMs = now - loginDate;
+        const diffHrs = Math.floor(diffMs / (1000 * 60 * 60));
+        const diffDays = Math.floor(diffHrs / 24);
+
+        if (diffHrs < 24) {
+          presentCount += 1;
+          loginStatus = '<span style="color:#22c55e;"><i class="fas fa-check-circle"></i> Present (Today)</span>';
+          hoursAgo = diffHrs === 0 ? 'Just now' : diffHrs + ' hrs ago';
+        } else {
+          absentCount += 1;
+          loginStatus = '<span style="color:#f59e0b;"><i class="fas fa-exclamation-circle"></i> Absent</span>';
+          hoursAgo = diffDays === 1 ? 'Yesterday' : diffDays + ' days ago';
+        }
       } else {
         absentCount += 1;
-        loginStatus = '<span style="color:#f59e0b;"><i class="fas fa-exclamation-circle"></i> Absent</span>';
-        hoursAgo = diffDays === 1 ? 'Yesterday' : diffDays + ' days ago';
       }
-    } else {
-      absentCount += 1;
+
+      attHtml += '<div class="pill-row ' + motif + '">' +
+        '<div class="col-1 d-flex align-items-center gap-3"><img src="' + imgSrc + '" style="border-radius:50%; width:40px; height:40px; object-fit:cover;">' + student.name + '</div>' +
+        '<div class="col-3"><span style="background:rgba(255,255,255,0.7); padding:5px 12px; border-radius:20px; font-weight:800;">' + (student.class_id || 'Unknown') + '</span></div>' +
+        '<div class="col-2">' + loginStatus + '</div>' +
+        '<div class="col-2"><span style="color:#64748b; font-weight:800; font-size:0.9rem;">' + hoursAgo + '</span></div>' +
+        '<div class="col-actions"></div></div>';
+    });
+
+    document.getElementById('attendanceTableBody').innerHTML = attHtml || '<div style="text-align:center; padding:2rem; color:#94a3b8; font-weight:700;">No attendance records found.</div>';
+    document.getElementById('attPresent').textContent = String(presentCount);
+    document.getElementById('attAbsent').textContent = String(absentCount);
+
+    const totalAttendance = students.length;
+    const presentPercent = totalAttendance ? Math.round((presentCount / totalAttendance) * 100) : 0;
+    const absentPercent = totalAttendance ? Math.round((absentCount / totalAttendance) * 100) : 0;
+    const attendanceRing = document.getElementById('attendanceRing');
+    if (attendanceRing) {
+      attendanceRing.style.background = 'conic-gradient(#243d6b 0% ' + presentPercent + '%, #ea8300 ' + presentPercent + '% ' + (presentPercent + absentPercent) + '%, #cb955d ' + (presentPercent + absentPercent) + '% 100%)';
     }
-    attHtml += '<div class="pill-row ' + motif + '">' + '<div class="col-1 d-flex align-items-center gap-3"><img src="' + imgSrc + '" style="border-radius:50%; width:40px; height:40px; object-fit:cover;">' + student.name + '</div>' + '<div class="col-3"><span style="background:rgba(255,255,255,0.7); padding:5px 12px; border-radius:20px; font-weight:800;">' + (student.class_id || 'Unknown') + '</span></div>' + '<div class="col-2">' + loginStatus + '</div>' + '<div class="col-2"><span style="color:#64748b; font-weight:800; font-size:0.9rem;">' + hoursAgo + '</span></div>' + '<div class="col-actions"></div></div>';
-  });
-  document.getElementById('attendanceTableBody').innerHTML = attHtml || '<div style="text-align:center; padding:2rem; color:#94a3b8; font-weight:700;">No attendance records found.</div>';
-  document.getElementById('attPresent').textContent = String(presentCount);
-  document.getElementById('attAbsent').textContent = String(absentCount);
-  const totalAttendance = students.length;
-  const presentPercent = totalAttendance ? Math.round(presentCount / totalAttendance * 100) : 0;
-  const absentPercent = totalAttendance ? Math.round(absentCount / totalAttendance * 100) : 0;
-  const attendanceRing = document.getElementById('attendanceRing');
-  if (attendanceRing) {
-    attendanceRing.style.background = 'conic-gradient(#243d6b 0% ' + presentPercent + '%, #ea8300 ' + presentPercent + '% ' + (presentPercent + absentPercent) + '%, #cb955d ' + (presentPercent + absentPercent) + '% 100%)';
+    document.getElementById('attendancePresentPercent').textContent = presentPercent + '%';
+    document.getElementById('attendancePresentCount').textContent = String(presentCount);
+    document.getElementById('attendanceAbsentCount').textContent = String(absentCount);
+    document.getElementById('attendanceLeaveCount').textContent = String(pendingInvites);
   }
-  document.getElementById('attendancePresentPercent').textContent = presentPercent + '%';
-  document.getElementById('attendancePresentCount').textContent = String(presentCount);
-  document.getElementById('attendanceAbsentCount').textContent = String(absentCount);
-  document.getElementById('attendanceLeaveCount').textContent = String(pendingInvites);
-}
-window.openModal = id => {
-  const modal = document.getElementById(id);
-  if (!modal) return;
-  modal.classList.remove('d-none');
-  const content = modal.querySelector('.modal-content');
-  if (content) content.scrollTop = 0;
-};
-window.closeModal = id => {
-  const modal = document.getElementById(id);
-  if (modal) modal.classList.add('d-none');
-};
-window.copyCode = code => {
-  navigator.clipboard.writeText(code);
-};
-window.copyCodeInteractive = (element, code) => {
-  if (code && code !== 'Accepted' && code !== 'N/A' && code !== 'Unknown') {
-    navigator.clipboard.writeText(code);
-    const originalHtml = element.innerHTML;
-    element.classList.add('copied');
-    element.innerHTML = '<i class="fas fa-check"></i> Copied!';
-    setTimeout(() => {
-      element.classList.remove('copied');
-      element.innerHTML = originalHtml;
-    }, 1500);
+
+  window.openModal = (id) => {
+    const modal = document.getElementById(id);
+    if (!modal) return;
+    modal.classList.remove('d-none');
+    const content = modal.querySelector('.modal-content');
+    if (content) content.scrollTop = 0;
   }
-};
-window.switchAdminTab = tab => {
-  ['overview', 'teachers', 'students', 'attendance', 'settings'].forEach(t => {
-    document.getElementById('tab-' + t).classList.add('d-none');
-    document.getElementById('nav-' + t).classList.remove('active');
-  });
-  document.getElementById('tab-' + tab).classList.remove('d-none');
-  document.getElementById('nav-' + tab).classList.add('active');
-};
-window.addTeacherInvite = /*#__PURE__*/function () {
-  var _ref5 = _asyncToGenerator(function* (trigger) {
+  window.closeModal = (id) => {
+    const modal = document.getElementById(id);
+    if (modal) modal.classList.add('d-none');
+  }
+  window.copyCode = (code) => { navigator.clipboard.writeText(code); }
+  
+  window.copyCodeInteractive = (element, code) => {
+    if(code && code !== 'Accepted' && code !== 'N/A' && code !== 'Unknown') {
+      navigator.clipboard.writeText(code);
+      const originalHtml = element.innerHTML;
+      element.classList.add('copied');
+      element.innerHTML = '<i class="fas fa-check"></i> Copied!';
+      setTimeout(() => {
+        element.classList.remove('copied');
+        element.innerHTML = originalHtml;
+      }, 1500);
+    }
+  };
+
+  window.switchAdminTab = (tab) => {
+    ['overview', 'teachers', 'students', 'attendance', 'settings'].forEach(t => {
+      document.getElementById('tab-' + t).classList.add('d-none');
+      document.getElementById('nav-' + t).classList.remove('active');
+    });
+    document.getElementById('tab-' + tab).classList.remove('d-none');
+    document.getElementById('nav-' + tab).classList.add('active');
+  };
+
+  window.addTeacherInvite = async (trigger) => {
     const name = document.getElementById('newTchName').value.trim();
     const classes = getSelectedClasses('newTchClasses');
     const cls = classes.join(', ');
-    if (!name) return;
+    if(!name) return;
+
     const tchCode = genCode('TCH');
     const btn = trigger || document.querySelector('#teacherModal .btn-solid');
     if (btn) {
       btn.disabled = true;
       btn.textContent = 'Generating...';
     }
+
     let photoURL = null;
     const file = document.getElementById('newTchPhoto').files[0];
+
     try {
       if (file) {
         if (btn) btn.textContent = 'Processing Photo...';
-        photoURL = yield prepareProfilePhoto(file);
+        photoURL = await prepareProfilePhoto(file);
       }
-      yield setDoc(doc(db, "invites", tchCode), {
+
+      await setDoc(doc(db, "invites", tchCode), {
         code: tchCode,
         role: 'teacher',
         school_id: currentAdminSession.school_id,
@@ -3982,6 +4273,7 @@ window.addTeacherInvite = /*#__PURE__*/function () {
         status: 'pending',
         created_at: new Date().toISOString()
       });
+
       closeModal('teacherModal');
       document.getElementById('newTchName').value = '';
       document.getElementById('newTchPhoto').value = '';
@@ -3989,12 +4281,18 @@ window.addTeacherInvite = /*#__PURE__*/function () {
       document.getElementById('newTchPicWrap').style.border = '';
       // Reset checkboxes
       document.querySelectorAll('input[name="newTchClasses"]').forEach(cb => cb.checked = false);
+
       document.getElementById('codeSuccessTitle').textContent = 'Teacher Code Generated';
       document.getElementById('codeSuccessDesc').textContent = 'Send this code to ' + name + ' to register on the platform.';
-      document.getElementById('codeSuccessBody').innerHTML = '<div style="background:#f8fafc; border:2px dashed #cbd5e1; border-radius:15px; padding:15px; margin:15px 0;">' + '<div style="font-size:0.8rem; color:#94a3b8; text-transform:uppercase; font-weight:800;">Teacher Code</div>' + '<div style="font-family:monospace; font-size:2rem; font-weight:800; color:#3b82f6; letter-spacing:2px; margin:5px 0;">' + tchCode + '</div>' + '<button class="btn-outline-light" onclick="navigator.clipboard.writeText(\'' + tchCode + '\');this.textContent=\'Copied!\'"><i class="fas fa-copy"></i> Copy</button></div>';
+      document.getElementById('codeSuccessBody').innerHTML = 
+        '<div style="background:#f8fafc; border:2px dashed #cbd5e1; border-radius:15px; padding:15px; margin:15px 0;">' +
+        '<div style="font-size:0.8rem; color:#94a3b8; text-transform:uppercase; font-weight:800;">Teacher Code</div>' +
+        '<div style="font-family:monospace; font-size:2rem; font-weight:800; color:#3b82f6; letter-spacing:2px; margin:5px 0;">' + tchCode + '</div>' +
+        '<button class="btn-outline-light" onclick="navigator.clipboard.writeText(\'' + tchCode + '\');this.textContent=\'Copied!\'"><i class="fas fa-copy"></i> Copy</button></div>';
+
       openModal('codeSuccessModal');
-      yield loadDashboardData();
-    } catch (err) {
+      await loadDashboardData();
+    } catch(err) {
       alert("Error generating code: " + err.message);
     } finally {
       if (btn) {
@@ -4002,16 +4300,13 @@ window.addTeacherInvite = /*#__PURE__*/function () {
         btn.innerHTML = '<i class="fas fa-check"></i> Confirm Teacher';
       }
     }
-  });
-  return function (_x6) {
-    return _ref5.apply(this, arguments);
   };
-}();
-window.addStudentInvite = /*#__PURE__*/function () {
-  var _ref6 = _asyncToGenerator(function* (trigger) {
+
+  window.addStudentInvite = async (trigger) => {
     const name = document.getElementById('newStuName').value.trim();
     const cls = document.getElementById('newStuClass').value;
-    if (!name) return;
+    if(!name) return;
+    
     const stuCode = genCode('STU');
     const parCode = genCode('PAR');
     const btn = trigger || document.querySelector('#studentModal .btn-solid');
@@ -4019,14 +4314,17 @@ window.addStudentInvite = /*#__PURE__*/function () {
       btn.disabled = true;
       btn.textContent = 'Generating...';
     }
+
     let photoURL = null;
     const file = document.getElementById('newStuPic').files[0];
+
     try {
       if (file) {
         if (btn) btn.textContent = 'Processing Photo...';
-        photoURL = yield prepareProfilePhoto(file);
+        photoURL = await prepareProfilePhoto(file);
       }
-      yield setDoc(doc(db, "invites", stuCode), {
+
+      await setDoc(doc(db, "invites", stuCode), {
         code: stuCode,
         role: 'student',
         school_id: currentAdminSession.school_id,
@@ -4036,7 +4334,8 @@ window.addStudentInvite = /*#__PURE__*/function () {
         status: 'pending',
         created_at: new Date().toISOString()
       });
-      yield setDoc(doc(db, "invites", parCode), {
+
+      await setDoc(doc(db, "invites", parCode), {
         code: parCode,
         role: 'parent',
         school_id: currentAdminSession.school_id,
@@ -4044,17 +4343,28 @@ window.addStudentInvite = /*#__PURE__*/function () {
         status: 'pending',
         created_at: new Date().toISOString()
       });
+
       closeModal('studentModal');
       document.getElementById('newStuName').value = '';
       document.getElementById('newStuPic').value = '';
       document.getElementById('newStuPicWrap').innerHTML = '<div style="display: flex; flex-direction: column; align-items: center; color: inherit;"><i class="fas fa-camera mb-1" style="font-size: 1.8rem; color: #94a3b8; transition:color 0.2s;"></i><span style="font-size: 0.65rem; font-weight: 800; text-transform: uppercase; color: #64748b;">Photo</span></div>';
       document.getElementById('newStuPicWrap').style.border = '3px dashed #cbd5e1';
+      
       document.getElementById('codeSuccessTitle').textContent = 'Student Codes Generated';
       document.getElementById('codeSuccessDesc').textContent = 'Share these codes for ' + name + ' and their parent.';
-      document.getElementById('codeSuccessBody').innerHTML = '<div style="background:#fef9c3; border:2px dashed #fde047; border-radius:15px; padding:15px; margin:10px 0;">' + '<div style="font-size:0.8rem; color:#a16207; text-transform:uppercase; font-weight:800;">Student Code</div>' + '<div style="font-family:monospace; font-size:1.8rem; font-weight:800; color:#ca8a04; letter-spacing:2px; margin:5px 0;">' + stuCode + '</div>' + '<button class="btn-outline-light" onclick="navigator.clipboard.writeText(\'' + stuCode + '\');this.textContent=\'Copied!\'"><i class="fas fa-copy"></i> Copy</button></div>' + '<div style="background:#f0fdf4; border:2px dashed #86efac; border-radius:15px; padding:15px; margin:10px 0;">' + '<div style="font-size:0.8rem; color:#166534; text-transform:uppercase; font-weight:800;">Parent Code</div>' + '<div style="font-family:monospace; font-size:1.8rem; font-weight:800; color:#15803d; letter-spacing:2px; margin:5px 0;">' + parCode + '</div>' + '<button class="btn-outline-light" onclick="navigator.clipboard.writeText(\'' + parCode + '\');this.textContent=\'Copied!\'"><i class="fas fa-copy"></i> Copy</button></div>';
+      document.getElementById('codeSuccessBody').innerHTML =
+        '<div style="background:#fef9c3; border:2px dashed #fde047; border-radius:15px; padding:15px; margin:10px 0;">' +
+        '<div style="font-size:0.8rem; color:#a16207; text-transform:uppercase; font-weight:800;">Student Code</div>' +
+        '<div style="font-family:monospace; font-size:1.8rem; font-weight:800; color:#ca8a04; letter-spacing:2px; margin:5px 0;">' + stuCode + '</div>' +
+        '<button class="btn-outline-light" onclick="navigator.clipboard.writeText(\'' + stuCode + '\');this.textContent=\'Copied!\'"><i class="fas fa-copy"></i> Copy</button></div>' +
+        '<div style="background:#f0fdf4; border:2px dashed #86efac; border-radius:15px; padding:15px; margin:10px 0;">' +
+        '<div style="font-size:0.8rem; color:#166534; text-transform:uppercase; font-weight:800;">Parent Code</div>' +
+        '<div style="font-family:monospace; font-size:1.8rem; font-weight:800; color:#15803d; letter-spacing:2px; margin:5px 0;">' + parCode + '</div>' +
+        '<button class="btn-outline-light" onclick="navigator.clipboard.writeText(\'' + parCode + '\');this.textContent=\'Copied!\'"><i class="fas fa-copy"></i> Copy</button></div>';
+      
       openModal('codeSuccessModal');
-      yield loadDashboardData();
-    } catch (err) {
+      await loadDashboardData();
+    } catch(err) {
       alert("Error generating codes: " + err.message);
     } finally {
       if (btn) {
@@ -4062,43 +4372,40 @@ window.addStudentInvite = /*#__PURE__*/function () {
         btn.innerHTML = '<i class="fas fa-check"></i> Confirm Student';
       }
     }
-  });
-  return function (_x7) {
-    return _ref6.apply(this, arguments);
   };
-}();
-window.editTeacher = uid => {
-  const tch = teachersList.find(t => t.uid === uid);
-  if (tch) {
-    document.getElementById('editTchId').value = uid;
-    document.getElementById('editTchName').value = tch.name;
-    // reset checkboxes
-    document.querySelectorAll('input[name="editTchClasses"]').forEach(cb => cb.checked = false);
-    const clsStr = tch.class_id || '';
-    const clsArr = Array.isArray(clsStr) ? clsStr : String(clsStr).split(',').map(s => s.trim()).filter(Boolean);
-    clsArr.forEach(c => {
-      const cb = document.querySelector('input[name="editTchClasses"][value="' + c + '"]');
-      if (cb) cb.checked = true;
-    });
-    if (tch.photoURL) {
-      const wrap = document.getElementById('editTchPicWrap');
-      wrap.innerHTML = '<img src="' + tch.photoURL + '" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">';
-      wrap.style.border = 'none';
-    } else {
-      const wrap = document.getElementById('editTchPicWrap');
-      wrap.innerHTML = '<div style="display:flex; flex-direction:column; align-items:center; color:inherit;"><i class="fas fa-camera mb-1" style="font-size:1.6rem; color:#94a3b8;"></i><span style="font-size:0.65rem; font-weight:800; color:#64748b; text-transform:uppercase;">Photo</span></div>';
-      wrap.style.border = '';
+
+  window.editTeacher = (uid) => { 
+    const tch = teachersList.find(t => t.uid === uid);
+    if(tch) {
+      document.getElementById('editTchId').value = uid;
+      document.getElementById('editTchName').value = tch.name;
+      // reset checkboxes
+      document.querySelectorAll('input[name="editTchClasses"]').forEach(cb => cb.checked = false);
+      const clsStr = tch.class_id || '';
+      const clsArr = Array.isArray(clsStr) ? clsStr : String(clsStr).split(',').map(s => s.trim()).filter(Boolean);
+      clsArr.forEach(c => {
+        const cb = document.querySelector('input[name="editTchClasses"][value="' + c + '"]');
+        if(cb) cb.checked = true;
+      });
+      if (tch.photoURL) {
+        const wrap = document.getElementById('editTchPicWrap');
+        wrap.innerHTML = '<img src="' + tch.photoURL + '" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">';
+        wrap.style.border = 'none';
+      } else {
+        const wrap = document.getElementById('editTchPicWrap');
+        wrap.innerHTML = '<div style="display:flex; flex-direction:column; align-items:center; color:inherit;"><i class="fas fa-camera mb-1" style="font-size:1.6rem; color:#94a3b8;"></i><span style="font-size:0.65rem; font-weight:800; color:#64748b; text-transform:uppercase;">Photo</span></div>';
+        wrap.style.border = '';
+      }
+      openModal('editTeacherModal');
     }
-    openModal('editTeacherModal');
-  }
-};
-window.saveEditTeacher = /*#__PURE__*/function () {
-  var _ref7 = _asyncToGenerator(function* (trigger) {
+  };
+
+  window.saveEditTeacher = async (trigger) => {
     const uid = document.getElementById('editTchId').value;
     const name = document.getElementById('editTchName').value.trim();
     const classes = getSelectedClasses('editTchClasses');
     const classStr = classes.join(', ');
-    if (!name) return;
+    if(!name) return;
     const file = document.getElementById('editTchPhoto').files[0];
     const btn = trigger || document.querySelector('#editTeacherModal .btn-solid');
     try {
@@ -4108,17 +4415,15 @@ window.saveEditTeacher = /*#__PURE__*/function () {
       }
       let photoURL = null;
       if (file) {
-        photoURL = yield prepareProfilePhoto(file);
+        photoURL = await prepareProfilePhoto(file);
       }
-      const updatePayload = {
-        name: name,
-        class_id: classStr
-      };
+
+      const updatePayload = { name: name, class_id: classStr };
       if (photoURL) updatePayload.photoURL = photoURL;
-      yield updateDoc(doc(db, "users", uid), updatePayload);
+      await updateDoc(doc(db, "users", uid), updatePayload);
       closeModal('editTeacherModal');
-      yield loadDashboardData();
-    } catch (err) {
+      await loadDashboardData();
+    } catch(err) {
       alert("Error updating teacher: " + err.message);
     } finally {
       if (btn) {
@@ -4126,94 +4431,82 @@ window.saveEditTeacher = /*#__PURE__*/function () {
         btn.innerHTML = '<i class="fas fa-save"></i> Save Teacher Changes';
       }
     }
-  });
-  return function (_x8) {
-    return _ref7.apply(this, arguments);
   };
-}();
-window.editStudent = uid => {
-  const stu = studentsList.find(s => s.uid === uid);
-  if (stu) {
-    document.getElementById('editStuId').value = uid;
-    document.getElementById('editStuName').value = stu.name;
-    document.getElementById('editStuClass').value = stu.class_id || '';
-    openModal('editStudentModal');
-  }
-};
-window.saveEditStudent = /*#__PURE__*/_asyncToGenerator(function* () {
-  const uid = document.getElementById('editStuId').value;
-  const name = document.getElementById('editStuName').value.trim();
-  const cls = document.getElementById('editStuClass').value;
-  if (!name) return;
-  try {
-    yield updateDoc(doc(db, "users", uid), {
-      name: name,
-      class_id: cls
-    });
-    closeModal('editStudentModal');
-    yield loadDashboardData();
-  } catch (err) {
-    alert("Error updating student: " + err.message);
-  }
-});
-window.deleteTeacher = /*#__PURE__*/function () {
-  var _ref9 = _asyncToGenerator(function* (uid) {
+
+  window.editStudent = (uid) => { 
+    const stu = studentsList.find(s => s.uid === uid);
+    if(stu) {
+      document.getElementById('editStuId').value = uid;
+      document.getElementById('editStuName').value = stu.name;
+      document.getElementById('editStuClass').value = stu.class_id || '';
+      openModal('editStudentModal');
+    }
+  };
+
+  window.saveEditStudent = async () => {
+    const uid = document.getElementById('editStuId').value;
+    const name = document.getElementById('editStuName').value.trim();
+    const cls = document.getElementById('editStuClass').value;
+    if(!name) return;
+    try {
+      await updateDoc(doc(db, "users", uid), { name: name, class_id: cls });
+      closeModal('editStudentModal');
+      await loadDashboardData();
+    } catch(err) {
+      alert("Error updating student: " + err.message);
+    }
+  };
+
+  window.deleteTeacher = async (uid) => {
     if (confirm("Are you sure you want to completely remove this Teacher? This action cannot be undone.")) {
       try {
-        yield deleteDoc(doc(db, "users", uid));
-        yield loadDashboardData();
+        await deleteDoc(doc(db, "users", uid));
+        await loadDashboardData();
         alert("Teacher deleted successfully.");
-      } catch (err) {
+      } catch(err) {
         alert("Error deleting teacher: " + err.message);
       }
     }
-  });
-  return function (_x9) {
-    return _ref9.apply(this, arguments);
   };
-}();
 
-// Cancel/delete a pending invite (teacher, student or parent).
-window.deleteInvite = /*#__PURE__*/function () {
-  var _ref0 = _asyncToGenerator(function* (code, role) {
-    const label = role ? role.charAt(0).toUpperCase() + role.slice(1) : 'invite';
-    if (!confirm('Cancel this pending ' + label + ' invite (' + code + ')? The code will no longer be usable.')) return;
-    try {
-      yield deleteDoc(doc(db, "invites", code));
-      // If a student invite, also remove its linked parent invite (if any)
-      if (role === 'student') {
-        const linkedParent = invitesList.find(p => p.role === 'parent' && p.linked_student_code === code);
-        if (linkedParent && linkedParent.code) {
-          try {
-            yield deleteDoc(doc(db, "invites", linkedParent.code));
-          } catch (_) {}
-        }
-      }
-      yield loadDashboardData();
-    } catch (err) {
-      alert('Error cancelling invite: ' + err.message);
-    }
-  });
-  return function (_x0, _x1) {
-    return _ref0.apply(this, arguments);
-  };
-}();
-window.deleteStudent = /*#__PURE__*/function () {
-  var _ref1 = _asyncToGenerator(function* (uid) {
+  window.deleteStudent = async (uid) => {
     if (confirm("Are you sure you want to completely remove this Student? This action cannot be undone.")) {
       try {
-        yield deleteDoc(doc(db, "users", uid));
-        yield loadDashboardData();
+        await deleteDoc(doc(db, "users", uid));
+        await loadDashboardData();
         alert("Student deleted successfully.");
-      } catch (err) {
+      } catch(err) {
         alert("Error deleting student: " + err.message);
       }
     }
-  });
-  return function (_x10) {
-    return _ref1.apply(this, arguments);
   };
-}();
+
 </script>
 
-</body></html>
+
+<!-- APK_ADMIN_MISSING_ID_SHIM -->
+<script>
+(function(){
+  var key = '__apkShim_' + "APK_ADMIN_MISSING_ID_SHIM";
+  if (window[key]) return;
+  window[key] = true;
+  var ids = ["schoolLogoImg","workspaceSchoolName"];
+  function ensure(id){
+    if (document.getElementById(id)) return;
+    var s = document.createElement('span');
+    s.id = id;
+    s.style.display = 'none';
+    s.setAttribute('data-apk-shim', '1');
+    document.body.appendChild(s);
+  }
+  function run(){ ids.forEach(ensure); }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', run);
+  } else {
+    run();
+  }
+})();
+</script>
+
+  <link rel="stylesheet" href="kidba_assets/css/apk-bottombar.css">
+  <script defer src="kidba_assets/js/apk-bottombar.js"></script>
