@@ -36,64 +36,7 @@
 </head>
 <body>
 
-<!-- ===== MOBILE APP SPLASH SCREEN (matches Hostinger) ===== -->
-<div id="appSplash" style="position:fixed;inset:0;z-index:99999;background:#FDF8F5;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 0.5s ease;">
-  <!-- Floating decorative shapes -->
-  <div style="position:absolute;inset:0;overflow:hidden;pointer-events:none;">
-    <div style="position:absolute;width:80px;height:80px;border-radius:50%;background:rgba(214,54,120,0.12);top:8%;left:6%;animation:splFloat 6s ease-in-out infinite;"></div>
-    <div style="position:absolute;width:60px;height:60px;border-radius:50%;background:rgba(224,128,32,0.10);top:14%;right:10%;animation:splFloat 7s ease-in-out infinite 1s;"></div>
-    <div style="position:absolute;width:50px;height:50px;border-radius:50%;background:rgba(201,154,107,0.12);bottom:18%;left:12%;animation:splFloat 5s ease-in-out infinite 0.5s;"></div>
-    <div style="position:absolute;width:70px;height:70px;border-radius:50%;background:rgba(30,45,90,0.06);bottom:12%;right:8%;animation:splFloat 8s ease-in-out infinite 2s;"></div>
-    <div style="position:absolute;width:40px;height:40px;border-radius:50%;background:rgba(214,54,120,0.08);top:45%;left:4%;animation:splFloat 6.5s ease-in-out infinite 3s;"></div>
-    <div style="position:absolute;width:55px;height:55px;border-radius:50%;background:rgba(224,128,32,0.08);top:35%;right:5%;animation:splFloat 7.5s ease-in-out infinite 1.5s;"></div>
-  </div>
 
-  <!-- Center content -->
-  <div style="text-align:center;position:relative;z-index:2;">
-    <!-- Logo with glow ring -->
-    <div style="width:130px;height:130px;margin:0 auto 18px;border-radius:50%;padding:4px;background:linear-gradient(135deg,#D63678,#E08020,#f4c542,#1E2D5A);box-shadow:0 14px 40px rgba(214,54,120,0.22),0 6px 16px rgba(30,45,90,0.12);animation:splPulse 2.5s ease-in-out infinite;">
-      <img src="/kidba_assets/img/splash_logo.jpg" alt="Imaan & Akhlaq" style="width:100%;height:100%;border-radius:50%;object-fit:cover;background:#fff;border:3px solid #fff;" />
-    </div>
-
-    <!-- Animated brand wordmark -->
-    <div style="font-family:'Fredoka One',cursive;font-size:clamp(24px,6.5vw,34px);letter-spacing:1px;margin-bottom:6px;line-height:1.2;">
-      <span style="color:#D63678;animation:splBounce 0.6s ease 0.05s both;">I</span><span style="color:#E08020;animation:splBounce 0.6s ease 0.1s both;">m</span><span style="color:#1E2D5A;animation:splBounce 0.6s ease 0.15s both;">a</span><span style="color:#C99A6B;animation:splBounce 0.6s ease 0.2s both;">a</span><span style="color:#D63678;animation:splBounce 0.6s ease 0.25s both;">n</span><span style="color:#94a3b8;font-size:0.7em;margin:0 4px;">&amp;</span><span style="color:#1E2D5A;animation:splBounce 0.6s ease 0.35s both;">A</span><span style="color:#D63678;animation:splBounce 0.6s ease 0.4s both;">k</span><span style="color:#E08020;animation:splBounce 0.6s ease 0.45s both;">h</span><span style="color:#C99A6B;animation:splBounce 0.6s ease 0.5s both;">l</span><span style="color:#1E2D5A;animation:splBounce 0.6s ease 0.55s both;">a</span><span style="color:#D63678;animation:splBounce 0.6s ease 0.6s both;">q</span>
-    </div>
-
-    <!-- Progress bar -->
-    <div style="width:180px;height:5px;background:rgba(30,45,90,0.08);border-radius:999px;margin:16px auto 10px;overflow:hidden;">
-      <div id="splProgressBar" style="height:100%;width:0%;background:linear-gradient(90deg,#D63678,#E08020);border-radius:999px;transition:width 0.3s ease;"></div>
-    </div>
-
-    <!-- Loading text -->
-    <p style="font-family:'Nunito',sans-serif;font-size:13px;color:#94a3b8;font-weight:600;margin:0;">Loading joyful learning<span id="splDots">...</span></p>
-  </div>
-
-  <!-- Bottom tagline -->
-  <p style="position:absolute;bottom:28px;left:0;right:0;text-align:center;font-family:'Nunito',sans-serif;font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#b0bec5;margin:0;">Islamic Stories &amp; Education for Kids</p>
-</div>
-<style>
-  @keyframes splFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-18px)} }
-  @keyframes splPulse { 0%,100%{transform:scale(1);box-shadow:0 14px 40px rgba(214,54,120,0.22)} 50%{transform:scale(1.04);box-shadow:0 18px 50px rgba(214,54,120,0.32)} }
-  @keyframes splBounce { 0%{opacity:0;transform:translateY(12px)} 100%{opacity:1;transform:translateY(0)} }
-</style>
-<script>
-(function(){
-  var bar = document.getElementById('splProgressBar');
-  var w = 0;
-  var iv = setInterval(function(){ w += Math.random()*12+3; if(w>90) w=90; bar.style.width=w+'%'; }, 200);
-  function hideSplash(){
-    clearInterval(iv);
-    bar.style.width='100%';
-    var el = document.getElementById('appSplash');
-    if(!el) return;
-    setTimeout(function(){ el.style.opacity='0'; setTimeout(function(){ el.remove(); },500); },300);
-  }
-  // Hide after 2.5s max or when auth wrapper renders
-  setTimeout(hideSplash, 2500);
-  window._hideSplash = hideSplash;
-})();
-</script>
 
 
 <style>
@@ -810,6 +753,49 @@
     .form-control { padding: 10px 12px !important; font-size: 0.9rem !important; }
     .role-item { padding: 9px 10px !important; }
     .auth-view-switch { width: min(300px, 100%) !important; }
+  }
+
+  /* ===== MOBILE: Hide desktop left panel, fix right panel ===== */
+  @media (max-width: 1024px) {
+    .auth-left-panel {
+      display: none !important;
+    }
+    .auth-right-panel {
+      margin-left: 0 !important;
+      width: 100% !important;
+      height: auto !important;
+      min-height: 100vh !important;
+      overflow-y: visible !important;
+    }
+    .auth-wrapper {
+      min-height: 100vh !important;
+      justify-content: flex-start !important;
+    }
+    .auth-nav {
+      display: flex !important;
+    }
+    /* Hide inner tab switcher — outer pill handles mode switching */
+    .auth-login-panel .auth-box > div:first-child,
+    .auth-register-panel > div:first-child {
+      display: none !important;
+    }
+    .brand-logo-img {
+      width: clamp(90px, 28vw, 140px) !important;
+      height: clamp(90px, 28vw, 140px) !important;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .brand-logo-img {
+      width: 100px !important;
+      height: 100px !important;
+    }
+    .brand-logo {
+      padding: 3px !important;
+    }
+    .auth-nav {
+      padding: 12px 12px 6px !important;
+    }
   }
   
 </style>
@@ -1630,13 +1616,7 @@
       });
     });
 
-    const isCap = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
-    const bl = document.getElementById('authBackLink');
-    const logo = document.getElementById('authBrandLink');
-    if (isCap) {
-        if (bl) bl.style.display = 'none';
-        if (logo) logo.href = 'javascript:void(0)';
-    }
+
   });
 
   const firebaseConfig = {
@@ -2161,5 +2141,4 @@
 
 </script>
 
-<link rel="stylesheet" href="kidba_assets/css/apk-bottombar.css">
-<script defer src="kidba_assets/js/apk-bottombar.js"></script>
+
