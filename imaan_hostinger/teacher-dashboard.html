@@ -1,0 +1,4372 @@
+﻿<!DOCTYPE html><html lang="en"><head>
+<script>/* regenerator-runtime v0.14.1 — inlined to avoid 404 on static servers */
+var runtime=function(t){"use strict";var r,e=Object.prototype,n=e.hasOwnProperty,o=Object.defineProperty||function(t,r,e){t[r]=e.value},i="function"==typeof Symbol?Symbol:{},a=i.iterator||"@@iterator",c=i.asyncIterator||"@@asyncIterator",u=i.toStringTag||"@@toStringTag";function h(t,r,e){return Object.defineProperty(t,r,{value:e,enumerable:!0,configurable:!0,writable:!0}),t[r]}try{h({},"")}catch(t){h=function(t,r,e){return t[r]=e}}function l(t,r,e,n){var i=r&&r.prototype instanceof d?r:d,a=Object.create(i.prototype),c=new T(n||[]);return o(a,"_invoke",{value:O(t,e,c)}),a}function f(t,r,e){try{return{type:"normal",arg:t.call(r,e)}}catch(t){return{type:"throw",arg:t}}}t.wrap=l;var s="suspendedStart",p="suspendedYield",y="executing",v="completed",g={};function d(){}function m(){}function w(){}var b={};h(b,a,(function(){return this}));var L=Object.getPrototypeOf,x=L&&L(L(P([])));x&&x!==e&&n.call(x,a)&&(b=x);var E=w.prototype=d.prototype=Object.create(b);function j(t){["next","throw","return"].forEach((function(r){h(t,r,(function(t){return this._invoke(r,t)}))}))}function _(t,r){function e(o,i,a,c){var u=f(t[o],t,i);if("throw"!==u.type){var h=u.arg,l=h.value;return l&&"object"==typeof l&&n.call(l,"__await")?r.resolve(l.__await).then((function(t){e("next",t,a,c)}),(function(t){e("throw",t,a,c)})):r.resolve(l).then((function(t){h.value=t,a(h)}),(function(t){return e("throw",t,a,c)}))}c(u.arg)}var i;o(this,"_invoke",{value:function(t,n){function o(){return new r((function(r,o){e(t,n,r,o)}))}return i=i?i.then(o,o):o()}})}function O(t,e,n){var o=s;return function(i,a){if(o===y)throw new Error("Generator is already running");if(o===v){if("throw"===i)throw a;return{value:r,done:!0}}for(n.method=i,n.arg=a;;){var c=n.delegate;if(c){var u=k(c,n);if(u){if(u===g)continue;return u}}if("next"===n.method)n.sent=n._sent=n.arg;else if("throw"===n.method){if(o===s)throw o=v,n.arg;n.dispatchException(n.arg)}else"return"===n.method&&n.abrupt("return",n.arg);o=y;var h=f(t,e,n);if("normal"===h.type){if(o=n.done?v:p,h.arg===g)continue;return{value:h.arg,done:n.done}}"throw"===h.type&&(o=v,n.method="throw",n.arg=h.arg)}}}function k(t,e){var n=e.method,o=t.iterator[n];if(o===r)return e.delegate=null,"throw"===n&&t.iterator.return&&(e.method="return",e.arg=r,k(t,e),"throw"===e.method)||"return"!==n&&(e.method="throw",e.arg=new TypeError("The iterator does not provide a '"+n+"' method")),g;var i=f(o,t.iterator,e.arg);if("throw"===i.type)return e.method="throw",e.arg=i.arg,e.delegate=null,g;var a=i.arg;return a?a.done?(e[t.resultName]=a.value,e.next=t.nextLoc,"return"!==e.method&&(e.method="next",e.arg=r),e.delegate=null,g):a:(e.method="throw",e.arg=new TypeError("iterator result is not an object"),e.delegate=null,g)}function G(t){var r={tryLoc:t[0]};1 in t&&(r.catchLoc=t[1]),2 in t&&(r.finallyLoc=t[2],r.afterLoc=t[3]),this.tryEntries.push(r)}function N(t){var r=t.completion||{};r.type="normal",delete r.arg,t.completion=r}function T(t){this.tryEntries=[{tryLoc:"root"}],t.forEach(G,this),this.reset(!0)}function P(t){if(null!=t){var e=t[a];if(e)return e.call(t);if("function"==typeof t.next)return t;if(!isNaN(t.length)){var o=-1,i=function e(){for(;++o<t.length;)if(n.call(t,o))return e.value=t[o],e.done=!1,e;return e.value=r,e.done=!0,e};return i.next=i}}throw new TypeError(typeof t+" is not iterable")}return m.prototype=w,o(E,"constructor",{value:w,configurable:!0}),o(w,"constructor",{value:m,configurable:!0}),m.displayName=h(w,u,"GeneratorFunction"),t.isGeneratorFunction=function(t){var r="function"==typeof t&&t.constructor;return!!r&&(r===m||"GeneratorFunction"===(r.displayName||r.name))},t.mark=function(t){return Object.setPrototypeOf?Object.setPrototypeOf(t,w):(t.__proto__=w,h(t,u,"GeneratorFunction")),t.prototype=Object.create(E),t},t.awrap=function(t){return{__await:t}},j(_.prototype),h(_.prototype,c,(function(){return this})),t.AsyncIterator=_,t.async=function(r,e,n,o,i){void 0===i&&(i=Promise);var a=new _(l(r,e,n,o),i);return t.isGeneratorFunction(e)?a:a.next().then((function(t){return t.done?t.value:a.next()}))},j(E),h(E,u,"Generator"),h(E,a,(function(){return this})),h(E,"toString",(function(){return"[object Generator]"})),t.keys=function(t){var r=Object(t),e=[];for(var n in r)e.push(n);return e.reverse(),function t(){for(;e.length;){var n=e.pop();if(n in r)return t.value=n,t.done=!1,t}return t.done=!0,t}},t.values=P,T.prototype={constructor:T,reset:function(t){if(this.prev=0,this.next=0,this.sent=this._sent=r,this.done=!1,this.delegate=null,this.method="next",this.arg=r,this.tryEntries.forEach(N),!t)for(var e in this)"t"===e.charAt(0)&&n.call(this,e)&&!isNaN(+e.slice(1))&&(this[e]=r)},stop:function(){this.done=!0;var t=this.tryEntries[0].completion;if("throw"===t.type)throw t.arg;return this.rval},dispatchException:function(t){if(this.done)throw t;var e=this;function o(n,o){return c.type="throw",c.arg=t,e.next=n,o&&(e.method="next",e.arg=r),!!o}for(var i=this.tryEntries.length-1;i>=0;--i){var a=this.tryEntries[i],c=a.completion;if("root"===a.tryLoc)return o("end");if(a.tryLoc<=this.prev){var u=n.call(a,"catchLoc"),h=n.call(a,"finallyLoc");if(u&&h){if(this.prev<a.catchLoc)return o(a.catchLoc,!0);if(this.prev<a.finallyLoc)return o(a.finallyLoc)}else if(u){if(this.prev<a.catchLoc)return o(a.catchLoc,!0)}else{if(!h)throw new Error("try statement without catch or finally");if(this.prev<a.finallyLoc)return o(a.finallyLoc)}}}},abrupt:function(t,r){for(var e=this.tryEntries.length-1;e>=0;--e){var o=this.tryEntries[e];if(o.tryLoc<=this.prev&&n.call(o,"finallyLoc")&&this.prev<o.finallyLoc){var i=o;break}}i&&("break"===t||"continue"===t)&&i.tryLoc<=r&&r<=i.finallyLoc&&(i=null);var a=i?i.completion:{};return a.type=t,a.arg=r,i?(this.method="next",this.next=i.finallyLoc,g):this.complete(a)},complete:function(t,r){if("throw"===t.type)throw t.arg;return"break"===t.type||"continue"===t.type?this.next=t.arg:"return"===t.type?(this.rval=this.arg=t.arg,this.method="return",this.next="end"):"normal"===t.type&&r&&(this.next=r),g},finish:function(t){for(var r=this.tryEntries.length-1;r>=0;--r){var e=this.tryEntries[r];if(e.finallyLoc===t)return this.complete(e.completion,e.afterLoc),N(e),g}},catch:function(t){for(var r=this.tryEntries.length-1;r>=0;--r){var e=this.tryEntries[r];if(e.tryLoc===t){var n=e.completion;if("throw"===n.type){var o=n.arg;N(e)}return o}}throw new Error("illegal catch attempt")},delegateYield:function(t,e,n){return this.delegate={iterator:P(t),resultName:e,nextLoc:n},"next"===this.method&&(this.arg=r),g}},t}("object"==typeof module?module.exports:{});try{regeneratorRuntime=runtime}catch(t){"object"==typeof globalThis?globalThis.regeneratorRuntime=runtime:Function("r","regeneratorRuntime = r")(runtime)}
+</script>
+<style>.d-none{display:none!important}</style>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Imaan &amp; Akhlaq - Islamic Stories &amp; Education for Kids</title>
+  <meta name="description" content="Imaan &amp; Akhlaq - Fun Islamic stories, puppet shows, and educational programs teaching faith, manners, and good character to children.">
+  <meta property="og:title" content="Imaan &amp; Akhlaq - Islamic Education for Kids">
+  <meta property="og:description" content="Join Imaan and Akhlaq on magical adventures learning about Islam, Prophets, and good manners!">
+  <meta property="og:type" content="website">
+  <link rel="icon" type="image/jpeg" href="/kidba_assets/favicon.jpg">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&amp;family=Nunito:wght@400;500;600;700;800;900&amp;family=Poppins:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+
+  <!-- Bootstrap 5 -->
+  <link rel="stylesheet" href="/kidba_assets/vendor/css/bootstrap.min.css">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="/kidba_assets/vendor/css/all.min.css">
+
+  <!-- Animate.css -->
+  <link rel="stylesheet" href="/kidba_assets/vendor/css/animate.min.css">
+
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="/kidba_assets/vendor/css/swiper-bundle.min.css">
+
+  <!-- AOS CSS -->
+  <link rel="stylesheet" href="/kidba_assets/vendor/css/aos.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/kidba_assets/css/style.css">
+  <link rel="stylesheet" href="/kidba_assets/css/dashboard-buttons.css">
+
+  <!-- StPageFlip (real page-curl book flip) — same as activity.html -->
+  <script src="/kidba_assets/vendor/js/page-flip.browser.js" defer></script>
+
+  <!-- Capacitor Mobile App: redirect only in true native Capacitor context -->
+  <script>
+(function () {
+  // Only run in a real Capacitor native build — NOT on web browsers
+  var isCap = false;
+  try {
+    isCap = !!(
+      window.Capacitor &&
+      window.Capacitor.isNativePlatform &&
+      window.Capacitor.isNativePlatform() &&
+      window.Capacitor.isPluginAvailable  // only present in real native builds
+    );
+  } catch (e) {}
+  if (isCap) {
+    var host = window.location.hostname;
+    var protocol = window.location.protocol;
+    // Fixed: bracket grouping prevents operator precedence bug
+    if (host === '127.0.0.1' || host === '0.0.0.0' || (host === 'localhost' && protocol !== 'https:')) {
+      var normalizedUrl = 'https://localhost' + window.location.pathname + window.location.search + window.location.hash;
+      if (window.location.href !== normalizedUrl) {
+        window.location.replace(normalizedUrl);
+        return;
+      }
+    }
+    var path = window.location.pathname.replace(/\/index\.html$/, '/').replace(/\.html$/, '').replace(/\/$/, '') || '/';
+    var allowed = ['/auth', '/student-activities', '/parent-dashboard', '/teacher-dashboard', '/admin-dashboard', '/activity'];
+    if (!allowed.some(function(p) { return path === p; })) {
+      window.location.replace('https://localhost/auth');
+    }
+  }
+})();
+</script>
+</head>
+<body>
+
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap');
+
+  :root {
+    --teacher-blue: #243d6b;
+    --teacher-blue-deep: #1d3156;
+    --teacher-pink: #cf296d;
+    --teacher-orange: #ea8300;
+    --teacher-tan: #cb955d;
+    --teacher-ink: #1b2942;
+    --teacher-muted: #6f7f96;
+    --teacher-line: #dce6f1;
+    --teacher-surface: #eef4fb;
+    --teacher-soft-shadow: 0 12px 26px rgba(15, 23, 42, 0.08);
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  .teacher-page {
+    min-height: 100vh;
+    margin: 0;
+    background:
+      radial-gradient(circle at top left, rgba(207,41,109,0.22), transparent 26%),
+      radial-gradient(circle at bottom right, rgba(234,131,0,0.16), transparent 24%),
+      linear-gradient(135deg, #0c1730 0%, #1d3156 100%);
+    font-family: 'Nunito', sans-serif;
+    color: var(--teacher-ink);
+  }
+
+  .dashboard-shell {
+    min-height: 100vh;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 220px minmax(0, 1fr);
+    background: linear-gradient(180deg, #dfe9f7 0%, #eef4fb 100%);
+  }
+
+  .sidebar-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    padding: 0.9rem 0.75rem;
+    background: linear-gradient(180deg, var(--teacher-blue) 0%, var(--teacher-blue-deep) 100%);
+    color: #ffffff;
+  }
+
+  .sidebar-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.25rem 0.35rem 0.95rem;
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+  }
+
+  .sidebar-brand-art {
+    width: 58px;
+    height: 58px;
+    flex: 0 0 58px;
+    border-radius: 16px;
+    overflow: hidden;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.16);
+    box-shadow: 0 14px 24px rgba(7,17,29,0.22);
+  }
+
+  .sidebar-brand-art img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .sidebar-kicker {
+    display: block;
+    font-family: 'Sora', sans-serif;
+    font-size: 0.64rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.66);
+    margin-bottom: 0.2rem;
+  }
+
+  .sidebar-title {
+    display: block;
+    font-family: 'Sora', sans-serif;
+    font-size: 1rem;
+    font-weight: 800;
+    line-height: 1.25;
+    color: #ffffff;
+  }
+
+  .sidebar-subtitle {
+    display: block;
+    margin-top: 0.2rem;
+    font-size: 0.74rem;
+    font-weight: 700;
+    color: rgba(255,255,255,0.72);
+  }
+
+  .sidebar-nav {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.45rem;
+  }
+
+  .sidebar-nav li {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.7rem 0.8rem;
+    border-radius: 12px;
+    font-family: 'Sora', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: rgba(255,255,255,0.82);
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .sidebar-nav li:hover {
+    transform: translateY(-1px);
+    background: rgba(255,255,255,0.08);
+    border-color: rgba(255,255,255,0.12);
+  }
+
+  .sidebar-nav li.active {
+    background: rgba(255,255,255,0.1);
+    border-color: rgba(255,255,255,0.16);
+    box-shadow: 0 12px 24px rgba(7,17,29,0.16);
+  }
+
+  .nav-badge {
+    width: 28px;
+    height: 28px;
+    flex: 0 0 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9px;
+    color: #ffffff;
+    font-size: 0.8rem;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);
+  }
+
+  .nav-badge.overview {
+    background: linear-gradient(180deg, #314a7f 0%, #243d6b 100%);
+  }
+
+  .nav-badge.students {
+    background: linear-gradient(180deg, #df4a82 0%, #cf296d 100%);
+  }
+
+  .nav-badge.review {
+    background: linear-gradient(180deg, #f0a43d 0%, #ea8300 100%);
+  }
+
+  .nav-badge.reports {
+    background: linear-gradient(180deg, #d6a16d 0%, #cb955d 100%);
+  }
+
+  .nav-badge.attendance {
+    background: linear-gradient(180deg, #1d8f95 0%, #136f7f 100%);
+  }
+
+  .sidebar-note {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.75rem;
+    border-radius: 16px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+  }
+
+  .sidebar-note img {
+    width: 52px;
+    height: 52px;
+    object-fit: contain;
+    filter: drop-shadow(0 12px 16px rgba(7,17,29,0.18));
+  }
+
+  .sidebar-note strong {
+    display: block;
+    font-family: 'Sora', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+  }
+
+  .sidebar-note span {
+    display: block;
+    margin-top: 0.18rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: rgba(255,255,255,0.72);
+    line-height: 1.35;
+  }
+
+  .sidebar-logout-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: calc(100% - 2rem);
+    margin: 0.6rem 1rem 0.8rem;
+    padding: 0.55rem 1rem;
+    background: rgba(255,255,255,0.08);
+    border: 1.5px solid rgba(255,255,255,0.22);
+    border-radius: 10px;
+    color: rgba(255,255,255,0.85);
+    font-family: 'Sora', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.18s, color 0.18s;
+  }
+  .sidebar-logout-btn:hover {
+    background: rgba(214,54,120,0.55);
+    color: #fff;
+  }
+
+  .dashboard-main {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.78rem;
+    padding: 0.85rem;
+    background: linear-gradient(180deg, #ebf3fb 0%, #f7f9fc 100%);
+  }
+
+  .workspace-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.9rem 1rem;
+    border-radius: 18px;
+    background: linear-gradient(135deg, var(--teacher-blue) 0%, #2b4677 52%, var(--teacher-pink) 100%);
+    color: #ffffff;
+    border: 1px solid rgba(255,255,255,0.16);
+    box-shadow: 0 18px 32px rgba(29,49,86,0.22);
+  }
+
+  .workspace-heading {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    min-width: 0;
+  }
+
+  .workspace-art {
+    width: 66px;
+    height: 66px;
+    flex: 0 0 66px;
+    border-radius: 18px;
+    overflow: hidden;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.16);
+  }
+
+  .workspace-art img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .workspace-kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: 'Sora', sans-serif;
+    font-size: 0.66rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.72);
+    margin-bottom: 0.24rem;
+  }
+
+  .workspace-title {
+    margin: 0;
+    font-family: 'Sora', sans-serif;
+    font-size: clamp(1.28rem, 2.4vw, 1.75rem);
+    font-weight: 800;
+    color: #ffffff;
+  }
+
+  .workspace-subtitle {
+    margin: 0.3rem 0 0;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: rgba(255,255,255,0.78);
+    line-height: 1.45;
+  }
+
+  .workspace-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .dashboard-home-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.48rem;
+    padding: 0.68rem 0.9rem;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,0.16);
+    background: rgba(255,255,255,0.14);
+    color: #ffffff;
+    font-family: 'Sora', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 12px 24px rgba(7,17,29,0.14);
+    transition: transform 0.2s, background 0.2s, border-color 0.2s;
+  }
+
+  .dashboard-home-btn:hover {
+    transform: translateY(-1px);
+    background: rgba(255,255,255,0.2);
+    border-color: rgba(255,255,255,0.24);
+  }
+
+  .workspace-profile {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.55rem 0.8rem;
+    border-radius: 14px;
+    background: rgba(255,255,255,0.14);
+    border: 1px solid rgba(255,255,255,0.16);
+    white-space: nowrap;
+  }
+
+  .workspace-profile img {
+    width: 44px;
+    height: 44px;
+    object-fit: contain;
+  }
+
+  .workspace-profile div {
+    min-width: 0;
+  }
+
+  .workspace-profile strong {
+    display: block;
+    font-family: 'Sora', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+
+  .workspace-profile span {
+    display: block;
+    margin-top: 0.16rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: rgba(255,255,255,0.72);
+  }
+
+  .summary-strip {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+
+  .summary-card {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.9rem;
+    padding: 0.9rem 1rem;
+    border-radius: 16px;
+    color: #ffffff;
+    min-height: 118px;
+    box-shadow: var(--teacher-soft-shadow);
+  }
+
+  .summary-card.summary-link {
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+
+  .summary-card.summary-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 30px rgba(15, 23, 42, 0.1);
+  }
+
+  .summary-card.summary-link.is-active {
+    box-shadow: 0 18px 32px rgba(15, 23, 42, 0.16);
+    outline: 2px solid rgba(255,255,255,0.38);
+    outline-offset: -2px;
+  }
+
+  .summary-card.students {
+    background: linear-gradient(180deg, #314a7f 0%, #243d6b 100%);
+  }
+
+  .summary-card.pending {
+    background: linear-gradient(180deg, #df4a82 0%, #cf296d 100%);
+  }
+
+  .summary-card.points {
+    background: linear-gradient(180deg, #f0a43d 0%, #ea8300 100%);
+  }
+
+  .summary-card.attendance {
+    background: linear-gradient(180deg, #d6a16d 0%, #cb955d 100%);
+  }
+
+  .summary-copy {
+    position: relative;
+    z-index: 1;
+  }
+
+  .summary-label {
+    display: block;
+    font-family: 'Sora', sans-serif;
+    font-size: 0.64rem;
+    font-weight: 700;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.74);
+    margin-bottom: 0.3rem;
+  }
+
+  .summary-value {
+    display: block;
+    font-family: 'Sora', sans-serif;
+    font-size: clamp(1.6rem, 2.7vw, 2.2rem);
+    font-weight: 800;
+    line-height: 1;
+  }
+
+  .summary-meta {
+    display: block;
+    margin-top: 0.35rem;
+    font-size: 0.74rem;
+    font-weight: 700;
+    color: rgba(255,255,255,0.78);
+    line-height: 1.35;
+  }
+
+  .summary-card img {
+    width: 68px;
+    height: 68px;
+    object-fit: contain;
+    filter: drop-shadow(0 14px 22px rgba(15,23,42,0.18));
+  }
+
+  .teacher-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    align-items: start;
+  }
+
+  .surface-card {
+    background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(249,251,253,0.98));
+    border: 1px solid var(--teacher-line);
+    border-radius: 16px;
+    padding: 0.9rem;
+    box-shadow: var(--teacher-soft-shadow);
+  }
+
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.7rem;
+    margin-bottom: 0.8rem;
+    padding-bottom: 0.72rem;
+    border-bottom: 1px solid var(--teacher-line);
+  }
+
+  .section-heading {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.7rem;
+    min-width: 0;
+  }
+
+  .section-asset {
+    width: 46px;
+    height: 46px;
+    flex: 0 0 46px;
+    border-radius: 14px;
+    overflow: hidden;
+    background: linear-gradient(180deg, #f7fbff 0%, #eef4fb 100%);
+    border: 1px solid var(--teacher-line);
+  }
+
+  .section-asset img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 5px;
+  }
+
+  .section-heading h3 {
+    margin: 0;
+    font-family: 'Sora', sans-serif;
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--teacher-ink);
+  }
+
+  .section-heading p {
+    margin: 0.2rem 0 0;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--teacher-muted);
+    line-height: 1.45;
+  }
+
+  .section-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.46rem 0.72rem;
+    border-radius: 999px;
+    background: #fff2f8;
+    border: 1px solid rgba(207,41,109,0.18);
+    color: var(--teacher-pink);
+    font-size: 0.74rem;
+    font-weight: 800;
+  }
+
+  .section-caption {
+    margin: 0 0 0.9rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--teacher-muted);
+    line-height: 1.45;
+  }
+
+  .teacher-tab-panels {
+    display: flex;
+    flex-direction: column;
+    gap: 0.78rem;
+  }
+
+  .teacher-panel {
+    display: none;
+  }
+
+  .teacher-panel.active {
+    display: block;
+  }
+
+  .overview-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+
+  .quick-link-card {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.95rem;
+    text-align: left;
+    background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+    border: 1px solid var(--teacher-line);
+    border-radius: 16px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+
+  .quick-link-card:hover {
+    transform: translateY(-1px);
+    border-color: rgba(36, 61, 107, 0.2);
+    box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08);
+  }
+
+  .quick-link-copy strong {
+    display: block;
+    font-family: 'Sora', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 800;
+    color: var(--teacher-ink);
+  }
+
+  .quick-link-copy span {
+    display: block;
+    margin-top: 0.2rem;
+    font-size: 0.76rem;
+    font-weight: 700;
+    line-height: 1.45;
+    color: var(--teacher-muted);
+  }
+
+  .surface-card.compact {
+    height: 100%;
+  }
+
+  .snapshot-list {
+    display: grid;
+    gap: 0.7rem;
+  }
+
+  .snapshot-item {
+    padding: 0.85rem 0.95rem;
+    border-radius: 14px;
+    background: #f8fbff;
+    border: 1px solid var(--teacher-line);
+  }
+
+  .snapshot-item strong {
+    display: block;
+    font-family: 'Sora', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 800;
+    color: var(--teacher-ink);
+  }
+
+  .snapshot-item span {
+    display: block;
+    margin-top: 0.2rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--teacher-muted);
+  }
+
+  .student-roster {
+    display: grid;
+    gap: 0.8rem;
+  }
+
+  .student-roster-group {
+    display: grid;
+    gap: 0.8rem;
+  }
+
+  .student-roster-group-title {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.4rem 0.72rem;
+    border-radius: 999px;
+    background: rgba(36, 61, 107, 0.08);
+    color: var(--teacher-blue);
+    font-family: 'Sora', sans-serif;
+    font-size: 0.76rem;
+    font-weight: 800;
+  }
+
+  .student-roster-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.9rem 1rem;
+    border-radius: 18px;
+    background: #ffffff;
+    border: 1px solid var(--teacher-line);
+    box-shadow: 0 10px 22px rgba(15, 23, 42, 0.05);
+  }
+
+  .student-roster-copy {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+
+  .student-roster-copy strong {
+    display: block;
+    font-family: 'Sora', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 800;
+    color: var(--teacher-ink);
+  }
+
+  .student-roster-copy span {
+    display: block;
+    margin-top: 0.18rem;
+    font-size: 0.76rem;
+    font-weight: 700;
+    line-height: 1.45;
+    color: var(--teacher-muted);
+  }
+
+  .student-roster-classline {
+    color: var(--teacher-blue);
+  }
+
+  .student-roster-photo {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid var(--teacher-line);
+    background: #ffffff;
+  }
+
+  .student-roster-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin-top: 0.55rem;
+  }
+
+  .student-roster-actions {
+    display: flex;
+    gap: 0.55rem;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .quick-link-action {
+    border: none;
+    border-radius: 999px;
+    padding: 0.7rem 1rem;
+    background: linear-gradient(135deg, var(--teacher-blue) 0%, #2b4677 100%);
+    color: #ffffff;
+    font-family: 'Sora', sans-serif;
+    font-size: 0.76rem;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 10px 20px rgba(36, 61, 107, 0.18);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .quick-link-action:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 12px 22px rgba(36, 61, 107, 0.22);
+  }
+
+  .quick-link-action.secondary {
+    background: #ffffff;
+    color: var(--teacher-blue);
+    border: 1px solid var(--teacher-line);
+    box-shadow: none;
+  }
+
+  .leaderboard-card,
+  .review-queue-card {
+    min-width: 0;
+  }
+
+  .attendance-card {
+    min-width: 0;
+  }
+
+  .attendance-list {
+    display: grid;
+    gap: 0.72rem;
+    max-height: 430px;
+    overflow-y: auto;
+    padding-right: 0.1rem;
+  }
+
+  .attendance-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+    padding: 0.8rem 0.84rem;
+    border-radius: 14px;
+    background: #ffffff;
+    border: 1px solid var(--teacher-line);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+
+  .attendance-item:hover {
+    transform: translateY(-1px);
+    border-color: rgba(36,61,107,0.2);
+    box-shadow: 0 10px 20px rgba(15,23,42,0.06);
+  }
+
+  .attendance-stamp {
+    width: 42px;
+    height: 42px;
+    flex: 0 0 42px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 13px;
+    background: linear-gradient(180deg, #314a7f 0%, #243d6b 100%);
+    color: #ffffff;
+    font-size: 0.94rem;
+    box-shadow: 0 10px 20px rgba(29,49,86,0.14);
+  }
+
+  .attendance-copy {
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+
+  .attendance-copy strong {
+    display: block;
+    font-family: 'Sora', sans-serif;
+    font-size: 0.84rem;
+    font-weight: 700;
+    color: var(--teacher-ink);
+  }
+
+  .attendance-copy span {
+    display: block;
+    margin-top: 0.18rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--teacher-muted);
+    line-height: 1.4;
+  }
+
+  .attendance-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin-top: 0.55rem;
+  }
+
+  .attendance-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.38rem;
+    padding: 0.35rem 0.62rem;
+    border-radius: 999px;
+    font-size: 0.71rem;
+    font-weight: 800;
+  }
+
+  .attendance-pill.started {
+    background: #eef6ff;
+    color: #1d4ed8;
+  }
+
+  .attendance-pill.completed {
+    background: #dcfce7;
+    color: #15803d;
+  }
+
+  .attendance-pill.revisit {
+    background: #fff2f8;
+    color: #be185d;
+  }
+
+  .attendance-pill.time {
+    background: #f8fafc;
+    color: #475569;
+  }
+
+  .attendance-pill.duration {
+    background: #fff7ed;
+    color: #c2410c;
+  }
+
+  .attendance-empty {
+    padding: 1.2rem;
+    border-radius: 14px;
+    background: #f8fbff;
+    border: 1px dashed #cbd5e1;
+    text-align: center;
+    color: var(--teacher-muted);
+    font-size: 0.8rem;
+    font-weight: 700;
+    line-height: 1.5;
+  }
+
+  .student-rank-item {
+    display: flex;
+    align-items: center;
+    gap: 0.72rem;
+    padding: 0.72rem 0.8rem;
+    border-radius: 14px;
+    margin-bottom: 0.68rem;
+    background: #ffffff;
+    box-shadow: none;
+    border: 1px solid var(--teacher-line);
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+  }
+
+  .student-rank-item:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 20px rgba(15,23,42,0.06);
+    border-color: rgba(36,61,107,0.2);
+  }
+
+  .rank-badge {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 900;
+    color: white;
+    font-size: 0.9rem;
+    box-shadow: 0 4px 10px rgba(15,23,42,0.08);
+  }
+
+  .rank-1 { background: linear-gradient(180deg, #f0a43d 0%, #ea8300 100%); }
+  .rank-2 { background: linear-gradient(180deg, #314a7f 0%, #243d6b 100%); }
+  .rank-3 { background: linear-gradient(180deg, #df4a82 0%, #cf296d 100%); }
+  .rank-other { background: #e2e8f0; color: #475569; box-shadow: none; }
+
+  .student-avatar {
+    width: 38px;
+    height: 38px;
+    background: #f7fbff;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1rem;
+    color: var(--teacher-blue);
+    border: 1px solid var(--teacher-line);
+  }
+
+  .student-name {
+    flex-grow: 1;
+    min-width: 0;
+    font-weight: 800;
+    font-size: 0.94rem;
+    color: var(--teacher-ink);
+  }
+
+  .student-rank-copy {
+    flex-grow: 1;
+    min-width: 0;
+  }
+
+  .student-rank-subtitle {
+    margin-top: 0.16rem;
+    font-size: 0.74rem;
+    font-weight: 700;
+    color: var(--teacher-muted);
+  }
+
+  .student-score {
+    font-family: 'Sora', sans-serif;
+    color: var(--teacher-orange);
+    font-size: 0.96rem;
+    font-weight: 800;
+    white-space: nowrap;
+  }
+
+  .review-item {
+    background: #ffffff;
+    border: 1px solid var(--teacher-line);
+    border-radius: 16px;
+    padding: 0.9rem;
+    margin-bottom: 0.75rem;
+    position: relative;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+
+  .review-item:hover {
+    transform: translateY(-1px);
+    border-color: rgba(207,41,109,0.24);
+    box-shadow: 0 10px 20px rgba(15,23,42,0.06);
+  }
+
+  .student-discussion-text {
+    background: #f8fbff;
+    padding: 0.82rem;
+    border-radius: 12px;
+    font-style: italic;
+    color: #475569;
+    border: 1px dashed #cbd5e1;
+    margin: 0.8rem 0;
+    font-size: 0.84rem;
+  }
+
+  .btn-approve {
+    background: linear-gradient(135deg, var(--teacher-pink) 0%, #b92460 100%);
+    color: white;
+    font-family: 'Sora', sans-serif;
+    font-weight: 800;
+    border: none;
+    padding: 0.72rem 1rem;
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 0.84rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 12px 20px rgba(207,41,109,0.18);
+  }
+
+  .btn-approve:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 14px 24px rgba(207,41,109,0.22);
+  }
+
+  .custom-modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(15, 23, 42, 0.4);
+    backdrop-filter: blur(12px);
+    z-index: 1050;
+    justify-content: center;
+    align-items: center;
+  }
+  .custom-modal {
+    background: white;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 2rem;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    position: relative;
+    font-family: 'Nunito', sans-serif;
+  }
+  .modal-close-btn {
+    position: absolute;
+    top: 15px; right: 20px;
+    background: none; border: none;
+    font-size: 1.5rem;
+    color: #94a3b8;
+    cursor: pointer;
+  }
+  .modal-close-btn:hover { color: #f43f5e; }
+  .grid-summary {
+    background: #f1f5f9;
+    padding: 15px;
+    border-radius: 12px;
+    margin: 15px 0;
+    border: 1px solid #e2e8f0;
+  }
+
+  .login-container {
+    max-width: 400px;
+    margin: 40px auto;
+    text-align: center;
+  }
+
+  .pin-input {
+    font-size: 2rem;
+    letter-spacing: 0.5rem;
+    text-align: center;
+    border: 3px solid #cbd5e1;
+    border-radius: 12px;
+    padding: 10px;
+    width: 200px;
+    margin: 20px auto;
+    display: block;
+    outline: none;
+    transition: border-color 0.3s;
+    font-family: 'Fredoka One', cursive;
+  }
+
+  .pin-input:focus {
+    border-color: var(--teacher-blue);
+  }
+
+  @media (max-width: 1100px) {
+    .dashboard-shell {
+      grid-template-columns: 1fr;
+    }
+
+    .sidebar-panel {
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .sidebar-brand {
+      flex: 1 1 auto;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+
+    .sidebar-nav {
+      width: 100%;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+
+    .sidebar-note {
+      width: 100%;
+      margin-top: 0;
+    }
+
+    .summary-strip,
+    .teacher-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .overview-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .teacher-page {
+      font-size: 15px;
+    }
+
+    .dashboard-main {
+      padding: 0.7rem;
+    }
+
+    .workspace-bar {
+      flex-wrap: wrap;
+      padding: 0.8rem;
+    }
+
+      .workspace-actions {
+        width: 100%;
+        flex-wrap: wrap;
+      }
+
+    .workspace-profile {
+      width: 100%;
+      justify-content: flex-start;
+    }
+
+    .sidebar-nav {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .section-header {
+      flex-wrap: wrap;
+    }
+
+    .summary-strip {
+      grid-template-columns: 1fr;
+    }
+
+    .student-roster-item {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .student-roster-actions {
+      width: 100%;
+      justify-content: stretch;
+    }
+
+    .quick-link-action {
+      width: 100%;
+    }
+  }
+
+  /* === BOOKS READER === */
+  .books-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+  }
+
+  /* ===== TEACHER CHAPTERS PANEL (student-dashboard style) ===== */
+  .tchap-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 18, 40, 0.88);
+    backdrop-filter: blur(10px);
+    z-index: 9999;
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .tchap-overlay.active { display: flex; }
+  .tchap-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.4rem;
+    background: linear-gradient(135deg, #29416d 0%, #cf296d 100%);
+    color: #fff;
+    flex-shrink: 0;
+  }
+  .tchap-back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.55rem 1rem;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.18);
+    border: 1px solid rgba(255,255,255,0.22);
+    color: #fff;
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s;
+    flex-shrink: 0;
+  }
+  .tchap-back-btn:hover { background: rgba(255,255,255,0.3); }
+  .tchap-header-info { min-width: 0; flex: 1; }
+  .tchap-header-info h2 {
+    margin: 0;
+    font-family: 'Sora', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 800;
+  }
+  .tchap-header-info p {
+    margin: 0.2rem 0 0;
+    font-size: 0.78rem;
+    opacity: 0.82;
+  }
+  .tchap-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1.2rem;
+    background: linear-gradient(180deg, #f7fafc 0%, #eef4fb 100%);
+  }
+  .tchap-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: flex-start;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .tchap-item {
+    flex: 0 1 260px;
+    min-width: 220px;
+    background: #fff;
+    border: 1px solid rgba(41,65,109,0.1);
+    border-radius: 18px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    cursor: pointer;
+    transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+    box-shadow: 0 4px 14px rgba(15,23,42,0.06);
+  }
+  .tchap-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(41,65,109,0.12);
+    border-color: rgba(207,41,109,0.3);
+  }
+  .tchap-hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.6rem;
+  }
+  .tchap-icon {
+    width: 52px;
+    height: 52px;
+    flex: 0 0 52px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #29416d 0%, #cf296d 100%);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 1.3rem;
+    box-shadow: 0 8px 18px rgba(41,65,109,0.2);
+  }
+  .tchap-order-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.35rem 0.65rem;
+    border-radius: 999px;
+    background: #fff7ed;
+    border: 1px solid rgba(234,131,0,0.2);
+    color: #ea8300;
+    font-size: 0.72rem;
+    font-weight: 800;
+  }
+  .tchap-title {
+    font-family: 'Sora', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 800;
+    color: #1e293b;
+    line-height: 1.4;
+  }
+  .tchap-subtitle {
+    font-size: 0.76rem;
+    font-weight: 700;
+    color: #64748b;
+    line-height: 1.5;
+  }
+  .tchap-meta {
+    margin-top: auto;
+  }
+  .tchap-read-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.55rem 1rem;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #29416d 0%, #cf296d 100%);
+    color: #fff;
+    font-size: 0.78rem;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.2s;
+    box-shadow: 0 6px 14px rgba(41,65,109,0.2);
+    width: 100%;
+    justify-content: center;
+  }
+  .tchap-read-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+  .tchap-empty {
+    text-align: center;
+    padding: 2.5rem;
+    color: #64748b;
+    font-weight: 700;
+  }
+  @media (max-width: 600px) {
+    .tchap-grid { flex-direction: column; }
+    .tchap-item { flex: 1 1 100%; }
+  }
+  /* ===== END TEACHER CHAPTERS PANEL ===== */
+  .book-card {
+    background: #fff;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 6px 24px rgba(15,23,42,0.08);
+    cursor: pointer;
+    transition: transform 0.25s, box-shadow 0.25s;
+    border: 2px solid transparent;
+  }
+  .book-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 14px 36px rgba(15,23,42,0.14);
+    border-color: var(--teacher-pink);
+  }
+  /* Book cover using img tag — same approach as student dashboard library-cover */
+  .book-card-cover {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    border-radius: 14px 14px 0 0;
+    overflow: hidden;
+    background: linear-gradient(180deg, #eef4fb 0%, #dce7f7 100%);
+    box-shadow: 0 8px 20px rgba(15,23,42,0.10);
+  }
+  .book-card-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .book-card-cover .book-badge {
+    position: absolute;
+    top: 10px; right: 10px;
+    background: rgba(41,65,109,0.75);
+    backdrop-filter: blur(6px);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+  .book-card-info {
+    padding: 0.85rem 1rem 0.6rem;
+  }
+  .book-card-info strong {
+    display: block;
+    font-family: 'Sora', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: var(--teacher-ink);
+    margin-bottom: 0.2rem;
+  }
+  .book-card-info span {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--teacher-muted);
+  }
+  .book-card-btn {
+    display: block;
+    width: calc(100% - 2rem);
+    margin: 0 1rem 1rem;
+    padding: 10px;
+    background: linear-gradient(135deg, var(--teacher-blue) 0%, var(--teacher-pink) 100%);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.2s;
+    box-shadow: 0 6px 14px rgba(41,65,109,0.18);
+  }
+  .book-card-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+  .book-card.coming-soon { opacity: 0.85; cursor: default; }
+  .book-card.coming-soon:hover { transform: none; box-shadow: 0 6px 24px rgba(15,23,42,0.08); border-color: transparent; }
+  .book-card.coming-soon .book-card-btn { background: #94a3b8; cursor: default; box-shadow: none; }
+  .book-card.coming-soon .book-card-btn:hover { opacity: 1; transform: none; }
+  .coming-soon-badge { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); background: rgba(0,0,0,0.6); backdrop-filter: blur(6px); color: #fff; padding: 8px 18px; border-radius: 24px; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.5px; z-index: 2; }
+
+  /* ─── Book Reader Overlay (StPageFlip) ─── */
+  .book-reader-overlay {
+    position: fixed;
+    inset: 0;
+    background: #efe6d2;
+    z-index: 99999;
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+  .book-reader-overlay.active { display: flex; }
+
+  /* Toolbar at top */
+  .book-reader-toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 10px 16px;
+    background: rgba(255,255,255,0.96);
+    backdrop-filter: saturate(180%) blur(12px);
+    -webkit-backdrop-filter: saturate(180%) blur(12px);
+    border-bottom: 1px solid rgba(20,30,60,0.08);
+    box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+  }
+  .book-reader-toolbar h3 {
+    flex: 1;
+    text-align: center;
+    font-family: 'Sora','Nunito',sans-serif;
+    font-weight: 800;
+    font-size: 0.95rem;
+    color: #1b2942;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 0 8px;
+  }
+  .book-reader-close {
+    background: transparent;
+    border: none;
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    font-size: 1.05rem;
+    color: #1e3a5f;
+    cursor: pointer;
+    display: inline-flex; align-items: center; justify-content: center;
+    transition: background 0.15s;
+    flex-shrink: 0;
+  }
+  .book-reader-close:hover { background: rgba(207,41,109,0.12); color: #cf296d; }
+
+  /* Flipbook stage (warm desk) */
+  .tr-flipbook-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    flex: 1;
+    padding: 18px 8px 10px;
+    touch-action: pan-y;
+  }
+  .tr-flipbook-stage {
+    position: relative;
+    width: 100%;
+    max-width: 940px;
+    margin: 0 auto;
+    padding: 22px 18px 32px;
+    border-radius: 24px;
+    background:
+      radial-gradient(ellipse at center top, rgba(255,255,255,0.85) 0%, rgba(243,232,210,0.55) 60%, rgba(0,0,0,0) 80%),
+      linear-gradient(180deg, #fbf3e1 0%, #efdfbf 100%);
+    box-shadow:
+      0 28px 60px -20px rgba(40,30,10,0.35),
+      inset 0 1px 0 rgba(255,255,255,0.6);
+  }
+  .tr-flipbook-stage::before {
+    content: '';
+    position: absolute;
+    left: 8%; right: 8%; bottom: 6px; height: 28px;
+    background: radial-gradient(ellipse at center, rgba(0,0,0,0.28) 0%, rgba(0,0,0,0) 70%);
+    filter: blur(6px);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .tr-flipbook-container {
+    position: relative;
+    z-index: 1;
+    margin: 0 auto;
+    width: 100%;
+  }
+  .tr-flipbook-container .stf__parent {
+    margin: 0 auto;
+    filter: drop-shadow(0 18px 28px rgba(20,30,60,0.22));
+  }
+  /* Each page: warm paper */
+  .tr-flipbook-container .stf__item {
+    background: #fffaf0;
+    background-image:
+      radial-gradient(rgba(120,90,50,0.06) 1px, transparent 1px),
+      linear-gradient(135deg, #fffaf0 0%, #fbf2dd 100%);
+    background-size: 4px 4px, 100% 100%;
+    overflow: hidden;
+  }
+  .tr-flipbook-container .stf__item.--left  { box-shadow: inset -6px 0 12px -6px rgba(0,0,0,0.18); }
+  .tr-flipbook-container .stf__item.--right { box-shadow: inset 6px 0 12px -6px rgba(0,0,0,0.18); }
+
+  /* Page content inside StPageFlip */
+  .tr-pdf-page {
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    padding: 0; box-sizing: border-box; position: relative;
+  }
+  .tr-pdf-page canvas {
+    display: block; max-width: 100%; max-height: 100%;
+    width: auto; height: auto; border-radius: 2px;
+  }
+  .tr-pdf-page .tr-page-num {
+    position: absolute; bottom: 6px; left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Sora','Nunito',sans-serif;
+    font-size: 0.68rem; font-weight: 700;
+    letter-spacing: 0.08em; color: #8a7a55;
+    text-transform: uppercase;
+  }
+
+  /* Cover & end pages */
+  .tr-pdf-cover, .tr-pdf-end {
+    width: 100%; height: 100%;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center; padding: 28px 22px;
+    color: #fff; box-sizing: border-box; border-radius: 2px;
+  }
+  .tr-pdf-cover {
+    background: linear-gradient(135deg, #1e3a5f 0%, #29416d 50%, #cf296d 100%);
+  }
+  .tr-pdf-end {
+    background: linear-gradient(135deg, #1e3a5f 0%, #29416d 55%, #ea8300 100%);
+  }
+  .tr-pdf-cover .tr-cover-icon { font-size: 2.2rem; margin-bottom: 16px; opacity: 0.9; }
+  .tr-pdf-cover .tr-cover-kicker, .tr-pdf-end .tr-cover-kicker {
+    font-size: 0.68rem; font-weight: 800;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: rgba(255,255,255,0.78); margin-bottom: 12px;
+  }
+  .tr-pdf-cover h2, .tr-pdf-end h2 {
+    font-family: 'Fredoka One',cursive;
+    font-size: clamp(1.3rem,4vw,1.9rem);
+    margin: 0 0 10px; text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  }
+  .tr-pdf-cover p, .tr-pdf-end p {
+    font-size: 0.9rem; opacity: 0.9;
+    max-width: 280px; line-height: 1.5; margin: 0 auto;
+  }
+
+  /* Loading placeholder */
+  .tr-pdf-loading {
+    background: rgba(30,58,95,0.07);
+    border: 1px dashed rgba(30,58,95,0.25);
+    border-radius: 12px; color: #1e3a5f;
+    padding: 24px 16px; text-align: center;
+    max-width: 400px; margin: 0 auto;
+  }
+
+  /* Floating nav pill — identical to activity.html */
+  .tr-flipbook-nav {
+    display: flex; align-items: center; justify-content: center;
+    gap: 12px; margin-top: 16px; padding: 9px 14px;
+    background: #fff; border-radius: 999px;
+    box-shadow: 0 10px 28px rgba(20,30,60,0.12);
+    border: 1px solid rgba(20,30,60,0.06);
+  }
+  .tr-flipbook-nav button {
+    background: linear-gradient(180deg,#2d5a8e 0%,#1e3a5f 100%);
+    color: #fff; border: none;
+    width: 42px; height: 42px; border-radius: 50%;
+    font-size: 0.95rem; cursor: pointer;
+    transition: transform 0.18s, box-shadow 0.18s, opacity 0.18s;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 6px 14px rgba(30,58,95,0.28);
+  }
+  .tr-flipbook-nav button:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 10px 18px rgba(30,58,95,0.34); }
+  .tr-flipbook-nav button:disabled { opacity: 0.35; cursor: not-allowed; box-shadow: none; }
+  .tr-flipbook-nav .tr-page-indicator {
+    font-family: 'Sora','Nunito',sans-serif;
+    color: #1e3a5f; font-size: 0.9rem; font-weight: 800;
+    min-width: 90px; text-align: center; letter-spacing: 0.04em;
+  }
+  /* Progress bar */
+  .tr-flipbook-progress {
+    margin: 12px auto 0;
+    width: min(100%,520px); height: 5px;
+    border-radius: 999px; background: rgba(30,58,95,0.1); overflow: hidden;
+  }
+  .tr-flipbook-progress-fill {
+    display: block; height: 100%; width: 0%;
+    background: linear-gradient(90deg,#cf296d,#ea8300);
+    border-radius: 999px; transition: width 300ms ease-out;
+  }
+  /* Lock notice */
+  .book-reader-lock {
+    color: rgba(30,58,95,0.45); font-size: 0.72rem;
+    text-align: center; padding: 8px 0 14px;
+  }
+  .book-reader-lock i { margin-right: 4px; }
+  @media (max-width: 600px) {
+    .books-grid { grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+    .book-card-cover { padding: 1rem; }
+    .tr-flipbook-stage { padding: 12px 6px 22px; border-radius: 16px; }
+    .tr-flipbook-nav { gap: 8px; padding: 7px 10px; }
+    .tr-flipbook-nav button { width: 38px; height: 38px; }
+  }
+  .book-reader-header {
+    width: 100%;
+    max-width: 900px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+    color: #fff;
+  }
+  .book-reader-header h3 {
+    font-family: 'Sora', sans-serif;
+    font-size: 1.1rem;
+    margin: 0;
+  }
+  .book-reader-close {
+    background: rgba(255,255,255,0.15);
+    border: none;
+    color: #fff;
+    width: 42px; height: 42px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .book-reader-close:hover { background: var(--teacher-pink); }
+  /* Book reader canvas wrap — 2-page spread style */
+  .book-reader-canvas-wrap {
+    flex: 1;
+    width: 100%;
+    max-width: 1400px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 0;
+    padding: 0 12px 12px;
+    -webkit-user-select: none;
+    user-select: none;
+    touch-action: pan-y;
+    overscroll-behavior: contain;
+    perspective: 2200px;
+    perspective-origin: center center;
+  }
+  /* 2-page book spread wrapper */
+  .book-spread {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 0;
+    box-shadow:
+      0 28px 70px rgba(0,0,0,0.55),
+      0 0 0 1px rgba(255,255,255,0.04),
+      inset 0 1px 0 rgba(255,255,255,0.08);
+    border-radius: 4px;
+    overflow: hidden;
+    max-width: 100%;
+  }
+  /* Spine divider between left and right page */
+  .book-spread-spine {
+    width: 6px;
+    align-self: stretch;
+    background: linear-gradient(to right, rgba(0,0,0,0.18), rgba(0,0,0,0.04), rgba(0,0,0,0.18));
+    flex-shrink: 0;
+    z-index: 1;
+  }
+  .book-reader-page-shell {
+    position: relative;
+    display: inline-flex;
+    justify-content: center;
+    align-items: flex-start;
+    max-width: 100%;
+    transform-origin: center center;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    will-change: transform, opacity, filter;
+    isolation: isolate;
+    --page-turn-gloss: 0;
+    --page-turn-shadow: 0;
+    --page-turn-direction: to right;
+  }
+  .book-reader-page-shell::before {
+    content: '';
+    position: absolute;
+    inset: 14px 10px;
+    border-radius: 10px;
+    pointer-events: none;
+    background: linear-gradient(var(--page-turn-direction), rgba(255,255,255,0.34) 0%, rgba(255,255,255,0.08) 18%, rgba(8,15,30,0.18) 48%, rgba(8,15,30,0.4) 100%);
+    opacity: var(--page-turn-gloss);
+    transition: opacity 120ms ease;
+  }
+  .book-reader-page-shell::after {
+    content: '';
+    position: absolute;
+    inset: 18px 14px;
+    border-radius: 12px;
+    pointer-events: none;
+    background: linear-gradient(var(--page-turn-direction), rgba(2,6,23,0.34) 0%, rgba(2,6,23,0.16) 22%, rgba(2,6,23,0) 60%);
+    opacity: var(--page-turn-shadow);
+    filter: blur(18px);
+    transition: opacity 120ms ease;
+    transform: translateZ(-1px);
+  }
+  /* === PAGE FLIP KEYFRAMES (real book turn effect) === */
+  @keyframes pageFlipOut {
+    0%   { transform: perspective(1800px) rotateY(0deg)    scale(1);    opacity: 1; }
+    60%  { transform: perspective(1800px) rotateY(-55deg)  scale(0.97); opacity: 0.6; }
+    100% { transform: perspective(1800px) rotateY(-90deg)  scale(0.94); opacity: 0; }
+  }
+  @keyframes pageFlipOutBack {
+    0%   { transform: perspective(1800px) rotateY(0deg)   scale(1);    opacity: 1; }
+    60%  { transform: perspective(1800px) rotateY(55deg)  scale(0.97); opacity: 0.6; }
+    100% { transform: perspective(1800px) rotateY(90deg)  scale(0.94); opacity: 0; }
+  }
+  @keyframes pageFlipIn {
+    0%   { transform: perspective(1800px) rotateY(90deg)  scale(0.94); opacity: 0; }
+    40%  { transform: perspective(1800px) rotateY(25deg)  scale(0.98); opacity: 0.8; }
+    100% { transform: perspective(1800px) rotateY(0deg)   scale(1);    opacity: 1; }
+  }
+  @keyframes pageFlipInBack {
+    0%   { transform: perspective(1800px) rotateY(-90deg) scale(0.94); opacity: 0; }
+    40%  { transform: perspective(1800px) rotateY(-25deg) scale(0.98); opacity: 0.8; }
+    100% { transform: perspective(1800px) rotateY(0deg)   scale(1);    opacity: 1; }
+  }
+  /* Gloss overlay that appears during flip */
+  .book-reader-page-shell.flipping::before {
+    opacity: 0.45 !important;
+    transition: none !important;
+  }
+  .book-reader-canvas-wrap canvas {
+    position: relative;
+    z-index: 1;
+    max-width: 100%;
+    border-radius: 4px;
+    box-shadow: 0 14px 34px rgba(0,0,0,0.28);
+    backface-visibility: hidden;
+  }
+  .book-reader-nav {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 10px 20px 16px;
+  }
+  .book-reader-nav button {
+    background: rgba(255,255,255,0.15);
+    border: none;
+    color: #fff;
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .book-reader-nav button:hover { background: var(--teacher-pink); }
+  .book-reader-nav button:disabled { opacity: 0.3; cursor: default; }
+  .book-reader-nav span {
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.95rem;
+    min-width: 100px;
+    text-align: center;
+  }
+  .book-reader-lock {
+    color: rgba(255,255,255,0.5);
+    font-size: 0.75rem;
+    padding-bottom: 10px;
+  }
+  .book-reader-lock i { margin-right: 4px; }
+  @media (max-width: 600px) {
+    .books-grid { grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+    .book-card-cover { padding: 1rem; }
+  }
+
+  .sidebar-cam-badge, .school-cam-badge {
+    position: absolute;
+    bottom: -5px;
+    right: -5px;
+    width: 28px;
+    height: 28px;
+    background: linear-gradient(135deg, #d63678 0%, #e46c2e 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 0.75rem;
+    border: 2px solid white;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  .sidebar-cam-badge:hover, .school-cam-badge:hover {
+    transform: scale(1.1);
+  }
+
+  /* ============================================================
+     DESKTOP POLISH — Teacher Dashboard
+     Brand colors, modern cards, responsive, logout highlight.
+     ============================================================ */
+  :root {
+    --brand-primary: #29416d;
+    --brand-secondary: #cf296d;
+    --brand-tertiary: #ea8300;
+    --brand-success: #34d399;
+    --brand-danger: #ef4444;
+  }
+
+  @media (min-width: 1280px) {
+    .teacher-page .app-container { grid-template-columns: 260px minmax(0, 1fr) !important; }
+  }
+  @media (min-width: 1600px) {
+    .teacher-page .app-container { grid-template-columns: 280px minmax(0, 1fr) !important; }
+    .teacher-page .hero-grid { gap: 1.5rem !important; }
+  }
+
+  .teacher-page .hero-card,
+  .teacher-page .card-white,
+  .teacher-page .section-card,
+  .teacher-page .widget-card,
+  .teacher-page .panel-card {
+    border-radius: 20px !important;
+    box-shadow: 0 6px 22px rgba(41, 65, 109, 0.08), 0 1px 3px rgba(41, 65, 109, 0.04) !important;
+    border: 1px solid rgba(41, 65, 109, 0.06) !important;
+    transition: transform 0.25s ease, box-shadow 0.25s ease !important;
+  }
+  .teacher-page .hero-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 34px rgba(41, 65, 109, 0.12), 0 3px 8px rgba(41, 65, 109, 0.05) !important;
+  }
+
+  .teacher-page .hero-card.card-green  { background: linear-gradient(135deg, rgba(52, 211, 153, 0.10), rgba(255,255,255,0.95)) !important; border-left: 4px solid var(--brand-success) !important; }
+  .teacher-page .hero-card.card-yellow { background: linear-gradient(135deg, rgba(234, 131, 0, 0.10), rgba(255,255,255,0.95)) !important; border-left: 4px solid var(--brand-tertiary) !important; }
+  .teacher-page .hero-card.card-orange { background: linear-gradient(135deg, rgba(207, 41, 109, 0.10), rgba(255,255,255,0.95)) !important; border-left: 4px solid var(--brand-secondary) !important; }
+  .teacher-page .hero-card.card-blue   { background: linear-gradient(135deg, rgba(41, 65, 109, 0.10), rgba(255,255,255,0.95)) !important; border-left: 4px solid var(--brand-primary) !important; }
+
+  .teacher-page .metric-illustration,
+  .teacher-page .summary-card-illustration { opacity: 0.85; max-width: 110px !important; }
+
+  .teacher-page .btn-logout,
+  .teacher-page .btn-outline-light.btn-logout {
+    background: linear-gradient(135deg, #ef4444 0%, #cf296d 100%) !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(239, 68, 68, 0.4) !important;
+    box-shadow: 0 6px 16px rgba(239, 68, 68, 0.28) !important;
+    font-weight: 700 !important;
+  }
+  .teacher-page .btn-logout:hover { background: linear-gradient(135deg, #dc2626 0%, #b91c5e 100%) !important; transform: translateY(-1px); box-shadow: 0 10px 22px rgba(239, 68, 68, 0.36) !important; }
+  .teacher-page .btn-logout i { color: #ffffff !important; }
+
+  .teacher-page .nav-item.active,
+  .teacher-page .nav-link.active,
+  .teacher-page a.nav-item.active {
+    background: linear-gradient(90deg, rgba(207, 41, 109, 0.18), transparent) !important;
+    border-left: 3px solid var(--brand-secondary) !important;
+    color: #ffffff !important;
+  }
+
+  @media (max-width: 1199px) and (min-width: 768px) {
+    .teacher-page .app-container { grid-template-columns: 200px minmax(0, 1fr) !important; }
+    .teacher-page .hero-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 1rem !important; }
+  }
+  @media (max-width: 767px) {
+    .teacher-page .app-container { grid-template-columns: 1fr !important; }
+    .teacher-page .top-nav { flex-direction: row !important; flex-wrap: wrap !important; padding: 0.6rem 0.8rem !important; gap: 0.5rem !important; border-right: none !important; border-bottom: 1px solid rgba(255,255,255,0.08) !important; }
+    .teacher-page .nav-brand { padding: 0 !important; border-bottom: none !important; flex: 1 1 auto; }
+    .teacher-page .brand-mark { width: 42px !important; height: 42px !important; }
+    .teacher-page .nav-list, .teacher-page .nav-actions { width: 100% !important; }
+    .teacher-page .hero-grid { grid-template-columns: 1fr !important; gap: 0.8rem !important; }
+    .teacher-page .metric-illustration, .teacher-page .summary-card-illustration { max-width: 80px !important; }
+    .teacher-page .hero-card { padding: 1rem !important; }
+  }
+
+
+/* ===== DASHBOARD_MOBILE_PATCH (universal safety net) ===== */
+html, body {
+  overflow-x: hidden !important;
+  max-width: 100% !important;
+  -webkit-text-size-adjust: 100%;
+}
+*, *::before, *::after { box-sizing: border-box; }
+
+/* Tables: scroll horizontally instead of breaking layout */
+.table-responsive, .table-wrap, .data-table-wrap {
+  width: 100% !important;
+  overflow-x: auto !important;
+  -webkit-overflow-scrolling: touch;
+}
+table { max-width: 100%; }
+
+@media (max-width: 760px) {
+  .app-container, .login-wrapper, .main-content,
+  .dashboard-container, .container, .container-fluid {
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+  }
+  /* Long words / URLs do not push the layout */
+  body, p, h1, h2, h3, h4, h5, h6, span, div, a, td, th, li {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+  /* Images / videos / iframes stay in bounds */
+  img, video, iframe, svg, canvas {
+    max-width: 100% !important;
+    height: auto;
+  }
+  /* Tighter mobile padding */
+  .main-content, .workspace-topbar, .tab-panel,
+  .panel, .card, .login-card {
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+  }
+  /* Buttons / inputs full-width but not overflow */
+  input, select, textarea, button {
+    max-width: 100% !important;
+  }
+  /* Modal: never overflow viewport */
+  .modal, .modal-dialog, .modal-content {
+    max-width: calc(100% - 1rem) !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  /* Sticky / fixed bars: respect safe area */
+  .top-nav, .workspace-topbar, .nav-bar {
+    padding-left: 0.65rem !important;
+    padding-right: 0.65rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-brand .brand-title, .brand-title {
+    font-size: 0.92rem !important;
+  }
+  .stat-card, .summary-card, .info-card {
+    padding: 0.75rem !important;
+  }
+  /* Reduce huge headings on small phones */
+  h1 { font-size: 1.4rem !important; }
+  h2 { font-size: 1.2rem !important; }
+}
+/* ===== END DASHBOARD_MOBILE_PATCH ===== */
+</style>
+
+<div class="teacher-page">
+
+  <!-- DASHBOARD VIEW -->
+  <div id="teacherDashboardView" class="dashboard-shell d-none">
+    <aside class="sidebar-panel">
+      <div class="sidebar-brand">
+        <div class="sidebar-brand-art" id="sidebarAvatarClickArea" title="Click to change photo" role="button" tabindex="0" style="position:relative; cursor:pointer; overflow:visible;">
+          <img id="sidebarProfilePhoto" src="/kidba_assets/img/3d_teacher.png" alt="Teacher profile" style="border-radius:16px; width:100%; height:100%; object-fit:cover;">
+          <div class="sidebar-cam-badge"><i class="fas fa-camera"></i></div>
+        </div>
+        <div style="display:flex; align-items:center;">
+          <span class="sidebar-title" id="sidebarProfileName" style="margin:0;">Teacher Name</span>
+        </div>
+      </div>
+      <ul class="sidebar-nav">
+        <li class="active" data-section="overview" onclick="switchTeacherSection('overview')"><span class="nav-badge overview"><i class="fas fa-chart-pie"></i></span><span>Overview</span></li>
+        <li data-section="students" onclick="switchTeacherSection('students')"><span class="nav-badge students"><i class="fas fa-user-graduate"></i></span><span>Students</span></li>
+        <li data-section="reviews" onclick="switchTeacherSection('reviews')"><span class="nav-badge review"><i class="fas fa-clipboard-check"></i></span><span>Reviews</span></li>
+        <li data-section="attendance" onclick="switchTeacherSection('attendance')"><span class="nav-badge attendance"><i class="fas fa-user-clock"></i></span><span>Attendance</span></li>
+        <li data-section="rankings" onclick="switchTeacherSection('rankings')"><span class="nav-badge reports"><i class="fas fa-medal"></i></span><span>Rankings</span></li>
+        <li data-section="books" onclick="switchTeacherSection('books')"><span class="nav-badge overview" style="background:linear-gradient(135deg,#cf296d,#ea8300);"><i class="fas fa-book-open"></i></span><span>Books</span></li>
+      </ul>
+      <div class="sidebar-note">
+        <img src="/kidba_assets/img/3d_student.png" alt="Student 3D icon">
+        <div>
+          <strong>Daily Goal</strong>
+          <span>Review submissions, approve learning sheets and track class momentum.</span>
+        </div>
+      </div>
+      <button class="sidebar-logout-btn" type="button" onclick="logoutTeacher()"><i class="fas fa-sign-out-alt"></i><span>Logout</span></button>
+    </aside>
+
+    <div class="dashboard-main">
+      <div class="workspace-bar">
+        <div class="workspace-heading">
+          <div class="workspace-art" id="schoolLogoClickArea" title="Click to change school logo" role="button" tabindex="0" style="position:relative; cursor:pointer; overflow:visible;">
+            <img id="schoolLogoImg" src="/kidba_assets/img/3d_school.png" alt="School logo" style="border-radius:20px; width:100%; height:100%; object-fit:cover;">
+            <div class="school-cam-badge"><i class="fas fa-camera"></i></div>
+          </div>
+          <div style="display:flex; align-items:center;">
+            <h1 class="workspace-title" id="welcomeName" style="margin:0;">School Name</h1>
+          </div>
+        </div>
+        <div class="workspace-actions">
+          <button class="dashboard-home-btn" type="button" onclick="window.location.href='/'" style="padding: 0.8rem 1.2rem; font-size: 0.9rem;"><i class="fas fa-house"></i><span>Home</span></button>
+        </div>
+      </div>
+
+      <div class="summary-strip">
+        <div class="summary-card students summary-link" data-section="students" role="button" tabindex="0" onclick="switchTeacherSection('students')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();switchTeacherSection('students');}">
+          <div class="summary-copy">
+            <span class="summary-label">Students in Scope</span>
+            <strong class="summary-value" id="teacherStudentCount">0</strong>
+            <span class="summary-meta">Students currently visible in your teacher dashboard.</span>
+          </div>
+          <img src="/kidba_assets/img/3d_student.png" alt="Students 3D icon">
+        </div>
+        <div class="summary-card pending summary-link" data-section="reviews" role="button" tabindex="0" onclick="switchTeacherSection('reviews')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();switchTeacherSection('reviews');}">
+          <div class="summary-copy">
+            <span class="summary-label">Sheets to Review</span>
+            <strong class="summary-value" id="teacherPendingReviews">0</strong>
+            <span class="summary-meta">Sheets waiting for your grading decision.</span>
+          </div>
+          <img src="/kidba_assets/img/3d_login.png" alt="Review 3D icon">
+        </div>
+        <div class="summary-card points summary-link" data-section="rankings" role="button" tabindex="0" onclick="switchTeacherSection('rankings')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();switchTeacherSection('rankings');}">
+          <div class="summary-copy">
+            <span class="summary-label">Highest Points</span>
+            <strong class="summary-value" id="teacherTopPoints">0</strong>
+            <span class="summary-meta">Highest student point total in your current view.</span>
+          </div>
+          <img src="/kidba_assets/img/3d_individual.png" alt="Top score 3D icon">
+        </div>
+        <div class="summary-card attendance summary-link" data-section="attendance" role="button" tabindex="0" onclick="switchTeacherSection('attendance')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();switchTeacherSection('attendance');}">
+          <div class="summary-copy">
+            <span class="summary-label">Active Today</span>
+            <strong class="summary-value" id="teacherAttendanceCount">0</strong>
+            <span class="summary-meta">Students who opened learning activities today.</span>
+          </div>
+          <img src="/kidba_assets/img/3d_school.png" alt="Attendance 3D icon">
+        </div>
+      </div>
+
+      <div class="teacher-tab-panels">
+        <section id="teacherPanelOverview" class="teacher-panel active">
+          <div class="teacher-grid">
+            <section class="surface-card compact">
+              <div class="section-header">
+                <div class="section-heading">
+                  <div class="section-asset"><img src="/kidba_assets/img/3d_teacher.png" alt="Teaching snapshot 3D icon"></div>
+                  <div>
+                    <h3>Today's Snapshot</h3>
+                    <p>One glance summary for your next best action.</p>
+                  </div>
+                </div>
+                <span class="section-chip"><i class="fas fa-bullseye"></i> Focus</span>
+              </div>
+              <div class="snapshot-list">
+                <div class="snapshot-item"><strong id="overviewStudentSummary">Loading class roster...</strong><span>Student coverage</span></div>
+                <div class="snapshot-item"><strong id="overviewReviewSummary">Loading review queue...</strong><span>Review pressure</span></div>
+                <div class="snapshot-item"><strong id="overviewAttendanceSummary">Loading attendance panel...</strong><span>Attendance pulse</span></div>
+              </div>
+              <p class="section-caption" id="overviewFocusNote">Preparing today's teaching focus...</p>
+            </section>
+          </div>
+        </section>
+
+        <section id="teacherPanelStudents" class="teacher-panel">
+          <section class="surface-card">
+            <div class="section-header">
+              <div class="section-heading">
+                <div class="section-asset"><img src="/kidba_assets/img/3d_student.png" alt="Student roster 3D icon"></div>
+                <div>
+                  <h3>Students by Class</h3>
+                  <p id="teacherRosterSummary">Browse learners by class / section with progress, review status and the latest activity update.</p>
+                </div>
+              </div>
+              <span class="section-chip" id="teacherRosterClassChip"><i class="fas fa-user-group"></i> Loading classes</span>
+            </div>
+            <p class="section-caption">Each card shows class / section, points earned and the quickest path to reviews or activity logs.</p>
+            <div id="teacherStudentRoster" class="student-roster">
+              <!-- Injected via JS -->
+            </div>
+          </section>
+        </section>
+
+        <section id="teacherPanelReviews" class="teacher-panel">
+          <section class="surface-card review-queue-card">
+            <div class="section-header">
+              <div class="section-heading">
+                <div class="section-asset"><img src="/kidba_assets/img/3d_teacher.png" alt="Review queue 3D icon"></div>
+                <div>
+                  <h3>Grading &amp; Reviews</h3>
+                  <p>Review discussion answers, inspect sheets and award class points.</p>
+                </div>
+              </div>
+              <span class="section-chip" id="pendingCountBadge">0</span>
+            </div>
+            <p class="section-caption">Review your students' discussion answers and award them points.</p>
+            <div id="reviewsList">
+              <!-- Injected via JS -->
+            </div>
+          </section>
+        </section>
+
+        <section id="teacherPanelAttendance" class="teacher-panel">
+          <section class="surface-card attendance-card">
+            <div class="section-header">
+              <div class="section-heading">
+                <div class="section-asset"><img src="/kidba_assets/img/3d_login.png" alt="Attendance activity 3D icon"></div>
+                <div>
+                  <h3>Activity Attendance</h3>
+                  <p>See which students opened an activity today, when they started and how long the task took.</p>
+                </div>
+              </div>
+              <span class="section-chip" id="attendanceDateBadge"><i class="fas fa-calendar-day"></i> Today</span>
+            </div>
+            <p class="section-caption">This panel updates from live student activity sessions recorded during the day.</p>
+            <div id="attendanceList" class="attendance-list">
+              <!-- Injected via JS -->
+            </div>
+          </section>
+        </section>
+
+        <section id="teacherPanelRankings" class="teacher-panel">
+          <section class="surface-card leaderboard-card">
+            <div class="section-header">
+              <div class="section-heading">
+                <div class="section-asset"><img src="/kidba_assets/img/3d_student.png" alt="Leaderboard 3D icon"></div>
+                <div>
+                  <h3>Student Rankings</h3>
+                  <p id="teacherRankingCaption">Top-performing learners across your current school scope, with class labels for quick context.</p>
+                </div>
+              </div>
+              <span class="section-chip" id="teacherRankingScopeChip"><i class="fas fa-trophy"></i> Loading scope</span>
+            </div>
+            <div id="leaderboardList">
+              <!-- Rendered via JS -->
+            </div>
+          </section>
+        </section>
+        <section id="teacherPanelBooks" class="teacher-panel">
+          <section class="surface-card">
+            <div class="section-header">
+              <div class="section-heading">
+                <div class="section-asset"><img src="/kidba_assets/img/3d_school.png" alt="Books 3D icon"></div>
+                <div>
+                  <h3>Book Library</h3>
+                  <p>Read the currently available Imaan &amp; Akhlaq books online. Downloads are disabled to protect content.</p>
+                </div>
+              </div>
+              <span class="section-chip" style="background:linear-gradient(135deg,#cf296d,#ea8300);color:#fff;"><i class="fas fa-lock"></i> View Only</span>
+            </div>
+            <p class="section-caption">Only live books are shown here so the teacher dashboard stays focused on real classroom material.</p>
+            <div class="books-grid">
+
+              <div class="book-card" onclick="openBookReader('book1', 'Imaan &amp; Akhlaq - Book 1')">
+                <div class="book-card-cover">
+                  <img src="/assets/covers/book1.jpg" alt="Book 1 Cover">
+                  <span class="book-badge">Book 1</span>
+                </div>
+                <div class="book-card-info">
+                  <strong>Book 1</strong>
+                  <span>18 Chapters &bull; 74 Pages</span>
+                </div>
+                <button class="book-card-btn" type="button" onclick="event.stopPropagation();openBookReader('book1', 'Imaan &amp; Akhlaq - Book 1')"><i class="fas fa-book-reader"></i> Read Book</button>
+              </div>
+              <div class="book-card" onclick="openBookReader('book2', 'Imaan &amp; Akhlaq - Book 2')">
+                <div class="book-card-cover">
+                  <img src="/assets/covers/book2.jpg" alt="Book 2 Cover">
+                  <span class="book-badge">Book 2</span>
+                </div>
+                <div class="book-card-info">
+                  <strong>Book 2</strong>
+                  <span>15 Chapters &bull; 93 Pages</span>
+                </div>
+                <button class="book-card-btn" type="button" onclick="event.stopPropagation();openBookReader('book2', 'Imaan &amp; Akhlaq - Book 2')"><i class="fas fa-book-reader"></i> Read Book</button>
+              </div>
+              <div class="book-card" onclick="openBookReader('book3', 'Imaan &amp; Akhlaq - Book 3')">
+                <div class="book-card-cover">
+                  <img src="/assets/covers/book3.jpg" alt="Book 3 Cover">
+                  <span class="book-badge">Book 3</span>
+                </div>
+                <div class="book-card-info">
+                  <strong>Book 3</strong>
+                  <span>15 Chapters &bull; 96 Pages</span>
+                </div>
+                <button class="book-card-btn" type="button" onclick="event.stopPropagation();openBookReader('book3', 'Imaan &amp; Akhlaq - Book 3')"><i class="fas fa-book-reader"></i> Read Book</button>
+              </div>
+              <div class="book-card" onclick="openBookReader('book4', 'Imaan &amp; Akhlaq - Book 4')">
+                <div class="book-card-cover">
+                  <img src="/assets/covers/book4.jpg" alt="Book 4 Cover">
+                  <span class="book-badge">Book 4</span>
+                </div>
+                <div class="book-card-info">
+                  <strong>Book 4</strong>
+                  <span>Islamic Stories</span>
+                </div>
+                <button class="book-card-btn" type="button" onclick="event.stopPropagation();openBookReader('book4', 'Imaan &amp; Akhlaq - Book 4')"><i class="fas fa-book-reader"></i> Read Book</button>
+              </div>
+              <div class="book-card" onclick="openBookReader('book5', 'Imaan &amp; Akhlaq - Book 5')">
+                <div class="book-card-cover">
+                  <img src="/assets/covers/book5.jpg" alt="Book 5 Cover">
+                  <span class="book-badge">Book 5</span>
+                </div>
+                <div class="book-card-info">
+                  <strong>Book 5</strong>
+                  <span>Moral Guidance</span>
+                </div>
+                <button class="book-card-btn" type="button" onclick="event.stopPropagation();openBookReader('book5', 'Imaan &amp; Akhlaq - Book 5')"><i class="fas fa-book-reader"></i> Read Book</button>
+              </div>
+              <div class="book-card" onclick="openBookReader('book6', 'Imaan &amp; Akhlaq - Book 6')">
+                <div class="book-card-cover">
+                  <img src="/assets/covers/book6.jpg" alt="Book 6 Cover">
+                  <span class="book-badge">Book 6</span>
+                </div>
+                <div class="book-card-info">
+                  <strong>Book 6</strong>
+                  <span>Prophets History</span>
+                </div>
+                <button class="book-card-btn" type="button" onclick="event.stopPropagation();openBookReader('book6', 'Imaan &amp; Akhlaq - Book 6')"><i class="fas fa-book-reader"></i> Read Book</button>
+              </div>
+              <div class="book-card" onclick="openBookReader('book7', 'Imaan &amp; Akhlaq - Book 7')">
+                <div class="book-card-cover">
+                  <img src="/assets/covers/book7.jpg" alt="Book 7 Cover">
+                  <span class="book-badge">Book 7</span>
+                </div>
+                <div class="book-card-info">
+                  <strong>Book 7</strong>
+                  <span>Advanced Lessons</span>
+                </div>
+                <button class="book-card-btn" type="button" onclick="event.stopPropagation();openBookReader('book7', 'Imaan &amp; Akhlaq - Book 7')"><i class="fas fa-book-reader"></i> Read Book</button>
+              </div>
+            </div>
+          </section>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Teacher Chapters Panel (student-dashboard style) -->
+<div class="tchap-overlay" id="tchapOverlay" role="dialog" aria-modal="true" tabindex="-1">
+  <div class="tchap-header">
+    <button class="tchap-back-btn" type="button" onclick="teacherCloseChapters()"><i class="fas fa-arrow-left"></i> Back to Books</button>
+    <div class="tchap-header-info">
+      <h2 id="tchapBookTitle">Chapters</h2>
+      <p id="tchapBookSub">Select a chapter to read it</p>
+    </div>
+  </div>
+  <div class="tchap-body">
+    <div class="tchap-grid" id="tchapGrid">
+      <!-- Injected by JS -->
+    </div>
+  </div>
+</div>
+
+<!-- Book Reader Modal (StPageFlip — same as activity.html) -->
+<div class="book-reader-overlay" id="bookReaderOverlay" oncontextmenu="return false;" role="dialog" aria-modal="true" tabindex="-1">
+  <!-- Sticky top toolbar -->
+  <div class="book-reader-toolbar">
+    <button class="book-reader-close" id="bookReaderCloseBtn" onclick="closeBookReader()" title="Close" aria-label="Close reader">
+      <i class="fas fa-arrow-left"></i>
+    </button>
+    <h3 id="bookReaderTitle">Loading Book...</h3>
+    <div style="width:40px;flex-shrink:0;"></div><!-- spacer to center title -->
+  </div>
+
+  <!-- Flipbook area -->
+  <div class="tr-flipbook-wrapper" id="trFlipbookWrapper">
+    <div class="tr-flipbook-stage">
+      <div class="tr-flipbook-container" id="trFlipbookContainer">
+        <!-- Injected by JS -->
+      </div>
+    </div>
+
+    <!-- Floating nav -->
+    <div class="tr-flipbook-nav" id="trFlipbookNav" style="display:none;">
+      <button id="trPrevBtn" title="Previous page" aria-label="Previous"><i class="fas fa-chevron-left"></i></button>
+      <span class="tr-page-indicator" id="trPageIndicator">Cover</span>
+      <button id="trNextBtn" title="Next page" aria-label="Next"><i class="fas fa-chevron-right"></i></button>
+    </div>
+
+    <!-- Progress -->
+    <div class="tr-flipbook-progress" id="trProgress" style="display:none;">
+      <span class="tr-flipbook-progress-fill" id="trProgressFill"></span>
+    </div>
+
+    <div class="book-reader-lock"><i class="fas fa-lock"></i> Download disabled — View only mode</div>
+  </div>
+</div>
+
+<script src="/kidba_assets/js/pdf.min.js"></script>
+
+<script>
+// ===== TEACHER CHAPTERS PANEL =====
+var TCHAP_ICONS = ['fa-star','fa-heart','fa-leaf','fa-sun','fa-moon','fa-cloud','fa-fire','fa-snowflake','fa-bolt','fa-gem','fa-crown','fa-shield-alt','fa-feather','fa-dove','fa-fish','fa-seedling','fa-apple-alt','fa-mountain'];
+function teacherGetIcon(idx) { return TCHAP_ICONS[idx % TCHAP_ICONS.length]; }
+
+function teacherShowChapters(bookKey, bookTitle, coverImg) {
+  var overlayEl = document.getElementById('tchapOverlay');
+  var titleEl = document.getElementById('tchapBookTitle');
+  var subEl = document.getElementById('tchapBookSub');
+  var grid = document.getElementById('tchapGrid');
+  if (!overlayEl || !grid) return;
+
+  titleEl.textContent = bookTitle;
+  subEl.textContent = 'Select a chapter to open the book reader';
+  grid.innerHTML = '';
+
+  var bookData = (typeof ACTIVITIES_DATA !== 'undefined') ? ACTIVITIES_DATA[bookKey] : null;
+  if (!bookData || !bookData.chapters) {
+    grid.innerHTML = '<div class="tchap-empty"><i class="fas fa-book-medical fa-2x" style="color:#cf296d;"></i><br><br>Chapters coming soon.</div>';
+    overlayEl.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    return;
+  }
+
+  var chapterKeys = Object.keys(bookData.chapters);
+  chapterKeys.forEach(function(cKey, idx) {
+    var ch = bookData.chapters[cKey];
+    var item = document.createElement('div');
+    item.className = 'tchap-item';
+    item.innerHTML =
+      '<div class="tchap-hero">' +
+        '<div class="tchap-icon"><i class="fas ' + teacherGetIcon(idx) + '"></i></div>' +
+        '<span class="tchap-order-chip"><i class="fas fa-list-ol"></i> Chapter ' + (idx + 1) + '</span>' +
+      '</div>' +
+      '<div class="tchap-title">' + (ch.title || ('Chapter ' + (idx + 1))) + '</div>' +
+      '<div class="tchap-subtitle">Pages ' + (ch.pageStart || 1) + '–' + (ch.pageEnd || '?') + ' &bull; Click to read this chapter in the book viewer.</div>' +
+      '<div class="tchap-meta">' +
+        '<button class="tchap-read-btn" type="button"><i class="fas fa-book-reader"></i> Read Chapter</button>' +
+      '</div>';
+    var startPage = ch.pageStart || 1;
+    item.addEventListener('click', function() {
+      teacherCloseChapters();
+      setTimeout(function() {
+        openBookReaderAtPage(bookKey, bookTitle, startPage);
+      }, 180);
+    });
+    grid.appendChild(item);
+  });
+
+  overlayEl.classList.add('active');
+  document.body.style.overflow = 'hidden';
+  overlayEl.focus();
+}
+
+function teacherCloseChapters() {
+  var overlayEl = document.getElementById('tchapOverlay');
+  if (overlayEl) overlayEl.classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+// Close on Escape
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    teacherCloseChapters();
+  }
+});
+// ===== END TEACHER CHAPTERS PANEL =====
+</script>
+
+<script>
+// Defensive shim: ensure DOM elements that legacy JS writes to always exist.
+(function ensureLegacyDomIds() {
+  var ids = ['welcomeName', 'schoolNameTag', 'classInfo', 'teacherInfo'];
+  function ensure() {
+    ids.forEach(function (id) {
+      if (!document.getElementById(id)) {
+        var s = document.createElement('span');
+        s.id = id;
+        s.style.display = 'none';
+        (document.body || document.documentElement).appendChild(s);
+      }
+    });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', ensure, { once: true });
+  } else {
+    ensure();
+  }
+})();
+</script>
+<script type="module">
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+import { getFirestore, collection, query, where, getDocs, getDoc, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+const firebaseConfig = {
+  apiKey: "AIzaSyA4MrV-oXhK_johreyzIucti5RFrKcvyG8",
+  authDomain: "imaan-app-1d2da.firebaseapp.com",
+  projectId: "imaan-app-1d2da",
+  storageBucket: "imaan-app-1d2da.firebasestorage.app",
+  messagingSenderId: "373650938167",
+  appId: "1:373650938167:web:e9da1317c118bc720d22b2"
+};
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+// CRITICAL: Force LOCAL persistence so the session restored from auth.html
+// doesn't get dropped after ~10s due to iframe sync failures.
+setPersistence(auth, browserLocalPersistence).catch(e => console.warn('setPersistence failed:', e));
+const ACTIVITIES_DATA = {
+  "book1": {
+    "title": "Imaan and Akhlaaq - Book 1",
+    "pdfUrl": "https://drive.google.com/file/d/1yOPz5oYlDF4Aj41WQmcxSHbti2shDDpz/preview",
+    "chapters": {
+      "chapter1": {
+        "id": "b1_c1",
+        "title": "The Farm and the Brave Sister",
+        "pageStart": 1,
+        "pageEnd": 6,
+        "discussionQuestion": "How does staying near safe people make us feel?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I stayed near safe people ?", "I spoke clearly when I felt unsafe ?", "I followed the rules while playing ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I raise my hand and speak when I need anything ?", "I stay within classroom rules ?", "I respect my teacher's instructions ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I told my parents about a fear ?", "I practiced saying 'No' politely ?", "I thanked Allah for keeping me safe ?"]
+        }]
+      },
+      "chapter2": {
+        "id": "b1_c2",
+        "title": "The Giant Burger",
+        "pageStart": 7,
+        "pageEnd": 10,
+        "discussionQuestion": "How did I show good manners while talking today?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I waited before speaking ?", "I used polite words ?", "I helped after meals ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I wait for my turn before speaking ?", "I use polite words in class ?", "I listen quietly when others speak ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I helped with a household task ?", "I listened to the elders ?", "I said Bismillah and Alhamdulillah ?"]
+        }]
+      },
+      "chapter3": {
+        "id": "b1_c3",
+        "title": "Goodbyes and New Beginnings",
+        "pageStart": 11,
+        "pageEnd": 13,
+        "discussionQuestion": "Why is it important to have good manners when entering a new house?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I said Salam when entering ?", "I helped unpack my things ?", "I kept my room tidy ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I welcomed a new student ?", "I shared my things gracefully ?", "I listened to the teacher attentively ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I respected my older siblings ?", "I didn't complain about the move ?", "I appreciated my parents' hard work ?"]
+        }]
+      },
+      "chapter4": {
+        "id": "b1_c4",
+        "title": "Chapter 4",
+        "pageStart": 14,
+        "pageEnd": 17,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter5": {
+        "id": "b1_c5",
+        "title": "Chapter 5",
+        "pageStart": 18,
+        "pageEnd": 21,
+        "discussionQuestion": "How does this lesson improve our character?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter6": {
+        "id": "b1_c6",
+        "title": "Chapter 6",
+        "pageStart": 22,
+        "pageEnd": 25,
+        "discussionQuestion": "How does this lesson improve our character?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter7": {
+        "id": "b1_c7",
+        "title": "Chapter 7",
+        "pageStart": 26,
+        "pageEnd": 29,
+        "discussionQuestion": "How does this lesson improve our character?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter8": {
+        "id": "b1_c8",
+        "title": "Chapter 8",
+        "pageStart": 30,
+        "pageEnd": 33,
+        "discussionQuestion": "How does this lesson improve our character?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter9": {
+        "id": "b1_c9",
+        "title": "Chapter 9",
+        "pageStart": 34,
+        "pageEnd": 37,
+        "discussionQuestion": "How does this lesson improve our character?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter10": {
+        "id": "b1_c10",
+        "title": "Chapter 10",
+        "pageStart": 38,
+        "pageEnd": 42,
+        "discussionQuestion": "How does this lesson improve our character?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter11": {
+        "id": "b1_c11",
+        "title": "Chapter 11",
+        "pageStart": 43,
+        "pageEnd": 46,
+        "discussionQuestion": "How does this lesson improve our character?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter12": {
+        "id": "b1_c12",
+        "title": "Chapter 12",
+        "pageStart": 47,
+        "pageEnd": 51,
+        "discussionQuestion": "How does this lesson improve our character?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter13": {
+        "id": "b1_c13",
+        "title": "Chapter 13",
+        "pageStart": 52,
+        "pageEnd": 56,
+        "discussionQuestion": "How does this lesson improve our character?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter14": {
+        "id": "b1_c14",
+        "title": "Chapter 14",
+        "pageStart": 57,
+        "pageEnd": 60,
+        "discussionQuestion": "How does this lesson improve our character?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter15": {
+        "id": "b1_c15",
+        "title": "Chapter 15",
+        "pageStart": 61,
+        "pageEnd": 63,
+        "discussionQuestion": "How does this lesson improve our character?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter16": {
+        "id": "b1_c16",
+        "title": "Chapter 16",
+        "pageStart": 64,
+        "pageEnd": 66,
+        "discussionQuestion": "How does this lesson improve our character?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter17": {
+        "id": "b1_c17",
+        "title": "Chapter 17",
+        "pageStart": 67,
+        "pageEnd": 69,
+        "discussionQuestion": "How does this lesson improve our character?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter18": {
+        "id": "b1_c18",
+        "title": "Chapter 18",
+        "pageStart": 70,
+        "pageEnd": 74,
+        "discussionQuestion": "How does this lesson improve our character?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      }
+    }
+  },
+  "book2": {
+    "title": "Imaan and Akhlaaq - Book 2",
+    "pdfUrl": "https://drive.google.com/file/d/1rmYenOjmunRkdl3NdQfDgdw7UTyAKdgP/preview",
+    "chapters": {
+      "chapter1": {
+        "id": "b2_c1",
+        "title": "The First Flight",
+        "pageStart": 1,
+        "pageEnd": 8,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter2": {
+        "id": "b2_c2",
+        "title": "The Best Answer",
+        "pageStart": 9,
+        "pageEnd": 14,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter3": {
+        "id": "b2_c3",
+        "title": "A Surprise Visit",
+        "pageStart": 15,
+        "pageEnd": 19,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter4": {
+        "id": "b2_c4",
+        "title": "Chapter 4",
+        "pageStart": 20,
+        "pageEnd": 25,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter5": {
+        "id": "b2_c5",
+        "title": "Chapter 5",
+        "pageStart": 26,
+        "pageEnd": 30,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter6": {
+        "id": "b2_c6",
+        "title": "Chapter 6",
+        "pageStart": 31,
+        "pageEnd": 37,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter7": {
+        "id": "b2_c7",
+        "title": "Chapter 7",
+        "pageStart": 38,
+        "pageEnd": 43,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter8": {
+        "id": "b2_c8",
+        "title": "Chapter 8",
+        "pageStart": 44,
+        "pageEnd": 49,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter9": {
+        "id": "b2_c9",
+        "title": "Chapter 9",
+        "pageStart": 50,
+        "pageEnd": 54,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter10": {
+        "id": "b2_c10",
+        "title": "Chapter 10",
+        "pageStart": 55,
+        "pageEnd": 59,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter11": {
+        "id": "b2_c11",
+        "title": "Chapter 11",
+        "pageStart": 60,
+        "pageEnd": 66,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter12": {
+        "id": "b2_c12",
+        "title": "Chapter 12",
+        "pageStart": 67,
+        "pageEnd": 74,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter13": {
+        "id": "b2_c13",
+        "title": "Chapter 13",
+        "pageStart": 75,
+        "pageEnd": 80,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter14": {
+        "id": "b2_c14",
+        "title": "Chapter 14",
+        "pageStart": 81,
+        "pageEnd": 86,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter15": {
+        "id": "b2_c15",
+        "title": "Chapter 15",
+        "pageStart": 87,
+        "pageEnd": 93,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      }
+    }
+  },
+  "book3": {
+    "title": "Imaan and Akhlaaq - Book 3",
+    "pdfUrl": "https://drive.google.com/file/d/1bjbVY9gTGqj8LMfc3-lSNmMbcE_1_9_g/preview",
+    "chapters": {
+      "chapter1": {
+        "id": "b3_c1",
+        "title": "The Meaning of Patience",
+        "pageStart": 1,
+        "pageEnd": 9,
+        "discussionQuestion": "Why is being patient important even when things are difficult?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I stayed calm when things didn't go my way ?", "I didn't rush or complain during a hard task ?", "I waited nicely for my turn ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened quietly when the teacher was busy ?", "I was patient during challenging lessons ?", "I helped a classmate without getting frustrated ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I was patient when my parents asked me to wait ?", "I handled disagreement with my siblings calmly ?", "I remembered Allah helps the patient ?"]
+        }]
+      },
+      "chapter2": {
+        "id": "b3_c2",
+        "title": "A Caring Heart",
+        "pageStart": 10,
+        "pageEnd": 14,
+        "discussionQuestion": "How does helping others make our own hearts feel better?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I offered a smile to someone who seemed sad ?", "I shared something I value with a friend ?", "I said a kind word to someone today ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I noticed someone struggling and offered help ?", "I included everyone in the group activity ?", "I said 'please' and 'thank you' sincerely ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I asked my parents how their day was ?", "I comforted a sibling who was upset ?", "I made dua for my family's well-being ?"]
+        }]
+      },
+      "chapter3": {
+        "id": "b3_c3",
+        "title": "Standing for Truth",
+        "pageStart": 15,
+        "pageEnd": 20,
+        "discussionQuestion": "Why does speaking the truth require courage?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I stood up for what is right today ?", "I didn't agree with a wrong action ?", "I admitted fault immediately ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I was honest even when it could have gotten me in trouble ?", "I didn't let others cheat or copy ?", "I reported an incident fairly ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I told the complete truth to my parents ?", "I supported truth over taking sides ?", "I sought forgiveness from Allah for past lies ?"]
+        }]
+      },
+      "chapter4": {
+        "id": "b3_c4",
+        "title": "Chapter 4",
+        "pageStart": 21,
+        "pageEnd": 26,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter5": {
+        "id": "b3_c5",
+        "title": "Chapter 5",
+        "pageStart": 27,
+        "pageEnd": 32,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter6": {
+        "id": "b3_c6",
+        "title": "Chapter 6",
+        "pageStart": 33,
+        "pageEnd": 38,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter7": {
+        "id": "b3_c7",
+        "title": "Chapter 7",
+        "pageStart": 39,
+        "pageEnd": 43,
+        "discussionQuestion": "Why is halal earning important for a peaceful life?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I stayed honest ?", "I worked sincerely ?", "I avoided shortcuts ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I completed work fairly ?", "I respected responsibilities ?", "I valued teamwork ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I appreciated effort ?", "I respected struggle ?", "I thanked Allah for rizq ?"]
+        }]
+      },
+      "chapter8": {
+        "id": "b3_c8",
+        "title": "Chapter 8",
+        "pageStart": 44,
+        "pageEnd": 49,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter9": {
+        "id": "b3_c9",
+        "title": "Chapter 9",
+        "pageStart": 50,
+        "pageEnd": 55,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter10": {
+        "id": "b3_c10",
+        "title": "Chapter 10",
+        "pageStart": 56,
+        "pageEnd": 62,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter11": {
+        "id": "b3_c11",
+        "title": "Chapter 11",
+        "pageStart": 63,
+        "pageEnd": 69,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter12": {
+        "id": "b3_c12",
+        "title": "Chapter 12",
+        "pageStart": 70,
+        "pageEnd": 75,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter13": {
+        "id": "b3_c13",
+        "title": "Chapter 13",
+        "pageStart": 76,
+        "pageEnd": 83,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter14": {
+        "id": "b3_c14",
+        "title": "Chapter 14",
+        "pageStart": 84,
+        "pageEnd": 89,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      },
+      "chapter15": {
+        "id": "b3_c15",
+        "title": "Chapter 15",
+        "pageStart": 90,
+        "pageEnd": 96,
+        "discussionQuestion": "What is the main lesson from this chapter?",
+        "sections": [{
+          "heading": "My Daily Actions:",
+          "questions": ["I applied the core learning today ?", "I helped a friend understand this ?", "I practiced the sunnah associated with this ?"]
+        }, {
+          "heading": "Ethics in Class:",
+          "questions": ["I listened when the teacher spoke about this ?", "I asked questions to clarify my doubts ?", "I didn't distract others during the lesson ?"]
+        }, {
+          "heading": "With My Family:",
+          "questions": ["I shared this story with my parents ?", "I promised to improve my character ?", "I thanked Allah for the guidance ?"]
+        }]
+      }
+    }
+  }
+};
+let currentTeacher = null;
+let teacherSchoolId = null;
+let currentTeacherSection = 'overview';
+const teacherSectionTargets = {
+  overview: 'teacherPanelOverview',
+  students: 'teacherPanelStudents',
+  reviews: 'teacherPanelReviews',
+  attendance: 'teacherPanelAttendance',
+  rankings: 'teacherPanelRankings',
+  books: 'teacherPanelBooks'
+};
+
+/* === Book Reader (StPageFlip — real page curl, same as activity.html) === */
+var _trPageFlip = null; // active PageFlip instance
+
+window.openBookReader = (function() {
+  var _bookData = {
+    book1: { pdfUrl: '/book1.pdf', title: 'Imaan & Akhlaaq - Book 1' },
+    book2: { pdfUrl: '/book2.pdf', title: 'Imaan & Akhlaaq - Book 2' },
+    book3: { pdfUrl: '/book3.pdf', title: 'Imaan & Akhlaaq - Book 3' },
+    book4: { pdfUrl: '/book4.pdf', title: 'Imaan & Akhlaaq - Book 4' },
+    book5: { pdfUrl: '/book5.pdf', title: 'Imaan & Akhlaaq - Book 5' },
+    book6: { pdfUrl: '/book6.pdf', title: 'Imaan & Akhlaaq - Book 6' },
+    book7: { pdfUrl: '/book7.pdf', title: 'Imaan & Akhlaaq - Book 7' }
+  };
+
+  async function createPdfCanvas(pdf, pageNum, w, h) {
+    var page = await pdf.getPage(pageNum);
+    var pixelRatio = window.devicePixelRatio || 1;
+    var vp = page.getViewport({ scale: 1 });
+    var scale = Math.min(w / vp.width, h / vp.height) * pixelRatio;
+    var scaledVp = page.getViewport({ scale });
+    var canvas = document.createElement('canvas');
+    canvas.width = scaledVp.width;
+    canvas.height = scaledVp.height;
+    canvas.style.width  = scaledVp.width  / pixelRatio + 'px';
+    canvas.style.height = scaledVp.height / pixelRatio + 'px';
+    await page.render({ canvasContext: canvas.getContext('2d'), viewport: scaledVp }).promise;
+    return canvas;
+  }
+
+  return async function openBookReader(bookKey, bookTitle) {
+    var overlay    = document.getElementById('bookReaderOverlay');
+    var titleEl    = document.getElementById('bookReaderTitle');
+    var container  = document.getElementById('trFlipbookContainer');
+    var nav        = document.getElementById('trFlipbookNav');
+    var prevBtn    = document.getElementById('trPrevBtn');
+    var nextBtn    = document.getElementById('trNextBtn');
+    var indicator  = document.getElementById('trPageIndicator');
+    var progressEl = document.getElementById('trProgress');
+    var progressFill = document.getElementById('trProgressFill');
+    if (!overlay || !container) return;
+
+    // Destroy old PageFlip
+    if (_trPageFlip) { try { _trPageFlip.destroy(); } catch(e){} _trPageFlip = null; }
+
+    titleEl.textContent = bookTitle || 'Book';
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    overlay.focus();
+    nav.style.display = 'none';
+    if (progressEl) progressEl.style.display = 'none';
+
+    // Loading state
+    container.style.visibility = 'hidden';
+    container.style.position   = 'absolute';
+    container.innerHTML = '';
+    var loadingDiv = document.createElement('div');
+    loadingDiv.style.cssText = 'text-align:center;padding:60px 20px;font-weight:bold;color:#cf296d;';
+    loadingDiv.innerHTML = '<i class="fas fa-spinner fa-spin fa-2x"></i><br><br>Loading book...';
+    container.parentElement.insertBefore(loadingDiv, container);
+
+    // Ensure pdfjs
+    if (typeof window.pdfjsLib === 'undefined') {
+      var s = document.createElement('script');
+      s.src = '/kidba_assets/js/pdf.min.js';
+      document.head.appendChild(s);
+      await new Promise(function(res) { s.onload = res; s.onerror = res; });
+    }
+    if (typeof window.pdfjsLib !== 'undefined') {
+      try {
+        var probe = await fetch('/kidba_assets/js/pdf.worker.min.js', { method: 'HEAD' });
+        window.pdfjsLib.GlobalWorkerOptions.workerSrc = probe.ok
+          ? '/kidba_assets/js/pdf.worker.min.js'
+          : 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+      } catch(_) {
+        window.pdfjsLib.GlobalWorkerOptions.workerSrc =
+          'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+      }
+    }
+
+    // Ensure StPageFlip
+    if (typeof window.St === 'undefined') {
+      var sf = document.createElement('script');
+      sf.src = '/kidba_assets/vendor/js/page-flip.browser.js';
+      document.head.appendChild(sf);
+      await new Promise(function(res) { sf.onload = res; sf.onerror = res; });
+    }
+    if (typeof window.St === 'undefined') {
+      var sf2 = document.createElement('script');
+      sf2.src = 'https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.min.js';
+      document.head.appendChild(sf2);
+      await new Promise(function(res) { sf2.onload = res; sf2.onerror = res; });
+    }
+
+    if (typeof window.St === 'undefined' || typeof window.pdfjsLib === 'undefined') {
+      if (loadingDiv.parentNode) loadingDiv.parentNode.removeChild(loadingDiv);
+      container.style.visibility = 'visible';
+      container.style.position   = 'relative';
+      container.innerHTML = '<div class="tr-pdf-loading"><strong>Reader could not load.</strong><br>Please check your connection.</div>';
+      return;
+    }
+
+    // Determine PDF URL
+    var bd = (_bookData[bookKey] || {});
+    var pdfUrls = [ bd.pdfUrl || ('/' + bookKey + '.pdf'), 'https://imaanakhlaq.org/' + bookKey + '.pdf' ];
+    var pdf = null;
+    for (var ui = 0; ui < pdfUrls.length; ui++) {
+      try {
+        var pUrl = pdfUrls[ui];
+        try { var pr = await fetch(pUrl, { method: 'HEAD' }); if (!pr.ok) continue; } catch(_) {}
+        pdf = await window.pdfjsLib.getDocument(pUrl).promise;
+        break;
+      } catch(e) { continue; }
+    }
+    if (!pdf) {
+      if (loadingDiv.parentNode) loadingDiv.parentNode.removeChild(loadingDiv);
+      container.style.visibility = 'visible';
+      container.style.position   = 'relative';
+      container.innerHTML = '<div class="tr-pdf-loading"><strong>PDF could not be loaded.</strong></div>';
+      return;
+    }
+
+    var totalPages = pdf.numPages;
+
+    // Measure page size from first PDF page
+    var firstPage = await pdf.getPage(1);
+    var fvp = firstPage.getViewport({ scale: 1 });
+    var stageEl = container.closest('.tr-flipbook-stage') || container.parentElement;
+    var maxW = Math.min(stageEl.clientWidth * 0.48, 480);
+    var maxH = Math.round(maxW * fvp.height / fvp.width);
+    var pageWidth  = Math.max(maxW, 220);
+    var pageHeight = Math.max(maxH, 300);
+
+    // Build DOM for StPageFlip
+    container.innerHTML = '';
+    container.style.visibility = 'visible';
+    container.style.position   = 'relative';
+
+    var bookEl = document.createElement('div');
+    bookEl.className = 'tr-flipbook-book';
+    container.appendChild(bookEl);
+
+    function makeHostEl(extraClass, density) {
+      var el = document.createElement('div');
+      el.className = 'tr-pdf-page-host ' + (extraClass || '');
+      if (density) el.dataset.density = density;
+      return el;
+    }
+
+    // Cover
+    var coverEl = makeHostEl('', 'hard');
+    coverEl.innerHTML =
+      '<div class="tr-pdf-cover">' +
+        '<div class="tr-cover-icon"><i class="fas fa-book-open"></i></div>' +
+        '<div class="tr-cover-kicker">Imaan &amp; Akhlaaq</div>' +
+        '<h2>' + (bookTitle || 'Book') + '</h2>' +
+        '<p>Drag a corner or swipe to flip</p>' +
+      '</div>';
+    bookEl.appendChild(coverEl);
+
+    // Content pages (placeholders)
+    var contentEls = [];
+    for (var i = 0; i < totalPages; i++) {
+      var el = makeHostEl('');
+      el.innerHTML =
+        '<div class="tr-pdf-page">' +
+          '<div class="tr-pdf-loading"><strong>Page ' + (i + 1) + '…</strong></div>' +
+          '<span class="tr-page-num">' + (i + 1) + ' / ' + totalPages + '</span>' +
+        '</div>';
+      contentEls.push(el);
+      bookEl.appendChild(el);
+    }
+
+    // End page
+    var endEl = makeHostEl('', 'hard');
+    endEl.innerHTML =
+      '<div class="tr-pdf-end">' +
+        '<div class="tr-cover-kicker">Reading Complete</div>' +
+        '<h2>Mashallah!</h2>' +
+        '<p>You finished the book.</p>' +
+      '</div>';
+    bookEl.appendChild(endEl);
+
+    // Init StPageFlip
+    var pageFlip = new window.St.PageFlip(bookEl, {
+      width: pageWidth, height: pageHeight,
+      size: 'stretch',
+      minWidth: 180, maxWidth: pageWidth,
+      minHeight: 240, maxHeight: pageHeight,
+      maxShadowOpacity: 0.6,
+      showCover: true,
+      usePortrait: true,
+      mobileScrollSupport: false,
+      flippingTime: 750,
+      drawShadow: true,
+      autoSize: true,
+      clickEventForward: true,
+      useMouseEvents: true,
+      showPageCorners: true,
+      swipeDistance: 24
+    });
+    pageFlip.loadFromHTML(bookEl.querySelectorAll('.tr-pdf-page-host'));
+    _trPageFlip = pageFlip;
+
+    // Remove loading spinner
+    if (loadingDiv.parentNode) loadingDiv.parentNode.removeChild(loadingDiv);
+    nav.style.display = 'flex';
+    if (progressEl) progressEl.style.display = 'block';
+
+    function updateNav() {
+      var idx   = pageFlip.getCurrentPageIndex();
+      var total = pageFlip.getPageCount();
+      if (idx === 0) { indicator.textContent = 'Cover'; }
+      else if (idx >= total - 1) { indicator.textContent = 'End'; }
+      else { indicator.textContent = 'Page ' + idx + ' / ' + (total - 2); }
+      prevBtn.disabled = idx <= 0;
+      nextBtn.disabled = idx >= total - 1;
+      if (progressFill) {
+        var pct = total > 1 ? Math.round((idx / (total - 1)) * 100) : 0;
+        progressFill.style.width = pct + '%';
+      }
+    }
+    pageFlip.on('flip', updateNav);
+    pageFlip.on('changeOrientation', updateNav);
+    updateNav();
+    prevBtn.onclick = function() { pageFlip.flipPrev(); };
+    nextBtn.onclick = function() { pageFlip.flipNext(); };
+
+    // Progressive PDF render
+    (async function renderAll() {
+      for (var pi = 0; pi < totalPages; pi++) {
+        try {
+          var canvas = await createPdfCanvas(pdf, pi + 1, pageWidth, pageHeight);
+          var host = contentEls[pi];
+          if (!host) continue;
+          host.innerHTML = '';
+          var wrap = document.createElement('div');
+          wrap.className = 'tr-pdf-page';
+          wrap.appendChild(canvas);
+          var num = document.createElement('span');
+          num.className = 'tr-page-num';
+          num.textContent = (pi + 1) + ' / ' + totalPages;
+          wrap.appendChild(num);
+          host.appendChild(wrap);
+        } catch(e) { /* skip failed page */ }
+      }
+    })();
+  };
+})();
+
+window.closeBookReader = function() {
+  var overlay = document.getElementById('bookReaderOverlay');
+  if (overlay) overlay.classList.remove('active');
+  document.body.style.overflow = '';
+  if (_trPageFlip) { try { _trPageFlip.destroy(); } catch(e){} _trPageFlip = null; }
+  var container = document.getElementById('trFlipbookContainer');
+  if (container) container.innerHTML = '';
+};
+
+document.addEventListener('keydown', function(e) {
+  var overlay = document.getElementById('bookReaderOverlay');
+  if (!overlay || !overlay.classList.contains('active')) return;
+  if (e.key === 'Escape') window.closeBookReader();
+  if (e.key === 'ArrowLeft' && _trPageFlip)  _trPageFlip.flipPrev();
+  if (e.key === 'ArrowRight' && _trPageFlip) _trPageFlip.flipNext();
+});
+window.switchTeacherSection = (section, options = {}) => {
+  const nextSection = teacherSectionTargets[section] ? section : 'overview';
+  const shouldScroll = options && typeof options === 'object' ? options.scroll !== false : true;
+  currentTeacherSection = nextSection;
+  document.querySelectorAll('.sidebar-nav li[data-section]').forEach(item => {
+    item.classList.toggle('active', item.dataset.section === nextSection);
+  });
+  document.querySelectorAll('.teacher-panel').forEach(panel => {
+    panel.classList.toggle('active', panel.id === teacherSectionTargets[nextSection]);
+  });
+  document.querySelectorAll('.summary-card.summary-link').forEach(card => {
+    card.classList.toggle('is-active', card.dataset.section === nextSection);
+  });
+  if (shouldScroll) {
+    const activePanel = document.getElementById(teacherSectionTargets[nextSection]);
+    if (activePanel) {
+      window.requestAnimationFrame(function () {
+        activePanel.scrollIntoView({
+          block: 'start',
+          behavior: 'smooth'
+        });
+      });
+    }
+  }
+};
+function escapeHtml(value) {
+  return String(value || '').replace(/[&<>"']/g, char => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;'
+  })[char]);
+}
+function normalizeGameState(state) {
+  const nextState = state && typeof state === 'object' ? _objectSpread({}, state) : {};
+  if (!Array.isArray(nextState.completed)) nextState.completed = [];
+  if (!Array.isArray(nextState.parent_approved)) nextState.parent_approved = [];
+  if (!Array.isArray(nextState.teacher_approved)) nextState.teacher_approved = [];
+  if (typeof nextState.points !== 'number') {
+    nextState.points = typeof nextState.totalPoints === 'number' ? nextState.totalPoints : 50;
+  }
+  if (typeof nextState.unlockedCount !== 'number' || nextState.unlockedCount < 1) {
+    nextState.unlockedCount = 1;
+  }
+  return nextState;
+}
+function hasMeaningfulParentNote(notes) {
+  return Array.isArray(notes) && notes.some(note => String(note || '').trim().length > 1);
+}
+function getReviewTimestamp(reviewLike) {
+  const value = reviewLike && (reviewLike.parentApprovedAt || reviewLike.submittedAt || reviewLike.updatedAt || reviewLike.activityCompletedAt || reviewLike.activityStartedAt);
+  const timestamp = new Date(value || 0).getTime();
+  return Number.isNaN(timestamp) ? 0 : timestamp;
+}
+function buildPendingReviewQueue(studentMap, submissionDocs) {
+  const submissionByKey = {};
+  const pendingByKey = {};
+  submissionDocs.forEach(submission => {
+    if (!submission || !submission.student_uid || !submission.chapter_id || !studentMap[submission.student_uid]) return;
+    const key = submission.student_uid + '::' + submission.chapter_id;
+    const existingSubmission = submissionByKey[key];
+    if (!existingSubmission || getReviewTimestamp(submission) >= getReviewTimestamp(existingSubmission)) {
+      submissionByKey[key] = submission;
+    }
+  });
+  Object.keys(submissionByKey).forEach(key => {
+    const submission = submissionByKey[key];
+    const student = studentMap[submission.student_uid];
+    const state = normalizeGameState(student.game_state);
+    const isTeacherApproved = state.teacher_approved.includes(submission.chapter_id) || submission.reviewStatus === 'teacher_approved' || !!submission.teacherApprovedAt;
+    const isReadyForTeacher = state.parent_approved.includes(submission.chapter_id) || submission.reviewStatus === 'pending_teacher' || !!submission.parentApprovedAt || hasMeaningfulParentNote(submission.parentNotes);
+    const hasStudentSubmission = !!(submission.submittedAt || submission.activityCompletedAt || submission.discussionText || submission.gridState);
+    if (!hasStudentSubmission || isTeacherApproved) return;
+    pendingByKey[key] = {
+      subId: submission.id,
+      studentUid: submission.student_uid,
+      studentName: student.name,
+      chapId: submission.chapter_id,
+      answer: submission.discussionText || 'No written answer provided.',
+      grid: submission.gridState || null,
+      parents: submission.parentNotes || [],
+      isSubmissionMissing: false,
+      canTeacherApprove: isReadyForTeacher,
+      statusLabel: isReadyForTeacher ? 'Teacher Review Pending' : 'Waiting for Parent',
+      statusClass: isReadyForTeacher ? 'bg-warning text-dark' : 'bg-info text-dark',
+      blockedReason: isReadyForTeacher ? '' : 'This activity is visible for teacher tracking, but approval stays locked until the parent completes their review.',
+      updatedAt: getReviewTimestamp(submission)
+    };
+  });
+  Object.values(studentMap).forEach(student => {
+    const state = normalizeGameState(student.game_state);
+    state.parent_approved.forEach(chapterId => {
+      const key = student.uid + '::' + chapterId;
+      if (state.teacher_approved.includes(chapterId) || pendingByKey[key]) return;
+      const submission = submissionByKey[key] || null;
+      pendingByKey[key] = {
+        subId: submission ? submission.id : student.uid + '_' + chapterId,
+        studentUid: student.uid,
+        studentName: student.name,
+        chapId: chapterId,
+        answer: submission && submission.discussionText ? submission.discussionText : 'Submission details are missing for this chapter. Ask the student to reopen the activity if this review looks empty.',
+        grid: submission ? submission.gridState || null : null,
+        parents: submission ? submission.parentNotes || [] : [],
+        isSubmissionMissing: !submission,
+        canTeacherApprove: !!submission,
+        statusLabel: submission ? 'Teacher Review Pending' : 'Submission Missing',
+        statusClass: submission ? 'bg-warning text-dark' : 'bg-danger',
+        blockedReason: submission ? '' : 'The student state shows parent approval, but the saved activity sheet is missing. Ask the student to reopen and resubmit this chapter.',
+        updatedAt: submission ? getReviewTimestamp(submission) : 0
+      };
+    });
+  });
+  return Object.values(pendingByKey).sort((left, right) => right.updatedAt - left.updatedAt);
+}
+function formatClockTime(isoString) {
+  if (!isoString) return 'No time recorded';
+  const date = new Date(isoString);
+  if (Number.isNaN(date.getTime())) return 'No time recorded';
+  return date.toLocaleTimeString([], {
+    hour: 'numeric',
+    minute: '2-digit'
+  });
+}
+function formatAttendanceDate(dateKey) {
+  if (!dateKey) return 'Today';
+  const date = new Date(dateKey + 'T00:00:00');
+  if (Number.isNaN(date.getTime())) return 'Today';
+  return date.toLocaleDateString([], {
+    month: 'short',
+    day: 'numeric'
+  });
+}
+function formatDuration(seconds) {
+  if (typeof seconds !== 'number' || Number.isNaN(seconds) || seconds <= 0) return 'In progress';
+  if (seconds < 60) return seconds + ' sec';
+  const minutes = Math.round(seconds / 60);
+  if (minutes < 60) return minutes + ' min';
+  const hours = Math.floor(minutes / 60);
+  const remainingMinutes = minutes % 60;
+  return remainingMinutes ? hours + 'h ' + remainingMinutes + 'm' : hours + 'h';
+}
+function getClassLabel(classId) {
+  const value = String(classId || '').trim();
+  return value || 'No class assigned';
+}
+function getClassScopeMeta(leaderboardData) {
+  const uniqueClasses = [...new Set((leaderboardData || []).map(student => getClassLabel(student.classId)))];
+  if (!uniqueClasses.length) {
+    return {
+      chipText: 'No classes yet',
+      workspaceText: 'No students linked to this school yet.',
+      rosterText: 'Students will appear here with class / section labels after they join the school.',
+      rankingText: 'No ranking data yet'
+    };
+  }
+  if (uniqueClasses.length === 1) {
+    const classLabel = uniqueClasses[0];
+    return {
+      chipText: 'Class / Section: ' + classLabel,
+      workspaceText: 'Class / Section in view: ' + classLabel,
+      rosterText: 'Browse learners in ' + classLabel + ' with progress, review status and the latest activity update.',
+      rankingText: 'Single class ranking'
+    };
+  }
+  const classPreview = uniqueClasses.slice(0, 3).join(', ');
+  const extraClasses = uniqueClasses.length - 3;
+  const previewText = extraClasses > 0 ? classPreview + ' +' + extraClasses + ' more' : classPreview;
+  return {
+    chipText: uniqueClasses.length + ' classes visible',
+    workspaceText: 'School-wide teacher view | ' + uniqueClasses.length + ' classes visible',
+    rosterText: 'Browse learners across ' + uniqueClasses.length + ' classes. Current classes: ' + previewText + '.',
+    rankingText: 'School-wide ranking'
+  };
+}
+function getAttendanceStatusMeta(session) {
+  if (session.activityCompletedAt || session.status === 'completed') {
+    return {
+      className: 'completed',
+      label: 'Completed',
+      icon: 'fa-check-double'
+    };
+  }
+  if (session.status === 'revisit') {
+    return {
+      className: 'revisit',
+      label: 'Opened Again',
+      icon: 'fa-rotate-right'
+    };
+  }
+  return {
+    className: 'started',
+    label: 'Started',
+    icon: 'fa-right-to-bracket'
+  };
+}
+function renderAttendancePanel(attendanceDocs, studentMap) {
+  const attendanceListEl = document.getElementById('attendanceList');
+  const attendanceCountEl = document.getElementById('teacherAttendanceCount');
+  const attendanceDateBadgeEl = document.getElementById('attendanceDateBadge');
+  const todayKey = new Date().toISOString().slice(0, 10);
+  if (attendanceDateBadgeEl) {
+    attendanceDateBadgeEl.innerHTML = '<i class="fas fa-calendar-day"></i> ' + formatAttendanceDate(todayKey);
+  }
+  const todaysAttendance = attendanceDocs.filter(session => {
+    const sessionKey = session.sessionDate || String(session.activityStartedAt || '').slice(0, 10);
+    return sessionKey === todayKey && studentMap[session.student_uid];
+  }).sort((a, b) => new Date(b.activityStartedAt || b.lastUpdatedAt || 0) - new Date(a.activityStartedAt || a.lastUpdatedAt || 0));
+  const uniqueStudents = new Set(todaysAttendance.map(session => session.student_uid));
+  if (attendanceCountEl) {
+    attendanceCountEl.textContent = String(uniqueStudents.size);
+  }
+  if (!attendanceListEl) return;
+  if (!todaysAttendance.length) {
+    attendanceListEl.innerHTML = '<div class="attendance-empty"><i class="fas fa-user-clock" style="font-size:1.35rem; color:#243d6b; margin-bottom:0.5rem;"></i><br>No student activity attendance has been logged yet today.</div>';
+    return;
+  }
+  let attendanceHtml = '';
+  todaysAttendance.forEach(session => {
+    const statusMeta = getAttendanceStatusMeta(session);
+    const studentName = session.student_name || studentMap[session.student_uid] && studentMap[session.student_uid].name || 'Student';
+    const chapterTitle = session.chapter_title || getChapterTitle(session.chapter_id);
+    const startedLabel = formatClockTime(session.activityStartedAt || session.lastUpdatedAt || session.activityCompletedAt);
+    const durationLabel = formatDuration(session.activityDurationSeconds);
+    attendanceHtml += '<div class="attendance-item">' + '<div class="attendance-stamp"><i class="fas fa-clock"></i></div>' + '<div class="attendance-copy">' + '<strong>' + escapeHtml(studentName) + '</strong>' + '<span>' + escapeHtml(chapterTitle) + '</span>' + '<div class="attendance-meta">' + '<span class="attendance-pill ' + statusMeta.className + '"><i class="fas ' + statusMeta.icon + '"></i> ' + escapeHtml(statusMeta.label) + '</span>' + '<span class="attendance-pill time"><i class="fas fa-right-to-bracket"></i> ' + escapeHtml(startedLabel) + '</span>' + '<span class="attendance-pill duration"><i class="fas fa-stopwatch"></i> ' + escapeHtml(durationLabel) + '</span>' + '</div>' + '</div>' + '</div>';
+  });
+  attendanceListEl.innerHTML = attendanceHtml;
+}
+function renderOverviewSnapshot(leaderboardData, pendingReviews, attendanceDocs) {
+  const studentSummaryEl = document.getElementById('overviewStudentSummary');
+  const reviewSummaryEl = document.getElementById('overviewReviewSummary');
+  const attendanceSummaryEl = document.getElementById('overviewAttendanceSummary');
+  const focusNoteEl = document.getElementById('overviewFocusNote');
+  const todayKey = new Date().toISOString().slice(0, 10);
+  const todaysSessions = attendanceDocs.filter(session => {
+    const sessionKey = session.sessionDate || String(session.activityStartedAt || '').slice(0, 10);
+    return sessionKey === todayKey;
+  });
+  const activeTodayCount = new Set(todaysSessions.map(session => session.student_uid)).size;
+  const completedTodayCount = todaysSessions.filter(session => session.activityCompletedAt || session.status === 'completed').length;
+  if (studentSummaryEl) {
+    studentSummaryEl.textContent = leaderboardData.length ? leaderboardData.length + ' students are visible in your teacher scope.' : 'No students are linked to this teacher scope yet.';
+  }
+  if (reviewSummaryEl) {
+    reviewSummaryEl.textContent = pendingReviews.length ? pendingReviews.length + ' student sheet' + (pendingReviews.length === 1 ? ' is' : 's are') + ' waiting for review.' : 'All student sheets are currently reviewed.';
+  }
+  if (attendanceSummaryEl) {
+    attendanceSummaryEl.textContent = activeTodayCount ? activeTodayCount + ' learner' + (activeTodayCount === 1 ? ' has' : 's have') + ' opened activities today.' : 'No activity attendance has been logged today yet.';
+  }
+  if (focusNoteEl) {
+    if (pendingReviews.length) {
+      focusNoteEl.textContent = 'Priority: ' + pendingReviews[0].studentName + ' is waiting for review in ' + getChapterTitle(pendingReviews[0].chapId) + '.';
+    } else if (completedTodayCount) {
+      focusNoteEl.textContent = completedTodayCount + ' activity session' + (completedTodayCount === 1 ? ' has' : 's have') + ' already been completed today.';
+    } else if (leaderboardData.length) {
+      focusNoteEl.textContent = 'No urgent review is pending. Open the Students page to monitor class readiness in detail.';
+    } else {
+      focusNoteEl.textContent = 'No learners are visible yet. Ask the school admin to connect students to this school scope.';
+    }
+  }
+}
+function renderStudentRoster(leaderboardData, pendingReviews, attendanceDocs) {
+  const rosterEl = document.getElementById('teacherStudentRoster');
+  if (!rosterEl) return;
+  if (!leaderboardData.length) {
+    rosterEl.innerHTML = '<div class="attendance-empty"><i class="fas fa-user-graduate" style="font-size:1.35rem; color:#243d6b; margin-bottom:0.5rem;"></i><br>No students are available in your current teacher scope.</div>';
+    return;
+  }
+  const pendingByStudent = {};
+  pendingReviews.forEach(review => {
+    pendingByStudent[review.studentUid] = (pendingByStudent[review.studentUid] || 0) + 1;
+  });
+  const todayKey = new Date().toISOString().slice(0, 10);
+  const latestAttendanceByStudent = {};
+  attendanceDocs.forEach(session => {
+    const sessionKey = session.sessionDate || String(session.activityStartedAt || '').slice(0, 10);
+    if (sessionKey !== todayKey) return;
+    const existing = latestAttendanceByStudent[session.student_uid];
+    const sessionTime = new Date(session.activityStartedAt || session.lastUpdatedAt || session.activityCompletedAt || 0).getTime();
+    const existingTime = existing ? new Date(existing.activityStartedAt || existing.lastUpdatedAt || existing.activityCompletedAt || 0).getTime() : -1;
+    if (!existing || sessionTime > existingTime) {
+      latestAttendanceByStudent[session.student_uid] = session;
+    }
+  });
+  let rosterHtml = '';
+  let currentClassGroup = '';
+  [...leaderboardData].sort((left, right) => {
+    const leftClass = getClassLabel(left.classId);
+    const rightClass = getClassLabel(right.classId);
+    return leftClass.localeCompare(rightClass, undefined, {
+      sensitivity: 'base'
+    }) || left.name.localeCompare(right.name, undefined, {
+      sensitivity: 'base'
+    });
+  }).forEach(student => {
+    const latestSession = latestAttendanceByStudent[student.uid];
+    const latestMeta = latestSession ? getAttendanceStatusMeta(latestSession) : null;
+    const latestTitle = latestSession ? latestSession.chapter_title || getChapterTitle(latestSession.chapter_id) : 'No activity opened today';
+    const latestTime = latestSession ? formatClockTime(latestSession.activityStartedAt || latestSession.lastUpdatedAt || latestSession.activityCompletedAt) : 'Awaiting activity';
+    const reviewCount = pendingByStudent[student.uid] || 0;
+    const completedCount = student.completedCount || 0;
+    const studentName = escapeHtml(student.name);
+    const classLabel = escapeHtml(getClassLabel(student.classId));
+    const photoMarkup = student.photoURL ? '<img class="student-roster-photo" src="' + escapeHtml(student.photoURL) + '" alt="' + studentName + '">' : '<div class="student-avatar"><i class="fas fa-user-graduate"></i></div>';
+    const reviewMarkup = reviewCount ? '<span class="attendance-pill revisit"><i class="fas fa-clipboard-check"></i> ' + reviewCount + ' pending review' + (reviewCount > 1 ? 's' : '') + '</span>' : '<span class="attendance-pill completed"><i class="fas fa-circle-check"></i> Reviews clear</span>';
+    const attendanceMarkup = latestMeta ? '<span class="attendance-pill ' + latestMeta.className + '"><i class="fas ' + latestMeta.icon + '"></i> ' + escapeHtml(latestMeta.label) + '</span>' : '<span class="attendance-pill time"><i class="fas fa-clock"></i> No activity yet</span>';
+    const currentStudentClass = getClassLabel(student.classId);
+    if (currentStudentClass !== currentClassGroup) {
+      if (currentClassGroup) {
+        rosterHtml += '</div>';
+      }
+      currentClassGroup = currentStudentClass;
+      rosterHtml += '<div class="student-roster-group">' + '<div class="student-roster-group-title"><i class="fas fa-layer-group"></i> Class / Section: ' + escapeHtml(currentStudentClass) + '</div>';
+    }
+    const rosterActionMarkup = reviewCount ? '<div class="student-roster-actions"><button class="quick-link-action" type="button" onclick="switchTeacherSection(&quot;reviews&quot;)">Open Review Queue</button></div>' : latestSession ? '<div class="student-roster-actions"><button class="quick-link-action secondary" type="button" onclick="switchTeacherSection(&quot;attendance&quot;)">Open Activity Log</button></div>' : '';
+    rosterHtml += '<div class="student-roster-item">' + '<div class="student-roster-copy">' + photoMarkup + '<div>' + '<strong>' + studentName + '</strong>' + '<span class="student-roster-classline">Class / Section: ' + classLabel + '</span>' + '<span>Points earned: ' + student.totalPoints + ' points | Chapters completed: ' + completedCount + '</span>' + '<div class="student-roster-meta">' + reviewMarkup + attendanceMarkup + '<span class="attendance-pill duration"><i class="fas fa-book-open"></i> ' + escapeHtml(latestTitle) + '</span>' + '<span class="attendance-pill time"><i class="fas fa-clock"></i> ' + escapeHtml(latestTime) + '</span>' + '</div>' + '</div>' + '</div>' + rosterActionMarkup + '</div>';
+  });
+  if (currentClassGroup) {
+    rosterHtml += '</div>';
+  }
+  rosterEl.innerHTML = rosterHtml;
+}
+let teacherAuthInitialized = false;
+let teacherOverlayShown = false;
+function showTeacherLoginOverlay(message) {
+  if (teacherOverlayShown) return;
+  teacherOverlayShown = true;
+  document.body.insertAdjacentHTML('beforeend', `
+      <div id="demoOverlay" style="position:fixed; inset:0; background:rgba(30, 45, 90, 0.85); backdrop-filter:blur(8px); display:flex; justify-content:center; align-items:center; z-index:99999;">
+        <div style="background:white; padding:40px; border-radius:24px; text-align:center; max-width:400px; box-shadow: 0 20px 40px rgba(0,0,0,0.3);">
+           <i class="fas fa-lock" style="font-size:3rem; color:#1E2D5A; margin-bottom:20px;"></i>
+           <h3 style="font-family:'Fredoka One', cursive; color:#1E2D5A;">Teacher Login Required</h3>
+           <p style="color:#64748b; margin-bottom:25px;">${message}</p>
+           <button onclick="window.location.href='/auth'" style="width:100%; padding:12px; background:#1E2D5A; color:white; border:none; border-radius:12px; font-weight:bold; cursor:pointer; margin-bottom:12px;">Go to Login</button>
+        </div>
+      </div>
+    `);
+}
+function hideTeacherLoginOverlay() {
+  const existing = document.getElementById('demoOverlay');
+  if (existing) existing.remove();
+  teacherOverlayShown = false;
+}
+onAuthStateChanged(auth, /*#__PURE__*/function () {
+  var _ref2 = _asyncToGenerator(function* (user) {
+    if (user) {
+      // User signed in - hide any stale overlay and load dashboard
+      hideTeacherLoginOverlay();
+      try {
+        const userDoc = yield getDoc(doc(db, "users", user.uid));
+        if (userDoc.exists() && userDoc.data().role === 'teacher') {
+          teacherAuthInitialized = true;
+          currentTeacher = _objectSpread({
+            uid: user.uid
+          }, userDoc.data());
+          teacherSchoolId = currentTeacher.school_id;
+          if (teacherSchoolId && !currentTeacher.school_name) {
+            try {
+              const schoolSnap = yield getDoc(doc(db, 'schools', teacherSchoolId));
+              if (schoolSnap.exists()) {
+                currentTeacher.school_name = schoolSnap.data().name || teacherSchoolId;
+                if (!currentTeacher.school_logo_url && schoolSnap.data().logo_url) {
+                  currentTeacher.school_logo_url = schoolSnap.data().logo_url;
+                }
+              }
+            } catch (e) {
+              console.warn('Failed to load school details:', e);
+            }
+          }
+          document.getElementById('teacherDashboardView').classList.remove('d-none');
+          initDashboard();
+        } else if (!userDoc.exists()) {
+          console.error('Teacher auth: No user document found for UID:', user.uid);
+          showTeacherLoginOverlay('No account record found in the system for your login. Please contact the school admin to re-invite you as a Teacher.');
+        } else {
+          const foundRole = userDoc.data().role || 'unknown';
+          console.error('Teacher auth: User role is "' + foundRole + '" but expected "teacher". UID:', user.uid);
+          showTeacherLoginOverlay('Your account role is "' + foundRole + '". This page requires the "teacher" role. If you are a teacher, ask the school admin to fix your account role.');
+        }
+      } catch (e) {
+        console.error('Auth check error:', e);
+        // Don't kick out an authenticated user just because Firestore read failed transiently
+        if (!teacherAuthInitialized) {
+          showTeacherLoginOverlay('Could not verify your role. Please retry.');
+        }
+      }
+    } else {
+      // user is null - only show overlay if we never authenticated.
+      // This prevents a transient null event from kicking out a logged-in teacher.
+      if (!teacherAuthInitialized) {
+        // Wait briefly to see if Firebase is still restoring the session
+        setTimeout(() => {
+          if (!auth.currentUser && !teacherAuthInitialized) {
+            showTeacherLoginOverlay('You must be logged in as a Teacher to track your class.');
+          }
+        }, 1500);
+      } else {
+        // Was logged in, now signed out - genuine logout
+        showTeacherLoginOverlay('Your session ended. Please log in again.');
+      }
+    }
+  });
+  return function (_x4) {
+    return _ref2.apply(this, arguments);
+  };
+}());
+function initDashboard() {
+  return _initDashboard.apply(this, arguments);
+}
+function _initDashboard() {
+  _initDashboard = _asyncToGenerator(function* () {
+    const schoolNameText = currentTeacher.school_name || 'Your School';
+    document.getElementById('welcomeName').textContent = schoolNameText;
+    const sidebarName = document.getElementById('sidebarProfileName');
+    if (sidebarName) sidebarName.textContent = currentTeacher.name || 'Teacher';
+    const sidebarPhoto = document.getElementById('sidebarProfilePhoto');
+    if (sidebarPhoto && currentTeacher.photoURL) sidebarPhoto.src = currentTeacher.photoURL;
+    const schoolLogo = document.getElementById('schoolLogoImg');
+    if (schoolLogo && currentTeacher.school_logo_url) schoolLogo.src = currentTeacher.school_logo_url;
+    document.getElementById('schoolNameTag').innerHTML = '<i class="fas fa-school"></i> School Access Granted';
+    document.getElementById('classInfo').textContent = 'Loading class scope...';
+
+    // 1. Fetch all students in the teacher's school
+    const usersRef = collection(db, "users");
+    let leaderboardData = [];
+    let studentMap = {};
+    let studentsSnap;
+    if (!teacherSchoolId) {
+      console.warn('[Teacher Dashboard] teacherSchoolId is missing. Skipping student fetch.');
+      const rosterEl = document.getElementById('teacherStudentRoster');
+      if (rosterEl) rosterEl.innerHTML = '<div style="padding: 2rem; background: #fee2e2; color: #991b1b; border-radius: 12px; text-align: center;"><i class="fas fa-exclamation-triangle" style="font-size: 2rem; margin-bottom: 1rem;"></i><br><strong>School Link Missing</strong><br>Your teacher account is not linked to any school. Please ask your School Admin to provide a Teacher Invitation Code, or you will not be able to see any students.</div>';
+    } else {
+      const qStudents = query(usersRef, where("school_id", "==", teacherSchoolId));
+      try {
+        studentsSnap = yield getDocs(qStudents);
+      } catch (e) {
+        console.error('[Teacher Dashboard] Failed to fetch students:', e);
+      }
+    }
+    if (studentsSnap) {
+      studentsSnap.forEach(docSnap => {
+        let stu = docSnap.data();
+        if (stu.role !== 'student') return;
+        stu.uid = docSnap.id;
+        stu.game_state = normalizeGameState(stu.game_state);
+        studentMap[stu.uid] = stu;
+        let points = stu.game_state.points;
+        leaderboardData.push({
+          uid: stu.uid,
+          name: stu.name,
+          totalPoints: points,
+          classId: stu.class_id || '',
+          photoURL: stu.photoURL || '',
+          completedCount: stu.game_state.completed.length,
+          game_state: stu.game_state
+        });
+      });
+    }
+    console.log('[Teacher Dashboard] Found', Object.keys(studentMap).length, 'students for school', teacherSchoolId);
+    Object.values(studentMap).forEach(function (s) {
+      var gs = s.game_state || {};
+      console.log('[Teacher Dashboard] Student:', s.name, '| completed:', (gs.completed || []).length, '| parent_approved:', (gs.parent_approved || []).length, '| teacher_approved:', (gs.teacher_approved || []).length);
+    });
+
+    // Sort and Render Leaderboard
+    leaderboardData.sort((a, b) => b.totalPoints - a.totalPoints);
+    const classScopeMeta = getClassScopeMeta(leaderboardData);
+    document.getElementById('teacherStudentCount').textContent = String(leaderboardData.length);
+    document.getElementById('teacherTopPoints').textContent = leaderboardData.length ? String(leaderboardData[0].totalPoints) : '0';
+
+    // Inject Auto-Sync Utility if 0 students
+    if (leaderboardData.length === 0) {
+      document.getElementById('classInfo').innerHTML = classScopeMeta.workspaceText + '<br><br><button id="forceSyncBtn" style="background:var(--student-purple); color:white; border:none; padding:8px 16px; border-radius:8px; cursor:pointer; font-weight:bold; font-family:Sora, sans-serif;"><i class="fas fa-link"></i> Force Sync Unlinked Students</button>';
+      setTimeout(() => {
+        const syncBtn = document.getElementById('forceSyncBtn');
+        if (syncBtn) {
+          syncBtn.addEventListener('click', /*#__PURE__*/_asyncToGenerator(function* () {
+            syncBtn.textContent = 'Syncing... Please wait';
+            syncBtn.disabled = true;
+            try {
+              const allUsersSnap = yield getDocs(collection(db, 'users'));
+              let fixed = 0;
+              for (const d of allUsersSnap.docs) {
+                const u = d.data();
+                if (u.role === 'student' && (!u.school_id || u.school_id !== teacherSchoolId)) {
+                  yield updateDoc(doc(db, 'users', d.id), {
+                    school_id: teacherSchoolId
+                  });
+                  fixed++;
+                }
+              }
+              alert(fixed + ' students have been forcefully linked to your school! Please refresh the page.');
+              window.location.reload();
+            } catch (err) {
+              console.error(err);
+              alert('Could not sync automatically. You may need to register the students using the correct Invitation Code. Error: ' + err.message);
+              syncBtn.textContent = 'Force Sync Unlinked Students';
+              syncBtn.disabled = false;
+            }
+          }));
+        }
+      }, 500);
+    } else {
+      document.getElementById('classInfo').textContent = classScopeMeta.workspaceText;
+    }
+    const rosterClassChip = document.getElementById('teacherRosterClassChip');
+    if (rosterClassChip) {
+      rosterClassChip.innerHTML = '<i class="fas fa-user-group"></i> ' + escapeHtml(classScopeMeta.chipText);
+    }
+    const rosterSummary = document.getElementById('teacherRosterSummary');
+    if (rosterSummary) {
+      rosterSummary.textContent = classScopeMeta.rosterText;
+    }
+    const rankingScopeChip = document.getElementById('teacherRankingScopeChip');
+    if (rankingScopeChip) {
+      rankingScopeChip.innerHTML = '<i class="fas fa-trophy"></i> ' + escapeHtml(classScopeMeta.rankingText);
+    }
+    let lbHtml = '';
+    leaderboardData.forEach((s, idx) => {
+      let rankClass = idx === 0 ? 'rank-1' : idx === 1 ? 'rank-2' : idx === 2 ? 'rank-3' : 'rank-other';
+      const studentName = escapeHtml(s.name);
+      const classLabel = escapeHtml(getClassLabel(s.classId));
+      lbHtml += '<div class="student-rank-item">' + '<div class="rank-badge ' + rankClass + '">' + (idx + 1) + '</div>' + '<div class="student-avatar"><i class="fas fa-user-graduate"></i></div>' + '<div class="student-rank-copy">' + '<div class="student-name">' + studentName + '</div>' + '<div class="student-rank-subtitle">Class / Section: ' + classLabel + '</div>' + '</div>' + '<div class="student-score">' + s.totalPoints + ' points</div>' + '</div>';
+    });
+    document.getElementById('leaderboardList').innerHTML = lbHtml;
+
+    // 2. Fetch specific submissions matching teacher's students
+    let pendingReviews = [];
+    let subDocs = [];
+    const seenSubmissionIds = new Set();
+    const pushUniqueSubmissions = snapshot => {
+      snapshot.forEach(docSnap => {
+        if (seenSubmissionIds.has(docSnap.id)) return;
+        seenSubmissionIds.add(docSnap.id);
+        subDocs.push(_objectSpread({
+          id: docSnap.id
+        }, docSnap.data()));
+      });
+    };
+
+    // Attempt primary school_id query
+    const qSub = query(collection(db, "activity_submissions"), where("school_id", "==", teacherSchoolId));
+    pushUniqueSubmissions(yield getDocs(qSub));
+    console.log('[Teacher Dashboard] Primary query returned', subDocs.length, 'submissions for school', teacherSchoolId);
+
+    // Fallback for older or partially migrated submissions that are missing school_id.
+    try {
+      const studentUids = Object.keys(studentMap);
+      for (let index = 0; index < studentUids.length; index += 10) {
+        const studentUidChunk = studentUids.slice(index, index + 10);
+        if (!studentUidChunk.length) continue;
+        const qSubFallback = query(collection(db, "activity_submissions"), where("student_uid", "in", studentUidChunk));
+        pushUniqueSubmissions(yield getDocs(qSubFallback));
+      }
+      console.log('[Teacher Dashboard] After fallback, total submissions:', subDocs.length);
+    } catch (fallbackErr) {
+      console.warn('[Teacher Dashboard] Fallback submission query skipped (permission):', fallbackErr.message);
+    }
+    pendingReviews = buildPendingReviewQueue(studentMap, subDocs);
+    console.log('[Teacher Dashboard] Pending reviews for teacher:', pendingReviews.length, pendingReviews.map(function (r) {
+      return r.studentName + ' / ' + r.chapId + ' / ready=' + r.canTeacherApprove;
+    }));
+
+    // Render Review Queue
+    document.getElementById('pendingCountBadge').textContent = pendingReviews.length;
+    document.getElementById('teacherPendingReviews').textContent = String(pendingReviews.length);
+    let revHtml = '';
+    if (pendingReviews.length === 0) {
+      revHtml = '<div class="text-center p-5"><i class="fas fa-glass-cheers text-success fa-3x mb-3"></i><h4>All Caught Up!</h4><p class="text-muted">You have reviewed all student answers.</p></div>';
+    } else {
+      pendingReviews.forEach(rev => {
+        let cTitle = getChapterTitle(rev.chapId);
+        let rawData = encodeURIComponent(JSON.stringify(rev));
+        let statusLabel = rev.statusLabel || (rev.isSubmissionMissing ? 'Submission Missing' : 'Teacher Review Pending');
+        let statusClass = rev.statusClass || (rev.isSubmissionMissing ? 'bg-danger' : 'bg-warning text-dark');
+        let answerPreview = rev.isSubmissionMissing ? 'The chapter is marked as waiting for teacher review, but the saved submission sheet is missing. Open the full sheet to see the recovery note.' : rev.answer;
+        let actionButton = rev.canTeacherApprove ? '<button class="btn-approve" onclick="awardTeacherPoints(\'' + rev.studentUid + '\', \'' + rev.chapId + '\', \'' + rev.subId + '\')"><i class="fas fa-check"></i> Quick Pass</button>' : '<button class="btn btn-secondary rounded-pill" type="button" disabled><i class="fas fa-lock"></i> ' + (rev.isSubmissionMissing ? 'Sheet Missing' : 'Waiting for Parent') + '</button>';
+        revHtml += '<div class="review-item">' + '<div class="d-flex align-items-center mb-2">' + '<div class="student-avatar" style="width:30px; height:30px; font-size:1rem; margin-right:10px;"><i class="fas fa-user-graduate"></i></div>' + '<strong style="font-size: 1.1rem; color: #1e293b;">' + rev.studentName + '</strong>' + '<span class="ms-auto" style="font-size: 0.85rem; color: #64748b; background: white; padding: 2px 8px; border-radius: 10px; border: 1px solid #cbd5e1;">' + cTitle + '</span>' + '</div>' + '<div style="font-size:0.9rem; font-weight:bold; color:#D63678;">Status: <span class="badge ' + statusClass + '">' + statusLabel + '</span></div>' + '<div class="student-discussion-text" style="max-height:80px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">"' + answerPreview + '"</div>' + '<div class="d-flex justify-content-end mt-3">' + '<button class="btn btn-primary rounded-pill me-2" onclick="openReviewModal(\'' + rawData + '\')"><i class="fas fa-search"></i> View Full Sheet</button>' + actionButton + '</div>' + '</div>';
+      });
+    }
+    document.getElementById('reviewsList').innerHTML = revHtml;
+
+    // 3. Fetch today's attendance sessions for this school
+    let attendanceDocs = [];
+    try {
+      const attendanceSnap = yield getDocs(query(collection(db, "activity_attendance"), where("school_id", "==", teacherSchoolId)));
+      attendanceSnap.forEach(docSnap => attendanceDocs.push(_objectSpread({
+        id: docSnap.id
+      }, docSnap.data())));
+    } catch (attendanceError) {
+      console.error('Attendance query error:', attendanceError);
+    }
+    renderAttendancePanel(attendanceDocs, studentMap);
+    renderStudentRoster(leaderboardData, pendingReviews, attendanceDocs);
+    renderOverviewSnapshot(leaderboardData, pendingReviews, attendanceDocs);
+    window.switchTeacherSection(currentTeacherSection, {
+      scroll: false
+    });
+  });
+  return _initDashboard.apply(this, arguments);
+}
+window.awardTeacherPoints = /*#__PURE__*/function () {
+  var _ref3 = _asyncToGenerator(function* (studentUid, chapterId, submissionId = '') {
+    try {
+      const reviewRef = doc(db, "activity_submissions", submissionId || studentUid + '_' + chapterId);
+      const reviewSnap = yield getDoc(reviewRef);
+      const studentRef = doc(db, "users", studentUid);
+      const studentDoc = yield getDoc(studentRef);
+      if (!studentDoc.exists()) {
+        alert("Student record not found.");
+        return;
+      }
+      let state = normalizeGameState(studentDoc.data().game_state);
+      const reviewData = reviewSnap.exists() ? reviewSnap.data() : null;
+      const isReadyForTeacher = state.parent_approved.includes(chapterId) || reviewData && (reviewData.reviewStatus === 'pending_teacher' || !!reviewData.parentApprovedAt || hasMeaningfulParentNote(reviewData.parentNotes));
+      if (!reviewSnap.exists()) {
+        alert("This submission sheet is missing. Ask the student to reopen and resubmit the chapter first.");
+        return;
+      }
+      if (!isReadyForTeacher) {
+        alert("This activity is still waiting for parent approval.");
+        return;
+      }
+      if (!state.teacher_approved.includes(chapterId)) {
+        state.teacher_approved.push(chapterId);
+        state.points += 50;
+        yield updateDoc(studentRef, {
+          game_state: state
+        });
+      }
+      yield updateDoc(reviewRef, {
+        reviewStatus: 'teacher_approved',
+        teacherApprovedAt: new Date().toISOString(),
+        teacherApprovedBy: currentTeacher ? currentTeacher.uid : '',
+        updatedAt: new Date().toISOString()
+      });
+      closeReviewModal();
+      initDashboard(); // Re-render
+      alert("Answer marked as Excellent. 50 points awarded to the student.");
+    } catch (err) {
+      console.error(err);
+      alert("Error saving approval.");
+    }
+  });
+  return function (_x5, _x6) {
+    return _ref3.apply(this, arguments);
+  };
+}();
+window.rejectTeacherPoints = /*#__PURE__*/function () {
+  var _ref4 = _asyncToGenerator(function* (studentUid, chapterId, submissionId = '') {
+    if (confirm("Are you sure you want to reject this answer? The student will have to fill it out again.")) {
+      try {
+        // Remove from student completed list so they can do it again
+        const studentRef = doc(db, "users", studentUid);
+        const studentDoc = yield getDoc(studentRef);
+        if (studentDoc.exists()) {
+          let state = normalizeGameState(studentDoc.data().game_state);
+          state.completed = state.completed.filter(id => id !== chapterId);
+          state.parent_approved = state.parent_approved.filter(id => id !== chapterId);
+          state.teacher_approved = state.teacher_approved.filter(id => id !== chapterId);
+          yield updateDoc(studentRef, {
+            game_state: state
+          });
+        }
+
+        // Delete submission entirely
+        yield deleteDoc(doc(db, "activity_submissions", submissionId || "" + studentUid + "_" + chapterId));
+        closeReviewModal();
+        initDashboard();
+        alert("Submission rejected. It has been sent back to the student.");
+      } catch (e) {
+        console.error(e);
+        alert("Error rejecting submission.");
+      }
+    }
+  });
+  return function (_x7, _x8) {
+    return _ref4.apply(this, arguments);
+  };
+}();
+function getChapterTitle(chapId) {
+  let title = chapId;
+  ['book1', 'book2', 'book3'].forEach(b => {
+    if (ACTIVITIES_DATA[b] && ACTIVITIES_DATA[b].chapters) {
+      Object.values(ACTIVITIES_DATA[b].chapters).forEach(c => {
+        if (c.id === chapId) title = c.title;
+      });
+    }
+  });
+  return title;
+}
+
+// Modal Logic
+const modalHTML = '<div class="custom-modal-overlay" id="reviewModalOverlay">' + '<div class="custom-modal" id="reviewModal">' + '<button class="modal-close-btn" onclick="closeReviewModal()"><i class="fas fa-times"></i></button>' + '<h3 style="font-family: \'Fredoka One\', cursive; color:#1e293b;"><i class="fas fa-clipboard-check text-primary"></i> Activity Sheet Review</h3>' + '<p class="text-muted" id="rmStudentInfo" style="font-size: 0.9rem; margin-bottom: 20px;"></p>' + '<h5 style="color:#D63678; font-weight:800; font-size:1rem;">Discussion Answer:</h5>' + '<div class="student-discussion-text" id="rmDiscussion" style="background:#FDF8F5; border-color:#D63678;"></div>' + '<h5 style="color:#D63678; font-weight:800; font-size:1rem; margin-top:15px;">Daily Action Grid Summary:</h5>' + '<div class="grid-summary" id="rmGrid"></div>' + '<h5 style="color:#D63678; font-weight:800; font-size:1rem; margin-top:15px;">Parent Feedback:</h5>' + '<div class="grid-summary" id="rmParents" style="background: #FDF8F5; border-color:#E08020;"></div>' + '<div class="text-center mt-4" id="rmActionBtn">' + '<!-- Injected dynamically -->' + '</div>' + '</div>' + '</div>';
+document.body.insertAdjacentHTML('beforeend', modalHTML);
+function generateGridHtml(chapId, gridState) {
+  let chapterData = null;
+  ['book1', 'book2', 'book3'].forEach(b => {
+    if (ACTIVITIES_DATA[b] && ACTIVITIES_DATA[b].chapters) {
+      Object.values(ACTIVITIES_DATA[b].chapters).forEach(c => {
+        if (c.id === chapId) {
+          chapterData = c;
+        }
+      });
+    }
+  });
+  if (!chapterData || !chapterData.sections) return '<p class="text-danger">Activity details not found.</p>';
+  const statesList = ['', 'yes', 'no'];
+  const iconList = {
+    '': '<span style="color:#cbd5e1;">-</span>',
+    'yes': '<i class="fas fa-check-circle text-success fs-5"></i>',
+    'no': '<i class="fas fa-times-circle text-danger fs-5"></i>'
+  };
+  let htmlContent = '<div class="table-responsive"><table class="table table-bordered text-center align-middle" style="background:white; border-radius:10px; overflow:hidden;">';
+  htmlContent += '<thead style="background:#FDF8F5; font-family: \'Fredoka One\', cursive; color:#1E2D5A;"><tr><th class="text-start">Activity</th><th>M</th><th>T</th><th>W</th><th>T</th><th>F</th><th>S</th><th>S</th></tr></thead><tbody>';
+  let cellIndex = 0;
+  chapterData.sections.forEach(section => {
+    htmlContent += '<tr style="background:rgba(214,54,120,0.05); font-weight:bold; color:#D63678;"><td colspan="8" class="text-start p-2">' + section.heading + '</td></tr>';
+    section.questions.forEach(q => {
+      htmlContent += '<tr><td class="text-start fw-bold text-secondary p-2" style="font-size:0.85rem;">' + q + '</td>';
+      for (let d = 0; d < 7; d++) {
+        let stIdx = gridState && gridState.cells && gridState.cells.length > cellIndex ? gridState.cells[cellIndex] : 0;
+        htmlContent += '<td class="p-1">' + iconList[statesList[stIdx]] + '</td>';
+        cellIndex++;
+      }
+      htmlContent += '</tr>';
+    });
+  });
+  htmlContent += '</tbody></table></div>';
+  return htmlContent;
+}
+window.openReviewModal = rawData => {
+  let rev = JSON.parse(decodeURIComponent(rawData));
+  document.getElementById('rmStudentInfo').innerHTML = '<strong>' + rev.studentName + '</strong> &bull; ' + getChapterTitle(rev.chapId);
+  document.getElementById('rmDiscussion').innerText = rev.answer;
+  let gridHtml = 'No grid data captured.';
+  if (rev.grid && rev.chapId) {
+    gridHtml = generateGridHtml(rev.chapId, rev.grid);
+  }
+  document.getElementById('rmGrid').innerHTML = gridHtml;
+  let parentHtml = '';
+  if (rev.parents && rev.parents.length > 0) {
+    let validNotes = rev.parents.filter(n => n.trim() !== '');
+    if (validNotes.length > 0) {
+      parentHtml = '<ul>' + validNotes.map(n => '<li>"' + n + '"</li>').join('') + '</ul>';
+    } else {
+      parentHtml = 'No parent notes provided.';
+    }
+  } else {
+    parentHtml = 'No parent notes provided.';
+  }
+  document.getElementById('rmParents').innerHTML = parentHtml;
+  if (rev.canTeacherApprove) {
+    document.getElementById('rmActionBtn').innerHTML = '<button class="btn btn-outline-danger px-4 rounded-pill fw-bold mb-2 me-2" onclick="rejectTeacherPoints(\'' + rev.studentUid + '\', \'' + rev.chapId + '\', \'' + rev.subId + '\')"><i class="fas fa-undo"></i> Reject (Needs Changes)</button>' + '<button class="btn btn-success px-4 rounded-pill fw-bold mb-2 shadow-sm" onclick="awardTeacherPoints(\'' + rev.studentUid + '\', \'' + rev.chapId + '\', \'' + rev.subId + '\')"><i class="fas fa-star text-warning"></i> Mark Excellent & Award 50 points</button>';
+  } else {
+    document.getElementById('rmActionBtn').innerHTML = '<div class="alert ' + (rev.isSubmissionMissing ? 'alert-danger' : 'alert-info') + ' text-start mb-0">' + (rev.blockedReason || 'This activity is still waiting for the parent review before teacher approval can continue.') + '</div>';
+  }
+  document.getElementById('reviewModalOverlay').style.display = 'flex';
+  document.getElementById('reviewModal').classList.add('animate__animated', 'animate__zoomIn');
+};
+window.closeReviewModal = () => {
+  document.getElementById('reviewModalOverlay').style.display = 'none';
+  document.getElementById('reviewModal').classList.remove('animate__animated', 'animate__zoomIn');
+};
+window.logoutTeacher = () => {
+  signOut(auth).then(() => {
+    localStorage.removeItem('auth_user');
+    sessionStorage.removeItem('auth_user');
+    window.location.href = '/auth';
+  }).catch(() => {
+    localStorage.removeItem('auth_user');
+    sessionStorage.removeItem('auth_user');
+    window.location.href = '/auth';
+  });
+};
+</script>
+</body></html>
