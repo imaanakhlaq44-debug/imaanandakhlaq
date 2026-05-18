@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html><html lang="en"><head>
+<!DOCTYPE html><html lang="en"><head>
 <script>/* regenerator-runtime v0.14.1 — inlined to avoid 404 on static servers */
 var runtime=function(t){"use strict";var r,e=Object.prototype,n=e.hasOwnProperty,o=Object.defineProperty||function(t,r,e){t[r]=e.value},i="function"==typeof Symbol?Symbol:{},a=i.iterator||"@@iterator",c=i.asyncIterator||"@@asyncIterator",u=i.toStringTag||"@@toStringTag";function h(t,r,e){return Object.defineProperty(t,r,{value:e,enumerable:!0,configurable:!0,writable:!0}),t[r]}try{h({},"")}catch(t){h=function(t,r,e){return t[r]=e}}function l(t,r,e,n){var i=r&&r.prototype instanceof d?r:d,a=Object.create(i.prototype),c=new T(n||[]);return o(a,"_invoke",{value:O(t,e,c)}),a}function f(t,r,e){try{return{type:"normal",arg:t.call(r,e)}}catch(t){return{type:"throw",arg:t}}}t.wrap=l;var s="suspendedStart",p="suspendedYield",y="executing",v="completed",g={};function d(){}function m(){}function w(){}var b={};h(b,a,(function(){return this}));var L=Object.getPrototypeOf,x=L&&L(L(P([])));x&&x!==e&&n.call(x,a)&&(b=x);var E=w.prototype=d.prototype=Object.create(b);function j(t){["next","throw","return"].forEach((function(r){h(t,r,(function(t){return this._invoke(r,t)}))}))}function _(t,r){function e(o,i,a,c){var u=f(t[o],t,i);if("throw"!==u.type){var h=u.arg,l=h.value;return l&&"object"==typeof l&&n.call(l,"__await")?r.resolve(l.__await).then((function(t){e("next",t,a,c)}),(function(t){e("throw",t,a,c)})):r.resolve(l).then((function(t){h.value=t,a(h)}),(function(t){return e("throw",t,a,c)}))}c(u.arg)}var i;o(this,"_invoke",{value:function(t,n){function o(){return new r((function(r,o){e(t,n,r,o)}))}return i=i?i.then(o,o):o()}})}function O(t,e,n){var o=s;return function(i,a){if(o===y)throw new Error("Generator is already running");if(o===v){if("throw"===i)throw a;return{value:r,done:!0}}for(n.method=i,n.arg=a;;){var c=n.delegate;if(c){var u=k(c,n);if(u){if(u===g)continue;return u}}if("next"===n.method)n.sent=n._sent=n.arg;else if("throw"===n.method){if(o===s)throw o=v,n.arg;n.dispatchException(n.arg)}else"return"===n.method&&n.abrupt("return",n.arg);o=y;var h=f(t,e,n);if("normal"===h.type){if(o=n.done?v:p,h.arg===g)continue;return{value:h.arg,done:n.done}}"throw"===h.type&&(o=v,n.method="throw",n.arg=h.arg)}}}function k(t,e){var n=e.method,o=t.iterator[n];if(o===r)return e.delegate=null,"throw"===n&&t.iterator.return&&(e.method="return",e.arg=r,k(t,e),"throw"===e.method)||"return"!==n&&(e.method="throw",e.arg=new TypeError("The iterator does not provide a '"+n+"' method")),g;var i=f(o,t.iterator,e.arg);if("throw"===i.type)return e.method="throw",e.arg=i.arg,e.delegate=null,g;var a=i.arg;return a?a.done?(e[t.resultName]=a.value,e.next=t.nextLoc,"return"!==e.method&&(e.method="next",e.arg=r),e.delegate=null,g):a:(e.method="throw",e.arg=new TypeError("iterator result is not an object"),e.delegate=null,g)}function G(t){var r={tryLoc:t[0]};1 in t&&(r.catchLoc=t[1]),2 in t&&(r.finallyLoc=t[2],r.afterLoc=t[3]),this.tryEntries.push(r)}function N(t){var r=t.completion||{};r.type="normal",delete r.arg,t.completion=r}function T(t){this.tryEntries=[{tryLoc:"root"}],t.forEach(G,this),this.reset(!0)}function P(t){if(null!=t){var e=t[a];if(e)return e.call(t);if("function"==typeof t.next)return t;if(!isNaN(t.length)){var o=-1,i=function e(){for(;++o<t.length;)if(n.call(t,o))return e.value=t[o],e.done=!1,e;return e.value=r,e.done=!0,e};return i.next=i}}throw new TypeError(typeof t+" is not iterable")}return m.prototype=w,o(E,"constructor",{value:w,configurable:!0}),o(w,"constructor",{value:m,configurable:!0}),m.displayName=h(w,u,"GeneratorFunction"),t.isGeneratorFunction=function(t){var r="function"==typeof t&&t.constructor;return!!r&&(r===m||"GeneratorFunction"===(r.displayName||r.name))},t.mark=function(t){return Object.setPrototypeOf?Object.setPrototypeOf(t,w):(t.__proto__=w,h(t,u,"GeneratorFunction")),t.prototype=Object.create(E),t},t.awrap=function(t){return{__await:t}},j(_.prototype),h(_.prototype,c,(function(){return this})),t.AsyncIterator=_,t.async=function(r,e,n,o,i){void 0===i&&(i=Promise);var a=new _(l(r,e,n,o),i);return t.isGeneratorFunction(e)?a:a.next().then((function(t){return t.done?t.value:a.next()}))},j(E),h(E,u,"Generator"),h(E,a,(function(){return this})),h(E,"toString",(function(){return"[object Generator]"})),t.keys=function(t){var r=Object(t),e=[];for(var n in r)e.push(n);return e.reverse(),function t(){for(;e.length;){var n=e.pop();if(n in r)return t.value=n,t.done=!1,t}return t.done=!0,t}},t.values=P,T.prototype={constructor:T,reset:function(t){if(this.prev=0,this.next=0,this.sent=this._sent=r,this.done=!1,this.delegate=null,this.method="next",this.arg=r,this.tryEntries.forEach(N),!t)for(var e in this)"t"===e.charAt(0)&&n.call(this,e)&&!isNaN(+e.slice(1))&&(this[e]=r)},stop:function(){this.done=!0;var t=this.tryEntries[0].completion;if("throw"===t.type)throw t.arg;return this.rval},dispatchException:function(t){if(this.done)throw t;var e=this;function o(n,o){return c.type="throw",c.arg=t,e.next=n,o&&(e.method="next",e.arg=r),!!o}for(var i=this.tryEntries.length-1;i>=0;--i){var a=this.tryEntries[i],c=a.completion;if("root"===a.tryLoc)return o("end");if(a.tryLoc<=this.prev){var u=n.call(a,"catchLoc"),h=n.call(a,"finallyLoc");if(u&&h){if(this.prev<a.catchLoc)return o(a.catchLoc,!0);if(this.prev<a.finallyLoc)return o(a.finallyLoc)}else if(u){if(this.prev<a.catchLoc)return o(a.catchLoc,!0)}else{if(!h)throw new Error("try statement without catch or finally");if(this.prev<a.finallyLoc)return o(a.finallyLoc)}}}},abrupt:function(t,r){for(var e=this.tryEntries.length-1;e>=0;--e){var o=this.tryEntries[e];if(o.tryLoc<=this.prev&&n.call(o,"finallyLoc")&&this.prev<o.finallyLoc){var i=o;break}}i&&("break"===t||"continue"===t)&&i.tryLoc<=r&&r<=i.finallyLoc&&(i=null);var a=i?i.completion:{};return a.type=t,a.arg=r,i?(this.method="next",this.next=i.finallyLoc,g):this.complete(a)},complete:function(t,r){if("throw"===t.type)throw t.arg;return"break"===t.type||"continue"===t.type?this.next=t.arg:"return"===t.type?(this.rval=this.arg=t.arg,this.method="return",this.next="end"):"normal"===t.type&&r&&(this.next=r),g},finish:function(t){for(var r=this.tryEntries.length-1;r>=0;--r){var e=this.tryEntries[r];if(e.finallyLoc===t)return this.complete(e.completion,e.afterLoc),N(e),g}},catch:function(t){for(var r=this.tryEntries.length-1;r>=0;--r){var e=this.tryEntries[r];if(e.tryLoc===t){var n=e.completion;if("throw"===n.type){var o=n.arg;N(e)}return o}}throw new Error("illegal catch attempt")},delegateYield:function(t,e,n){return this.delegate={iterator:P(t),resultName:e,nextLoc:n},"next"===this.method&&(this.arg=r),g}},t}("object"==typeof module?module.exports:{});try{regeneratorRuntime=runtime}catch(t){"object"==typeof globalThis?globalThis.regeneratorRuntime=runtime:Function("r","regeneratorRuntime = r")(runtime)}
 </script>
@@ -1468,7 +1468,7 @@ var runtime=function(t){"use strict";var r,e=Object.prototype,n=e.hasOwnProperty
   .book-card.coming-soon .book-card-btn:hover { opacity: 1; transform: none; }
   .coming-soon-badge { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); background: rgba(0,0,0,0.6); backdrop-filter: blur(6px); color: #fff; padding: 8px 18px; border-radius: 24px; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.5px; z-index: 2; }
 
-  /* ─── Book Reader Overlay (StPageFlip) ─── */
+  /* ─── Book Reader Overlay (StPageFlip) — TRUE FULLSCREEN ─── */
   .book-reader-overlay {
     position: fixed;
     inset: 0;
@@ -1477,92 +1477,103 @@ var runtime=function(t){"use strict";var r,e=Object.prototype,n=e.hasOwnProperty
     display: none;
     flex-direction: column;
     align-items: stretch;
-    overflow-y: auto;
-    overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
+    overflow: hidden;           /* no scroll — book fills the screen */
   }
   .book-reader-overlay.active { display: flex; }
 
-  /* Toolbar at top */
+  /* Top toolbar — dark so back button always visible */
   .book-reader-toolbar {
-    position: sticky;
-    top: 0;
+    flex-shrink: 0;
     z-index: 100;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 8px;
-    padding: 10px 16px;
-    background: rgba(255,255,255,0.96);
-    backdrop-filter: saturate(180%) blur(12px);
-    -webkit-backdrop-filter: saturate(180%) blur(12px);
-    border-bottom: 1px solid rgba(20,30,60,0.08);
-    box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+    padding: 0 12px;
+    height: 52px;
+    background: #1b2942;        /* dark navy — always visible */
+    box-shadow: 0 2px 12px rgba(0,0,0,0.22);
   }
   .book-reader-toolbar h3 {
     flex: 1;
     text-align: center;
     font-family: 'Sora','Nunito',sans-serif;
-    font-weight: 800;
+    font-weight: 700;
     font-size: 0.95rem;
-    color: #1b2942;
+    color: #fff;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     margin: 0 8px;
   }
+  /* Back button — always visible, prominent */
   .book-reader-close {
-    background: transparent;
-    border: none;
-    width: 40px; height: 40px;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.25);
+    width: 38px; height: 38px;
     border-radius: 50%;
-    font-size: 1.05rem;
-    color: #1e3a5f;
+    font-size: 1rem;
+    color: #fff;
     cursor: pointer;
     display: inline-flex; align-items: center; justify-content: center;
-    transition: background 0.15s;
+    transition: background 0.15s, transform 0.12s;
     flex-shrink: 0;
   }
-  .book-reader-close:hover { background: rgba(207,41,109,0.12); color: #cf296d; }
+  .book-reader-close:hover {
+    background: rgba(207,41,109,0.75);
+    transform: scale(1.08);
+  }
 
-  /* Flipbook stage (warm desk) */
+  /* Flipbook wrapper fills ALL remaining height */
   .tr-flipbook-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     width: 100%;
     flex: 1;
-    padding: 18px 8px 10px;
+    height: 0;                  /* forces flex child to fill remaining space */
+    min-height: 0;
+    padding: 10px 8px 6px;
     touch-action: pan-y;
+    overflow: hidden;
   }
+  /* Stage fills all flex height — book always maximized */
   .tr-flipbook-stage {
     position: relative;
     width: 100%;
-    max-width: 940px;
-    margin: 0 auto;
-    padding: 22px 18px 32px;
-    border-radius: 24px;
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 12px 20px;
+    border-radius: 20px;
     background:
       radial-gradient(ellipse at center top, rgba(255,255,255,0.85) 0%, rgba(243,232,210,0.55) 60%, rgba(0,0,0,0) 80%),
       linear-gradient(180deg, #fbf3e1 0%, #efdfbf 100%);
     box-shadow:
       0 28px 60px -20px rgba(40,30,10,0.35),
       inset 0 1px 0 rgba(255,255,255,0.6);
+    overflow: hidden;
   }
   .tr-flipbook-stage::before {
     content: '';
     position: absolute;
-    left: 8%; right: 8%; bottom: 6px; height: 28px;
-    background: radial-gradient(ellipse at center, rgba(0,0,0,0.28) 0%, rgba(0,0,0,0) 70%);
-    filter: blur(6px);
+    left: 6%; right: 6%; bottom: 4px; height: 20px;
+    background: radial-gradient(ellipse at center, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0) 70%);
+    filter: blur(5px);
     pointer-events: none;
     z-index: 0;
   }
   .tr-flipbook-container {
     position: relative;
     z-index: 1;
-    margin: 0 auto;
     width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   .tr-flipbook-container .stf__parent {
     margin: 0 auto;
@@ -1638,19 +1649,27 @@ var runtime=function(t){"use strict";var r,e=Object.prototype,n=e.hasOwnProperty
     max-width: 400px; margin: 0 auto;
   }
 
-  /* Floating nav pill — identical to activity.html */
+  /* Floating nav pill — FIXED BOTTOM like Kindle mode */
   .tr-flipbook-nav {
+    position: fixed;
+    left: 50%;
+    bottom: 18px;
+    transform: translateX(-50%);
+    z-index: 100002;
     display: flex; align-items: center; justify-content: center;
-    gap: 12px; margin-top: 16px; padding: 9px 14px;
-    background: #fff; border-radius: 999px;
-    box-shadow: 0 10px 28px rgba(20,30,60,0.12);
+    gap: 14px; padding: 10px 18px;
+    background: rgba(255,255,255,0.96);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 999px;
+    box-shadow: 0 10px 32px rgba(20,30,60,0.20);
     border: 1px solid rgba(20,30,60,0.06);
   }
   .tr-flipbook-nav button {
     background: linear-gradient(180deg,#2d5a8e 0%,#1e3a5f 100%);
     color: #fff; border: none;
-    width: 42px; height: 42px; border-radius: 50%;
-    font-size: 0.95rem; cursor: pointer;
+    width: 44px; height: 44px; border-radius: 50%;
+    font-size: 1rem; cursor: pointer;
     transition: transform 0.18s, box-shadow 0.18s, opacity 0.18s;
     display: flex; align-items: center; justify-content: center;
     box-shadow: 0 6px 14px rgba(30,58,95,0.28);
@@ -1660,12 +1679,15 @@ var runtime=function(t){"use strict";var r,e=Object.prototype,n=e.hasOwnProperty
   .tr-flipbook-nav .tr-page-indicator {
     font-family: 'Sora','Nunito',sans-serif;
     color: #1e3a5f; font-size: 0.9rem; font-weight: 800;
-    min-width: 90px; text-align: center; letter-spacing: 0.04em;
+    min-width: 100px; text-align: center; letter-spacing: 0.04em;
   }
-  /* Progress bar */
+  /* Progress bar — sits inside nav pill, full width below buttons */
   .tr-flipbook-progress {
-    margin: 12px auto 0;
-    width: min(100%,520px); height: 5px;
+    position: fixed;
+    left: 50%; bottom: 12px;
+    transform: translateX(-50%);
+    z-index: 100001;
+    width: min(320px, 55vw); height: 4px;
     border-radius: 999px; background: rgba(30,58,95,0.1); overflow: hidden;
   }
   .tr-flipbook-progress-fill {
@@ -1675,16 +1697,20 @@ var runtime=function(t){"use strict";var r,e=Object.prototype,n=e.hasOwnProperty
   }
   /* Lock notice */
   .book-reader-lock {
-    color: rgba(30,58,95,0.45); font-size: 0.72rem;
-    text-align: center; padding: 8px 0 14px;
+    position: fixed;
+    bottom: 4px; left: 50%; transform: translateX(-50%);
+    z-index: 100001;
+    color: rgba(30,58,95,0.38); font-size: 0.65rem;
+    white-space: nowrap;
   }
-  .book-reader-lock i { margin-right: 4px; }
+  .book-reader-lock i { margin-right: 3px; }
   @media (max-width: 600px) {
     .books-grid { grid-template-columns: 1fr 1fr; gap: 0.8rem; }
     .book-card-cover { padding: 1rem; }
-    .tr-flipbook-stage { padding: 12px 6px 22px; border-radius: 16px; }
-    .tr-flipbook-nav { gap: 8px; padding: 7px 10px; }
-    .tr-flipbook-nav button { width: 38px; height: 38px; }
+    .tr-flipbook-stage { padding: 8px 4px 16px; border-radius: 14px; }
+    .tr-flipbook-nav { gap: 10px; padding: 8px 12px; bottom: 14px; }
+    .tr-flipbook-nav button { width: 40px; height: 40px; }
+    .tr-flipbook-nav .tr-page-indicator { min-width: 80px; font-size: 0.82rem; }
   }
   .book-reader-header {
     width: 100%;
@@ -3451,14 +3477,25 @@ window.openBookReader = (function() {
 
     var totalPages = pdf.numPages;
 
-    // Measure page size from first PDF page
+    // === AUTO-FIT: Size pages to fill the viewport height on ANY screen ===
     var firstPage = await pdf.getPage(1);
     var fvp = firstPage.getViewport({ scale: 1 });
-    var stageEl = container.closest('.tr-flipbook-stage') || container.parentElement;
-    var maxW = Math.min(stageEl.clientWidth * 0.48, 480);
-    var maxH = Math.round(maxW * fvp.height / fvp.width);
-    var pageWidth  = Math.max(maxW, 220);
-    var pageHeight = Math.max(maxH, 300);
+    var pdfAspect = fvp.width / fvp.height;  // width/height ratio of PDF page
+
+    var toolbarH  = 52;   // height of our fixed top toolbar
+    var navH      = 70;   // height of nav pill + progress + padding below
+    var availH    = window.innerHeight - toolbarH - navH - 24;  // usable height
+    var availW    = window.innerWidth  - 24;                     // usable width
+
+    // For 2-page spread, each page gets half the width
+    var maxByH = Math.floor(availH);           // constrained by height
+    var maxByW = Math.floor(availW * 0.49);    // constrained by width (half for spread)
+    var pageHeight = Math.min(maxByH, Math.round(maxByW / pdfAspect));
+    var pageWidth  = Math.round(pageHeight * pdfAspect);
+
+    // Clamp to reasonable min sizes
+    pageWidth  = Math.max(pageWidth,  180);
+    pageHeight = Math.max(pageHeight, 240);
 
     // Build DOM for StPageFlip
     container.innerHTML = '';
