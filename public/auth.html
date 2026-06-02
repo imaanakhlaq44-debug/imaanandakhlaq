@@ -1,10 +1,10 @@
-
+﻿
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Imaan & Akhlaq - Islamic Stories & Education for Kids</title>
+  <title>Imaan &amp; Akhlaq</title>
   <meta name="description" content="Imaan & Akhlaq - Fun Islamic stories, puppet shows, and educational programs teaching faith, manners, and good character to children." />
   <meta property="og:title" content="Imaan & Akhlaq - Islamic Education for Kids" />
   <meta property="og:description" content="Join Imaan and Akhlaq on magical adventures learning about Islam, Prophets, and good manners!" />
@@ -254,7 +254,7 @@
 
   .pw-wrapper { position: relative; }
   .pw-wrapper .form-control { padding-right: 45px; }
-  .pw-toggle { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text-sec); cursor: pointer; font-size: 1.1rem; }
+  .pw-toggle { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text-sec); cursor: pointer; font-size: 1.1rem; z-index: 10; }
   .pw-toggle:hover { color: var(--brand-navy); }
 
   .btn {
@@ -1358,7 +1358,7 @@
     }
 
     function normalizePhone(value) {
-      return String(value || '').replace(/[\s\-()]/g, '');
+      return String(value || '').replace(/[^0-9+]/g, '');
     }
 
     function decodeFsValue(value) {
@@ -2008,15 +2008,16 @@
 
   window.loginUser = async () => {
     const rawId = document.getElementById('loginId').value.trim();
-    const id = rawId.replace(/[\s\-()]/g, '');
     const pw = document.getElementById('loginPw').value;
-    if (!id || !pw) return showToast('Enter email and password', 'error');
+    if (!rawId || !pw) return showToast('Enter email and password', 'error');
 
     try {
       showToast('Logging in...', 'success');
 
-      let emailToUse = id;
-      if (!id.includes('@')) {
+      let emailToUse = rawId;
+      if (!rawId.includes('@')) {
+        const id = rawId.replace(/[^0-9+]/g, '');
+        if (!id) return showToast('Please enter a valid email or phone number', 'error');
         const phoneCandidates = [id, id.startsWith('+') ? id.slice(1) : '+' + id];
         let matchedEmail = '';
 
@@ -2104,7 +2105,9 @@
           else if (userData.role === 'parent') window.location.href = './parent-dashboard.html';
         }, 1000);
       } else {
-        showToast('User record not found in system.', 'error');
+        showToast('Your login worked but no account profile was found in the database. Please re-register or ask your school admin to re-create your invitation code.', 'error');
+        // Sign out since we can't redirect without a user doc
+        try { await signOut(auth); } catch(_) {}
       }
     } catch (error) {
       showToast(error.message, 'error');

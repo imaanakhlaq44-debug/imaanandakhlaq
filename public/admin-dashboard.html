@@ -1,10 +1,10 @@
-
+﻿
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Imaan & Akhlaq - Islamic Stories & Education for Kids</title>
+  <title>Imaan &amp; Akhlaq</title>
   <meta name="description" content="Imaan & Akhlaq - Fun Islamic stories, puppet shows, and educational programs teaching faith, manners, and good character to children." />
   <meta property="og:title" content="Imaan & Akhlaq - Islamic Education for Kids" />
   <meta property="og:description" content="Join Imaan and Akhlaq on magical adventures learning about Islam, Prophets, and good manners!" />
@@ -1727,6 +1727,7 @@
 
   .col-1 { flex: 2; }
   .col-2 { flex: 1; text-align: center; }
+  .col-check { flex: 0 0 40px; display: flex; align-items: center; justify-content: center; }
   .col-3 { flex: 2; text-align: center; }
   .col-4 { flex: 1; text-align: center; }
   .col-5 { flex: 1; text-align: center; }
@@ -2860,38 +2861,6 @@
             <div class="widget-panel compact">
               <div class="widget-heading">
                 <div class="widget-heading-main">
-                  <span class="widget-asset"><img src="/kidba_assets/img/3d_school.png" alt="Schedule 3D icon"></span>
-                  <strong>Upcoming Schedule</strong>
-                </div>
-                <span>This week</span>
-              </div>
-              <div class="schedule-list">
-                <div class="schedule-item">
-                  <div>
-                    <span>Parent Meeting</span>
-                    <strong>Family review session</strong>
-                  </div>
-                  <div class="schedule-date">Mon</div>
-                </div>
-                <div class="schedule-item">
-                  <div>
-                    <span>Math Exam</span>
-                    <strong>Mid-term assessment</strong>
-                  </div>
-                  <div class="schedule-date">May 15</div>
-                </div>
-                <div class="schedule-item">
-                  <div>
-                    <span>English Exam</span>
-                    <strong>Reading and writing review</strong>
-                  </div>
-                  <div class="schedule-date">May 20</div>
-                </div>
-              </div>
-            </div>
-            <div class="widget-panel compact">
-              <div class="widget-heading">
-                <div class="widget-heading-main">
                   <span class="widget-asset"><img src="/kidba_assets/img/3d_individual.png" alt="Operations mix 3D icon"></span>
                   <strong>Operations Mix</strong>
                 </div>
@@ -2914,20 +2883,6 @@
                   <strong id="mixPendingValue">0</strong>
                 </div>
               </div>
-            </div>
-            <div class="widget-panel compact">
-              <div class="widget-heading">
-                <div class="widget-heading-main">
-                  <span class="widget-asset"><img src="/kidba_assets/img/3d_parent.png" alt="Notice board 3D icon"></span>
-                  <strong>Notice Board</strong>
-                </div>
-                <span>Updates</span>
-              </div>
-              <ul class="notice-list">
-                <li>Bus routes updated for the afternoon shift.</li>
-                <li>Science exhibition planning starts this Friday.</li>
-                <li>Library arrivals uploaded to the weekly class bulletin.</li>
-              </ul>
             </div>
           </div>
         </div>
@@ -2975,12 +2930,16 @@
             </div>
           </div>
           <div class="section-actions">
+            <button class="btn-outline-light text-danger d-none" id="bulkDeleteBtn" onclick="deleteSelectedStudents()"><i class="fas fa-trash-alt me-2"></i> Delete Selected (<span id="selectedCount">0</span>)</button>
             <button class="btn-solid" onclick="openModal('studentModal')"><i class="fas fa-user-plus me-2"></i> Add Student</button>
             <button class="btn-outline-light" onclick="openModal('bulkImportModal')"><i class="fas fa-file-import me-2"></i> Import Roster</button>
           </div>
         </div>
         
         <div class="table-header-row mb-2">
+          <div class="col-check" style="flex: 0 0 40px; display: flex; align-items: center; justify-content: center;">
+            <input type="checkbox" id="selectAllStudents" onchange="toggleSelectAllStudents(this)" style="cursor:pointer; width:16px; height:16px;">
+          </div>
           <div class="col-1">Full Name</div>
           <div class="col-2">Class</div>
           <div class="col-2">Student Code</div>
@@ -3288,7 +3247,7 @@
     <div id="bulkPreviewBody" style="max-height:320px; overflow:auto; border:1px solid #e2e8f0; padding:10px; border-radius:8px;"></div>
     <div class="modal-footer-actions">
       <button class="btn-outline-light" onclick="closeModal('bulkImportModal')">Cancel</button>
-      <button class="btn-solid" onclick="confirmBulkImport()"><i class="fas fa-check"></i> Confirm Import</button>
+      <button class="btn-solid" onclick="confirmBulkImport(this)"><i class="fas fa-check"></i> Confirm Import</button>
     </div>
   </div>
 </div>
@@ -3608,17 +3567,21 @@
     document.getElementById('bulkPreviewBody').innerHTML = html;
   };
 
-  window.confirmBulkImport = async () => {
+  window.confirmBulkImport = async (trigger) => {
     const preview = window.bulkImportPreview;
     if(!preview) return alert('No data to import. Upload a file first.');
-    const btn = event && event.target ? event.target : null; if(btn) { btn.disabled = true; btn.textContent = 'Importing...'; }
+    const btn = trigger || (typeof event !== 'undefined' && event && event.target ? event.target : null);
+    if(btn) { btn.disabled = true; btn.textContent = 'Importing...'; }
     try {
       let tCount = 0, sCount = 0, pCount = 0;
       // Teachers
       for (const r of preview.teachers) {
         const code = genCode('TCH');
         const name = r.name || r['Full Name'] || r['full name'] || r['Name'] || '';
-        const payload = { code: code, role: 'teacher', school_id: currentAdminSession.school_id, name: name, raw: r, status: 'pending', created_at: new Date().toISOString() };
+        const rawClass = r.class || r.Class || r['class_id'] || r['Class'] || r['Class Name'] || r['assigned_class'] || r['assigned_classes'] || r['classes'] || '';
+        const classList = splitClassNames(rawClass);
+        const classId = classList.join(', ');
+        const payload = { code: code, role: 'teacher', school_id: currentAdminSession.school_id, class_id: classId, name: name, raw: r, status: 'pending', created_at: new Date().toISOString() };
         await setDoc(doc(db, 'invites', code), payload);
         tCount++;
       }
@@ -3627,7 +3590,8 @@
         const code = genCode('STU');
         const parCode = genCode('PAR');
         const name = r.name || r['Full Name'] || r['Name'] || '';
-        const classId = r.class || r.Class || r['class_id'] || r['Class'] || r['Class Name'] || '';
+        const rawClass = r.class || r.Class || r['class_id'] || r['Class'] || r['Class Name'] || '';
+        const classId = normalizeClassName(rawClass);
         const payload = { code: code, role: 'student', school_id: currentAdminSession.school_id, class_id: classId, name: name, raw: r, status: 'pending', created_at: new Date().toISOString() };
         const parPayload = { code: parCode, role: 'parent', school_id: currentAdminSession.school_id, linked_student_code: code, status: 'pending', created_at: new Date().toISOString() };
         await setDoc(doc(db, 'invites', code), payload);
@@ -4006,6 +3970,11 @@
     document.getElementById('statPopulationMeta').textContent = viewPopulation ? teachers.length + ' teachers and ' + students.length + ' students' : '0 teachers and 0 students';
     document.getElementById('currentDateDisplay').textContent = now.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
 
+    const masterCb = document.getElementById('selectAllStudents');
+    if (masterCb) masterCb.checked = false;
+    const bulkBtn = document.getElementById('bulkDeleteBtn');
+    if (bulkBtn) bulkBtn.classList.add('d-none');
+
     // Teachers
     let tchHtml = '';
     teachers.forEach((teacher, index) => {
@@ -4077,6 +4046,7 @@
       }
 
       stuDirHtml += '<div class="pill-row ' + motif + '">' +
+        '<div class="col-check"><input type="checkbox" class="student-select-cb" data-id="' + student.uid + '" data-type="student" onchange="updateBulkDeleteButton()" style="cursor:pointer; width:16px; height:16px;"></div>' +
         '<div class="col-1 d-flex align-items-center gap-3"><img src="' + imgSrc + '" style="border-radius:50%; width:40px; height:40px; object-fit:cover;">' + student.name + '</div>' +
         '<div class="col-2"><span style="background:rgba(255,255,255,0.7); padding:5px 12px; border-radius:20px; font-weight:800;">' + (student.class_id || 'Unknown') + '</span></div>' +
         '<div class="col-2">' + stuCell + '</div>' +
@@ -4091,12 +4061,13 @@
       const pendingImage = invite.photoURL ? '<img src="' + invite.photoURL + '" style="border-radius:50%; width:40px; height:40px; object-fit:cover;">' : '<div style="width:40px;height:40px;border-radius:50%;background:#e2e8f0;display:flex;align-items:center;justify-content:center;color:#94a3b8;"><i class="fas fa-user-clock"></i></div>';
 
       stuDirHtml += '<div class="pill-row row-yellow" style="opacity:0.6;">' +
+        '<div class="col-check"><input type="checkbox" class="student-select-cb" data-id="' + invite.code + '" data-type="invite" onchange="updateBulkDeleteButton()" style="cursor:pointer; width:16px; height:16px;"></div>' +
         '<div class="col-1 d-flex align-items-center gap-3">' + pendingImage + invite.name + '</div>' +
         '<div class="col-2"><span style="background:rgba(255,255,255,0.7); padding:5px 12px; border-radius:20px; font-weight:800;">' + (invite.class_id || 'Unknown') + '</span></div>' +
         '<div class="col-2"><code class="copyable-code" onclick="copyCodeInteractive(this, \'' + invite.code + '\')" title="Click to copy">' + invite.code + ' <i class="far fa-copy text-muted"></i></code></div>' +
         '<div class="col-2"><code class="copyable-code" onclick="copyCodeInteractive(this, \'' + parentCode + '\')" title="Click to copy">' + parentCode + (parentCode !== 'N/A' ? ' <i class="far fa-copy text-muted"></i>' : '') + '</code></div>' +
         '<div class="col-2"><span style="color:#f59e0b; font-weight:800;"><i class="fas fa-clock"></i> Pending</span></div>' +
-        '<div class="col-actions"></div></div>';
+        '<div class="col-actions"><button class="action-btn text-danger" onclick="deleteInvite(\'' + invite.code + '\', \'student\')"><i class="fas fa-trash"></i></button></div></div>';
     });
     document.getElementById('studentDirectoryBody').innerHTML = stuDirHtml || '<div style="text-align:center; padding:2rem; color:#94a3b8; font-weight:700;">No students enrolled yet.</div>';
 
@@ -4473,6 +4444,89 @@
         alert("Student deleted successfully.");
       } catch(err) {
         alert("Error deleting student: " + err.message);
+      }
+    }
+  };
+
+  window.deleteInvite = async (code, role) => {
+    if (confirm("Are you sure you want to completely remove this pending " + role + " invite? This action cannot be undone.")) {
+      try {
+        await deleteDoc(doc(db, "invites", code));
+        if (role === 'student') {
+          const parentInvite = invitesList.find(parent => parent.role === 'parent' && parent.linked_student_code === code);
+          if (parentInvite) {
+            await deleteDoc(doc(db, "invites", parentInvite.code));
+          }
+        }
+        await loadDashboardData();
+        alert("Invitation deleted successfully.");
+      } catch(err) {
+        alert("Error deleting invitation: " + err.message);
+      }
+    }
+  };
+
+  window.toggleSelectAllStudents = (masterCb) => {
+    const cbs = document.querySelectorAll('.student-select-cb');
+    cbs.forEach(cb => cb.checked = masterCb.checked);
+    updateBulkDeleteButton();
+  };
+
+  window.updateBulkDeleteButton = () => {
+    const cbs = document.querySelectorAll('.student-select-cb:checked');
+    const btn = document.getElementById('bulkDeleteBtn');
+    const countSpan = document.getElementById('selectedCount');
+    if (btn) {
+      if (cbs.length > 0) {
+        btn.classList.remove('d-none');
+        if (countSpan) countSpan.textContent = cbs.length;
+      } else {
+        btn.classList.add('d-none');
+      }
+    }
+  };
+
+  window.deleteSelectedStudents = async () => {
+    const cbs = document.querySelectorAll('.student-select-cb:checked');
+    if (cbs.length === 0) return;
+    
+    if (confirm("Are you sure you want to completely remove the " + cbs.length + " selected student(s) and their parent invites? This action cannot be undone.")) {
+      try {
+        const btn = document.getElementById('bulkDeleteBtn');
+        const origContent = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Deleting...';
+
+        for (const cb of cbs) {
+          const id = cb.getAttribute('data-id');
+          const type = cb.getAttribute('data-type');
+
+          if (type === 'student') {
+            await deleteDoc(doc(db, "users", id));
+          } else if (type === 'invite') {
+            await deleteDoc(doc(db, "invites", id));
+            const parentInvite = invitesList.find(parent => parent.role === 'parent' && parent.linked_student_code === id);
+            if (parentInvite) {
+              await deleteDoc(doc(db, "invites", parentInvite.code));
+            }
+          }
+        }
+
+        const masterCb = document.getElementById('selectAllStudents');
+        if (masterCb) masterCb.checked = false;
+
+        btn.disabled = false;
+        btn.innerHTML = origContent;
+
+        await loadDashboardData();
+        alert("Selected student(s) deleted successfully.");
+      } catch (err) {
+        alert("Error during bulk delete: " + err.message);
+        const btn = document.getElementById('bulkDeleteBtn');
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = '<i class="fas fa-trash-alt me-2"></i> Delete Selected (<span id=\"selectedCount\">0</span>)';
+        }
       }
     }
   };
