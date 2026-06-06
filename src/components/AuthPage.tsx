@@ -216,7 +216,7 @@ export const AuthPage = () => html`
 
   .pw-wrapper { position: relative; }
   .pw-wrapper .form-control { padding-right: 45px; }
-  .pw-toggle { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text-sec); cursor: pointer; font-size: 1.1rem; }
+  .pw-toggle { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text-sec); cursor: pointer; font-size: 1.1rem; z-index: 10; }
   .pw-toggle:hover { color: var(--brand-navy); }
 
   .btn {
@@ -398,11 +398,575 @@ export const AuthPage = () => html`
     .auth-box { padding: 18px 14px; }
   }
 
+
+
+  /* APK_AUTH_DESIGN_PATCH */
+  .auth-wrapper {
+    background:
+      radial-gradient(circle at top right, rgba(214, 54, 120, 0.16), transparent 28rem),
+      radial-gradient(circle at top left, rgba(224, 128, 32, 0.13), transparent 22rem),
+      linear-gradient(180deg, #f7fbff 0%, #edf2ff 100%);
+  }
+
+  .auth-nav {
+    position: relative;
+    justify-content: center;
+    padding: 18px 12px 12px;
+  }
+
+  .back-link {
+    display: none !important;
+  }
+
+  .brand-logo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    border-radius: 26px;
+    background: linear-gradient(135deg, #d63678 0%, #e08020 45%, #f4c542 70%, #1e2d5a 100%);
+    box-shadow: 0 12px 28px rgba(30, 45, 90, 0.20), 0 3px 8px rgba(214, 54, 120, 0.20);
+    text-decoration: none;
+  }
+
+  .brand-logo-img {
+    display: block;
+    width: clamp(120px, 32vw, 180px);
+    height: clamp(120px, 32vw, 180px);
+    border-radius: 22px;
+    background: #fff;
+    object-fit: contain;
+  }
+
+  .auth-top-switch-wrap { padding: 18px 14px 8px !important; margin: 0 !important; }
+
+  .auth-top-switch-wrap {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 18px 14px 8px;
+  }
+
+  .auth-view-switch {
+    width: min(340px, 100%) !important;
+    height: 38px !important;
+    min-height: 0 !important;
+    max-height: 38px !important;
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: stretch !important;
+    gap: 0 !important;
+    padding: 4px !important;
+    border-radius: 999px !important;
+    border: 1px solid #d7deef !important;
+    background: linear-gradient(180deg, #eef2ff 0%, #e7eefc 100%) !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.8), 0 6px 14px rgba(30,45,90,0.08) !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+  }
+
+  .auth-view-btn {
+    flex: 1 1 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border: none !important;
+    border-radius: 999px !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    padding: 0 8px !important;
+    margin: 0 !important;
+    font-size: 0.66rem !important;
+    line-height: 1 !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.03em !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    color: #61708d !important;
+    background: transparent !important;
+    cursor: pointer !important;
+    transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease !important;
+    box-sizing: border-box !important;
+  }
+
+  .auth-view-btn:hover:not(.active) {
+    background: rgba(255,255,255,0.65) !important;
+    color: var(--brand-navy) !important;
+  }
+
+  .auth-view-btn.active {
+    color: var(--brand-navy) !important;
+    background: linear-gradient(180deg, #ffffff 0%, #f4f7ff 100%) !important;
+    box-shadow: 0 4px 10px rgba(30,45,90,0.14), inset 0 0 0 1px rgba(255,255,255,0.9) !important;
+  }
+
+  .auth-container {
+    max-width: 1140px;
+    grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
+    gap: 12px;
+    padding: 4px 14px 12px;
+    margin-top: 0 !important;
+    flex: 0 0 auto !important;
+  }
+
+  /* Center the entire auth shell vertically */
+  .auth-wrapper { 
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important; 
+    min-height: 100vh !important; 
+  }
+  .auth-wrapper > * { flex: 0 0 auto !important; }
+  .auth-login-panel, .auth-register-panel { margin-top: 0 !important; }
+
+  .auth-box {
+    border-radius: 18px;
+    border-color: #dbe4f0;
+    padding: 18px 18px;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06), 0 2px 6px rgba(15, 23, 42, 0.03);
+  }
+
+  .auth-box-title { font-size: 1.15rem !important; margin-bottom: 4px !important; }
+  .auth-box-desc  { font-size: 0.82rem !important; margin-bottom: 14px !important; }
+
+  .auth-login-panel .auth-box {
+    position: sticky !important;
+    top: 24px !important;
+  }
+
+  .role-list {
+    gap: 14px;
+  }
+
+  .role-item {
+    border-radius: 16px;
+    border-color: #dbe4f0;
+    box-shadow: 0 6px 14px rgba(15, 23, 42, 0.03);
+  }
+
+  .role-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08);
+  }
+
+  .role-item.active {
+    background: #fff1f6;
+    box-shadow: 0 0 0 1px var(--brand-pink), 0 14px 30px rgba(214,54,120,0.14);
+  }
+
+  .btn {
+    border-radius: 12px;
+  }
+
+  .auth-wrapper.mode-login .auth-container {
+    max-width: 650px;
+    grid-template-columns: 1fr;
+  }
+
+  .auth-wrapper.mode-login .auth-register-panel {
+    display: none;
+  }
+
+  .auth-wrapper.mode-login .auth-login-panel {
+    display: block;
+  }
+
+  .auth-wrapper.mode-login .auth-login-panel .auth-box {
+    position: static !important;
+  }
+
+  .auth-wrapper.mode-register .auth-container {
+    max-width: 900px;
+    grid-template-columns: 1fr;
+  }
+
+  .auth-wrapper.mode-register .auth-register-panel {
+    display: block;
+  }
+
+  .auth-wrapper.mode-register .auth-login-panel {
+    display: none;
+  }
+
+  @media (max-width: 900px) {
+    .auth-nav {
+      justify-content: center;
+      padding: 14px 12px 10px;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .brand-logo {
+      order: 1;
+      padding: 4px;
+    }
+
+    .brand-logo-img {
+      width: clamp(110px, 36vw, 160px);
+      height: clamp(110px, 36vw, 160px);
+    }
+
+    .auth-top-switch-wrap { padding: 14px 14px 8px !important; }
+
+    .auth-container {
+      grid-template-columns: 1fr;
+      padding: 4px 12px 10px !important;
+      gap: 8px !important;
+      margin-top: 0 !important;
+    }
+
+    .auth-box { padding: 14px; margin-top: 0 !important; }
+    .role-list { gap: 8px !important; margin-bottom: 12px !important; }
+    .role-item { padding: 10px 12px !important; }
+
+    .auth-login-panel .auth-box {
+      position: static !important;
+    }
+  }
+
+  /* Tablet portrait */
+  @media (min-width: 600px) and (max-width: 1024px) {
+    .brand-logo-img {
+      width: clamp(140px, 24vw, 180px);
+      height: clamp(140px, 24vw, 180px);
+    }
+    .auth-nav { padding: 22px 14px 14px; }
+    .auth-top-switch-wrap { padding: 18px 14px 12px !important; }
+  }
+
+  /* Small phones */
+  @media (max-width: 380px) {
+    .brand-logo-img {
+      width: 110px;
+      height: 110px;
+    }
+    .auth-nav { padding: 12px 10px 8px; }
+    .auth-top-switch-wrap { padding: 12px 10px 6px !important; }
+  }
+
+  /* ===== APK overflow safety net (login + register cards going off-screen) ===== */
+  html, body {
+    overflow-x: hidden !important;
+    max-width: 100% !important;
+  }
+  .auth-wrapper {
+    overflow-x: hidden !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+  .auth-container,
+  .auth-box,
+  .auth-login-panel,
+  .auth-register-panel,
+  .auth-login-panel > *,
+  .auth-register-panel > *,
+  .role-list,
+  .role-item,
+  .form-grid,
+  .form-group,
+  .form-control,
+  .pw-wrapper,
+  .btn {
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  .form-control { width: 100% !important; min-width: 0 !important; }
+
+  /* Force single-column form grid on phones (was 600px in base CSS, too tight) */
+  @media (max-width: 760px) {
+    .form-grid { grid-template-columns: 1fr !important; gap: 12px !important; }
+    .auth-container {
+      max-width: 100% !important;
+      padding: 4px 10px 14px !important;
+      gap: 10px !important;
+    }
+    .auth-box {
+      padding: 16px 14px !important;
+      border-radius: 14px !important;
+    }
+    .auth-box-title { font-size: 1.05rem !important; }
+    .auth-box-desc  { font-size: 0.78rem !important; margin-bottom: 12px !important; }
+    .role-item { padding: 10px 12px !important; }
+    .role-item-title { font-size: 0.92rem !important; }
+    .role-item-desc  { font-size: 0.76rem !important; }
+    .form-label { font-size: 0.82rem !important; }
+    .form-control {
+      padding: 11px 13px !important;
+      font-size: 0.92rem !important;
+    }
+    .btn {
+      padding: 13px 16px !important;
+      font-size: 0.95rem !important;
+    }
+    .auth-login-panel .auth-box,
+    .auth-register-panel .auth-box {
+      position: static !important;
+      top: auto !important;
+    }
+  }
+
+  /* Very small phones (<= 380px) — tighten further */
+  @media (max-width: 380px) {
+    .auth-container { padding: 2px 8px 12px !important; }
+    .auth-box { padding: 14px 12px !important; }
+    .form-control { padding: 10px 12px !important; font-size: 0.9rem !important; }
+    .role-item { padding: 9px 10px !important; }
+    .auth-view-switch { width: min(300px, 100%) !important; }
+  }
+
+  /* ===== MOBILE: Hide desktop left panel, fix right panel ===== */
+  @media (max-width: 1024px) {
+    .auth-left-panel {
+      display: none !important;
+    }
+    .auth-right-panel {
+      margin-left: 0 !important;
+      width: 100% !important;
+      height: auto !important;
+      min-height: 100vh !important;
+      overflow-y: visible !important;
+    }
+    .auth-wrapper {
+      min-height: 100vh !important;
+      justify-content: flex-start !important;
+    }
+    .auth-nav {
+      display: flex !important;
+    }
+    /* Hide inner tab switcher — outer pill handles mode switching */
+    .auth-login-panel .auth-box > div:first-child,
+    .auth-register-panel > div:first-child {
+      display: none !important;
+    }
+    .brand-logo-img {
+      width: clamp(90px, 28vw, 140px) !important;
+      height: clamp(90px, 28vw, 140px) !important;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .brand-logo-img {
+      width: 100px !important;
+      height: 100px !important;
+    }
+    .brand-logo {
+      padding: 3px !important;
+    }
+    .auth-nav {
+      padding: 12px 12px 6px !important;
+    }
+  }
+  
 </style>
 
+<!-- ===== SPLIT-SCREEN DESKTOP DESIGN OVERRIDE ===== -->
+<style>
+@media (min-width: 1025px) {
+
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  /* Body becomes a flex row */
+  body {
+    display: flex !important;
+    flex-direction: row !important;
+  }
+
+  /* ── LEFT PANEL ── */
+  .auth-left-panel {
+    width: 42% !important;
+    min-width: 42% !important;
+    height: 100vh !important;
+    position: fixed !important;
+    left: 0 !important;
+    top: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 48px 40px !important;
+    text-align: center !important;
+    background:
+      radial-gradient(ellipse at 25% 20%, rgba(214,54,120,0.20) 0%, transparent 50%),
+      radial-gradient(ellipse at 75% 80%, rgba(224,128,32,0.14) 0%, transparent 50%),
+      linear-gradient(155deg, #1a2547 0%, #1E2D5A 50%, #15203a 100%);
+    z-index: 10 !important;
+    overflow: hidden !important;
+  }
+
+  /* ── RIGHT PANEL ── */
+  .auth-right-panel {
+    margin-left: 42% !important;
+    width: 58% !important;
+    height: 100vh !important;
+    overflow-y: auto !important;
+    background: #f8fafc !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    position: relative !important;
+    z-index: 5 !important;
+  }
+
+  /* Right-panel nav buttons */
+  .auth-right-nav {
+    width: 100% !important;
+    padding: 28px 40px 0 !important;
+    display: flex !important;
+    justify-content: flex-end !important;
+    align-items: center !important;
+    gap: 10px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .auth-right-nav .auth-view-btn {
+    height: 44px !important;
+    padding: 0 24px !important;
+    width: auto !important;
+    min-width: 160px !important;
+    font-size: 0.82rem !important;
+    border-radius: 999px !important;
+    font-weight: 700 !important;
+    border: 2px solid #dbe4f0 !important;
+    background: #fff !important;
+    color: #64748b !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    font-family: 'Inter', sans-serif !important;
+    letter-spacing: 0.02em !important;
+    text-transform: uppercase !important;
+  }
+  .auth-right-nav .auth-view-btn.active {
+    background: #1E2D5A !important;
+    color: #fff !important;
+    border-color: #1E2D5A !important;
+    box-shadow: 0 4px 14px rgba(30,45,90,0.28) !important;
+  }
+  .auth-right-nav .auth-view-btn:hover:not(.active) {
+    border-color: #1E2D5A !important;
+    color: #1E2D5A !important;
+    background: #fff !important;
+  }
+
+  /* Hide old top nav & switch — replaced by in-card tabs */
+  .auth-nav { display: none !important; }
+  .auth-top-switch-wrap { display: none !important; }
+  .auth-right-nav { display: none !important; }
+
+  /* Card TRULY centered in right panel */
+  .auth-right-panel {
+    justify-content: center !important;
+    align-items: center !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  /* Center the form container */
+  .auth-container {
+    width: 100% !important;
+    max-width: 560px !important;
+    grid-template-columns: 1fr !important;
+    padding: 24px !important;
+    gap: 20px !important;
+    margin: 0 auto !important;
+    flex: unset !important;
+  }
+
+  .auth-wrapper.mode-login .auth-container  { max-width: 500px !important; }
+  .auth-wrapper.mode-register .auth-container { max-width: 700px !important; }
+
+
+  /* auth-wrapper — flex column centered inside right panel */
+  .auth-wrapper {
+    width: 100% !important;
+    max-width: 100% !important;
+    background: none !important;
+    min-height: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    overflow: visible !important;
+    flex: unset !important;
+  }
+
+  .auth-wrapper.mode-login .auth-register-panel  { display: none !important; }
+  .auth-wrapper.mode-login .auth-login-panel     { display: block !important; }
+  .auth-wrapper.mode-register .auth-register-panel { display: block !important; }
+  .auth-wrapper.mode-register .auth-login-panel  { display: none !important; }
+
+
+  .auth-box {
+    border-radius: 20px !important;
+    padding: 32px 32px !important;
+    box-shadow: 0 8px 28px rgba(15,23,42,0.08), 0 2px 6px rgba(15,23,42,0.04) !important;
+    border: 1px solid #e2e8f0 !important;
+    background: #fff !important;
+  }
+  .auth-login-panel .auth-box { position: static !important; }
+  .auth-box-title { font-size: 1.5rem !important; margin-bottom: 6px !important; }
+  .auth-box-desc  { font-size: 0.93rem !important; margin-bottom: 22px !important; }
+  .btn { border-radius: 10px !important; }
+}
+</style>
+
+
+<!-- Left branding panel (only visible on desktop via CSS) -->
+<div class="auth-left-panel" id="authLeftPanel">
+  <!-- Logo glow ring -->
+  <div style="width:150px;height:150px;border-radius:50%;padding:4px;background:linear-gradient(135deg,#D63678,#E08020,#f4c542,#1E2D5A);box-shadow:0 18px 48px rgba(214,54,120,0.28),0 6px 20px rgba(0,0,0,0.25);margin-bottom:28px;flex-shrink:0;">
+    <img src="/kidba_assets/img/splash_logo.jpg" alt="Imaan & Akhlaq" style="width:100%;height:100%;border-radius:50%;object-fit:cover;border:4px solid #fff;" />
+  </div>
+
+  <!-- Brand name -->
+  <div style="font-family:'Fredoka One',cursive;font-size:2.4rem;color:#fff;line-height:1.1;margin-bottom:10px;letter-spacing:0.5px;">
+    Imaan<br><span style="color:#f4c542;">&</span> Akhlaq
+  </div>
+
+  <p style="color:rgba(255,255,255,0.65);font-size:1rem;font-weight:500;max-width:260px;line-height:1.6;margin-bottom:36px;">
+    Moral education for kids — building character, values &amp; good manners.
+  </p>
+
+  <!-- Feature highlights -->
+  <div style="display:flex;flex-direction:column;gap:14px;width:100%;max-width:280px;">
+    <div style="display:flex;align-items:center;gap:12px;background:rgba(255,255,255,0.07);border-radius:12px;padding:12px 16px;border:1px solid rgba(255,255,255,0.1);">
+      <div style="width:36px;height:36px;border-radius:10px;background:rgba(214,54,120,0.25);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <i class="fas fa-star" style="color:#f48fb1;font-size:0.95rem;"></i>
+      </div>
+      <span style="color:rgba(255,255,255,0.85);font-size:0.88rem;font-weight:600;">Character & Values Education</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;background:rgba(255,255,255,0.07);border-radius:12px;padding:12px 16px;border:1px solid rgba(255,255,255,0.1);">
+      <div style="width:36px;height:36px;border-radius:10px;background:rgba(224,128,32,0.25);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <i class="fas fa-school" style="color:#ffcc80;font-size:0.95rem;"></i>
+      </div>
+      <span style="color:rgba(255,255,255,0.85);font-size:0.88rem;font-weight:600;">School &amp; Parent Portals</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;background:rgba(255,255,255,0.07);border-radius:12px;padding:12px 16px;border:1px solid rgba(255,255,255,0.1);">
+      <div style="width:36px;height:36px;border-radius:10px;background:rgba(244,197,66,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <i class="fas fa-gamepad" style="color:#f4c542;font-size:0.95rem;"></i>
+      </div>
+      <span style="color:rgba(255,255,255,0.85);font-size:0.88rem;font-weight:600;">Gamified Learning Journey</span>
+    </div>
+  </div>
+
+  <!-- Bottom copyright -->
+  <p style="position:absolute;bottom:24px;color:rgba(255,255,255,0.3);font-size:0.75rem;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;">
+    © 2025 Imaan & Akhlaq
+  </p>
+</div>
+
+<!-- Right panel wrapper -->
+<div class="auth-right-panel" id="authRightPanel">
+
 <div class="auth-wrapper">
-  
-  <!-- Navigation Header -->
+
+  <!-- Navigation Header (hidden on desktop) -->
   <header class="auth-nav">
     <a href="/" class="back-link" id="authBackLink"><i class="fas fa-arrow-left"></i> Back to Homepage</a>
     <a href="/" class="brand-logo" id="authBrandLink" aria-label="Imaan and Akhlaq">
@@ -411,8 +975,8 @@ export const AuthPage = () => html`
   </header>
 
   <main class="auth-container">
-    
-    <!-- Mode switch: Login / Register -->
+
+    <!-- Mode switch (mobile only) -->
     <div class="auth-top-switch-wrap" style="grid-column: 1 / -1;">
       <div class="auth-view-switch">
         <button id="authModeLogin" type="button" class="auth-view-btn active" onclick="setAuthPanel('login')">Already Registered</button>
@@ -422,6 +986,20 @@ export const AuthPage = () => html`
 
     <!-- LEFT: Registration Focus -->
     <section class="auth-register-panel">
+
+      <!-- Tab switcher sticky at top -->
+      <div style="display:flex;gap:0;margin-bottom:28px;background:#f1f5f9;border-radius:10px;padding:4px;max-width:340px;">
+        <button type="button" onclick="setAuthPanel('login')"
+          id="regTabLogin"
+          style="flex:1;padding:9px 12px;border:none;border-radius:8px;font-size:0.82rem;font-weight:700;cursor:pointer;transition:all 0.2s;font-family:'Inter',sans-serif;letter-spacing:0.02em;background:transparent;color:#64748b;">
+          &#8592; Already Registered
+        </button>
+        <button type="button" onclick="setAuthPanel('register')"
+          style="flex:1;padding:9px 12px;border:none;border-radius:8px;font-size:0.82rem;font-weight:700;cursor:pointer;transition:all 0.2s;font-family:'Inter',sans-serif;letter-spacing:0.02em;background:#1E2D5A;color:#fff;box-shadow:0 2px 8px rgba(30,45,90,0.2);">
+          New Registration
+        </button>
+      </div>
+
       <h1 style="font-size:1.75rem; font-weight:800; color:var(--brand-navy); margin-bottom:8px; letter-spacing:-0.02em;">Create your account</h1>
       <p style="color:var(--text-sec); font-size:0.92rem; margin-bottom:24px; max-width:520px; line-height:1.5;">Choose a role to get started. Schools register directly. Teachers, Students, and Parents need a school invitation code.</p>
 
@@ -577,6 +1155,19 @@ export const AuthPage = () => html`
     <!-- RIGHT: Login Focus -->
     <aside class="auth-login-panel">
       <div class="auth-box" style="position:sticky; top:40px;">
+
+        <!-- Tab switcher inside card -->
+        <div style="display:flex;gap:0;margin-bottom:22px;background:#f1f5f9;border-radius:10px;padding:4px;">
+          <button id="authRightLogin" type="button" onclick="setAuthPanel('login')"
+            style="flex:1;padding:9px 12px;border:none;border-radius:8px;font-size:0.82rem;font-weight:700;cursor:pointer;transition:all 0.2s;font-family:'Inter',sans-serif;letter-spacing:0.02em;background:#1E2D5A;color:#fff;box-shadow:0 2px 8px rgba(30,45,90,0.2);">
+            Already Registered
+          </button>
+          <button id="authRightRegister" type="button" onclick="setAuthPanel('register')"
+            style="flex:1;padding:9px 12px;border:none;border-radius:8px;font-size:0.82rem;font-weight:700;cursor:pointer;transition:all 0.2s;font-family:'Inter',sans-serif;letter-spacing:0.02em;background:transparent;color:#64748b;">
+            New Registration
+          </button>
+        </div>
+
         <h3 class="auth-box-title">Welcome back</h3>
         <p class="auth-box-desc">Log in to enter your portal.</p>
 
@@ -598,7 +1189,8 @@ export const AuthPage = () => html`
     </aside>
 
   </main>
-</div>
+</div><!-- /auth-wrapper -->
+</div><!-- /auth-right-panel -->
 
 <!-- OTP VERIFICATION MODAL -->
 <div id="otpOverlay" class="modal-overlay">
@@ -670,10 +1262,310 @@ export const AuthPage = () => html`
   })();
 </script>
 
+<script>
+  window.setAuthPanel = function (mode) {
+    var wrapper = document.querySelector('.auth-wrapper');
+    var loginBtn = document.getElementById('authModeLogin');
+    var registerBtn = document.getElementById('authModeRegister');
+    if (!wrapper || !loginBtn || !registerBtn) return;
+
+    var isRegister = mode === 'register';
+    if (isRegister) {
+      wrapper.classList.add('mode-register');
+      wrapper.classList.remove('mode-login');
+      registerBtn.classList.add('active');
+      loginBtn.classList.remove('active');
+    } else {
+      wrapper.classList.add('mode-login');
+      wrapper.classList.remove('mode-register');
+      loginBtn.classList.add('active');
+      registerBtn.classList.remove('active');
+    }
+  };
+
+  document.addEventListener('DOMContentLoaded', function () {
+    window.setAuthPanel('login');
+  });
+</script>
+
+<script>
+  (function () {
+    if (window.__apkLegacyAuthInit) return;
+    window.__apkLegacyAuthInit = true;
+
+    var FIREBASE_API_KEY = 'AIzaSyA4MrV-oXhK_johreyzIucti5RFrKcvyG8';
+    var FIREBASE_PROJECT_ID = 'imaan-app-1d2da';
+
+    function showLegacyToast(message, type) {
+      var toast = document.getElementById('authToast');
+      if (!toast) {
+        alert(message);
+        return;
+      }
+      toast.textContent = message;
+      toast.className = 'toast show ' + (type || 'error');
+      setTimeout(function () {
+        toast.className = 'toast';
+      }, 2500);
+    }
+
+    function showToastCompat(message, type) {
+      if (typeof window.showToast === 'function') {
+        try {
+          window.showToast(message, type);
+          return;
+        } catch (e) {}
+      }
+      showLegacyToast(message, type);
+    }
+
+    function normalizePhone(value) {
+      return String(value || '').replace(/[^0-9+]/g, '');
+    }
+
+    function decodeFsValue(value) {
+      if (!value) return null;
+      if (Object.prototype.hasOwnProperty.call(value, 'stringValue')) return value.stringValue;
+      if (Object.prototype.hasOwnProperty.call(value, 'integerValue')) return Number(value.integerValue);
+      if (Object.prototype.hasOwnProperty.call(value, 'doubleValue')) return Number(value.doubleValue);
+      if (Object.prototype.hasOwnProperty.call(value, 'booleanValue')) return !!value.booleanValue;
+      if (Object.prototype.hasOwnProperty.call(value, 'timestampValue')) return value.timestampValue;
+      if (Object.prototype.hasOwnProperty.call(value, 'nullValue')) return null;
+      return null;
+    }
+
+    function decodeFsFields(fields) {
+      var out = {};
+      if (!fields) return out;
+      for (var key in fields) {
+        if (!Object.prototype.hasOwnProperty.call(fields, key)) continue;
+        out[key] = decodeFsValue(fields[key]);
+      }
+      return out;
+    }
+
+    function mapAuthError(message) {
+      if (!message) return 'Login failed. Please retry.';
+      if (message === 'INVALID_LOGIN_CREDENTIALS') return 'Invalid email or password.';
+      if (message === 'INVALID_PASSWORD') return 'Invalid password.';
+      if (message === 'EMAIL_NOT_FOUND') return 'Email not found.';
+      if (message === 'USER_DISABLED') return 'This account is disabled.';
+      if (message === 'TOO_MANY_ATTEMPTS_TRY_LATER') return 'Too many attempts. Try later.';
+      return message;
+    }
+
+    function xhrJson(method, url, body, headers, cb) {
+      var req = new XMLHttpRequest();
+      req.open(method, url, true);
+      req.setRequestHeader('Content-Type', 'application/json');
+      if (headers) {
+        for (var key in headers) {
+          if (Object.prototype.hasOwnProperty.call(headers, key)) {
+            req.setRequestHeader(key, headers[key]);
+          }
+        }
+      }
+
+      req.onreadystatechange = function () {
+        if (req.readyState !== 4) return;
+
+        var parsed = null;
+        try {
+          parsed = req.responseText ? JSON.parse(req.responseText) : {};
+        } catch (e) {
+          parsed = {};
+        }
+
+        if (req.status >= 200 && req.status < 300) cb(null, parsed);
+        else cb(parsed || { error: { message: 'HTTP_' + req.status } }, null);
+      };
+
+      req.onerror = function () {
+        cb({ error: { message: 'NETWORK_ERROR' } }, null);
+      };
+
+      req.send(body ? JSON.stringify(body) : null);
+    }
+
+    function lookupEmailByPhone(phone, done) {
+      var candidates = [phone];
+      if (phone.charAt(0) === '+') candidates.push(phone.slice(1));
+      else candidates.push('+' + phone);
+
+      var index = 0;
+      function next() {
+        if (index >= candidates.length) {
+          done('');
+          return;
+        }
+
+        var candidate = candidates[index++];
+        var queryUrl = 'https://firestore.googleapis.com/v1/projects/' + FIREBASE_PROJECT_ID + '/databases/(default)/documents:runQuery?key=' + FIREBASE_API_KEY;
+        var queryBody = {
+          structuredQuery: {
+            from: [{ collectionId: 'users' }],
+            where: {
+              fieldFilter: {
+                field: { fieldPath: 'phone' },
+                op: 'EQUAL',
+                value: { stringValue: candidate }
+              }
+            },
+            limit: 1
+          }
+        };
+
+        xhrJson('POST', queryUrl, queryBody, null, function (err, data) {
+          if (err || !data || !data.length || !data[0].document || !data[0].document.fields) {
+            next();
+            return;
+          }
+
+          var userFields = decodeFsFields(data[0].document.fields);
+          done(userFields.email || '');
+        });
+      }
+
+      next();
+    }
+
+    function fetchUserDoc(uid, idToken, cb) {
+      var docUrl = 'https://firestore.googleapis.com/v1/projects/' + FIREBASE_PROJECT_ID + '/databases/(default)/documents/users/' + encodeURIComponent(uid) + '?key=' + FIREBASE_API_KEY;
+      xhrJson('GET', docUrl, null, { Authorization: 'Bearer ' + idToken }, function (err, data) {
+        if (err || !data || !data.fields) {
+          cb(new Error('User record not found in system.'), null);
+          return;
+        }
+        cb(null, decodeFsFields(data.fields));
+      });
+    }
+
+    function saveAuthAndRedirect(uid, userData) {
+      var payload = { uid: uid };
+      for (var key in userData) {
+        if (Object.prototype.hasOwnProperty.call(userData, key)) payload[key] = userData[key];
+      }
+
+      var authData = JSON.stringify(payload);
+      localStorage.setItem('auth_user', authData);
+      sessionStorage.setItem('auth_user', authData);
+
+      showToastCompat('Success! Redirecting...', 'success');
+      setTimeout(function () {
+        if (userData.role === 'super_admin') window.location.href = './super-admin-dashboard.html';
+        else if (userData.role === 'school_admin') window.location.href = './admin-dashboard.html';
+        else if (userData.role === 'teacher') window.location.href = './teacher-dashboard.html';
+        else if (userData.role === 'student' || userData.role === 'individual') window.location.href = './student-activities.html';
+        else if (userData.role === 'parent') window.location.href = './parent-dashboard.html';
+        else showToastCompat('User role not configured.', 'error');
+      }, 700);
+    }
+
+    function signInWithEmail(email, password, onDone, onError) {
+      var authUrl = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' + FIREBASE_API_KEY;
+      var authBody = { email: email, password: password, returnSecureToken: true };
+
+      xhrJson('POST', authUrl, authBody, null, function (err, data) {
+        if (err || !data || !data.localId || !data.idToken) {
+          var code = err && err.error && err.error.message ? err.error.message : 'LOGIN_FAILED';
+          onError(mapAuthError(code));
+          return;
+        }
+        onDone(data.localId, data.idToken);
+      });
+    }
+
+    window.togglePw = function (id) {
+      var inp = document.getElementById(id);
+      if (!inp) return;
+
+      var btn = inp.nextElementSibling;
+      var icon = null;
+      if (btn && btn.querySelector) icon = btn.querySelector('i');
+      if (!icon && inp.parentElement && inp.parentElement.querySelector) icon = inp.parentElement.querySelector('.pw-toggle i');
+
+      if (inp.type === 'password') {
+        inp.type = 'text';
+        if (icon) icon.className = 'fas fa-eye-slash';
+      } else {
+        inp.type = 'password';
+        if (icon) icon.className = 'fas fa-eye';
+      }
+    };
+
+    window.selectRole = function (role) {
+      if (typeof window.setAuthPanel === 'function') window.setAuthPanel('register');
+
+      var cards = document.querySelectorAll('.role-item');
+      for (var i = 0; i < cards.length; i++) cards[i].classList.remove('active');
+
+      var forms = document.querySelectorAll('.reg-form-wrapper');
+      for (var j = 0; j < forms.length; j++) forms[j].classList.remove('open');
+
+      var targetCard = document.querySelector('.role-item-' + role);
+      if (targetCard) targetCard.classList.add('active');
+
+      var targetForm = document.getElementById('form-' + role);
+      if (targetForm) {
+        targetForm.classList.add('open');
+        if (targetForm.scrollIntoView) targetForm.scrollIntoView();
+      }
+    };
+
+    window.closeSuccess = function () {
+      var overlay = document.getElementById('successOverlay');
+      if (overlay) overlay.classList.remove('show');
+    };
+
+    window.loginUser = function () {
+      var loginIdEl = document.getElementById('loginId');
+      var loginPwEl = document.getElementById('loginPw');
+      if (!loginIdEl || !loginPwEl) return;
+
+      var rawId = String(loginIdEl.value || '').trim();
+      var pw = loginPwEl.value;
+      if (!rawId || !pw) {
+        showToastCompat('Enter email and password', 'error');
+        return;
+      }
+
+      showToastCompat('Logging in...', 'success');
+
+      function completeLogin(uid, idToken) {
+        fetchUserDoc(uid, idToken, function (err, userData) {
+          if (err) {
+            showToastCompat(err.message || 'User record not found in system.', 'error');
+            return;
+          }
+          saveAuthAndRedirect(uid, userData || {});
+        });
+      }
+
+      if (rawId.indexOf('@') !== -1) {
+        signInWithEmail(rawId, pw, completeLogin, function (msg) {
+          showToastCompat(msg, 'error');
+        });
+        return;
+      }
+
+      var normalizedPhone = normalizePhone(rawId);
+      lookupEmailByPhone(normalizedPhone, function (email) {
+        if (!email) {
+          showToastCompat('No account found for this phone number. Try email login.', 'error');
+          return;
+        }
+        signInWithEmail(email, pw, completeLogin, function (msg) {
+          showToastCompat(msg, 'error');
+        });
+      });
+    };
+  })();
+</script>
+
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-  import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, onAuthStateChanged, updateProfile, setPersistence, browserLocalPersistence, indexedDBLocalPersistence } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-  import { getFirestore, doc, setDoc, getDoc, query, collection, where, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+  import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, signOut, onAuthStateChanged, updateProfile, setPersistence, browserLocalPersistence, indexedDBLocalPersistence } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+  import { getFirestore, doc, setDoc, getDoc, updateDoc, query, collection, where, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
   document.addEventListener('DOMContentLoaded', () => {
     // Smooth scroll for inputs when focused (fixes keyboard overlap)
@@ -686,13 +1578,7 @@ export const AuthPage = () => html`
       });
     });
 
-    const isCap = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
-    const bl = document.getElementById('authBackLink');
-    const logo = document.getElementById('authBrandLink');
-    if (isCap) {
-        if (bl) bl.style.display = 'none';
-        if (logo) logo.href = 'javascript:void(0)';
-    }
+
   });
 
   const firebaseConfig = {
@@ -721,12 +1607,26 @@ export const AuthPage = () => html`
     const wrapper = document.querySelector('.auth-wrapper');
     const loginBtn = document.getElementById('authModeLogin');
     const registerBtn = document.getElementById('authModeRegister');
-    if (!wrapper || !loginBtn || !registerBtn) return;
+    // Inline card tab buttons
+    const rightLoginBtn = document.getElementById('authRightLogin');
+    const rightRegisterBtn = document.getElementById('authRightRegister');
+    if (!wrapper) return;
     const isRegister = mode === 'register';
     wrapper.classList.toggle('mode-register', isRegister);
     wrapper.classList.toggle('mode-login', !isRegister);
-    loginBtn.classList.toggle('active', !isRegister);
-    registerBtn.classList.toggle('active', isRegister);
+    if (loginBtn)    loginBtn.classList.toggle('active', !isRegister);
+    if (registerBtn) registerBtn.classList.toggle('active', isRegister);
+    // Style card tabs
+    if (rightLoginBtn) {
+      rightLoginBtn.style.background = isRegister ? 'transparent' : '#1E2D5A';
+      rightLoginBtn.style.color = isRegister ? '#64748b' : '#fff';
+      rightLoginBtn.style.boxShadow = isRegister ? 'none' : '0 2px 8px rgba(30,45,90,0.2)';
+    }
+    if (rightRegisterBtn) {
+      rightRegisterBtn.style.background = isRegister ? '#1E2D5A' : 'transparent';
+      rightRegisterBtn.style.color = isRegister ? '#fff' : '#64748b';
+      rightRegisterBtn.style.boxShadow = isRegister ? '0 2px 8px rgba(30,45,90,0.2)' : 'none';
+    }
   };
 
   document.addEventListener('DOMContentLoaded', () => { window.setAuthPanel('login'); });
@@ -742,9 +1642,18 @@ export const AuthPage = () => html`
 
   window.togglePw = (id) => {
     const inp = document.getElementById(id);
-    const icon = inp.nextElementSibling?.querySelector('i') || inp.parentElement.querySelector('.pw-toggle i');
-    if (inp.type === 'password') { inp.type = 'text'; icon.className = 'fas fa-eye-slash'; }
-    else { inp.type = 'password'; icon.className = 'fas fa-eye'; }
+    if (!inp) return;
+
+    const btn = inp.nextElementSibling;
+    const icon = (btn && btn.querySelector('i')) || inp.parentElement.querySelector('.pw-toggle i');
+
+    if (inp.type === 'password') {
+      inp.type = 'text';
+      if (icon) icon.className = 'fas fa-eye-slash';
+    } else {
+      inp.type = 'password';
+      if (icon) icon.className = 'fas fa-eye';
+    }
   };
 
   // Track the email of the just-registered user so we can prefill the login form
@@ -935,25 +1844,67 @@ export const AuthPage = () => html`
   window.registerWithCode = async (role) => {
     let pre = role==='teacher'?'TCH':role==='student'?'STU':'PAR';
     let p = role === 'teacher' ? 'Tch' : role === 'student' ? 'Stu' : 'Par';
-    
-    const code  = document.getElementById('reg'+p+'Code').value.trim().toUpperCase();
-    const name  = document.getElementById('reg'+p+'Name').value.trim();
-    const email = document.getElementById('reg'+p+'Email').value.trim();
-    const phone = document.getElementById('reg'+p+'Phone').value.trim();
-    const pw    = document.getElementById('reg'+p+'Pw').value;
-    const pw2   = document.getElementById('reg'+p+'Pw2').value;
 
-    if (!code || !name || !email || !phone || !pw) return showToast('Please fill missing fields', 'error');
-    if (pw !== pw2) return showToast('Passwords mismatch', 'error');
-    if (!code.startsWith(pre+'-')) return showToast('Invalid code format. Must start with '+pre+'-', 'error');
+    const rawCode = (document.getElementById('reg'+p+'Code').value || '').trim().toUpperCase();
+    const name    = document.getElementById('reg'+p+'Name').value.trim();
+    const email   = document.getElementById('reg'+p+'Email').value.trim();
+    const phone   = document.getElementById('reg'+p+'Phone').value.trim();
+    const pw      = document.getElementById('reg'+p+'Pw').value;
+    const pw2     = document.getElementById('reg'+p+'Pw2').value;
 
-    // Validate invite BEFORE sending OTP so we don't waste codes
+    if (!rawCode || !name || !email || !phone || !pw) return showToast('Please fill all fields', 'error');
+    if (pw !== pw2) return showToast('Passwords do not match', 'error');
+    if (!rawCode.startsWith(pre + '-')) return showToast('Wrong code format. Code must start with ' + pre + '-', 'error');
+
     showToast('Validating code...', 'success');
-    const inviteReq = await getDoc(doc(db, "invites", code));
-    if (!inviteReq.exists()) return showToast('Invalid or unrecognized code.', 'error');
-    const inviteData = inviteReq.data();
-    if (inviteData.status !== 'pending') return showToast('This code has already been used or is inactive.', 'error');
-    if (inviteData.role !== role) return showToast('This code is not for the ' + role + ' role.', 'error');
+
+    let inviteData = null;
+    try {
+      // Primary: try Firebase SDK (requires Firestore rules to allow public reads on invites)
+      const inviteSnap = await getDoc(doc(db, 'invites', rawCode));
+      if (inviteSnap.exists()) {
+        inviteData = inviteSnap.data();
+      }
+    } catch (sdkErr) {
+      // SDK read blocked (e.g. Firestore rules require auth) — fallback to REST API
+      console.warn('Firestore SDK read failed, trying REST fallback:', sdkErr.code || sdkErr.message);
+      try {
+        const PROJ = firebaseConfig.projectId;
+        const KEY  = firebaseConfig.apiKey;
+        const url  = 'https://firestore.googleapis.com/v1/projects/' + PROJ + '/databases/(default)/documents/invites/' + encodeURIComponent(rawCode) + '?key=' + KEY;
+        const resp = await fetch(url);
+        if (resp.ok) {
+          const json = await resp.json();
+          if (json && json.fields) {
+            // Decode Firestore REST response format
+            const decode = (fields) => {
+              const out = {};
+              for (const k in fields) {
+                const v = fields[k];
+                out[k] = v.stringValue !== undefined ? v.stringValue
+                       : v.booleanValue !== undefined ? v.booleanValue
+                       : v.integerValue !== undefined ? Number(v.integerValue)
+                       : v.nullValue !== undefined ? null : String(Object.values(v)[0] || '');
+              }
+              return out;
+            };
+            inviteData = decode(json.fields);
+          }
+        }
+      } catch (restErr) {
+        console.error('REST fallback also failed:', restErr);
+      }
+    }
+
+    if (!inviteData) {
+      return showToast('Code not found. Please check and try again.', 'error');
+    }
+    if (inviteData.status !== 'pending') {
+      return showToast('This code has already been used or is no longer active.', 'error');
+    }
+    if (inviteData.role !== role) {
+      return showToast('This code is for a ' + inviteData.role + ', not a ' + role + '.', 'error');
+    }
 
     beginOtp(email, name, async () => {
       showToast('Creating account...', 'success');
@@ -965,22 +1916,28 @@ export const AuthPage = () => html`
         email: email,
         phone: phone,
         name: name,
-        invitation_code: code,
-        school_id: inviteData.school_id
+        invitation_code: rawCode,
+        school_id: inviteData.school_id || ''
       };
       if (inviteData.class_id) userPayload.class_id = inviteData.class_id;
       if (inviteData.linked_student_code) userPayload.linked_student_code = inviteData.linked_student_code;
 
-      await setDoc(doc(db, "users", user.uid), userPayload);
-      await updateDoc(doc(db, "invites", code), {
-        status: 'used',
-        used_by_uid: user.uid,
-        used_at: new Date().toISOString()
-      });
+      await setDoc(doc(db, 'users', user.uid), userPayload);
+
+      // Mark invite as used — wrapped separately so a failure here doesn't block account creation
+      try {
+        await updateDoc(doc(db, 'invites', rawCode), {
+          status: 'used',
+          used_by_uid: user.uid,
+          used_at: new Date().toISOString()
+        });
+      } catch (updErr) {
+        console.warn('Could not mark invite as used (non-critical):', updErr.message);
+      }
 
       lastRegisteredEmail = email;
       document.getElementById('successTitle').textContent = 'Account Ready!';
-      document.getElementById('successMsg').textContent = 'Welcome '+name+', you can log in now.';
+      document.getElementById('successMsg').textContent = 'Welcome ' + name + '! Your account is ready. Please log in now.';
       document.getElementById('successCodes').innerHTML = '';
       document.getElementById('successOverlay').classList.add('show');
     });
@@ -1012,32 +1969,107 @@ export const AuthPage = () => html`
   };
 
   window.loginUser = async () => {
-    const id = document.getElementById('loginId').value.trim();
+    const rawId = document.getElementById('loginId').value.trim();
     const pw = document.getElementById('loginPw').value;
-    if (!id || !pw) return showToast('Enter email and password', 'error');
+    if (!rawId || !pw) return showToast('Enter email and password', 'error');
 
     try {
       showToast('Logging in...', 'success');
-      const userCredential = await signInWithEmailAndPassword(auth, id, pw);
+
+      let emailToUse = rawId;
+      if (!rawId.includes('@')) {
+        const id = rawId.replace(/[^0-9+]/g, '');
+        if (!id) return showToast('Please enter a valid email or phone number', 'error');
+        const phoneCandidates = [id, id.startsWith('+') ? id.slice(1) : '+' + id];
+        let matchedEmail = '';
+
+        // Try Firestore SDK first (works if user has cached auth session)
+        for (const phone of phoneCandidates) {
+          try {
+            const usersRef = collection(db, 'users');
+            const q = query(usersRef, where('phone', '==', phone));
+            const snap = await getDocs(q);
+            if (!snap.empty) {
+              const data = snap.docs[0].data();
+              if (data && data.email) {
+                matchedEmail = data.email;
+                break;
+              }
+            }
+          } catch (sdkErr) {
+            console.warn('SDK phone lookup failed (expected on new device):', sdkErr.code || sdkErr.message);
+          }
+        }
+
+        // Fallback: REST API for phone lookup (works without auth session)
+        if (!matchedEmail) {
+          const PROJ = firebaseConfig.projectId;
+          const KEY  = firebaseConfig.apiKey;
+          for (const phone of phoneCandidates) {
+            try {
+              const restUrl = 'https://firestore.googleapis.com/v1/projects/' + PROJ +
+                '/databases/(default)/documents:runQuery?key=' + KEY;
+              const resp = await fetch(restUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  structuredQuery: {
+                    from: [{ collectionId: 'users' }],
+                    where: {
+                      fieldFilter: {
+                        field: { fieldPath: 'phone' },
+                        op: 'EQUAL',
+                        value: { stringValue: phone }
+                      }
+                    },
+                    limit: 1
+                  }
+                })
+              });
+              if (resp.ok) {
+                const results = await resp.json();
+                if (results && results.length > 0 && results[0].document && results[0].document.fields) {
+                  const emailField = results[0].document.fields.email;
+                  if (emailField && emailField.stringValue) {
+                    matchedEmail = emailField.stringValue;
+                    break;
+                  }
+                }
+              }
+            } catch (restErr) {
+              console.warn('REST phone lookup failed:', restErr);
+            }
+          }
+        }
+
+        if (!matchedEmail) {
+          return showToast('No account found for this phone number. Try using your email instead.', 'error');
+        }
+        emailToUse = matchedEmail;
+      }
+
+      const userCredential = await signInWithEmailAndPassword(auth, emailToUse, pw);
       const user = userCredential.user;
-      
+
       const userDoc = await getDoc(doc(db, "users", user.uid));
       if (userDoc.exists()) {
         const userData = userDoc.data();
-        sessionStorage.setItem('auth_user', JSON.stringify({ uid: user.uid, ...userData }));
-        localStorage.setItem('auth_user', JSON.stringify({ uid: user.uid, ...userData }));
-        
+        const authData = JSON.stringify({ uid: user.uid, ...userData });
+        localStorage.setItem('auth_user', authData);
+        sessionStorage.setItem('auth_user', authData);
+
         showToast('Success! Redirecting...', 'success');
         setTimeout(() => {
-          if (userData.role === 'super_admin' || userData.role === 'superadmin') window.location.href = './super-admin-dashboard.html';
-          else if (userData.role === 'school_admin') window.location.href = './admin-dashboard.html';
+          if (userData.role === 'super_admin') window.location.href = './super-admin-dashboard.html';
+        else if (userData.role === 'school_admin') window.location.href = './admin-dashboard.html';
           else if (userData.role === 'teacher') window.location.href = './teacher-dashboard.html';
           else if (userData.role === 'student' || userData.role === 'individual') window.location.href = './student-activities.html';
           else if (userData.role === 'parent') window.location.href = './parent-dashboard.html';
-          else showToast('Unknown role: ' + (userData.role || 'none'), 'error');
         }, 1000);
       } else {
-        showToast('User record not found in system.', 'error');
+        showToast('Your login worked but no account profile was found in the database. Please re-register or ask your school admin to re-create your invitation code.', 'error');
+        // Sign out since we can't redirect without a user doc
+        try { await signOut(auth); } catch(_) {}
       }
     } catch (error) {
       showToast(error.message, 'error');
@@ -1073,7 +2105,4 @@ export const AuthPage = () => html`
   };
 
 </script>
-
-<link rel="stylesheet" href="kidba_assets/css/apk-bottombar.css">
-<script defer src="kidba_assets/js/apk-bottombar.js"></script>
-`
+`;

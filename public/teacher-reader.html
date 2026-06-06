@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Book Reader - Imaan &amp; Akhlaq</title>
+  <link rel="icon" type="image/jpeg" href="/kidba_assets/favicon.jpg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Sora:wght@400;600;700;800&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/kidba_assets/vendor/css/all.min.css" />
+  <!-- StPageFlip — same library as student dashboard -->
+  <script src="/kidba_assets/vendor/js/page-flip.browser.js" defer></script>
+  <script src="/kidba_assets/js/pdf.min.js"></script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Sora', 'Nunito', sans-serif;
+      background: #1b2942;
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+    }
+
+    /* ── TOP BAR ── */
+    .reader-topbar {
+      position: fixed; top: 0; left: 0; right: 0;
+      height: 52px;
+      background: rgba(255,255,255,0.97);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(20,30,60,0.08);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+      display: flex; align-items: center;
+      justify-content: space-between;
+      padding: 0 16px; gap: 12px;
+      z-index: 2000;
+    }
+    .back-btn {
+      background: #1e3a5f; color: #fff;
+      border: none; padding: 7px 18px;
+      border-radius: 999px; font-size: 0.82rem;
+      font-weight: 700; cursor: pointer;
+      display: flex; align-items: center; gap: 6px;
+      text-decoration: none; transition: background 0.2s;
+      font-family: 'Sora', sans-serif;
+    }
+    .back-btn:hover { background: #cf296d; color: #fff; }
+    .reader-title {
+      flex: 1; text-align: center;
+      font-weight: 800; font-size: 0.92rem;
+      color: #1b2942; white-space: nowrap;
+      overflow: hidden; text-overflow: ellipsis;
+    }
+    .page-nav-chip {
+      background: rgba(30,58,95,0.08); color: #1e3a5f;
+      padding: 6px 14px; border-radius: 999px;
+      font-size: 0.78rem; font-weight: 700;
+    }
+
+    /* ── FLIPBOOK AREA ── */
+    .reader-body {
+      flex: 1; padding-top: 52px;
+      background: linear-gradient(180deg, #efe6d2 0%, #d9ccaf 100%);
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+      min-height: calc(100vh - 52px);
+    }
+    #flipbookContainer {
+      display: flex; align-items: center; justify-content: center;
+    }
+    .page-content {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      background: #fff;
+      font-size: 14px; color: #555;
+    }
+    .page-content canvas {
+      max-width: 100%; max-height: 100%; object-fit: contain;
+    }
+
+    /* NAV BUTTONS */
+    .flip-nav {
+      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+      display: flex; gap: 12px; align-items: center;
+      background: rgba(27,41,66,0.92); backdrop-filter: blur(10px);
+      padding: 8px 20px; border-radius: 999px;
+      box-shadow: 0 8px 28px rgba(0,0,0,0.25);
+      z-index: 1500;
+    }
+    .flip-btn {
+      background: #cf296d; color: #fff; border: none;
+      width: 42px; height: 42px; border-radius: 50%;
+      font-size: 1rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .flip-btn:hover:not(:disabled) { background: #a8215a; transform: scale(1.1); }
+
+    /* ZOOM CONTROLS */
+    .zoom-controls {
+      position: fixed; right: 20px; bottom: 90px;
+      display: flex; flex-direction: column; gap: 6px;
+      z-index: 1500;
+    }
+    .zoom-btn {
+      width: 40px; height: 40px; border-radius: 12px;
+      background: rgba(27,41,66,0.92); color: #fff;
+      border: none; font-size: 1.1rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      transition: background 0.2s, transform 0.15s;
+    }
+    .zoom-btn:hover { background: #cf296d; transform: scale(1.1); }
+    .zoom-level {
+      text-align: center; font-size: 0.7rem; font-weight: 800;
+      color: rgba(255,255,255,0.8); background: rgba(27,41,66,0.8);
+      padding: 3px 0; border-radius: 6px;
+    }
+    #zoomWrapper {
+      transition: transform 0.25s ease;
+      transform-origin: center center;
+    }
+    .flip-btn:disabled { opacity: 0.3; cursor: default; }
+    .page-indicator {
+      color: rgba(255,255,255,0.9); font-size: 0.82rem;
+      font-weight: 700; min-width: 90px; text-align: center;
+    }
+
+    /* ── LOADING ── */
+    #loadScreen {
+      position: fixed; inset: 0; background: #1b2942;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 18px; z-index: 9999;
+      transition: opacity 0.5s ease;
+    }
+    #loadScreen.done { opacity: 0; pointer-events: none; }
+    .spinner { width: 54px; height: 54px; border: 4px solid rgba(255,255,255,0.12); border-top-color: #cf296d; border-radius: 50%; animation: spin 0.85s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .load-text { font-weight: 600; color: rgba(255,255,255,0.7); text-align: center; max-width: 300px; }
+    #loadBar { width: 220px; height: 6px; background: rgba(255,255,255,0.08); border-radius: 4px; overflow: hidden; }
+    #loadBarFill { height: 100%; width: 0; background: linear-gradient(90deg,#cf296d,#ea8300); transition: width 0.2s; border-radius: 4px; }
+    #loadPct { color: #ea8300; font-weight: 800; font-size: 1.2rem; }
+
+    @media (max-width: 768px) {
+      .reader-topbar { padding: 0 10px; gap: 8px; }
+      .back-btn { padding: 6px 12px; font-size: 0.78rem; }
+      .reader-title { font-size: 0.82rem; }
+      .flip-nav { bottom: 16px; padding: 6px 14px; gap: 8px; }
+      .flip-btn { width: 36px; height: 36px; font-size: 0.9rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Loading -->
+<div id="loadScreen">
+  <div class="spinner"></div>
+  <div id="loadPct">0%</div>
+  <div id="loadBar"><div id="loadBarFill"></div></div>
+  <div class="load-text">Loading your book...</div>
+</div>
+
+<!-- Top Bar -->
+<div class="reader-topbar">
+  <a href="teacher-dashboard.html" class="back-btn">
+    <i class="fas fa-arrow-left"></i> Dashboard
+  </a>
+  <span class="reader-title" id="readerTitle">Loading...</span>
+  <span class="page-nav-chip" id="pageChip">Page 1</span>
+</div>
+
+<!-- Flipbook -->
+<div class="reader-body">
+  <div id="zoomWrapper">
+    <div id="flipbookContainer"></div>
+  </div>
+</div>
+
+<!-- Zoom Controls -->
+<div class="zoom-controls">
+  <button class="zoom-btn" id="zoomIn" title="Zoom In"><i class="fas fa-plus"></i></button>
+  <div class="zoom-level" id="zoomLevel">100%</div>
+  <button class="zoom-btn" id="zoomOut" title="Zoom Out"><i class="fas fa-minus"></i></button>
+  <button class="zoom-btn" id="zoomReset" title="Reset" style="font-size:0.75rem;"><i class="fas fa-compress"></i></button>
+</div>
+
+<!-- Navigation -->
+<div class="flip-nav">
+  <button class="flip-btn" id="prevBtn" disabled><i class="fas fa-chevron-left"></i></button>
+  <span class="page-indicator" id="pageIndicator">Page 1</span>
+  <button class="flip-btn" id="nextBtn"><i class="fas fa-chevron-right"></i></button>
+</div>
+
+<script>
+(async function() {
+  const params   = new URLSearchParams(window.location.search);
+  const bookKey  = params.get('book') || sessionStorage.getItem('teacherReaderBook') || 'book1';
+  sessionStorage.setItem('teacherReaderBook', bookKey);
+
+  const BOOKS = {
+    book1: { title: 'Imaan & Akhlaq - Book 1', driveId: '11uL_A5-1pPOu81XughA5JLPjEAFgGZM8' },
+    book2: { title: 'Imaan & Akhlaq - Book 2', driveId: '18QzcjAoiI6Lv8h6nRj9eBTkQsin2oGfY' },
+    book3: { title: 'Imaan & Akhlaq - Book 3', driveId: '1D5s7lGMWYm6hpTEGBN7_w6fybqVdYhD0' },
+    book4: { title: 'Imaan & Akhlaq - Book 4', driveId: '1Iizvurs4K2VECC2us0tC7GGwRF3eo387' },
+    book5: { title: 'Imaan & Akhlaq - Book 5', driveId: '' },
+    book6: { title: 'Imaan & Akhlaq - Book 6', driveId: '' },
+    book7: { title: 'Imaan & Akhlaq - Book 7', driveId: '' },
+  };
+
+  const bookInfo = BOOKS[bookKey] || { title: bookKey, driveId: '' };
+  document.getElementById('readerTitle').textContent = bookInfo.title;
+  document.title = bookInfo.title + ' - Reader';
+
+  const loadScreen = document.getElementById('loadScreen');
+  const hostingerUrl = '/' + bookKey + '.pdf';
+  const driveUrl = bookInfo.driveId ? 'https://drive.google.com/uc?export=download&id=' + bookInfo.driveId : '';
+
+  // ── Setup PDF.js worker ──
+  try {
+    const probe = await fetch('/kidba_assets/js/pdf.worker.min.js', { method: 'HEAD' });
+    window.pdfjsLib.GlobalWorkerOptions.workerSrc = probe.ok
+      ? '/kidba_assets/js/pdf.worker.min.js'
+      : 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+  } catch(_) {
+    window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+  }
+
+  // ── Load PDF: Try Google Drive first (fast CDN), fallback to Hostinger ──
+  let pdf;
+  const pdfOptions = {
+    rangeChunkSize: 65536,
+    disableAutoFetch: true,
+    disableRange: false,
+    disableStream: false
+  };
+
+  function attachProgress(task) {
+    task.onProgress = function(p) {
+      if (!p || !p.total) return;
+      const pct = Math.min(100, Math.round(p.loaded / p.total * 100));
+      document.getElementById('loadBarFill').style.width = pct + '%';
+      document.getElementById('loadPct').textContent = pct + '%';
+    };
+    return task;
+  }
+
+  // Try Google Drive first
+  if (driveUrl) {
+    try {
+      console.log('[Reader] Trying Google Drive:', driveUrl);
+      document.querySelector('.load-text').textContent = 'Loading from Google Drive...';
+      const task = attachProgress(window.pdfjsLib.getDocument(Object.assign({ url: driveUrl }, pdfOptions)));
+      pdf = await task.promise;
+      console.log('[Reader] Google Drive loaded successfully!');
+    } catch(e) {
+      console.warn('[Reader] Google Drive failed, trying server:', e.message);
+      pdf = null;
+    }
+  }
+
+  // Fallback to Hostinger/local server
+  if (!pdf) {
+    try {
+      console.log('[Reader] Trying server:', hostingerUrl);
+      document.querySelector('.load-text').textContent = 'Loading from server...';
+      const task = attachProgress(window.pdfjsLib.getDocument(Object.assign({ url: hostingerUrl }, pdfOptions)));
+      pdf = await task.promise;
+    } catch(e) {
+      console.error('PDF load failed from all sources:', e);
+      loadScreen.innerHTML = '<div style="text-align:center;color:#fff;padding:40px;"><i class="fas fa-exclamation-triangle" style="font-size:3rem;color:#cf296d;margin-bottom:20px;display:block;"></i><h3>Book Could Not Load</h3><p style="opacity:0.7;margin:12px 0 20px;">PDF file not found. Make sure the book is uploaded.</p><a href="teacher-dashboard.html" style="color:#cf296d;font-weight:700;">← Back to Dashboard</a></div>';
+      return;
+    }
+  }
+
+  const totalPages = pdf.numPages;
+  const container = document.getElementById('flipbookContainer');
+
+  // ── Calculate page dimensions (fill 90% of screen) ──
+  const availH = window.innerHeight - 52 - 80; // topbar + nav bar
+  const availW = window.innerWidth;
+  // Use most of screen height, calculate width from A4 ratio
+  const pageHeight = Math.round(availH * 0.92);
+  const pageWidth = Math.round(pageHeight / 1.414);
+
+  // ── Create placeholder pages ──
+  for (let i = 0; i < totalPages; i++) {
+    const div = document.createElement('div');
+    div.className = 'page-content';
+    div.innerHTML = '<i class="fas fa-spinner fa-spin" style="font-size:1.5rem;color:#cf296d;"></i>';
+    container.appendChild(div);
+  }
+
+  // ── Wait for StPageFlip library ──
+  while (typeof St === 'undefined' || typeof St.PageFlip === 'undefined') {
+    await new Promise(r => setTimeout(r, 100));
+  }
+
+  // ── Initialize flipbook ──
+  const pageFlip = new St.PageFlip(container, {
+    width: pageWidth,
+    height: pageHeight,
+    size: 'fixed',
+    maxShadowOpacity: 0.4,
+    showCover: true,
+    mobileScrollSupport: false,
+    useMouseEvents: true,
+    flippingTime: 600,
+    drawShadow: true,
+    autoSize: false
+  });
+
+  const contentEls = container.querySelectorAll('.page-content');
+  pageFlip.loadFromHTML(contentEls);
+
+  // ── Hide loader ──
+  loadScreen.classList.add('done');
+  setTimeout(() => { loadScreen.style.display = 'none'; }, 600);
+
+  // ── Nav Controls ──
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const pageIndicator = document.getElementById('pageIndicator');
+  const pageChip = document.getElementById('pageChip');
+
+  function updateNav() {
+    const idx = pageFlip.getCurrentPageIndex();
+    const total = totalPages;
+    pageIndicator.textContent = 'Page ' + (idx + 1) + ' / ' + total;
+    pageChip.textContent = 'Page ' + (idx + 1) + ' / ' + total;
+    prevBtn.disabled = idx <= 0;
+    nextBtn.disabled = idx >= total - 1;
+  }
+  pageFlip.on('flip', updateNav);
+  updateNav();
+
+  prevBtn.onclick = function() { pageFlip.flipPrev(); };
+  nextBtn.onclick = function() { pageFlip.flipNext(); };
+
+  // Keyboard navigation
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowLeft') pageFlip.flipPrev();
+    if (e.key === 'ArrowRight') pageFlip.flipNext();
+    if (e.key === '+' || e.key === '=') doZoom(0.1);
+    if (e.key === '-') doZoom(-0.1);
+    if (e.key === '0') resetZoom();
+  });
+
+  // ── Zoom + Pan System ──
+  let currentZoom = 1.0;
+  let panX = 0, panY = 0;
+  let isDragging = false;
+  let dragStartX = 0, dragStartY = 0;
+  let panStartX = 0, panStartY = 0;
+  const zoomWrapper = document.getElementById('zoomWrapper');
+  const zoomLevelEl = document.getElementById('zoomLevel');
+  const readerBody = document.querySelector('.reader-body');
+
+  function applyTransform() {
+    zoomWrapper.style.transform = 'translate(' + panX + 'px, ' + panY + 'px) scale(' + currentZoom.toFixed(2) + ')';
+    zoomLevelEl.textContent = Math.round(currentZoom * 100) + '%';
+    // Show grab cursor when zoomed in
+    readerBody.style.cursor = currentZoom > 1.05 ? 'grab' : 'default';
+  }
+
+  function doZoom(delta) {
+    currentZoom = Math.max(0.5, Math.min(3.0, currentZoom + delta));
+    // Reset pan if zoomed back to 100% or less
+    if (currentZoom <= 1.0) { panX = 0; panY = 0; }
+    applyTransform();
+  }
+
+  function resetZoom() {
+    currentZoom = 1.0;
+    panX = 0; panY = 0;
+    applyTransform();
+  }
+
+  document.getElementById('zoomIn').addEventListener('click', function() { doZoom(0.15); });
+  document.getElementById('zoomOut').addEventListener('click', function() { doZoom(-0.15); });
+  document.getElementById('zoomReset').addEventListener('click', resetZoom);
+
+  // Scroll wheel zoom
+  readerBody.addEventListener('wheel', function(e) {
+    if (e.ctrlKey || e.metaKey) {
+      e.preventDefault();
+      doZoom(e.deltaY < 0 ? 0.1 : -0.1);
+    } else if (currentZoom > 1.05) {
+      // When zoomed in, scroll wheel pans up/down
+      e.preventDefault();
+      panY -= e.deltaY * 0.8;
+      panX -= e.deltaX * 0.8;
+      applyTransform();
+    }
+  }, { passive: false });
+
+  // ── Mouse Drag to Pan ──
+  readerBody.addEventListener('mousedown', function(e) {
+    if (currentZoom <= 1.05) return; // Only drag when zoomed in
+    isDragging = true;
+    dragStartX = e.clientX;
+    dragStartY = e.clientY;
+    panStartX = panX;
+    panStartY = panY;
+    readerBody.style.cursor = 'grabbing';
+    e.preventDefault();
+  });
+
+  window.addEventListener('mousemove', function(e) {
+    if (!isDragging) return;
+    panX = panStartX + (e.clientX - dragStartX);
+    panY = panStartY + (e.clientY - dragStartY);
+    applyTransform();
+    readerBody.style.cursor = 'grabbing';
+  });
+
+  window.addEventListener('mouseup', function() {
+    if (!isDragging) return;
+    isDragging = false;
+    readerBody.style.cursor = currentZoom > 1.05 ? 'grab' : 'default';
+  });
+
+  // ── Touch Drag to Pan (mobile) ──
+  let touchStartX = 0, touchStartY = 0;
+  let touchPanStartX = 0, touchPanStartY = 0;
+  let isTouchPanning = false;
+
+  readerBody.addEventListener('touchstart', function(e) {
+    if (currentZoom <= 1.05 || e.touches.length !== 1) return;
+    isTouchPanning = true;
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+    touchPanStartX = panX;
+    touchPanStartY = panY;
+  }, { passive: true });
+
+  readerBody.addEventListener('touchmove', function(e) {
+    if (!isTouchPanning || e.touches.length !== 1) return;
+    panX = touchPanStartX + (e.touches[0].clientX - touchStartX);
+    panY = touchPanStartY + (e.touches[0].clientY - touchStartY);
+    applyTransform();
+    e.preventDefault();
+  }, { passive: false });
+
+  readerBody.addEventListener('touchend', function() {
+    isTouchPanning = false;
+  });
+
+  // ── Render PDF pages (optimized) ──
+  async function createPdfCanvas(pageNumber) {
+    const pdfPage = await pdf.getPage(pageNumber);
+    const unscaledViewport = pdfPage.getViewport({ scale: 1.0 });
+    const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+    const qualityBoost = 1.5;
+    const scaleX = pageWidth / unscaledViewport.width;
+    const scaleY = pageHeight / unscaledViewport.height;
+    const scale = Math.min(scaleX, scaleY) * pixelRatio * qualityBoost;
+    const viewport = pdfPage.getViewport({ scale: scale });
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d', { alpha: false });
+
+    canvas.width  = Math.round(viewport.width);
+    canvas.height = Math.round(viewport.height);
+    canvas.style.width  = Math.round(viewport.width  / (pixelRatio * qualityBoost)) + 'px';
+    canvas.style.height = Math.round(viewport.height / (pixelRatio * qualityBoost)) + 'px';
+
+    await pdfPage.render({ canvasContext: context, viewport: viewport }).promise;
+    pdfPage.cleanup();
+    return canvas;
+  }
+
+  async function renderPage(i) {
+    try {
+      const canvas = await createPdfCanvas(i + 1);
+      const host = contentEls[i];
+      if (!host) return;
+      host.innerHTML = '';
+      host.appendChild(canvas);
+    } catch (e) {
+      console.warn('Page ' + (i+1) + ' render error:', e);
+    }
+  }
+
+  // Render first 4 pages immediately (visible), then batch the rest
+  const firstBatch = Math.min(4, totalPages);
+  await Promise.all(Array.from({length: firstBatch}, (_, i) => renderPage(i)));
+
+  // Render remaining in background batches of 3
+  const BATCH = 3;
+  for (let i = firstBatch; i < totalPages; i += BATCH) {
+    const batch = [];
+    for (let j = i; j < Math.min(i + BATCH, totalPages); j++) {
+      batch.push(renderPage(j));
+    }
+    await Promise.all(batch);
+  }
+
+})();
+</script>
+</body>
+</html>

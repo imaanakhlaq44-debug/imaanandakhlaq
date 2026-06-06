@@ -37,17 +37,43 @@ export const ParentDashboard = () => html`
     min-height: 100vh;
     width: 100%;
     display: grid;
-    grid-template-columns: 220px minmax(0, 1fr);
-    background: linear-gradient(180deg, #f6efe8 0%, #f7f9fc 100%);
+    grid-template-columns: 160px minmax(0, 1fr);
+    background: linear-gradient(180deg, #edf3fb 0%, #f7f9fc 100%);
   }
 
   .sidebar-panel {
     display: flex;
     flex-direction: column;
     gap: 0.9rem;
-    padding: 0.9rem 0.75rem;
-    background: linear-gradient(180deg, var(--parent-blue) 0%, var(--parent-blue-deep) 100%);
+    padding: 1rem 0.75rem;
+    background: linear-gradient(180deg, #1a2e50 0%, #12213a 100%);
     color: #ffffff;
+    min-height: 100vh;
+  }
+
+  /* Profile at top of sidebar */
+  .sidebar-profile-top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.5rem 0 0.9rem;
+    border-bottom: 1px solid rgba(255,255,255,0.10);
+  }
+  .sidebar-profile-top .sidebar-brand-art {
+    width: 62px; height: 62px; flex: 0 0 62px;
+    border-radius: 50%; overflow: hidden;
+    background: rgba(255,255,255,0.1);
+    border: 2.5px solid rgba(255,255,255,0.5);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    position: relative; cursor: pointer;
+  }
+  .sidebar-profile-top .sidebar-brand-art img {
+    width: 100%; height: 100%; object-fit: cover; border-radius: 50%;
+  }
+  .sidebar-profile-top .sidebar-title {
+    font-family: 'Sora', sans-serif; font-size: 0.82rem; font-weight: 700;
+    color: #ffffff; text-align: center; word-break: break-word; line-height: 1.3;
   }
 
   /* Compact sidebar header with school chip (home + logout icons) */
@@ -298,23 +324,27 @@ export const ParentDashboard = () => html`
   .sidebar-logout-btn {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    width: calc(100% - 2rem);
-    margin: 0.6rem 1rem 0.8rem;
-    padding: 0.55rem 1rem;
-    background: rgba(255,255,255,0.08);
-    border: 1.5px solid rgba(255,255,255,0.22);
-    border-radius: 10px;
-    color: rgba(255,255,255,0.85);
+    justify-content: center;
+    gap: 0.55rem;
+    width: 100%;
+    margin-top: auto;
+    padding: 0.7rem 1rem;
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    border: none;
+    border-radius: 12px;
+    color: #ffffff;
     font-family: 'Sora', sans-serif;
     font-size: 0.82rem;
     font-weight: 700;
+    letter-spacing: 0.5px;
     cursor: pointer;
-    transition: background 0.18s, color 0.18s;
+    transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 14px rgba(239, 68, 68, 0.35);
   }
   .sidebar-logout-btn:hover {
-    background: rgba(214,54,120,0.55);
-    color: #fff;
+    background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 18px rgba(239, 68, 68, 0.5);
   }
 
   .dashboard-main {
@@ -1109,41 +1139,25 @@ export const ParentDashboard = () => html`
   <!-- DASHBOARD VIEW -->
   <div id="parentDashboardView" class="dashboard-shell d-none">
     <aside class="sidebar-panel">
-      <div class="sidebar-brand sidebar-brand-v2">
-        <div class="sidebar-profile-cluster">
-          <div class="sidebar-brand-art" id="sidebarAvatarClickArea" title="Click to change photo" role="button" tabindex="0" style="position:relative; cursor:pointer; overflow:visible;">
-            <img id="sidebarProfilePhoto" src="/kidba_assets/img/3d_parent.png" alt="Parent profile" style="border-radius:50%; width:100%; height:100%; object-fit:cover;">
-            <div class="sidebar-cam-badge"><i class="fas fa-camera"></i></div>
-            <input type="file" id="parentProfileFileInput" accept="image/*" style="position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;cursor:pointer;z-index:10;">
-          </div>
-          <div class="sidebar-name-block">
-            <span class="sidebar-title" id="sidebarProfileName" style="margin:0;">Parent Name</span>
-          </div>
+      <div class="sidebar-profile-top">
+        <div class="sidebar-brand-art" id="sidebarAvatarClickArea" title="Click to change photo" role="button" tabindex="0">
+          <img id="sidebarProfilePhoto" src="/kidba_assets/img/3d_parent.png" alt="Parent profile">
+          <div class="sidebar-cam-badge"><i class="fas fa-camera"></i></div>
+          <input type="file" id="parentProfileFileInput" accept="image/*" style="position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;cursor:pointer;z-index:10;">
         </div>
-
-        <div class="sidebar-school-chip">
-          <div class="sidebar-school-art" style="position:relative; overflow:hidden;">
-            <img id="schoolLogoImg" src="/kidba_assets/img/3d_school.png" alt="School logo" style="border-radius:8px; width:100%; height:100%; object-fit:cover;">
-          </div>
-          <span class="sidebar-school-name" id="parentWelcomeName">School</span>
-          <div class="sidebar-chip-actions">
-            <button class="sidebar-icon-btn home" type="button" onclick="window.location.href='auth.html'" title="Home" aria-label="Home"><i class="fas fa-house"></i></button>
-            <button class="sidebar-icon-btn logout" type="button" onclick="logoutParent()" title="Logout" aria-label="Logout"><i class="fas fa-sign-out-alt"></i></button>
-          </div>
-        </div>
+        <span class="sidebar-title" id="sidebarProfileName">Parent Name</span>
       </div>
+
       <ul class="sidebar-nav">
         <li class="active" data-section="overview" role="button" tabindex="0"><span class="nav-badge overview"><i class="fas fa-chart-line"></i></span><span>Overview</span></li>
         <li data-section="child" role="button" tabindex="0"><span class="nav-badge child"><i class="fas fa-child"></i></span><span>Child Progress</span></li>
         <li data-section="approvals" role="button" tabindex="0"><span class="nav-badge approvals"><i class="fas fa-clipboard-check"></i></span><span>Needs Review</span></li>
       </ul>
-      <div class="sidebar-note">
-        <img src="/kidba_assets/img/3d_student.png" alt="Student 3D icon">
-        <div>
-          <strong>3 Easy Steps</strong>
-          <span>Open the sheet, write one good sentence, and send it to the teacher.</span>
-        </div>
-      </div>
+
+      <button class="sidebar-logout-btn" type="button" onclick="logoutParent()">
+        <i class="fas fa-sign-out-alt"></i>
+        <span>LOGOUT</span>
+      </button>
     </aside>
 
     <div class="dashboard-main">

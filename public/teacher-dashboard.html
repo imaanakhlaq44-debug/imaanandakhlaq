@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html><html lang="en"><head><script src="/kidba_assets/js/regenerator-runtime.min.js"></script>
+<!DOCTYPE html><html lang="en"><head><script src="/kidba_assets/js/regenerator-runtime.min.js"></script>
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -1237,6 +1237,7 @@
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    background-color: #1e3a5f;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1245,6 +1246,15 @@
     padding: 1.5rem;
     text-align: center;
     position: relative;
+    overflow: hidden;
+  }
+  .book-card-cover img.book-cover-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
   }
   .book-card-cover .book-badge {
     position: absolute;
@@ -1255,6 +1265,7 @@
     border-radius: 20px;
     font-size: 0.7rem;
     font-weight: 700;
+    z-index: 1;
   }
   .book-card-info {
     padding: 1rem 1.2rem;
@@ -1345,6 +1356,8 @@
     overscroll-behavior: contain;
     perspective: 2200px;
     perspective-origin: center center;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,0.2) transparent;
   }
   .book-reader-page-shell {
     position: relative;
@@ -1450,7 +1463,7 @@
   }
 
   /* ============================================================
-     DESKTOP POLISH — Teacher Dashboard
+     DESKTOP POLISH Ã¢â‚¬â€ Teacher Dashboard
      Brand colors, modern cards, responsive, logout highlight.
      ============================================================ */
   :root {
@@ -1555,7 +1568,7 @@ table { max-width: 100%; }
     overflow-wrap: break-word;
   }
   /* Images / videos / iframes stay in bounds */
-  img, video, iframe, svg, canvas {
+  img:not(.book-cover-img), video, iframe, svg, canvas {
     max-width: 100% !important;
     height: auto;
   }
@@ -1793,76 +1806,89 @@ table { max-width: 100%; }
             <div class="books-grid">
 
               <div class="book-card" onclick="openBookReader('book1', 'Imaan &amp; Akhlaq - Book 1')">
-                <div class="book-card-cover" style="background-image:url('/assets/covers/book1.jpg');">
+                <div class="book-card-cover">
+                  <img class="book-cover-img" src="/assets/covers/book1.jpg" alt="Book 1 Cover" loading="lazy">
                   <span class="book-badge">Book 1</span>
                 </div>
                 <div class="book-card-info">
                   <strong>Book 1</strong>
-                  <span>18 Chapters • 74 Pages</span>
+                  <span>Imaan &amp; Akhlaq - Book 1</span>
                 </div>
                 <button class="book-card-btn" type="button" onclick="event.stopPropagation();openBookReader('book1', 'Imaan &amp; Akhlaq - Book 1')"><i class="fas fa-book-reader"></i> Read Book</button>
               </div>
               <div class="book-card" onclick="openBookReader('book2', 'Imaan &amp; Akhlaq - Book 2')">
-                <div class="book-card-cover" style="background-image:url('/assets/covers/book2.jpg');">
+                <div class="book-card-cover">
+                  <img class="book-cover-img" src="/assets/covers/book2.jpg" alt="Book 2 Cover" loading="lazy">
                   <span class="book-badge">Book 2</span>
                 </div>
                 <div class="book-card-info">
                   <strong>Book 2</strong>
-                  <span>15 Chapters • 93 Pages</span>
+                  <span>Imaan &amp; Akhlaq - Book 2</span>
                 </div>
                 <button class="book-card-btn" type="button" onclick="event.stopPropagation();openBookReader('book2', 'Imaan &amp; Akhlaq - Book 2')"><i class="fas fa-book-reader"></i> Read Book</button>
               </div>
               <div class="book-card" onclick="openBookReader('book3', 'Imaan &amp; Akhlaq - Book 3')">
-                <div class="book-card-cover" style="background-image:url('/assets/covers/book3.jpg');">
+                <div class="book-card-cover">
+                  <img class="book-cover-img" src="/assets/covers/book3.jpg" alt="Book 3 Cover" loading="lazy">
                   <span class="book-badge">Book 3</span>
                 </div>
                 <div class="book-card-info">
                   <strong>Book 3</strong>
-                  <span>15 Chapters • 96 Pages</span>
+                  <span>Imaan &amp; Akhlaq - Book 3</span>
                 </div>
                 <button class="book-card-btn" type="button" onclick="event.stopPropagation();openBookReader('book3', 'Imaan &amp; Akhlaq - Book 3')"><i class="fas fa-book-reader"></i> Read Book</button>
               </div>
               <div class="book-card" onclick="openBookReader('book4', 'Imaan &amp; Akhlaq - Book 4')">
-                <div class="book-card-cover" style="background-image:url('/assets/covers/book4.jpg');">
+                <div class="book-card-cover">
+                  <img class="book-cover-img" src="/assets/covers/book4.jpg" alt="Book 4 Cover" loading="lazy">
                   <span class="book-badge">Book 4</span>
                 </div>
                 <div class="book-card-info">
                   <strong>Book 4</strong>
-                  <span>Islamic Stories</span>
+                  <span>Imaan &amp; Akhlaq - Book 4</span>
                 </div>
                 <button class="book-card-btn" type="button" onclick="event.stopPropagation();openBookReader('book4', 'Imaan &amp; Akhlaq - Book 4')"><i class="fas fa-book-reader"></i> Read Book</button>
               </div>
-              <div class="book-card" onclick="openBookReader('book5', 'Imaan &amp; Akhlaq - Book 5')">
-                <div class="book-card-cover" style="background-image:url('/assets/covers/book5.jpg');">
+              <!-- Book 5 - Coming Soon -->
+              <div class="book-card" onclick="showComingSoon('Book 5')">
+                <div class="book-card-cover">
+                  <img class="book-cover-img" src="/assets/covers/book5.jpg" alt="Book 5 Cover" loading="lazy">
                   <span class="book-badge">Book 5</span>
                 </div>
                 <div class="book-card-info">
                   <strong>Book 5</strong>
-                  <span>Moral Guidance</span>
+                  <span>Coming Soon</span>
                 </div>
-                <button class="book-card-btn" type="button" onclick="event.stopPropagation();openBookReader('book5', 'Imaan &amp; Akhlaq - Book 5')"><i class="fas fa-book-reader"></i> Read Book</button>
+                <button class="book-card-btn" type="button" onclick="event.stopPropagation();showComingSoon('Book 5')"><i class="fas fa-clock"></i> Coming Soon</button>
               </div>
-              <div class="book-card" onclick="openBookReader('book6', 'Imaan &amp; Akhlaq - Book 6')">
-                <div class="book-card-cover" style="background-image:url('/assets/covers/book6.jpg');">
+              <!-- Book 6 - Coming Soon -->
+              <div class="book-card" onclick="showComingSoon('Book 6')">
+                <div class="book-card-cover">
+                  <img class="book-cover-img" src="/assets/covers/book6.jpg" alt="Book 6 Cover" loading="lazy">
                   <span class="book-badge">Book 6</span>
                 </div>
                 <div class="book-card-info">
                   <strong>Book 6</strong>
-                  <span>Prophets History</span>
+                  <span>Coming Soon</span>
                 </div>
-                <button class="book-card-btn" type="button" onclick="event.stopPropagation();openBookReader('book6', 'Imaan &amp; Akhlaq - Book 6')"><i class="fas fa-book-reader"></i> Read Book</button>
+                <button class="book-card-btn" type="button" onclick="event.stopPropagation();showComingSoon('Book 6')"><i class="fas fa-clock"></i> Coming Soon</button>
               </div>
-              <div class="book-card" onclick="openBookReader('book7', 'Imaan &amp; Akhlaq - Book 7')">
-                <div class="book-card-cover" style="background-image:url('/assets/covers/book7.jpg');">
+              <!-- Book 7 - Coming Soon -->
+              <div class="book-card" onclick="showComingSoon('Book 7')">
+                <div class="book-card-cover">
+                  <img class="book-cover-img" src="/assets/covers/book7.jpg" alt="Book 7 Cover" loading="lazy">
                   <span class="book-badge">Book 7</span>
                 </div>
                 <div class="book-card-info">
                   <strong>Book 7</strong>
-                  <span>Advanced Lessons</span>
+                  <span>Coming Soon</span>
                 </div>
-                <button class="book-card-btn" type="button" onclick="event.stopPropagation();openBookReader('book7', 'Imaan &amp; Akhlaq - Book 7')"><i class="fas fa-book-reader"></i> Read Book</button>
+                <button class="book-card-btn" type="button" onclick="event.stopPropagation();showComingSoon('Book 7')"><i class="fas fa-clock"></i> Coming Soon</button>
               </div>
+
             </div>
+
+
           </section>
         </section>
       </div>
@@ -1882,7 +1908,7 @@ table { max-width: 100%; }
     <span id="bookReaderPageInfo">Page 1 / 1</span>
     <button id="bookReaderNext" onclick="bookReaderGo(1)"><i class="fas fa-chevron-right"></i></button>
   </div>
-  <div class="book-reader-lock"><i class="fas fa-lock"></i> Download disabled — View only mode</div>
+  <div class="book-reader-lock"><i class="fas fa-lock"></i> Download disabled Ã¢â‚¬â€ View only mode</div>
 </div>
 
 <script src="/kidba_assets/js/pdf.min.js"></script>
@@ -1921,6 +1947,43 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     ensure();
   }
 })();
+
+function showComingSoon(bookName) {
+  // Remove existing toast if any
+  var existing = document.getElementById('comingSoonToast');
+  if (existing) existing.remove();
+
+  var toast = document.createElement('div');
+  toast.id = 'comingSoonToast';
+  toast.innerHTML = '<div style="display:flex;align-items:center;gap:12px;">' +
+    '<span style="font-size:2rem;">🔒</span>' +
+    '<div>' +
+      '<div style="font-weight:700;font-size:1rem;margin-bottom:2px;">' + bookName + ' — Coming Soon!</div>' +
+      '<div style="font-size:0.85rem;opacity:0.9;">Yeh book jald available hogi. Intezaar kijiye!</div>' +
+    '</div></div>';
+  toast.style.cssText = 'position:fixed;top:24px;left:50%;transform:translateX(-50%);' +
+    'background:linear-gradient(135deg,#1e3a5f,#29416d);color:#fff;' +
+    'padding:16px 28px;border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,0.35);' +
+    'z-index:99999;min-width:300px;max-width:90vw;' +
+    'animation:slideDownFade 0.35s ease;font-family:inherit;';
+
+  // Add animation keyframes if not already added
+  if (!document.getElementById('comingSoonStyle')) {
+    var style = document.createElement('style');
+    style.id = 'comingSoonStyle';
+    style.textContent = '@keyframes slideDownFade{from{opacity:0;transform:translateX(-50%) translateY(-20px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}';
+    document.head.appendChild(style);
+  }
+
+  document.body.appendChild(toast);
+  setTimeout(function() {
+    toast.style.transition = 'opacity 0.4s';
+    toast.style.opacity = '0';
+    setTimeout(function() { toast.remove(); }, 400);
+  }, 3000);
+}
+</script>
+<script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
 import { getAuth, onAuthStateChanged, signOut, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
 import { getFirestore, collection, query, where, getDocs, getDoc, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
@@ -1942,7 +2005,7 @@ setPersistence(auth, browserLocalPersistence).catch(e => console.warn('setPersis
 const ACTIVITIES_DATA = {
   "book1": {
     "title": "Imaan and Akhlaaq - Book 1",
-    "pdfUrl": "https://drive.google.com/file/d/1yOPz5oYlDF4Aj41WQmcxSHbti2shDDpz/preview",
+    "pdfUrl": "/book1.pdf",
     "chapters": {
       "chapter1": {
         "id": "b1_c1",
@@ -2254,7 +2317,7 @@ const ACTIVITIES_DATA = {
   },
   "book2": {
     "title": "Imaan and Akhlaaq - Book 2",
-    "pdfUrl": "https://drive.google.com/file/d/1rmYenOjmunRkdl3NdQfDgdw7UTyAKdgP/preview",
+    "pdfUrl": "/book2.pdf",
     "chapters": {
       "chapter1": {
         "id": "b2_c1",
@@ -2515,7 +2578,7 @@ const ACTIVITIES_DATA = {
   },
   "book3": {
     "title": "Imaan and Akhlaaq - Book 3",
-    "pdfUrl": "https://drive.google.com/file/d/1bjbVY9gTGqj8LMfc3-lSNmMbcE_1_9_g/preview",
+    "pdfUrl": "/book3.pdf",
     "chapters": {
       "chapter1": {
         "id": "b3_c1",
@@ -2774,6 +2837,27 @@ const ACTIVITIES_DATA = {
       }
     }
   }
+  ,"book4": {
+    "title": "Imaan and Akhlaaq - Book 4",
+    "pdfUrl": "/book4.pdf",
+    "chapters": {
+      "chapter1": { "id": "b4_c1", "title": "Chapter 1", "pageStart": 1, "pageEnd": 13, "discussionQuestion": "What is the main lesson from this chapter?" },
+      "chapter2": { "id": "b4_c2", "title": "Chapter 2", "pageStart": 14, "pageEnd": 21, "discussionQuestion": "What is the main lesson from this chapter?" },
+      "chapter3": { "id": "b4_c3", "title": "Chapter 3", "pageStart": 22, "pageEnd": 29, "discussionQuestion": "What is the main lesson from this chapter?" },
+      "chapter4": { "id": "b4_c4", "title": "Chapter 4", "pageStart": 30, "pageEnd": 37, "discussionQuestion": "What is the main lesson from this chapter?" },
+      "chapter5": { "id": "b4_c5", "title": "Chapter 5", "pageStart": 38, "pageEnd": 43, "discussionQuestion": "What is the main lesson from this chapter?" },
+      "chapter6": { "id": "b4_c6", "title": "Chapter 6", "pageStart": 44, "pageEnd": 51, "discussionQuestion": "What is the main lesson from this chapter?" },
+      "chapter7": { "id": "b4_c7", "title": "Chapter 7", "pageStart": 52, "pageEnd": 58, "discussionQuestion": "What is the main lesson from this chapter?" },
+      "chapter8": { "id": "b4_c8", "title": "Chapter 8", "pageStart": 59, "pageEnd": 67, "discussionQuestion": "What is the main lesson from this chapter?" },
+      "chapter9": { "id": "b4_c9", "title": "Chapter 9", "pageStart": 68, "pageEnd": 77, "discussionQuestion": "What is the main lesson from this chapter?" },
+      "chapter10": { "id": "b4_c10", "title": "Chapter 10", "pageStart": 78, "pageEnd": 87, "discussionQuestion": "What is the main lesson from this chapter?" },
+      "chapter11": { "id": "b4_c11", "title": "Chapter 11", "pageStart": 88, "pageEnd": 99, "discussionQuestion": "What is the main lesson from this chapter?" },
+      "chapter12": { "id": "b4_c12", "title": "Chapter 12", "pageStart": 100, "pageEnd": 109, "discussionQuestion": "What is the main lesson from this chapter?" },
+      "chapter13": { "id": "b4_c13", "title": "Chapter 13", "pageStart": 110, "pageEnd": 118, "discussionQuestion": "What is the main lesson from this chapter?" },
+      "chapter14": { "id": "b4_c14", "title": "Chapter 14", "pageStart": 119, "pageEnd": 129, "discussionQuestion": "What is the main lesson from this chapter?" },
+      "chapter15": { "id": "b4_c15", "title": "Chapter 15", "pageStart": 130, "pageEnd": 144, "discussionQuestion": "What is the main lesson from this chapter?" }
+    }
+  }
 };
 let currentTeacher = null;
 let teacherSchoolId = null;
@@ -2894,103 +2978,12 @@ function animateBookReaderEntry(element, direction) {
     }, 310);
   });
 }
-window.openBookReader = /*#__PURE__*/function () {
-  var _ref = _asyncToGenerator(function* (bookKey, bookTitle) {
-    const overlay = ensureBookReaderOverlayMounted();
-    const canvasWrap = document.getElementById('bookReaderCanvasWrap');
-    const titleEl = document.getElementById('bookReaderTitle');
-    titleEl.textContent = bookTitle;
-    canvasWrap.innerHTML = '<div id="bookReaderProgressWrap" style="color:#fff;text-align:center;padding:60px;"><i class="fas fa-spinner fa-spin fa-2x"></i><br><br>Loading book... <span id="bookReaderProgressPct">0%</span><div style="width:240px;height:6px;background:rgba(255,255,255,0.18);border-radius:3px;margin:14px auto 0;overflow:hidden;"><div id="bookReaderProgressBar" style="height:100%;width:0%;background:linear-gradient(90deg,#cf296d,#ea8300);transition:width 0.2s;"></div></div></div>';
-    overlay.classList.add('active');
-    overlay.focus();
-    document.body.style.overflow = 'hidden';
-    if (document.scrollingElement) {
-      document.scrollingElement.scrollTop = 0;
-    }
-    bookReaderPage = 1;
-    bookReaderTouchStartX = null;
-    bookReaderTouchDeltaX = 0;
-    bookReaderRendering = false;
-    bookReaderAnimating = false;
-    try {
-      // Robust pdfjs loader: try existing global, then local, then CDN fallback.
-      if (typeof window.pdfjsLib === 'undefined') {
-        const tryLoad = src => new Promise((resolve, reject) => {
-          const s = document.createElement('script');
-          s.src = src;
-          s.onload = () => resolve(true);
-          s.onerror = () => reject(new Error('script load failed: ' + src));
-          document.head.appendChild(s);
-        });
-        try {
-          yield tryLoad('/kidba_assets/js/pdf.min.js');
-        } catch (_) {
-          yield tryLoad('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js');
-        }
-      }
-      if (typeof window.pdfjsLib === 'undefined') {
-        canvasWrap.innerHTML = '<p style="color:#ff6b6b;text-align:center;padding:40px;">PDF viewer failed to load. Please check your internet connection and refresh.</p>';
-        return;
-      }
-      // Worker: prefer local, but fall back to CDN.
-      try {
-        const workerProbe = yield fetch('/kidba_assets/js/pdf.worker.min.js', {
-          method: 'HEAD'
-        });
-        window.pdfjsLib.GlobalWorkerOptions.workerSrc = workerProbe.ok ? '/kidba_assets/js/pdf.worker.min.js' : 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
-      } catch (_) {
-        window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
-      }
-      // Resolve PDF URL with multiple fallbacks so it works on:
-      //  - APK (bundled local file: /book1.pdf lowercase)
-      //  - Hostinger live (uppercase: /Book1.pdf)
-      //  - Localhost dev (no local PDF -> remote https://imaanakhlaq.org/Book1.pdf)
-      const bookNum = (bookKey || '').replace(/^book/i, '');
-      const candidateUrls = ['/' + bookKey + '.pdf', '/Book' + bookNum + '.pdf', 'https://imaanakhlaq.org/Book' + bookNum + '.pdf', 'https://www.imaanakhlaq.org/Book' + bookNum + '.pdf'];
-      // Try each URL by actually attempting to load with pdfjs (HEAD probes can
-      // get blocked by CORS even when GET works). First successful load wins.
-      let bookReaderPdfTmp = null;
-      let lastErr = null;
-      for (const u of candidateUrls) {
-        try {
-          const task = window.pdfjsLib.getDocument({
-            url: u,
-            disableStream: false,
-            disableRange: false,
-            disableAutoFetch: true,
-            rangeChunkSize: 131072
-          });
-          task.onProgress = function (p) {
-            if (!p || !p.total) return;
-            const pct = Math.min(100, Math.round(p.loaded / p.total * 100));
-            const pctEl = document.getElementById('bookReaderProgressPct');
-            const barEl = document.getElementById('bookReaderProgressBar');
-            if (pctEl) pctEl.textContent = pct + '%';
-            if (barEl) barEl.style.width = pct + '%';
-          };
-          bookReaderPdfTmp = yield task.promise;
-          console.log('[BookReader] Loaded PDF from:', u);
-          break;
-        } catch (err) {
-          console.warn('[BookReader] Failed to load from', u, err && err.message);
-          lastErr = err;
-        }
-      }
-      if (!bookReaderPdfTmp) {
-        throw lastErr || new Error('All PDF sources failed');
-      }
-      bookReaderPdf = bookReaderPdfTmp;
-      bookReaderTotal = bookReaderPdf.numPages;
-      renderBookReaderPage(0);
-    } catch (e) {
-      console.error('openBookReader error:', e);
-      canvasWrap.innerHTML = '<p style="color:#ff6b6b;text-align:center;padding:40px;"><i class="fas fa-exclamation-triangle"></i> Could not load PDF. Make sure the book file exists on the server.</p>';
-    }
-  });
-  return function (_x, _x2) {
-    return _ref.apply(this, arguments);
-  };
-}();
+window.openBookReader = function(bookKey, bookTitle) {
+  // Save bookKey to sessionStorage as backup (in case URL params get lost)
+  sessionStorage.setItem('teacherReaderBook', bookKey);
+  console.log('[Teacher Dashboard] Opening book:', bookKey);
+  window.location.href = 'teacher-reader.html?book=' + encodeURIComponent(bookKey);
+};
 function renderBookReaderPage(_x3) {
   return _renderBookReaderPage.apply(this, arguments);
 }
@@ -3004,10 +2997,13 @@ function _renderBookReaderPage() {
       const page = yield bookReaderPdf.getPage(bookReaderPage);
       const pixelRatio = window.devicePixelRatio || 1;
       const wrapWidth = canvasWrap.clientWidth - 24;
+      const wrapHeight = canvasWrap.clientHeight - 16;
       const unscaled = page.getViewport({
         scale: 1
       });
-      const baseScale = Math.min(wrapWidth / unscaled.width, 1.8);
+      const scaleByWidth = wrapWidth / unscaled.width;
+      const scaleByHeight = wrapHeight / unscaled.height;
+      const baseScale = Math.min(scaleByWidth, scaleByHeight, 1.8);
       const viewport = page.getViewport({
         scale: baseScale * pixelRatio
       });
@@ -3789,7 +3785,7 @@ window.rejectTeacherPoints = /*#__PURE__*/function () {
 }();
 function getChapterTitle(chapId) {
   let title = chapId;
-  ['book1', 'book2', 'book3'].forEach(b => {
+  ['book1', 'book2', 'book3', 'book4'].forEach(b => {
     if (ACTIVITIES_DATA[b] && ACTIVITIES_DATA[b].chapters) {
       Object.values(ACTIVITIES_DATA[b].chapters).forEach(c => {
         if (c.id === chapId) title = c.title;
@@ -3884,3 +3880,4 @@ window.logoutTeacher = () => {
 };
 </script>
 </body></html>
+

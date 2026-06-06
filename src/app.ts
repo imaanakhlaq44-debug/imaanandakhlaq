@@ -140,6 +140,19 @@ app.get('/super-admin-dashboard', (c) => {
   return c.html(generateSuperAdminDashboardHTML())
 })
 
+app.get('/teacher-reader', async (c) => {
+  // Serve static HTML from public/teacher-reader.html
+  const fs = await import('node:fs')
+  const path = await import('node:path')
+  const filePath = path.default.join(process.cwd(), 'public', 'teacher-reader.html')
+  try {
+    const content = fs.default.readFileSync(filePath, 'utf-8')
+    return c.html(content)
+  } catch (e) {
+    return c.text('teacher-reader.html not found', 404)
+  }
+})
+
 app.get('/auth', (c) => {
   return c.html(generateAuthPageHTML())
 })

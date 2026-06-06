@@ -41,7 +41,7 @@ export const ActivityDashboard = () => html`
     min-height: 100vh;
     width: 100%;
     display: grid;
-    grid-template-columns: 220px minmax(0, 1fr);
+    grid-template-columns: 160px minmax(0, 1fr);
     background: linear-gradient(180deg, #edf3fb 0%, #f7f9fc 100%);
   }
 
@@ -49,9 +49,34 @@ export const ActivityDashboard = () => html`
     display: flex;
     flex-direction: column;
     gap: 0.9rem;
-    padding: 0.9rem 0.75rem;
-    background: linear-gradient(180deg, var(--student-blue) 0%, var(--student-blue-deep) 100%);
+    padding: 1rem 0.75rem;
+    background: linear-gradient(180deg, #1a2e50 0%, #12213a 100%);
     color: #ffffff;
+    min-height: 100vh;
+  }
+
+  /* Profile section at top of sidebar */
+  .sidebar-profile-top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.5rem 0 0.9rem;
+    border-bottom: 1px solid rgba(255,255,255,0.10);
+  }
+  .sidebar-profile-top .sidebar-brand-art {
+    width: 62px;
+    height: 62px;
+    flex: 0 0 62px;
+  }
+  .sidebar-profile-top .sidebar-title {
+    font-family: 'Sora', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #ffffff;
+    text-align: center;
+    word-break: break-word;
+    line-height: 1.3;
   }
 
   /* ============================================================
@@ -955,9 +980,18 @@ export const ActivityDashboard = () => html`
   }
 
   .catalog-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  /* Chapter view: single-column full-width list */
+  .catalog-grid.chapter-mode {
+    grid-template-columns: 1fr !important;
+    gap: 0.6rem !important;
+  }
+  .catalog-grid.chapter-mode .library-item {
+    border-radius: 16px;
   }
 
   .library-item {
@@ -992,19 +1026,28 @@ export const ActivityDashboard = () => html`
 
   .library-cover {
     position: relative;
-    border-radius: 14px;
-    background: linear-gradient(180deg, #eef4fb 0%, #dce7f7 100%);
-    box-shadow: 0 4px 14px rgba(15,23,42,0.10);
-    border: 2.5px solid rgba(36, 61, 107, 0.15);
-    padding: 0;
+    width: 100%;
+    aspect-ratio: 3/4;
+    background: linear-gradient(180deg, #f0f5fb 0%, #dce7f7 100%);
+    overflow: hidden;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .library-cover img {
     width: 100%;
-    height: auto;
+    height: 100%;
     display: block;
-    object-fit: contain;
-    border-radius: 12px;
+    object-fit: contain;   /* full book cover, no cropping */
+    object-position: center;
+    transition: transform 0.3s ease;
+    image-rendering: auto;
+  }
+
+  .library-item[role="button"]:hover .library-cover img {
+    transform: scale(1.03);
   }
 
   .library-topline {
@@ -1018,11 +1061,11 @@ export const ActivityDashboard = () => html`
   .chapter-order-chip {
     display: inline-flex;
     align-items: center;
-    gap: 0.38rem;
-    padding: 0.38rem 0.68rem;
+    gap: 0.3rem;
+    padding: 0.28rem 0.52rem;
     border-radius: 999px;
-    font-size: 0.72rem;
-    font-weight: 800;
+    font-size: 0.62rem;
+    font-weight: 700;
   }
 
   .book-chip {
@@ -1035,12 +1078,64 @@ export const ActivityDashboard = () => html`
     color: var(--student-muted);
   }
 
+  .library-body {
+    padding: 0.6rem 0.7rem 0.7rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    flex: 1;
+  }
+
   .library-title {
     font-family: 'Sora', sans-serif;
-    font-size: 0.96rem;
+    font-size: 0.76rem;
     font-weight: 800;
     color: var(--student-ink);
+    line-height: 1.3;
+    margin: 0;
+  }
+
+  .library-subtitle {
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: var(--student-muted);
     line-height: 1.4;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .library-meta {
+    margin-top: auto;
+    padding-top: 0.4rem;
+    display: flex;
+    align-items: center;
+  }
+
+  /* Pink View Chapters button */
+  .lib-view-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.38rem 0.7rem;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #cf296d 0%, #e0446e 100%);
+    border: none;
+    color: #ffffff;
+    font-family: 'Sora', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+    box-shadow: 0 3px 10px rgba(207, 41, 109, 0.3);
+    white-space: nowrap;
+    pointer-events: none;
+  }
+  .library-item[role="button"]:hover .lib-view-btn {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 14px rgba(207, 41, 109, 0.4);
   }
 
   .library-subtitle {
@@ -1828,35 +1923,29 @@ export const ActivityDashboard = () => html`
 <div class="student-page">
   <div id="studentDashboardView" class="dashboard-shell d-none">
     <aside class="sidebar-panel">
-      <div class="sidebar-brand sidebar-brand-v2">
-        <div class="sidebar-profile-cluster">
-          <div class="sidebar-brand-art" id="studentAvatarClickArea" title="Click to change photo" role="button" tabindex="0" style="position:relative; cursor:pointer; overflow:visible;">
-            <img id="studentProfilePreview" src="/kidba_assets/img/3d_student.png" alt="Student profile" style="border-radius:50%; width:100%; height:100%; object-fit:cover;">
-            <div class="sidebar-cam-badge"><i class="fas fa-camera"></i></div>
-            <input id="studentProfileFileInput" type="file" accept="image/*" style="position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;cursor:pointer;z-index:10;">
-          </div>
-          <div class="sidebar-name-block">
-            <span class="sidebar-title" id="sidebarProfileName" style="margin:0;">Student Name</span>
-          </div>
+      <!-- Profile at top -->
+      <div class="sidebar-profile-top">
+        <div class="sidebar-brand-art" id="studentAvatarClickArea" title="Click to change photo" role="button" tabindex="0" style="position:relative; cursor:pointer; overflow:visible;">
+          <img id="studentProfilePreview" src="/kidba_assets/img/3d_student.png" alt="Student profile" style="border-radius:50%; width:100%; height:100%; object-fit:cover;">
+          <div class="sidebar-cam-badge"><i class="fas fa-camera"></i></div>
+          <input id="studentProfileFileInput" type="file" accept="image/*" style="position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;cursor:pointer;z-index:10;">
         </div>
-
-        <div class="sidebar-school-chip">
-          <div class="sidebar-school-art" style="position:relative; overflow:hidden;">
-            <img id="schoolLogoImg" src="/kidba_assets/img/3d_school.png" alt="School logo" style="border-radius:10px; width:100%; height:100%; object-fit:cover;">
-          </div>
-          <span class="sidebar-school-name" id="studentWelcomeName">School</span>
-          <div class="sidebar-chip-actions">
-            <button class="sidebar-icon-btn home" type="button" onclick="window.location.href='auth.html'" title="Home" aria-label="Home"><i class="fas fa-house"></i></button>
-            <button class="sidebar-icon-btn logout" type="button" onclick="logoutStudent()" title="Logout" aria-label="Logout"><i class="fas fa-sign-out-alt"></i></button>
-          </div>
-        </div>
+        <span class="sidebar-title" id="sidebarProfileName">Student Name</span>
       </div>
+
+      <!-- Nav items -->
       <ul class="sidebar-nav">
         <li class="active" data-section="overview" role="button" tabindex="0"><span class="nav-badge overview"><i class="fas fa-chart-pie"></i></span><span>Overview</span></li>
         <li data-section="books" role="button" tabindex="0"><span class="nav-badge books"><i class="fas fa-book-open"></i></span><span>Books</span></li>
         <li data-section="progress" role="button" tabindex="0"><span class="nav-badge progress"><i class="fas fa-star"></i></span><span>Progress</span></li>
         <li data-section="rankings" role="button" tabindex="0"><span class="nav-badge reports"><i class="fas fa-medal"></i></span><span>Rankings</span></li>
       </ul>
+
+      <!-- Red Logout button at bottom -->
+      <button class="sidebar-logout-btn" type="button" onclick="logoutStudent()">
+        <i class="fas fa-sign-out-alt"></i>
+        <span>LOGOUT</span>
+      </button>
     </aside>
 
     <div class="dashboard-main">
@@ -1871,6 +1960,25 @@ export const ActivityDashboard = () => html`
         </div>
         <div class="champions-gift-banner">
           <p><span class="gift-icon">🎁</span> Top 3 champions will receive <strong>exclusive gifts</strong> from Imaan & Akhlaq! Keep earning points to claim your spot!</p>
+        </div>
+      </div>
+
+      <!-- School Header / Workspace Bar -->
+      <div class="workspace-bar" id="studentWorkspaceBar">
+        <div class="workspace-heading">
+          <div class="workspace-art" style="position:relative;">
+            <img id="schoolLogoImg" src="/kidba_assets/img/3d_school.png" alt="School logo" style="width:100%;height:100%;object-fit:cover;border-radius:14px;">
+          </div>
+          <div>
+            <div class="workspace-kicker"><i class="fas fa-graduation-cap"></i> School Dashboard</div>
+            <h2 class="workspace-title" id="studentWelcomeName">imaan academy</h2>
+          </div>
+        </div>
+        <div class="workspace-actions">
+          <button class="dashboard-home-btn" type="button" onclick="window.location.href='auth.html'">
+            <i class="fas fa-house"></i>
+            <span>Home</span>
+          </button>
         </div>
       </div>
 
@@ -1921,7 +2029,7 @@ export const ActivityDashboard = () => html`
               <h3 id="currentBookTitle">Choose a Book</h3>
               <p id="currentBookSubtitle">Select a title to open its chapters and continue your learning journey.</p>
             </div>
-            <button class="dashboard-ghost-btn d-none" id="backToBooksBtn" type="button" style="display: none !important;"><i class="fas fa-arrow-left"></i><span>Back to Books</span></button>
+            <button class="dashboard-ghost-btn d-none" id="backToBooksBtn" type="button"><i class="fas fa-arrow-left"></i><span>Back to Books</span></button>
           </div>
 
           <div id="activitiesRoot" class="catalog-grid">
@@ -2221,7 +2329,13 @@ export const ActivityDashboard = () => html`
     ALL_BOOKS.forEach((book) => {
       if (apiData[book.id] && apiData[book.id].chapters) {
         let localOrder = 1;
-        Object.keys(apiData[book.id].chapters).forEach((chapterKey) => {
+        // Sort chapter keys numerically (chapter1, chapter2, ..., chapter10, chapter15)
+        const sortedKeys = Object.keys(apiData[book.id].chapters).sort((a, b) => {
+          const numA = parseInt(a.replace('chapter', ''), 10) || 0;
+          const numB = parseInt(b.replace('chapter', ''), 10) || 0;
+          return numA - numB;
+        });
+        sortedKeys.forEach((chapterKey) => {
           const chapterData = apiData[book.id].chapters[chapterKey];
           chapters.push({
             bId: book.id,
@@ -2531,6 +2645,7 @@ export const ActivityDashboard = () => html`
 
     currentBookTitle.textContent = 'Choose a Book';
     currentBookSubtitle.textContent = 'Select a title to open its chapters and continue your learning journey.';
+    root.classList.remove('chapter-mode');  // 4-col book grid
     root.innerHTML = '';
 
     const allChapters = getAllChaptersInOrder();
@@ -2539,20 +2654,22 @@ export const ActivityDashboard = () => html`
 
     ALL_BOOKS.forEach((book) => {
       const bookChapters = allChapters.filter((chapter) => chapter.bId === book.id);
-      const unlockedInBook = bookChapters.filter((chapter) => chapter.globalOrder <= unlockedLimit).length;
+      const unlockedInBook = bookChapters.filter((chapter) => chapter.bookOrder === 1 || chapter.cId === 'chapter1' || chapter.globalOrder <= unlockedLimit).length;
 
       const card = document.createElement('div');
       card.className = 'library-item';
       makeInteractiveCard(card, () => showChapters(book.id, book.title));
       card.innerHTML =
-        '<div class="library-cover"><img src="' + book.cover + '" alt="' + book.title + '"></div>' +
-        '<div class="library-topline">' +
-          '<span class="book-chip"><i class="fas fa-book"></i> ' + bookChapters.length + ' chapters</span>' +
-          '<span class="book-chip muted"><i class="fas fa-unlock"></i> ' + unlockedInBook + ' open</span>' +
-        '</div>' +
-        '<div class="library-title">' + book.title + '</div>' +
-        '<div class="library-subtitle">Open this book to browse chapters available in your learning sequence.</div>' +
-        '<div class="library-meta"><span class="status-pill ready"><i class="fas fa-book-open"></i> View Chapters</span></div>';
+        '<div class="library-cover"><img src="' + book.cover + '" alt="' + book.title + '" loading="lazy"></div>' +
+        '<div class="library-body">' +
+          '<div class="library-topline">' +
+            '<span class="book-chip"><i class="fas fa-book"></i> ' + bookChapters.length + ' chapters</span>' +
+            '<span class="book-chip muted"><i class="fas fa-lock"></i> ' + unlockedInBook + ' open</span>' +
+          '</div>' +
+          '<div class="library-title">' + book.title + '</div>' +
+          '<div class="library-subtitle">Open this book to browse chapters available in your learning sequence.</div>' +
+          '<div class="library-meta"><button class="lib-view-btn" type="button"><i class="fas fa-book-open"></i> View Chapters</button></div>' +
+        '</div>';
       fragment.appendChild(card);
     });
     
@@ -2566,6 +2683,7 @@ export const ActivityDashboard = () => html`
 
     currentBookTitle.textContent = bookTitle;
     currentBookSubtitle.textContent = 'Choose the next chapter to start, unlock or review.';
+    root.classList.add('chapter-mode');  // 1-col chapter list
     root.innerHTML = '';
 
     const chapters = getAllChaptersInOrder().filter((chapter) => chapter.bId === bookId);
@@ -2585,7 +2703,7 @@ export const ActivityDashboard = () => html`
     chapters.forEach((item) => {
       const order = item.globalOrder;
       const stateId = item.stateId;
-      const isUnlocked = order <= (gameState.unlockedCount || 1);
+      const isUnlocked = item.bookOrder === 1 || item.cId === 'chapter1' || order <= (gameState.unlockedCount || 1);
       const isCompleted = (gameState.completed || []).includes(stateId);
       const isParentApproved = (gameState.parent_approved || []).includes(stateId);
       const isTeacherApproved = (gameState.teacher_approved || []).includes(stateId);
@@ -3048,6 +3166,18 @@ export const ActivityDashboard = () => html`
     function check(){
       var root = document.getElementById('activitiesRoot');
       if (!root) return;
+
+      var isMobileOrCap = false;
+      try {
+        isMobileOrCap = (window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform()) || (window.innerWidth <= 1024);
+      } catch(e) {}
+
+      if (!isMobileOrCap) {
+        root.dataset.apkAccordion = '';
+        root.classList.remove('apk-book-accordion');
+        return;
+      }
+
       var hasAccordion = root.querySelector(':scope > .apk-book-row') !== null;
       if (hasAccordion) return;
       root.dataset.apkAccordion = '';

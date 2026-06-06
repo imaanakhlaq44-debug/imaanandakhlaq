@@ -1,12 +1,8 @@
-<!DOCTYPE html><html lang="en"><head>
-<script>/* regenerator-runtime v0.14.1 — inlined to avoid 404 on static servers */
-var runtime=function(t){"use strict";var r,e=Object.prototype,n=e.hasOwnProperty,o=Object.defineProperty||function(t,r,e){t[r]=e.value},i="function"==typeof Symbol?Symbol:{},a=i.iterator||"@@iterator",c=i.asyncIterator||"@@asyncIterator",u=i.toStringTag||"@@toStringTag";function h(t,r,e){return Object.defineProperty(t,r,{value:e,enumerable:!0,configurable:!0,writable:!0}),t[r]}try{h({},"")}catch(t){h=function(t,r,e){return t[r]=e}}function l(t,r,e,n){var i=r&&r.prototype instanceof d?r:d,a=Object.create(i.prototype),c=new T(n||[]);return o(a,"_invoke",{value:O(t,e,c)}),a}function f(t,r,e){try{return{type:"normal",arg:t.call(r,e)}}catch(t){return{type:"throw",arg:t}}}t.wrap=l;var s="suspendedStart",p="suspendedYield",y="executing",v="completed",g={};function d(){}function m(){}function w(){}var b={};h(b,a,(function(){return this}));var L=Object.getPrototypeOf,x=L&&L(L(P([])));x&&x!==e&&n.call(x,a)&&(b=x);var E=w.prototype=d.prototype=Object.create(b);function j(t){["next","throw","return"].forEach((function(r){h(t,r,(function(t){return this._invoke(r,t)}))}))}function _(t,r){function e(o,i,a,c){var u=f(t[o],t,i);if("throw"!==u.type){var h=u.arg,l=h.value;return l&&"object"==typeof l&&n.call(l,"__await")?r.resolve(l.__await).then((function(t){e("next",t,a,c)}),(function(t){e("throw",t,a,c)})):r.resolve(l).then((function(t){h.value=t,a(h)}),(function(t){return e("throw",t,a,c)}))}c(u.arg)}var i;o(this,"_invoke",{value:function(t,n){function o(){return new r((function(r,o){e(t,n,r,o)}))}return i=i?i.then(o,o):o()}})}function O(t,e,n){var o=s;return function(i,a){if(o===y)throw new Error("Generator is already running");if(o===v){if("throw"===i)throw a;return{value:r,done:!0}}for(n.method=i,n.arg=a;;){var c=n.delegate;if(c){var u=k(c,n);if(u){if(u===g)continue;return u}}if("next"===n.method)n.sent=n._sent=n.arg;else if("throw"===n.method){if(o===s)throw o=v,n.arg;n.dispatchException(n.arg)}else"return"===n.method&&n.abrupt("return",n.arg);o=y;var h=f(t,e,n);if("normal"===h.type){if(o=n.done?v:p,h.arg===g)continue;return{value:h.arg,done:n.done}}"throw"===h.type&&(o=v,n.method="throw",n.arg=h.arg)}}}function k(t,e){var n=e.method,o=t.iterator[n];if(o===r)return e.delegate=null,"throw"===n&&t.iterator.return&&(e.method="return",e.arg=r,k(t,e),"throw"===e.method)||"return"!==n&&(e.method="throw",e.arg=new TypeError("The iterator does not provide a '"+n+"' method")),g;var i=f(o,t.iterator,e.arg);if("throw"===i.type)return e.method="throw",e.arg=i.arg,e.delegate=null,g;var a=i.arg;return a?a.done?(e[t.resultName]=a.value,e.next=t.nextLoc,"return"!==e.method&&(e.method="next",e.arg=r),e.delegate=null,g):a:(e.method="throw",e.arg=new TypeError("iterator result is not an object"),e.delegate=null,g)}function G(t){var r={tryLoc:t[0]};1 in t&&(r.catchLoc=t[1]),2 in t&&(r.finallyLoc=t[2],r.afterLoc=t[3]),this.tryEntries.push(r)}function N(t){var r=t.completion||{};r.type="normal",delete r.arg,t.completion=r}function T(t){this.tryEntries=[{tryLoc:"root"}],t.forEach(G,this),this.reset(!0)}function P(t){if(null!=t){var e=t[a];if(e)return e.call(t);if("function"==typeof t.next)return t;if(!isNaN(t.length)){var o=-1,i=function e(){for(;++o<t.length;)if(n.call(t,o))return e.value=t[o],e.done=!1,e;return e.value=r,e.done=!0,e};return i.next=i}}throw new TypeError(typeof t+" is not iterable")}return m.prototype=w,o(E,"constructor",{value:w,configurable:!0}),o(w,"constructor",{value:m,configurable:!0}),m.displayName=h(w,u,"GeneratorFunction"),t.isGeneratorFunction=function(t){var r="function"==typeof t&&t.constructor;return!!r&&(r===m||"GeneratorFunction"===(r.displayName||r.name))},t.mark=function(t){return Object.setPrototypeOf?Object.setPrototypeOf(t,w):(t.__proto__=w,h(t,u,"GeneratorFunction")),t.prototype=Object.create(E),t},t.awrap=function(t){return{__await:t}},j(_.prototype),h(_.prototype,c,(function(){return this})),t.AsyncIterator=_,t.async=function(r,e,n,o,i){void 0===i&&(i=Promise);var a=new _(l(r,e,n,o),i);return t.isGeneratorFunction(e)?a:a.next().then((function(t){return t.done?t.value:a.next()}))},j(E),h(E,u,"Generator"),h(E,a,(function(){return this})),h(E,"toString",(function(){return"[object Generator]"})),t.keys=function(t){var r=Object(t),e=[];for(var n in r)e.push(n);return e.reverse(),function t(){for(;e.length;){var n=e.pop();if(n in r)return t.value=n,t.done=!1,t}return t.done=!0,t}},t.values=P,T.prototype={constructor:T,reset:function(t){if(this.prev=0,this.next=0,this.sent=this._sent=r,this.done=!1,this.delegate=null,this.method="next",this.arg=r,this.tryEntries.forEach(N),!t)for(var e in this)"t"===e.charAt(0)&&n.call(this,e)&&!isNaN(+e.slice(1))&&(this[e]=r)},stop:function(){this.done=!0;var t=this.tryEntries[0].completion;if("throw"===t.type)throw t.arg;return this.rval},dispatchException:function(t){if(this.done)throw t;var e=this;function o(n,o){return c.type="throw",c.arg=t,e.next=n,o&&(e.method="next",e.arg=r),!!o}for(var i=this.tryEntries.length-1;i>=0;--i){var a=this.tryEntries[i],c=a.completion;if("root"===a.tryLoc)return o("end");if(a.tryLoc<=this.prev){var u=n.call(a,"catchLoc"),h=n.call(a,"finallyLoc");if(u&&h){if(this.prev<a.catchLoc)return o(a.catchLoc,!0);if(this.prev<a.finallyLoc)return o(a.finallyLoc)}else if(u){if(this.prev<a.catchLoc)return o(a.catchLoc,!0)}else{if(!h)throw new Error("try statement without catch or finally");if(this.prev<a.finallyLoc)return o(a.finallyLoc)}}}},abrupt:function(t,r){for(var e=this.tryEntries.length-1;e>=0;--e){var o=this.tryEntries[e];if(o.tryLoc<=this.prev&&n.call(o,"finallyLoc")&&this.prev<o.finallyLoc){var i=o;break}}i&&("break"===t||"continue"===t)&&i.tryLoc<=r&&r<=i.finallyLoc&&(i=null);var a=i?i.completion:{};return a.type=t,a.arg=r,i?(this.method="next",this.next=i.finallyLoc,g):this.complete(a)},complete:function(t,r){if("throw"===t.type)throw t.arg;return"break"===t.type||"continue"===t.type?this.next=t.arg:"return"===t.type?(this.rval=this.arg=t.arg,this.method="return",this.next="end"):"normal"===t.type&&r&&(this.next=r),g},finish:function(t){for(var r=this.tryEntries.length-1;r>=0;--r){var e=this.tryEntries[r];if(e.finallyLoc===t)return this.complete(e.completion,e.afterLoc),N(e),g}},catch:function(t){for(var r=this.tryEntries.length-1;r>=0;--r){var e=this.tryEntries[r];if(e.tryLoc===t){var n=e.completion;if("throw"===n.type){var o=n.arg;N(e)}return o}}throw new Error("illegal catch attempt")},delegateYield:function(t,e,n){return this.delegate={iterator:P(t),resultName:e,nextLoc:n},"next"===this.method&&(this.arg=r),g}},t}("object"==typeof module?module.exports:{});try{regeneratorRuntime=runtime}catch(t){"object"==typeof globalThis?globalThis.regeneratorRuntime=runtime:Function("r","regeneratorRuntime = r")(runtime)}
-</script>
-<style>.d-none{display:none!important}</style>
+<!DOCTYPE html><html lang="en"><head><script src="/kidba_assets/js/regenerator-runtime.min.js"></script>
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Imaan &amp; Akhlaq - Islamic Stories &amp; Education for Kids</title>
+  <title>Imaan &amp; Akhlaq</title>
   <meta name="description" content="Imaan &amp; Akhlaq - Fun Islamic stories, puppet shows, and educational programs teaching faith, manners, and good character to children.">
   <meta property="og:title" content="Imaan &amp; Akhlaq - Islamic Education for Kids">
   <meta property="og:description" content="Join Imaan and Akhlaq on magical adventures learning about Islam, Prophets, and good manners!">
@@ -37,27 +33,18 @@ var runtime=function(t){"use strict";var r,e=Object.prototype,n=e.hasOwnProperty
   <link rel="stylesheet" href="/kidba_assets/css/style.css">
   <link rel="stylesheet" href="/kidba_assets/css/dashboard-buttons.css">
 
-  <!-- StPageFlip (real page-curl book flip) — same as activity.html -->
-  <script src="/kidba_assets/vendor/js/page-flip.browser.js" defer></script>
-
-  <!-- Capacitor Mobile App: redirect only in true native Capacitor context -->
+  <!-- Capacitor Mobile App: always redirect to Auth on public pages -->
   <script>
 (function () {
-  // Only run in a real Capacitor native build — NOT on web browsers
+  // Capacitor injects its bridge automatically
   var isCap = false;
   try {
-    isCap = !!(
-      window.Capacitor &&
-      window.Capacitor.isNativePlatform &&
-      window.Capacitor.isNativePlatform() &&
-      window.Capacitor.isPluginAvailable  // only present in real native builds
-    );
+    isCap = window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform();
   } catch (e) {}
   if (isCap) {
     var host = window.location.hostname;
     var protocol = window.location.protocol;
-    // Fixed: bracket grouping prevents operator precedence bug
-    if (host === '127.0.0.1' || host === '0.0.0.0' || (host === 'localhost' && protocol !== 'https:')) {
+    if (host === '127.0.0.1' || host === '0.0.0.0' || host === 'localhost' && protocol !== 'https:') {
       var normalizedUrl = 'https://localhost' + window.location.pathname + window.location.search + window.location.hash;
       if (window.location.href !== normalizedUrl) {
         window.location.replace(normalizedUrl);
@@ -65,8 +52,9 @@ var runtime=function(t){"use strict";var r,e=Object.prototype,n=e.hasOwnProperty
       }
     }
     var path = window.location.pathname.replace(/\/index\.html$/, '/').replace(/\.html$/, '').replace(/\/$/, '') || '/';
+    // Only allow these pages in app
     var allowed = ['/auth', '/student-activities', '/parent-dashboard', '/teacher-dashboard', '/admin-dashboard', '/activity'];
-    if (!allowed.some(function(p) { return path === p; })) {
+    if (!allowed.some(p => path === p)) {
       window.location.replace('https://localhost/auth');
     }
   }
@@ -1229,165 +1217,6 @@ var runtime=function(t){"use strict";var r,e=Object.prototype,n=e.hasOwnProperty
     gap: 1.5rem;
     margin-top: 1rem;
   }
-
-  /* ===== TEACHER CHAPTERS PANEL (student-dashboard style) ===== */
-  .tchap-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(10, 18, 40, 0.88);
-    backdrop-filter: blur(10px);
-    z-index: 9999;
-    display: none;
-    flex-direction: column;
-    overflow: hidden;
-  }
-  .tchap-overlay.active { display: flex; }
-  .tchap-header {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 1rem 1.4rem;
-    background: linear-gradient(135deg, #29416d 0%, #cf296d 100%);
-    color: #fff;
-    flex-shrink: 0;
-  }
-  .tchap-back-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.55rem 1rem;
-    border-radius: 12px;
-    background: rgba(255,255,255,0.18);
-    border: 1px solid rgba(255,255,255,0.22);
-    color: #fff;
-    font-size: 0.82rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: background 0.2s;
-    flex-shrink: 0;
-  }
-  .tchap-back-btn:hover { background: rgba(255,255,255,0.3); }
-  .tchap-header-info { min-width: 0; flex: 1; }
-  .tchap-header-info h2 {
-    margin: 0;
-    font-family: 'Sora', sans-serif;
-    font-size: 1.1rem;
-    font-weight: 800;
-  }
-  .tchap-header-info p {
-    margin: 0.2rem 0 0;
-    font-size: 0.78rem;
-    opacity: 0.82;
-  }
-  .tchap-body {
-    flex: 1;
-    overflow-y: auto;
-    padding: 1.2rem;
-    background: linear-gradient(180deg, #f7fafc 0%, #eef4fb 100%);
-  }
-  .tchap-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    justify-content: flex-start;
-    max-width: 1100px;
-    margin: 0 auto;
-  }
-  .tchap-item {
-    flex: 0 1 260px;
-    min-width: 220px;
-    background: #fff;
-    border: 1px solid rgba(41,65,109,0.1);
-    border-radius: 18px;
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-    cursor: pointer;
-    transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
-    box-shadow: 0 4px 14px rgba(15,23,42,0.06);
-  }
-  .tchap-item:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 28px rgba(41,65,109,0.12);
-    border-color: rgba(207,41,109,0.3);
-  }
-  .tchap-hero {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.6rem;
-  }
-  .tchap-icon {
-    width: 52px;
-    height: 52px;
-    flex: 0 0 52px;
-    border-radius: 16px;
-    background: linear-gradient(135deg, #29416d 0%, #cf296d 100%);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
-    font-size: 1.3rem;
-    box-shadow: 0 8px 18px rgba(41,65,109,0.2);
-  }
-  .tchap-order-chip {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-    padding: 0.35rem 0.65rem;
-    border-radius: 999px;
-    background: #fff7ed;
-    border: 1px solid rgba(234,131,0,0.2);
-    color: #ea8300;
-    font-size: 0.72rem;
-    font-weight: 800;
-  }
-  .tchap-title {
-    font-family: 'Sora', sans-serif;
-    font-size: 0.92rem;
-    font-weight: 800;
-    color: #1e293b;
-    line-height: 1.4;
-  }
-  .tchap-subtitle {
-    font-size: 0.76rem;
-    font-weight: 700;
-    color: #64748b;
-    line-height: 1.5;
-  }
-  .tchap-meta {
-    margin-top: auto;
-  }
-  .tchap-read-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.45rem;
-    padding: 0.55rem 1rem;
-    border-radius: 12px;
-    background: linear-gradient(135deg, #29416d 0%, #cf296d 100%);
-    color: #fff;
-    font-size: 0.78rem;
-    font-weight: 700;
-    border: none;
-    cursor: pointer;
-    transition: opacity 0.2s, transform 0.2s;
-    box-shadow: 0 6px 14px rgba(41,65,109,0.2);
-    width: 100%;
-    justify-content: center;
-  }
-  .tchap-read-btn:hover { opacity: 0.88; transform: translateY(-1px); }
-  .tchap-empty {
-    text-align: center;
-    padding: 2.5rem;
-    color: #64748b;
-    font-weight: 700;
-  }
-  @media (max-width: 600px) {
-    .tchap-grid { flex-direction: column; }
-    .tchap-item { flex: 1 1 100%; }
-  }
-  /* ===== END TEACHER CHAPTERS PANEL ===== */
   .book-card {
     background: #fff;
     border-radius: 18px;
@@ -1402,316 +1231,89 @@ var runtime=function(t){"use strict";var r,e=Object.prototype,n=e.hasOwnProperty
     box-shadow: 0 14px 36px rgba(15,23,42,0.14);
     border-color: var(--teacher-pink);
   }
-  /* Book cover using img tag — same approach as student dashboard library-cover */
   .book-card-cover {
-    position: relative;
     width: 100%;
-    aspect-ratio: 3 / 4;
-    border-radius: 14px 14px 0 0;
+    aspect-ratio: 3/4;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #1e3a5f;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    padding: 1.5rem;
+    text-align: center;
+    position: relative;
     overflow: hidden;
-    background: linear-gradient(180deg, #eef4fb 0%, #dce7f7 100%);
-    box-shadow: 0 8px 20px rgba(15,23,42,0.10);
   }
-  .book-card-cover img {
+  .book-card-cover img.book-cover-img {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    display: block;
+    z-index: 0;
   }
   .book-card-cover .book-badge {
     position: absolute;
-    top: 10px; right: 10px;
-    background: rgba(41,65,109,0.75);
+    top: 12px; right: 12px;
+    background: rgba(255,255,255,0.2);
     backdrop-filter: blur(6px);
-    color: #fff;
     padding: 4px 10px;
     border-radius: 20px;
     font-size: 0.7rem;
     font-weight: 700;
-    letter-spacing: 0.04em;
+    z-index: 1;
   }
   .book-card-info {
-    padding: 0.85rem 1rem 0.6rem;
+    padding: 1rem 1.2rem;
   }
   .book-card-info strong {
     display: block;
-    font-family: 'Sora', sans-serif;
     font-size: 0.95rem;
-    font-weight: 800;
     color: var(--teacher-ink);
     margin-bottom: 0.2rem;
   }
   .book-card-info span {
-    font-size: 0.78rem;
-    font-weight: 700;
+    font-size: 0.8rem;
     color: var(--teacher-muted);
   }
   .book-card-btn {
     display: block;
-    width: calc(100% - 2rem);
-    margin: 0 1rem 1rem;
+    width: calc(100% - 2.4rem);
+    margin: 0 1.2rem 1rem;
     padding: 10px;
-    background: linear-gradient(135deg, var(--teacher-blue) 0%, var(--teacher-pink) 100%);
+    background: var(--teacher-blue);
     color: #fff;
     border: none;
-    border-radius: 12px;
+    border-radius: 10px;
     font-weight: 700;
     font-size: 0.85rem;
     cursor: pointer;
-    transition: opacity 0.2s, transform 0.2s;
-    box-shadow: 0 6px 14px rgba(41,65,109,0.18);
+    transition: background 0.2s;
   }
-  .book-card-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+  .book-card-btn:hover { background: var(--teacher-pink); }
   .book-card.coming-soon { opacity: 0.85; cursor: default; }
   .book-card.coming-soon:hover { transform: none; box-shadow: 0 6px 24px rgba(15,23,42,0.08); border-color: transparent; }
-  .book-card.coming-soon .book-card-btn { background: #94a3b8; cursor: default; box-shadow: none; }
-  .book-card.coming-soon .book-card-btn:hover { opacity: 1; transform: none; }
+  .book-card.coming-soon .book-card-btn { background: #94a3b8; cursor: default; }
+  .book-card.coming-soon .book-card-btn:hover { background: #94a3b8; }
   .coming-soon-badge { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); background: rgba(0,0,0,0.6); backdrop-filter: blur(6px); color: #fff; padding: 8px 18px; border-radius: 24px; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.5px; z-index: 2; }
 
-  /* ─── Book Reader Overlay (StPageFlip) — TRUE FULLSCREEN ─── */
+  /* Book Reader Modal */
   .book-reader-overlay {
     position: fixed;
     inset: 0;
-    background: #efe6d2;
+    background: rgba(12, 23, 48, 0.92);
+    backdrop-filter: blur(8px);
     z-index: 99999;
     display: none;
     flex-direction: column;
-    align-items: stretch;
-    overflow: hidden;           /* no scroll — book fills the screen */
+    align-items: center;
+    justify-content: center;
   }
   .book-reader-overlay.active { display: flex; }
-
-  /* Top toolbar — dark so back button always visible */
-  .book-reader-toolbar {
-    flex-shrink: 0;
-    z-index: 100;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
-    padding: 0 12px;
-    height: 52px;
-    background: #1b2942;        /* dark navy — always visible */
-    box-shadow: 0 2px 12px rgba(0,0,0,0.22);
-  }
-  .book-reader-toolbar h3 {
-    flex: 1;
-    text-align: center;
-    font-family: 'Sora','Nunito',sans-serif;
-    font-weight: 700;
-    font-size: 0.95rem;
-    color: #fff;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    margin: 0 8px;
-  }
-  /* Back button — always visible, prominent */
-  .book-reader-close {
-    background: rgba(255,255,255,0.15);
-    border: 1px solid rgba(255,255,255,0.25);
-    width: 38px; height: 38px;
-    border-radius: 50%;
-    font-size: 1rem;
-    color: #fff;
-    cursor: pointer;
-    display: inline-flex; align-items: center; justify-content: center;
-    transition: background 0.15s, transform 0.12s;
-    flex-shrink: 0;
-  }
-  .book-reader-close:hover {
-    background: rgba(207,41,109,0.75);
-    transform: scale(1.08);
-  }
-
-  /* Flipbook wrapper fills ALL remaining height */
-  .tr-flipbook-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    flex: 1;
-    height: 0;                  /* forces flex child to fill remaining space */
-    min-height: 0;
-    padding: 10px 8px 6px;
-    touch-action: pan-y;
-    overflow: hidden;
-  }
-  /* Stage fills all flex height — book always maximized */
-  .tr-flipbook-stage {
-    position: relative;
-    width: 100%;
-    flex: 1;
-    min-height: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 14px 12px 20px;
-    border-radius: 20px;
-    background:
-      radial-gradient(ellipse at center top, rgba(255,255,255,0.85) 0%, rgba(243,232,210,0.55) 60%, rgba(0,0,0,0) 80%),
-      linear-gradient(180deg, #fbf3e1 0%, #efdfbf 100%);
-    box-shadow:
-      0 28px 60px -20px rgba(40,30,10,0.35),
-      inset 0 1px 0 rgba(255,255,255,0.6);
-    overflow: hidden;
-  }
-  .tr-flipbook-stage::before {
-    content: '';
-    position: absolute;
-    left: 6%; right: 6%; bottom: 4px; height: 20px;
-    background: radial-gradient(ellipse at center, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0) 70%);
-    filter: blur(5px);
-    pointer-events: none;
-    z-index: 0;
-  }
-  .tr-flipbook-container {
-    position: relative;
-    z-index: 1;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .tr-flipbook-container .stf__parent {
-    margin: 0 auto;
-    filter: drop-shadow(0 18px 28px rgba(20,30,60,0.22));
-  }
-  /* Each page: warm paper */
-  .tr-flipbook-container .stf__item {
-    background: #fffaf0;
-    background-image:
-      radial-gradient(rgba(120,90,50,0.06) 1px, transparent 1px),
-      linear-gradient(135deg, #fffaf0 0%, #fbf2dd 100%);
-    background-size: 4px 4px, 100% 100%;
-    overflow: hidden;
-  }
-  .tr-flipbook-container .stf__item.--left  { box-shadow: inset -6px 0 12px -6px rgba(0,0,0,0.18); }
-  .tr-flipbook-container .stf__item.--right { box-shadow: inset 6px 0 12px -6px rgba(0,0,0,0.18); }
-
-  /* Page content inside StPageFlip */
-  .tr-pdf-page {
-    width: 100%; height: 100%;
-    display: flex; align-items: center; justify-content: center;
-    padding: 0; box-sizing: border-box; position: relative;
-  }
-  .tr-pdf-page canvas {
-    display: block; max-width: 100%; max-height: 100%;
-    width: auto; height: auto; border-radius: 2px;
-  }
-  .tr-pdf-page .tr-page-num {
-    position: absolute; bottom: 6px; left: 50%;
-    transform: translateX(-50%);
-    font-family: 'Sora','Nunito',sans-serif;
-    font-size: 0.68rem; font-weight: 700;
-    letter-spacing: 0.08em; color: #8a7a55;
-    text-transform: uppercase;
-  }
-
-  /* Cover & end pages */
-  .tr-pdf-cover, .tr-pdf-end {
-    width: 100%; height: 100%;
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    text-align: center; padding: 28px 22px;
-    color: #fff; box-sizing: border-box; border-radius: 2px;
-  }
-  .tr-pdf-cover {
-    background: linear-gradient(135deg, #1e3a5f 0%, #29416d 50%, #cf296d 100%);
-  }
-  .tr-pdf-end {
-    background: linear-gradient(135deg, #1e3a5f 0%, #29416d 55%, #ea8300 100%);
-  }
-  .tr-pdf-cover .tr-cover-icon { font-size: 2.2rem; margin-bottom: 16px; opacity: 0.9; }
-  .tr-pdf-cover .tr-cover-kicker, .tr-pdf-end .tr-cover-kicker {
-    font-size: 0.68rem; font-weight: 800;
-    letter-spacing: 0.22em; text-transform: uppercase;
-    color: rgba(255,255,255,0.78); margin-bottom: 12px;
-  }
-  .tr-pdf-cover h2, .tr-pdf-end h2 {
-    font-family: 'Fredoka One',cursive;
-    font-size: clamp(1.3rem,4vw,1.9rem);
-    margin: 0 0 10px; text-shadow: 0 2px 8px rgba(0,0,0,0.3);
-  }
-  .tr-pdf-cover p, .tr-pdf-end p {
-    font-size: 0.9rem; opacity: 0.9;
-    max-width: 280px; line-height: 1.5; margin: 0 auto;
-  }
-
-  /* Loading placeholder */
-  .tr-pdf-loading {
-    background: rgba(30,58,95,0.07);
-    border: 1px dashed rgba(30,58,95,0.25);
-    border-radius: 12px; color: #1e3a5f;
-    padding: 24px 16px; text-align: center;
-    max-width: 400px; margin: 0 auto;
-  }
-
-  /* Floating nav pill — FIXED BOTTOM like Kindle mode */
-  .tr-flipbook-nav {
-    position: fixed;
-    left: 50%;
-    bottom: 18px;
-    transform: translateX(-50%);
-    z-index: 100002;
-    display: flex; align-items: center; justify-content: center;
-    gap: 14px; padding: 10px 18px;
-    background: rgba(255,255,255,0.96);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-radius: 999px;
-    box-shadow: 0 10px 32px rgba(20,30,60,0.20);
-    border: 1px solid rgba(20,30,60,0.06);
-  }
-  .tr-flipbook-nav button {
-    background: linear-gradient(180deg,#2d5a8e 0%,#1e3a5f 100%);
-    color: #fff; border: none;
-    width: 44px; height: 44px; border-radius: 50%;
-    font-size: 1rem; cursor: pointer;
-    transition: transform 0.18s, box-shadow 0.18s, opacity 0.18s;
-    display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 6px 14px rgba(30,58,95,0.28);
-  }
-  .tr-flipbook-nav button:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 10px 18px rgba(30,58,95,0.34); }
-  .tr-flipbook-nav button:disabled { opacity: 0.35; cursor: not-allowed; box-shadow: none; }
-  .tr-flipbook-nav .tr-page-indicator {
-    font-family: 'Sora','Nunito',sans-serif;
-    color: #1e3a5f; font-size: 0.9rem; font-weight: 800;
-    min-width: 100px; text-align: center; letter-spacing: 0.04em;
-  }
-  /* Progress bar — sits inside nav pill, full width below buttons */
-  .tr-flipbook-progress {
-    position: fixed;
-    left: 50%; bottom: 12px;
-    transform: translateX(-50%);
-    z-index: 100001;
-    width: min(320px, 55vw); height: 4px;
-    border-radius: 999px; background: rgba(30,58,95,0.1); overflow: hidden;
-  }
-  .tr-flipbook-progress-fill {
-    display: block; height: 100%; width: 0%;
-    background: linear-gradient(90deg,#cf296d,#ea8300);
-    border-radius: 999px; transition: width 300ms ease-out;
-  }
-  /* Lock notice */
-  .book-reader-lock {
-    position: fixed;
-    bottom: 4px; left: 50%; transform: translateX(-50%);
-    z-index: 100001;
-    color: rgba(30,58,95,0.38); font-size: 0.65rem;
-    white-space: nowrap;
-  }
-  .book-reader-lock i { margin-right: 3px; }
-  @media (max-width: 600px) {
-    .books-grid { grid-template-columns: 1fr 1fr; gap: 0.8rem; }
-    .book-card-cover { padding: 1rem; }
-    .tr-flipbook-stage { padding: 8px 4px 16px; border-radius: 14px; }
-    .tr-flipbook-nav { gap: 10px; padding: 8px 12px; bottom: 14px; }
-    .tr-flipbook-nav button { width: 40px; height: 40px; }
-    .tr-flipbook-nav .tr-page-indicator { min-width: 80px; font-size: 0.82rem; }
-  }
   .book-reader-header {
     width: 100%;
     max-width: 900px;
@@ -1737,18 +1339,16 @@ var runtime=function(t){"use strict";var r,e=Object.prototype,n=e.hasOwnProperty
     transition: background 0.2s;
   }
   .book-reader-close:hover { background: var(--teacher-pink); }
-  /* Book reader canvas wrap — 2-page spread style */
   .book-reader-canvas-wrap {
     flex: 1;
     width: 100%;
-    max-width: 1400px;
+    max-width: 900px;
     overflow-y: auto;
     overflow-x: hidden;
     display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: center;
-    gap: 0;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
     padding: 0 12px 12px;
     -webkit-user-select: none;
     user-select: none;
@@ -1756,29 +1356,8 @@ var runtime=function(t){"use strict";var r,e=Object.prototype,n=e.hasOwnProperty
     overscroll-behavior: contain;
     perspective: 2200px;
     perspective-origin: center center;
-  }
-  /* 2-page book spread wrapper */
-  .book-spread {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: center;
-    gap: 0;
-    box-shadow:
-      0 28px 70px rgba(0,0,0,0.55),
-      0 0 0 1px rgba(255,255,255,0.04),
-      inset 0 1px 0 rgba(255,255,255,0.08);
-    border-radius: 4px;
-    overflow: hidden;
-    max-width: 100%;
-  }
-  /* Spine divider between left and right page */
-  .book-spread-spine {
-    width: 6px;
-    align-self: stretch;
-    background: linear-gradient(to right, rgba(0,0,0,0.18), rgba(0,0,0,0.04), rgba(0,0,0,0.18));
-    flex-shrink: 0;
-    z-index: 1;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,0.2) transparent;
   }
   .book-reader-page-shell {
     position: relative;
@@ -1816,32 +1395,6 @@ var runtime=function(t){"use strict";var r,e=Object.prototype,n=e.hasOwnProperty
     filter: blur(18px);
     transition: opacity 120ms ease;
     transform: translateZ(-1px);
-  }
-  /* === PAGE FLIP KEYFRAMES (real book turn effect) === */
-  @keyframes pageFlipOut {
-    0%   { transform: perspective(1800px) rotateY(0deg)    scale(1);    opacity: 1; }
-    60%  { transform: perspective(1800px) rotateY(-55deg)  scale(0.97); opacity: 0.6; }
-    100% { transform: perspective(1800px) rotateY(-90deg)  scale(0.94); opacity: 0; }
-  }
-  @keyframes pageFlipOutBack {
-    0%   { transform: perspective(1800px) rotateY(0deg)   scale(1);    opacity: 1; }
-    60%  { transform: perspective(1800px) rotateY(55deg)  scale(0.97); opacity: 0.6; }
-    100% { transform: perspective(1800px) rotateY(90deg)  scale(0.94); opacity: 0; }
-  }
-  @keyframes pageFlipIn {
-    0%   { transform: perspective(1800px) rotateY(90deg)  scale(0.94); opacity: 0; }
-    40%  { transform: perspective(1800px) rotateY(25deg)  scale(0.98); opacity: 0.8; }
-    100% { transform: perspective(1800px) rotateY(0deg)   scale(1);    opacity: 1; }
-  }
-  @keyframes pageFlipInBack {
-    0%   { transform: perspective(1800px) rotateY(-90deg) scale(0.94); opacity: 0; }
-    40%  { transform: perspective(1800px) rotateY(-25deg) scale(0.98); opacity: 0.8; }
-    100% { transform: perspective(1800px) rotateY(0deg)   scale(1);    opacity: 1; }
-  }
-  /* Gloss overlay that appears during flip */
-  .book-reader-page-shell.flipping::before {
-    opacity: 0.45 !important;
-    transition: none !important;
   }
   .book-reader-canvas-wrap canvas {
     position: relative;
@@ -1910,7 +1463,7 @@ var runtime=function(t){"use strict";var r,e=Object.prototype,n=e.hasOwnProperty
   }
 
   /* ============================================================
-     DESKTOP POLISH — Teacher Dashboard
+     DESKTOP POLISH Ã¢â‚¬â€ Teacher Dashboard
      Brand colors, modern cards, responsive, logout highlight.
      ============================================================ */
   :root {
@@ -2015,7 +1568,7 @@ table { max-width: 100%; }
     overflow-wrap: break-word;
   }
   /* Images / videos / iframes stay in bounds */
-  img, video, iframe, svg, canvas {
+  img:not(.book-cover-img), video, iframe, svg, canvas {
     max-width: 100% !important;
     height: auto;
   }
@@ -2254,82 +1807,88 @@ table { max-width: 100%; }
 
               <div class="book-card" onclick="openBookReader('book1', 'Imaan &amp; Akhlaq - Book 1')">
                 <div class="book-card-cover">
-                  <img src="/assets/covers/book1.jpg" alt="Book 1 Cover">
+                  <img class="book-cover-img" src="/assets/covers/book1.jpg" alt="Book 1 Cover" loading="lazy">
                   <span class="book-badge">Book 1</span>
                 </div>
                 <div class="book-card-info">
                   <strong>Book 1</strong>
-                  <span>18 Chapters &bull; 74 Pages</span>
+                  <span>Imaan &amp; Akhlaq - Book 1</span>
                 </div>
                 <button class="book-card-btn" type="button" onclick="event.stopPropagation();openBookReader('book1', 'Imaan &amp; Akhlaq - Book 1')"><i class="fas fa-book-reader"></i> Read Book</button>
               </div>
               <div class="book-card" onclick="openBookReader('book2', 'Imaan &amp; Akhlaq - Book 2')">
                 <div class="book-card-cover">
-                  <img src="/assets/covers/book2.jpg" alt="Book 2 Cover">
+                  <img class="book-cover-img" src="/assets/covers/book2.jpg" alt="Book 2 Cover" loading="lazy">
                   <span class="book-badge">Book 2</span>
                 </div>
                 <div class="book-card-info">
                   <strong>Book 2</strong>
-                  <span>15 Chapters &bull; 93 Pages</span>
+                  <span>Imaan &amp; Akhlaq - Book 2</span>
                 </div>
                 <button class="book-card-btn" type="button" onclick="event.stopPropagation();openBookReader('book2', 'Imaan &amp; Akhlaq - Book 2')"><i class="fas fa-book-reader"></i> Read Book</button>
               </div>
               <div class="book-card" onclick="openBookReader('book3', 'Imaan &amp; Akhlaq - Book 3')">
                 <div class="book-card-cover">
-                  <img src="/assets/covers/book3.jpg" alt="Book 3 Cover">
+                  <img class="book-cover-img" src="/assets/covers/book3.jpg" alt="Book 3 Cover" loading="lazy">
                   <span class="book-badge">Book 3</span>
                 </div>
                 <div class="book-card-info">
                   <strong>Book 3</strong>
-                  <span>15 Chapters &bull; 96 Pages</span>
+                  <span>Imaan &amp; Akhlaq - Book 3</span>
                 </div>
                 <button class="book-card-btn" type="button" onclick="event.stopPropagation();openBookReader('book3', 'Imaan &amp; Akhlaq - Book 3')"><i class="fas fa-book-reader"></i> Read Book</button>
               </div>
               <div class="book-card" onclick="openBookReader('book4', 'Imaan &amp; Akhlaq - Book 4')">
                 <div class="book-card-cover">
-                  <img src="/assets/covers/book4.jpg" alt="Book 4 Cover">
+                  <img class="book-cover-img" src="/assets/covers/book4.jpg" alt="Book 4 Cover" loading="lazy">
                   <span class="book-badge">Book 4</span>
                 </div>
                 <div class="book-card-info">
                   <strong>Book 4</strong>
-                  <span>Islamic Stories</span>
+                  <span>Imaan &amp; Akhlaq - Book 4</span>
                 </div>
                 <button class="book-card-btn" type="button" onclick="event.stopPropagation();openBookReader('book4', 'Imaan &amp; Akhlaq - Book 4')"><i class="fas fa-book-reader"></i> Read Book</button>
               </div>
-              <div class="book-card" onclick="openBookReader('book5', 'Imaan &amp; Akhlaq - Book 5')">
+              <!-- Book 5 - Coming Soon -->
+              <div class="book-card" onclick="showComingSoon('Book 5')">
                 <div class="book-card-cover">
-                  <img src="/assets/covers/book5.jpg" alt="Book 5 Cover">
+                  <img class="book-cover-img" src="/assets/covers/book5.jpg" alt="Book 5 Cover" loading="lazy">
                   <span class="book-badge">Book 5</span>
                 </div>
                 <div class="book-card-info">
                   <strong>Book 5</strong>
-                  <span>Moral Guidance</span>
+                  <span>Coming Soon</span>
                 </div>
-                <button class="book-card-btn" type="button" onclick="event.stopPropagation();openBookReader('book5', 'Imaan &amp; Akhlaq - Book 5')"><i class="fas fa-book-reader"></i> Read Book</button>
+                <button class="book-card-btn" type="button" onclick="event.stopPropagation();showComingSoon('Book 5')"><i class="fas fa-clock"></i> Coming Soon</button>
               </div>
-              <div class="book-card" onclick="openBookReader('book6', 'Imaan &amp; Akhlaq - Book 6')">
+              <!-- Book 6 - Coming Soon -->
+              <div class="book-card" onclick="showComingSoon('Book 6')">
                 <div class="book-card-cover">
-                  <img src="/assets/covers/book6.jpg" alt="Book 6 Cover">
+                  <img class="book-cover-img" src="/assets/covers/book6.jpg" alt="Book 6 Cover" loading="lazy">
                   <span class="book-badge">Book 6</span>
                 </div>
                 <div class="book-card-info">
                   <strong>Book 6</strong>
-                  <span>Prophets History</span>
+                  <span>Coming Soon</span>
                 </div>
-                <button class="book-card-btn" type="button" onclick="event.stopPropagation();openBookReader('book6', 'Imaan &amp; Akhlaq - Book 6')"><i class="fas fa-book-reader"></i> Read Book</button>
+                <button class="book-card-btn" type="button" onclick="event.stopPropagation();showComingSoon('Book 6')"><i class="fas fa-clock"></i> Coming Soon</button>
               </div>
-              <div class="book-card" onclick="openBookReader('book7', 'Imaan &amp; Akhlaq - Book 7')">
+              <!-- Book 7 - Coming Soon -->
+              <div class="book-card" onclick="showComingSoon('Book 7')">
                 <div class="book-card-cover">
-                  <img src="/assets/covers/book7.jpg" alt="Book 7 Cover">
+                  <img class="book-cover-img" src="/assets/covers/book7.jpg" alt="Book 7 Cover" loading="lazy">
                   <span class="book-badge">Book 7</span>
                 </div>
                 <div class="book-card-info">
                   <strong>Book 7</strong>
-                  <span>Advanced Lessons</span>
+                  <span>Coming Soon</span>
                 </div>
-                <button class="book-card-btn" type="button" onclick="event.stopPropagation();openBookReader('book7', 'Imaan &amp; Akhlaq - Book 7')"><i class="fas fa-book-reader"></i> Read Book</button>
+                <button class="book-card-btn" type="button" onclick="event.stopPropagation();showComingSoon('Book 7')"><i class="fas fa-clock"></i> Coming Soon</button>
               </div>
+
             </div>
+
+
           </section>
         </section>
       </div>
@@ -2337,130 +1896,37 @@ table { max-width: 100%; }
   </div>
 </div>
 
-<!-- Teacher Chapters Panel (student-dashboard style) -->
-<div class="tchap-overlay" id="tchapOverlay" role="dialog" aria-modal="true" tabindex="-1">
-  <div class="tchap-header">
-    <button class="tchap-back-btn" type="button" onclick="teacherCloseChapters()"><i class="fas fa-arrow-left"></i> Back to Books</button>
-    <div class="tchap-header-info">
-      <h2 id="tchapBookTitle">Chapters</h2>
-      <p id="tchapBookSub">Select a chapter to read it</p>
-    </div>
-  </div>
-  <div class="tchap-body">
-    <div class="tchap-grid" id="tchapGrid">
-      <!-- Injected by JS -->
-    </div>
-  </div>
-</div>
-
-<!-- Book Reader Modal (StPageFlip — same as activity.html) -->
+<!-- Book Reader Modal -->
 <div class="book-reader-overlay" id="bookReaderOverlay" oncontextmenu="return false;" role="dialog" aria-modal="true" tabindex="-1">
-  <!-- Sticky top toolbar -->
-  <div class="book-reader-toolbar">
-    <button class="book-reader-close" id="bookReaderCloseBtn" onclick="closeBookReader()" title="Close" aria-label="Close reader">
-      <i class="fas fa-arrow-left"></i>
-    </button>
+  <div class="book-reader-header">
     <h3 id="bookReaderTitle">Loading Book...</h3>
-    <div style="width:40px;flex-shrink:0;"></div><!-- spacer to center title -->
+    <button class="book-reader-close" onclick="closeBookReader()" title="Close"><i class="fas fa-times"></i></button>
   </div>
-
-  <!-- Flipbook area -->
-  <div class="tr-flipbook-wrapper" id="trFlipbookWrapper">
-    <div class="tr-flipbook-stage">
-      <div class="tr-flipbook-container" id="trFlipbookContainer">
-        <!-- Injected by JS -->
-      </div>
-    </div>
-
-    <!-- Floating nav -->
-    <div class="tr-flipbook-nav" id="trFlipbookNav" style="display:none;">
-      <button id="trPrevBtn" title="Previous page" aria-label="Previous"><i class="fas fa-chevron-left"></i></button>
-      <span class="tr-page-indicator" id="trPageIndicator">Cover</span>
-      <button id="trNextBtn" title="Next page" aria-label="Next"><i class="fas fa-chevron-right"></i></button>
-    </div>
-
-    <!-- Progress -->
-    <div class="tr-flipbook-progress" id="trProgress" style="display:none;">
-      <span class="tr-flipbook-progress-fill" id="trProgressFill"></span>
-    </div>
-
-    <div class="book-reader-lock"><i class="fas fa-lock"></i> Download disabled — View only mode</div>
+  <div class="book-reader-canvas-wrap" id="bookReaderCanvasWrap"></div>
+  <div class="book-reader-nav">
+    <button id="bookReaderPrev" onclick="bookReaderGo(-1)"><i class="fas fa-chevron-left"></i></button>
+    <span id="bookReaderPageInfo">Page 1 / 1</span>
+    <button id="bookReaderNext" onclick="bookReaderGo(1)"><i class="fas fa-chevron-right"></i></button>
   </div>
+  <div class="book-reader-lock"><i class="fas fa-lock"></i> Download disabled Ã¢â‚¬â€ View only mode</div>
 </div>
 
 <script src="/kidba_assets/js/pdf.min.js"></script>
 
 <script>
-// ===== TEACHER CHAPTERS PANEL =====
-var TCHAP_ICONS = ['fa-star','fa-heart','fa-leaf','fa-sun','fa-moon','fa-cloud','fa-fire','fa-snowflake','fa-bolt','fa-gem','fa-crown','fa-shield-alt','fa-feather','fa-dove','fa-fish','fa-seedling','fa-apple-alt','fa-mountain'];
-function teacherGetIcon(idx) { return TCHAP_ICONS[idx % TCHAP_ICONS.length]; }
-
-function teacherShowChapters(bookKey, bookTitle, coverImg) {
-  var overlayEl = document.getElementById('tchapOverlay');
-  var titleEl = document.getElementById('tchapBookTitle');
-  var subEl = document.getElementById('tchapBookSub');
-  var grid = document.getElementById('tchapGrid');
-  if (!overlayEl || !grid) return;
-
-  titleEl.textContent = bookTitle;
-  subEl.textContent = 'Select a chapter to open the book reader';
-  grid.innerHTML = '';
-
-  var bookData = (typeof ACTIVITIES_DATA !== 'undefined') ? ACTIVITIES_DATA[bookKey] : null;
-  if (!bookData || !bookData.chapters) {
-    grid.innerHTML = '<div class="tchap-empty"><i class="fas fa-book-medical fa-2x" style="color:#cf296d;"></i><br><br>Chapters coming soon.</div>';
-    overlayEl.classList.add('active');
-    document.body.style.overflow = 'hidden';
-    return;
-  }
-
-  var chapterKeys = Object.keys(bookData.chapters);
-  chapterKeys.forEach(function(cKey, idx) {
-    var ch = bookData.chapters[cKey];
-    var item = document.createElement('div');
-    item.className = 'tchap-item';
-    item.innerHTML =
-      '<div class="tchap-hero">' +
-        '<div class="tchap-icon"><i class="fas ' + teacherGetIcon(idx) + '"></i></div>' +
-        '<span class="tchap-order-chip"><i class="fas fa-list-ol"></i> Chapter ' + (idx + 1) + '</span>' +
-      '</div>' +
-      '<div class="tchap-title">' + (ch.title || ('Chapter ' + (idx + 1))) + '</div>' +
-      '<div class="tchap-subtitle">Pages ' + (ch.pageStart || 1) + '–' + (ch.pageEnd || '?') + ' &bull; Click to read this chapter in the book viewer.</div>' +
-      '<div class="tchap-meta">' +
-        '<button class="tchap-read-btn" type="button"><i class="fas fa-book-reader"></i> Read Chapter</button>' +
-      '</div>';
-    var startPage = ch.pageStart || 1;
-    item.addEventListener('click', function() {
-      teacherCloseChapters();
-      setTimeout(function() {
-        openBookReaderAtPage(bookKey, bookTitle, startPage);
-      }, 180);
-    });
-    grid.appendChild(item);
-  });
-
-  overlayEl.classList.add('active');
-  document.body.style.overflow = 'hidden';
-  overlayEl.focus();
-}
-
-function teacherCloseChapters() {
-  var overlayEl = document.getElementById('tchapOverlay');
-  if (overlayEl) overlayEl.classList.remove('active');
-  document.body.style.overflow = '';
-}
-
-// Close on Escape
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') {
-    teacherCloseChapters();
-  }
-});
-// ===== END TEACHER CHAPTERS PANEL =====
-</script>
-
-<script>
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 // Defensive shim: ensure DOM elements that legacy JS writes to always exist.
+// Some IDs (schoolNameTag, classInfo, teacherInfo) used to live in the
+// workspace bar and were removed/redesigned; the JS still references them,
+// so a missing element used to crash initDashboard with
+// "Cannot set properties of null (setting 'innerHTML')". This shim creates
+// hidden stubs for any missing IDs at boot, before scripts run.
 (function ensureLegacyDomIds() {
   var ids = ['welcomeName', 'schoolNameTag', 'classInfo', 'teacherInfo'];
   function ensure() {
@@ -2474,20 +1940,50 @@ document.addEventListener('keydown', function(e) {
     });
   }
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', ensure, { once: true });
+    document.addEventListener('DOMContentLoaded', ensure, {
+      once: true
+    });
   } else {
     ensure();
   }
 })();
+
+function showComingSoon(bookName) {
+  // Remove existing toast if any
+  var existing = document.getElementById('comingSoonToast');
+  if (existing) existing.remove();
+
+  var toast = document.createElement('div');
+  toast.id = 'comingSoonToast';
+  toast.innerHTML = '<div style="display:flex;align-items:center;gap:12px;">' +
+    '<span style="font-size:2rem;">🔒</span>' +
+    '<div>' +
+      '<div style="font-weight:700;font-size:1rem;margin-bottom:2px;">' + bookName + ' — Coming Soon!</div>' +
+      '<div style="font-size:0.85rem;opacity:0.9;">Yeh book jald available hogi. Intezaar kijiye!</div>' +
+    '</div></div>';
+  toast.style.cssText = 'position:fixed;top:24px;left:50%;transform:translateX(-50%);' +
+    'background:linear-gradient(135deg,#1e3a5f,#29416d);color:#fff;' +
+    'padding:16px 28px;border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,0.35);' +
+    'z-index:99999;min-width:300px;max-width:90vw;' +
+    'animation:slideDownFade 0.35s ease;font-family:inherit;';
+
+  // Add animation keyframes if not already added
+  if (!document.getElementById('comingSoonStyle')) {
+    var style = document.createElement('style');
+    style.id = 'comingSoonStyle';
+    style.textContent = '@keyframes slideDownFade{from{opacity:0;transform:translateX(-50%) translateY(-20px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}';
+    document.head.appendChild(style);
+  }
+
+  document.body.appendChild(toast);
+  setTimeout(function() {
+    toast.style.transition = 'opacity 0.4s';
+    toast.style.opacity = '0';
+    setTimeout(function() { toast.remove(); }, 400);
+  }, 3000);
+}
 </script>
 <script type="module">
-function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
-function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
-function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
 import { getAuth, onAuthStateChanged, signOut, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
 import { getFirestore, collection, query, where, getDocs, getDoc, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
@@ -2509,7 +2005,7 @@ setPersistence(auth, browserLocalPersistence).catch(e => console.warn('setPersis
 const ACTIVITIES_DATA = {
   "book1": {
     "title": "Imaan and Akhlaaq - Book 1",
-    "pdfUrl": "https://drive.google.com/file/d/1yOPz5oYlDF4Aj41WQmcxSHbti2shDDpz/preview",
+    "pdfUrl": "/book1.pdf",
     "chapters": {
       "chapter1": {
         "id": "b1_c1",
@@ -2821,7 +2317,7 @@ const ACTIVITIES_DATA = {
   },
   "book2": {
     "title": "Imaan and Akhlaaq - Book 2",
-    "pdfUrl": "https://drive.google.com/file/d/1rmYenOjmunRkdl3NdQfDgdw7UTyAKdgP/preview",
+    "pdfUrl": "/book2.pdf",
     "chapters": {
       "chapter1": {
         "id": "b2_c1",
@@ -3082,7 +2578,7 @@ const ACTIVITIES_DATA = {
   },
   "book3": {
     "title": "Imaan and Akhlaaq - Book 3",
-    "pdfUrl": "https://drive.google.com/file/d/1bjbVY9gTGqj8LMfc3-lSNmMbcE_1_9_g/preview",
+    "pdfUrl": "/book3.pdf",
     "chapters": {
       "chapter1": {
         "id": "b3_c1",
@@ -3341,6 +2837,27 @@ const ACTIVITIES_DATA = {
       }
     }
   }
+  ,"book4": {
+    "title": "Imaan and Akhlaaq - Book 4",
+    "pdfUrl": "/book4.pdf",
+    "chapters": {
+      "chapter1": { "id": "b4_c1", "title": "Chapter 1", "pageStart": 1, "pageEnd": 13, "discussionQuestion": "What is the main lesson from this chapter?" },
+      "chapter2": { "id": "b4_c2", "title": "Chapter 2", "pageStart": 14, "pageEnd": 21, "discussionQuestion": "What is the main lesson from this chapter?" },
+      "chapter3": { "id": "b4_c3", "title": "Chapter 3", "pageStart": 22, "pageEnd": 29, "discussionQuestion": "What is the main lesson from this chapter?" },
+      "chapter4": { "id": "b4_c4", "title": "Chapter 4", "pageStart": 30, "pageEnd": 37, "discussionQuestion": "What is the main lesson from this chapter?" },
+      "chapter5": { "id": "b4_c5", "title": "Chapter 5", "pageStart": 38, "pageEnd": 43, "discussionQuestion": "What is the main lesson from this chapter?" },
+      "chapter6": { "id": "b4_c6", "title": "Chapter 6", "pageStart": 44, "pageEnd": 51, "discussionQuestion": "What is the main lesson from this chapter?" },
+      "chapter7": { "id": "b4_c7", "title": "Chapter 7", "pageStart": 52, "pageEnd": 58, "discussionQuestion": "What is the main lesson from this chapter?" },
+      "chapter8": { "id": "b4_c8", "title": "Chapter 8", "pageStart": 59, "pageEnd": 67, "discussionQuestion": "What is the main lesson from this chapter?" },
+      "chapter9": { "id": "b4_c9", "title": "Chapter 9", "pageStart": 68, "pageEnd": 77, "discussionQuestion": "What is the main lesson from this chapter?" },
+      "chapter10": { "id": "b4_c10", "title": "Chapter 10", "pageStart": 78, "pageEnd": 87, "discussionQuestion": "What is the main lesson from this chapter?" },
+      "chapter11": { "id": "b4_c11", "title": "Chapter 11", "pageStart": 88, "pageEnd": 99, "discussionQuestion": "What is the main lesson from this chapter?" },
+      "chapter12": { "id": "b4_c12", "title": "Chapter 12", "pageStart": 100, "pageEnd": 109, "discussionQuestion": "What is the main lesson from this chapter?" },
+      "chapter13": { "id": "b4_c13", "title": "Chapter 13", "pageStart": 110, "pageEnd": 118, "discussionQuestion": "What is the main lesson from this chapter?" },
+      "chapter14": { "id": "b4_c14", "title": "Chapter 14", "pageStart": 119, "pageEnd": 129, "discussionQuestion": "What is the main lesson from this chapter?" },
+      "chapter15": { "id": "b4_c15", "title": "Chapter 15", "pageStart": 130, "pageEnd": 144, "discussionQuestion": "What is the main lesson from this chapter?" }
+    }
+  }
 };
 let currentTeacher = null;
 let teacherSchoolId = null;
@@ -3354,282 +2871,243 @@ const teacherSectionTargets = {
   books: 'teacherPanelBooks'
 };
 
-/* === Book Reader (StPageFlip — real page curl, same as activity.html) === */
-var _trPageFlip = null; // active PageFlip instance
-
-window.openBookReader = (function() {
-  var _bookData = {
-    book1: { pdfUrl: '/book1.pdf', title: 'Imaan & Akhlaaq - Book 1' },
-    book2: { pdfUrl: '/book2.pdf', title: 'Imaan & Akhlaaq - Book 2' },
-    book3: { pdfUrl: '/book3.pdf', title: 'Imaan & Akhlaaq - Book 3' },
-    book4: { pdfUrl: '/book4.pdf', title: 'Imaan & Akhlaaq - Book 4' },
-    book5: { pdfUrl: '/book5.pdf', title: 'Imaan & Akhlaaq - Book 5' },
-    book6: { pdfUrl: '/book6.pdf', title: 'Imaan & Akhlaaq - Book 6' },
-    book7: { pdfUrl: '/book7.pdf', title: 'Imaan & Akhlaaq - Book 7' }
-  };
-
-  async function createPdfCanvas(pdf, pageNum, w, h) {
-    var page = await pdf.getPage(pageNum);
-    var pixelRatio = window.devicePixelRatio || 1;
-    var vp = page.getViewport({ scale: 1 });
-    var scale = Math.min(w / vp.width, h / vp.height) * pixelRatio;
-    var scaledVp = page.getViewport({ scale });
-    var canvas = document.createElement('canvas');
-    canvas.width = scaledVp.width;
-    canvas.height = scaledVp.height;
-    canvas.style.width  = scaledVp.width  / pixelRatio + 'px';
-    canvas.style.height = scaledVp.height / pixelRatio + 'px';
-    await page.render({ canvasContext: canvas.getContext('2d'), viewport: scaledVp }).promise;
-    return canvas;
+/* === Book Reader (canvas-based, no download) === */
+let bookReaderPdf = null;
+let bookReaderPage = 1;
+let bookReaderTotal = 1;
+let bookReaderTouchStartX = null;
+let bookReaderTouchDeltaX = 0;
+let bookReaderRendering = false;
+let bookReaderAnimating = false;
+function getActiveBookReaderShell() {
+  const canvasWrap = document.getElementById('bookReaderCanvasWrap');
+  return canvasWrap ? canvasWrap.querySelector('.book-reader-page-shell') : null;
+}
+function ensureBookReaderOverlayMounted() {
+  const overlay = document.getElementById('bookReaderOverlay');
+  if (overlay && overlay.parentElement !== document.body) {
+    document.body.appendChild(overlay);
   }
-
-  return async function openBookReader(bookKey, bookTitle) {
-    var overlay    = document.getElementById('bookReaderOverlay');
-    var titleEl    = document.getElementById('bookReaderTitle');
-    var container  = document.getElementById('trFlipbookContainer');
-    var nav        = document.getElementById('trFlipbookNav');
-    var prevBtn    = document.getElementById('trPrevBtn');
-    var nextBtn    = document.getElementById('trNextBtn');
-    var indicator  = document.getElementById('trPageIndicator');
-    var progressEl = document.getElementById('trProgress');
-    var progressFill = document.getElementById('trProgressFill');
-    if (!overlay || !container) return;
-
-    // Destroy old PageFlip
-    if (_trPageFlip) { try { _trPageFlip.destroy(); } catch(e){} _trPageFlip = null; }
-
-    titleEl.textContent = bookTitle || 'Book';
-    overlay.classList.add('active');
-    document.body.style.overflow = 'hidden';
-    overlay.focus();
-    nav.style.display = 'none';
-    if (progressEl) progressEl.style.display = 'none';
-
-    // Loading state
-    container.style.visibility = 'hidden';
-    container.style.position   = 'absolute';
-    container.innerHTML = '';
-    var loadingDiv = document.createElement('div');
-    loadingDiv.style.cssText = 'text-align:center;padding:60px 20px;font-weight:bold;color:#cf296d;';
-    loadingDiv.innerHTML = '<i class="fas fa-spinner fa-spin fa-2x"></i><br><br>Loading book...';
-    container.parentElement.insertBefore(loadingDiv, container);
-
-    // Ensure pdfjs
-    if (typeof window.pdfjsLib === 'undefined') {
-      var s = document.createElement('script');
-      s.src = '/kidba_assets/js/pdf.min.js';
-      document.head.appendChild(s);
-      await new Promise(function(res) { s.onload = res; s.onerror = res; });
-    }
-    if (typeof window.pdfjsLib !== 'undefined') {
-      try {
-        var probe = await fetch('/kidba_assets/js/pdf.worker.min.js', { method: 'HEAD' });
-        window.pdfjsLib.GlobalWorkerOptions.workerSrc = probe.ok
-          ? '/kidba_assets/js/pdf.worker.min.js'
-          : 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
-      } catch(_) {
-        window.pdfjsLib.GlobalWorkerOptions.workerSrc =
-          'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
-      }
-    }
-
-    // Ensure StPageFlip
-    if (typeof window.St === 'undefined') {
-      var sf = document.createElement('script');
-      sf.src = '/kidba_assets/vendor/js/page-flip.browser.js';
-      document.head.appendChild(sf);
-      await new Promise(function(res) { sf.onload = res; sf.onerror = res; });
-    }
-    if (typeof window.St === 'undefined') {
-      var sf2 = document.createElement('script');
-      sf2.src = 'https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.min.js';
-      document.head.appendChild(sf2);
-      await new Promise(function(res) { sf2.onload = res; sf2.onerror = res; });
-    }
-
-    if (typeof window.St === 'undefined' || typeof window.pdfjsLib === 'undefined') {
-      if (loadingDiv.parentNode) loadingDiv.parentNode.removeChild(loadingDiv);
-      container.style.visibility = 'visible';
-      container.style.position   = 'relative';
-      container.innerHTML = '<div class="tr-pdf-loading"><strong>Reader could not load.</strong><br>Please check your connection.</div>';
-      return;
-    }
-
-    // Determine PDF URL
-    var bd = (_bookData[bookKey] || {});
-    var pdfUrls = [ bd.pdfUrl || ('/' + bookKey + '.pdf'), 'https://imaanakhlaq.org/' + bookKey + '.pdf' ];
-    var pdf = null;
-    for (var ui = 0; ui < pdfUrls.length; ui++) {
-      try {
-        var pUrl = pdfUrls[ui];
-        try { var pr = await fetch(pUrl, { method: 'HEAD' }); if (!pr.ok) continue; } catch(_) {}
-        pdf = await window.pdfjsLib.getDocument(pUrl).promise;
-        break;
-      } catch(e) { continue; }
-    }
-    if (!pdf) {
-      if (loadingDiv.parentNode) loadingDiv.parentNode.removeChild(loadingDiv);
-      container.style.visibility = 'visible';
-      container.style.position   = 'relative';
-      container.innerHTML = '<div class="tr-pdf-loading"><strong>PDF could not be loaded.</strong></div>';
-      return;
-    }
-
-    var totalPages = pdf.numPages;
-
-    // === AUTO-FIT: Size pages to fill the viewport height on ANY screen ===
-    var firstPage = await pdf.getPage(1);
-    var fvp = firstPage.getViewport({ scale: 1 });
-    var pdfAspect = fvp.width / fvp.height;  // width/height ratio of PDF page
-
-    var toolbarH  = 52;   // height of our fixed top toolbar
-    var navH      = 70;   // height of nav pill + progress + padding below
-    var availH    = window.innerHeight - toolbarH - navH - 24;  // usable height
-    var availW    = window.innerWidth  - 24;                     // usable width
-
-    // For 2-page spread, each page gets half the width
-    var maxByH = Math.floor(availH);           // constrained by height
-    var maxByW = Math.floor(availW * 0.49);    // constrained by width (half for spread)
-    var pageHeight = Math.min(maxByH, Math.round(maxByW / pdfAspect));
-    var pageWidth  = Math.round(pageHeight * pdfAspect);
-
-    // Clamp to reasonable min sizes
-    pageWidth  = Math.max(pageWidth,  180);
-    pageHeight = Math.max(pageHeight, 240);
-
-    // Build DOM for StPageFlip
-    container.innerHTML = '';
-    container.style.visibility = 'visible';
-    container.style.position   = 'relative';
-
-    var bookEl = document.createElement('div');
-    bookEl.className = 'tr-flipbook-book';
-    container.appendChild(bookEl);
-
-    function makeHostEl(extraClass, density) {
-      var el = document.createElement('div');
-      el.className = 'tr-pdf-page-host ' + (extraClass || '');
-      if (density) el.dataset.density = density;
-      return el;
-    }
-
-    // Cover
-    var coverEl = makeHostEl('', 'hard');
-    coverEl.innerHTML =
-      '<div class="tr-pdf-cover">' +
-        '<div class="tr-cover-icon"><i class="fas fa-book-open"></i></div>' +
-        '<div class="tr-cover-kicker">Imaan &amp; Akhlaaq</div>' +
-        '<h2>' + (bookTitle || 'Book') + '</h2>' +
-        '<p>Drag a corner or swipe to flip</p>' +
-      '</div>';
-    bookEl.appendChild(coverEl);
-
-    // Content pages (placeholders)
-    var contentEls = [];
-    for (var i = 0; i < totalPages; i++) {
-      var el = makeHostEl('');
-      el.innerHTML =
-        '<div class="tr-pdf-page">' +
-          '<div class="tr-pdf-loading"><strong>Page ' + (i + 1) + '…</strong></div>' +
-          '<span class="tr-page-num">' + (i + 1) + ' / ' + totalPages + '</span>' +
-        '</div>';
-      contentEls.push(el);
-      bookEl.appendChild(el);
-    }
-
-    // End page
-    var endEl = makeHostEl('', 'hard');
-    endEl.innerHTML =
-      '<div class="tr-pdf-end">' +
-        '<div class="tr-cover-kicker">Reading Complete</div>' +
-        '<h2>Mashallah!</h2>' +
-        '<p>You finished the book.</p>' +
-      '</div>';
-    bookEl.appendChild(endEl);
-
-    // Init StPageFlip
-    var pageFlip = new window.St.PageFlip(bookEl, {
-      width: pageWidth, height: pageHeight,
-      size: 'stretch',
-      minWidth: 180, maxWidth: pageWidth,
-      minHeight: 240, maxHeight: pageHeight,
-      maxShadowOpacity: 0.6,
-      showCover: true,
-      usePortrait: true,
-      mobileScrollSupport: false,
-      flippingTime: 750,
-      drawShadow: true,
-      autoSize: true,
-      clickEventForward: true,
-      useMouseEvents: true,
-      showPageCorners: true,
-      swipeDistance: 24
+  return overlay;
+}
+function clearBookReaderTurnStyles(element) {
+  if (!element) return;
+  element.style.transformOrigin = '';
+  element.style.setProperty('--page-turn-direction', 'to right');
+  element.style.setProperty('--page-turn-gloss', '0');
+  element.style.setProperty('--page-turn-shadow', '0');
+}
+function applyBookReaderSwipePreview(deltaX) {
+  const activeShell = getActiveBookReaderShell();
+  if (!activeShell) return;
+  const direction = deltaX < 0 ? 1 : -1;
+  const progress = Math.min(1, Math.abs(deltaX) / 140);
+  const angle = progress * 18;
+  activeShell.style.transition = '';
+  activeShell.style.transformOrigin = direction > 0 ? 'left center' : 'right center';
+  activeShell.style.setProperty('--page-turn-direction', direction > 0 ? 'to right' : 'to left');
+  activeShell.style.setProperty('--page-turn-gloss', String(0.12 + progress * 0.44));
+  activeShell.style.setProperty('--page-turn-shadow', String(0.08 + progress * 0.28));
+  activeShell.style.transform = 'perspective(2200px) translateX(' + deltaX * 0.16 + 'px) rotateY(' + (direction > 0 ? angle : -angle) + 'deg) scale(' + (1 - progress * 0.012) + ')';
+  activeShell.style.opacity = String(1 - progress * 0.14);
+}
+function resetBookReaderSwipePreview(animateBack) {
+  const activeShell = getActiveBookReaderShell();
+  bookReaderTouchDeltaX = 0;
+  if (!activeShell) return;
+  if (animateBack) {
+    activeShell.style.transition = 'transform 180ms ease, opacity 180ms ease';
+    activeShell.style.transform = 'perspective(2200px) translateX(0px) rotateY(0deg) scale(1)';
+    activeShell.style.opacity = '1';
+    clearBookReaderTurnStyles(activeShell);
+    window.setTimeout(function () {
+      activeShell.style.transition = '';
+    }, 190);
+    return;
+  }
+  activeShell.style.transition = '';
+  activeShell.style.transform = '';
+  activeShell.style.opacity = '';
+  clearBookReaderTurnStyles(activeShell);
+}
+function animateBookReaderExit(element, direction) {
+  if (!element || !direction) return Promise.resolve();
+  bookReaderAnimating = true;
+  return new Promise(function (resolve) {
+    element.style.transition = 'transform 220ms cubic-bezier(0.4, 0, 0.2, 1), opacity 200ms ease';
+    element.style.transformOrigin = direction > 0 ? 'left center' : 'right center';
+    element.style.setProperty('--page-turn-direction', direction > 0 ? 'to right' : 'to left');
+    element.style.setProperty('--page-turn-gloss', '0.56');
+    element.style.setProperty('--page-turn-shadow', '0.38');
+    requestAnimationFrame(function () {
+      element.style.transform = 'perspective(2200px) translateX(' + (direction > 0 ? -18 : 18) + 'px) rotateY(' + (direction > 0 ? 68 : -68) + 'deg) scale(0.972)';
+      element.style.opacity = '0.18';
     });
-    pageFlip.loadFromHTML(bookEl.querySelectorAll('.tr-pdf-page-host'));
-    _trPageFlip = pageFlip;
-
-    // Remove loading spinner
-    if (loadingDiv.parentNode) loadingDiv.parentNode.removeChild(loadingDiv);
-    nav.style.display = 'flex';
-    if (progressEl) progressEl.style.display = 'block';
-
-    function updateNav() {
-      var idx   = pageFlip.getCurrentPageIndex();
-      var total = pageFlip.getPageCount();
-      if (idx === 0) { indicator.textContent = 'Cover'; }
-      else if (idx >= total - 1) { indicator.textContent = 'End'; }
-      else { indicator.textContent = 'Page ' + idx + ' / ' + (total - 2); }
-      prevBtn.disabled = idx <= 0;
-      nextBtn.disabled = idx >= total - 1;
-      if (progressFill) {
-        var pct = total > 1 ? Math.round((idx / (total - 1)) * 100) : 0;
-        progressFill.style.width = pct + '%';
-      }
-    }
-    pageFlip.on('flip', updateNav);
-    pageFlip.on('changeOrientation', updateNav);
-    updateNav();
-    prevBtn.onclick = function() { pageFlip.flipPrev(); };
-    nextBtn.onclick = function() { pageFlip.flipNext(); };
-
-    // Progressive PDF render
-    (async function renderAll() {
-      for (var pi = 0; pi < totalPages; pi++) {
-        try {
-          var canvas = await createPdfCanvas(pdf, pi + 1, pageWidth, pageHeight);
-          var host = contentEls[pi];
-          if (!host) continue;
-          host.innerHTML = '';
-          var wrap = document.createElement('div');
-          wrap.className = 'tr-pdf-page';
-          wrap.appendChild(canvas);
-          var num = document.createElement('span');
-          num.className = 'tr-page-num';
-          num.textContent = (pi + 1) + ' / ' + totalPages;
-          wrap.appendChild(num);
-          host.appendChild(wrap);
-        } catch(e) { /* skip failed page */ }
-      }
-    })();
-  };
-})();
-
-window.closeBookReader = function() {
-  var overlay = document.getElementById('bookReaderOverlay');
-  if (overlay) overlay.classList.remove('active');
-  document.body.style.overflow = '';
-  if (_trPageFlip) { try { _trPageFlip.destroy(); } catch(e){} _trPageFlip = null; }
-  var container = document.getElementById('trFlipbookContainer');
-  if (container) container.innerHTML = '';
+    window.setTimeout(function () {
+      resolve();
+    }, 225);
+  });
+}
+function animateBookReaderEntry(element, direction) {
+  if (!element || !direction) {
+    bookReaderAnimating = false;
+    if (element) clearBookReaderTurnStyles(element);
+    return Promise.resolve();
+  }
+  bookReaderAnimating = true;
+  return new Promise(function (resolve) {
+    element.style.transition = 'none';
+    element.style.transformOrigin = direction > 0 ? 'left center' : 'right center';
+    element.style.setProperty('--page-turn-direction', direction > 0 ? 'to right' : 'to left');
+    element.style.setProperty('--page-turn-gloss', '0.56');
+    element.style.setProperty('--page-turn-shadow', '0.38');
+    element.style.transform = 'perspective(2200px) translateX(' + (direction > 0 ? 18 : -18) + 'px) rotateY(' + (direction > 0 ? -68 : 68) + 'deg) scale(0.972)';
+    element.style.opacity = '0.18';
+    requestAnimationFrame(function () {
+      element.style.transition = 'transform 300ms cubic-bezier(0.16, 1, 0.3, 1), opacity 240ms ease';
+      element.style.transform = 'perspective(2200px) translateX(0px) rotateY(0deg) scale(1)';
+      element.style.opacity = '1';
+      element.style.setProperty('--page-turn-gloss', '0');
+      element.style.setProperty('--page-turn-shadow', '0');
+    });
+    window.setTimeout(function () {
+      element.style.transition = '';
+      clearBookReaderTurnStyles(element);
+      bookReaderAnimating = false;
+      resolve();
+    }, 310);
+  });
+}
+window.openBookReader = function(bookKey, bookTitle) {
+  // Save bookKey to sessionStorage as backup (in case URL params get lost)
+  sessionStorage.setItem('teacherReaderBook', bookKey);
+  console.log('[Teacher Dashboard] Opening book:', bookKey);
+  window.location.href = 'teacher-reader.html?book=' + encodeURIComponent(bookKey);
 };
-
-document.addEventListener('keydown', function(e) {
-  var overlay = document.getElementById('bookReaderOverlay');
+function renderBookReaderPage(_x3) {
+  return _renderBookReaderPage.apply(this, arguments);
+}
+function _renderBookReaderPage() {
+  _renderBookReaderPage = _asyncToGenerator(function* (direction) {
+    const canvasWrap = document.getElementById('bookReaderCanvasWrap');
+    if (!canvasWrap || !bookReaderPdf || bookReaderRendering || bookReaderAnimating) return false;
+    bookReaderRendering = true;
+    try {
+      const currentShell = getActiveBookReaderShell();
+      const page = yield bookReaderPdf.getPage(bookReaderPage);
+      const pixelRatio = window.devicePixelRatio || 1;
+      const wrapWidth = canvasWrap.clientWidth - 24;
+      const wrapHeight = canvasWrap.clientHeight - 16;
+      const unscaled = page.getViewport({
+        scale: 1
+      });
+      const scaleByWidth = wrapWidth / unscaled.width;
+      const scaleByHeight = wrapHeight / unscaled.height;
+      const baseScale = Math.min(scaleByWidth, scaleByHeight, 1.8);
+      const viewport = page.getViewport({
+        scale: baseScale * pixelRatio
+      });
+      const canvas = document.createElement('canvas');
+      canvas.width = viewport.width;
+      canvas.height = viewport.height;
+      canvas.style.width = viewport.width / pixelRatio + 'px';
+      canvas.style.height = viewport.height / pixelRatio + 'px';
+      yield page.render({
+        canvasContext: canvas.getContext('2d'),
+        viewport
+      }).promise;
+      const shell = document.createElement('div');
+      shell.className = 'book-reader-page-shell';
+      if (currentShell && direction) {
+        yield animateBookReaderExit(currentShell, direction);
+      }
+      canvasWrap.innerHTML = '';
+      shell.appendChild(canvas);
+      canvasWrap.appendChild(shell);
+      yield animateBookReaderEntry(shell, direction || 0);
+    } catch (e) {
+      canvasWrap.innerHTML = '<p style="color:#ff6b6b;">Error rendering page ' + bookReaderPage + '</p>';
+      bookReaderAnimating = false;
+    } finally {
+      document.getElementById('bookReaderPageInfo').textContent = 'Page ' + bookReaderPage + ' / ' + bookReaderTotal;
+      document.getElementById('bookReaderPrev').disabled = bookReaderPage <= 1;
+      document.getElementById('bookReaderNext').disabled = bookReaderPage >= bookReaderTotal;
+      canvasWrap.scrollTop = 0;
+      bookReaderRendering = false;
+    }
+    return true;
+  });
+  return _renderBookReaderPage.apply(this, arguments);
+}
+window.bookReaderGo = function (dir) {
+  if (bookReaderRendering || bookReaderAnimating) return false;
+  const next = bookReaderPage + dir;
+  if (next < 1 || next > bookReaderTotal) return false;
+  bookReaderPage = next;
+  renderBookReaderPage(dir);
+  return true;
+};
+window.closeBookReader = function () {
+  document.getElementById('bookReaderOverlay').classList.remove('active');
+  document.body.style.overflow = '';
+  bookReaderTouchStartX = null;
+  bookReaderTouchDeltaX = 0;
+  bookReaderRendering = false;
+  bookReaderAnimating = false;
+  resetBookReaderSwipePreview(false);
+  bookReaderPdf = null;
+};
+document.addEventListener('keydown', function (e) {
+  const overlay = document.getElementById('bookReaderOverlay');
   if (!overlay || !overlay.classList.contains('active')) return;
   if (e.key === 'Escape') window.closeBookReader();
-  if (e.key === 'ArrowLeft' && _trPageFlip)  _trPageFlip.flipPrev();
-  if (e.key === 'ArrowRight' && _trPageFlip) _trPageFlip.flipNext();
+  if (bookReaderRendering || bookReaderAnimating) return;
+  if (e.key === 'ArrowLeft') window.bookReaderGo(-1);
+  if (e.key === 'ArrowRight') window.bookReaderGo(1);
 });
+ensureBookReaderOverlayMounted();
+const bookReaderCanvasWrap = document.getElementById('bookReaderCanvasWrap');
+if (bookReaderCanvasWrap && bookReaderCanvasWrap.dataset.swipeBound !== 'true') {
+  bookReaderCanvasWrap.dataset.swipeBound = 'true';
+  bookReaderCanvasWrap.addEventListener('touchstart', function (e) {
+    if (!bookReaderPdf || bookReaderRendering || bookReaderAnimating || e.touches.length !== 1) return;
+    bookReaderTouchStartX = e.touches[0].clientX;
+    bookReaderTouchDeltaX = 0;
+  }, {
+    passive: true
+  });
+  bookReaderCanvasWrap.addEventListener('touchmove', function (e) {
+    if (bookReaderTouchStartX === null || bookReaderRendering || bookReaderAnimating || e.touches.length !== 1) return;
+    bookReaderTouchDeltaX = e.touches[0].clientX - bookReaderTouchStartX;
+    applyBookReaderSwipePreview(bookReaderTouchDeltaX);
+  }, {
+    passive: true
+  });
+  bookReaderCanvasWrap.addEventListener('touchend', function () {
+    if (bookReaderTouchStartX === null || bookReaderRendering || bookReaderAnimating) {
+      bookReaderTouchStartX = null;
+      return;
+    }
+    const deltaX = bookReaderTouchDeltaX;
+    bookReaderTouchStartX = null;
+    if (Math.abs(deltaX) < 55) {
+      resetBookReaderSwipePreview(true);
+      return;
+    }
+    const moved = deltaX < 0 ? window.bookReaderGo(1) : window.bookReaderGo(-1);
+    if (!moved) {
+      resetBookReaderSwipePreview(true);
+    }
+  }, {
+    passive: true
+  });
+  bookReaderCanvasWrap.addEventListener('touchcancel', function () {
+    bookReaderTouchStartX = null;
+    resetBookReaderSwipePreview(true);
+  }, {
+    passive: true
+  });
+}
 window.switchTeacherSection = (section, options = {}) => {
   const nextSection = teacherSectionTargets[section] ? section : 'overview';
   const shouldScroll = options && typeof options === 'object' ? options.scroll !== false : true;
@@ -4001,13 +3479,8 @@ onAuthStateChanged(auth, /*#__PURE__*/function () {
           }
           document.getElementById('teacherDashboardView').classList.remove('d-none');
           initDashboard();
-        } else if (!userDoc.exists()) {
-          console.error('Teacher auth: No user document found for UID:', user.uid);
-          showTeacherLoginOverlay('No account record found in the system for your login. Please contact the school admin to re-invite you as a Teacher.');
         } else {
-          const foundRole = userDoc.data().role || 'unknown';
-          console.error('Teacher auth: User role is "' + foundRole + '" but expected "teacher". UID:', user.uid);
-          showTeacherLoginOverlay('Your account role is "' + foundRole + '". This page requires the "teacher" role. If you are a teacher, ask the school admin to fix your account role.');
+          showTeacherLoginOverlay('You cannot view this page with your current account.');
         }
       } catch (e) {
         console.error('Auth check error:', e);
@@ -4312,7 +3785,7 @@ window.rejectTeacherPoints = /*#__PURE__*/function () {
 }();
 function getChapterTitle(chapId) {
   let title = chapId;
-  ['book1', 'book2', 'book3'].forEach(b => {
+  ['book1', 'book2', 'book3', 'book4'].forEach(b => {
     if (ACTIVITIES_DATA[b] && ACTIVITIES_DATA[b].chapters) {
       Object.values(ACTIVITIES_DATA[b].chapters).forEach(c => {
         if (c.id === chapId) title = c.title;
@@ -4407,3 +3880,4 @@ window.logoutTeacher = () => {
 };
 </script>
 </body></html>
+
