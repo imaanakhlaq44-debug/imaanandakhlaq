@@ -17,7 +17,10 @@ node_modules/
 
 # env
 .env
+.env.local
+.env.*.local
 .env.production
+.env.development
 .dev.vars
 
 # logs
@@ -31,8 +34,27 @@ lerna-debug.log*
 
 # misc
 .DS_Store
+.idea/
 
-# Ignore huge build/asset folders
+# Ignore huge build/asset folders and duplicates
 imaan_hostinger/
+imaan_hostinger_v7/
+imaan_hostinger_v7.zip
+imaan_hostinger_v8.zip
+_hostinger_zip_check/
 *.zip
 *.pdf
+*.apk
+
+# Build artifacts
+android/build/
+android/.module-build/
+
+# Screenshots and temporary files
+*.png
+*.jpg
+*.jpeg
+emulator_screen*
+screenshot*
+screen*.png
+student_screen*

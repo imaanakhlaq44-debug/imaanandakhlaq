@@ -1,16 +1,21 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 
-// Your web app's Firebase configuration
+// Firebase configuration from environment variables
 const firebaseConfig = {
-  apiKey: "AIzaSyA4MrV-oXhK_johreyzIucti5RFrKcvyG8",
-  authDomain: "imaan-app-1d2da.firebaseapp.com",
-  projectId: "imaan-app-1d2da",
-  storageBucket: "imaan-app-1d2da.firebasestorage.app",
-  messagingSenderId: "373650938167",
-  appId: "1:373650938167:web:e9da1317c118bc720d22b2",
-  measurementId: "G-2SWVNDL1F8"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
+
+// Validate Firebase config
+if (!firebaseConfig.apiKey) {
+  throw new Error('Firebase configuration is missing. Please check your .env file.');
+}
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);

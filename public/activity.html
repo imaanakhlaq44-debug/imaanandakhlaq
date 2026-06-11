@@ -395,7 +395,7 @@
     position: fixed;
     right: 22px;
     bottom: 120px;
-    z-index: 1800;
+    z-index: 2000;
     display: none;          /* shown by JS after PDF loads */
     flex-direction: column;
     align-items: center;
@@ -407,7 +407,30 @@
     padding: 6px;
     user-select: none;
   }
-  .pdf-zoom-fab.visible { display: flex; }
+  .pdf-zoom-fab.visible { 
+    display: flex !important; 
+  }
+  
+  @media (max-width: 768px) {
+    .pdf-zoom-fab {
+      right: 12px;
+      bottom: 100px;
+      padding: 5px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .pdf-zoom-fab {
+      right: 8px;
+      bottom: 80px;
+      padding: 4px;
+    }
+    .pdf-zoom-fab button {
+      width: 38px !important;
+      height: 38px !important;
+      font-size: 0.95rem !important;
+    }
+  }
   .pdf-zoom-fab button {
     width: 42px; height: 42px;
     border: none; border-radius: 12px;

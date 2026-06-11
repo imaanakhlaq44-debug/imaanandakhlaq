@@ -388,17 +388,51 @@ lbStyle.textContent = `
 document.head.appendChild(lbStyle);
 
 /* ──────────────────────────────────────────────────────────────
-   CONTACT FORM
+   CONTACT FORM - WITH VALIDATION
 ────────────────────────────────────────────────────────────── */
 const contactForm = document.getElementById('contactForm');
 if (contactForm) {
   contactForm.addEventListener('submit', function (e) {
     e.preventDefault();
+    
+    // Get form inputs
+    const nameInput = this.querySelector('input[type="text"]');
+    const emailInput = this.querySelector('input[type="email"]');
+    const phoneInput = this.querySelector('input[type="tel"]');
+    const subjectInput = this.querySelector('select');
+    const messageInput = this.querySelector('textarea');
     const btn = this.querySelector('.btn-contact-submit');
+    
+    // Sanitize inputs
+    const sanitize = (str) => {
+      if (!str) return '';
+      return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;').replace(/'/g, '&#x27;').trim();
+    };
+    
+    const name = sanitize(nameInput?.value || '');
+    const email = sanitize(emailInput?.value || '').toLowerCase();
+    const phone = sanitize(phoneInput?.value || '');
+    const subject = sanitize(subjectInput?.value || '');
+    const message = sanitize(messageInput?.value || '');
+    
+    // Validation
+    let errors = [];
+    if (!name || name.length < 2) errors.push('Name must be at least 2 characters');
+    if (!email || !email.includes('@') || !email.includes('.')) errors.push('Invalid email address');
+    if (message && message.length < 10) errors.push('Message must be at least 10 characters');
+    
+    if (errors.length > 0) {
+      showToast('⚠️ ' + errors[0], 'error');
+      return;
+    }
+    
+    // Submit
     const originalHTML = btn.innerHTML;
     btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Sending...';
     btn.disabled = true;
     btn.style.opacity = '.8';
+    
     setTimeout(() => {
       btn.innerHTML = '<i class="fas fa-check me-2"></i> Message Sent! JazakAllah Khair';
       btn.style.background = 'linear-gradient(135deg, #D63678, #E08020)';
@@ -415,15 +449,18 @@ if (contactForm) {
 }
 
 /* ──────────────────────────────────────────────────────────────
-   NEWSLETTER FORM
+   NEWSLETTER FORM - WITH VALIDATION
 ────────────────────────────────────────────────────────────── */
 const newsletterForm = document.querySelector('.newsletter-form');
 if (newsletterForm) {
   newsletterForm.addEventListener('submit', function (e) {
     e.preventDefault();
     const input = this.querySelector('input[type="email"]');
-    const email = input === null || input === void 0 ? void 0 : input.value.trim();
-    if (email && email.includes('@')) {
+    const email = (input?.value || '').trim().toLowerCase();
+    
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (email && emailRegex.test(email)) {
       showToast('🎉 Subscribed! You\'ll receive our latest stories & events!', 'success');
       if (input) input.value = '';
     } else {
