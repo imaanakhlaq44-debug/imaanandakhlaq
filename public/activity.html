@@ -1628,6 +1628,9 @@
             this.style.transform = 'scale(1.2)';
             setTimeout(() => this.style.transform = '', 200);
           }
+          // Re-check the 7-day gate so the button unlocks the moment the last
+          // remaining day gets an answer (and re-locks if one is cleared).
+          checkAllDaysFilled();
         });
       });
 
@@ -1704,7 +1707,15 @@
           const localDraft = JSON.parse(localDraftStr);
           const isExistingFinal = existingSub && (existingSub.isDraft === false || existingSub.isDraft === undefined);
           if (!isExistingFinal) {
-            if (!existingSub || new Date(localDraft.submittedAt) > new Date(existingSub.submittedAt || 0)) {
+            // Pick whichever copy is newer. This used to read `submittedAt`,
+            // which drafts never carry (buildDraftPayload writes `updatedAt`),
+            // so the date compare was always NaN > x === false and the local
+            // backup was silently thrown away whenever ANY server copy existed
+            // — exactly the case it was meant to cover (a day saved while
+            // offline). Read updatedAt first, fall back to submittedAt for
+            // final submissions, and treat missing/invalid dates as 0.
+            const stamp = (o) => new Date((o && (o.updatedAt || o.submittedAt)) || 0).getTime() || 0;
+            if (!existingSub || stamp(localDraft) > stamp(existingSub)) {
               existingSub = localDraft;
             }
           }
@@ -1777,6 +1788,41 @@
       }
     }
 
+    // ── Submit gate: the WHOLE week must be filled ─────────────
+    // This is a 7-day habit tracker, so "Submit for Review" is meant to stay
+    // locked until every day has an answer. That gate was missing here, so the
+    // button was live from day one and a student could submit a half-empty
+    // week (and did — one day filled, six blank).
+    function checkAllDaysFilled() {
+      const btn = document.getElementById('saveProgressBtn');
+      if (!btn) return;
+      // Work that is already submitted/approved keeps the button state set by
+      // the lock block above ("Pending Review" / "Completed") — don't fight it.
+      if (existingSub && existingSub.isDraft !== true) return;
+
+      let filledDays = 0;
+      for (let d = 0; d < 7; d++) {
+        let dayHasAnswer = false;
+        document.querySelectorAll('.interactive-cell[data-day="' + d + '"]').forEach(c => {
+          if (parseInt(c.dataset.stateIndex) > 0) dayHasAnswer = true;
+        });
+        if (dayHasAnswer) filledDays++;
+      }
+
+      if (filledDays >= 7) {
+        btn.disabled = false;
+        btn.style.opacity = '1';
+        btn.style.pointerEvents = 'auto';
+        btn.innerHTML = '<i class="fas fa-save"></i> Submit for Review (All 7 Days Done ✓)';
+      } else {
+        btn.disabled = true;
+        btn.style.opacity = '0.45';
+        btn.style.pointerEvents = 'none';
+        btn.innerHTML = '<i class="fas fa-lock"></i> Fill All 7 Days to Submit (' + filledDays + '/7)';
+      }
+    }
+    checkAllDaysFilled();
+
     // ── Daily auto-save (DRAFT) ───────────────────────────────
     // Fires on cell click / parent input change / discussion edit.
     // Persists progress so student can come back tomorrow and continue.
@@ -1823,8 +1869,14 @@
     }
     async function autoSaveDraftNow() {
       if (!currentUser || !submissionId) return;
-      // Don't overwrite a final/locked submission
-      if (existingSub && existingSub.isDraft === false) return;
+      // Don't overwrite a final/locked submission. Must be `!== true`, not
+      // `=== false`: the final submit uses setDoc WITHOUT merge, which drops
+      // the isDraft key entirely, so a submitted doc reads back as undefined.
+      // With `=== false` this guard missed those docs and kept autosaving over
+      // finished work — which the server correctly refuses, showing the user
+      // "Offline — will retry" and then a save error on a task they had
+      // already completed. (Same convention as the lock check further up.)
+      if (existingSub && existingSub.isDraft !== true) return;
       try {
         showDraftBadge('Saving…');
         await setDoc(doc(db, "activity_submissions", submissionId), buildDraftPayload(), { merge: true });
@@ -1842,11 +1894,19 @@
         } catch (e) {}
       }
       clearTimeout(autoSaveTimer);
-      autoSaveTimer = setTimeout(autoSaveDraftNow, 800);
+      // 400ms, not 800: this is the window in which a tick is only in
+      // localStorage and not yet on the server, so a quick refresh/close right
+      // after tapping could lose it. (visibilitychange below also force-saves
+      // when the tab is hidden, which covers most closes.)
+      autoSaveTimer = setTimeout(autoSaveDraftNow, 400);
     }
     // Wire change listeners (only if not locked)
     (function wireAutoSave() {
-      const isFinal = existingSub && existingSub.isDraft === false;
+      // `!== true` for the same reason as in autoSaveDraftNow above: a
+      // submitted doc has no isDraft key, so `=== false` failed to detect it
+      // and this still attached the autosave listeners (including the
+      // visibilitychange one, which fires whenever the tab is backgrounded).
+      const isFinal = existingSub && existingSub.isDraft !== true;
       if (isFinal) return;
       // Cells
       document.querySelectorAll('.interactive-cell').forEach(cell => {
@@ -1998,7 +2058,13 @@
         });
       } catch (err) {
         console.error("Save Error:", err);
-        alert("There was an error saving your progress. Please try again.");
+        // Surface the underlying reason. The old message was identical for a
+        // rules rejection and a dead network, so a screenshot of it told us
+        // nothing and every report needed a full investigation to explain.
+        var reason = (err && err.code) ? err.code : 'unknown';
+        alert("There was an error saving your progress. Please try again.\n\n" +
+              "Reason: " + reason + "\n" +
+              "(Please send this line to support if it keeps happening.)");
         saveBtn.innerHTML = '<i class="fas fa-save"></i> Submit for Review';
         saveBtn.style.pointerEvents = 'auto';
       }

@@ -1,86 +1,273 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-  
-    // Helper function to get the current logged-in user's data
-    function getUserData() {
+
+    // ---------------------------------------------------------------
+    // Helpers
+    // ---------------------------------------------------------------
+
+    // The signed-in user's own /users doc (their role, school_id, links).
+    function me() {
       return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
     }
 
-    // 1. Invites Collection
-    // Reading is open so users can validate their invitation codes during registration.
-    // Only school_admin and teacher roles can create new invite codes.
-    // Only authenticated users can update an invite (to mark it as 'used' during registration).
-    // Only school_admin can delete invite codes.
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isSuper() {
+      return signedIn() && me().role == 'super_admin';
+    }
+
+    // Teachers and school admins ("staff") act only inside their own school.
+    function isStaff() {
+      return signedIn() && me().role in ['teacher', 'school_admin'];
+    }
+
+    function mySchool() {
+      return me().school_id;
+    }
+
+    // Does the target doc belong to the caller's school?
+    // Requires the caller to actually HAVE a school (blocks empty-string match).
+    function sameSchool(data) {
+      return mySchool() is string && mySchool() != '' && data.school_id == mySchool();
+    }
+
+    function onlyKeys(keys) {
+      return request.resource.data.diff(resource.data).affectedKeys().hasOnly(keys);
+    }
+
+    // ---------------------------------------------------------------
+    // 1. Invites
+    // ---------------------------------------------------------------
+    // The code itself is the secret: a single doc may be fetched by anyone
+    // who knows its exact code (needed pre-auth during registration), but
+    // the collection can never be listed/enumerated by outsiders.
     match /invites/{code} {
-      allow read: if true;
-      allow create: if request.auth != null && getUserData().role in ['school_admin', 'teacher'];
-      allow update: if request.auth != null && (
-        // Allow marking as 'used' during registration (status change only)
-        (request.resource.data.status == 'used' && resource.data.status == 'pending') ||
-        // Allow admins/teachers to manage invites
-        getUserData().role in ['school_admin', 'teacher']
+      allow get: if true;
+      allow list: if isSuper() || (isStaff() && sameSchool(resource.data));
+
+      // Staff create invites only for their own school, only for member roles.
+      allow create: if isSuper() || (
+        isStaff() &&
+        request.resource.data.school_id == mySchool() &&
+        request.resource.data.role in ['teacher', 'student', 'parent'] &&
+        request.resource.data.status == 'pending'
       );
-      allow delete: if request.auth != null && getUserData().role == 'school_admin';
+
+      // Either: a newly registered user marks THEIR code as used (status flip
+      // only, recording their own uid), or staff manage their school's codes.
+      allow update: if isSuper() || (
+        signedIn() &&
+        resource.data.status == 'pending' &&
+        request.resource.data.status == 'used' &&
+        request.resource.data.used_by_uid == request.auth.uid &&
+        onlyKeys(['status', 'used_by_uid', 'used_at'])
+      ) || (
+        isStaff() && sameSchool(resource.data)
+      );
+
+      allow delete: if isSuper() ||
+        (signedIn() && me().role == 'school_admin' && sameSchool(resource.data));
     }
 
-    // 2. Schools Collection
-    // Only registered users can see school profiles.
+    // ---------------------------------------------------------------
+    // 2. Schools
+    // ---------------------------------------------------------------
     match /schools/{schoolId} {
-      allow read: if request.auth != null;
-      allow write: if request.auth != null && getUserData().role == 'school_admin';
+      allow read: if signedIn();
+
+      // A school doc may only be created by the school_admin user whose own
+      // profile points at this exact school id, claiming himself as admin.
+      // (The /users create rule below guarantees that profile could only be
+      // created while this school id was still unused.)
+      allow create: if signedIn() &&
+        request.resource.data.admin_uid == request.auth.uid &&
+        me().role == 'school_admin' &&
+        mySchool() == schoolId;
+
+      allow update: if isSuper() ||
+        (signedIn() && me().role == 'school_admin' && resource.data.admin_uid == request.auth.uid);
+
+      allow delete: if isSuper();
     }
 
-    // 3. Activity Submissions
-    match /activity_submissions/{subId} {
-      // Students can read their own. Teachers/Admins can read for their school. Parents can read to review.
-      allow read: if request.auth != null && (
-        resource.data.student_uid == request.auth.uid || 
-        resource.data.school_id == getUserData().school_id ||
-        getUserData().role in ['parent', 'teacher', 'school_admin']
+    // ---------------------------------------------------------------
+    // 3. Users (students, teachers, parents, school admins, individuals)
+    // ---------------------------------------------------------------
+    match /users/{userId} {
+      // Self, super admin, or same-school staff/parents. No public reads:
+      // phone-to-email login lookup goes through the lookupEmailByPhone
+      // Cloud Function instead. Queries from dashboards must filter on
+      // school_id so list evaluation stays provable.
+      allow get, list: if signedIn() && (
+        request.auth.uid == userId ||
+        isSuper() ||
+        (me().role in ['teacher', 'school_admin', 'parent'] && sameSchool(resource.data)) ||
+        // A parent finding the one child whose invite code they hold.
+        // parent-dashboard.html looks the child up with
+        //   where('invitation_code', '==', currentParent.linked_student_code)
+        // and a list query is only allowed when the rule constrains the SAME
+        // field the query filters on — matching on school_id alone could never
+        // authorise this, so the whole parent dashboard failed to load.
+        (me().role == 'parent' &&
+         me().get('linked_student_code', '') != '' &&
+         resource.data.invitation_code == me().get('linked_student_code', ''))
       );
-      // Students can submit activities for themselves.
-      allow create: if request.auth != null && request.resource.data.student_uid == request.auth.uid;
-      // Parents & Teachers can update submissions (to add teacher approval or parent notes).
-      allow update: if request.auth != null && getUserData().role in ['teacher', 'parent', 'school_admin'];
-      // Teachers can delete rejected submissions.
-      allow delete: if request.auth != null && getUserData().role == 'teacher';
-    }
 
-    // 3b. Activity Attendance Sessions
-    match /activity_attendance/{sessionId} {
-      allow read: if request.auth != null && (
-        resource.data.student_uid == request.auth.uid ||
+      // Signup. The role is locked to what the flow legitimately allows:
+      //  - individual: open trial signup, never attached to a school
+      //  - school_admin: only while claiming a school id that does not exist
+      //    yet (the school doc is created right after, owned by this uid)
+      //  - teacher/student/parent: must present a pending invite whose role
+      //    and school match the profile being created
+      // 'super_admin' can never be self-assigned (set it via Admin SDK /
+      // Firebase console only).
+      allow create: if signedIn() && request.auth.uid == userId && (
         (
-          getUserData().role in ['teacher', 'school_admin'] &&
-          resource.data.school_id == getUserData().school_id
+          request.resource.data.role == 'individual' &&
+          !('school_id' in request.resource.data) &&
+          // trial_end is stamped server-side by the setTrialOnSignup function.
+          !('trial_end' in request.resource.data)
+        ) || (
+          request.resource.data.role == 'school_admin' &&
+          request.resource.data.school_id is string &&
+          request.resource.data.school_id != '' &&
+          !exists(/databases/$(database)/documents/schools/$(request.resource.data.school_id))
+        ) || (
+          request.resource.data.role in ['teacher', 'student', 'parent'] &&
+          request.resource.data.invitation_code is string &&
+          get(/databases/$(database)/documents/invites/$(request.resource.data.invitation_code)).data.role == request.resource.data.role &&
+          get(/databases/$(database)/documents/invites/$(request.resource.data.invitation_code)).data.status == 'pending' &&
+          request.resource.data.school_id == get(/databases/$(database)/documents/invites/$(request.resource.data.invitation_code)).data.school_id
         )
       );
 
-      allow create: if request.auth != null && request.resource.data.student_uid == request.auth.uid;
-
-      allow update: if request.auth != null &&
-        resource.data.student_uid == request.auth.uid &&
-        request.resource.data.student_uid == request.auth.uid;
-    }
-
-    // 4. Users Collection (Includes Students, Teachers, Parents)
-    match /users/{userId} {
-      // Public reads allowed so phone-to-email login lookup works from any device
-      // (even before the user is authenticated). User docs contain only profile data.
-      allow read: if true;
-      
-      // Creating accounts requires auth (handled by Firebase Auth).
-      allow create: if request.auth != null && request.auth.uid == userId;
-      
-      // Updates: A user can update themselves. Teachers and Parents can update students (to add points / approvals).
-      allow update: if request.auth != null && (
-        request.auth.uid == userId ||
-        getUserData().role in ['teacher', 'parent', 'school_admin']
+      // Updates are field-whitelisted per actor. role / school_id /
+      // invitation_code / trial_end can never be changed from the client
+      // (except the one-off school_id backfill below).
+      allow update: if isSuper() || (
+        // Self: profile fields + own game progress + parent's student link.
+        request.auth.uid == userId &&
+        onlyKeys(['name', 'phone', 'email', 'photoURL', 'game_state',
+                  'linked_student_code', 'linked_student_uid'])
+      ) || (
+        // Teacher: approve/adjust a same-school student's game progress.
+        signedIn() && me().role == 'teacher' &&
+        sameSchool(resource.data) &&
+        onlyKeys(['game_state'])
+      ) || (
+        // Teacher repair tool: attach an orphaned profile (no school yet)
+        // to the teacher's own school — never to someone else's.
+        signedIn() && me().role == 'teacher' &&
+        !('school_id' in resource.data) &&
+        request.resource.data.school_id == mySchool() &&
+        onlyKeys(['school_id'])
+      ) || (
+        // School admin: edit same-school member profiles.
+        signedIn() && me().role == 'school_admin' &&
+        sameSchool(resource.data) &&
+        onlyKeys(['name', 'class_id', 'photoURL'])
+      ) || (
+        // Parent: mark chapters approved on their own linked child.
+        signedIn() && me().role == 'parent' &&
+        resource.data.role == 'student' &&
+        userId == me().linked_student_uid &&
+        onlyKeys(['game_state'])
       );
 
-      // School admins can delete users from their school.
-      allow delete: if request.auth != null && getUserData().role == 'school_admin';
+      allow delete: if isSuper() ||
+        (signedIn() && me().role == 'school_admin' && sameSchool(resource.data));
+    }
+
+    // ---------------------------------------------------------------
+    // 4. Activity Submissions
+    // ---------------------------------------------------------------
+    match /activity_submissions/{subId} {
+      allow get, list: if signedIn() && (
+        resource.data.student_uid == request.auth.uid ||
+        isSuper() ||
+        (isStaff() && sameSchool(resource.data)) ||
+        (me().role == 'parent' && (
+          resource.data.student_uid == me().linked_student_uid ||
+          sameSchool(resource.data)
+        ))
+      );
+
+      // Students submit their own work only.
+      allow create: if signedIn() &&
+        request.resource.data.student_uid == request.auth.uid;
+
+      allow update: if isSuper() || (
+        isStaff() && sameSchool(resource.data)
+      ) || (
+        // The owning student, while the work is still open. The weekly
+        // activity is filled in over several days and every autosave (plus the
+        // final "Submit for Review") rewrites this SAME doc id, so the first
+        // write is a create and every one after it is an update. Without this
+        // branch the student could only ever save once: every later save —
+        // including the final submit — failed with permission-denied, which
+        // surfaced as "There was an error saving your progress."
+        signedIn() &&
+        resource.data.student_uid == request.auth.uid &&
+        request.resource.data.student_uid == request.auth.uid &&
+        // Never let a student rewrite work a teacher has already signed off.
+        resource.data.get('reviewStatus', '') != 'teacher_approved' &&
+        // Only self-study "individual" accounts may mark their own work
+        // approved (their parent-PIN gate does that); school students must
+        // leave approval to the parent/teacher review flow.
+        (request.resource.data.get('reviewStatus', '') != 'teacher_approved' ||
+         me().role == 'individual')
+      ) || (
+        // Parent approval flow — whitelisted fields, own linked child (with a
+        // school-scoped fallback for legacy docs missing student_uid).
+        signedIn() && me().role == 'parent' &&
+        (resource.data.student_uid == me().linked_student_uid || sameSchool(resource.data)) &&
+        onlyKeys(['parentNotes', 'reviewStatus', 'parentApprovedAt', 'parentApprovedBy',
+                  'updatedAt', 'school_id', 'student_uid', 'chapter_id'])
+      );
+
+      allow delete: if isSuper() || (isStaff() && sameSchool(resource.data));
+    }
+
+    // ---------------------------------------------------------------
+    // 5. Activity Drafts (per-day autosave scratch space)
+    // ---------------------------------------------------------------
+    // Private working copies a student saves while filling the week in; only
+    // the owner ever reads or writes them. This collection previously had NO
+    // rule at all, so every draft save was denied by default.
+    match /activity_drafts/{draftId} {
+      allow get, list: if signedIn() &&
+        resource.data.student_uid == request.auth.uid;
+
+      allow create: if signedIn() &&
+        request.resource.data.student_uid == request.auth.uid;
+
+      allow update: if signedIn() &&
+        resource.data.student_uid == request.auth.uid &&
+        request.resource.data.student_uid == request.auth.uid;
+
+      allow delete: if isSuper() ||
+        (signedIn() && resource.data.student_uid == request.auth.uid);
+    }
+
+    // ---------------------------------------------------------------
+    // 6. Activity Attendance Sessions
+    // ---------------------------------------------------------------
+    match /activity_attendance/{sessionId} {
+      allow get, list: if signedIn() && (
+        resource.data.student_uid == request.auth.uid ||
+        isSuper() ||
+        (isStaff() && sameSchool(resource.data))
+      );
+
+      allow create: if signedIn() &&
+        request.resource.data.student_uid == request.auth.uid;
+
+      allow update: if signedIn() &&
+        resource.data.student_uid == request.auth.uid &&
+        request.resource.data.student_uid == request.auth.uid;
     }
   }
 }
