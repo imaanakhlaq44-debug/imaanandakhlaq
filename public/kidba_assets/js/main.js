@@ -451,13 +451,12 @@ if (contactForm) {
 /* ──────────────────────────────────────────────────────────────
    NEWSLETTER FORM - WITH VALIDATION
 ────────────────────────────────────────────────────────────── */
-const newsletterForm = document.querySelector('.newsletter-form');
-if (newsletterForm) {
+document.querySelectorAll('.newsletter-form, .kn-form').forEach(newsletterForm => {
   newsletterForm.addEventListener('submit', function (e) {
     e.preventDefault();
     const input = this.querySelector('input[type="email"]');
     const email = (input?.value || '').trim().toLowerCase();
-    
+
     // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (email && emailRegex.test(email)) {
@@ -467,7 +466,7 @@ if (newsletterForm) {
       showToast('⚠️ Please enter a valid email address.', 'error');
     }
   });
-}
+});
 
 /* ──────────────────────────────────────────────────────────────
    TOAST NOTIFICATION

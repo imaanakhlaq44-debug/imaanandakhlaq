@@ -816,6 +816,20 @@ export const SuperAdminDashboard = () => html`
     if (user) {
       const waitOverlay = document.getElementById('authWaitOverlay');
       if (waitOverlay) waitOverlay.remove();
+      // Only the super_admin role may open this dashboard — everyone else
+      // is sent back to login. (Firestore rules enforce this server-side
+      // too; this check just fails fast with a clear message.)
+      let role = '';
+      try {
+        const meSnap = await getDoc(doc(db, 'users', user.uid));
+        role = meSnap.exists() ? (meSnap.data().role || '') : '';
+      } catch (e) { console.error('Role check failed:', e); }
+      if (role !== 'super_admin') {
+        const loadingEl = document.getElementById('loading');
+        if (loadingEl) loadingEl.textContent = 'Access denied: this area is for the platform administrator only. Redirecting...';
+        setTimeout(() => { window.location.href = 'auth.html'; }, 2000);
+        return;
+      }
       loadDashboardData();
     } else {
       const stored = (function () {

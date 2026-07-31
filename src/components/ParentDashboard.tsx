@@ -1513,7 +1513,11 @@ export const ParentDashboard = () => html`
       if(document.getElementById('linkStudentCard')) document.getElementById('linkStudentCard').classList.add('d-none');
     }
 
-    const stq = query(collection(db, "users"), where("invitation_code", "==", currentParent.linked_student_code));
+    // Firestore rules only let a parent read users of their OWN school, so
+    // the query must carry the school_id filter to be allowed.
+    const stq = query(collection(db, "users"),
+      where("school_id", "==", currentParent.school_id || ''),
+      where("invitation_code", "==", currentParent.linked_student_code));
     const sqSnap = await getDocs(stq);
     if (sqSnap.empty) {
       document.getElementById('schoolNameTag').innerHTML = '<i class="fas fa-exclamation-circle text-warning"></i> Student Not Registered Yet';
@@ -1522,6 +1526,15 @@ export const ParentDashboard = () => html`
     }
 
     linkedStudent = { uid: sqSnap.docs[0].id, ...sqSnap.docs[0].data() };
+
+    // Keep the child's uid on the parent doc — the security rules use it to
+    // grant this parent access to the child's submissions and approvals.
+    if (currentParent.linked_student_uid !== linkedStudent.uid) {
+      try {
+        await updateDoc(doc(db, "users", currentParent.uid), { linked_student_uid: linkedStudent.uid });
+        currentParent.linked_student_uid = linkedStudent.uid;
+      } catch (e) { console.warn('Could not save linked_student_uid:', e); }
+    }
 
     // Fetch school name if available
     let schoolNameStr = 'Parent Dashboard';
@@ -1719,7 +1732,11 @@ export const ParentDashboard = () => html`
     btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Linking...';
 
     try {
-      const stq = query(collection(db, "users"), where("invitation_code", "==", code));
+      // School filter required by security rules (parents may only read
+      // users of their own school).
+      const stq = query(collection(db, "users"),
+        where("school_id", "==", currentParent.school_id || ''),
+        where("invitation_code", "==", code));
       const sqSnap = await getDocs(stq);
 
       if (sqSnap.empty) {
@@ -1729,11 +1746,13 @@ export const ParentDashboard = () => html`
         return;
       }
 
+      const studentUid = sqSnap.docs[0].id;
       const parentRef = doc(db, "users", currentParent.uid);
-      await updateDoc(parentRef, { linked_student_code: code });
+      await updateDoc(parentRef, { linked_student_code: code, linked_student_uid: studentUid });
 
       alert("Successfully linked to student profile!");
       currentParent.linked_student_code = code;
+      currentParent.linked_student_uid = studentUid;
       
       await initDashboard();
 

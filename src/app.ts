@@ -91,6 +91,11 @@ app.get('/delete-account', (c) => c.html(DeleteAccountPage()))
 // Blog Directory
 app.get('/blog', (c) => c.html(BlogDirectoryPage()))
 
+// Media Dropdown Routes
+app.get('/media/videos', (c) => c.html(html`${ProductComingSoonPage('Videos', '/blog', 'Read Our Blogs')}`))
+app.get('/media/news', (c) => c.html(html`${ProductComingSoonPage('News', '/blog', 'Read Our Blogs')}`))
+app.get('/media', (c) => c.redirect('/blog'))
+
 // Blog Articles
 app.get('/blog-article-1', (c) => c.html(BlogArticlePage({
   title: "5 Ways to Inculcate Sunnah in Daily Life",
@@ -218,6 +223,9 @@ ${UniversalValues()}
 ${ImpactStatsV2()}
 ${VisionCallToAction()}
 ${Footer()}
+<!-- Imaan & Akhlaq pointing at their hero cards: plain JS, no GSAP needed.
+     Remove this line to drop it. -->
+<script src="/kidba_assets/js/hero-pointers.js"></script>
 `
 }
 

@@ -3,20 +3,22 @@ export const Header = () => html`
 <!-- ===== HEADER / NAVBAR ===== -->
 <style>
   @media all and (min-width: 992px) {
-    .navbar .nav-item.dropdown:hover .dropdown-menu { 
-      display: block; 
-      visibility: visible; 
-      opacity: 1; 
-      margin-top: 0;
-      transition: all 0.3s ease-in-out;
-    }
-    .navbar .dropdown-menu { 
-      display: block; 
-      visibility: hidden; 
-      opacity: 0; 
+    .navbar .dropdown-menu {
+      display: block;
+      visibility: hidden;
+      opacity: 0;
       margin-top: 15px;
-      transition: all 0.3s ease-in-out;
+      pointer-events: none;
+      transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out, margin-top 0.3s ease-in-out;
       transform-origin: top;
+    }
+    /* Open on hover AND on click/tap (Bootstrap adds .show) */
+    .navbar .nav-item.dropdown:hover > .dropdown-menu,
+    .navbar .nav-item.dropdown > .dropdown-menu.show {
+      visibility: visible;
+      opacity: 1;
+      margin-top: 0;
+      pointer-events: auto;
     }
   }
 </style>
@@ -127,8 +129,8 @@ export const Header = () => html`
               </a>
               <ul class="dropdown-menu" aria-labelledby="mediaDropdown" style="border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-radius: 12px; padding: 10px;">
                 <li><a class="dropdown-item" href="/blog">Blogs</a></li>
-                <li><a class="dropdown-item" href="#videos">Videos</a></li>
-                <li><a class="dropdown-item" href="#news">News</a></li>
+                <li><a class="dropdown-item" href="/media/videos">Videos</a></li>
+                <li><a class="dropdown-item" href="/media/news">News</a></li>
               </ul>
             </li>
           </ul>

@@ -3,7 +3,11 @@ import { Head } from './Head'
 import { Header } from './Header'
 import { Footer } from './Footer'
 
-export const ProductComingSoonPage = (title: string) => html`
+export const ProductComingSoonPage = (
+  title: string,
+  backHref: string = '/products/books',
+  backLabel: string = 'Explore Curriculum Books'
+) => html`
 ${Head()}
 ${Header()}
 
@@ -19,7 +23,7 @@ ${Header()}
   <div class="cs-icon"><i class="fas fa-tools"></i></div>
   <h1 class="cs-title">${title} is Coming Soon!</h1>
   <p class="cs-text">We are pouring our creativity and passion into building the ultimate interactive experience for you. Please check back soon as we finalize the magical details behind the scenes.</p>
-  <a href="/products/books" class="btn btn-lg" style="background:#1E2D5A; color:white; padding: 12px 30px; border-radius: 30px; font-weight:700;"><i class="fas fa-arrow-left"></i> Explore Curriculum Books</a>
+  <a href="${backHref}" class="btn btn-lg" style="background:#1E2D5A; color:white; padding: 12px 30px; border-radius: 30px; font-weight:700;"><i class="fas fa-arrow-left"></i> ${backLabel}</a>
 </div>
 
 ${Footer()}

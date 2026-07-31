@@ -3337,16 +3337,23 @@ export const TeacherDashboard = () => html`
             syncBtn.textContent = 'Syncing... Please wait';
             syncBtn.disabled = true;
             try {
-              const allUsersSnap = await getDocs(collection(db, 'users'));
+              // Repair only students who registered with THIS school's invite
+              // codes but whose profile is missing the school link. (Scanning
+              // or claiming other schools' students is blocked by the rules.)
+              const invSnap = await getDocs(query(collection(db, 'invites'),
+                where('school_id', '==', teacherSchoolId),
+                where('role', '==', 'student'),
+                where('status', '==', 'used')));
               let fixed = 0;
-              for (const d of allUsersSnap.docs) {
-                const u = d.data();
-                if (u.role === 'student' && (!u.school_id || u.school_id !== teacherSchoolId)) {
-                  await updateDoc(doc(db, 'users', d.id), { school_id: teacherSchoolId });
+              for (const inv of invSnap.docs) {
+                const uid = inv.data().used_by_uid;
+                if (!uid) continue;
+                try {
+                  await updateDoc(doc(db, 'users', uid), { school_id: teacherSchoolId });
                   fixed++;
-                }
+                } catch (e) { /* already linked — nothing to fix */ }
               }
-              alert(fixed + ' students have been forcefully linked to your school! Please refresh the page.');
+              alert(fixed + ' students have been linked to your school! Please refresh the page.');
               window.location.reload();
             } catch(err) {
               console.error(err);

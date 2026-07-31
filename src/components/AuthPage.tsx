@@ -1388,45 +1388,17 @@ export const AuthPage = () => html`
     }
 
     function lookupEmailByPhone(phone, done) {
-      var candidates = [phone];
-      if (phone.charAt(0) === '+') candidates.push(phone.slice(1));
-      else candidates.push('+' + phone);
-
-      var index = 0;
-      function next() {
-        if (index >= candidates.length) {
+      // Privacy-preserving lookup via Cloud Function — direct queries on the
+      // /users collection are blocked by Firestore rules. The function tries
+      // both +/no-+ variants itself and returns only the matched email.
+      var fnUrl = 'https://us-central1-' + FIREBASE_PROJECT_ID + '.cloudfunctions.net/lookupEmailByPhone';
+      xhrJson('POST', fnUrl, { data: { phone: phone } }, null, function (err, data) {
+        if (err || !data || !data.result) {
           done('');
           return;
         }
-
-        var candidate = candidates[index++];
-        var queryUrl = 'https://firestore.googleapis.com/v1/projects/' + FIREBASE_PROJECT_ID + '/databases/(default)/documents:runQuery?key=' + FIREBASE_API_KEY;
-        var queryBody = {
-          structuredQuery: {
-            from: [{ collectionId: 'users' }],
-            where: {
-              fieldFilter: {
-                field: { fieldPath: 'phone' },
-                op: 'EQUAL',
-                value: { stringValue: candidate }
-              }
-            },
-            limit: 1
-          }
-        };
-
-        xhrJson('POST', queryUrl, queryBody, null, function (err, data) {
-          if (err || !data || !data.length || !data[0].document || !data[0].document.fields) {
-            next();
-            return;
-          }
-
-          var userFields = decodeFsFields(data[0].document.fields);
-          done(userFields.email || '');
-        });
-      }
-
-      next();
+        done(data.result.email || '');
+      });
     }
 
     function fetchUserDoc(uid, idToken, cb) {
@@ -1956,9 +1928,10 @@ export const AuthPage = () => html`
     beginOtp(email, name, async () => {
       showToast('Creating trial account...', 'success');
       const userCredential = await createUserWithEmailAndPassword(auth, email, pw);
-      const trialEnd = new Date(Date.now() + 3*24*60*60*1000).toISOString();
 
-      await setDoc(doc(db, "users", userCredential.user.uid), { role: 'individual', email: email, phone: phone, name: name, trial_end: trialEnd });
+      // trial_end is stamped server-side (setTrialOnSignup Cloud Function) —
+      // Firestore rules reject client-supplied trial dates.
+      await setDoc(doc(db, "users", userCredential.user.uid), { role: 'individual', email: email, phone: phone, name: name });
 
       lastRegisteredEmail = email;
       document.getElementById('successTitle').textContent = 'Welcome Aboard!';
@@ -1980,66 +1953,26 @@ export const AuthPage = () => html`
       if (!rawId.includes('@')) {
         const id = rawId.replace(/[^0-9+]/g, '');
         if (!id) return showToast('Please enter a valid email or phone number', 'error');
-        const phoneCandidates = [id, id.startsWith('+') ? id.slice(1) : '+' + id];
         let matchedEmail = '';
 
-        // Try Firestore SDK first (works if user has cached auth session)
-        for (const phone of phoneCandidates) {
-          try {
-            const usersRef = collection(db, 'users');
-            const q = query(usersRef, where('phone', '==', phone));
-            const snap = await getDocs(q);
-            if (!snap.empty) {
-              const data = snap.docs[0].data();
-              if (data && data.email) {
-                matchedEmail = data.email;
-                break;
-              }
-            }
-          } catch (sdkErr) {
-            console.warn('SDK phone lookup failed (expected on new device):', sdkErr.code || sdkErr.message);
-          }
-        }
-
-        // Fallback: REST API for phone lookup (works without auth session)
-        if (!matchedEmail) {
-          const PROJ = firebaseConfig.projectId;
-          const KEY  = firebaseConfig.apiKey;
-          for (const phone of phoneCandidates) {
-            try {
-              const restUrl = 'https://firestore.googleapis.com/v1/projects/' + PROJ +
-                '/databases/(default)/documents:runQuery?key=' + KEY;
-              const resp = await fetch(restUrl, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                  structuredQuery: {
-                    from: [{ collectionId: 'users' }],
-                    where: {
-                      fieldFilter: {
-                        field: { fieldPath: 'phone' },
-                        op: 'EQUAL',
-                        value: { stringValue: phone }
-                      }
-                    },
-                    limit: 1
-                  }
-                })
-              });
-              if (resp.ok) {
-                const results = await resp.json();
-                if (results && results.length > 0 && results[0].document && results[0].document.fields) {
-                  const emailField = results[0].document.fields.email;
-                  if (emailField && emailField.stringValue) {
-                    matchedEmail = emailField.stringValue;
-                    break;
-                  }
-                }
-              }
-            } catch (restErr) {
-              console.warn('REST phone lookup failed:', restErr);
+        // Privacy-preserving lookup via Cloud Function — direct queries on
+        // /users are blocked by Firestore rules. The function checks both
+        // +/no-+ variants and returns only the matched email.
+        try {
+          const fnUrl = 'https://us-central1-' + firebaseConfig.projectId + '.cloudfunctions.net/lookupEmailByPhone';
+          const resp = await fetch(fnUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ data: { phone: id } })
+          });
+          if (resp.ok) {
+            const json = await resp.json();
+            if (json && json.result && json.result.email) {
+              matchedEmail = json.result.email;
             }
           }
+        } catch (fnErr) {
+          console.warn('Phone lookup failed:', fnErr);
         }
 
         if (!matchedEmail) {

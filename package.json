@@ -24,15 +24,15 @@
     "@capacitor/keyboard": "^8.0.3",
     "@capacitor/splash-screen": "^8.0.1",
     "@capacitor/status-bar": "^8.0.2",
-    "@hono/node-server": "^1.19.12",
-    "express": "^5.2.1",
     "firebase": "^12.12.0",
     "hono": "^4.12.9",
-    "puppeteer": "^24.42.0",
     "vite-plugin-copy": "^0.1.6"
   },
   "devDependencies": {
     "@babel/core": "^7.29.0",
+    "@hono/node-server": "^1.19.12",
+    "express": "^5.2.1",
+    "puppeteer": "^24.42.0",
     "@babel/preset-env": "^7.29.5",
     "@hono/vite-build": "^1.2.0",
     "@hono/vite-dev-server": "^0.25.1",

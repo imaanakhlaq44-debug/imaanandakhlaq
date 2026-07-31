@@ -1,0 +1,62 @@
+name: Deploy to Hostinger
+
+# Har baar `main` par push karne se site khud update ho jaayegi.
+# Actions tab se "Run workflow" par manually bhi chala sakte hain.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Do deploy ek saath na chalein (warna FTP state file kharab ho sakti hai)
+concurrency:
+  group: hostinger-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Build and upload to public_html
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+        env:
+          # puppeteer sirf local scripts ke liye hai — CI mein Chromium (~150 MB)
+          # download karne ki zaroorat nahi
+          PUPPETEER_SKIP_DOWNLOAD: "true"
+
+      # Tests fail hone par deploy ruk jaayega — tooti hui site live nahi hogi
+      - name: Run tests
+        run: npm test
+
+      - name: Build static site
+        run: npm run build
+
+      - name: Upload changed files via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps
+          port: 21
+          local-dir: ./dist/
+          server-dir: public_html/
+          # Sirf badli hui files jaati hain — server par
+          # .ftp-deploy-sync-state.json rakh kar compare hota hai.
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            book1.pdf
+            book2.pdf
+            book3.pdf

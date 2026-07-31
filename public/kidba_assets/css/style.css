@@ -1679,7 +1679,7 @@ button { font-family: var(--f-head); cursor:pointer; }
   transform: translateX(-50%);
   width: 90%;
   max-width: 1000px;
-  background: linear-gradient(135deg, #4CD964, #32B74A);
+  background: linear-gradient(135deg, var(--c-pink), var(--c-pink-d));
   border-radius: 20px;
   padding: 50px;
   box-shadow: 0 20px 40px rgba(0,0,0,0.1);
@@ -1720,7 +1720,7 @@ button { font-family: var(--f-head); cursor:pointer; }
   right: 6px;
   top: 6px;
   bottom: 6px;
-  background: linear-gradient(135deg, #FF9B26, #FF6A00);
+  background: linear-gradient(135deg, var(--c-orange-l), var(--c-orange));
   color: #fff;
   border: none;
   border-radius: 50px;
@@ -1728,10 +1728,19 @@ button { font-family: var(--f-head); cursor:pointer; }
   font-family: 'Fredoka One', cursive, var(--f-head);
   font-size: 1.1rem;
   text-transform: uppercase;
-  transition: transform 0.3s;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
 }
 .kn-form button:hover {
   transform: scale(1.05);
+  box-shadow: 0 6px 18px rgba(224, 128, 32, 0.45);
+}
+.kn-form button:active {
+  transform: scale(0.98);
+}
+.kn-form button:disabled {
+  cursor: not-allowed;
+  transform: none;
 }
 
 /* Footer Content */
@@ -2384,7 +2393,7 @@ button { font-family: var(--f-head); cursor:pointer; }
 
 /* 9. Newsletter Input Focus Glow */
 .kn-form input:focus {
-  box-shadow: 0 0 0 4px rgba(76, 217, 100, 0.3);
+  box-shadow: 0 0 0 4px rgba(214, 54, 120, 0.3);
   outline: none;
 }
 

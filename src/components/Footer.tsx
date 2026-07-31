@@ -10,10 +10,10 @@ export const Footer = () => html`
         <h3>Join Our Newsletter</h3>
         <p>Subscribe to get our latest news & updates!</p>
       </div>
-      <div class="kn-form">
-        <input type="email" placeholder="Your email address">
+      <form class="kn-form" novalidate>
+        <input type="email" placeholder="Your email address" aria-label="Your email address" required>
         <button type="submit">Subscribe</button>
-      </div>
+      </form>
     </div>
 
     <!-- JAGGED TOP EDGE -->

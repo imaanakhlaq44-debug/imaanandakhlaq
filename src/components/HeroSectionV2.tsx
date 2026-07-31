@@ -92,6 +92,21 @@ export const HeroSectionV2 = () => html`
   .fc-btn { background: white; color: #0f172a; padding: 12px 24px; border-radius: 20px; font-weight: bold; transform: translateY(50px); opacity: 0; transition: all 0.4s ease; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; display: inline-block; text-align: center; }
   .flashcard:hover .fc-btn { transform: translateY(0); opacity: 1; }
 
+  /* Imaan & Akhlaq, taking turns pointing at their own card. Mirrored
+     (scaleX(-1)) so the pointing arm reaches LEFT, into the card's own
+     content, from the top-right corner. Pure CSS transition (no GSAP) so
+     the permanent mirror transform is never fought over by two systems. */
+  .hero-pointer {
+    position: absolute; top: 4px; right: 4px; width: 72px; height: auto;
+    z-index: 6; pointer-events: none;
+    filter: drop-shadow(0 6px 10px rgba(0,0,0,0.4));
+    opacity: 0; transform: scaleX(-1) translateY(14px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .hero-pointer.hp-visible { opacity: 1; transform: scaleX(-1) translateY(0); }
+  @media (max-width: 991px) { .hero-pointer { width: 52px; top: 8px; right: 8px; } }
+  @media (prefers-reduced-motion: reduce) { .hero-pointer { opacity: 1 !important; } }
+
   @media (max-width: 991px) {
     .flashcards-container { flex-direction: column; height: auto; max-width: 500px; }
     .flashcard { flex: none; height: 160px; }
@@ -121,6 +136,7 @@ export const HeroSectionV2 = () => html`
     <!-- Card 1: Books -->
     <a href="/products/books" class="flashcard" data-aos="fade-up" data-aos-delay="100">
       <div class="fc-bg bg-books"></div>
+      <img class="hero-pointer" src="/assets/journey/imaan_pointing_nobg.png" alt="" />
       <div class="fc-content">
         <div class="fc-icon">📚</div>
         <h3 class="fc-title">Curriculum Books</h3>
@@ -132,6 +148,7 @@ export const HeroSectionV2 = () => html`
     <!-- Card 2: Coloring -->
     <a href="/products/coloring" class="flashcard" data-aos="fade-up" data-aos-delay="200">
       <div class="fc-bg bg-colors"></div>
+      <img class="hero-pointer" src="/assets/journey/akhlaq_pointing_nobg.png" alt="" />
       <div class="fc-content">
         <div class="fc-icon">🖍️</div>
         <h3 class="fc-title">Magic Coloring</h3>
@@ -143,6 +160,7 @@ export const HeroSectionV2 = () => html`
     <!-- Card 3: Audio -->
     <a href="/products/audio" class="flashcard" data-aos="fade-up" data-aos-delay="300">
       <div class="fc-bg bg-audio"></div>
+      <img class="hero-pointer" src="/assets/journey/imaan_pointing_nobg.png" alt="" />
       <div class="fc-content">
         <div class="fc-icon">🎧</div>
         <h3 class="fc-title">Audio Stories</h3>
@@ -154,6 +172,7 @@ export const HeroSectionV2 = () => html`
     <!-- Card 4: Puppet Shows -->
     <a href="/products/puppet" class="flashcard" data-aos="fade-up" data-aos-delay="400">
       <div class="fc-bg bg-puppet"></div>
+      <img class="hero-pointer" src="/assets/journey/akhlaq_pointing_nobg.png" alt="" />
       <div class="fc-content">
         <div class="fc-icon">🎭</div>
         <h3 class="fc-title">Live Puppets</h3>

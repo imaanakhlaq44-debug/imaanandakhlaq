@@ -88,4 +88,21 @@ describe('Hono Routes', () => {
     const res = await app.request('/blog')
     expect(res.status).toBe(200)
   })
+
+  // Media dropdown
+  it('should return 200 for media/videos', async () => {
+    const res = await app.request('/media/videos')
+    expect(res.status).toBe(200)
+  })
+
+  it('should return 200 for media/news', async () => {
+    const res = await app.request('/media/news')
+    expect(res.status).toBe(200)
+  })
+
+  it('should redirect /media to /blog', async () => {
+    const res = await app.request('/media')
+    expect(res.status).toBe(302)
+    expect(res.headers.get('location')).toBe('/blog')
+  })
 })
