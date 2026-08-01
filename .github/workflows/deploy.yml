@@ -63,7 +63,9 @@ jobs:
           protocol: ftps
           port: 21
           local-dir: ./dist/
-          server-dir: public_html/
+          # Is FTP account ka root pehle se hi public_html hai — yahan
+          # "public_html/" likhne se public_html/public_html/ ban jata hai.
+          server-dir: ./
           # Sirf badli hui files jaati hain — server par
           # .ftp-deploy-sync-state.json rakh kar compare hota hai.
           exclude: |
