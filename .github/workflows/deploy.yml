@@ -56,6 +56,11 @@ jobs:
 
       - name: Upload changed files via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        env:
+          # Node 24 par FTPS ki data connection Hostinger ke server se
+          # "425 Unable to build data connection" de rahi thi (TLS session
+          # reuse). Action ko uske apne Node 20 runtime par chalate hain.
+          ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: "true"
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
