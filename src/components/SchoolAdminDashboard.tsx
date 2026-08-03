@@ -1,5 +1,8 @@
 import { html } from 'hono/html'
 
+// NOTE: the live school admin dashboard is public/admin-dashboard.html — the
+// /admin-dashboard route serves that file and only falls back to this older
+// copy if it cannot be read. Edit the public file, not this one.
 export const SchoolAdminDashboard = () => html`
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap');

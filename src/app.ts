@@ -137,8 +137,20 @@ app.get('/teacher-dashboard', (c) => {
   return c.html(generateTeacherDashboardHTML())
 })
 
-app.get('/admin-dashboard', (c) => {
-  return c.html(generateSchoolAdminDashboardHTML())
+// The school admin dashboard is maintained as a standalone page in
+// public/admin-dashboard.html (roster import, bulk delete, mobile layout).
+// The SSG build writes this route to dist/admin-dashboard.html, so rendering
+// the older <SchoolAdminDashboard/> component here would overwrite the copied
+// static file and silently ship a stale dashboard. Serve the real file.
+app.get('/admin-dashboard', async (c) => {
+  const fs = await import('node:fs')
+  const path = await import('node:path')
+  const filePath = path.default.join(process.cwd(), 'public', 'admin-dashboard.html')
+  try {
+    return c.html(fs.default.readFileSync(filePath, 'utf-8'))
+  } catch (e) {
+    return c.html(generateSchoolAdminDashboardHTML())
+  }
 })
 
 app.get('/super-admin-dashboard', (c) => {

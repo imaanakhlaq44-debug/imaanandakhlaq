@@ -3235,13 +3235,13 @@
       <div>
         <span class="modal-kicker"><i class="fas fa-file-import"></i> Data intake</span>
         <h3 class="modal-title">Bulk Import</h3>
-        <p class="modal-subtitle">Upload CSV, XLSX or DOCX files. The system will auto-detect teacher, student and parent rows for preview before import.</p>
+        <p class="modal-subtitle">Upload any roster — Excel (XLS/XLSX), CSV, Word or PDF. The system finds the name, class and parent columns on its own and shows a preview before importing.</p>
       </div>
       <button class="modal-close" type="button" onclick="closeModal('bulkImportModal')"><i class="fas fa-times"></i></button>
     </div>
     <div class="form-group">
       <label>File</label>
-      <input type="file" id="bulkFileInput" accept=".csv,.txt,.xls,.xlsx,.docx" onchange="handleBulkFileInput(this)" class="form-input">
+      <input type="file" id="bulkFileInput" accept=".csv,.txt,.tsv,.xls,.xlsx,.xlsm,.ods,.docx,.pdf" onchange="handleBulkFileInput(this)" class="form-input">
     </div>
     <div id="bulkImportCounts" style="font-weight:800; color:#64748b; margin-bottom:8px;"></div>
     <div id="bulkPreviewBody" style="max-height:320px; overflow:auto; border:1px solid #e2e8f0; padding:10px; border-radius:8px;"></div>
@@ -3271,9 +3271,15 @@
   </button>
 </div>
 
-<!-- Load parsing libraries for browser (XLSX and mammoth) -->
+<!-- Load parsing libraries for browser (XLSX, mammoth for DOCX, pdf.js for PDF) -->
 <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
 <script src="https://unpkg.com/mammoth/mammoth.browser.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"></script>
+<script>
+  if (window.pdfjsLib) {
+    window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js';
+  }
+</script>
 <script>
   // Mobile sidebar toggle
   (function() {
@@ -3311,7 +3317,7 @@
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
   import { getAuth, onAuthStateChanged, signOut, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
-  import { getFirestore, doc, getDoc, collection, query, where, getDocs, setDoc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+  import { getFirestore, doc, getDoc, collection, query, where, getDocs, setDoc, updateDoc, deleteDoc, writeBatch } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
   import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-storage.js";
 
   const firebaseConfig = {
@@ -3501,6 +3507,323 @@
     return Array.from(document.querySelectorAll('input[name="' + name + '"]:checked')).map(cb => cb.value);
   }
 
+  /* --- roster-parse:start --- */
+  // Every school exports its roster with different column names: one file says
+  // "Student Name", the next "Full Name", another has no header row at all.
+  // Instead of looking for one fixed key we score every column, keep the best
+  // match per field, and fall back to sniffing the name column from the data
+  // itself. The same logic serves CSV, XLS, XLSX, DOCX and PDF rosters.
+  const FIELD_RULES = {
+    name: {
+      exact: ['studentname','fullname','name','studentfullname','nameofstudent','studentsname','childname','pupilname','learnername','stdname','namestudent','candidatename','teachername','teachersname','staffname','employeename','facultyname'],
+      contains: ['name'],
+      exclude: ['father','mother','guardian','parent','school','campus','class','section','teacher','subject','user','login','branch','city','file','company','first','last','middle','sur','nick']
+    },
+    fatherName: {
+      exact: ['fathername','fathersname','guardianname','parentname','father','guardian','parent','mothername'],
+      contains: ['father','guardian'],
+      exclude: ['occupation','contact','phone','mobile','email','cnic','nic','number','id','address']
+    },
+    className: {
+      exact: ['classname','class','grade','gradelevel','standard','currentclass','classgrade','classid','admittedclass'],
+      contains: ['class','grade'],
+      exclude: ['teacher','incharge','room','strength','count','fee']
+    },
+    section: { exact: ['sectionname','section','sec'], contains: ['section'] },
+    roll: {
+      exact: ['rollnumber','rollno','roll','grnumber','grno','admissionnumber','admissionno','registrationnumber','regno','studentid','studentcode','stdid'],
+      contains: ['roll','admission','registration']
+    },
+    gender: { exact: ['gender','sex'] },
+    phone: {
+      exact: ['fathercontactno','contactno','contactnumber','mobileno','mobilenumber','phoneno','phonenumber','contact','mobile','phone','cell','cellno','whatsapp','parentcontact','guardiancontact'],
+      contains: ['contact','mobile','phone','cell','whatsapp']
+    },
+    email: { exact: ['fatheremail','email','emailaddress','parentemail','guardianemail','mail'], contains: ['email','mail'] },
+    status: { exact: ['status','studentstatus','admissionstatus'] },
+    role: { exact: ['role','type','usertype','category','designation'] },
+    firstName: { exact: ['firstname','givenname','fname'], exclude: ['father','mother','guardian'] },
+    lastName: { exact: ['lastname','surname','familyname','lname'], exclude: ['father','mother','guardian'] }
+  };
+
+  // Resolved in this order so "Student Name" claims the name column before the
+  // looser "contains name" rules get a chance at "Father Name".
+  const FIELD_ORDER = ['name','fatherName','className','section','roll','gender','phone','email','status','role','firstName','lastName'];
+  const FIELD_LABELS = { name: 'Full Name', firstName: 'First Name', lastName: 'Last Name', className: 'Class', section: 'Section', roll: 'Roll / ID', gender: 'Gender', fatherName: 'Father / Guardian', phone: 'Contact', email: 'Email' };
+  const JUNK_NAME_PREFIXES = ['total','grand total','page','printed','report','signature','sr no','s no'];
+
+  function normalizeKey(value) {
+    return String(value == null ? '' : value).toLowerCase().replace(/[^a-z0-9]+/g, '');
+  }
+
+  function cleanCell(value) {
+    return String(value == null ? '' : value).replace(/\s+/g, ' ').trim();
+  }
+
+  function cleanName(value) {
+    // School exports pad empty surnames with placeholder dots: "Ali Hamza  ."
+    return cleanCell(value).replace(/^[.,\-_]+/, '').replace(/[.,\-_]+$/, '').replace(/\s+/g, ' ').trim();
+  }
+
+  function looksLikeNumber(text) {
+    return /^[\d\s.,:/+()-]+$/.test(String(text || '').trim());
+  }
+
+  function scoreHeader(key, rule) {
+    if (!key || !rule) return 0;
+    // A known alias always wins; the exclude list only guards the loose
+    // "contains" fallback, so "Teacher Name" still maps but "Father Name"
+    // never gets mistaken for the student.
+    if (rule.exact) {
+      const index = rule.exact.indexOf(key);
+      if (index !== -1) return 100 - index;
+    }
+    if (rule.exclude && rule.exclude.some((bad) => key.indexOf(bad) !== -1)) return 0;
+    if (rule.contains && rule.contains.some((part) => key.indexOf(part) !== -1)) return 40;
+    return 0;
+  }
+
+  function resolveHeaderMap(headerCells) {
+    const keys = (headerCells || []).map(normalizeKey);
+    const map = {};
+    const taken = {};
+    FIELD_ORDER.forEach((field) => {
+      let bestIndex = -1;
+      let bestScore = 0;
+      keys.forEach((key, index) => {
+        if (taken[index]) return;
+        const score = scoreHeader(key, FIELD_RULES[field]);
+        if (score > bestScore) { bestScore = score; bestIndex = index; }
+      });
+      map[field] = bestIndex;
+      if (bestIndex !== -1) taken[bestIndex] = true;
+    });
+    return map;
+  }
+
+  // Rosters often start with a title, a campus line or a blank row, so the
+  // header is rarely row 1. Pick the row that maps to the most useful fields.
+  function findHeaderRow(rows) {
+    let bestIndex = -1;
+    let bestScore = 0;
+    const limit = Math.min(rows.length, 20);
+    for (let i = 0; i < limit; i++) {
+      const cells = (rows[i] || []).map(cleanCell);
+      const filled = cells.filter(Boolean);
+      if (filled.length < 2) continue;
+      const map = resolveHeaderMap(cells);
+      let score = 0;
+      if (map.name !== -1) score += 12;
+      if (map.firstName !== -1) score += 6;
+      if (map.className !== -1) score += 4;
+      if (map.roll !== -1) score += 2;
+      if (map.fatherName !== -1) score += 2;
+      score += Math.min(filled.length, 8) * 0.5;
+      score -= filled.filter(looksLikeNumber).length * 2;
+      if (score > bestScore) { bestScore = score; bestIndex = i; }
+    }
+    return bestScore >= 10 ? bestIndex : -1;
+  }
+
+  function looksLikePersonName(text) {
+    const value = cleanCell(text);
+    if (value.length < 3 || value.length > 60) return false;
+    if (!/[A-Za-z؀-ۿ]/.test(value)) return false;
+    if (/\d/.test(value) || value.indexOf('@') !== -1) return false;
+    return true;
+  }
+
+  // No usable header (plain PDF tables, headerless sheets): the name column is
+  // the one whose values read like people — mostly letters, usually 2+ words.
+  function guessNameColumn(rows, startRow, taken) {
+    let width = 0;
+    rows.forEach((row) => { width = Math.max(width, (row || []).length); });
+    let bestIndex = -1;
+    let bestScore = 0;
+    for (let col = 0; col < width; col++) {
+      if (taken && taken[col]) continue;
+      let filled = 0;
+      let hits = 0;
+      let words = 0;
+      for (let i = startRow; i < rows.length; i++) {
+        const value = cleanCell((rows[i] || [])[col]);
+        if (!value) continue;
+        filled++;
+        if (looksLikePersonName(value)) { hits++; words += value.split(' ').length; }
+      }
+      if (!filled) continue;
+      const ratio = hits / filled;
+      if (ratio < 0.7) continue;
+      const score = ratio * 10 + Math.min(words / hits, 4);
+      if (score > bestScore) { bestScore = score; bestIndex = col; }
+    }
+    return bestIndex;
+  }
+
+  function isJunkName(name) {
+    const lower = name.toLowerCase();
+    if (!lower || looksLikeNumber(lower)) return true;
+    return JUNK_NAME_PREFIXES.some((word) => lower === word || lower.indexOf(word + ' ') === 0);
+  }
+
+  // Turn one sheet/page of raw cells into canonical people records.
+  function buildRecords(matrix) {
+    const empty = { records: [], mapping: {}, skipped: 0 };
+    const rows = (matrix || []).filter((row) => Array.isArray(row) && row.some((cell) => cleanCell(cell)));
+    if (!rows.length) return empty;
+
+    const headerIndex = findHeaderRow(rows);
+    const headers = headerIndex === -1 ? [] : rows[headerIndex].map(cleanCell);
+    const map = headerIndex === -1 ? resolveHeaderMap([]) : resolveHeaderMap(headers);
+    const dataStart = headerIndex === -1 ? 0 : headerIndex + 1;
+
+    if (map.name === -1 && map.firstName === -1) {
+      const taken = {};
+      FIELD_ORDER.forEach((field) => { if (map[field] !== -1) taken[map[field]] = true; });
+      map.name = guessNameColumn(rows, dataStart, taken);
+    }
+    if (map.name === -1 && map.firstName === -1) return empty;
+
+    const at = (cells, index) => (index === -1 ? '' : cleanCell(cells[index]));
+    const records = [];
+    let skipped = 0;
+
+    for (let i = dataStart; i < rows.length; i++) {
+      const cells = (rows[i] || []).map(cleanCell);
+      let name = cleanName(at(cells, map.name));
+      if (!name) name = cleanName([at(cells, map.firstName), at(cells, map.lastName)].filter(Boolean).join(' '));
+      if (!name || isJunkName(name)) { skipped++; continue; }
+
+      const raw = {};
+      if (headers.length) headers.forEach((header, index) => { if (header) raw[header] = cells[index] || ''; });
+      else cells.forEach((cell, index) => { if (cell) raw['Column ' + (index + 1)] = cell; });
+
+      records.push({
+        name: name,
+        className: at(cells, map.className),
+        section: at(cells, map.section),
+        roll: at(cells, map.roll),
+        gender: at(cells, map.gender),
+        fatherName: cleanName(at(cells, map.fatherName)),
+        phone: at(cells, map.phone),
+        email: at(cells, map.email),
+        status: at(cells, map.status),
+        role: at(cells, map.role),
+        raw: raw
+      });
+    }
+
+    const mapping = {};
+    FIELD_ORDER.forEach((field) => {
+      if (map[field] === -1 || !FIELD_LABELS[field]) return;
+      mapping[field] = headers[map[field]] || ('Column ' + (map[field] + 1));
+    });
+    return { records: records, mapping: mapping, skipped: skipped };
+  }
+
+  function splitDelimitedLine(line, separator) {
+    const out = [];
+    let current = '';
+    let inQuotes = false;
+    for (let i = 0; i < line.length; i++) {
+      const ch = line[i];
+      if (ch === '"') {
+        if (inQuotes && line[i + 1] === '"') { current += '"'; i++; }
+        else inQuotes = !inQuotes;
+      } else if (ch === separator && !inQuotes) { out.push(current); current = ''; }
+      else current += ch;
+    }
+    out.push(current);
+    return out.map((cell) => cell.trim());
+  }
+
+  function parseDelimitedMatrix(text) {
+    const CR = String.fromCharCode(13);
+    const LF = String.fromCharCode(10);
+    const TAB = String.fromCharCode(9);
+    const lines = String(text || '').split(CR + LF).join(LF).split(CR).join(LF).split(LF).filter((line) => line.trim().length);
+    if (!lines.length) return [];
+    const sample = lines.slice(0, 5).join(LF);
+    const counts = [
+      { sep: ',', n: sample.split(',').length },
+      { sep: ';', n: sample.split(';').length },
+      { sep: TAB, n: sample.split(TAB).length }
+    ].sort((a, b) => b.n - a.n);
+    const separator = counts[0].n > 1 ? counts[0].sep : ',';
+    return lines.map((line) => splitDelimitedLine(line, separator));
+  }
+
+  async function parseSheetMatrices(file) {
+    if (!window.XLSX) throw new Error('Spreadsheet reader could not load — check your internet connection and try again.');
+    const buffer = await file.arrayBuffer();
+    const workbook = window.XLSX.read(buffer, { type: 'array' });
+    // Many schools split classes across sheets, so read every one of them.
+    return workbook.SheetNames.map((sheetName) => window.XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], { header: 1, defval: '', blankrows: false, raw: false }));
+  }
+
+  async function parseDOCXMatrix(file) {
+    const buffer = await file.arrayBuffer();
+    if (!window.mammoth) return parseDelimitedMatrix(new TextDecoder().decode(buffer));
+    const result = await window.mammoth.convertToHtml({ arrayBuffer: buffer });
+    const parsed = new DOMParser().parseFromString(result.value || '', 'text/html');
+    const matrix = [];
+    Array.from(parsed.querySelectorAll('table')).forEach((table) => {
+      Array.from(table.querySelectorAll('tr')).forEach((tr) => {
+        matrix.push(Array.from(tr.querySelectorAll('th,td')).map((cell) => cleanCell(cell.textContent)));
+      });
+    });
+    if (matrix.length) return matrix;
+    const plain = parsed.body ? parsed.body.textContent || '' : '';
+    return parseDelimitedMatrix(plain);
+  }
+
+  async function parsePDFMatrix(file) {
+    const lib = window.pdfjsLib;
+    if (!lib) throw new Error('PDF reader could not load — check your internet connection, or export the list as Excel/CSV.');
+    const buffer = await file.arrayBuffer();
+    const pdf = await lib.getDocument({ data: buffer }).promise;
+    const matrix = [];
+    for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++) {
+      const page = await pdf.getPage(pageNumber);
+      const content = await page.getTextContent();
+      const lines = new Map();
+      content.items.forEach((item) => {
+        const text = cleanCell(item.str);
+        if (!text) return;
+        // Round the baseline so fragments printed on the same visual row group together.
+        const key = Math.round(item.transform[5] / 3);
+        if (!lines.has(key)) lines.set(key, []);
+        lines.get(key).push({ x: item.transform[4], width: item.width || 0, text: text });
+      });
+      Array.from(lines.keys()).sort((a, b) => b - a).forEach((key) => {
+        const parts = lines.get(key).sort((a, b) => a.x - b.x);
+        const cells = [];
+        let current = null;
+        parts.forEach((part) => {
+          // A wide gap means a new column; a small one is just letter spacing.
+          if (current && (part.x - (current.x + current.width)) < 8) {
+            current.text += ' ' + part.text;
+            current.width = (part.x + part.width) - current.x;
+          } else {
+            current = { x: part.x, width: part.width, text: part.text };
+            cells.push(current);
+          }
+        });
+        matrix.push(cells.map((cell) => cleanCell(cell.text)));
+      });
+    }
+    return matrix;
+  }
+
+  async function parseFileToTables(file) {
+    const fileName = (file.name || '').toLowerCase();
+    if (fileName.endsWith('.pdf')) return [await parsePDFMatrix(file)];
+    if (fileName.endsWith('.xls') || fileName.endsWith('.xlsx') || fileName.endsWith('.xlsm') || fileName.endsWith('.ods')) return await parseSheetMatrices(file);
+    if (fileName.endsWith('.docx')) return [await parseDOCXMatrix(file)];
+    return [parseDelimitedMatrix(await file.text())];
+  }
+  /* --- roster-parse:end --- */
+
   // Bulk import helpers: parsing and preview
   window.openBulkImportModal = () => {
     const modal = document.getElementById('bulkImportModal'); if(modal) modal.classList.remove('d-none');
@@ -3509,207 +3832,168 @@
   window.handleBulkFileInput = async (input) => {
     const file = input.files && input.files[0];
     if(!file) return;
-    const fname = (file.name || '').toLowerCase();
-    document.getElementById('bulkImportCounts').textContent = 'Parsing file...';
-    let rows = [];
+    const countsEl = document.getElementById('bulkImportCounts');
+    const previewEl = document.getElementById('bulkPreviewBody');
+    countsEl.textContent = 'Reading ' + file.name + '...';
+    previewEl.innerHTML = '';
+    window.bulkImportPreview = null;
+
+    let tables = [];
     try {
-      if (fname.endsWith('.csv') || fname.endsWith('.txt')) {
-        const text = await file.text();
-        rows = parseCSV(text);
-      } else if (fname.endsWith('.xlsx') || fname.endsWith('.xls')) {
-        rows = await parseXLSX(file);
-      } else if (fname.endsWith('.docx')) {
-        rows = await parseDOCX(file);
-      } else {
-        const text = await file.text();
-        rows = parseCSV(text);
-      }
+      tables = await parseFileToTables(file);
     } catch(err) {
-      document.getElementById('bulkPreviewBody').textContent = 'Error parsing file: ' + err.message;
-      document.getElementById('bulkImportCounts').textContent = '';
+      previewEl.textContent = 'Could not read this file: ' + err.message;
+      countsEl.textContent = '';
       return;
     }
 
     const teachers = [], students = [], parents = [];
-    rows.forEach(r => {
-      const role = detectRole(r);
-      if (role === 'teacher') teachers.push(r);
-      else if (role === 'parent') parents.push(r);
-      else students.push(r);
+    const mapping = {};
+    let skipped = 0;
+    tables.forEach((table) => {
+      const parsed = buildRecords(table);
+      skipped += parsed.skipped;
+      Object.keys(parsed.mapping).forEach((field) => { if (!mapping[field]) mapping[field] = parsed.mapping[field]; });
+      parsed.records.forEach((record) => {
+        const role = detectRole(record);
+        if (role === 'teacher') teachers.push(record);
+        else if (role === 'parent') parents.push(record);
+        else students.push(record);
+      });
     });
 
-    window.bulkImportPreview = { rows: rows, teachers: teachers, students: students, parents: parents };
-
-    document.getElementById('bulkImportCounts').textContent = 'Detected: ' + teachers.length + ' teachers, ' + students.length + ' students, ' + parents.length + ' parents';
-
-    function makeTable(arr, title, limit) {
-      if(!arr || arr.length === 0) return '<div style="margin-bottom:8px; color:#94a3b8;">No ' + title + '</div>';
-      let t = '<div style="margin-bottom:10px;"><b>' + title + ' (' + arr.length + ')</b><table style="width:100%; border-collapse:collapse; margin-top:6px;">';
-      const cols = Object.keys(arr[0]).slice(0,8);
-      t += '<tr>';
-      cols.forEach(c => { t += '<th style="text-align:left; padding:6px 8px; color:#64748b; font-weight:700;">' + c + '</th>'; });
-      t += '</tr>';
-      const lim = Math.min(arr.length, limit || 5);
-      for (let i = 0; i < lim; i++) {
-        t += '<tr>';
-        cols.forEach(c => { t += '<td style="padding:6px 8px; border-top:1px solid #f1f5f9;">' + (arr[i][c] || '') + '</td>'; });
-        t += '</tr>';
-      }
-      t += '</table></div>';
-      return t;
+    const total = teachers.length + students.length + parents.length;
+    if (!total) {
+      countsEl.textContent = '';
+      previewEl.innerHTML = '<div style="color:#ef4444; font-weight:700;">No names found in this file.</div>' +
+        '<div style="color:#64748b; margin-top:6px;">Make sure the sheet has one row per person with a name column (for example "Student Name" or "Full Name"), then upload again.</div>';
+      return;
     }
 
+    window.bulkImportPreview = { teachers: teachers, students: students, parents: parents };
+    countsEl.textContent = 'Detected: ' + students.length + ' students, ' + teachers.length + ' teachers, ' + parents.length + ' parents';
+
+    // Show which column the system locked onto — the admin can spot a wrong
+    // guess here instead of after 300 blank rows land in the directory.
+    const mappedFields = Object.keys(mapping);
     let html = '';
-    html += makeTable(teachers, 'Teachers', 5);
-    html += makeTable(students, 'Students', 5);
-    html += makeTable(parents, 'Parents', 5);
-    html += '<div style="color:#94a3b8; font-size:0.9rem; margin-top:6px;">Preview shows first 5 rows of each group. Click Import to confirm.</div>';
-    document.getElementById('bulkPreviewBody').innerHTML = html;
+    if (mappedFields.length) {
+      html += '<div style="margin-bottom:10px; font-size:0.85rem; color:#475569;"><b>Columns detected:</b> ' +
+        mappedFields.map((field) => FIELD_LABELS[field] + ' &larr; "' + mapping[field] + '"').join(' &nbsp;•&nbsp; ') + '</div>';
+    }
+    if (skipped) {
+      html += '<div style="margin-bottom:10px; font-size:0.85rem; color:#b45309;"><i class="fas fa-info-circle"></i> ' + skipped + ' row(s) skipped — no name in them.</div>';
+    }
+
+    function makeTable(records, title) {
+      if (!records.length) return '';
+      const columns = ['name','className','section','roll','fatherName','phone'].filter((field) => records.some((record) => record[field]));
+      let markup = '<div style="margin-bottom:12px;"><b>' + title + ' (' + records.length + ')</b>' +
+        '<table style="width:100%; border-collapse:collapse; margin-top:6px; font-size:0.85rem;"><tr>';
+      columns.forEach((field) => { markup += '<th style="text-align:left; padding:6px 8px; color:#64748b; font-weight:700;">' + FIELD_LABELS[field] + '</th>'; });
+      markup += '</tr>';
+      records.slice(0, 5).forEach((record) => {
+        markup += '<tr>';
+        columns.forEach((field) => { markup += '<td style="padding:6px 8px; border-top:1px solid #f1f5f9;">' + (record[field] || '') + '</td>'; });
+        markup += '</tr>';
+      });
+      return markup + '</table></div>';
+    }
+
+    html += makeTable(students, 'Students');
+    html += makeTable(teachers, 'Teachers');
+    html += makeTable(parents, 'Parents');
+    html += '<div style="color:#94a3b8; font-size:0.85rem; margin-top:6px;">Preview shows the first 5 rows of each group. Click Confirm Import to add all ' + total + '.</div>';
+    previewEl.innerHTML = html;
   };
 
   window.confirmBulkImport = async (trigger) => {
     const preview = window.bulkImportPreview;
     if(!preview) return alert('No data to import. Upload a file first.');
     const btn = trigger || (typeof event !== 'undefined' && event && event.target ? event.target : null);
-    if(btn) { btn.disabled = true; btn.textContent = 'Importing...'; }
+    const originalLabel = btn ? btn.innerHTML : '';
+    if(btn) { btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Importing...'; }
+    const countsEl = document.getElementById('bulkImportCounts');
     try {
-      let tCount = 0, sCount = 0, pCount = 0;
-      // Teachers
-      for (const r of preview.teachers) {
+      const createdAt = new Date().toISOString();
+      const schoolId = currentAdminSession.school_id;
+      const queue = [];
+
+      preview.teachers.forEach((record) => {
         const code = genCode('TCH');
-        const name = r.name || r['Full Name'] || r['full name'] || r['Name'] || '';
-        const rawClass = r.class || r.Class || r['class_id'] || r['Class'] || r['Class Name'] || r['assigned_class'] || r['assigned_classes'] || r['classes'] || '';
-        const classList = splitClassNames(rawClass);
-        const classId = classList.join(', ');
-        const payload = { code: code, role: 'teacher', school_id: currentAdminSession.school_id, class_id: classId, name: name, raw: r, status: 'pending', created_at: new Date().toISOString() };
-        await setDoc(doc(db, 'invites', code), payload);
-        tCount++;
-      }
-      // Students (create parent invites as well)
-      for (const r of preview.students) {
+        queue.push({ code: code, payload: {
+          code: code, role: 'teacher', school_id: schoolId, name: record.name,
+          class_id: splitClassNames(record.className).join(', '), section: record.section,
+          phone: record.phone, email: record.email,
+          raw: record.raw, status: 'pending', created_at: createdAt
+        } });
+      });
+
+      // Every student also gets a parent invite linked to their code.
+      preview.students.forEach((record) => {
         const code = genCode('STU');
-        const parCode = genCode('PAR');
-        const name = r.name || r['Full Name'] || r['Name'] || '';
-        const rawClass = r.class || r.Class || r['class_id'] || r['Class'] || r['Class Name'] || '';
-        const classId = normalizeClassName(rawClass);
-        const payload = { code: code, role: 'student', school_id: currentAdminSession.school_id, class_id: classId, name: name, raw: r, status: 'pending', created_at: new Date().toISOString() };
-        const parPayload = { code: parCode, role: 'parent', school_id: currentAdminSession.school_id, linked_student_code: code, status: 'pending', created_at: new Date().toISOString() };
-        await setDoc(doc(db, 'invites', code), payload);
-        await setDoc(doc(db, 'invites', parCode), parPayload);
-        sCount++;
-      }
-      // Parents only (no linked student)
-      for (const r of preview.parents) {
+        const parentCode = genCode('PAR');
+        queue.push({ code: code, payload: {
+          code: code, role: 'student', school_id: schoolId, name: record.name,
+          class_id: normalizeClassName(record.className), section: record.section,
+          roll_number: record.roll, gender: record.gender,
+          parent_name: record.fatherName, parent_phone: record.phone, parent_email: record.email,
+          raw: record.raw, status: 'pending', created_at: createdAt
+        } });
+        queue.push({ code: parentCode, payload: {
+          code: parentCode, role: 'parent', school_id: schoolId, linked_student_code: code,
+          name: record.fatherName, phone: record.phone, email: record.email,
+          status: 'pending', created_at: createdAt
+        } });
+      });
+
+      preview.parents.forEach((record) => {
         const code = genCode('PAR');
-        const name = r.name || r['Name'] || '';
-        const payload = { code: code, role: 'parent', school_id: currentAdminSession.school_id, name: name, raw: r, status: 'pending', created_at: new Date().toISOString() };
-        await setDoc(doc(db, 'invites', code), payload);
-        pCount++;
+        queue.push({ code: code, payload: {
+          code: code, role: 'parent', school_id: schoolId, name: record.name,
+          phone: record.phone, email: record.email,
+          raw: record.raw, status: 'pending', created_at: createdAt
+        } });
+      });
+
+      // Firestore caps a batch at 500 writes, and a 300-row roster is 600+
+      // documents — one write per row would take minutes.
+      const CHUNK = 400;
+      for (let i = 0; i < queue.length; i += CHUNK) {
+        const chunk = queue.slice(i, i + CHUNK);
+        const batch = writeBatch(db);
+        chunk.forEach((item) => batch.set(doc(db, 'invites', item.code), item.payload));
+        await batch.commit();
+        if (countsEl) countsEl.textContent = 'Importing... ' + Math.min(i + chunk.length, queue.length) + ' / ' + queue.length + ' records';
       }
 
       closeModal('bulkImportModal');
       await loadDashboardData();
-      alert('Imported: ' + tCount + ' teachers, ' + sCount + ' students, ' + pCount + ' parents.');
+      alert('Imported: ' + preview.students.length + ' students, ' + preview.teachers.length + ' teachers, ' + preview.parents.length + ' parents.');
+      window.bulkImportPreview = null;
+      const fileInput = document.getElementById('bulkFileInput');
+      if (fileInput) fileInput.value = '';
+      if (countsEl) countsEl.textContent = '';
+      document.getElementById('bulkPreviewBody').innerHTML = '';
     } catch(err) {
       alert('Import failed: ' + err.message);
     } finally {
-      if(btn) { btn.disabled = false; btn.textContent = 'Confirm Import'; }
+      if(btn) { btn.disabled = false; btn.innerHTML = originalLabel || '<i class="fas fa-check"></i> Confirm Import'; }
     }
   };
 
-  function parseCSV(text) {
-    const out = [];
-    // Normalize all CR/LF variations to LF using character codes to avoid
-    // accidental escape-sequence mangling inside template literals.
-    const CR = String.fromCharCode(13);
-    const LF = String.fromCharCode(10);
-    const normalized = text.split(CR + LF).join(LF).split(CR).join(LF);
-    const lines = normalized.split(LF);
-    if (!lines.length) return out;
+  function detectRole(record) {
+    // An explicit Role/Type column always wins.
+    const declared = String(record.role || '').toLowerCase();
+    if (declared.indexOf('teach') !== -1 || declared.indexOf('faculty') !== -1 || declared.indexOf('staff') !== -1) return 'teacher';
+    if (declared.indexOf('parent') !== -1 || declared.indexOf('guardian') !== -1) return 'parent';
+    if (declared.indexOf('stud') !== -1 || declared.indexOf('pupil') !== -1) return 'student';
 
-    function parseLine(line) {
-      const res = [];
-      let cur = ''; let inQuotes = false;
-      for (let i = 0; i < line.length; i++) {
-        const ch = line[i];
-        if (ch === '"') {
-          if (inQuotes && i + 1 < line.length && line[i+1] === '"') { cur += '"'; i++; }
-          else inQuotes = !inQuotes;
-        } else if (ch === ',' && !inQuotes) { res.push(cur); cur = ''; }
-        else cur += ch;
-      }
-      res.push(cur);
-      return res;
-    }
-
-    const header = parseLine((lines[0] || '')).map(h => h.trim());
-    for (let i = 1; i < lines.length; i++) {
-      let line = lines[i];
-      if (!line || !line.trim()) continue;
-      // strip any stray CR remaining at line end
-      if (line.charCodeAt(line.length - 1) === 13) line = line.slice(0, -1);
-      const vals = parseLine(line);
-      const obj = {};
-      for (let j = 0; j < header.length; j++) { obj[header[j]] = vals[j] ? vals[j].trim() : ''; }
-      out.push(obj);
-    }
-    return out;
-  }
-
-  async function parseXLSX(file) {
-    const ab = await file.arrayBuffer();
-    const wb = window.XLSX.read(ab, { type: 'array' });
-    const first = wb.SheetNames[0];
-    const ws = wb.Sheets[first];
-    const json = window.XLSX.utils.sheet_to_json(ws, { defval: '' });
-    return json;
-  }
-
-  async function parseDOCX(file) {
-    const ab = await file.arrayBuffer();
-    if (!window.mammoth) {
-      // fallback to text
-      const text = new TextDecoder().decode(ab);
-      return parseCSV(text);
-    }
-    const result = await window.mammoth.convertToHtml({ arrayBuffer: ab });
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(result.value || '', 'text/html');
-    const table = doc.querySelector('table');
-    if (table) {
-      const trs = Array.from(table.querySelectorAll('tr'));
-      if (!trs.length) return [];
-      const headers = Array.from(trs[0].querySelectorAll('th,td')).map(h => h.textContent.trim());
-      const out = [];
-      for (let i = 1; i < trs.length; i++) {
-        const cells = Array.from(trs[i].querySelectorAll('td,th'));
-        const obj = {};
-        for (let j = 0; j < headers.length; j++) { obj[headers[j]] = cells[j] ? (cells[j].textContent || '').trim() : ''; }
-        out.push(obj);
-      }
-      return out;
-    }
-    // fallback: treat text content as CSV-like
-    const plain = doc.body ? doc.body.textContent || '' : '';
-    if (plain.includes(',')) return parseCSV(plain);
-    return [{ content: plain }];
-  }
-
-  function detectRole(row) {
-    const lower = {};
-    Object.keys(row).forEach(k => lower[k.toLowerCase()] = String(row[k] || '').toLowerCase());
-    if (lower.role || lower.type || lower.user_type) {
-      const v = lower.role || lower.type || lower.user_type;
-      if (v.indexOf('teach') !== -1) return 'teacher';
-      if (v.indexOf('student') !== -1 || v.indexOf('stu') !== -1) return 'student';
-      if (v.indexOf('parent') !== -1 || v.indexOf('par') !== -1) return 'parent';
-    }
-    const keys = Object.keys(lower);
-    if (keys.some(k => k.indexOf('class') !== -1 || k.indexOf('grade') !== -1 || k.indexOf('student') !== -1 || k.indexOf('roll') !== -1)) return 'student';
-    if (keys.some(k => k.indexOf('subject') !== -1 || k.indexOf('qualification') !== -1 || k.indexOf('teacher') !== -1 || k.indexOf('employee') !== -1)) return 'teacher';
-    if (keys.some(k => k.indexOf('parent') !== -1 || k.indexOf('guardian') !== -1 || k.indexOf('linked') !== -1)) return 'parent';
-    const vals = Object.values(lower).join(' ');
-    if (vals.indexOf('parent') !== -1) return 'parent';
+    // Otherwise infer from the column names the file actually carries.
+    const keys = Object.keys(record.raw || {}).map(normalizeKey).join(' ');
+    if (keys.indexOf('teachername') !== -1 || keys.indexOf('employee') !== -1 || keys.indexOf('qualification') !== -1 || keys.indexOf('subject') !== -1) return 'teacher';
+    if (keys.indexOf('student') !== -1 || keys.indexOf('class') !== -1 || keys.indexOf('grade') !== -1 || keys.indexOf('roll') !== -1 || keys.indexOf('admission') !== -1) return 'student';
+    if (keys.indexOf('guardian') !== -1 || keys.indexOf('parent') !== -1) return 'parent';
     return 'student';
   }
 
