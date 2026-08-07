@@ -1,6 +1,7 @@
 import { Hono } from 'hono'
 import activitiesData from './data/activities.json'
 import { html } from 'hono/html'
+import { firebaseConfigJS } from './lib/firebaseConfig'
 import { Head } from './components/Head'
 import { ScrollProgress } from './components/ScrollProgress'
 import { Preloader } from './components/Preloader'
@@ -146,11 +147,27 @@ app.get('/admin-dashboard', async (c) => {
   const fs = await import('node:fs')
   const path = await import('node:path')
   const filePath = path.default.join(process.cwd(), 'public', 'admin-dashboard.html')
+  let source: string
   try {
-    return c.html(fs.default.readFileSync(filePath, 'utf-8'))
+    source = fs.default.readFileSync(filePath, 'utf-8')
   } catch (e) {
     return c.html(generateSchoolAdminDashboardHTML())
   }
+
+  // That file is plain static HTML, so Vite never substitutes import.meta.env
+  // into it and its Firebase block was a hardcoded literal — the one page whose
+  // key the .env / GitHub Secrets could not reach. Swap the block for the
+  // env-built one so the config lives in exactly one place, like it does in
+  // every SSG-rendered page.
+  const CONFIG_BLOCK = /const firebaseConfig = \{[\s\S]*?\};/
+  if (!CONFIG_BLOCK.test(source)) {
+    // Fail the build rather than quietly shipping a config .env can't change.
+    throw new Error(
+      'admin-dashboard.html: firebaseConfig block not found. If it was renamed ' +
+      'or reformatted, update this route to match.'
+    )
+  }
+  return c.html(source.replace(CONFIG_BLOCK, 'const firebaseConfig = ' + firebaseConfigJS + ';'))
 })
 
 app.get('/super-admin-dashboard', (c) => {

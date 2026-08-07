@@ -1,4 +1,5 @@
-import { html } from 'hono/html'
+import { html, raw } from 'hono/html'
+import { firebaseConfigJS } from '../lib/firebaseConfig'
 
 // NOTE: the live school admin dashboard is public/admin-dashboard.html — the
 // /admin-dashboard route serves that file and only falls back to this older
@@ -2889,14 +2890,7 @@ export const SchoolAdminDashboard = () => html`
   import { getFirestore, doc, getDoc, collection, query, where, getDocs, setDoc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
   import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-storage.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyA4MrV-oXhK_johreyzIucti5RFrKcvyG8",
-    authDomain: "imaan-app-1d2da.firebaseapp.com",
-    projectId: "imaan-app-1d2da",
-    storageBucket: "imaan-app-1d2da.firebasestorage.app",
-    messagingSenderId: "373650938167",
-    appId: "1:373650938167:web:e9da1317c118bc720d22b2"
-  };
+  const firebaseConfig = ${raw(firebaseConfigJS)};
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
@@ -2907,7 +2901,57 @@ export const SchoolAdminDashboard = () => html`
     void msg;
   }
 
-  function genCode(prefix) { return prefix + '-' + Math.random().toString(36).substr(2,5).toUpperCase(); }
+  // An invite code IS the secret: the /invites/{code} rule is "allow get: if
+  // true", so anyone holding the exact code can read it and register against
+  // it. The old generator was Math.random().toString(36).substr(2,5) — about
+  // 26 bits, non-cryptographic, and every write path uses setDoc/batch.set,
+  // which SILENTLY OVERWRITES an existing doc. Around 10k invites that was a
+  // better-than-even chance of one roster row clobbering another, leaving two
+  // people pointed at the same code with no error shown.
+  //
+  // Alphabet omits 0/O/1/I/L/U so codes survive being read off a printed
+  // roster sheet. 30^10 ~= 2^49 combinations.
+  const CODE_ALPHABET = '23456789ABCDEFGHJKMNPQRSTVWXYZ';
+  const CODE_LENGTH = 10;
+
+  function randomCodeBody() {
+    const n = CODE_ALPHABET.length;
+    // Reject bytes >= 240 so that the modulo stays uniform (256 % 30 would
+    // otherwise make the first 16 letters slightly more likely).
+    const limit = 256 - (256 % n);
+    const buf = new Uint8Array(CODE_LENGTH * 2);
+    let out = '';
+    while (out.length < CODE_LENGTH) {
+      crypto.getRandomValues(buf);
+      for (let i = 0; i < buf.length && out.length < CODE_LENGTH; i++) {
+        if (buf[i] < limit) out += CODE_ALPHABET[buf[i] % n];
+      }
+    }
+    return out;
+  }
+
+  // The "taken" set holds every code already spoken for — this school's
+  // existing invites plus everything generated earlier in the same import —
+  // so a new code can never overwrite one of them.
+  function genCode(prefix, taken) {
+    for (let attempt = 0; attempt < 50; attempt++) {
+      const code = prefix + '-' + randomCodeBody();
+      if (!taken || !taken.has(code)) {
+        if (taken) taken.add(code);
+        return code;
+      }
+    }
+    throw new Error('Could not generate a unique invite code. Please retry.');
+  }
+
+  // Codes this school already uses. Cross-school collisions are not checkable
+  // from the client (the rules only allow listing your own school's invites),
+  // but at 2^49 they are negligible.
+  function existingCodes() {
+    const taken = new Set();
+    invitesList.forEach((invite) => { if (invite && invite.code) taken.add(invite.code); });
+    return taken;
+  }
 
   const loginView = document.getElementById('adminLoginView');
   const dashboardView = document.getElementById('adminDashboardView');
@@ -3148,9 +3192,12 @@ export const SchoolAdminDashboard = () => html`
     const btn = event && event.target ? event.target : null; if(btn) { btn.disabled = true; btn.textContent = 'Importing...'; }
     try {
       let tCount = 0, sCount = 0, pCount = 0;
+      // Shared across every row below, so no two codes in this import can
+      // match each other or an invite the school already has.
+      const taken = existingCodes();
       // Teachers
       for (const r of preview.teachers) {
-        const code = genCode('TCH');
+        const code = genCode('TCH', taken);
         const name = r.name || r['Full Name'] || r['full name'] || r['Name'] || '';
         const payload = { code: code, role: 'teacher', school_id: currentAdminSession.school_id, name: name, raw: r, status: 'pending', created_at: new Date().toISOString() };
         await setDoc(doc(db, 'invites', code), payload);
@@ -3158,8 +3205,8 @@ export const SchoolAdminDashboard = () => html`
       }
       // Students (create parent invites as well)
       for (const r of preview.students) {
-        const code = genCode('STU');
-        const parCode = genCode('PAR');
+        const code = genCode('STU', taken);
+        const parCode = genCode('PAR', taken);
         const name = r.name || r['Full Name'] || r['Name'] || '';
         const classId = r.class || r.Class || r['class_id'] || r['Class'] || r['Class Name'] || '';
         const payload = { code: code, role: 'student', school_id: currentAdminSession.school_id, class_id: classId, name: name, raw: r, status: 'pending', created_at: new Date().toISOString() };
@@ -3170,7 +3217,7 @@ export const SchoolAdminDashboard = () => html`
       }
       // Parents only (no linked student)
       for (const r of preview.parents) {
-        const code = genCode('PAR');
+        const code = genCode('PAR', taken);
         const name = r.name || r['Name'] || '';
         const payload = { code: code, role: 'parent', school_id: currentAdminSession.school_id, name: name, raw: r, status: 'pending', created_at: new Date().toISOString() };
         await setDoc(doc(db, 'invites', code), payload);
@@ -3740,7 +3787,7 @@ export const SchoolAdminDashboard = () => html`
     const cls = classes.join(', ');
     if(!name) return;
 
-    const tchCode = genCode('TCH');
+    const tchCode = genCode('TCH', existingCodes());
     const btn = trigger || document.querySelector('#teacherModal .btn-solid');
     if (btn) {
       btn.disabled = true;
@@ -3800,8 +3847,9 @@ export const SchoolAdminDashboard = () => html`
     const cls = document.getElementById('newStuClass').value;
     if(!name) return;
     
-    const stuCode = genCode('STU');
-    const parCode = genCode('PAR');
+    const stuTaken = existingCodes();
+    const stuCode = genCode('STU', stuTaken);
+    const parCode = genCode('PAR', stuTaken);
     const btn = trigger || document.querySelector('#studentModal .btn-solid');
     if (btn) {
       btn.disabled = true;

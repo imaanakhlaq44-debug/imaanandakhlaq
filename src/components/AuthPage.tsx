@@ -1,4 +1,5 @@
-import { html } from 'hono/html'
+import { html, raw } from 'hono/html'
+import { FIREBASE_CONFIG, firebaseConfigJS } from '../lib/firebaseConfig'
 
 export const AuthPage = () => html`
 <style>
@@ -1080,7 +1081,7 @@ export const AuthPage = () => html`
           <h3 class="auth-box-title">Teacher Registration</h3>
           <p class="auth-box-desc">Enter the invite code given by your school admin.</p>
           
-          <div class="form-group"><label class="form-label">Invitation Code</label><input type="text" class="form-control code-input-lg" id="regTchCode" placeholder="TCH-XXXXX" maxlength="9"></div>
+          <div class="form-group"><label class="form-label">Invitation Code</label><input type="text" class="form-control code-input-lg" id="regTchCode" placeholder="TCH-XXXXXXXXXX" maxlength="14"></div>
           <div class="form-grid">
             <div class="form-group"><label class="form-label">Full Name</label><input type="text" class="form-control" id="regTchName" placeholder="Zaid Ahmed"></div>
             <div class="form-group"><label class="form-label">Phone</label><input type="text" class="form-control" id="regTchPhone" placeholder="03XXXXXXXXX"></div>
@@ -1099,7 +1100,7 @@ export const AuthPage = () => html`
         <div class="auth-box">
           <h3 class="auth-box-title">Student Registration</h3>
           <p class="auth-box-desc">Enter the student code provided by the school.</p>
-          <div class="form-group"><label class="form-label">Student Code</label><input type="text" class="form-control code-input-lg" id="regStuCode" placeholder="STU-XXXXX" maxlength="9"></div>
+          <div class="form-group"><label class="form-label">Student Code</label><input type="text" class="form-control code-input-lg" id="regStuCode" placeholder="STU-XXXXXXXXXX" maxlength="14"></div>
           <div class="form-group"><label class="form-label">Student Full Name</label><input type="text" class="form-control" id="regStuName" placeholder="Ali Raza"></div>
           <div class="form-grid">
             <div class="form-group"><label class="form-label">Student/Parent Email</label><input type="email" class="form-control" id="regStuEmail" placeholder="email@example.com"></div>
@@ -1118,7 +1119,7 @@ export const AuthPage = () => html`
         <div class="auth-box">
           <h3 class="auth-box-title">Parent Registration</h3>
           <p class="auth-box-desc">Link to your child using the parent invitation code.</p>
-          <div class="form-group"><label class="form-label">Parent Invite Code</label><input type="text" class="form-control code-input-lg" id="regParCode" placeholder="PAR-XXXXX" maxlength="9"></div>
+          <div class="form-group"><label class="form-label">Parent Invite Code</label><input type="text" class="form-control code-input-lg" id="regParCode" placeholder="PAR-XXXXXXXXXX" maxlength="14"></div>
           <div class="form-group"><label class="form-label">Parent Full Name</label><input type="text" class="form-control" id="regParName" placeholder="Zubair Ahmed"></div>
           <div class="form-grid">
             <div class="form-group"><label class="form-label">Email</label><input type="email" class="form-control" id="regParEmail" placeholder="parent@example.com"></div>
@@ -1293,8 +1294,8 @@ export const AuthPage = () => html`
     if (window.__apkLegacyAuthInit) return;
     window.__apkLegacyAuthInit = true;
 
-    var FIREBASE_API_KEY = 'AIzaSyA4MrV-oXhK_johreyzIucti5RFrKcvyG8';
-    var FIREBASE_PROJECT_ID = 'imaan-app-1d2da';
+    var FIREBASE_API_KEY = '${raw(FIREBASE_CONFIG.apiKey)}';
+    var FIREBASE_PROJECT_ID = '${raw(FIREBASE_CONFIG.projectId)}';
 
     function showLegacyToast(message, type) {
       var toast = document.getElementById('authToast');
@@ -1553,14 +1554,7 @@ export const AuthPage = () => html`
 
   });
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyA4MrV-oXhK_johreyzIucti5RFrKcvyG8",
-    authDomain: "imaan-app-1d2da.firebaseapp.com",
-    projectId: "imaan-app-1d2da",
-    storageBucket: "imaan-app-1d2da.firebasestorage.app",
-    messagingSenderId: "373650938167",
-    appId: "1:373650938167:web:e9da1317c118bc720d22b2"
-  };
+  const firebaseConfig = ${raw(firebaseConfigJS)};
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
