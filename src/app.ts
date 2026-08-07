@@ -138,6 +138,25 @@ app.get('/teacher-dashboard', (c) => {
   return c.html(generateTeacherDashboardHTML())
 })
 
+// ---------------------------------------------------------------------------
+// What belongs in public/
+//
+// Two things write into dist/: Vite copies public/ verbatim, and the SSG
+// plugin renders every route below. When both produce the same filename the
+// SSG output wins — but only because the copy happens first, which nothing
+// enforces. So a page kept in public/ that ALSO has a route here is dead
+// weight: editing it changes nothing, and it drifts out of sync until someone
+// reads it and believes it.
+//
+// That is not hypothetical. public/super-admin-dashboard.html sat here long
+// enough to lose its super_admin role check, and a later review read that copy
+// and reported a security hole the live page did not have.
+//
+// So public/*.html is only for: pages with no route at all (viewer.html,
+// pdfviewer2.html), or pages a route reads explicitly, like the two below.
+// Everything else lives in src/components and is rendered, never copied.
+// ---------------------------------------------------------------------------
+
 // The school admin dashboard is maintained as a standalone page in
 // public/admin-dashboard.html (roster import, bulk delete, mobile layout).
 // The SSG build writes this route to dist/admin-dashboard.html, so rendering
