@@ -36,6 +36,14 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}\.html -f
 RewriteRule ^(.*)$ $1.html [L]
 
+# Same idea for the JSON routes. The SSG writes app.get('/api-activities')
+# out as api-activities.json, but only the .html rule above existed, so
+# /api-activities 404'd on Hostinger while passing the route test (that test
+# calls the Hono app directly and never sees these rewrites).
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.json -f
+RewriteRule ^(.*)$ $1.json [L]
+
 # Redirect root directory to index.html
 DirectoryIndex index.html
 
@@ -64,7 +72,78 @@ DirectoryIndex index.html
 # ----------------------------------------------------
 
 # Deny access to sensitive files
-<FilesMatch "\.(json|ps1|sh|md|ts|zip)$">
+#
+# NOTE: .json is deliberately NOT in this list. <FilesMatch> ignores the
+# directory, so denying it blocked every JSON the site actually serves:
+#   - kidba_assets/data/chapters_data.json  (fetched by the Parent Gate)
+#   - api-activities.json
+# The Parent Gate falls back to onComplete() when that fetch fails, so it
+# silently skipped itself on the live site while working fine in dev
+# (.htaccess is not applied by the Vite dev server).
+<FilesMatch "\.(ps1|sh|md|ts|zip)$">
   Order Allow,Deny
   Deny from all
 </FilesMatch>
+
+# The FTP deploy action writes its sync state into the web root, and that
+# file is a full manifest of every path + hash on the server. It is the one
+# JSON here that must stay private.
+<Files ".ftp-deploy-sync-state.json">
+  Order Allow,Deny
+  Deny from all
+</Files>
+
+# Directory listing off, and keep dotfiles/manifests out of reach.
+Options -Indexes
+<FilesMatch "^(\.env|\.git|\.gitignore|package\.json|package-lock\.json|composer\.json)$">
+  Order Allow,Deny
+  Deny from all
+</FilesMatch>
+
+# ----------------------------------------------------
+# COMPRESSION + CACHING
+# ----------------------------------------------------
+# These rules used to live in the repo-root .htaccess, which was written to be
+# pasted into hPanel by hand. Nothing ever copied it, and once the FTP workflow
+# started uploading dist/ to the web root it would have overwritten a
+# hand-placed copy anyway — so the site has been serving 3 PDFs, 64 images and
+# 3 fonts with no caching and no compression at all.
+#
+# Deliberately NOT re-adding the old file's long cache for .js/.css: the
+# no-store block near the top of this file is intentional, so that pushing a
+# fix actually reaches people instead of sitting behind a year-long cache.
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css
+  AddOutputFilterByType DEFLATE text/javascript application/javascript application/x-javascript
+  AddOutputFilterByType DEFLATE application/json application/xml image/svg+xml
+  # PDFs are already compressed internally (their images and streams are
+  # encoded), so expect a few percent here at best — not the 50-60% the old
+  # notes claimed. Kept because it costs nothing to leave on; drop this line
+  # if the shared host starts complaining about CPU.
+  AddOutputFilterByType DEFLATE application/pdf
+</IfModule>
+
+<IfModule mod_headers.c>
+  # Books: big and effectively immutable, so let repeat readers skip the download.
+  <FilesMatch "\.pdf$">
+    Header set Cache-Control "public, max-age=2592000, must-revalidate"
+  </FilesMatch>
+
+  # Images and fonts are content-addressed by filename in practice — safe to
+  # cache hard. (No js/css/html/json here, on purpose; see note above.)
+  <FilesMatch "\.(jpg|jpeg|png|gif|webp|ico|svg|woff|woff2|ttf|otf|eot)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# Hostinger does not always know these out of the box.
+<IfModule mod_mime.c>
+  AddType image/svg+xml svg svgz
+  AddType image/webp webp
+  AddType font/woff woff
+  AddType font/woff2 woff2
+  AddType application/vnd.ms-fontobject eot
+  AddType application/x-font-ttf ttf ttc
+</IfModule>
