@@ -1,0 +1,384 @@
+/* =========================================================
+   Web Dashboard Polish — Imaan & Akhlaq
+   Mirrors APK dashboard improvements but only applies the
+   compact layout below 760px so desktops keep the full layout.
+   Logout-button highlight + uniform teacher/student book cards
+   apply at all sizes.
+   ========================================================= */
+
+/* ---------- 1) Highlighted logout button (all sizes) ----- */
+.parent-page  .sidebar-logout-btn,
+.teacher-page .sidebar-logout-btn,
+.student-page .sidebar-logout-btn {
+  background: linear-gradient(180deg, #e85a4f 0%, #d63678 100%) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.28) !important;
+  box-shadow: 0 8px 18px rgba(214, 54, 120, 0.38) !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase !important;
+}
+.parent-page  .sidebar-logout-btn i,
+.teacher-page .sidebar-logout-btn i,
+.student-page .sidebar-logout-btn i { color: #ffffff !important; }
+
+.admin-page .nav-actions .btn-logout {
+  background: linear-gradient(180deg, #e85a4f 0%, #d63678 100%) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.28) !important;
+  box-shadow: 0 8px 18px rgba(214, 54, 120, 0.38) !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase !important;
+}
+.admin-page .nav-actions .btn-logout i { color: #ffffff !important; }
+
+/* ---------- 2) Uniform book-card style across roles ------- */
+/* Teacher's book grid should match the student's clean look */
+.teacher-page .books-grid,
+.parent-page  .books-grid,
+.student-page .books-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)) !important;
+  gap: 0.85rem !important;
+}
+.teacher-page .book-card,
+.parent-page  .book-card,
+.student-page .book-card {
+  background: #ffffff !important;
+  border: 1px solid rgba(214, 54, 120, 0.14) !important;
+  border-radius: 16px !important;
+  padding: 0.75rem !important;
+  box-shadow: 0 4px 14px rgba(30, 45, 90, 0.06) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.55rem !important;
+  transition: transform 0.18s ease, box-shadow 0.18s ease !important;
+}
+.teacher-page .book-card:hover,
+.parent-page  .book-card:hover,
+.student-page .book-card:hover {
+  transform: translateY(-3px) !important;
+  box-shadow: 0 10px 24px rgba(214, 54, 120, 0.18) !important;
+}
+.teacher-page .book-card-cover,
+.parent-page  .book-card-cover,
+.student-page .book-card-cover {
+  aspect-ratio: 4 / 3 !important;
+  border-radius: 12px !important;
+  overflow: hidden !important;
+  background: linear-gradient(135deg, #FDF8F5, #FFE9D8) !important;
+}
+.teacher-page .book-card-cover img,
+.parent-page  .book-card-cover img,
+.student-page .book-card-cover img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+.teacher-page .book-card-info h4,
+.parent-page  .book-card-info h4,
+.student-page .book-card-info h4 {
+  font-family: 'Fredoka One', cursive !important;
+  font-size: 0.95rem !important;
+  color: #1E2D5A !important;
+  margin: 0 !important;
+  line-height: 1.2 !important;
+}
+.teacher-page .book-card-info p,
+.parent-page  .book-card-info p,
+.student-page .book-card-info p {
+  font-size: 0.78rem !important;
+  color: #6B7280 !important;
+  margin: 0.25rem 0 0 !important;
+  line-height: 1.4 !important;
+}
+.teacher-page .book-card-btn,
+.parent-page  .book-card-btn,
+.student-page .book-card-btn {
+  margin-top: auto !important;
+  background: linear-gradient(135deg, #E08020, #D63678) !important;
+  color: #fff !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  padding: 0.5rem 0.85rem !important;
+  font-weight: 700 !important;
+  font-size: 0.8rem !important;
+  cursor: pointer !important;
+  letter-spacing: 0.3px !important;
+  box-shadow: 0 4px 12px rgba(214, 54, 120, 0.28) !important;
+}
+
+/* ---------- 3) Compact APK-style layout — mobile only ---- */
+@media (max-width: 760px) {
+  /* === SHARED: parent / teacher / student === */
+  .parent-page, .teacher-page, .student-page { padding: 0.5rem !important; }
+  .parent-page  .dashboard-shell,
+  .teacher-page .dashboard-shell,
+  .student-page .dashboard-shell { gap: 0.5rem !important; padding: 0 !important; grid-template-columns: 1fr !important; }
+
+  /* Sidebar -> compact top strip */
+  .parent-page  .sidebar-panel,
+  .teacher-page .sidebar-panel,
+  .student-page .sidebar-panel {
+    padding: 0.55rem 0.65rem !important;
+    border-radius: 14px !important;
+    gap: 0.4rem !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    position: static !important;
+  }
+  .parent-page  .sidebar-brand,
+  .teacher-page .sidebar-brand,
+  .student-page .sidebar-brand {
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+    text-align: left !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+  }
+  .parent-page  .sidebar-brand-art,
+  .teacher-page .sidebar-brand-art,
+  .student-page .sidebar-brand-art {
+    width: 38px !important; height: 38px !important; flex: 0 0 38px !important;
+    margin: 0 !important;
+  }
+  .parent-page  .sidebar-brand-art .sidebar-cam-badge,
+  .teacher-page .sidebar-brand-art .sidebar-cam-badge,
+  .student-page .sidebar-brand-art .sidebar-cam-badge { display: none !important; }
+  .parent-page  .sidebar-title,
+  .teacher-page .sidebar-title,
+  .student-page .sidebar-title { font-size: 0.95rem !important; line-height: 1.1 !important; }
+  .parent-page  .sidebar-subtitle, .parent-page  .sidebar-kicker,
+  .teacher-page .sidebar-subtitle, .teacher-page .sidebar-kicker,
+  .student-page .sidebar-subtitle, .student-page .sidebar-kicker {
+    font-size: 0.7rem !important; line-height: 1.2 !important; margin: 0 !important;
+  }
+
+  .parent-page  .sidebar-nav,
+  .teacher-page .sidebar-nav,
+  .student-page .sidebar-nav {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 0.3rem !important;
+    width: 100% !important;
+    margin: 0 !important; padding: 0 !important;
+  }
+  .parent-page  .sidebar-nav li,
+  .teacher-page .sidebar-nav li,
+  .student-page .sidebar-nav li {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    text-align: center !important;
+    gap: 0.35rem !important;
+    padding: 0.7rem 0.3rem !important;
+    font-size: 0.75rem !important;
+    min-height: 0 !important;
+    border-radius: 12px !important;
+  }
+  .parent-page  .sidebar-nav li:last-child:nth-child(7),
+  .teacher-page .sidebar-nav li:last-child:nth-child(7),
+  .student-page .sidebar-nav li:last-child:nth-child(7) {
+    grid-column: 2 !important;
+  }
+  .parent-page  .sidebar-nav li span:not(.nav-badge),
+  .teacher-page .sidebar-nav li span:not(.nav-badge),
+  .student-page .sidebar-nav li span:not(.nav-badge) { font-size: 0.75rem !important; line-height: 1.1 !important; font-weight: 500 !important; }
+  .parent-page  .sidebar-nav .nav-badge,
+  .teacher-page .sidebar-nav .nav-badge,
+  .student-page .sidebar-nav .nav-badge {
+    width: 26px !important; height: 26px !important; flex: 0 0 26px !important;
+    font-size: 0.8rem !important; border-radius: 8px !important;
+  }
+  .parent-page  .sidebar-note,
+  .teacher-page .sidebar-note,
+  .student-page .sidebar-note { display: none !important; }
+
+  /* Workspace bar */
+  .parent-page  .workspace-bar,
+  .teacher-page .workspace-bar,
+  .student-page .workspace-bar {
+    padding: 0.55rem 0.7rem !important;
+    gap: 0.5rem !important;
+    border-radius: 14px !important;
+    flex-wrap: wrap !important;
+  }
+  .parent-page  .workspace-art,
+  .teacher-page .workspace-art,
+  .student-page .workspace-art {
+    width: 42px !important; height: 42px !important; flex: 0 0 42px !important;
+  }
+  .parent-page  .workspace-art .school-cam-badge,
+  .teacher-page .workspace-art .school-cam-badge,
+  .student-page .workspace-art .school-cam-badge { display: none !important; }
+  .parent-page  .workspace-title,
+  .teacher-page .workspace-title,
+  .student-page .workspace-title { font-size: 1.05rem !important; line-height: 1.15 !important; }
+  .parent-page  .workspace-subtitle,
+  .teacher-page .workspace-subtitle,
+  .student-page .workspace-subtitle { font-size: 0.75rem !important; line-height: 1.25 !important; margin: 0 !important; }
+  .parent-page  .workspace-actions .dashboard-home-btn,
+  .parent-page  .workspace-actions .dashboard-ghost-btn,
+  .parent-page  .workspace-actions .profile-manage-btn,
+  .teacher-page .workspace-actions .dashboard-home-btn,
+  .teacher-page .workspace-actions .dashboard-ghost-btn,
+  .teacher-page .workspace-actions .profile-manage-btn,
+  .student-page .workspace-actions .dashboard-home-btn,
+  .student-page .workspace-actions .dashboard-ghost-btn,
+  .student-page .workspace-actions .profile-manage-btn {
+    padding: 0.5rem 0.8rem !important;
+    font-size: 0.78rem !important;
+  }
+
+  /* Summary strip -> 3-col compact */
+  .parent-page  .summary-strip,
+  .teacher-page .summary-strip,
+  .student-page .summary-strip {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 0.4rem !important;
+    margin: 0 !important;
+  }
+  .parent-page  .summary-card,
+  .teacher-page .summary-card,
+  .student-page .summary-card {
+    flex: 1 1 calc(30% - 0.4rem) !important;
+    max-width: none !important;
+    padding: 0.6rem 0.4rem !important;
+    min-height: 0 !important;
+    border-radius: 12px !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 0.2rem !important;
+    text-align: center !important;
+  }
+  .parent-page  .summary-card img,
+  .teacher-page .summary-card img,
+  .student-page .summary-card img { display: none !important; }
+  .parent-page  .summary-copy,
+  .teacher-page .summary-copy,
+  .student-page .summary-copy { gap: 0.1rem !important; align-items: center !important; text-align: center !important; }
+  .parent-page  .summary-label,
+  .teacher-page .summary-label,
+  .student-page .summary-label { font-size: 0.62rem !important; letter-spacing: 0.04em !important; }
+  .parent-page  .summary-value,
+  .teacher-page .summary-value,
+  .student-page .summary-value { font-size: 1.4rem !important; line-height: 1 !important; }
+  .parent-page  .summary-meta,
+  .teacher-page .summary-meta,
+  .student-page .summary-meta { display: none !important; }
+
+  /* Surface cards & section headers */
+  .parent-page  .surface-card,
+  .teacher-page .surface-card,
+  .student-page .surface-card { padding: 0.75rem !important; border-radius: 14px !important; }
+  .parent-page  .section-asset,
+  .teacher-page .section-asset,
+  .student-page .section-asset { display: none !important; }
+  .parent-page  .section-heading p,
+  .teacher-page .section-heading p,
+  .student-page .section-heading p { display: none !important; }
+  .parent-page  .section-heading h3,
+  .teacher-page .section-heading h3,
+  .student-page .section-heading h3 { font-size: 1rem !important; margin: 0 !important; }
+
+  /* Books grid: 2 columns on phone */
+  .teacher-page .books-grid,
+  .parent-page  .books-grid,
+  .student-page .books-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 0.55rem !important;
+  }
+  .teacher-page .book-card,
+  .parent-page  .book-card,
+  .student-page .book-card { padding: 0.55rem !important; border-radius: 12px !important; }
+  .teacher-page .book-card-info h4,
+  .parent-page  .book-card-info h4,
+  .student-page .book-card-info h4 { font-size: 0.82rem !important; }
+  .teacher-page .book-card-info p,
+  .parent-page  .book-card-info p,
+  .student-page .book-card-info p { font-size: 0.7rem !important; }
+  .teacher-page .book-card-btn,
+  .parent-page  .book-card-btn,
+  .student-page .book-card-btn { padding: 0.4rem 0.7rem !important; font-size: 0.72rem !important; }
+
+  /* === ADMIN compact === */
+  .admin-page { padding: 0.5rem !important; }
+  .admin-page .app-container { gap: 0.5rem !important; padding: 0 !important; }
+
+  .admin-page .top-nav {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 0.4rem !important;
+    padding: 0.55rem 0.65rem !important;
+    border-radius: 14px !important;
+  }
+  .admin-page .nav-brand {
+    display: flex !important; flex-direction: row !important;
+    align-items: center !important; gap: 0.5rem !important; width: 100% !important;
+  }
+  .admin-page .brand-mark {
+    width: 38px !important; height: 38px !important; flex: 0 0 38px !important;
+  }
+  .admin-page .brand-title { font-size: 0.95rem !important; line-height: 1.1 !important; }
+  .admin-page .brand-copy span:not(.brand-title) { font-size: 0.7rem !important; }
+
+  .admin-page .nav-center { width: 100% !important; }
+  .admin-page .nav-links {
+    display: grid !important;
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    gap: 0.25rem !important;
+    width: 100% !important;
+    margin: 0 !important; padding: 0 !important;
+    list-style: none !important;
+  }
+  .admin-page .nav-links li {
+    padding: 0.45rem 0.2rem !important;
+    font-size: 0.62rem !important;
+    text-align: center !important;
+    border-radius: 9px !important;
+    line-height: 1.1 !important;
+    min-height: 0 !important;
+    cursor: pointer !important;
+  }
+
+  .admin-page .nav-actions .nav-profile { display: none !important; }
+  .admin-page .workspace-admin-chip { display: none !important; }
+  .admin-page .workspace-tools { gap: 0.4rem !important; }
+  .admin-page .workspace-tool { padding: 0.42rem 0.55rem !important; font-size: 0.78rem !important; }
+
+  .admin-page .nav-actions {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 0.35rem !important;
+    width: 100% !important;
+  }
+  .admin-page .nav-actions .btn-home-nav,
+  .admin-page .nav-actions .btn-logout {
+    flex: 1 1 0 !important;
+    padding: 0.5rem 0.55rem !important;
+    font-size: 0.74rem !important;
+    border-radius: 10px !important;
+    min-height: 0 !important;
+    justify-content: center !important;
+  }
+
+  .admin-page .section-asset,
+  .admin-page .widget-asset,
+  .admin-page .summary-card-illustration { display: none !important; }
+  .admin-page .section-shell { gap: 0.4rem !important; }
+  .admin-page .section-header {
+    padding: 0.6rem 0.7rem !important;
+    gap: 0.4rem !important;
+    flex-wrap: wrap !important;
+    margin-bottom: 0.5rem !important;
+  }
+  .admin-page .section-eyebrow { font-size: 0.62rem !important; padding: 0.2rem 0.45rem !important; }
+  .admin-page .section-title { font-size: 1.05rem !important; line-height: 1.15 !important; margin: 0 !important; }
+  .admin-page .section-subtitle { display: none !important; }
+}
