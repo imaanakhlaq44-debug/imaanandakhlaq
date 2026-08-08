@@ -334,6 +334,26 @@ export const ActivityDashboard = () => html`
     color: #ffffff;
   }
 
+  /* School name, sitting quietly under the student's own name. This replaces
+     the old "SCHOOL DASHBOARD" banner further down the page, which spent a
+     full-width card on one line of text. Kept small and uppercase-tracked so
+     it reads as a label rather than competing with the name above it. */
+  .sidebar-school {
+    display: block;
+    font-family: 'Sora', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    line-height: 1.3;
+    color: rgba(255, 255, 255, 0.62);
+    margin-top: 0.15rem;
+    text-align: center;
+  }
+  .sidebar-school:empty {
+    display: none;
+  }
+
   .sidebar-subtitle {
     display: block;
     margin-top: 0.2rem;
@@ -1874,17 +1894,12 @@ export const ActivityDashboard = () => html`
     .sidebar-chip-actions {
       display: none !important;
     }
-    body .student-page .sidebar-nav {
-      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    }
-    .student-page .sidebar-nav li[data-section="books"],
-    .student-page .sidebar-nav li[data-section="progress"] {
-      display: none !important;
-    }
-    /* Books and Progress move into the fixed bar below, and Logout is there
-       too -- but the sidebar's own logout button was never hidden with them,
-       so phones ended up showing Logout twice, once in the sidebar and again
-       in the bar. */
+    /* The bar fixed to the bottom of the screen is the whole navigation on a
+       phone -- all four sections plus Logout. Repeating any of it up here just
+       spends the top of the screen saying the same thing twice, which is what
+       left Logout showing in two places. So the sidebar keeps only identity:
+       avatar, name, school. */
+    .student-page .sidebar-nav,
     .student-page .sidebar-logout-btn {
       display: none !important;
     }
@@ -1944,6 +1959,7 @@ export const ActivityDashboard = () => html`
           <input id="studentProfileFileInput" type="file" accept="image/*" style="position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;cursor:pointer;z-index:10;">
         </div>
         <span class="sidebar-title" id="sidebarProfileName">Student Name</span>
+        <span class="sidebar-school" id="sidebarSchoolName"></span>
       </div>
 
       <!-- Nav items -->
@@ -1976,24 +1992,10 @@ export const ActivityDashboard = () => html`
         </div>
       </div>
 
-      <!-- School Header / Workspace Bar -->
-      <div class="workspace-bar" id="studentWorkspaceBar">
-        <div class="workspace-heading">
-          <div class="workspace-art" style="position:relative;">
-            <img id="schoolLogoImg" src="/kidba_assets/img/3d_school.png" alt="School logo" style="width:100%;height:100%;object-fit:cover;border-radius:14px;">
-          </div>
-          <div>
-            <div class="workspace-kicker"><i class="fas fa-graduation-cap"></i> School Dashboard</div>
-            <h2 class="workspace-title" id="studentWelcomeName">imaan academy</h2>
-          </div>
-        </div>
-        <div class="workspace-actions">
-          <button class="dashboard-home-btn" type="button" onclick="window.location.href='auth.html'">
-            <i class="fas fa-house"></i>
-            <span>Home</span>
-          </button>
-        </div>
-      </div>
+      <!-- The "School Dashboard" banner that used to sit here is gone. It
+           spent a full-width card on the school name plus a Home button that
+           duplicated the one in the bottom bar. The school name now sits under
+           the student's name in the sidebar; see #sidebarSchoolName. -->
 
       <div class="summary-strip" id="studentOverviewSection">
         <div class="summary-card points" data-section="books" role="button" tabindex="0">
@@ -2130,10 +2132,18 @@ export const ActivityDashboard = () => html`
       </div>
     </div>
     
+    <!-- On phones this bar is the only navigation: the sidebar list is hidden
+         below 760px. It therefore has to carry all four sections. Overview and
+         Rankings were previously reachable only from that hidden list, so
+         dropping the list without adding them here would have stranded the
+         Champions Board with no way to open it.
+         The old Home button is gone: it pointed at auth.html, which bounces a
+         signed-in student straight back here, and it duplicated the Home in
+         the school banner that this change removes. -->
     <div class="mobile-bottom-actions">
-      <button class="mobile-action-btn" type="button" onclick="window.location.href='auth.html'">
-        <i class="fas fa-house"></i>
-        <span>Home</span>
+      <button class="mobile-action-btn" type="button" onclick="window.switchStudentSection('overview', false)">
+        <i class="fas fa-chart-pie"></i>
+        <span>Overview</span>
       </button>
       <button class="mobile-action-btn" type="button" onclick="window.switchStudentSection('books', false)">
         <i class="fas fa-book-open"></i>
@@ -2142,6 +2152,10 @@ export const ActivityDashboard = () => html`
       <button class="mobile-action-btn" type="button" onclick="window.switchStudentSection('progress', false)">
         <i class="fas fa-star"></i>
         <span>Progress</span>
+      </button>
+      <button class="mobile-action-btn" type="button" onclick="window.switchStudentSection('rankings', false)">
+        <i class="fas fa-medal"></i>
+        <span>Rankings</span>
       </button>
 
       <button class="mobile-action-btn logout" type="button" onclick="window.logoutStudent()">
@@ -2196,15 +2210,10 @@ export const ActivityDashboard = () => html`
   const studentPendingTeacherCount = document.getElementById('studentPendingTeacherCount');
   const studentJourneyStatus = document.getElementById('studentJourneyStatus');
   const studentSchoolTag = document.getElementById('studentSchoolTag');
-  const studentWelcomeName = document.getElementById('studentWelcomeName');
   const studentJourneyNote = document.getElementById('studentJourneyNote');
   const studentProfilePreview = document.getElementById('studentProfilePreview');
-  const studentProfileLabel = document.getElementById('studentProfileLabel');
   const studentProfileMeta = document.getElementById('studentProfileMeta');
   const studentProfileAvatarTrigger = document.getElementById('studentAvatarClickArea');
-  const sidebarAvatarTrigger = document.getElementById('sidebarAvatarClickArea');
-  const schoolLogoClickArea = document.getElementById('schoolLogoClickArea');
-  const schoolLogoImg = document.getElementById('schoolLogoImg');
   const studentProfileUploadBtn = document.getElementById('studentProfileManageBtn');
   const studentProfileFileInput = document.getElementById('studentProfileFileInput');
   const studentPendingParentRow = document.getElementById('studentPendingParentRow');
@@ -2298,17 +2307,13 @@ export const ActivityDashboard = () => html`
       }
     }
 
+    // The school name now lives under the student's name in the sidebar,
+    // where the removed "School Dashboard" banner used to carry it. Guarded,
+    // unlike the old line, which assumed its element always existed.
     const schoolNameText = currentStudent.school_name || (isIndividual ? 'Imaan & Akhlaq Academy' : 'Your School');
-    studentWelcomeName.textContent = schoolNameText;
-    
-    // Load saved school logo if any
-    const savedSchoolLogo = currentStudent.school_logo_url || null;
-    const schoolLogoImg = document.getElementById('schoolLogoImg');
-    if (savedSchoolLogo && schoolLogoImg) {
-      schoolLogoImg.src = savedSchoolLogo;
-    }
+    const sidebarSchoolName = document.getElementById('sidebarSchoolName');
+    if (sidebarSchoolName) sidebarSchoolName.textContent = schoolNameText;
 
-    if (studentProfileLabel) studentProfileLabel.textContent = studentName;
     if (studentProfileMeta) studentProfileMeta.textContent = classLabel;
     if (studentProfilePreview) {
       studentProfilePreview.src = photoUrl;
