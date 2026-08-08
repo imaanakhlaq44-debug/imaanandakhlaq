@@ -1881,6 +1881,13 @@ export const ActivityDashboard = () => html`
     .student-page .sidebar-nav li[data-section="progress"] {
       display: none !important;
     }
+    /* Books and Progress move into the fixed bar below, and Logout is there
+       too -- but the sidebar's own logout button was never hidden with them,
+       so phones ended up showing Logout twice, once in the sidebar and again
+       in the bar. */
+    .student-page .sidebar-logout-btn {
+      display: none !important;
+    }
     .dashboard-main {
       padding-bottom: 74px !important;
     }
