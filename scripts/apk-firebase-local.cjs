@@ -14,7 +14,6 @@ const HTML_FILES = [
   'activity.html',
   'admin-dashboard.html',
   'auth.html',
-  'parent-dashboard.html',
   'student-activities.html',
   'super-admin-dashboard.html',
   'teacher-dashboard.html',

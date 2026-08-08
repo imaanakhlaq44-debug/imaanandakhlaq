@@ -29,7 +29,7 @@ if ($au) {
   Write-Host ("AUTH_HAS_super_admin_word: {0}" -f $a.Contains('super_admin'))
 }
 
-foreach ($name in @('admin-dashboard.html','teacher-dashboard.html','parent-dashboard.html','super-admin-dashboard.html','student-activities.html')) {
+foreach ($name in @('admin-dashboard.html','teacher-dashboard.html','super-admin-dashboard.html','student-activities.html')) {
   $e = $zip.Entries | Where-Object { $_.FullName -like "*$name" } | Select-Object -First 1
   if ($e) {
     $cc = Read-Entry $e

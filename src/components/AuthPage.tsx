@@ -103,7 +103,6 @@ export const AuthPage = () => html`
   .role-item-school     { --accent: #1E2D5A; --accent-soft: #eef1fa; }
   .role-item-teacher    { --accent: #29416d; --accent-soft: #eaeff7; }
   .role-item-student    { --accent: #D63678; --accent-soft: #fdeaf3; }
-  .role-item-parent     { --accent: #E08020; --accent-soft: #fdf0e1; }
   .role-item-individual { --accent: #b8860b; --accent-soft: #fdf6dd; }
 
   .role-item:hover {
@@ -1027,17 +1026,8 @@ export const AuthPage = () => html`
         <div class="role-item role-item-student" onclick="selectRole('student')">
           <div class="role-img"><i class="fas fa-user-graduate"></i></div>
           <div class="role-item-info">
-            <div class="role-item-name">Student / Child</div>
-            <div class="role-item-desc">Start your gamified learning journey.</div>
-          </div>
-          <div class="role-chev"><i class="fas fa-arrow-right"></i></div>
-        </div>
-
-        <div class="role-item role-item-parent" onclick="selectRole('parent')">
-          <div class="role-img"><i class="fas fa-users"></i></div>
-          <div class="role-item-info">
-            <div class="role-item-name">Parent</div>
-            <div class="role-item-desc">Monitor progress using a parent code.</div>
+            <div class="role-item-name">Student &amp; Family Account</div>
+            <div class="role-item-desc">Single unified account with built-in PIN Parent Gate.</div>
           </div>
           <div class="role-chev"><i class="fas fa-arrow-right"></i></div>
         </div>
@@ -1114,24 +1104,9 @@ export const AuthPage = () => html`
         </div>
       </div>
 
-       <!-- Parent Form -->
-      <div id="form-parent" class="reg-form-wrapper">
-        <div class="auth-box">
-          <h3 class="auth-box-title">Parent Registration</h3>
-          <p class="auth-box-desc">Link to your child using the parent invitation code.</p>
-          <div class="form-group"><label class="form-label">Parent Invite Code</label><input type="text" class="form-control code-input-lg" id="regParCode" placeholder="PAR-XXXXXXXXXX" maxlength="14"></div>
-          <div class="form-group"><label class="form-label">Parent Full Name</label><input type="text" class="form-control" id="regParName" placeholder="Zubair Ahmed"></div>
-          <div class="form-grid">
-            <div class="form-group"><label class="form-label">Email</label><input type="email" class="form-control" id="regParEmail" placeholder="parent@example.com"></div>
-            <div class="form-group"><label class="form-label">Phone No.</label><input type="text" class="form-control" id="regParPhone" placeholder="03XXXXXXXXX"></div>
-          </div>
-          <div class="form-grid">
-            <div class="form-group"><label class="form-label">Password</label><div class="pw-wrapper"><input type="password" class="form-control" id="regParPw"><button type="button" class="pw-toggle" onclick="togglePw('regParPw')"><i class="fas fa-eye"></i></button></div></div>
-            <div class="form-group"><label class="form-label">Confirm Password</label><div class="pw-wrapper"><input type="password" class="form-control" id="regParPw2"><button type="button" class="pw-toggle" onclick="togglePw('regParPw2')"><i class="fas fa-eye"></i></button></div></div>
-          </div>
-          <button class="btn btn-primary" onclick="registerWithCode('parent')">Connect Account</button>
-        </div>
-      </div>
+      <!-- No parent form. The separate parent account is gone: a family shares
+           the student account and opens Parent Area there behind a 4-digit PIN,
+           which the Student & Family card above already says. -->
 
        <!-- Individual Form -->
       <div id="form-individual" class="reg-form-wrapper">
@@ -1429,7 +1404,10 @@ export const AuthPage = () => html`
         else if (userData.role === 'school_admin') window.location.href = './admin-dashboard.html';
         else if (userData.role === 'teacher') window.location.href = './teacher-dashboard.html';
         else if (userData.role === 'student' || userData.role === 'individual') window.location.href = './student-activities.html';
-        else if (userData.role === 'parent') window.location.href = './parent-dashboard.html';
+        // Accounts left over from when parents signed up separately. That
+        // dashboard no longer exists, and sending them to a dead page would
+        // just look broken, so say plainly where the Parent Area moved to.
+        else if (userData.role === 'parent') showToastCompat('Parent accounts have moved. Sign in with your child\\'s Student & Family account and open Parent Area.', 'error');
         else showToastCompat('User role not configured.', 'error');
       }, 700);
     }
@@ -1991,7 +1969,8 @@ export const AuthPage = () => html`
         else if (userData.role === 'school_admin') window.location.href = './admin-dashboard.html';
           else if (userData.role === 'teacher') window.location.href = './teacher-dashboard.html';
           else if (userData.role === 'student' || userData.role === 'individual') window.location.href = './student-activities.html';
-          else if (userData.role === 'parent') window.location.href = './parent-dashboard.html';
+          // See the note on the other redirect block: legacy parent accounts.
+          else if (userData.role === 'parent') showToast('Parent accounts have moved. Sign in with your child\\'s Student & Family account and open Parent Area.', 'error');
         }, 1000);
       } else {
         showToast('Your login worked but no account profile was found in the database. Please re-register or ask your school admin to re-create your invitation code.', 'error');

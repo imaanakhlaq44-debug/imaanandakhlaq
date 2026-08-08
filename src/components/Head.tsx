@@ -61,7 +61,7 @@ export const Head = () => html`\n<!DOCTYPE html>
         }
         var path = window.location.pathname.replace(/\\/index\\.html$/, '/').replace(/\\.html$/, '').replace(/\\/$/, '') || '/';
         // Only allow these pages in app
-        var allowed = ['/auth', '/student-activities', '/parent-dashboard', '/teacher-dashboard', '/admin-dashboard', '/super-admin-dashboard', '/activity'];
+        var allowed = ['/auth', '/student-activities', '/teacher-dashboard', '/admin-dashboard', '/super-admin-dashboard', '/activity'];
         if (!allowed.some(p => path === p)) {
           window.location.replace('auth.html');
         }
@@ -140,7 +140,7 @@ export const Head = () => html`\n<!DOCTYPE html>
             var lastBackPress = 0;
 
             // Push a dummy history entry so system back doesn't pop the WebView
-            var isDashboard = ['/student-activities', '/teacher-dashboard', '/parent-dashboard', '/admin-dashboard', '/super-admin-dashboard'].some(function(p) {
+            var isDashboard = ['/student-activities', '/teacher-dashboard', '/admin-dashboard', '/super-admin-dashboard'].some(function(p) {
               return window.location.pathname.includes(p);
             });
             if (isDashboard) {

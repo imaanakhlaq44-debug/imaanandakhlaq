@@ -39,7 +39,6 @@ import { BlogArticlePage } from './components/BlogArticlePage'
 
 import { ActivityDashboard } from './components/ActivityDashboard'
 import { ActivityPage } from './components/ActivityPage'
-import { ParentDashboard } from './components/ParentDashboard'
 import { TeacherDashboard } from './components/TeacherDashboard'
 import { SchoolAdminDashboard } from './components/SchoolAdminDashboard'
 import { AuthPage } from './components/AuthPage'
@@ -130,9 +129,8 @@ app.get('/activity', (c) => {
   return c.html(generateActivityPageHTML())
 })
 
-app.get('/parent-dashboard', (c) => {
-  return c.html(generateParentDashboardHTML())
-})
+// /parent-dashboard is gone. Parents no longer hold their own account: the
+// family shares the student login and opens Parent Area behind a 4-digit PIN.
 
 app.get('/teacher-dashboard', (c) => {
   return c.html(generateTeacherDashboardHTML())
@@ -217,11 +215,6 @@ app.get('/api-activities', (c) => {
 function generateDashboardHTML() {
   return html`${Head()}
 ${ActivityDashboard()}`
-}
-
-function generateParentDashboardHTML() {
-  return html`${Head()}
-${ParentDashboard()}`
 }
 
 function generateTeacherDashboardHTML() {

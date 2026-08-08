@@ -2519,7 +2519,7 @@ export const SchoolAdminDashboard = () => html`
           <div class="col-1">Full Name</div>
           <div class="col-2">Class</div>
           <div class="col-2">Student Code</div>
-          <div class="col-2">Parent Code</div>
+          <div class="col-2">Parent Code <span style="font-weight:600; opacity:0.6;">(retired)</span></div>
           <div class="col-2">Status</div>
           <div class="col-actions">Actions</div>
         </div>
@@ -3203,30 +3203,26 @@ export const SchoolAdminDashboard = () => html`
         await setDoc(doc(db, 'invites', code), payload);
         tCount++;
       }
-      // Students (create parent invites as well)
+      // Students. Each one used to get a second PAR- invite for the parent;
+      // parents no longer hold their own account, so one code per student is
+      // all there is. The family signs in as the student and unlocks Parent
+      // Area with a PIN.
       for (const r of preview.students) {
         const code = genCode('STU', taken);
-        const parCode = genCode('PAR', taken);
         const name = r.name || r['Full Name'] || r['Name'] || '';
         const classId = r.class || r.Class || r['class_id'] || r['Class'] || r['Class Name'] || '';
         const payload = { code: code, role: 'student', school_id: currentAdminSession.school_id, class_id: classId, name: name, raw: r, status: 'pending', created_at: new Date().toISOString() };
-        const parPayload = { code: parCode, role: 'parent', school_id: currentAdminSession.school_id, linked_student_code: code, status: 'pending', created_at: new Date().toISOString() };
         await setDoc(doc(db, 'invites', code), payload);
-        await setDoc(doc(db, 'invites', parCode), parPayload);
         sCount++;
       }
-      // Parents only (no linked student)
-      for (const r of preview.parents) {
-        const code = genCode('PAR', taken);
-        const name = r.name || r['Name'] || '';
-        const payload = { code: code, role: 'parent', school_id: currentAdminSession.school_id, name: name, raw: r, status: 'pending', created_at: new Date().toISOString() };
-        await setDoc(doc(db, 'invites', code), payload);
-        pCount++;
-      }
+      // Parent-only rows are counted and reported, not imported. Turning them
+      // into students would invent pupils who do not exist.
+      pCount = preview.parents.length;
 
       closeModal('bulkImportModal');
       await loadDashboardData();
-      alert('Imported: ' + tCount + ' teachers, ' + sCount + ' students, ' + pCount + ' parents.');
+      alert('Imported: ' + tCount + ' teachers, ' + sCount + ' students.' +
+        (pCount ? '\\n\\n' + pCount + ' parent row(s) were skipped — parents do not need their own account any more. They sign in with their child\\'s code and open Parent Area.' : ''));
     } catch(err) {
       alert('Import failed: ' + err.message);
     } finally {
@@ -3630,15 +3626,19 @@ export const SchoolAdminDashboard = () => html`
     });
 
     pendingStudentInvites.forEach((invite) => {
+      // Only invites issued before parent accounts were retired still have a
+      // companion PAR- code; new students never get one.
       const parentInvite = invitesList.find((parent) => parent.role === 'parent' && parent.linked_student_code === invite.code);
-      const parentCode = parentInvite ? parentInvite.code : 'N/A';
+      const parentCode = parentInvite ? parentInvite.code : 'Not needed';
       const pendingImage = invite.photoURL ? '<img src="' + invite.photoURL + '" style="border-radius:50%; width:40px; height:40px; object-fit:cover;">' : '<div style="width:40px;height:40px;border-radius:50%;background:#e2e8f0;display:flex;align-items:center;justify-content:center;color:#94a3b8;"><i class="fas fa-user-clock"></i></div>';
 
       stuDirHtml += '<div class="pill-row row-yellow" style="opacity:0.6;">' +
         '<div class="col-1 d-flex align-items-center gap-3">' + pendingImage + invite.name + '</div>' +
         '<div class="col-2"><span style="background:rgba(255,255,255,0.7); padding:5px 12px; border-radius:20px; font-weight:800;">' + (invite.class_id || 'Unknown') + '</span></div>' +
         '<div class="col-2"><code class="copyable-code" onclick="copyCodeInteractive(this, \\'' + invite.code + '\\')" title="Click to copy">' + invite.code + ' <i class="far fa-copy text-muted"></i></code></div>' +
-        '<div class="col-2"><code class="copyable-code" onclick="copyCodeInteractive(this, \\'' + parentCode + '\\')" title="Click to copy">' + parentCode + (parentCode !== 'N/A' ? ' <i class="far fa-copy text-muted"></i>' : '') + '</code></div>' +
+        '<div class="col-2">' + (parentInvite
+          ? '<code class="copyable-code" onclick="copyCodeInteractive(this, \\'' + parentCode + '\\')" title="Click to copy">' + parentCode + ' <i class="far fa-copy text-muted"></i></code>'
+          : '<span style="font-size:0.78rem; color:#94a3b8;">' + parentCode + '</span>') + '</div>' +
         '<div class="col-2"><span style="color:#f59e0b; font-weight:800;"><i class="fas fa-clock"></i> Pending</span></div>' +
         '<div class="col-actions"></div></div>';
     });
@@ -3849,7 +3849,6 @@ export const SchoolAdminDashboard = () => html`
     
     const stuTaken = existingCodes();
     const stuCode = genCode('STU', stuTaken);
-    const parCode = genCode('PAR', stuTaken);
     const btn = trigger || document.querySelector('#studentModal .btn-solid');
     if (btn) {
       btn.disabled = true;
@@ -3876,14 +3875,7 @@ export const SchoolAdminDashboard = () => html`
         created_at: new Date().toISOString()
       });
 
-      await setDoc(doc(db, "invites", parCode), {
-        code: parCode,
-        role: 'parent',
-        school_id: currentAdminSession.school_id,
-        linked_student_code: stuCode,
-        status: 'pending',
-        created_at: new Date().toISOString()
-      });
+      // No companion PAR- invite: one code covers the whole family now.
 
       closeModal('studentModal');
       document.getElementById('newStuName').value = '';
@@ -3891,17 +3883,15 @@ export const SchoolAdminDashboard = () => html`
       document.getElementById('newStuPicWrap').innerHTML = '<div style="display: flex; flex-direction: column; align-items: center; color: inherit;"><i class="fas fa-camera mb-1" style="font-size: 1.8rem; color: #94a3b8; transition:color 0.2s;"></i><span style="font-size: 0.65rem; font-weight: 800; text-transform: uppercase; color: #64748b;">Photo</span></div>';
       document.getElementById('newStuPicWrap').style.border = '3px dashed #cbd5e1';
       
-      document.getElementById('codeSuccessTitle').textContent = 'Student Codes Generated';
-      document.getElementById('codeSuccessDesc').textContent = 'Share these codes for ' + name + ' and their parent.';
+      document.getElementById('codeSuccessTitle').textContent = 'Student Code Generated';
+      document.getElementById('codeSuccessDesc').textContent = 'Share this one code with ' + name + '\\'s family.';
       document.getElementById('codeSuccessBody').innerHTML =
         '<div style="background:#fef9c3; border:2px dashed #fde047; border-radius:15px; padding:15px; margin:10px 0;">' +
-        '<div style="font-size:0.8rem; color:#a16207; text-transform:uppercase; font-weight:800;">Student Code</div>' +
+        '<div style="font-size:0.8rem; color:#a16207; text-transform:uppercase; font-weight:800;">Student &amp; Family Code</div>' +
         '<div style="font-family:monospace; font-size:1.8rem; font-weight:800; color:#ca8a04; letter-spacing:2px; margin:5px 0;">' + stuCode + '</div>' +
         '<button class="btn-outline-light" onclick="navigator.clipboard.writeText(\\'' + stuCode + '\\');this.textContent=\\'Copied!\\'"><i class="fas fa-copy"></i> Copy</button></div>' +
-        '<div style="background:#f0fdf4; border:2px dashed #86efac; border-radius:15px; padding:15px; margin:10px 0;">' +
-        '<div style="font-size:0.8rem; color:#166534; text-transform:uppercase; font-weight:800;">Parent Code</div>' +
-        '<div style="font-family:monospace; font-size:1.8rem; font-weight:800; color:#15803d; letter-spacing:2px; margin:5px 0;">' + parCode + '</div>' +
-        '<button class="btn-outline-light" onclick="navigator.clipboard.writeText(\\'' + parCode + '\\');this.textContent=\\'Copied!\\'"><i class="fas fa-copy"></i> Copy</button></div>';
+        '<div style="background:#f0fdf4; border:2px dashed #86efac; border-radius:15px; padding:15px; margin:10px 0; font-size:0.85rem; color:#166534; text-align:left;">' +
+        '<strong>No separate parent code.</strong> The parent signs in with this same code and opens <strong>Parent Area</strong> in the dashboard, protected by a 4-digit PIN they choose.</div>';
       
       openModal('codeSuccessModal');
       await loadDashboardData();

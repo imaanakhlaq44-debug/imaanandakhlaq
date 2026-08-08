@@ -52,7 +52,7 @@ service cloud.firestore {
       allow create: if isSuper() || (
         isStaff() &&
         request.resource.data.school_id == mySchool() &&
-        request.resource.data.role in ['teacher', 'student', 'parent'] &&
+        request.resource.data.role in ['teacher', 'student'] &&
         request.resource.data.status == 'pending'
       );
 
@@ -97,23 +97,18 @@ service cloud.firestore {
     // 3. Users (students, teachers, parents, school admins, individuals)
     // ---------------------------------------------------------------
     match /users/{userId} {
-      // Self, super admin, or same-school staff/parents. No public reads:
-      // phone-to-email login lookup goes through the lookupEmailByPhone
-      // Cloud Function instead. Queries from dashboards must filter on
-      // school_id so list evaluation stays provable.
+      // Self, super admin, or same-school staff. No public reads: phone-to-email
+      // login lookup goes through the lookupEmailByPhone Cloud Function instead.
+      // Queries from dashboards must filter on school_id so list evaluation
+      // stays provable.
+      //
+      // The 'parent' role is retired — a family now shares the student account
+      // and opens Parent Area behind a PIN, so no branch grants a parent
+      // account access to somebody else's doc.
       allow get, list: if signedIn() && (
         request.auth.uid == userId ||
         isSuper() ||
-        (me().role in ['teacher', 'school_admin', 'parent'] && sameSchool(resource.data)) ||
-        // A parent finding the one child whose invite code they hold.
-        // parent-dashboard.html looks the child up with
-        //   where('invitation_code', '==', currentParent.linked_student_code)
-        // and a list query is only allowed when the rule constrains the SAME
-        // field the query filters on — matching on school_id alone could never
-        // authorise this, so the whole parent dashboard failed to load.
-        (me().role == 'parent' &&
-         me().get('linked_student_code', '') != '' &&
-         resource.data.invitation_code == me().get('linked_student_code', ''))
+        (me().role in ['teacher', 'school_admin'] && sameSchool(resource.data))
       );
 
       // Signup. The role is locked to what the flow legitimately allows:
@@ -136,7 +131,7 @@ service cloud.firestore {
           request.resource.data.school_id != '' &&
           !exists(/databases/$(database)/documents/schools/$(request.resource.data.school_id))
         ) || (
-          request.resource.data.role in ['teacher', 'student', 'parent'] &&
+          request.resource.data.role in ['teacher', 'student'] &&
           request.resource.data.invitation_code is string &&
           get(/databases/$(database)/documents/invites/$(request.resource.data.invitation_code)).data.role == request.resource.data.role &&
           get(/databases/$(database)/documents/invites/$(request.resource.data.invitation_code)).data.status == 'pending' &&
@@ -149,9 +144,17 @@ service cloud.firestore {
       // (except the one-off school_id backfill below).
       allow update: if isSuper() || (
         // Self: profile fields + own game progress + parent's student link.
+        //
+        // parentGate holds the family's 4-digit PIN (hashed) for the Parent
+        // Area on the student dashboard. It has to be writable here because
+        // the family shares one account and sets the PIN from that session —
+        // without it, setup failed with permission-denied. Note this is a UI
+        // gate, not a security boundary: the PIN hash lives in the child's own
+        // doc, so a determined child can read or overwrite it. It keeps the
+        // parent section out of casual reach, nothing more.
         request.auth.uid == userId &&
         onlyKeys(['name', 'phone', 'email', 'photoURL', 'game_state',
-                  'linked_student_code', 'linked_student_uid'])
+                  'linked_student_code', 'linked_student_uid', 'parentGate'])
       ) || (
         // Teacher: approve/adjust a same-school student's game progress.
         signedIn() && me().role == 'teacher' &&
@@ -169,13 +172,9 @@ service cloud.firestore {
         signedIn() && me().role == 'school_admin' &&
         sameSchool(resource.data) &&
         onlyKeys(['name', 'class_id', 'photoURL'])
-      ) || (
-        // Parent: mark chapters approved on their own linked child.
-        signedIn() && me().role == 'parent' &&
-        resource.data.role == 'student' &&
-        userId == me().linked_student_uid &&
-        onlyKeys(['game_state'])
       );
+      // The parent branch that marked chapters approved on a linked child is
+      // gone with the role: work goes straight from the student to the teacher.
 
       allow delete: if isSuper() ||
         (signedIn() && me().role == 'school_admin' && sameSchool(resource.data));
@@ -185,14 +184,12 @@ service cloud.firestore {
     // 4. Activity Submissions
     // ---------------------------------------------------------------
     match /activity_submissions/{subId} {
+      // The owning student reads their own sheets — that is also what feeds
+      // the Parent Area's chapter list, since the family shares that account.
       allow get, list: if signedIn() && (
         resource.data.student_uid == request.auth.uid ||
         isSuper() ||
-        (isStaff() && sameSchool(resource.data)) ||
-        (me().role == 'parent' && (
-          resource.data.student_uid == me().linked_student_uid ||
-          sameSchool(resource.data)
-        ))
+        (isStaff() && sameSchool(resource.data))
       );
 
       // Students submit their own work only.
@@ -213,20 +210,15 @@ service cloud.firestore {
         resource.data.student_uid == request.auth.uid &&
         request.resource.data.student_uid == request.auth.uid &&
         // Never let a student rewrite work a teacher has already signed off.
+        // A sheet the teacher sent back carries 'needs_redo', which passes this
+        // check on purpose — redoing it is the whole point.
         resource.data.get('reviewStatus', '') != 'teacher_approved' &&
         // Only self-study "individual" accounts may mark their own work
-        // approved (their parent-PIN gate does that); school students must
-        // leave approval to the parent/teacher review flow.
+        // approved; a school student's sheet is the teacher's call.
         (request.resource.data.get('reviewStatus', '') != 'teacher_approved' ||
          me().role == 'individual')
-      ) || (
-        // Parent approval flow — whitelisted fields, own linked child (with a
-        // school-scoped fallback for legacy docs missing student_uid).
-        signedIn() && me().role == 'parent' &&
-        (resource.data.student_uid == me().linked_student_uid || sameSchool(resource.data)) &&
-        onlyKeys(['parentNotes', 'reviewStatus', 'parentApprovedAt', 'parentApprovedBy',
-                  'updatedAt', 'school_id', 'student_uid', 'chapter_id'])
       );
+      // The parent approval branch is gone with the role.
 
       allow delete: if isSuper() || (isStaff() && sameSchool(resource.data));
     }
