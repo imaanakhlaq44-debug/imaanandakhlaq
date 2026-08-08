@@ -2931,6 +2931,9 @@
           </div>
           <div class="section-actions">
             <button class="btn-outline-light text-danger d-none" id="bulkDeleteBtn" onclick="deleteSelectedStudents()"><i class="fas fa-trash-alt me-2"></i> Delete Selected (<span id="selectedCount">0</span>)</button>
+            <!-- Only appears while dead PAR- invites are still lying around, so
+                 it disappears for good once the school is cleaned up. -->
+            <button class="btn-outline-light d-none" id="cleanupParentCodesBtn" onclick="cleanupParentCodes()" title="Parent codes are retired. This clears the unused ones."><i class="fas fa-broom me-2"></i> Clear Old Parent Codes (<span id="deadParentCount">0</span>)</button>
             <button class="btn-solid" onclick="openModal('studentModal')"><i class="fas fa-user-plus me-2"></i> Add Student</button>
             <button class="btn-outline-light" onclick="openModal('bulkImportModal')"><i class="fas fa-file-import me-2"></i> Import Roster</button>
           </div>
@@ -2943,7 +2946,6 @@
           <div class="col-1">Full Name</div>
           <div class="col-2">Class</div>
           <div class="col-2">Student Code</div>
-          <div class="col-2">Parent Code <span style="font-weight:600; opacity:0.6;">(retired)</span></div>
           <div class="col-2">Status</div>
           <div class="col-actions">Actions</div>
         </div>
@@ -4333,6 +4335,13 @@
     });
     document.getElementById('teacherTableBody').innerHTML = tchHtml || '<div style="text-align:center; padding:2rem; color:#94a3b8; font-weight:700;">No teachers added yet.</div>';
 
+    // Surface the cleanup button only while there is something to clean.
+    const deadParentInvites = invitesList.filter((inv) => inv.role === 'parent' && inv.status !== 'used').length;
+    const cleanupBtn = document.getElementById('cleanupParentCodesBtn');
+    const deadCountEl = document.getElementById('deadParentCount');
+    if (deadCountEl) deadCountEl.textContent = String(deadParentInvites);
+    if (cleanupBtn) cleanupBtn.classList.toggle('d-none', deadParentInvites === 0);
+
     // Students Directory
     let stuDirHtml = '';
     students.forEach((student, index) => {
@@ -4341,30 +4350,11 @@
       const stuCode = student.invitation_code || 'Accepted';
       const imgSrc = student.photoURL ? student.photoURL : ('https://ui-avatars.com/api/?name=' + student.name.replace(' ', '+') + '&background=fff&color=' + color.replace('#',''));
 
-      // Find parent code linked to this student's invite code
-      let parentInvite = invitesList.find((inv) => inv.role === 'parent' && inv.linked_student_code === stuCode);
-      
-      // Fallback for legacy students: check if any parent invite was used by this student's UID
-      if (!parentInvite && student.uid) {
-        parentInvite = invitesList.find((inv) => inv.role === 'parent' && inv.used_by_uid === student.uid);
-      }
-
-      const parCode = parentInvite ? parentInvite.code : null;
-      const parStatus = parentInvite ? parentInvite.status : null;
-
-      let parCell = '';
-      if (!parCode) {
-        // Expected now: parent codes are retired, so students enrolled after
-        // the change simply have none. Flagging that red as "None" would send
-        // admins hunting for a code that is never coming.
-        parCell = '<span style="font-size:0.8rem; font-weight:700; color:#94a3b8;">Not needed</span>';
-      } else if (parStatus === 'used') {
-        // Parent already registered
-        parCell = '<span style="font-size:0.8rem; font-weight:800; color:#22c55e; background:rgba(34,197,94,0.08); padding:4px 10px; border-radius:12px;"><i class="fas fa-check-circle"></i> Registered</span>';
-      } else {
-        // Parent not yet registered — show the actual PAR code
-        parCell = '<code class="copyable-code" onclick="copyCodeInteractive(this, \'' + parCode + '\')" title="Click to copy">' + parCode + ' <i class="far fa-copy text-muted"></i></code>';
-      }
+      // The Parent Code column is gone: parents no longer hold their own
+      // account, so every student enrolled from now on would have shown an
+      // empty cell forever. Legacy PAR- invites are still in Firestore and are
+      // still cleaned up when a student is deleted — see cleanupParentCodes()
+      // for clearing the unredeemed ones in bulk.
 
       // Check student invite status — if student is already in users collection, their code is effectively used
       let studentInvite = invitesList.find((inv) => inv.role === 'student' && inv.code === stuCode);
@@ -4384,14 +4374,11 @@
         '<div class="col-1 d-flex align-items-center gap-3"><img src="' + imgSrc + '" style="border-radius:50%; width:40px; height:40px; object-fit:cover;">' + student.name + '</div>' +
         '<div class="col-2"><span style="background:rgba(255,255,255,0.7); padding:5px 12px; border-radius:20px; font-weight:800;">' + (student.class_id || 'Unknown') + '</span></div>' +
         '<div class="col-2">' + stuCell + '</div>' +
-        '<div class="col-2">' + parCell + '</div>' +
         '<div class="col-2"><span style="color:#22c55e;"><i class="fas fa-check-circle"></i> Active</span></div>' +
         '<div class="col-actions"><button class="action-btn" onclick="editStudent(\'' + student.uid + '\')"><i class="fas fa-edit"></i></button><button class="action-btn text-danger ms-2" onclick="deleteStudent(\'' + student.uid + '\')"><i class="fas fa-trash"></i></button></div></div>';
     });
 
     pendingStudentInvites.forEach((invite) => {
-      const parentInvite = invitesList.find((parent) => parent.role === 'parent' && parent.linked_student_code === invite.code);
-      const parentCode = parentInvite ? parentInvite.code : 'N/A';
       const pendingImage = invite.photoURL ? '<img src="' + invite.photoURL + '" style="border-radius:50%; width:40px; height:40px; object-fit:cover;">' : '<div style="width:40px;height:40px;border-radius:50%;background:#e2e8f0;display:flex;align-items:center;justify-content:center;color:#94a3b8;"><i class="fas fa-user-clock"></i></div>';
 
       stuDirHtml += '<div class="pill-row row-yellow" style="opacity:0.6;">' +
@@ -4399,7 +4386,6 @@
         '<div class="col-1 d-flex align-items-center gap-3">' + pendingImage + invite.name + '</div>' +
         '<div class="col-2"><span style="background:rgba(255,255,255,0.7); padding:5px 12px; border-radius:20px; font-weight:800;">' + (invite.class_id || 'Unknown') + '</span></div>' +
         '<div class="col-2"><code class="copyable-code" onclick="copyCodeInteractive(this, \'' + invite.code + '\')" title="Click to copy">' + invite.code + ' <i class="far fa-copy text-muted"></i></code></div>' +
-        '<div class="col-2"><code class="copyable-code" onclick="copyCodeInteractive(this, \'' + parentCode + '\')" title="Click to copy">' + parentCode + (parentCode !== 'N/A' ? ' <i class="far fa-copy text-muted"></i>' : '') + '</code></div>' +
         '<div class="col-2"><span style="color:#f59e0b; font-weight:800;"><i class="fas fa-clock"></i> Pending</span></div>' +
         '<div class="col-actions"><button class="action-btn text-danger" onclick="deleteInvite(\'' + invite.code + '\', \'student\')"><i class="fas fa-trash"></i></button></div></div>';
     });
@@ -4807,6 +4793,54 @@
         if (countSpan) countSpan.textContent = cbs.length;
       } else {
         btn.classList.add('d-none');
+      }
+    }
+  };
+
+  // Clears out PAR- invites left over from when parents had their own account.
+  // Only unredeemed ones: a 'used' invite records that a real person signed up
+  // against it, and throwing that history away buys nothing — those accounts
+  // simply cannot be used any more. Scoped to this school, which is also the
+  // only thing the rules would let a school admin delete.
+  window.cleanupParentCodes = async () => {
+    const btn = document.getElementById('cleanupParentCodesBtn');
+    const dead = invitesList.filter((inv) => inv.role === 'parent' && inv.status !== 'used');
+
+    if (dead.length === 0) {
+      alert('Nothing to clean up — there are no unused parent codes left.');
+      return;
+    }
+
+    const used = invitesList.filter((inv) => inv.role === 'parent' && inv.status === 'used').length;
+    const message = 'Delete ' + dead.length + ' unused parent code(s)?\n\n' +
+      'These can never be redeemed: parents no longer register separately, they sign in with their child\'s code and open Parent Area with a PIN.\n\n' +
+      (used ? used + ' parent code(s) that were already used will be kept as a record.\n\n' : '') +
+      'This cannot be undone.';
+    if (!confirm(message)) return;
+
+    const origContent = btn ? btn.innerHTML : '';
+    if (btn) {
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Cleaning...';
+    }
+
+    try {
+      // Firestore caps a batch at 500 writes.
+      const CHUNK = 400;
+      for (let i = 0; i < dead.length; i += CHUNK) {
+        const batch = writeBatch(db);
+        dead.slice(i, i + CHUNK).forEach((inv) => batch.delete(doc(db, 'invites', inv.code)));
+        await batch.commit();
+      }
+      await loadDashboardData();
+      alert('Removed ' + dead.length + ' unused parent code(s).');
+    } catch (err) {
+      console.error('Parent code cleanup failed:', err);
+      alert('Cleanup failed: ' + err.message);
+    } finally {
+      if (btn) {
+        btn.disabled = false;
+        btn.innerHTML = origContent;
       }
     }
   };
