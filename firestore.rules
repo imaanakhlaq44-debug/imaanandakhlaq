@@ -269,5 +269,19 @@ service cloud.firestore {
         resource.data.student_uid == request.auth.uid &&
         request.resource.data.student_uid == request.auth.uid;
     }
+
+    // ---------------------------------------------------------------
+    // 7. Public Scores (leaderboard mirror)
+    // ---------------------------------------------------------------
+    // Name, avatar, role, school name and points — nothing else. The
+    // mirrorPublicScore Cloud Function is the only writer (the Admin SDK
+    // bypasses these rules), so the client can never forge a ranking.
+    // This exists because the leaderboard needs a cross-school read that
+    // /users must never allow: a user doc also carries phone, email and
+    // invitation_code.
+    match /public_scores/{userId} {
+      allow get, list: if signedIn();
+      allow write: if false;
+    }
   }
 }

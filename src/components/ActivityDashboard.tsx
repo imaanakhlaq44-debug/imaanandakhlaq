@@ -1595,6 +1595,17 @@ export const ActivityDashboard = () => html`
   @media (max-width: 767px) {
     .student-page .summary-card,
     .student-page .library-item { padding: 1rem !important; }
+    /* Phones never had a column rule of their own, so the grid fell back to the
+       base "repeat(4, ...)" and squeezed every book card into ~85px. The APK
+       accordion normally hides that, but it only re-runs when cards are
+       re-rendered — resize into a phone width and the 4-col grid stays. Two
+       columns is the readable floor when the accordion is not in play. */
+    .student-page .catalog-grid:not(.apk-book-accordion) {
+      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+    .student-page .catalog-grid.chapter-mode {
+      grid-template-columns: 1fr !important;
+    }
   }
 
   /* ============================================================
@@ -2453,22 +2464,30 @@ export const ActivityDashboard = () => html`
   let leaderboardLoaded = false;
   // Shared cache so Champions + Leaderboard don't duplicate Firebase queries
   let _rankingCache = null;
+  // Reads /public_scores, not /users. A student is not allowed to list other
+  // people's user docs — those carry phone, email and invitation_code — so the
+  // old two-query-on-users version always failed with permission-denied. The
+  // mirrorPublicScore Cloud Function keeps this collection in sync with the
+  // handful of fields the board renders.
   async function fetchRankingData() {
     if (_rankingCache) return _rankingCache;
-    const { collection, query, where, orderBy, limit, getDocs } = await import('https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js');
-    const usersRef = collection(db, 'users');
-    const qS = query(usersRef, where('role', '==', 'student'), orderBy('game_state.points', 'desc'), limit(30));
-    const qI = query(usersRef, where('role', '==', 'individual'), orderBy('game_state.points', 'desc'), limit(30));
-    const [snapS, snapI] = await Promise.all([getDocs(qS), getDocs(qI)]);
-    let all = [];
-    snapS.forEach(d => all.push({ id: d.id, ...d.data() }));
-    snapI.forEach(d => all.push({ id: d.id, ...d.data() }));
-    all.sort((a, b) => {
-      const pa = a.game_state && a.game_state.points ? a.game_state.points : 0;
-      const pb = b.game_state && b.game_state.points ? b.game_state.points : 0;
-      return pb - pa;
+    const { collection, query, orderBy, limit, getDocs } = await import('https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js');
+    const scoresRef = collection(db, 'public_scores');
+    const snap = await getDocs(query(scoresRef, orderBy('points', 'desc'), limit(30)));
+    const all = [];
+    snap.forEach(d => {
+      const s = d.data();
+      // Keep the shape the board callers already expect.
+      all.push({
+        id: d.id,
+        name: s.name,
+        photoURL: s.photoURL,
+        role: s.role,
+        school_name: s.school_name,
+        game_state: { points: s.points || 0 }
+      });
     });
-    _rankingCache = all.slice(0, 30);
+    _rankingCache = all;
     return _rankingCache;
   }
 
@@ -3181,6 +3200,19 @@ export const ActivityDashboard = () => html`
       root.appendChild(frag);
     }
   
+    // Put the cards back the way showBooks() rendered them, so growing the
+    // window back past 1024px does not leave the desktop grid full of
+    // collapsed accordion rows.
+    function unwrapBooks(root){
+      var rows = Array.prototype.slice.call(root.querySelectorAll(':scope > .apk-book-row'));
+      if (!rows.length) return;
+      rows.forEach(function(row){
+        var card = row.querySelector('.library-item');
+        if (card) root.insertBefore(card, row);
+        root.removeChild(row);
+      });
+    }
+
     function check(){
       var root = document.getElementById('activitiesRoot');
       if (!root) return;
@@ -3193,6 +3225,7 @@ export const ActivityDashboard = () => html`
       if (!isMobileOrCap) {
         root.dataset.apkAccordion = '';
         root.classList.remove('apk-book-accordion');
+        unwrapBooks(root);
         return;
       }
 
@@ -3214,6 +3247,14 @@ export const ActivityDashboard = () => html`
         setTimeout(function(){ pending = false; check(); }, 0);
       });
       obs.observe(root, { childList: true });
+
+      // check() only ever ran when the cards were re-rendered, so a viewport
+      // that crossed the 1024px line without a re-render kept the wrong layout.
+      var resizeTimer = null;
+      window.addEventListener('resize', function(){
+        if (resizeTimer) clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(check, 150);
+      });
     }
   
     if (document.readyState === 'loading') {
