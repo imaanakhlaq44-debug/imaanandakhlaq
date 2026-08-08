@@ -1,5 +1,5 @@
 const { onCall, HttpsError } = require('firebase-functions/v2/https');
-const { onDocumentCreated } = require('firebase-functions/v2/firestore');
+const { onDocumentCreated, onDocumentWritten } = require('firebase-functions/v2/firestore');
 const { initializeApp } = require('firebase-admin/app');
 const { getFirestore } = require('firebase-admin/firestore');
 
@@ -62,3 +62,55 @@ exports.setTrialOnSignup = onDocumentCreated('users/{uid}', async (event) => {
   const trialEnd = new Date(Date.now() + TRIAL_DAYS * 24 * 60 * 60 * 1000).toISOString();
   await snap.ref.update({ trial_end: trialEnd });
 });
+
+/**
+ * Leaderboard mirror.
+ *
+ * The Champions board and Rankings list used to query /users directly, which
+ * no signed-in student is allowed to do (and rightly so — a user doc carries
+ * phone, email and invitation_code). This trigger copies just the four fields
+ * a leaderboard needs into /public_scores/{uid}, which every signed-in user
+ * may read and nobody may write. Keep RANKED_ROLES in sync with the roles the
+ * dashboard shows; anyone else is removed from the board.
+ */
+const RANKED_ROLES = ['student', 'individual'];
+
+exports.mirrorPublicScore = onDocumentWritten('users/{uid}', async (event) => {
+  const uid = event.params.uid;
+  const ref = db.collection('public_scores').doc(uid);
+  const after = event.data && event.data.after && event.data.after.exists
+    ? event.data.after.data()
+    : null;
+
+  if (!after || !RANKED_ROLES.includes(after.role)) {
+    await ref.delete().catch(() => {});
+    return;
+  }
+
+  const score = buildPublicScore(after);
+  const before = event.data.before && event.data.before.exists
+    ? event.data.before.data()
+    : null;
+
+  // Every game_state autosave rewrites the user doc; only pay for a mirror
+  // write when something the board actually renders has changed.
+  if (before && RANKED_ROLES.includes(before.role)) {
+    const prev = buildPublicScore(before);
+    if (JSON.stringify(prev) === JSON.stringify(score)) return;
+  }
+
+  await ref.set(score);
+});
+
+function buildPublicScore(user) {
+  const points = user.game_state && typeof user.game_state.points === 'number'
+    ? user.game_state.points
+    : 0;
+  return {
+    name: user.name || 'Learner',
+    photoURL: user.photoURL || '',
+    role: user.role,
+    school_name: user.school_name || '',
+    points
+  };
+}

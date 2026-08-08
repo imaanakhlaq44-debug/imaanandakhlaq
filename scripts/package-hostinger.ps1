@@ -60,43 +60,21 @@ foreach ($pattern in $excludePatterns) {
     }
 }
 
-# 2b. OVERLAY hand-edited static files from imaan_hostinger/ over the dist build.
-# These files (auth.html, teacher-dashboard.html, admin-dashboard.html, etc.) are
-# directly maintained in imaan_hostinger/ and are the source of truth for those
-# pages — Vite SSR doesn't regenerate the dashboards, so we must overwrite them.
-# 2b. OVERLAY hand-edited static files from imaan_hostinger/ over the dist build.
-# These files (auth.html, teacher-dashboard.html, admin-dashboard.html, etc.) are
-# directly maintained in imaan_hostinger/ and are the source of truth for those
-# pages — Vite SSR doesn't regenerate the dashboards, so we must overwrite them.
-Write-Host "[2b] Overlaying hand-edited static files from imaan_hostinger/..." -ForegroundColor Yellow
-$hostingerSrc = Join-Path $PSScriptRoot "..\imaan_hostinger"
-$overlayFiles = @(
-    "auth.html",
-    "teacher-dashboard.html",
-    "admin-dashboard.html",
-    "parent-dashboard.html",
-    "student-activities.html",
-    "super-admin-dashboard.html",
-    "activity.html",
-    "club.html",
-    "delete-account.html",
-    "privacy.html",
-    "terms.html",
-    "contact.html",
-    "blog.html",
-    "blog-article-1.html",
-    "blog-article-2.html",
-    "blog-article-3.html",
-    "index.html"
-)
-foreach ($f in $overlayFiles) {
-    $srcFile = Join-Path $hostingerSrc $f
-    $dstFile = Join-Path $tempDir $f
-    if (Test-Path $srcFile) {
-        Copy-Item -Path $srcFile -Destination $dstFile -Force
-        Write-Host "   Overlaid: $f" -ForegroundColor DarkGray
-    }
-}
+# 2b. (REMOVED) Overlay of imaan_hostinger/*.html over the dist build.
+#
+# The step claimed those files were "hand-edited" and "Vite SSR doesn't
+# regenerate the dashboards". Neither is true: step [0] above builds all 17 of
+# them, and imaan_hostinger/ only ever held an old copy of that same build. So
+# the overlay silently reverted the site to a stale snapshot on every package
+# run, and nothing merged since that snapshot ever reached production —
+# including the contact number (live still showed +92 333 5756028 while src had
+# moved to +92 339 0106475), the Sora font fix, the retitle, and a dev-time
+# "window.location.replace('https://localhost/auth')" that the newer build had
+# already dropped. Diffing every overlay file against dist turned up no edit
+# that existed only in imaan_hostinger/ and was worth keeping.
+#
+# dist/ is the source of truth. If a page ever does need a hand-edit, put it in
+# src/ so the build carries it forward.
 
 # 3. Compress temp folder contents into a staging ZIP first
 Write-Host "[3] Creating ZIP..." -ForegroundColor Yellow
