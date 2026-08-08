@@ -1436,6 +1436,12 @@ export const ActivityDashboard = () => html`
       flex-direction: row;
       flex-wrap: wrap;
       align-items: center;
+      /* Below this width the shell is a single column, so the sidebar is a
+         strip above the content rather than a full-height rail. Without
+         releasing the 100vh floor it stayed a whole screen tall while holding
+         about 56px of content, which is what left the huge empty gaps between
+         the avatar, the nav and the logout button on phones. */
+      min-height: 0;
     }
 
     .sidebar-brand {

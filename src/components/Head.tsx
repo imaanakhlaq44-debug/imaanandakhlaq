@@ -14,7 +14,14 @@ export const Head = () => html`\n<!DOCTYPE html>
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Sora is used ~146 times across the dashboards (sidebar nav, logout,
+       headings) but was never requested here, so every visitor fell back to
+       whatever their device chose. On themed Android that renders letters
+       with decorative glyphs -- "LOGOUT" came out as "LƱGƱUT". The two
+       standalone pages, admin-dashboard.html and teacher-reader.html, already
+       ask for it; only this shared head was missing it. Weights match the set
+       admin-dashboard.html settled on. -->
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800&family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <!-- Bootstrap 5 -->
   <link rel="stylesheet" href="/kidba_assets/vendor/css/bootstrap.min.css" />
