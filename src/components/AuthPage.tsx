@@ -103,7 +103,6 @@ export const AuthPage = () => html`
   .role-item-school     { --accent: #1E2D5A; --accent-soft: #eef1fa; }
   .role-item-teacher    { --accent: #29416d; --accent-soft: #eaeff7; }
   .role-item-student    { --accent: #D63678; --accent-soft: #fdeaf3; }
-  .role-item-parent     { --accent: #E08020; --accent-soft: #fdf0e1; }
   .role-item-individual { --accent: #b8860b; --accent-soft: #fdf6dd; }
 
   .role-item:hover {
@@ -1033,15 +1032,6 @@ export const AuthPage = () => html`
           <div class="role-chev"><i class="fas fa-arrow-right"></i></div>
         </div>
 
-        <div class="role-item role-item-parent" onclick="selectRole('student')">
-          <div class="role-img"><i class="fas fa-users"></i></div>
-          <div class="role-item-info">
-            <div class="role-item-name">Parent Area Info</div>
-            <div class="role-item-desc">No separate parent sign-up required! Use Student/Family account &amp; setup 4-digit PIN.</div>
-          </div>
-          <div class="role-chev"><i class="fas fa-arrow-right"></i></div>
-        </div>
-
         <div class="role-item role-item-individual" onclick="selectRole('individual')">
           <div class="role-img"><i class="fas fa-rocket"></i></div>
           <div class="role-item-info">
@@ -1114,17 +1104,9 @@ export const AuthPage = () => html`
         </div>
       </div>
 
-       <!-- Parent Form -->
-      <!-- The separate parent account is gone. A family shares the student
-           account and the parent opens the Parent Area there with a 4-digit
-           PIN, so there is nothing to register here. -->
-      <div id="form-parent" class="reg-form-wrapper">
-        <div class="auth-box">
-          <h3 class="auth-box-title">Parents: no separate account</h3>
-          <p class="auth-box-desc">Use your child's Student &amp; Family account. Inside it you will find <strong>Parent Area</strong>, locked with a 4-digit PIN only you know — it shows their progress and every note from the teacher.</p>
-          <button class="btn btn-primary" onclick="selectRole('student')">Go to Student &amp; Family Registration</button>
-        </div>
-      </div>
+      <!-- No parent form. The separate parent account is gone: a family shares
+           the student account and opens Parent Area there behind a 4-digit PIN,
+           which the Student & Family card above already says. -->
 
        <!-- Individual Form -->
       <div id="form-individual" class="reg-form-wrapper">
