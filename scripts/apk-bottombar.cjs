@@ -22,7 +22,6 @@ const WHATSAPP_NUMBER = '923335756028';
 const TARGET_PAGES = [
   'auth.html',
   'student-activities.html',
-  'parent-dashboard.html',
   'teacher-dashboard.html',
   'admin-dashboard.html',
   'super-admin-dashboard.html',

@@ -2230,7 +2230,7 @@ export const TeacherDashboard = () => html`
 
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
   import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
-  import { getFirestore, collection, query, where, getDocs, getDoc, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+  import { getFirestore, collection, query, where, getDocs, getDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
   import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-storage.js";
 
   const firebaseConfig = ${raw(firebaseConfigJS)};
@@ -2777,10 +2777,6 @@ export const TeacherDashboard = () => html`
     return nextState;
   }
 
-  function hasMeaningfulParentNote(notes) {
-    return Array.isArray(notes) && notes.some((note) => String(note || '').trim().length > 1);
-  }
-
   function getReviewTimestamp(reviewLike) {
     const value = reviewLike && (reviewLike.parentApprovedAt || reviewLike.submittedAt || reviewLike.updatedAt || reviewLike.activityCompletedAt || reviewLike.activityStartedAt);
     const timestamp = new Date(value || 0).getTime();
@@ -2806,11 +2802,15 @@ export const TeacherDashboard = () => html`
       const student = studentMap[submission.student_uid];
       const state = normalizeGameState(student.game_state);
       const isTeacherApproved = state.teacher_approved.includes(submission.chapter_id) || submission.reviewStatus === 'teacher_approved' || !!submission.teacherApprovedAt;
-      const isReadyForTeacher = state.parent_approved.includes(submission.chapter_id) || submission.reviewStatus === 'pending_teacher' || !!submission.parentApprovedAt || hasMeaningfulParentNote(submission.parentNotes);
       const hasStudentSubmission = !!(submission.submittedAt || submission.activityCompletedAt || submission.discussionText || submission.gridState);
 
       if (!hasStudentSubmission || isTeacherApproved) return;
 
+      // Submitted work is reviewable, full stop. This used to be gated behind
+      // a parent sign-off (parent_approved / parentApprovedAt / a non-empty
+      // parent note), which left real submissions sitting in the queue marked
+      // "Waiting for Parent" with approval disabled. Dropping the gate also
+      // frees the ones already stranded there, so no data migration is needed.
       pendingByKey[key] = {
         subId: submission.id,
         studentUid: submission.student_uid,
@@ -2819,18 +2819,23 @@ export const TeacherDashboard = () => html`
         answer: submission.discussionText || 'No written answer provided.',
         grid: submission.gridState || null,
         parents: submission.parentNotes || [],
+        teacherNotes: submission.teacherNotes || '',
         isSubmissionMissing: false,
-        canTeacherApprove: isReadyForTeacher,
-        statusLabel: isReadyForTeacher ? 'Teacher Review Pending' : 'Waiting for Parent',
-        statusClass: isReadyForTeacher ? 'bg-warning text-dark' : 'bg-info text-dark',
-        blockedReason: isReadyForTeacher ? '' : 'This activity is visible for teacher tracking, but approval stays locked until the parent completes their review.',
+        canTeacherApprove: true,
+        statusLabel: 'Teacher Review Pending',
+        statusClass: 'bg-warning text-dark',
+        blockedReason: '',
         updatedAt: getReviewTimestamp(submission)
       };
     });
 
+    // Safety net for chapters the student's own state says are finished but
+    // which have no submission doc behind them. This used to walk
+    // parent_approved; nothing is added to that list any more, so it now walks
+    // completed — a superset that still catches every legacy entry.
     Object.values(studentMap).forEach((student) => {
       const state = normalizeGameState(student.game_state);
-      state.parent_approved.forEach((chapterId) => {
+      state.completed.forEach((chapterId) => {
         const key = student.uid + '::' + chapterId;
         if (state.teacher_approved.includes(chapterId) || pendingByKey[key]) return;
 
@@ -2843,11 +2848,12 @@ export const TeacherDashboard = () => html`
           answer: submission && submission.discussionText ? submission.discussionText : 'Submission details are missing for this chapter. Ask the student to reopen the activity if this review looks empty.',
           grid: submission ? submission.gridState || null : null,
           parents: submission ? submission.parentNotes || [] : [],
+          teacherNotes: submission ? submission.teacherNotes || '' : '',
           isSubmissionMissing: !submission,
           canTeacherApprove: !!submission,
           statusLabel: submission ? 'Teacher Review Pending' : 'Submission Missing',
           statusClass: submission ? 'bg-warning text-dark' : 'bg-danger',
-          blockedReason: submission ? '' : 'The student state shows parent approval, but the saved activity sheet is missing. Ask the student to reopen and resubmit this chapter.',
+          blockedReason: submission ? '' : 'The student state shows this chapter finished, but the saved activity sheet is missing. Ask the student to reopen and resubmit this chapter.',
           updatedAt: submission ? getReviewTimestamp(submission) : 0
         };
       });
@@ -3454,7 +3460,7 @@ export const TeacherDashboard = () => html`
           : rev.answer;
         let actionButton = rev.canTeacherApprove
           ? '<button class="btn-approve" onclick="awardTeacherPoints(\\'' + rev.studentUid + '\\', \\'' + rev.chapId + '\\', \\'' + rev.subId + '\\')"><i class="fas fa-check"></i> Quick Pass</button>'
-          : '<button class="btn btn-secondary rounded-pill" type="button" disabled><i class="fas fa-lock"></i> ' + (rev.isSubmissionMissing ? 'Sheet Missing' : 'Waiting for Parent') + '</button>';
+          : '<button class="btn btn-secondary rounded-pill" type="button" disabled><i class="fas fa-lock"></i> Sheet Missing</button>';
         
         revHtml += 
           '<div class="review-item">' +
@@ -3492,6 +3498,11 @@ export const TeacherDashboard = () => html`
     window.switchTeacherSection(currentTeacherSection, { scroll: false });
   }
 
+  function readTeacherNote() {
+    const box = document.getElementById('rmTeacherNote');
+    return box ? String(box.value || '').trim().slice(0, 500) : '';
+  }
+
   window.awardTeacherPoints = async (studentUid, chapterId, submissionId = '') => {
     try {
       const reviewRef = doc(db, "activity_submissions", submissionId || (studentUid + '_' + chapterId));
@@ -3504,18 +3515,14 @@ export const TeacherDashboard = () => html`
       }
 
       let state = normalizeGameState(studentDoc.data().game_state);
-      const reviewData = reviewSnap.exists() ? reviewSnap.data() : null;
-      const isReadyForTeacher = state.parent_approved.includes(chapterId) || (reviewData && (reviewData.reviewStatus === 'pending_teacher' || !!reviewData.parentApprovedAt || hasMeaningfulParentNote(reviewData.parentNotes)));
 
       if (!reviewSnap.exists()) {
         alert("This submission sheet is missing. Ask the student to reopen and resubmit the chapter first.");
         return;
       }
 
-      if (!isReadyForTeacher) {
-        alert("This activity is still waiting for parent approval.");
-        return;
-      }
+      // The "still waiting for parent approval" refusal used to live here.
+      // A submitted sheet is now all the teacher needs.
 
       if (!state.teacher_approved.includes(chapterId)) {
         state.teacher_approved.push(chapterId);
@@ -3525,6 +3532,7 @@ export const TeacherDashboard = () => html`
 
       await updateDoc(reviewRef, {
         reviewStatus: 'teacher_approved',
+        teacherNotes: readTeacherNote(),
         teacherApprovedAt: new Date().toISOString(),
         teacherApprovedBy: currentTeacher ? currentTeacher.uid : '',
         updatedAt: new Date().toISOString()
@@ -3540,7 +3548,15 @@ export const TeacherDashboard = () => html`
   };
 
   window.rejectTeacherPoints = async (studentUid, chapterId, submissionId = '') => {
-    if (confirm("Are you sure you want to reject this answer? The student will have to fill it out again.")) {
+    const note = readTeacherNote();
+    if (!note) {
+      alert("Please write a short note first — the student and parent need to know what to fix.");
+      const box = document.getElementById('rmTeacherNote');
+      if (box) box.focus();
+      return;
+    }
+
+    if (confirm("Send this back to the student to redo?")) {
       try {
         // Remove from student completed list so they can do it again
         const studentRef = doc(db, "users", studentUid);
@@ -3552,13 +3568,23 @@ export const TeacherDashboard = () => html`
           state.teacher_approved = state.teacher_approved.filter(id => id !== chapterId);
           await updateDoc(studentRef, { game_state: state });
         }
-        
-        // Delete submission entirely
-        await deleteDoc(doc(db, "activity_submissions", submissionId || ("" + studentUid + "_" + chapterId)));
-        
+
+        // Keep the sheet. It used to be deleted outright, which threw away the
+        // student's work and left nothing to attach this note to — the family
+        // saw the chapter simply reappear with no idea why. The activity page
+        // treats 'needs_redo' as editable, so the student reopens their own
+        // answers with the teacher's note on top.
+        await updateDoc(doc(db, "activity_submissions", submissionId || ("" + studentUid + "_" + chapterId)), {
+          reviewStatus: 'needs_redo',
+          teacherNotes: note,
+          teacherReviewedAt: new Date().toISOString(),
+          teacherApprovedAt: null,
+          updatedAt: new Date().toISOString()
+        });
+
         closeReviewModal();
         initDashboard();
-          alert("Submission rejected. It has been sent back to the student.");
+        alert("Sent back to the student with your note.");
       } catch(e) {
         console.error(e);
         alert("Error rejecting submission.");
@@ -3591,6 +3617,11 @@ export const TeacherDashboard = () => html`
           '<div class="grid-summary" id="rmGrid"></div>' +
           '<h5 style="color:#D63678; font-weight:800; font-size:1rem; margin-top:15px;">Parent Feedback:</h5>' +
           '<div class="grid-summary" id="rmParents" style="background: #FDF8F5; border-color:#E08020;"></div>' +
+          // The family reads whatever is typed here in the Parent Area. Before
+          // this box existed a teacher could only pass or reject, so a parent
+          // saw a bare status and never learned why.
+          '<h5 style="color:#243d6b; font-weight:800; font-size:1rem; margin-top:15px;"><i class="fas fa-comment-dots"></i> Your Note to the Family:</h5>' +
+          '<textarea id="rmTeacherNote" class="form-control" rows="3" maxlength="500" placeholder="Optional. What did the student do well, or what should they work on? The parent sees this."></textarea>' +
           '<div class="text-center mt-4" id="rmActionBtn">' +
             '<!-- Injected dynamically -->' +
           '</div>' +
@@ -3665,6 +3696,12 @@ export const TeacherDashboard = () => html`
       }
       document.getElementById('rmParents').innerHTML = parentHtml;
 
+      const noteBox = document.getElementById('rmTeacherNote');
+      if (noteBox) {
+        noteBox.value = rev.teacherNotes || '';
+        noteBox.disabled = !rev.canTeacherApprove;
+      }
+
       if (rev.canTeacherApprove) {
         document.getElementById('rmActionBtn').innerHTML = 
           '<button class="btn btn-outline-danger px-4 rounded-pill fw-bold mb-2 me-2" onclick="rejectTeacherPoints(\\'' + rev.studentUid + '\\', \\'' + rev.chapId + '\\', \\'' + rev.subId + '\\')"><i class="fas fa-undo"></i> Reject (Needs Changes)</button>' +
@@ -3672,7 +3709,7 @@ export const TeacherDashboard = () => html`
       } else {
         document.getElementById('rmActionBtn').innerHTML =
           '<div class="alert ' + (rev.isSubmissionMissing ? 'alert-danger' : 'alert-info') + ' text-start mb-0">' +
-            (rev.blockedReason || 'This activity is still waiting for the parent review before teacher approval can continue.') +
+            (rev.blockedReason || 'The saved activity sheet for this chapter could not be found.') +
           '</div>';
       }
 

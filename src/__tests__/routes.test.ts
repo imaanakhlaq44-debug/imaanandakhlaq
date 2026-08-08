@@ -22,9 +22,12 @@ describe('Hono Routes', () => {
     expect(res.status).toBe(200)
   })
 
-  it('should return 200 for parent dashboard', async () => {
+  // The separate parent account is retired: a family shares the student login
+  // and opens Parent Area behind a PIN. The route must stay gone so nobody
+  // wires a dashboard back up without revisiting that decision.
+  it('should return 404 for the retired parent dashboard', async () => {
     const res = await app.request('/parent-dashboard')
-    expect(res.status).toBe(200)
+    expect(res.status).toBe(404)
   })
 
   it('should return 200 for admin dashboard', async () => {

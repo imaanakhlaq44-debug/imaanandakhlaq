@@ -55,7 +55,7 @@
         }
         var path = window.location.pathname.replace(/\/index\.html$/, '/').replace(/\.html$/, '').replace(/\/$/, '') || '/';
         // Only allow these pages in app
-        var allowed = ['/auth', '/student-activities', '/parent-dashboard', '/teacher-dashboard', '/admin-dashboard', '/super-admin-dashboard', '/activity'];
+        var allowed = ['/auth', '/student-activities', '/teacher-dashboard', '/admin-dashboard', '/super-admin-dashboard', '/activity'];
         if (!allowed.some(p => path === p)) {
           window.location.replace('auth.html');
         }
@@ -157,7 +157,7 @@
             var lastBackPress = 0;
 
             // Push a dummy history entry so system back doesn't pop the WebView
-            var isDashboard = ['/student-activities', '/teacher-dashboard', '/parent-dashboard', '/admin-dashboard', '/super-admin-dashboard'].some(function(p) {
+            var isDashboard = ['/student-activities', '/teacher-dashboard', '/admin-dashboard', '/super-admin-dashboard'].some(function(p) {
               return window.location.pathname.includes(p);
             });
             if (isDashboard) {
@@ -2943,7 +2943,7 @@
           <div class="col-1">Full Name</div>
           <div class="col-2">Class</div>
           <div class="col-2">Student Code</div>
-          <div class="col-2">Parent Code</div>
+          <div class="col-2">Parent Code <span style="font-weight:600; opacity:0.6;">(retired)</span></div>
           <div class="col-2">Status</div>
           <div class="col-actions">Actions</div>
         </div>
@@ -3983,9 +3983,13 @@
       });
 
       // Every student also gets a parent invite linked to their code.
+      // One code per student. Each row used to queue a second PAR- invite as
+      // well, but parents no longer hold their own account: the family signs in
+      // with this code and unlocks Parent Area with a 4-digit PIN. The father's
+      // name and contact stay on the student record, they just no longer mint a
+      // login the rules would now reject.
       preview.students.forEach((record) => {
         const code = genCode('STU', taken);
-        const parentCode = genCode('PAR', taken);
         queue.push({ code: code, payload: {
           code: code, role: 'student', school_id: schoolId, name: record.name,
           class_id: normalizeClassName(record.className), section: record.section,
@@ -3993,21 +3997,11 @@
           parent_name: record.fatherName, parent_phone: record.phone, parent_email: record.email,
           raw: record.raw, status: 'pending', created_at: createdAt
         } });
-        queue.push({ code: parentCode, payload: {
-          code: parentCode, role: 'parent', school_id: schoolId, linked_student_code: code,
-          name: record.fatherName, phone: record.phone, email: record.email,
-          status: 'pending', created_at: createdAt
-        } });
       });
 
-      preview.parents.forEach((record) => {
-        const code = genCode('PAR', taken);
-        queue.push({ code: code, payload: {
-          code: code, role: 'parent', school_id: schoolId, name: record.name,
-          phone: record.phone, email: record.email,
-          raw: record.raw, status: 'pending', created_at: createdAt
-        } });
-      });
+      // Parent-only rows are reported, not imported. Turning them into students
+      // would invent pupils who do not exist.
+      const skippedParents = preview.parents.length;
 
       // Firestore caps a batch at 500 writes, and a 300-row roster is 600+
       // documents — one write per row would take minutes.
@@ -4022,7 +4016,8 @@
 
       closeModal('bulkImportModal');
       await loadDashboardData();
-      alert('Imported: ' + preview.students.length + ' students, ' + preview.teachers.length + ' teachers, ' + preview.parents.length + ' parents.');
+      alert('Imported: ' + preview.students.length + ' students, ' + preview.teachers.length + ' teachers.' +
+        (skippedParents ? '\n\n' + skippedParents + ' parent row(s) were skipped — parents do not need their own account any more. They sign in with their child\'s code and open Parent Area.' : ''));
       window.bulkImportPreview = null;
       const fileInput = document.getElementById('bulkFileInput');
       if (fileInput) fileInput.value = '';
@@ -4359,8 +4354,10 @@
 
       let parCell = '';
       if (!parCode) {
-        // No parent invite found at all
-        parCell = '<span style="font-size:0.8rem; font-weight:800; color:#ef4444; background:rgba(239,68,68,0.08); padding:4px 10px; border-radius:12px;"><i class="fas fa-times-circle"></i> None</span>';
+        // Expected now: parent codes are retired, so students enrolled after
+        // the change simply have none. Flagging that red as "None" would send
+        // admins hunting for a code that is never coming.
+        parCell = '<span style="font-size:0.8rem; font-weight:700; color:#94a3b8;">Not needed</span>';
       } else if (parStatus === 'used') {
         // Parent already registered
         parCell = '<span style="font-size:0.8rem; font-weight:800; color:#22c55e; background:rgba(34,197,94,0.08); padding:4px 10px; border-radius:12px;"><i class="fas fa-check-circle"></i> Registered</span>';
@@ -4613,7 +4610,6 @@
     
     const stuTaken = existingCodes();
     const stuCode = genCode('STU', stuTaken);
-    const parCode = genCode('PAR', stuTaken);
     const btn = trigger || document.querySelector('#studentModal .btn-solid');
     if (btn) {
       btn.disabled = true;
@@ -4640,14 +4636,7 @@
         created_at: new Date().toISOString()
       });
 
-      await setDoc(doc(db, "invites", parCode), {
-        code: parCode,
-        role: 'parent',
-        school_id: currentAdminSession.school_id,
-        linked_student_code: stuCode,
-        status: 'pending',
-        created_at: new Date().toISOString()
-      });
+      // No companion PAR- invite: one code covers the whole family now.
 
       closeModal('studentModal');
       document.getElementById('newStuName').value = '';
@@ -4655,17 +4644,15 @@
       document.getElementById('newStuPicWrap').innerHTML = '<div style="display: flex; flex-direction: column; align-items: center; color: inherit;"><i class="fas fa-camera mb-1" style="font-size: 1.8rem; color: #94a3b8; transition:color 0.2s;"></i><span style="font-size: 0.65rem; font-weight: 800; text-transform: uppercase; color: #64748b;">Photo</span></div>';
       document.getElementById('newStuPicWrap').style.border = '3px dashed #cbd5e1';
       
-      document.getElementById('codeSuccessTitle').textContent = 'Student Codes Generated';
-      document.getElementById('codeSuccessDesc').textContent = 'Share these codes for ' + name + ' and their parent.';
+      document.getElementById('codeSuccessTitle').textContent = 'Student Code Generated';
+      document.getElementById('codeSuccessDesc').textContent = 'Share this one code with ' + name + '\'s family.';
       document.getElementById('codeSuccessBody').innerHTML =
         '<div style="background:#fef9c3; border:2px dashed #fde047; border-radius:15px; padding:15px; margin:10px 0;">' +
-        '<div style="font-size:0.8rem; color:#a16207; text-transform:uppercase; font-weight:800;">Student Code</div>' +
+        '<div style="font-size:0.8rem; color:#a16207; text-transform:uppercase; font-weight:800;">Student &amp; Family Code</div>' +
         '<div style="font-family:monospace; font-size:1.8rem; font-weight:800; color:#ca8a04; letter-spacing:2px; margin:5px 0;">' + stuCode + '</div>' +
         '<button class="btn-outline-light" onclick="navigator.clipboard.writeText(\'' + stuCode + '\');this.textContent=\'Copied!\'"><i class="fas fa-copy"></i> Copy</button></div>' +
-        '<div style="background:#f0fdf4; border:2px dashed #86efac; border-radius:15px; padding:15px; margin:10px 0;">' +
-        '<div style="font-size:0.8rem; color:#166534; text-transform:uppercase; font-weight:800;">Parent Code</div>' +
-        '<div style="font-family:monospace; font-size:1.8rem; font-weight:800; color:#15803d; letter-spacing:2px; margin:5px 0;">' + parCode + '</div>' +
-        '<button class="btn-outline-light" onclick="navigator.clipboard.writeText(\'' + parCode + '\');this.textContent=\'Copied!\'"><i class="fas fa-copy"></i> Copy</button></div>';
+        '<div style="background:#f0fdf4; border:2px dashed #86efac; border-radius:15px; padding:15px; margin:10px 0; font-size:0.85rem; color:#166534; text-align:left;">' +
+        '<strong>No separate parent code.</strong> The parent signs in with this same code and opens <strong>Parent Area</strong> in the dashboard, protected by a 4-digit PIN they choose.</div>';
       
       openModal('codeSuccessModal');
       await loadDashboardData();

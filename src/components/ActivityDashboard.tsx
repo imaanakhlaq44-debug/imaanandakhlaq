@@ -1,6 +1,8 @@
 import { html, raw } from 'hono/html'
 import activitiesData from '../data/activities.json'
 import { firebaseConfigJS } from '../lib/firebaseConfig'
+import { ParentGateModal } from './ParentGateModal'
+import { parentGateHelpersJS } from '../lib/parentGateService'
 
 export const ActivityDashboard = () => html`
 <style>
@@ -1979,6 +1981,7 @@ export const ActivityDashboard = () => html`
         <li data-section="books" role="button" tabindex="0"><span class="nav-badge books"><i class="fas fa-book-open"></i></span><span>Books</span></li>
         <li data-section="progress" role="button" tabindex="0"><span class="nav-badge progress"><i class="fas fa-star"></i></span><span>Progress</span></li>
         <li data-section="rankings" role="button" tabindex="0"><span class="nav-badge reports"><i class="fas fa-medal"></i></span><span>Rankings</span></li>
+        <li data-section="parent-gate" id="parentGateSidebarBtn" role="button" tabindex="0"><span class="nav-badge parent" style="background: linear-gradient(135deg, #243d6b, #cf296d); color:#fff;"><i class="fas fa-user-shield"></i></span><span>Parent Area</span></li>
       </ul>
 
       <!-- Red Logout button at bottom -->
@@ -2132,6 +2135,74 @@ export const ActivityDashboard = () => html`
             <div style="text-align: center; color: #64748b; padding: 2rem;"><i class="fas fa-spinner fa-spin fa-2x"></i></div>
           </div>
         </section>
+        <section class="surface-card parent-control-card d-none" id="studentParentSection" style="margin-top: 1rem;">
+          <!-- Active Parent Banner -->
+          <div class="parent-mode-banner">
+            <strong><i class="fas fa-shield-alt"></i> Parent Mode Active (Auto-locks in 5 min inactivity)</strong>
+            <button class="parent-mode-lock-btn" type="button" onclick="window.lockParentMode('Parent Mode Locked')">
+              <i class="fas fa-lock"></i> Lock Parent Area
+            </button>
+          </div>
+
+          <div class="section-header">
+            <div class="section-heading">
+              <div class="section-asset" style="background: linear-gradient(135deg, #243d6b, #cf296d); display:flex; align-items:center; justify-content:center; color:#fff; font-size:1.4rem;">
+                <i class="fas fa-user-shield"></i>
+              </div>
+              <div>
+                <h3>Parent Dashboard &amp; Analytics</h3>
+                <p>Monitor your child's learning trajectory, review submitted activities, and track stars.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Parent Summary Metrics -->
+          <div class="summary-strip" style="margin: 1rem 0;">
+            <div class="summary-card" style="background: linear-gradient(135deg, #1d3156 0%, #243d6b 100%) !important;">
+              <div class="summary-copy">
+                <span class="summary-label">Total Stars Earned</span>
+                <strong class="summary-value" id="pgParentStarsValue">0</strong>
+                <span class="summary-meta">Points accumulated by student.</span>
+              </div>
+            </div>
+
+            <div class="summary-card" style="background: linear-gradient(135deg, #cf296d 0%, #ea8300 100%) !important;">
+              <div class="summary-copy">
+                <span class="summary-label">Chapters Completed</span>
+                <strong class="summary-value" id="pgParentCompletedCount">0</strong>
+                <span class="summary-meta">Total activities finished.</span>
+              </div>
+            </div>
+
+            <div class="summary-card" style="background: linear-gradient(135deg, #ea8300 0%, #f4c542 100%) !important;">
+              <div class="summary-copy">
+                <span class="summary-label">Awaiting Teacher Review</span>
+                <strong class="summary-value" id="pgParentPendingCount">0</strong>
+                <span class="summary-meta">Submitted, not marked yet.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Chapter-by-chapter record. Read-only: parents no longer approve
+               anything, they follow what the teacher said. -->
+          <div style="background: #ffffff; border-radius: 16px; padding: 1.2rem; border: 1px solid #dce6f1;">
+            <h4 style="font-family:'Sora', sans-serif; margin-top:0; color:#1b2942;"><i class="fas fa-clipboard-check" style="color:#cf296d;"></i> Chapters &amp; Teacher Feedback</h4>
+            <div id="pgParentApprovalList" style="margin-top: 0.8rem;">
+              <p style="color:#6f7f96; font-size:0.85rem; font-style:italic;"><i class="fas fa-spinner fa-spin"></i> Loading your child's work...</p>
+            </div>
+          </div>
+
+          <!-- Parent Settings / PIN Update -->
+          <div style="margin-top: 1rem; background: #ffffff; border-radius: 16px; padding: 1.2rem; border: 1px solid #dce6f1; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1rem;">
+            <div>
+              <h5 style="font-family:'Sora', sans-serif; margin:0; font-size:0.95rem; color:#1b2942;"><i class="fas fa-cog" style="color:#243d6b;"></i> Parent Security Settings</h5>
+              <span style="font-size:0.78rem; color:#6f7f96;">Change your 4-digit PIN.</span>
+            </div>
+            <button type="button" class="dashboard-home-btn" style="background:#243d6b !important; border:none;" onclick="window.handleParentGateClick()">
+              <i class="fas fa-key"></i> <span>Change PIN</span>
+            </button>
+          </div>
+        </section>
       </div>
 
       <div id="errorState" class="surface-card error-card d-none">
@@ -2143,14 +2214,6 @@ export const ActivityDashboard = () => html`
       </div>
     </div>
     
-    <!-- On phones this bar is the only navigation: the sidebar list is hidden
-         below 760px. It therefore has to carry all four sections. Overview and
-         Rankings were previously reachable only from that hidden list, so
-         dropping the list without adding them here would have stranded the
-         Champions Board with no way to open it.
-         The old Home button is gone: it pointed at auth.html, which bounces a
-         signed-in student straight back here, and it duplicated the Home in
-         the school banner that this change removes. -->
     <div class="mobile-bottom-actions">
       <button class="mobile-action-btn" type="button" onclick="window.switchStudentSection('overview', false)">
         <i class="fas fa-chart-pie"></i>
@@ -2168,6 +2231,10 @@ export const ActivityDashboard = () => html`
         <i class="fas fa-medal"></i>
         <span>Rankings</span>
       </button>
+      <button class="mobile-action-btn parent-gate-mobile" type="button" onclick="window.switchStudentSection('parent-gate', false)">
+        <i class="fas fa-user-shield" style="color: #ffffff; background: linear-gradient(135deg, #243d6b, #cf296d);"></i>
+        <span>Parent Area</span>
+      </button>
 
       <button class="mobile-action-btn logout" type="button" onclick="window.logoutStudent()">
         <i class="fas fa-sign-out-alt"></i>
@@ -2176,6 +2243,8 @@ export const ActivityDashboard = () => html`
     </div>
   </div>
 </div>
+
+${ParentGateModal()}
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
@@ -2436,13 +2505,346 @@ export const ActivityDashboard = () => html`
     const overviewSection = document.getElementById('studentOverviewSection');
     const booksSection = document.getElementById('studentBooksSection');
     const progressSection = document.getElementById('studentProgressSection');
-
     const studentRankingsSection = document.getElementById('studentRankingsSection');
+    const studentParentSection = document.getElementById('studentParentSection');
 
     if (section === 'books') return booksSection || topSection;
     if (section === 'progress') return progressSection || topSection;
     if (section === 'rankings') return studentRankingsSection || topSection;
+    if (section === 'parent-gate') return studentParentSection || topSection;
     return overviewSection || topSection;
+  }
+
+  // --- PARENT GATE CLIENT LOGIC & AUTO-LOCK TIMER ---
+  // pgHashPin / pgIsValidPin / PG_AUTO_LOCK_MS come from parentGateService.ts.
+  // They used to be typed out again right here while the service file sat
+  // unimported, so the salt existed in two places and a change to either one
+  // would have invalidated every stored PIN.
+  ${raw(parentGateHelpersJS)}
+
+  let isParentUnlocked = false;
+  let parentInactivityTimer = null;
+
+  function resetParentInactivityTimer() {
+    if (!isParentUnlocked) return;
+    if (parentInactivityTimer) clearTimeout(parentInactivityTimer);
+    parentInactivityTimer = setTimeout(() => {
+      window.lockParentMode('Parent Area auto-locked after ' + PG_AUTO_LOCK_MINUTES + ' minutes of inactivity.');
+    }, PG_AUTO_LOCK_MS);
+  }
+
+  ['mousemove', 'keydown', 'touchstart', 'scroll', 'click'].forEach((evt) => {
+    window.addEventListener(evt, resetParentInactivityTimer, { passive: true });
+  });
+
+  window.lockParentMode = (msg) => {
+    isParentUnlocked = false;
+    if (parentInactivityTimer) clearTimeout(parentInactivityTimer);
+    const parentSection = document.getElementById('studentParentSection');
+    if (parentSection) parentSection.classList.add('d-none');
+    window.switchStudentSection('overview');
+    if (msg) alert(msg);
+  };
+
+  window.closePgModal = (modalId) => {
+    const m = document.getElementById(modalId);
+    if (m) m.classList.remove('active');
+  };
+
+  window.handleParentGateClick = async () => {
+    if (isParentUnlocked) {
+      window.switchStudentSection('parent-gate');
+      return;
+    }
+
+    if (currentStudent && currentStudent.parentGate && currentStudent.parentGate.isConfigured) {
+      const unlockModal = document.getElementById('pgUnlockModal');
+      if (unlockModal) {
+        unlockModal.classList.add('active');
+        const pinInp = document.getElementById('pgUnlockPinInput');
+        if (pinInp) { pinInp.value = ''; pinInp.focus(); }
+        const errEl = document.getElementById('pgUnlockError');
+        if (errEl) errEl.style.display = 'none';
+      }
+    } else {
+      const setupModal = document.getElementById('pgSetupModal');
+      if (setupModal) {
+        setupModal.classList.add('active');
+        const pinInp = document.getElementById('pgSetupPinInput');
+        if (pinInp) { pinInp.value = ''; pinInp.focus(); }
+        const errEl = document.getElementById('pgSetupError');
+        if (errEl) errEl.style.display = 'none';
+      }
+    }
+  };
+
+  // Writes the hashed PIN to the caller's own user doc. The firestore rules
+  // self-update whitelist has to name 'parentGate' for this to be allowed —
+  // it didn't, so every setup attempt failed with permission-denied.
+  async function pgSavePin(pin) {
+    const config = {
+      isConfigured: true,
+      pinHash: await pgHashPin(pin),
+      lastUnlockedAt: new Date().toISOString(),
+      autoLockMinutes: PG_AUTO_LOCK_MINUTES
+    };
+    await updateDoc(doc(db, 'users', auth.currentUser.uid), { parentGate: config });
+    if (currentStudent) currentStudent.parentGate = config;
+  }
+
+  function pgEnterParentMode() {
+    isParentUnlocked = true;
+    resetParentInactivityTimer();
+    window.switchStudentSection('parent-gate');
+  }
+
+  window.submitPgSetup = async () => {
+    const pinVal = (document.getElementById('pgSetupPinInput')?.value || '').trim();
+    const errorEl = document.getElementById('pgSetupError');
+
+    if (!pgIsValidPin(pinVal)) {
+      if (errorEl) { errorEl.textContent = 'Please enter a valid 4-digit numeric PIN.'; errorEl.style.display = 'block'; }
+      return;
+    }
+
+    if (errorEl) errorEl.style.display = 'none';
+    try {
+      await pgSavePin(pinVal);
+      window.closePgModal('pgSetupModal');
+      pgEnterParentMode();
+    } catch (err) {
+      console.error('Failed to setup Parent Gate:', err);
+      if (errorEl) { errorEl.textContent = 'Error saving Parent Gate. Please retry.'; errorEl.style.display = 'block'; }
+    }
+  };
+
+  window.submitPgUnlock = async () => {
+    const pinVal = (document.getElementById('pgUnlockPinInput')?.value || '').trim();
+    const errorEl = document.getElementById('pgUnlockError');
+    const card = document.getElementById('pgUnlockCard');
+
+    // Not an inline regex: this is a hono html\`\` template, which eats the
+    // backslash in \\d and shipped /^d{4}$/ — a pattern matching four literal
+    // "d"s, so no PIN could ever unlock the gate. pgIsValidPin lives in a plain
+    // .ts file where the escape survives.
+    if (!pgIsValidPin(pinVal)) {
+      if (errorEl) { errorEl.textContent = 'Please enter all 4 digits of your PIN.'; errorEl.style.display = 'block'; }
+      return;
+    }
+
+    const enteredHash = await pgHashPin(pinVal);
+    const targetHash = currentStudent && currentStudent.parentGate ? currentStudent.parentGate.pinHash : '';
+
+    if (enteredHash === targetHash) {
+      if (errorEl) errorEl.style.display = 'none';
+      window.closePgModal('pgUnlockModal');
+      pgEnterParentMode();
+    } else {
+      if (errorEl) { errorEl.textContent = 'Incorrect PIN. Try again.'; errorEl.style.display = 'block'; }
+      if (card) {
+        card.classList.add('pg-shake');
+        setTimeout(() => card.classList.remove('pg-shake'), 400);
+      }
+    }
+  };
+
+  window.openPgForgotModal = () => {
+    window.closePgModal('pgUnlockModal');
+    const forgotModal = document.getElementById('pgForgotModal');
+    if (!forgotModal) return;
+    forgotModal.classList.add('active');
+
+    const emailEl = document.getElementById('pgForgotAccountEmail');
+    if (emailEl) emailEl.value = (auth.currentUser ? auth.currentUser.email : '') || '';
+    const pwEl = document.getElementById('pgForgotPasswordInput');
+    if (pwEl) { pwEl.value = ''; pwEl.focus(); }
+    const pinEl = document.getElementById('pgForgotNewPinInput');
+    if (pinEl) pinEl.value = '';
+    const msg = document.getElementById('pgForgotMessage');
+    if (msg) msg.style.display = 'none';
+  };
+
+  window.backToPgUnlock = () => {
+    window.closePgModal('pgForgotModal');
+    const unlockModal = document.getElementById('pgUnlockModal');
+    if (unlockModal) unlockModal.classList.add('active');
+  };
+
+  function pgShowForgotMessage(text, ok) {
+    const msgEl = document.getElementById('pgForgotMessage');
+    if (!msgEl) return;
+    msgEl.textContent = text;
+    msgEl.style.color = ok ? '#16a34a' : '#dc2626';
+    msgEl.style.display = 'block';
+  }
+
+  // Previously this only printed "recovery details sent" — no mail was ever
+  // sent and the PIN never changed, so a parent who forgot it was locked out
+  // for good. Re-authenticating against the account password is a check
+  // Firebase performs server-side and it needs no mail infrastructure.
+  window.submitPgForgot = async () => {
+    const password = document.getElementById('pgForgotPasswordInput')?.value || '';
+    const newPin = (document.getElementById('pgForgotNewPinInput')?.value || '').trim();
+    const btn = document.getElementById('pgForgotSubmitBtn');
+    const card = document.getElementById('pgForgotCard');
+
+    if (!password) return pgShowForgotMessage('Please enter your account password.', false);
+    if (!pgIsValidPin(newPin)) return pgShowForgotMessage('New PIN must be exactly 4 digits.', false);
+
+    const email = auth.currentUser ? auth.currentUser.email : '';
+    if (!email) return pgShowForgotMessage('You appear to be signed out. Please sign in again.', false);
+
+    if (btn) btn.disabled = true;
+    pgShowForgotMessage('Verifying...', true);
+    try {
+      const { EmailAuthProvider, reauthenticateWithCredential } =
+        await import('https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js');
+      await reauthenticateWithCredential(auth.currentUser, EmailAuthProvider.credential(email, password));
+
+      await pgSavePin(newPin);
+      window.closePgModal('pgForgotModal');
+      pgEnterParentMode();
+    } catch (err) {
+      console.error('Parent PIN reset failed:', err);
+      const code = err && err.code ? err.code : '';
+      let msg = 'Could not reset the PIN. Please try again.';
+      if (code === 'auth/wrong-password' || code === 'auth/invalid-credential') {
+        msg = 'That password is not correct.';
+        if (card) { card.classList.add('pg-shake'); setTimeout(() => card.classList.remove('pg-shake'), 400); }
+      } else if (code === 'auth/too-many-requests') {
+        msg = 'Too many attempts. Please wait a few minutes and try again.';
+      }
+      pgShowForgotMessage(msg, false);
+    } finally {
+      if (btn) btn.disabled = false;
+    }
+  };
+
+  window.switchStudentSection = (section, shouldScroll = true) => {
+    if (section === 'parent-gate' && !isParentUnlocked) {
+      window.handleParentGateClick();
+      return;
+    }
+
+    const validSections = ['overview', 'books', 'progress', 'rankings', 'parent-gate'];
+    const nextSection = validSections.includes(section) ? section : 'overview';
+    currentStudentSection = nextSection;
+
+    document.querySelectorAll('.sidebar-nav li[data-section]').forEach((item) => {
+      item.classList.toggle('active', item.dataset.section === nextSection);
+    });
+
+    document.querySelectorAll('.summary-card[data-section]').forEach((item) => {
+      item.classList.toggle('is-active', item.dataset.section === nextSection);
+    });
+
+    const parentSection = document.getElementById('studentParentSection');
+    if (parentSection) {
+      parentSection.classList.toggle('d-none', nextSection !== 'parent-gate');
+    }
+
+    if (nextSection === 'parent-gate' && currentStudent) {
+      const starsEl = document.getElementById('pgParentStarsValue');
+      const compEl = document.getElementById('pgParentCompletedCount');
+      if (starsEl) starsEl.textContent = String(gameState.points || 0);
+      if (compEl) compEl.textContent = String((gameState.teacher_approved || []).length);
+      loadParentReport();
+    }
+
+    if (nextSection === 'rankings') loadGlobalRankings();
+
+    const target = getStudentSectionTarget(nextSection);
+    if (shouldScroll && target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
+  // This page called escapeHtml eleven times and never defined it — the
+  // teacher and parent dashboards each carry their own copy, this one was
+  // simply missing. Nothing had surfaced it because every call sits inside the
+  // leaderboard and champions rendering, which was failing on permissions long
+  // before it reached the first row. Same implementation as TeacherDashboard.
+  function escapeHtml(value) {
+    return String(value == null ? '' : value).replace(/[&<>"']/g, (char) => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#39;'
+    }[char]));
+  }
+
+  // The Parent Area's chapter list. It used to be a hardcoded "no chapters
+  // pending" paragraph that no code ever touched, sitting under a counter that
+  // said otherwise. Reads the student's own submissions — the rules already
+  // allow that — and reports what the teacher did with each one.
+  const PG_STATUS = {
+    teacher_approved: { label: 'Approved', cls: 'completed', icon: 'fa-circle-check' },
+    needs_redo:       { label: 'Needs redo', cls: 'rejected',  icon: 'fa-rotate-left' },
+    pending_teacher:  { label: 'With the teacher', cls: 'pending', icon: 'fa-hourglass-half' }
+  };
+
+  function pgStatusOf(sub) {
+    // Legacy sheets carry 'waiting_parent' from the old approval stage; there
+    // is no parent step any more, so they are simply with the teacher.
+    const raw = sub.reviewStatus === 'waiting_parent' ? 'pending_teacher' : sub.reviewStatus;
+    return PG_STATUS[raw] || PG_STATUS.pending_teacher;
+  }
+
+  function pgFormatDate(iso) {
+    if (!iso) return '';
+    const d = new Date(iso);
+    return isNaN(d.getTime()) ? '' : d.toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' });
+  }
+
+  let parentReportLoaded = false;
+  async function loadParentReport() {
+    const listEl = document.getElementById('pgParentApprovalList');
+    const pendEl = document.getElementById('pgParentPendingCount');
+    if (!listEl || !currentStudent) return;
+    if (parentReportLoaded) return;
+
+    try {
+      const { collection, query, where, getDocs } = await import('https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js');
+      const snap = await getDocs(query(
+        collection(db, 'activity_submissions'),
+        where('student_uid', '==', currentStudent.uid)
+      ));
+
+      const rows = [];
+      snap.forEach(d => rows.push(d.data()));
+      rows.sort((a, b) => new Date(b.updatedAt || b.submittedAt || 0) - new Date(a.updatedAt || a.submittedAt || 0));
+
+      if (pendEl) {
+        pendEl.textContent = String(rows.filter(r => pgStatusOf(r) === PG_STATUS.pending_teacher).length);
+      }
+
+      if (rows.length === 0) {
+        listEl.innerHTML = '<p style="color:#6f7f96; font-size:0.85rem; font-style:italic;">Nothing submitted yet. Chapters will appear here once your child finishes one.</p>';
+        parentReportLoaded = true;
+        return;
+      }
+
+      listEl.innerHTML = rows.map(sub => {
+        const st = pgStatusOf(sub);
+        const when = pgFormatDate(sub.teacherApprovedAt || sub.teacherReviewedAt || sub.submittedAt);
+        const note = String(sub.teacherNotes || '').trim();
+        return '<div class="pg-report-row">' +
+            '<div class="pg-report-head">' +
+              '<strong>' + escapeHtml(sub.chapter_title || sub.chapter_id || 'Chapter') + '</strong>' +
+              '<span class="status-pill ' + st.cls + '"><i class="fas ' + st.icon + '"></i> ' + st.label + '</span>' +
+            '</div>' +
+            (when ? '<div class="pg-report-date">' + escapeHtml(when) + '</div>' : '') +
+            (note
+              ? '<div class="pg-report-note"><i class="fas fa-comment-dots"></i> ' + escapeHtml(note) + '</div>'
+              : '<div class="pg-report-note muted">No note from the teacher.</div>') +
+          '</div>';
+      }).join('');
+      parentReportLoaded = true;
+    } catch (e) {
+      console.error('Parent report error:', e);
+      listEl.innerHTML = '<p style="color:#dc2626; font-size:0.85rem;">Could not load the chapter list. Please refresh.</p>';
+    }
   }
 
   function bindStudentSectionControls() {
@@ -2593,26 +2995,6 @@ export const ActivityDashboard = () => html`
       listEl.innerHTML = '<div style="text-align:center; color:#ef4444; padding:2rem;">Failed to load rankings.</div>';
     }
   }
-
-  window.switchStudentSection = (section, shouldScroll = true) => {
-    const nextSection = ['overview', 'books', 'progress', 'rankings'].includes(section) ? section : 'overview';
-    currentStudentSection = nextSection;
-
-    document.querySelectorAll('.sidebar-nav li[data-section]').forEach((item) => {
-      item.classList.toggle('active', item.dataset.section === nextSection);
-    });
-
-    document.querySelectorAll('.summary-card[data-section]').forEach((item) => {
-      item.classList.toggle('is-active', item.dataset.section === nextSection);
-    });
-
-    if (nextSection === 'rankings') loadGlobalRankings();
-
-    const target = getStudentSectionTarget(nextSection);
-    if (shouldScroll && target) {
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  };
 
   bindStudentSectionControls();
 

@@ -698,13 +698,13 @@ export const ActivityPage = () => html`
       </div>
 
       <div class="parents-inputs mt-3">
-        <div class="parent-row"><div class="parent-day">Mon</div><input type="text" id="parentNote_0" class="parent-input" placeholder="Needs parent PIN to approve..."></div>
-        <div class="parent-row"><div class="parent-day">Tue</div><input type="text" id="parentNote_1" class="parent-input" placeholder="Needs parent PIN to approve..."></div>
-        <div class="parent-row"><div class="parent-day">Wed</div><input type="text" id="parentNote_2" class="parent-input" placeholder="Needs parent PIN to approve..."></div>
-        <div class="parent-row"><div class="parent-day">Thu</div><input type="text" id="parentNote_3" class="parent-input" placeholder="Needs parent PIN to approve..."></div>
-        <div class="parent-row"><div class="parent-day">Fri</div><input type="text" id="parentNote_4" class="parent-input" placeholder="Needs parent PIN to approve..."></div>
-        <div class="parent-row"><div class="parent-day">Sat</div><input type="text" id="parentNote_5" class="parent-input" placeholder="Needs parent PIN to approve..."></div>
-        <div class="parent-row"><div class="parent-day">Sun</div><input type="text" id="parentNote_6" class="parent-input" placeholder="Needs parent PIN to approve..."></div>
+        <div class="parent-row"><div class="parent-day">Mon</div><input type="text" id="parentNote_0" class="parent-input" placeholder="Parent's note for the day..."></div>
+        <div class="parent-row"><div class="parent-day">Tue</div><input type="text" id="parentNote_1" class="parent-input" placeholder="Parent's note for the day..."></div>
+        <div class="parent-row"><div class="parent-day">Wed</div><input type="text" id="parentNote_2" class="parent-input" placeholder="Parent's note for the day..."></div>
+        <div class="parent-row"><div class="parent-day">Thu</div><input type="text" id="parentNote_3" class="parent-input" placeholder="Parent's note for the day..."></div>
+        <div class="parent-row"><div class="parent-day">Fri</div><input type="text" id="parentNote_4" class="parent-input" placeholder="Parent's note for the day..."></div>
+        <div class="parent-row"><div class="parent-day">Sat</div><input type="text" id="parentNote_5" class="parent-input" placeholder="Parent's note for the day..."></div>
+        <div class="parent-row"><div class="parent-day">Sun</div><input type="text" id="parentNote_6" class="parent-input" placeholder="Parent's note for the day..."></div>
       </div>
 
       <div class="text-center">
@@ -1544,6 +1544,21 @@ export const ActivityPage = () => html`
       checkAllDaysFilled();
     }
 
+    // Drops the teacher's written feedback in above the activity, so a student
+    // reopening a sent-back sheet sees what to fix before touching anything.
+    function showTeacherNote(note, isRedo) {
+      const host = document.getElementById('activityContainer') || document.body;
+      const box = document.createElement('div');
+      box.className = 'alert ' + (isRedo ? 'alert-danger' : 'alert-success') + ' shadow-sm';
+      box.style.borderRadius = '14px';
+      box.innerHTML =
+        '<strong><i class="fas fa-' + (isRedo ? 'redo' : 'star') + '"></i> ' +
+        (isRedo ? 'Your teacher asked you to fix this:' : 'Note from your teacher:') +
+        '</strong><div style="margin-top:0.4rem;"></div>';
+      box.lastChild.textContent = note;
+      host.insertBefore(box, host.firstChild);
+    }
+
     // CHECK FOR EXISTING SUBMISSION from Firebase
     const submissionId = currentUser ? (currentUser.uid + '_' + chapterId) : null;
     let existingSub = null;
@@ -1624,18 +1639,29 @@ export const ActivityPage = () => html`
     });
 
     
+    // A sheet the teacher sent back is the one case where a saved submission
+    // must NOT lock the page — the whole point is that the student edits it and
+    // submits again. Everything below reads this instead of a bare truthy
+    // check on existingSub.
+    const needsRedo = !!existingSub && existingSub.reviewStatus === 'needs_redo';
+    const isLocked = !!existingSub && !needsRedo;
+
+    if (existingSub && existingSub.teacherNotes) {
+      showTeacherNote(existingSub.teacherNotes, needsRedo);
+    }
+
     if (existingSub) {
       // Pre-fill text
       document.getElementById('discussionAnswer').value = existingSub.discussionText || '';
-      document.getElementById('discussionAnswer').disabled = true;
-      document.getElementById('discussionAnswer').style.background = '#f8fafc';
-      
+      document.getElementById('discussionAnswer').disabled = isLocked;
+      document.getElementById('discussionAnswer').style.background = isLocked ? '#f8fafc' : '';
+
       // Pre-fill parents
       for(let i=0; i<7; i++) {
         let pInput = document.getElementById('parentNote_' + i);
         pInput.value = (existingSub.parentNotes && existingSub.parentNotes[i]) ? existingSub.parentNotes[i] : '';
-        pInput.disabled = true;
-        pInput.style.background = '#f8fafc';
+        pInput.disabled = isLocked;
+        pInput.style.background = isLocked ? '#f8fafc' : '';
       }
       
       // Pre-fill grid cells
@@ -1651,23 +1677,28 @@ export const ActivityPage = () => html`
            if(cells[idx]) {
               cells[idx].dataset.stateIndex = stIdx;
               cells[idx].innerHTML = iconList[statesList[stIdx]];
-              cells[idx].style.pointerEvents = 'none'; // Lock clicks
+              if (isLocked) cells[idx].style.pointerEvents = 'none';
            }
         });
       }
-      
+
       // Update Save Button Visuals
       const saveBtn = document.getElementById('saveProgressBtn');
       const approvedList = state.teacher_approved || [];
-      if(approvedList.includes(chapterId)) {
+      if (needsRedo) {
+         saveBtn.className = 'btn btn-danger fw-bold p-3 w-100 rounded-pill fs-5 shadow-sm';
+         saveBtn.innerHTML = '<i class="fas fa-redo"></i> Fix &amp; Submit Again';
+      } else if(approvedList.includes(chapterId)) {
          saveBtn.className = 'btn btn-success fw-bold p-3 w-100 rounded-pill fs-5 shadow-sm';
          saveBtn.innerHTML = '<i class="fas fa-check-double"></i> Task Completed & Approved (50 ⭐)';
       } else {
          saveBtn.className = 'btn btn-warning fw-bold p-3 w-100 rounded-pill fs-5 shadow-sm bg-warning text-dark border-0';
          saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Currently Pending Review...';
       }
-      saveBtn.style.pointerEvents = 'none';
-      document.getElementById('saveAlert').style.display = 'none';
+      if (!needsRedo) {
+        saveBtn.style.pointerEvents = 'none';
+        document.getElementById('saveAlert').style.display = 'none';
+      }
     }
 
     // Phase Transition Logic
@@ -1893,8 +1924,12 @@ export const ActivityPage = () => html`
         activityStartedAt: attendanceStartedAt,
         submittedAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
-        reviewStatus: currentUser.role === 'individual' ? 'teacher_approved' : 'waiting_parent',
-        parentApprovedAt: currentUser.role === 'individual' ? new Date().toISOString() : null,
+        // Straight to the teacher. This used to be 'waiting_parent', and that
+        // one word was the entire parent-approval stage: the teacher's queue
+        // skipped anything a parent had not signed off, so work sat invisible
+        // until someone logged into a second account. Parents now read the
+        // outcome instead of standing in the way of it.
+        reviewStatus: currentUser.role === 'individual' ? 'teacher_approved' : 'pending_teacher',
         teacherApprovedAt: currentUser.role === 'individual' ? new Date().toISOString() : null
       };
 
