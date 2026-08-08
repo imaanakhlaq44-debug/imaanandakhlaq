@@ -55,7 +55,7 @@ export const Preloader = () => html`\n<!-- ===== KIDBA-STYLE SPLASH SCREEN =====
     </div>
 
     <!-- Bottom tagline -->
-    <p class="splash-tagline">Islamic Stories &amp; Education for Kids</p>
+    <p class="splash-tagline">Moral Education &amp; Character Building</p>
   </div>
 
   \n`;

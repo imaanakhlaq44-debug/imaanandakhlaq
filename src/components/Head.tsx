@@ -4,9 +4,9 @@ export const Head = () => html`\n<!DOCTYPE html>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Imaan & Akhlaq - Islamic Stories & Education for Kids</title>
+  <title>Imaan & Akhlaq - Moral Education & Character Building</title>
   <meta name="description" content="Imaan & Akhlaq - Fun Islamic stories, puppet shows, and educational programs teaching faith, manners, and good character to children." />
-  <meta property="og:title" content="Imaan & Akhlaq - Islamic Education for Kids" />
+  <meta property="og:title" content="Imaan & Akhlaq - Moral Education & Character Building" />
   <meta property="og:description" content="Join Imaan and Akhlaq on magical adventures learning about Islam, Prophets, and good manners!" />
   <meta property="og:type" content="website" />
   <link rel="icon" type="image/jpeg" href="/kidba_assets/favicon.jpg" />
@@ -14,7 +14,14 @@ export const Head = () => html`\n<!DOCTYPE html>
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Sora is used ~146 times across the dashboards (sidebar nav, logout,
+       headings) but was never requested here, so every visitor fell back to
+       whatever their device chose. On themed Android that renders letters
+       with decorative glyphs -- "LOGOUT" came out as "LƱGƱUT". The two
+       standalone pages, admin-dashboard.html and teacher-reader.html, already
+       ask for it; only this shared head was missing it. Weights match the set
+       admin-dashboard.html settled on. -->
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800&family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <!-- Bootstrap 5 -->
   <link rel="stylesheet" href="/kidba_assets/vendor/css/bootstrap.min.css" />
