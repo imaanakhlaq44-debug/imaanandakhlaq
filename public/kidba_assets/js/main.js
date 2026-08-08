@@ -583,5 +583,5 @@ if (toggler && togglerIcon) {
    INIT LOG
 ────────────────────────────────────────────────────────────── */
 console.log('%c🌙 Imaan & Akhlaq', 'color:#D63678;font-size:1.5rem;font-weight:bold;');
-console.log('%cIslamic Education for Kids — Ilm O Amal Initiative', 'color:#666;font-size:.9rem;');
+console.log('%cMoral Education & Character Building — Ilm O Amal Initiative', 'color:#666;font-size:.9rem;');
 console.log('%c📚 www.imaanakhlaq.org', 'color:#FF9800;font-size:.85rem;');
