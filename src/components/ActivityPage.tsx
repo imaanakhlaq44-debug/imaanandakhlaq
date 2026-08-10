@@ -1,6 +1,7 @@
 import { html, raw } from 'hono/html'
 import activitiesData from '../data/activities.json'
 import { firebaseConfigJS } from '../lib/firebaseConfig'
+import { activeChildHelpersJS } from '../lib/activeChild'
 
 export const ActivityPage = () => html`
 <style>
@@ -735,7 +736,21 @@ export const ActivityPage = () => html`
   const pageOpenedAtMs = Date.now();
   const attendanceSessionSeed = Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
   
+  // acResolveIdentity / acOwnership come from activeChild.ts.
+  ${raw(activeChildHelpersJS)}
+
   let currentUser = null;
+  // Who owns the work on this page. Distinct from currentUser: on a family
+  // account the signed-in uid is the parent and owns no submissions, so every
+  // read and write below keys off identity.studentUid, never currentUser.uid.
+  let identity = null;
+
+  // True once we know which learner we are writing for. On a family account
+  // that stays false until a child card has been opened — a save must bail
+  // rather than fall back to the parent's uid and forge a submission.
+  function hasLearner() { return !!(currentUser && identity && identity.studentUid); }
+  function learnerUid() { return identity ? identity.studentUid : ''; }
+
   let state = { points: 50, unlockedCount: 1, completed: [], parent_approved: [], teacher_approved: [] };
   let attendanceSessionId = null;
   let attendanceStartedAt = new Date(pageOpenedAtMs).toISOString();
@@ -783,6 +798,7 @@ export const ActivityPage = () => html`
           currentUser.name = uData.name || user.displayName || 'Student';
           currentUser.role = uData.role || 'student';
           if (uData.game_state) state = uData.game_state;
+          identity = acResolveIdentity(user.uid, uData);
         }
       } catch(e) {
         console.error(e);
@@ -801,6 +817,7 @@ export const ActivityPage = () => html`
             currentUser.name = uData.name || storedUser.name || 'Student';
             currentUser.role = uData.role || storedUser.role || 'student';
             if (uData.game_state) state = uData.game_state;
+            identity = acResolveIdentity(storedUser.uid, uData);
           }
         } catch(e) {
           // Use stored data as-is
@@ -810,6 +827,43 @@ export const ActivityPage = () => html`
         }
       }
     }
+
+    // On a family login the account doc belongs to the parent. Their name and
+    // school must never be stamped onto a child's sheet, so everything the
+    // submission carries is reloaded from the child instead.
+    if (identity && identity.isFamilyAccount) {
+      let child = null;
+      if (identity.studentUid) {
+        try {
+          const childSnap = await getDoc(doc(db, "users", identity.studentUid));
+          // Ownership is re-checked rather than trusted: the remembered child
+          // id outlives a logout, so a second family on a shared device would
+          // otherwise write into the previous family's child.
+          if (childSnap.exists() && childSnap.data().family_uid === identity.familyUid) {
+            child = childSnap.data();
+          }
+        } catch (e) {
+          console.error(e);
+        }
+      }
+
+      if (!child) {
+        // No child chosen, or the remembered one is not ours. Send them back
+        // to pick, rather than leaving a page that silently refuses to save.
+        window.location.replace('/family');
+        return;
+      }
+
+      currentUser.school_id = child.school_id || '';
+      currentUser.name = child.name || 'Student';
+      if (child.game_state) state = child.game_state;
+    }
+
+    // The /users doc was missing or unreachable — offline, or a fresh
+    // Capacitor session that fell back to localStorage. Treat it as a legacy
+    // account: the signed-in uid is the learner, which is what every account
+    // is until the family rollout reaches its school.
+    if (currentUser && !identity) identity = acResolveIdentity(currentUser.uid, null);
 
     if (!state.parent_approved) state.parent_approved = [];
     if (!state.teacher_approved) state.teacher_approved = [];
@@ -834,14 +888,13 @@ export const ActivityPage = () => html`
     if(!chapData) return alert("Chapter not found!");
 
     chapterId = chapData.id;
-    attendanceSessionId = currentUser ? (currentUser.uid + '_' + chapterId + '_' + attendanceSessionSeed) : null;
+    attendanceSessionId = hasLearner() ? (learnerUid() + '_' + chapterId + '_' + attendanceSessionSeed) : null;
     attendanceStartedAt = new Date(pageOpenedAtMs).toISOString();
 
     async function recordAttendance(status, extraData = {}) {
-      if (!currentUser || !attendanceSessionId) return;
+      if (!hasLearner() || !attendanceSessionId) return;
 
-      const attendancePayload = {
-        student_uid: currentUser.uid,
+      const attendancePayload = Object.assign(acOwnership(identity), {
         student_name: currentUser.name || 'Student',
         school_id: currentUser.school_id || '',
         book_id: currentBook,
@@ -854,7 +907,7 @@ export const ActivityPage = () => html`
         activityCompletedAt: extraData.activityCompletedAt || null,
         activityDurationSeconds: typeof extraData.activityDurationSeconds === 'number' ? extraData.activityDurationSeconds : null,
         existingSubmission: !!extraData.existingSubmission
-      };
+      });
 
       try {
         await setDoc(doc(db, "activity_attendance", attendanceSessionId), attendancePayload, { merge: true });
@@ -1416,37 +1469,35 @@ export const ActivityPage = () => html`
       }
 
       async function autosaveDraft(dayIdx) {
-        if (!currentUser) return;
+        if (!hasLearner()) return;
         const dayCells = document.querySelectorAll('.interactive-cell[data-day="' + dayIdx + '"]');
         const dayData = [];
         dayCells.forEach(c => dayData.push(parseInt(c.dataset.stateIndex) || 0));
         const parentNote = document.getElementById('parentNote_' + dayIdx);
         const noteVal = parentNote ? parentNote.value : '';
-        const key = draftKey(currentUser.uid, chapterId, dayIdx);
+        const key = draftKey(learnerUid(), chapterId, dayIdx);
         try {
-          await setDoc(doc(db, 'activity_drafts', key), {
-            student_uid: currentUser.uid,
+          await setDoc(doc(db, 'activity_drafts', key), Object.assign(acOwnership(identity), {
             chapter_id: chapterId,
             book_id: currentBook,
             day_index: dayIdx,
             cells: dayData,
             parentNote: noteVal,
             savedAt: new Date().toISOString()
-          }, { merge: true });
+          }), { merge: true });
         } catch(e) { console.warn('Draft save failed', e); }
       }
 
       async function autosaveMeta() {
-        if (!currentUser) return;
+        if (!hasLearner()) return;
         const discAns = document.getElementById('discussionAnswer').value;
-        const key = 'draft_' + currentUser.uid + '_' + chapterId + '_meta';
+        const key = 'draft_' + learnerUid() + '_' + chapterId + '_meta';
         try {
-          await setDoc(doc(db, 'activity_drafts', key), {
-            student_uid: currentUser.uid,
+          await setDoc(doc(db, 'activity_drafts', key), Object.assign(acOwnership(identity), {
             chapter_id: chapterId,
             discussionAnswer: discAns,
             savedAt: new Date().toISOString()
-          }, { merge: true });
+          }), { merge: true });
         } catch(e) { console.warn('Meta draft save failed', e); }
       }
 
@@ -1560,10 +1611,10 @@ export const ActivityPage = () => html`
     }
 
     // CHECK FOR EXISTING SUBMISSION from Firebase
-    const submissionId = currentUser ? (currentUser.uid + '_' + chapterId) : null;
+    const submissionId = hasLearner() ? (learnerUid() + '_' + chapterId) : null;
     let existingSub = null;
-    
-    if (currentUser && submissionId) {
+
+    if (submissionId) {
       try {
         const subSnap = await getDoc(doc(db, "activity_submissions", submissionId));
         if (subSnap.exists()) {
@@ -1573,13 +1624,13 @@ export const ActivityPage = () => html`
     }
 
     // ── Load existing day drafts (if no final submission yet) ──
-    if (!existingSub && currentUser) {
+    if (!existingSub && hasLearner()) {
       try {
         const iconListD = {
           0: '', 1: '<i class="fas fa-check-circle text-success"></i>', 2: '<i class="fas fa-times-circle text-danger"></i>'
         };
         for (let d = 0; d < 7; d++) {
-          const dKey = 'draft_' + currentUser.uid + '_' + chapterId + '_d' + d;
+          const dKey = 'draft_' + learnerUid() + '_' + chapterId + '_d' + d;
           const dSnap = await getDoc(doc(db, 'activity_drafts', dKey));
           if (dSnap.exists()) {
             const dData = dSnap.data();
@@ -1600,7 +1651,7 @@ export const ActivityPage = () => html`
         }
 
         // Load meta draft (discussion answer)
-        const metaKey = 'draft_' + currentUser.uid + '_' + chapterId + '_meta';
+        const metaKey = 'draft_' + learnerUid() + '_' + chapterId + '_meta';
         const metaSnap = await getDoc(doc(db, 'activity_drafts', metaKey));
         if (metaSnap.exists()) {
            const mData = metaSnap.data();
@@ -1911,8 +1962,7 @@ export const ActivityPage = () => html`
         if(states[stateIdx] === 'no') gridState.no++;
       });
       
-      const submissionData = {
-        student_uid: currentUser.uid,
+      const submissionData = Object.assign(acOwnership(identity), {
         student_name: currentUser.name || 'Student',
         school_id: currentUser.school_id || '',
         chapter_id: chapterId,
@@ -1931,7 +1981,7 @@ export const ActivityPage = () => html`
         // outcome instead of standing in the way of it.
         reviewStatus: currentUser.role === 'individual' ? 'teacher_approved' : 'pending_teacher',
         teacherApprovedAt: currentUser.role === 'individual' ? new Date().toISOString() : null
-      };
+      });
 
       const activityCompletedAt = new Date().toISOString();
       const activityDurationSeconds = Math.max(1, Math.round((Date.now() - pageOpenedAtMs) / 1000));
@@ -1958,14 +2008,14 @@ export const ActivityPage = () => html`
                state.points = (state.points || 0) + 50;
                state.unlockedCount = (state.unlockedCount || 1) + 1;
            }
-           await updateDoc(doc(db, "users", currentUser.uid), { game_state: state });
+           await updateDoc(doc(db, "users", learnerUid()), { game_state: state });
            
            alertBox.innerHTML = '<i class="fas fa-star text-warning"></i> Task Completed! You earned 50 points!<br><a href="/student-activities" class="btn btn-sm btn-success mt-3">Back to Dashboard</a>';
         } else {
            // Add to completed (Pending Review) in game state
            if (!state.completed.includes(chapterId)) {
              state.completed.push(chapterId);
-             await updateDoc(doc(db, "users", currentUser.uid), { game_state: state });
+             await updateDoc(doc(db, "users", learnerUid()), { game_state: state });
            }
            alertBox.innerHTML = '<i class="fas fa-clock text-warning"></i> Chapter task submitted! Waiting for <b>Review</b>.<br><a href="/student-activities" class="btn btn-sm btn-success mt-3">Back to Dashboard</a>';
         }
@@ -1988,7 +2038,10 @@ export const ActivityPage = () => html`
 
     // Save Button Logic (Gamification)
     document.getElementById('saveProgressBtn').addEventListener('click', async () => {
-      if (!currentUser || !submissionId) {
+      // submissionId is already null without a learner, but say so directly:
+      // everything below stamps ownership onto the sheet and must never run
+      // against an unresolved identity.
+      if (!hasLearner() || !submissionId) {
         showAuthRequiredOverlay();
         return;
       }

@@ -597,27 +597,32 @@
   }
 
   #nav-overview::before {
-    content: '3fd';
+    content: '\f3fd';
     background: linear-gradient(180deg, #314a7f 0%, #243d6b 100%);
   }
 
+  #nav-parents::before {
+    content: '\f0c0';
+    background: linear-gradient(180deg, #2f9e73 0%, #1f7d59 100%);
+  }
+
   #nav-teachers::before {
-    content: '51c';
+    content: '\f51c';
     background: linear-gradient(180deg, #f29a2a 0%, #ea8300 100%);
   }
 
   #nav-students::before {
-    content: '501';
+    content: '\f501';
     background: linear-gradient(180deg, #dd4a83 0%, #cf296d 100%);
   }
 
   #nav-attendance::before {
-    content: '073';
+    content: '\f073';
     background: linear-gradient(180deg, #d8a26d 0%, #cb955d 100%);
   }
 
   #nav-settings::before {
-    content: '013';
+    content: '\f013';
     background: linear-gradient(180deg, #314a7f 0%, #243d6b 100%);
   }
 
@@ -1990,7 +1995,7 @@
   }
 
   .modal-photo-picker::after {
-    content: '030';
+    content: '\f030';
     font-family: 'Font Awesome 6 Free';
     font-weight: 900;
     position: absolute;
@@ -2670,6 +2675,7 @@
       <div class="nav-center">
         <ul class="nav-links">
           <li class="active" id="nav-overview" onclick="switchAdminTab('overview')">Dashboard</li>
+          <li id="nav-parents" onclick="switchAdminTab('parents')">Parents</li>
           <li id="nav-teachers" onclick="switchAdminTab('teachers')">Teachers</li>
           <li id="nav-students" onclick="switchAdminTab('students')">Students</li>
           <li id="nav-attendance" onclick="switchAdminTab('attendance')">Attendance</li>
@@ -2890,6 +2896,39 @@
       </div>
 
       <!-- TEACHERS TAB -->
+      <!-- PARENTS TAB
+           First of the management sections on purpose: a family is now the
+           unit a school enrols. One login covers every child in the house, and
+           students are added from inside the family rather than standing on
+           their own with a login each. -->
+      <div id="tab-parents" class="fade-in tab-panel d-none">
+        <div class="section-header">
+          <div class="section-shell">
+            <div class="section-asset"><img src="/kidba_assets/img/3d_parent.png" alt="Family accounts 3D icon"></div>
+            <div class="section-copy">
+              <span class="section-eyebrow"><i class="fas fa-users"></i> Family accounts</span>
+              <h1 class="section-title">Parents</h1>
+              <p class="section-subtitle">One login per family. Create the account here and the system generates the username and password &mdash; parents need no email address.</p>
+            </div>
+          </div>
+          <div class="section-actions">
+            <button class="btn-outline-light" onclick="openMigration()" title="Turn students you already enrolled into family accounts, keeping all their work"><i class="fas fa-wand-magic-sparkles me-2"></i> Migrate existing students</button>
+            <button class="btn-solid" onclick="openModal('parentModal')"><i class="fas fa-user-plus me-2"></i> Add Parent</button>
+          </div>
+        </div>
+
+        <div class="table-header-row mb-2">
+          <div class="col-1">Family</div>
+          <div class="col-2">Username</div>
+          <div class="col-2">Children</div>
+          <div class="col-2">Phone</div>
+          <div class="col-actions">Actions</div>
+        </div>
+        <div id="parentDirectoryBody">
+          <!-- Loaded via JS -->
+        </div>
+      </div>
+
       <div id="tab-teachers" class="fade-in tab-panel d-none">
         <div class="section-header">
           <div class="section-shell">
@@ -3132,6 +3171,148 @@
   </div>
 </div>
 
+<!-- Add Parent Modal -->
+<div id="parentModal" class="modal-overlay d-none">
+  <div class="modal-content">
+    <div class="modal-topbar">
+      <div>
+        <span class="modal-kicker"><i class="fas fa-users"></i> Family account</span>
+        <h3 class="modal-title">Add Parent</h3>
+        <p class="modal-subtitle">The system creates the login and shows the username and password once. No email address is needed.</p>
+      </div>
+      <button class="modal-close" type="button" onclick="closeModal('parentModal')"><i class="fas fa-times"></i></button>
+    </div>
+
+    <div class="form-group mb-3">
+      <label><i class="far fa-address-card text-muted me-1"></i> Family Name</label>
+      <input type="text" id="newParName" class="form-input" placeholder="e.g. Ahmed Family">
+    </div>
+    <div class="form-group mb-4">
+      <label><i class="fas fa-phone text-muted me-1"></i> Phone <span style="font-weight:600; color:#94a3b8;">(optional)</span></label>
+      <input type="text" id="newParPhone" class="form-input" placeholder="e.g. +92 300 1234567">
+      <p style="font-size:0.78rem; color:#64748b; margin:6px 2px 0;">Lets the parent sign in with their phone number instead of the username.</p>
+    </div>
+    <div class="modal-footer-actions">
+      <button class="btn-outline-light" onclick="closeModal('parentModal')">Cancel</button>
+      <button class="btn-solid" onclick="createFamily(this)"><i class="fas fa-check"></i> Create Account</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add Student under a family -->
+<div id="familyChildModal" class="modal-overlay d-none">
+  <div class="modal-content">
+    <div class="modal-topbar">
+      <div>
+        <span class="modal-kicker"><i class="fas fa-user-graduate"></i> Enrolment</span>
+        <h3 class="modal-title">Add Student</h3>
+        <p class="modal-subtitle" id="familyChildSubtitle">Adding a child to this family.</p>
+      </div>
+      <button class="modal-close" type="button" onclick="closeModal('familyChildModal')"><i class="fas fa-times"></i></button>
+    </div>
+
+    <input type="hidden" id="familyChildUid">
+    <div class="form-group mb-3">
+      <label><i class="far fa-address-card text-muted me-1"></i> Student Name</label>
+      <input type="text" id="newChildName" class="form-input" placeholder="e.g. Abdullah">
+    </div>
+    <div class="form-group mb-4">
+      <label><i class="fas fa-chalkboard text-muted me-1"></i> Assign Class</label>
+      <select id="newChildClass" class="form-input" style="cursor: pointer;">
+        <option value="" disabled selected>-- Select Grade --</option>
+        <option value="Class 1">Class 1</option>
+        <option value="Class 2">Class 2</option>
+        <option value="Class 3">Class 3</option>
+        <option value="Class 4">Class 4</option>
+        <option value="Class 5">Class 5</option>
+        <option value="Class 6">Class 6</option>
+        <option value="Class 7">Class 7</option>
+        <option value="Class 8">Class 8</option>
+        <option value="Class 9">Class 9</option>
+        <option value="Class 10">Class 10</option>
+      </select>
+      <p style="font-size:0.78rem; color:#64748b; margin:6px 2px 0;">The class is what connects the student to their teacher.</p>
+    </div>
+    <div class="modal-footer-actions">
+      <button class="btn-outline-light" onclick="closeModal('familyChildModal')">Cancel</button>
+      <button class="btn-solid" onclick="addFamilyChild(this)"><i class="fas fa-check"></i> Create Student</button>
+    </div>
+  </div>
+</div>
+
+<!-- Credentials / code slip. Shown once, never stored: Firebase Auth keeps
+     only a password hash, and a second plaintext copy in Firestore would put
+     every family's password one compromised admin account away from leaking. -->
+<div id="handoverModal" class="modal-overlay d-none">
+  <div class="modal-content">
+    <div class="modal-topbar">
+      <div>
+        <span class="modal-kicker"><i class="fas fa-print"></i> Hand this to the parent</span>
+        <h3 class="modal-title" id="handoverTitle">Account created</h3>
+        <p class="modal-subtitle" id="handoverSubtitle">Copy or print this now.</p>
+      </div>
+      <button class="modal-close" type="button" onclick="closeModal('handoverModal')"><i class="fas fa-times"></i></button>
+    </div>
+
+    <div id="handoverBody"></div>
+
+    <div style="background:rgba(239,68,68,0.07); border:1px solid rgba(239,68,68,0.25); border-radius:14px; padding:12px 14px; margin-top:16px;">
+      <strong style="color:#b91c1c; font-size:0.85rem;"><i class="fas fa-triangle-exclamation me-1"></i> This will not be shown again.</strong>
+      <p style="margin:4px 0 0; font-size:0.8rem; color:#7f1d1d;">If it is lost, use <b>Reset password</b> to issue a new one.</p>
+    </div>
+
+    <div class="modal-footer-actions">
+      <button class="btn-outline-light" onclick="printHandover()"><i class="fas fa-print"></i> Print</button>
+      <button class="btn-solid" onclick="closeModal('handoverModal')">Done</button>
+    </div>
+  </div>
+</div>
+
+<!-- Read-only view of a family's children. Staff can already read their own
+     school's students and submissions, so checking a child's work never needs
+     the parent's password. -->
+<div id="familyChildrenModal" class="modal-overlay d-none">
+  <div class="modal-content modal-wide">
+    <div class="modal-topbar">
+      <div>
+        <span class="modal-kicker"><i class="fas fa-child-reaching"></i> Family</span>
+        <h3 class="modal-title" id="familyChildrenTitle">Children</h3>
+        <p class="modal-subtitle">Read-only. Codes still pending are the ones the parent has not redeemed yet.</p>
+      </div>
+      <button class="modal-close" type="button" onclick="closeModal('familyChildrenModal')"><i class="fas fa-times"></i></button>
+    </div>
+    <div id="familyChildrenBody"></div>
+    <div class="modal-footer-actions">
+      <button class="btn-solid" onclick="closeModal('familyChildrenModal')">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- Migrate students the school already enrolled.
+     Nothing is deleted and no student id changes, so every submission, point
+     and teacher note follows the child into their new family. -->
+<div id="migrationModal" class="modal-overlay d-none">
+  <div class="modal-content modal-wide">
+    <div class="modal-topbar">
+      <div>
+        <span class="modal-kicker"><i class="fas fa-wand-magic-sparkles"></i> One-time conversion</span>
+        <h3 class="modal-title">Migrate existing students</h3>
+        <p class="modal-subtitle">Students are grouped by the guardian contact on your roster. <b>Check every group before creating it</b> &mdash; a wrong merge would let one parent see another family's child.</p>
+      </div>
+      <button class="modal-close" type="button" onclick="closeModal('migrationModal')"><i class="fas fa-times"></i></button>
+    </div>
+
+    <div id="migrationSummary" style="margin-bottom:14px;"></div>
+    <div id="migrationBody"></div>
+
+    <div class="modal-footer-actions">
+      <button class="btn-outline-light" onclick="printMigrationSheet()"><i class="fas fa-print"></i> Print created logins</button>
+      <button class="btn-outline-light" onclick="openMigration()"><i class="fas fa-rotate"></i> Re-scan</button>
+      <button class="btn-solid" onclick="closeModal('migrationModal')">Done</button>
+    </div>
+  </div>
+</div>
+
 <!-- Edit Teacher Modal -->
 <div id="editTeacherModal" class="modal-overlay d-none">
   <div class="modal-content">
@@ -3321,6 +3502,7 @@
   import { getAuth, onAuthStateChanged, signOut, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
   import { getFirestore, doc, getDoc, collection, query, where, getDocs, setDoc, updateDoc, deleteDoc, writeBatch } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
   import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-storage.js";
+  import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-functions.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyA4MrV-oXhK_johreyzIucti5RFrKcvyG8",
@@ -3335,6 +3517,9 @@
   const auth = getAuth(app);
   const db = getFirestore(app);
   const storage = getStorage(app);
+  // Family provisioning runs entirely server-side: creating a login needs the
+  // Admin SDK, and /users create stays locked to self in the Firestore rules.
+  const functions = getFunctions(app);
 
   function showDebug(msg) {
     void msg;
@@ -3401,6 +3586,7 @@
   let currentAdminSession = null;
   let teachersList = [];
   let studentsList = [];
+  let familiesList = [];
   let invitesList = [];
   let currentClassFilter = 'all';
   const defaultClassOptions = Array.from({ length: 10 }, (_, index) => 'Class ' + (index + 1));
@@ -4209,18 +4395,27 @@
       
       teachersList = [];
       studentsList = [];
-      
+      familiesList = [];
+
       usersSnap.forEach(d => {
          const data = d.data();
          data.uid = d.id;
          if(data.role === 'teacher') teachersList.push(data);
          if(data.role === 'student') studentsList.push(data);
+         if(data.role === 'family') familiesList.push(data);
       });
 
       const invitesQuery = query(collection(db, "invites"), where("school_id", "==", schoolId));
       const invitesSnap = await getDocs(invitesQuery);
       invitesList = [];
-      invitesSnap.forEach(d => { invitesList.push(d.data()); });
+      invitesSnap.forEach(d => {
+        const data = d.data();
+        // The code IS the document id. Invites from the old signup flow also
+        // stored it as a field and every renderer here reads invite.code;
+        // family claim codes do not, so fill it in from the id.
+        if (!data.code) data.code = d.id;
+        invitesList.push(data);
+      });
 
       renderUI();
     } catch(err) {
@@ -4269,7 +4464,12 @@
     const teachers = teachersList.filter(recordMatchesClassFilter);
     const students = studentsList.filter(recordMatchesClassFilter);
     const pendingTeacherInvites = invitesList.filter((invite) => invite.role === 'teacher' && invite.status === 'pending' && recordMatchesClassFilter(invite));
-    const pendingStudentInvites = invitesList.filter((invite) => invite.role === 'student' && invite.status === 'pending' && recordMatchesClassFilter(invite));
+    // child_uid marks a family claim code. That student already exists in
+    // /users and is rendered from studentsList above — listing the code here
+    // too would show the same child twice, once as enrolled and once as
+    // pending. The old flow had no user until the invite was redeemed, which
+    // is why this distinction did not exist before.
+    const pendingStudentInvites = invitesList.filter((invite) => invite.role === 'student' && invite.status === 'pending' && !invite.child_uid && recordMatchesClassFilter(invite));
     const pendingInvites = pendingTeacherInvites.length + pendingStudentInvites.length;
 
     const currentLabel = getCurrentFilterLabel();
@@ -4390,6 +4590,11 @@
         '<div class="col-actions"><button class="action-btn text-danger" onclick="deleteInvite(\'' + invite.code + '\', \'student\')"><i class="fas fa-trash"></i></button></div></div>';
     });
     document.getElementById('studentDirectoryBody').innerHTML = stuDirHtml || '<div style="text-align:center; padding:2rem; color:#94a3b8; font-weight:700;">No students enrolled yet.</div>';
+
+    // Families are not filtered by class: a household can have children in
+    // several, and hiding a parent because one of their children sits outside
+    // the current filter would make accounts look missing.
+    renderParents();
 
     // Analytics
     let analyticsHtml = '';
@@ -4519,8 +4724,380 @@
     }
   };
 
+  // ─────────────────────────────────────────────────────────────────────
+  // Family accounts
+  // ─────────────────────────────────────────────────────────────────────
+  // Creating a login needs the Admin SDK and /users create stays locked to
+  // self in the Firestore rules, so every write below goes through a callable
+  // in functions/index.js rather than happening here.
+  const callCreateFamilyAccount = httpsCallable(functions, 'createFamilyAccount');
+  const callCreateChild = httpsCallable(functions, 'createChild');
+  const callResetFamilyPassword = httpsCallable(functions, 'resetFamilyPassword');
+
+  // This file builds every row by string concatenation and had no escaping of
+  // any kind. Names arrive from admin typing and from roster imports, neither
+  // of which is trusted markup.
+  const HTML_ESCAPES = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
+  function escapeHtml(value) {
+    return String(value == null ? '' : value).replace(/[&<>"']/g, (ch) => HTML_ESCAPES[ch]);
+  }
+
+  function childrenOf(familyUid) {
+    return studentsList.filter((student) => student.family_uid === familyUid);
+  }
+
+  /** The claim code a parent has not redeemed yet, or '' once they have. */
+  function pendingCodeFor(childUid) {
+    const invite = invitesList.find((i) => i.child_uid === childUid && i.status === 'pending');
+    return invite ? invite.code : '';
+  }
+
+  function renderParents() {
+    const body = document.getElementById('parentDirectoryBody');
+    if (!body) return;
+
+    const motifs = ['row-peach', 'row-yellow', 'row-green'];
+    let html = '';
+
+    familiesList.forEach((family, index) => {
+      const kids = childrenOf(family.uid);
+      const names = kids.map((kid) => escapeHtml(kid.name || 'Student')).join(', ');
+      const username = family.username || '';
+
+      html += '<div class="pill-row ' + motifs[index % 3] + '">' +
+        '<div class="col-1 d-flex align-items-center gap-3">' +
+          '<div style="width:40px; height:40px; border-radius:50%; background:rgba(255,255,255,0.7); display:flex; align-items:center; justify-content:center; color:#1f7d59;"><i class="fas fa-users"></i></div>' +
+          escapeHtml(family.name || 'Family') +
+        '</div>' +
+        '<div class="col-2">' + (username
+          ? '<code class="copyable-code" onclick="copyCodeInteractive(this, \'' + username + '\')" title="Click to copy">' + username + ' <i class="far fa-copy text-muted"></i></code>'
+          : '<span style="color:#94a3b8;">&mdash;</span>') + '</div>' +
+        '<div class="col-2">' + (kids.length
+          ? '<span style="font-weight:800;">' + kids.length + '</span> <span style="color:#475569; font-size:0.82rem;">' + names + '</span>'
+          : '<span style="color:#94a3b8; font-weight:700;">None yet</span>') + '</div>' +
+        '<div class="col-2">' + escapeHtml(family.phone || '—') + '</div>' +
+        '<div class="col-actions">' +
+          '<button class="action-btn" title="Add student" onclick="openAddChild(\'' + family.uid + '\')"><i class="fas fa-user-plus"></i></button>' +
+          '<button class="action-btn ms-2" title="View children" onclick="openFamilyChildren(\'' + family.uid + '\')"><i class="fas fa-eye"></i></button>' +
+          '<button class="action-btn ms-2" title="Reset password" onclick="resetFamilyPwd(\'' + family.uid + '\')"><i class="fas fa-key"></i></button>' +
+        '</div>' +
+      '</div>';
+    });
+
+    body.innerHTML = html || '<div style="text-align:center; padding:2rem; color:#94a3b8; font-weight:700;">No family accounts yet. Use <b>Add Parent</b> to create the first one.</div>';
+  }
+
+  /** Values here are generated codes — uppercase, digits and hyphens only. */
+  function showHandover(title, subtitle, rows) {
+    document.getElementById('handoverTitle').textContent = title;
+    document.getElementById('handoverSubtitle').textContent = subtitle;
+    document.getElementById('handoverBody').innerHTML = rows.map((row) =>
+      '<div style="display:flex; justify-content:space-between; align-items:center; gap:12px; background:rgba(255,255,255,0.7); border:1px solid rgba(15,23,42,0.08); border-radius:14px; padding:12px 14px; margin-bottom:10px;">' +
+        '<span style="font-size:0.75rem; font-weight:800; letter-spacing:0.06em; text-transform:uppercase; color:#64748b;">' + escapeHtml(row.label) + '</span>' +
+        '<code class="copyable-code" onclick="copyCodeInteractive(this, \'' + row.value + '\')" title="Click to copy" style="font-size:1.05rem;">' + escapeHtml(row.value) + ' <i class="far fa-copy text-muted"></i></code>' +
+      '</div>'
+    ).join('');
+    openModal('handoverModal');
+  }
+
+  window.printHandover = () => {
+    const title = document.getElementById('handoverTitle').textContent;
+    const subtitle = document.getElementById('handoverSubtitle').textContent;
+    const body = document.getElementById('handoverBody').innerHTML;
+    const slip = window.open('', '_blank', 'width=520,height=640');
+    if (!slip) return alert('Allow pop-ups for this site to print the slip.');
+    slip.document.write('<!doctype html><meta charset="utf-8"><title>' + escapeHtml(title) + '</title>' +
+      '<style>body{font-family:system-ui,-apple-system,sans-serif;padding:28px;color:#0f172a}' +
+      'h2{margin:0 0 2px;font-size:1.1rem}p{color:#64748b;margin:0 0 20px;font-size:.85rem}' +
+      'code{font-size:1.2rem;font-weight:700;letter-spacing:.05em}' +
+      'i{display:none}</style>' +
+      '<h2>Imaan &amp; Akhlaq &mdash; ' + escapeHtml(title) + '</h2>' +
+      '<p>' + escapeHtml(subtitle) + '</p>' + body);
+    slip.document.close();
+    slip.focus();
+    slip.print();
+  };
+
+  window.createFamily = async (trigger) => {
+    const name = document.getElementById('newParName').value.trim();
+    const phone = document.getElementById('newParPhone').value.trim();
+    if (!name) return alert('Enter the family name.');
+
+    const original = trigger ? trigger.innerHTML : '';
+    if (trigger) { trigger.disabled = true; trigger.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating...'; }
+
+    let result;
+    try {
+      result = await callCreateFamilyAccount({ name: name, phone: phone });
+    } catch (err) {
+      alert(err.message || 'Could not create the account.');
+      return;
+    } finally {
+      if (trigger) { trigger.disabled = false; trigger.innerHTML = original; }
+    }
+
+    closeModal('parentModal');
+    document.getElementById('newParName').value = '';
+    document.getElementById('newParPhone').value = '';
+
+    // Show the credentials before refreshing anything. They exist nowhere but
+    // on this screen, so a refresh that failed must never be able to take
+    // them down with it.
+    showHandover('Family account created', name, [
+      { label: 'Username', value: result.data.username },
+      { label: 'Password', value: result.data.password }
+    ]);
+    loadDashboardData();
+  };
+
+  window.openAddChild = (familyUid) => {
+    const family = familiesList.find((f) => f.uid === familyUid);
+    document.getElementById('familyChildUid').value = familyUid;
+    document.getElementById('familyChildSubtitle').textContent =
+      'Adding a child to ' + (family && family.name ? family.name : 'this family') + '.';
+    document.getElementById('newChildName').value = '';
+    document.getElementById('newChildClass').selectedIndex = 0;
+    openModal('familyChildModal');
+  };
+
+  window.addFamilyChild = async (trigger) => {
+    const familyUid = document.getElementById('familyChildUid').value;
+    const name = document.getElementById('newChildName').value.trim();
+    const classId = document.getElementById('newChildClass').value;
+    if (!familyUid) return alert('No family selected.');
+    if (!name) return alert('Enter the student name.');
+    if (!classId) return alert('Choose a class — it is what connects the student to their teacher.');
+
+    const original = trigger ? trigger.innerHTML : '';
+    if (trigger) { trigger.disabled = true; trigger.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating...'; }
+
+    let result;
+    try {
+      result = await callCreateChild({ family_uid: familyUid, name: name, class_id: classId });
+    } catch (err) {
+      alert(err.message || 'Could not create the student.');
+      return;
+    } finally {
+      if (trigger) { trigger.disabled = false; trigger.innerHTML = original; }
+    }
+
+    closeModal('familyChildModal');
+    showHandover('Student added', name + ' — ' + classId, [
+      { label: 'Student code', value: result.data.code }
+    ]);
+    loadDashboardData();
+  };
+
+  window.resetFamilyPwd = async (familyUid) => {
+    const family = familiesList.find((f) => f.uid === familyUid);
+    const label = family && family.name ? family.name : 'this family';
+    if (!confirm('Issue a new password for ' + label + '?\n\nThe current one stops working immediately, so the new password has to be handed over.')) return;
+
+    let result;
+    try {
+      result = await callResetFamilyPassword({ family_uid: familyUid });
+    } catch (err) {
+      return alert(err.message || 'Could not reset the password.');
+    }
+
+    showHandover('New password issued', label, [
+      { label: 'Username', value: result.data.username },
+      { label: 'Password', value: result.data.password }
+    ]);
+  };
+
+  window.openFamilyChildren = (familyUid) => {
+    const family = familiesList.find((f) => f.uid === familyUid);
+    const kids = childrenOf(familyUid);
+    document.getElementById('familyChildrenTitle').textContent =
+      (family && family.name ? family.name : 'Family') + ' — ' + kids.length + (kids.length === 1 ? ' child' : ' children');
+
+    let html = '';
+    kids.forEach((kid) => {
+      const gameState = kid.game_state || {};
+      const points = typeof gameState.points === 'number' ? gameState.points : 0;
+      const approved = Array.isArray(gameState.teacher_approved) ? gameState.teacher_approved.length : 0;
+      const code = pendingCodeFor(kid.uid);
+
+      html += '<div style="display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:space-between; background:rgba(255,255,255,0.7); border:1px solid rgba(15,23,42,0.08); border-radius:14px; padding:12px 14px; margin-bottom:10px;">' +
+        '<div><strong>' + escapeHtml(kid.name || 'Student') + '</strong>' +
+          '<div style="font-size:0.8rem; color:#64748b;">' + escapeHtml(kid.class_id || 'No class') + '</div></div>' +
+        '<div style="font-size:0.82rem; color:#475569;"><b>' + points + '</b> points &middot; <b>' + approved + '</b> approved</div>' +
+        '<div>' + (code
+          ? '<code class="copyable-code" onclick="copyCodeInteractive(this, \'' + code + '\')" title="Click to copy">' + code + ' <i class="far fa-copy text-muted"></i></code>'
+          : '<span style="font-size:0.8rem; font-weight:800; color:#22c55e;"><i class="fas fa-check-circle"></i> Claimed</span>') +
+        '</div>' +
+      '</div>';
+    });
+
+    document.getElementById('familyChildrenBody').innerHTML = html ||
+      '<div style="text-align:center; padding:1.5rem; color:#94a3b8; font-weight:700;">No children yet. Use the <i class="fas fa-user-plus"></i> button to add one.</div>';
+    openModal('familyChildrenModal');
+  };
+
+  // ─────────────────────────────────────────────────────────────────────
+  // Migrating students the school already enrolled
+  // ─────────────────────────────────────────────────────────────────────
+  // No student id changes and nothing is deleted, so every submission, point
+  // and teacher note follows the child. The grouping is only a proposal: the
+  // school confirms it, because merging two unrelated children would let one
+  // parent read another family's child.
+  const callPlanFamilyMigration = httpsCallable(functions, 'planFamilyMigration');
+  const callMigrateFamilyGroup = httpsCallable(functions, 'migrateFamilyGroup');
+
+  let migrationPlan = null;
+  const migrationDone = [];
+
+  function migTile(value, label) {
+    return '<div style="flex:1 1 130px; background:rgba(255,255,255,0.7); border:1px solid rgba(15,23,42,0.08); border-radius:14px; padding:12px 14px;">' +
+      '<div style="font-size:1.4rem; font-weight:900;">' + value + '</div>' +
+      '<div style="font-size:0.7rem; font-weight:800; letter-spacing:0.06em; text-transform:uppercase; color:#64748b;">' + label + '</div></div>';
+  }
+
+  window.openMigration = async () => {
+    openModal('migrationModal');
+    document.getElementById('migrationSummary').innerHTML =
+      '<div style="color:#64748b; font-weight:700;"><i class="fas fa-spinner fa-spin"></i> Scanning your school…</div>';
+    document.getElementById('migrationBody').innerHTML = '';
+
+    try {
+      const res = await callPlanFamilyMigration({});
+      migrationPlan = res.data;
+    } catch (err) {
+      document.getElementById('migrationSummary').innerHTML =
+        '<div style="color:#b91c1c; font-weight:800;">' + escapeHtml(err.message || 'Could not scan the school.') + '</div>';
+      return;
+    }
+    renderMigration();
+  };
+
+  function migGroupHtml(group, index) {
+    const kids = group.children.map((child) =>
+      '<span style="background:rgba(255,255,255,0.8); border:1px solid rgba(15,23,42,0.1); border-radius:999px; padding:4px 12px; font-size:0.8rem; font-weight:700;">' +
+        escapeHtml(child.name) +
+        (child.class_id ? ' <span style="color:#64748b; font-weight:600;">&middot; ' + escapeHtml(child.class_id) + '</span>' : '') +
+      '</span>').join('');
+
+    return '<div id="mig-row-' + index + '" class="pill-row ' + (group.children.length > 1 ? 'row-green' : 'row-yellow') + '" style="flex-wrap:wrap; gap:12px; align-items:center;">' +
+      '<div style="flex:1 1 220px; min-width:190px;">' +
+        '<input type="text" id="mig-name-' + index + '" class="form-input" value="' + escapeHtml(group.suggested_name) + '" style="font-weight:800;">' +
+        '<div style="font-size:0.76rem; color:#64748b; margin-top:4px;"><i class="fas fa-phone"></i> ' + escapeHtml(group.phone || '—') + '</div>' +
+      '</div>' +
+      '<div style="flex:2 1 280px; display:flex; flex-wrap:wrap; gap:6px;">' + kids + '</div>' +
+      '<div style="flex:0 0 auto;"><button class="btn-solid" id="mig-btn-' + index + '" onclick="runMigration(' + index + ')"><i class="fas fa-check"></i> Create family</button></div>' +
+    '</div>';
+  }
+
+  function renderMigration() {
+    const plan = migrationPlan;
+
+    document.getElementById('migrationSummary').innerHTML =
+      '<div style="display:flex; flex-wrap:wrap; gap:10px;">' +
+        migTile(plan.total_students, 'Students on roll') +
+        migTile(plan.already_migrated, 'Already in a family') +
+        migTile(plan.families.length, 'Households proposed') +
+        migTile(plan.unmatched.length, 'No contact on file') +
+      '</div>';
+
+    let html = plan.families.map(migGroupHtml).join('');
+
+    if (plan.unmatched.length) {
+      html += '<div style="margin-top:18px; background:rgba(30,41,59,0.04); border-radius:14px; padding:14px;">' +
+        '<strong style="font-size:0.9rem;">No guardian contact on file (' + plan.unmatched.length + ')</strong>' +
+        '<p style="font-size:0.82rem; color:#64748b; margin:4px 0 8px;">These cannot be grouped automatically. Add the contact to your roster and re-scan, or create the account with <b>Add Parent</b> and attach them.</p>' +
+        '<div style="display:flex; flex-wrap:wrap; gap:6px;">' +
+          plan.unmatched.map((child) =>
+            '<span style="background:#fff; border:1px solid rgba(15,23,42,0.1); border-radius:999px; padding:4px 12px; font-size:0.8rem; font-weight:700;">' +
+            escapeHtml(child.name) + (child.class_id ? ' &middot; ' + escapeHtml(child.class_id) : '') + '</span>').join('') +
+        '</div></div>';
+    }
+
+    if (!plan.families.length && !plan.unmatched.length) {
+      html = '<div style="text-align:center; padding:2rem; color:#22c55e; font-weight:800;"><i class="fas fa-check-circle"></i> Every student is already in a family.</div>';
+    }
+
+    document.getElementById('migrationBody').innerHTML = html;
+  }
+
+  window.runMigration = async (index) => {
+    const group = migrationPlan.families[index];
+    const nameInput = document.getElementById('mig-name-' + index);
+    const button = document.getElementById('mig-btn-' + index);
+    const familyName = (nameInput.value || '').trim();
+    if (!familyName) return alert('Give the family a name.');
+
+    button.disabled = true;
+    const original = button.innerHTML;
+    button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating…';
+
+    let result;
+    try {
+      result = await callMigrateFamilyGroup({
+        child_uids: group.children.map((child) => child.uid),
+        family_name: familyName,
+        family_phone: group.phone || ''
+      });
+    } catch (err) {
+      button.disabled = false;
+      button.innerHTML = original;
+      return alert(err.message || 'Could not migrate this family.');
+    }
+
+    migrationDone.push({
+      name: familyName,
+      username: result.data.username,
+      password: result.data.password,
+      children: result.data.migrated.map((m) => m.name).join(', ')
+    });
+
+    const kept = result.data.migrated.reduce((total, m) =>
+      total + m.backfilled.activity_submissions + m.backfilled.activity_drafts + m.backfilled.activity_attendance, 0);
+
+    // The row becomes the receipt. These credentials are not stored anywhere,
+    // so the sheet has to stay on screen until the admin prints it.
+    const row = document.getElementById('mig-row-' + index);
+    row.className = 'pill-row row-green';
+    row.innerHTML = '<div style="flex:1 1 100%; display:flex; flex-wrap:wrap; gap:12px; align-items:center;">' +
+      '<strong style="flex:1 1 170px;"><i class="fas fa-check-circle" style="color:#22c55e;"></i> ' + escapeHtml(familyName) + '</strong>' +
+      '<code class="copyable-code" onclick="copyCodeInteractive(this, \'' + result.data.username + '\')">' + result.data.username + ' <i class="far fa-copy text-muted"></i></code>' +
+      '<code class="copyable-code" onclick="copyCodeInteractive(this, \'' + result.data.password + '\')">' + result.data.password + ' <i class="far fa-copy text-muted"></i></code>' +
+      '<span style="font-size:0.78rem; color:#475569;">' + result.data.migrated.length + ' children &middot; ' + kept + ' records kept</span>' +
+      (result.data.failed.length
+        ? '<span style="color:#b91c1c; font-weight:800; font-size:0.78rem;">' + result.data.failed.length + ' could not be moved</span>'
+        : '') +
+    '</div>';
+
+    if (result.data.failed.length) console.error('Migration issues:', result.data.failed);
+    loadDashboardData();
+  };
+
+  window.printMigrationSheet = () => {
+    if (!migrationDone.length) return alert('No logins have been created yet.');
+
+    const rows = migrationDone.map((entry) =>
+      '<tr><td>' + escapeHtml(entry.name) + '</td><td>' + escapeHtml(entry.children) + '</td>' +
+      '<td><code>' + escapeHtml(entry.username) + '</code></td>' +
+      '<td><code>' + escapeHtml(entry.password) + '</code></td></tr>').join('');
+
+    const sheet = window.open('', '_blank', 'width=780,height=820');
+    if (!sheet) return alert('Allow pop-ups for this site to print the sheet.');
+    sheet.document.write('<!doctype html><meta charset="utf-8"><title>Family logins</title>' +
+      '<style>body{font-family:system-ui,-apple-system,sans-serif;padding:26px;color:#0f172a}' +
+      'h2{margin:0 0 4px;font-size:1.1rem}p{color:#64748b;font-size:.82rem;margin:0 0 18px}' +
+      'table{width:100%;border-collapse:collapse;font-size:.86rem}' +
+      'th,td{text-align:left;padding:9px 10px;border-bottom:1px solid #e2e8f0;vertical-align:top}' +
+      'th{font-size:.68rem;text-transform:uppercase;letter-spacing:.08em;color:#64748b}' +
+      'code{font-weight:700;letter-spacing:.04em}</style>' +
+      '<h2>Imaan &amp; Akhlaq — Family logins</h2>' +
+      '<p>One line per family. These passwords are stored nowhere and cannot be looked up again — if a line is lost, use Reset password.</p>' +
+      '<table><tr><th>Family</th><th>Children</th><th>Username</th><th>Password</th></tr>' + rows + '</table>');
+    sheet.document.close();
+    sheet.focus();
+    sheet.print();
+  };
+
   window.switchAdminTab = (tab) => {
-    ['overview', 'teachers', 'students', 'attendance', 'settings'].forEach(t => {
+    ['overview', 'parents', 'teachers', 'students', 'attendance', 'settings'].forEach(t => {
       document.getElementById('tab-' + t).classList.add('d-none');
       document.getElementById('nav-' + t).classList.remove('active');
     });

@@ -3,6 +3,7 @@ import activitiesData from '../data/activities.json'
 import { firebaseConfigJS } from '../lib/firebaseConfig'
 import { ParentGateModal } from './ParentGateModal'
 import { parentGateHelpersJS } from '../lib/parentGateService'
+import { activeChildHelpersJS } from '../lib/activeChild'
 
 export const ActivityDashboard = () => html`
 <style>
@@ -1982,6 +1983,9 @@ export const ActivityDashboard = () => html`
         <li data-section="progress" role="button" tabindex="0"><span class="nav-badge progress"><i class="fas fa-star"></i></span><span>Progress</span></li>
         <li data-section="rankings" role="button" tabindex="0"><span class="nav-badge reports"><i class="fas fa-medal"></i></span><span>Rankings</span></li>
         <li data-section="parent-gate" id="parentGateSidebarBtn" role="button" tabindex="0"><span class="nav-badge parent" style="background: linear-gradient(135deg, #243d6b, #cf296d); color:#fff;"><i class="fas fa-user-shield"></i></span><span>Parent Area</span></li>
+        <!-- Family logins only: the way back to the other children. Hidden for
+             a legacy student account, which has nowhere to switch to. -->
+        <li id="familySwitchSidebarBtn" role="button" tabindex="0" style="display:none;" onclick="handleFamilySwitch()"><span class="nav-badge parent" style="background: linear-gradient(135deg, #1f7d59, #7cc47f); color:#fff;"><i class="fas fa-users"></i></span><span>Switch child</span></li>
       </ul>
 
       <!-- Red Logout button at bottom -->
@@ -2304,7 +2308,16 @@ ${ParentGateModal()}
   const backToBooksBtn = document.getElementById('backToBooksBtn');
 
   let apiData = {};
+  // acResolveIdentity / acRecall / acForget come from activeChild.ts.
+  ${raw(activeChildHelpersJS)}
+
+  // The learner whose dashboard this is.
   let currentStudent = null;
+  // The account that is signed in. Identical to currentStudent on a legacy
+  // student login; on a family login it is the parent, who owns no work of
+  // their own but does own the Parent Area PIN.
+  let accountProfile = null;
+  let familyIdentity = null;
   let currentBookContext = null;
   let currentStudentSection = 'overview';
   let gameState = { points: 50, unlockedCount: 1, completed: [], parent_approved: [], teacher_approved: [] };
@@ -2551,13 +2564,44 @@ ${ParentGateModal()}
     if (m) m.classList.remove('active');
   };
 
+  // Which door the PIN is being asked for. The gate protects two things now:
+  // the Parent Area, and leaving this child for a sibling.
+  let pgPendingAction = 'parent-area';
+
+  function pgOpenUnlockModal() {
+    const unlockModal = document.getElementById('pgUnlockModal');
+    if (!unlockModal) return;
+    unlockModal.classList.add('active');
+    const pinInp = document.getElementById('pgUnlockPinInput');
+    if (pinInp) { pinInp.value = ''; pinInp.focus(); }
+    const errEl = document.getElementById('pgUnlockError');
+    if (errEl) errEl.style.display = 'none';
+  }
+
+  /**
+   * Back to the family dashboard. Behind the PIN on purpose: without it a
+   * child could walk into a sibling's work, which is the one thing a shared
+   * family login has to prevent. It is still only a UI gate — anyone holding
+   * the account password has everything either way.
+   */
+  window.handleFamilySwitch = () => {
+    if (isParentUnlocked || !(pgConfig() && pgConfig().isConfigured)) {
+      window.location.href = '/family';
+      return;
+    }
+    pgPendingAction = 'switch-family';
+    pgOpenUnlockModal();
+  };
+
   window.handleParentGateClick = async () => {
+    pgPendingAction = 'parent-area';
+
     if (isParentUnlocked) {
       window.switchStudentSection('parent-gate');
       return;
     }
 
-    if (currentStudent && currentStudent.parentGate && currentStudent.parentGate.isConfigured) {
+    if (pgConfig() && pgConfig().isConfigured) {
       const unlockModal = document.getElementById('pgUnlockModal');
       if (unlockModal) {
         unlockModal.classList.add('active');
@@ -2578,9 +2622,19 @@ ${ParentGateModal()}
     }
   };
 
-  // Writes the hashed PIN to the caller's own user doc. The firestore rules
-  // self-update whitelist has to name 'parentGate' for this to be allowed —
-  // it didn't, so every setup attempt failed with permission-denied.
+  /**
+   * The PIN belongs to the signed-in ACCOUNT, not to the learner.
+   *
+   * It was already written to auth.currentUser.uid but read back off
+   * currentStudent. On a legacy login those are one document, so the mismatch
+   * never showed. On a family login they are the parent and the child: the
+   * PIN would save to the parent, be looked for on the child, and no PIN the
+   * family typed would ever unlock the gate.
+   */
+  function pgConfig() {
+    return (accountProfile && accountProfile.parentGate) || null;
+  }
+
   async function pgSavePin(pin) {
     const config = {
       isConfigured: true,
@@ -2588,13 +2642,24 @@ ${ParentGateModal()}
       lastUnlockedAt: new Date().toISOString(),
       autoLockMinutes: PG_AUTO_LOCK_MINUTES
     };
+    // The firestore rules self-update whitelist has to name 'parentGate' for
+    // this to be allowed — it didn't, so every setup attempt failed with
+    // permission-denied.
     await updateDoc(doc(db, 'users', auth.currentUser.uid), { parentGate: config });
-    if (currentStudent) currentStudent.parentGate = config;
+    if (accountProfile) accountProfile.parentGate = config;
+    if (currentStudent && currentStudent.uid === auth.currentUser.uid) currentStudent.parentGate = config;
   }
 
   function pgEnterParentMode() {
     isParentUnlocked = true;
     resetParentInactivityTimer();
+
+    if (pgPendingAction === 'switch-family') {
+      pgPendingAction = 'parent-area';
+      window.location.href = '/family';
+      return;
+    }
+
     window.switchStudentSection('parent-gate');
   }
 
@@ -2633,7 +2698,7 @@ ${ParentGateModal()}
     }
 
     const enteredHash = await pgHashPin(pinVal);
-    const targetHash = currentStudent && currentStudent.parentGate ? currentStudent.parentGate.pinHash : '';
+    const targetHash = pgConfig() ? pgConfig().pinHash : '';
 
     if (enteredHash === targetHash) {
       if (errorEl) errorEl.style.display = 'none';
@@ -2806,13 +2871,26 @@ ${ParentGateModal()}
 
     try {
       const { collection, query, where, getDocs } = await import('https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js');
+
+      // On a family login student_uid is not the caller, so the rules have to
+      // match on family_uid instead — and a list is only permitted when the
+      // query itself proves the rule. Filtering on family_uid ALONE keeps this
+      // a single-field equality, so no composite index is needed; the siblings
+      // are dropped below. A household is at most eight children, so the extra
+      // documents cost nothing.
+      const isFamily = !!(familyIdentity && familyIdentity.isFamilyAccount);
       const snap = await getDocs(query(
         collection(db, 'activity_submissions'),
-        where('student_uid', '==', currentStudent.uid)
+        isFamily
+          ? where('family_uid', '==', familyIdentity.familyUid)
+          : where('student_uid', '==', currentStudent.uid)
       ));
 
       const rows = [];
-      snap.forEach(d => rows.push(d.data()));
+      snap.forEach(d => {
+        const data = d.data();
+        if (!isFamily || data.student_uid === currentStudent.uid) rows.push(data);
+      });
       rows.sort((a, b) => new Date(b.updatedAt || b.submittedAt || 0) - new Date(a.updatedAt || a.submittedAt || 0));
 
       if (pendEl) {
@@ -3336,21 +3414,56 @@ ${ParentGateModal()}
       const demoOverlay = document.getElementById('demoOverlay');
       if (demoOverlay) demoOverlay.remove();
       
-      const userDocRef = doc(db, 'users', user.uid);
-      const userSnap = await getDoc(userDocRef);
+      const accountRef = doc(db, 'users', user.uid);
+      const accountSnap = await getDoc(accountRef);
 
-      if (!userSnap.exists()) {
+      if (!accountSnap.exists()) {
         showAccessOverlay('Student Profile Missing', 'We could not find your student record. Please log in again or contact support.');
         return;
       }
 
-      const userData = userSnap.data();
-      if (userData.role !== 'student' && userData.role !== 'individual') {
+      accountProfile = accountSnap.data();
+      familyIdentity = acResolveIdentity(user.uid, accountProfile);
+
+      // Which /users doc holds the work. On a legacy student login it is the
+      // account itself; on a family login it is whichever child was opened
+      // from the family dashboard.
+      let userDocRef = accountRef;
+      let userData = accountProfile;
+
+      if (familyIdentity.isFamilyAccount) {
+        if (!familyIdentity.studentUid) {
+          // Signed in as the family but no child chosen on this device yet.
+          window.location.replace('/family');
+          return;
+        }
+
+        userDocRef = doc(db, 'users', familyIdentity.studentUid);
+        const childSnap = await getDoc(userDocRef);
+
+        // Re-check ownership rather than trusting localStorage. The remembered
+        // id survives a logout, so without this a second family signing in on
+        // a shared device would land on the previous family's child — and the
+        // Firestore rules would deny every read, which looks like a broken
+        // page rather than the wrong profile.
+        if (!childSnap.exists() || childSnap.data().family_uid !== user.uid) {
+          acForget(user.uid);
+          window.location.replace('/family');
+          return;
+        }
+
+        userData = childSnap.data();
+      } else if (userData.role !== 'student' && userData.role !== 'individual') {
         showAccessOverlay('Student Login Required', 'You cannot view this page with your current account. Please use a student or individual learner profile.');
         return;
       }
 
-      currentStudent = { uid: user.uid, ...userData };
+      currentStudent = { uid: userDocRef.id, ...userData };
+
+      if (familyIdentity.isFamilyAccount) {
+        const switchBtn = document.getElementById('familySwitchSidebarBtn');
+        if (switchBtn) switchBtn.style.display = '';
+      }
 
       if (currentStudent.school_id && !currentStudent.school_name) {
         try {

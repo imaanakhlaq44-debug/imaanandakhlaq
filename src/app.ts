@@ -42,6 +42,7 @@ import { ActivityPage } from './components/ActivityPage'
 import { TeacherDashboard } from './components/TeacherDashboard'
 import { SchoolAdminDashboard } from './components/SchoolAdminDashboard'
 import { AuthPage } from './components/AuthPage'
+import { FamilyDashboard } from './components/FamilyDashboard'
 import { SuperAdminDashboard } from './components/SuperAdminDashboard'
 import { NotFoundPage } from './components/NotFoundPage'
 
@@ -129,8 +130,14 @@ app.get('/activity', (c) => {
   return c.html(generateActivityPageHTML())
 })
 
-// /parent-dashboard is gone. Parents no longer hold their own account: the
-// family shares the student login and opens Parent Area behind a 4-digit PIN.
+// /parent-dashboard is gone and stays gone. What replaces it is /family: a
+// school-provisioned account with one card per child. The difference is not
+// cosmetic — the old parent dashboard sat in the middle of the workflow and
+// had to sign off every chapter. This one is read-only, and work still goes
+// from the student straight to the teacher.
+app.get('/family', (c) => {
+  return c.html(generateFamilyDashboardHTML())
+})
 
 app.get('/teacher-dashboard', (c) => {
   return c.html(generateTeacherDashboardHTML())
@@ -220,6 +227,11 @@ ${ActivityDashboard()}`
 function generateTeacherDashboardHTML() {
   return html`${Head()}
 ${TeacherDashboard()}`
+}
+
+function generateFamilyDashboardHTML() {
+  return html`${Head()}
+${FamilyDashboard()}`
 }
 
 function generateAuthPageHTML() {

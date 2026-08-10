@@ -39,6 +39,23 @@ service cloud.firestore {
     }
 
     // ---------------------------------------------------------------
+    // Family accounts
+    // ---------------------------------------------------------------
+    // A family signs in once (a /users doc with role 'family') and its
+    // children have no login of their own. Every doc a child owns carries
+    // family_uid, denormalized exactly the way school_id already is, so
+    // ownership costs no extra document read and survives inside `list`.
+    //
+    // These branches are ADDITIVE. Legacy students still sign in as
+    // themselves and their documents have no family_uid at all, so every
+    // student_uid branch below stays until the cutover. get(field, '') is
+    // what makes that safe: a missing family_uid reads as '' and simply
+    // fails this check instead of erroring out the whole rule.
+    function isMyFamily(data) {
+      return signedIn() && data.get('family_uid', '') == request.auth.uid;
+    }
+
+    // ---------------------------------------------------------------
     // 1. Invites
     // ---------------------------------------------------------------
     // The code itself is the secret: a single doc may be fetched by anyone
@@ -102,11 +119,17 @@ service cloud.firestore {
       // Queries from dashboards must filter on school_id so list evaluation
       // stays provable.
       //
-      // The 'parent' role is retired — a family now shares the student account
-      // and opens Parent Area behind a PIN, so no branch grants a parent
-      // account access to somebody else's doc.
+      // The 'parent' role is retired and never coming back. Its replacement is
+      // 'family': a school-provisioned login whose children are ordinary
+      // student docs carrying family_uid. A family reaches its own children
+      // and nobody else's — there is still no branch that hands one account
+      // access to an unrelated user's doc.
       allow get, list: if signedIn() && (
         request.auth.uid == userId ||
+        // A family reads its own children. Dashboard queries must filter on
+        // family_uid for list evaluation to stay provable, the same way staff
+        // queries filter on school_id.
+        isMyFamily(resource.data) ||
         isSuper() ||
         (me().role in ['teacher', 'school_admin'] && sameSchool(resource.data))
       );
@@ -156,6 +179,16 @@ service cloud.firestore {
         onlyKeys(['name', 'phone', 'email', 'photoURL', 'game_state',
                   'linked_student_code', 'linked_student_uid', 'parentGate'])
       ) || (
+        // A family editing one of its own children: the same profile and
+        // progress fields that child could change for itself, minus the
+        // account-level ones. parentGate is deliberately absent — the PIN
+        // lives on the family doc, which the self branch above covers.
+        //
+        // family_uid is in no whitelist anywhere, so a client can neither set
+        // it nor move a child to another family. Only the Admin SDK can.
+        isMyFamily(resource.data) &&
+        onlyKeys(['name', 'photoURL', 'game_state'])
+      ) || (
         // Teacher: approve/adjust a same-school student's game progress.
         signedIn() && me().role == 'teacher' &&
         sameSchool(resource.data) &&
@@ -188,13 +221,16 @@ service cloud.firestore {
       // the Parent Area's chapter list, since the family shares that account.
       allow get, list: if signedIn() && (
         resource.data.student_uid == request.auth.uid ||
+        isMyFamily(resource.data) ||
         isSuper() ||
         (isStaff() && sameSchool(resource.data))
       );
 
-      // Students submit their own work only.
-      allow create: if signedIn() &&
-        request.resource.data.student_uid == request.auth.uid;
+      // Students submit their own work only — or the family that owns them.
+      allow create: if signedIn() && (
+        request.resource.data.student_uid == request.auth.uid ||
+        isMyFamily(request.resource.data)
+      );
 
       allow update: if isSuper() || (
         isStaff() && sameSchool(resource.data)
@@ -207,8 +243,14 @@ service cloud.firestore {
         // including the final submit — failed with permission-denied, which
         // surfaced as "There was an error saving your progress."
         signedIn() &&
-        resource.data.student_uid == request.auth.uid &&
-        request.resource.data.student_uid == request.auth.uid &&
+        // Ownership, by either route, and the doc may not change hands
+        // mid-update: both the existing and the incoming version have to
+        // point at the same caller.
+        (
+          (resource.data.student_uid == request.auth.uid &&
+           request.resource.data.student_uid == request.auth.uid) ||
+          (isMyFamily(resource.data) && isMyFamily(request.resource.data))
+        ) &&
         // Never let a student rewrite work a teacher has already signed off.
         // A sheet the teacher sent back carries 'needs_redo', which passes this
         // check on purpose — redoing it is the whole point.
@@ -230,18 +272,26 @@ service cloud.firestore {
     // the owner ever reads or writes them. This collection previously had NO
     // rule at all, so every draft save was denied by default.
     match /activity_drafts/{draftId} {
-      allow get, list: if signedIn() &&
-        resource.data.student_uid == request.auth.uid;
+      allow get, list: if signedIn() && (
+        resource.data.student_uid == request.auth.uid ||
+        isMyFamily(resource.data)
+      );
 
-      allow create: if signedIn() &&
-        request.resource.data.student_uid == request.auth.uid;
+      allow create: if signedIn() && (
+        request.resource.data.student_uid == request.auth.uid ||
+        isMyFamily(request.resource.data)
+      );
 
-      allow update: if signedIn() &&
-        resource.data.student_uid == request.auth.uid &&
-        request.resource.data.student_uid == request.auth.uid;
+      allow update: if signedIn() && (
+        (resource.data.student_uid == request.auth.uid &&
+         request.resource.data.student_uid == request.auth.uid) ||
+        (isMyFamily(resource.data) && isMyFamily(request.resource.data))
+      );
 
-      allow delete: if isSuper() ||
-        (signedIn() && resource.data.student_uid == request.auth.uid);
+      allow delete: if isSuper() || (signedIn() && (
+        resource.data.student_uid == request.auth.uid ||
+        isMyFamily(resource.data)
+      ));
     }
 
     // ---------------------------------------------------------------
@@ -250,16 +300,24 @@ service cloud.firestore {
     match /activity_attendance/{sessionId} {
       allow get, list: if signedIn() && (
         resource.data.student_uid == request.auth.uid ||
+        isMyFamily(resource.data) ||
         isSuper() ||
         (isStaff() && sameSchool(resource.data))
       );
 
-      allow create: if signedIn() &&
-        request.resource.data.student_uid == request.auth.uid;
+      // The page writes this with setDoc({ merge: true }), so the first call
+      // of a session is a create and every later one an update — both need
+      // the family branch or attendance silently stops recording.
+      allow create: if signedIn() && (
+        request.resource.data.student_uid == request.auth.uid ||
+        isMyFamily(request.resource.data)
+      );
 
-      allow update: if signedIn() &&
-        resource.data.student_uid == request.auth.uid &&
-        request.resource.data.student_uid == request.auth.uid;
+      allow update: if signedIn() && (
+        (resource.data.student_uid == request.auth.uid &&
+         request.resource.data.student_uid == request.auth.uid) ||
+        (isMyFamily(resource.data) && isMyFamily(request.resource.data))
+      );
     }
 
     // ---------------------------------------------------------------
