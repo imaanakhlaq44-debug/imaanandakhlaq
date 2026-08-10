@@ -14,7 +14,10 @@
     "deploy:prod": "npm run build && wrangler pages deploy dist --project-name webapp",
     "cf-typegen": "wrangler types --env-interface CloudflareBindings",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "test:rules": "firebase emulators:exec --only firestore \"vitest run src/__tests__/rules.test.ts\"",
+    "test:functions": "firebase emulators:exec --only firestore,auth,functions \"vitest run src/__tests__/functions.test.ts\"",
+    "test:emulator": "firebase emulators:exec --only firestore,auth,functions \"vitest run src/__tests__/rules.test.ts src/__tests__/functions.test.ts\""
   },
   "dependencies": {
     "@capacitor/android": "^8.3.1",
@@ -30,16 +33,18 @@
   },
   "devDependencies": {
     "@babel/core": "^7.29.0",
-    "@hono/node-server": "^1.19.12",
-    "express": "^5.2.1",
-    "puppeteer": "^24.42.0",
     "@babel/preset-env": "^7.29.5",
+    "@firebase/rules-unit-testing": "^5.0.1",
+    "@hono/node-server": "^1.19.12",
     "@hono/vite-build": "^1.2.0",
     "@hono/vite-dev-server": "^0.25.1",
     "@hono/vite-ssg": "^0.3.3",
     "@types/node": "^25.5.2",
     "cheerio": "^1.2.0",
     "esbuild": "^0.28.0",
+    "express": "^5.2.1",
+    "firebase-admin": "^14.2.0",
+    "puppeteer": "^24.42.0",
     "sharp": "^0.34.5",
     "typescript": "^6.0.3",
     "vite": "^6.3.5",
