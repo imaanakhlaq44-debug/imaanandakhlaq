@@ -1,5 +1,6 @@
 import { html, raw } from 'hono/html'
 import { FIREBASE_CONFIG, firebaseConfigJS } from '../lib/firebaseConfig'
+import { familyLoginHelpersJS } from '../lib/familyLogin'
 
 export const AuthPage = () => html`
 <style>
@@ -1299,6 +1300,9 @@ export const AuthPage = () => html`
       return String(value || '').replace(/[^0-9+]/g, '');
     }
 
+    // isFamilyUsername / familyUsernameToEmail come from familyLogin.ts.
+    ${raw(familyLoginHelpersJS)}
+
     function decodeFsValue(value) {
       if (!value) return null;
       if (Object.prototype.hasOwnProperty.call(value, 'stringValue')) return value.stringValue;
@@ -1404,6 +1408,8 @@ export const AuthPage = () => html`
         else if (userData.role === 'school_admin') window.location.href = './admin-dashboard.html';
         else if (userData.role === 'teacher') window.location.href = './teacher-dashboard.html';
         else if (userData.role === 'student' || userData.role === 'individual') window.location.href = './student-activities.html';
+        // A school-provisioned family: one login, a card per child.
+        else if (userData.role === 'family') window.location.href = './family.html';
         // Accounts left over from when parents signed up separately. That
         // dashboard no longer exists, and sending them to a dead page would
         // just look broken, so say plainly where the Parent Area moved to.
@@ -1499,6 +1505,16 @@ export const AuthPage = () => html`
         return;
       }
 
+      // A school-provisioned family signs in with a PAR- username. There is no
+      // inbox behind the address it maps to, which is the point: parents were
+      // never able to complete an email signup.
+      if (isFamilyUsername(rawId)) {
+        signInWithEmail(familyUsernameToEmail(rawId), pw, completeLogin, function (msg) {
+          showToastCompat(msg, 'error');
+        });
+        return;
+      }
+
       var normalizedPhone = normalizePhone(rawId);
       lookupEmailByPhone(normalizedPhone, function (email) {
         if (!email) {
@@ -1517,6 +1533,11 @@ export const AuthPage = () => html`
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
   import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, signOut, onAuthStateChanged, updateProfile, setPersistence, browserLocalPersistence, indexedDBLocalPersistence } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
   import { getFirestore, doc, setDoc, getDoc, updateDoc, query, collection, where, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+  // Emitted here as well as in the compat script above, which is an IIFE and
+  // keeps its copy private. Both come from the one constant in familyLogin.ts,
+  // so there is nothing for the two copies to drift apart from.
+  ${raw(familyLoginHelpersJS)}
 
   document.addEventListener('DOMContentLoaded', () => {
     // Smooth scroll for inputs when focused (fixes keyboard overlap)
@@ -1922,7 +1943,11 @@ export const AuthPage = () => html`
       showToast('Logging in...', 'success');
 
       let emailToUse = rawId;
-      if (!rawId.includes('@')) {
+      if (!rawId.includes('@') && isFamilyUsername(rawId)) {
+        // Family account: PAR-XXXXX maps to the synthetic address the school's
+        // Cloud Function created it with.
+        emailToUse = familyUsernameToEmail(rawId);
+      } else if (!rawId.includes('@')) {
         const id = rawId.replace(/[^0-9+]/g, '');
         if (!id) return showToast('Please enter a valid email or phone number', 'error');
         let matchedEmail = '';
@@ -1969,6 +1994,7 @@ export const AuthPage = () => html`
         else if (userData.role === 'school_admin') window.location.href = './admin-dashboard.html';
           else if (userData.role === 'teacher') window.location.href = './teacher-dashboard.html';
           else if (userData.role === 'student' || userData.role === 'individual') window.location.href = './student-activities.html';
+          else if (userData.role === 'family') window.location.href = './family.html';
           // See the note on the other redirect block: legacy parent accounts.
           else if (userData.role === 'parent') showToast('Parent accounts have moved. Sign in with your child\\'s Student & Family account and open Parent Area.', 'error');
         }, 1000);
