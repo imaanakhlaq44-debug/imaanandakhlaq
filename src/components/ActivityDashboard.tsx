@@ -4,6 +4,7 @@ import { firebaseConfigJS } from '../lib/firebaseConfig'
 import { ParentGateModal } from './ParentGateModal'
 import { parentGateHelpersJS } from '../lib/parentGateService'
 import { activeChildHelpersJS } from '../lib/activeChild'
+import { clubHelpersJS } from '../lib/clubData'
 
 export const ActivityDashboard = () => html`
 <style>
@@ -1846,6 +1847,125 @@ export const ActivityDashboard = () => html`
     .student-page .catalog-grid { padding: 0 0.5rem 0.75rem !important; gap: 0.75rem !important; }
   }
 
+  /* Club styles — the house crest recolours itself per house at runtime. */
+  .student-page .club-card { padding: 1.5rem !important; }
+  /* Colour and ink are both overwritten from the student's house once it is
+     known; what is here only shows for the instant before that happens. */
+  .student-page .club-crest {
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.6rem; color: #fff;
+    background: linear-gradient(135deg, #1E2D5A, #C99A6B);
+  }
+  .student-page .club-empty { text-align: center; padding: 2rem 1rem; }
+  .student-page .club-empty-icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
+  .student-page .club-empty h4 { margin: 0 0 0.4rem; color: #1e2d5a; font-size: 1.05rem; }
+  .student-page .club-empty p { color: #64748b; margin: 0 auto 1rem; max-width: 420px; font-size: 0.9rem; line-height: 1.6; }
+  .student-page .club-empty-link { color: #cf296d; font-weight: 700; text-decoration: none; font-size: 0.9rem; }
+  .student-page .club-empty-link:hover { text-decoration: underline; }
+
+  .student-page .club-stat-row { display: flex; gap: 0.75rem; margin: 1rem 0; }
+  .student-page .club-stat {
+    flex: 1; background: #f8fafc; border: 1px solid #f1f5f9;
+    border-radius: 12px; padding: 0.9rem 0.5rem; text-align: center;
+  }
+  .student-page .club-stat-value { display: block; font-size: 1.5rem; font-weight: 800; color: #1e2d5a; }
+  .student-page .club-stat-label { display: block; font-size: 0.7rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+
+  .student-page .club-shadow {
+    background: #0f172a; color: #e2e8f0; border-radius: 12px;
+    padding: 0.9rem 1.1rem; margin-bottom: 1.25rem;
+  }
+  .student-page .club-shadow-label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 1px; color: #94a3b8; display: block; }
+  .student-page .club-shadow strong { display: block; margin: 2px 0 4px; font-size: 1rem; color: #fbbf24; }
+  .student-page .club-shadow p { margin: 0; font-size: 0.82rem; line-height: 1.55; color: #cbd5e1; }
+
+  /* The reflection composer. A tick is no longer one click: it opens this,
+     and the credit is not requested until a sentence has been written. */
+  .student-page .club-habit-item { display: flex; flex-direction: column; }
+  .student-page .club-habit-item.is-open .club-habit { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
+  .student-page .club-habit-composer {
+    background: #fff; border: 1px solid #e2e8f0; border-top: none;
+    border-radius: 0 0 12px 12px; padding: 0.8rem 0.9rem;
+  }
+  .student-page .club-habit-composer textarea {
+    width: 100%; min-height: 78px; resize: vertical;
+    border: 1px solid #e2e8f0; border-radius: 10px;
+    padding: 0.6rem 0.7rem; font-family: inherit; font-size: 0.85rem;
+    color: #1e2d5a; line-height: 1.55;
+  }
+  .student-page .club-habit-composer textarea:focus { outline: none; border-color: #cf296d; }
+  .student-page .club-composer-foot { display: flex; align-items: center; gap: 0.5rem; margin-top: 0.55rem; flex-wrap: wrap; }
+  .student-page .club-composer-count { font-size: 0.72rem; font-weight: 800; color: #94a3b8; margin-right: auto; }
+  .student-page .club-composer-count.is-ok { color: #16a34a; }
+  .student-page .club-composer-btn {
+    border: none; border-radius: 999px; padding: 0.45rem 1.05rem;
+    font-family: inherit; font-size: 0.77rem; font-weight: 800; cursor: pointer;
+  }
+  .student-page .club-composer-btn.save { background: #cf296d; color: #fff; }
+  .student-page .club-composer-btn.save:disabled { background: #e2e8f0; color: #94a3b8; cursor: not-allowed; }
+  .student-page .club-composer-btn.ghost { background: #f1f5f9; color: #64748b; }
+
+  /* House standings. Four rows, never more — this is the student's own
+     school's houses, not a national table, so it never scrolls or paginates. */
+  .student-page .club-standings { display: flex; flex-direction: column; gap: 0.45rem; }
+  .student-page .club-stand-row {
+    display: flex; align-items: center; gap: 0.7rem;
+    padding: 0.6rem 0.8rem; border-radius: 10px;
+    background: #f8fafc; border: 1px solid #f1f5f9;
+  }
+  .student-page .club-stand-row.is-mine {
+    background: #fff; border-color: #cbd5e1;
+    box-shadow: 0 2px 10px rgba(15, 23, 42, 0.07);
+  }
+  .student-page .club-stand-rank { width: 1.4rem; text-align: center; font-weight: 800; font-size: 0.82rem; color: #94a3b8; }
+  .student-page .club-stand-dot { width: 0.7rem; height: 0.7rem; border-radius: 50%; flex-shrink: 0; }
+  .student-page .club-stand-name { flex: 1; min-width: 0; font-weight: 700; color: #1e2d5a; font-size: 0.88rem; }
+  .student-page .club-stand-you {
+    font-size: 0.6rem; font-weight: 800; text-transform: uppercase;
+    letter-spacing: 0.6px; color: #64748b; background: #f1f5f9;
+    padding: 2px 7px; border-radius: 999px;
+  }
+  .student-page .club-stand-pts { font-weight: 800; color: #1e2d5a; font-size: 0.9rem; white-space: nowrap; }
+  .student-page .club-stand-pts span { font-size: 0.68rem; color: #94a3b8; font-weight: 700; margin-left: 2px; }
+
+  .student-page .club-subhead { margin: 0 0 0.25rem; font-size: 1rem; color: #1e2d5a; }
+  .student-page .club-subhead span { font-weight: 500; color: #94a3b8; font-size: 0.82rem; }
+  .student-page .club-hint { margin: 0 0 0.9rem; font-size: 0.82rem; color: #64748b; line-height: 1.55; }
+  .student-page .club-habit-list { display: flex; flex-direction: column; gap: 0.6rem; }
+
+  .student-page .club-habit {
+    display: flex; align-items: center; gap: 0.9rem;
+    padding: 0.85rem 1rem; border-radius: 12px;
+    background: #f8fafc; border: 1px solid #e2e8f0;
+    cursor: pointer; transition: transform 0.15s, border-color 0.15s;
+    text-align: left; width: 100%;
+  }
+  .student-page .club-habit:hover:not(:disabled) { transform: translateX(3px); border-color: #cbd5e1; }
+  .student-page .club-habit:disabled { cursor: default; }
+  .student-page .club-habit-box {
+    flex: 0 0 24px; height: 24px; border-radius: 7px;
+    border: 2px solid #cbd5e1; background: #fff;
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 0.7rem;
+  }
+  .student-page .club-habit-info { flex: 1; min-width: 0; }
+  .student-page .club-habit-name { font-weight: 700; color: #1e2d5a; font-size: 0.92rem; }
+  .student-page .club-habit-desc { font-size: 0.78rem; color: #64748b; line-height: 1.45; }
+  .student-page .club-habit-tag { font-size: 0.68rem; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase; white-space: nowrap; }
+
+  .student-page .club-habit.is-pending { background: #fffbeb; border-color: #fde68a; }
+  .student-page .club-habit.is-pending .club-habit-box { border-color: #f59e0b; background: #f59e0b; }
+  .student-page .club-habit.is-pending .club-habit-tag { color: #b45309; }
+  .student-page .club-habit.is-approved { background: #f0fdf4; border-color: #bbf7d0; }
+  .student-page .club-habit.is-approved .club-habit-box { border-color: #16a34a; background: #16a34a; }
+  .student-page .club-habit.is-approved .club-habit-tag { color: #15803d; }
+  .student-page .club-habit.is-rejected { background: #fef2f2; border-color: #fecaca; }
+  .student-page .club-habit.is-rejected .club-habit-box { border-color: #dc2626; background: #dc2626; }
+  .student-page .club-habit.is-rejected .club-habit-tag { color: #b91c1c; }
+  .student-page .club-habit-note {
+    font-size: 0.75rem; color: #b91c1c; margin-top: 3px; font-style: italic;
+  }
+
   /* Leaderboard styles */
   .student-page .leaderboard-card {
     padding: 1.5rem !important;
@@ -1981,6 +2101,7 @@ export const ActivityDashboard = () => html`
         <li class="active" data-section="overview" role="button" tabindex="0"><span class="nav-badge overview"><i class="fas fa-chart-pie"></i></span><span>Overview</span></li>
         <li data-section="books" role="button" tabindex="0"><span class="nav-badge books"><i class="fas fa-book-open"></i></span><span>Books</span></li>
         <li data-section="progress" role="button" tabindex="0"><span class="nav-badge progress"><i class="fas fa-star"></i></span><span>Progress</span></li>
+        <li data-section="club" role="button" tabindex="0"><span class="nav-badge club" style="background: linear-gradient(135deg, #1E2D5A, #C99A6B); color:#fff;"><i class="fas fa-shield-halved"></i></span><span>My Club</span></li>
         <li data-section="rankings" role="button" tabindex="0"><span class="nav-badge reports"><i class="fas fa-medal"></i></span><span>Rankings</span></li>
         <li data-section="parent-gate" id="parentGateSidebarBtn" role="button" tabindex="0"><span class="nav-badge parent" style="background: linear-gradient(135deg, #243d6b, #cf296d); color:#fff;"><i class="fas fa-user-shield"></i></span><span>Parent Area</span></li>
         <!-- Family logins only: the way back to the other children. Hidden for
@@ -2124,6 +2245,62 @@ export const ActivityDashboard = () => html`
           <div class="journey-note" id="studentJourneyStatus">Complete a chapter task to keep your next unlock moving forward.</div>
         </aside>
 
+        <section class="surface-card club-card d-none" id="studentClubSection" style="margin-top: 1rem;">
+          <div class="section-header">
+            <div class="section-heading">
+              <div class="section-asset club-crest" id="clubCrest">🛡️</div>
+              <div>
+                <h3 id="clubHouseName">My Club</h3>
+                <p id="clubHouseMotto">Every student is a Naseer — a protector of their community.</p>
+              </div>
+            </div>
+            <span class="section-chip" id="clubTierChip"><i class="fas fa-seedling"></i> Junior Naseer</span>
+          </div>
+
+          <!-- Shown when the school has not put this student in a house yet. -->
+          <div id="clubNoHouse" class="club-empty d-none">
+            <div class="club-empty-icon">🏠</div>
+            <h4>You have not joined a house yet</h4>
+            <p>Your school decides which house you belong to — Sidq, Amanah, Rahmah or Adl. Ask your teacher to add you, and your daily habits will appear here.</p>
+            <a class="club-empty-link" href="/club">Read about the four houses</a>
+          </div>
+
+          <div id="clubBody" class="d-none">
+            <div class="club-stat-row">
+              <div class="club-stat">
+                <span class="club-stat-value" id="clubVcValue">0</span>
+                <span class="club-stat-label">Value Credits</span>
+              </div>
+              <div class="club-stat">
+                <span class="club-stat-value" id="clubApprovedValue">0</span>
+                <span class="club-stat-label">Habits approved</span>
+              </div>
+              <div class="club-stat">
+                <span class="club-stat-value" id="clubPendingValue">0</span>
+                <span class="club-stat-label">Waiting for mentor</span>
+              </div>
+            </div>
+
+            <div class="club-shadow" id="clubShadowBox">
+              <span class="club-shadow-label">Your house fights</span>
+              <strong id="clubShadowName">—</strong>
+              <p id="clubShadowDesc"></p>
+            </div>
+
+            <h4 class="club-subhead"><i class="fas fa-calendar-day"></i> Today's habits <span id="clubTodayLabel"></span></h4>
+            <p class="club-hint">Tap a habit once you have actually done it, and write what you did in a sentence or two. Your mentor reads it, and only then do the credits land.</p>
+            <div id="clubHabitList" class="club-habit-list">
+              <div style="text-align:center; color:#64748b; padding:1.5rem;"><i class="fas fa-spinner fa-spin fa-2x"></i></div>
+            </div>
+
+            <h4 class="club-subhead" style="margin-top:1.6rem;"><i class="fas fa-ranking-star"></i> House standings</h4>
+            <p class="club-hint" id="clubStandHint">Every credit your mentor approves lifts your whole house, not just you.</p>
+            <div id="clubStandings" class="club-standings">
+              <div style="text-align:center; color:#64748b; padding:1.25rem;"><i class="fas fa-spinner fa-spin"></i></div>
+            </div>
+          </div>
+        </section>
+
         <section class="surface-card leaderboard-card d-none" id="studentRankingsSection">
           <div class="section-header">
             <div class="section-heading">
@@ -2231,11 +2408,15 @@ export const ActivityDashboard = () => html`
         <i class="fas fa-star"></i>
         <span>Progress</span>
       </button>
+      <button class="mobile-action-btn" type="button" onclick="window.switchStudentSection('club', false)">
+        <i class="fas fa-shield-halved"></i>
+        <span>Club</span>
+      </button>
       <button class="mobile-action-btn" type="button" onclick="window.switchStudentSection('rankings', false)">
         <i class="fas fa-medal"></i>
         <span>Rankings</span>
       </button>
-      <button class="mobile-action-btn parent-gate-mobile" type="button" onclick="window.switchStudentSection('parent-gate', false)">
+      <button class="mobile-action-btn parent-gate-mobile" id="parentGateMobileBtn" type="button" onclick="window.switchStudentSection('parent-gate', false)">
         <i class="fas fa-user-shield" style="color: #ffffff; background: linear-gradient(135deg, #243d6b, #cf296d);"></i>
         <span>Parent Area</span>
       </button>
@@ -2253,7 +2434,7 @@ ${ParentGateModal()}
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
   import { getAuth, onAuthStateChanged, signOut, setPersistence, browserLocalPersistence, indexedDBLocalPersistence } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
-  import { getFirestore, doc, getDoc, updateDoc, enableIndexedDbPersistence } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+  import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc, collection, query, where, getDocs, enableIndexedDbPersistence } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
   import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-storage.js";
   import { getDoc as _getDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
@@ -2310,6 +2491,9 @@ ${ParentGateModal()}
   let apiData = {};
   // acResolveIdentity / acRecall / acForget come from activeChild.ts.
   ${raw(activeChildHelpersJS)}
+
+  // CLUB_HOUSES / clubToday / clubLogId / clubTier come from clubData.ts.
+  ${raw(clubHelpersJS)}
 
   // The learner whose dashboard this is.
   let currentStudent = null;
@@ -2520,10 +2704,12 @@ ${ParentGateModal()}
     const progressSection = document.getElementById('studentProgressSection');
     const studentRankingsSection = document.getElementById('studentRankingsSection');
     const studentParentSection = document.getElementById('studentParentSection');
+    const studentClubSection = document.getElementById('studentClubSection');
 
     if (section === 'books') return booksSection || topSection;
     if (section === 'progress') return progressSection || topSection;
     if (section === 'rankings') return studentRankingsSection || topSection;
+    if (section === 'club') return studentClubSection || topSection;
     if (section === 'parent-gate') return studentParentSection || topSection;
     return overviewSection || topSection;
   }
@@ -2594,6 +2780,10 @@ ${ParentGateModal()}
   };
 
   window.handleParentGateClick = async () => {
+    // The gate itself, not just the buttons in front of it: this is a global,
+    // and the PIN it would ask for now belongs to the family dashboard.
+    if (childBelongsToFamily()) return;
+
     pgPendingAction = 'parent-area';
 
     if (isParentUnlocked) {
@@ -2785,13 +2975,48 @@ ${ParentGateModal()}
     }
   };
 
+  /**
+   * Does this child have a parent with an account of their own?
+   *
+   * Keyed on the CHILD's record, not on who is signed in: a migrated student
+   * whose own login has not been switched off yet still has a parent holding a
+   * family account, and that parent belongs on /family rather than inside
+   * their child's dashboard.
+   */
+  function childBelongsToFamily() {
+    return Boolean(currentStudent && currentStudent.family_uid);
+  }
+
+  /**
+   * The Parent Area is the pre-family way in: a section inside the child's own
+   * dashboard, behind a PIN. Once a family account exists, the parent has a
+   * dashboard of their own and the PIN's job is the return trip instead, so
+   * leaving this here would be a second parent entrance nobody maintains.
+   *
+   * It stays for a legacy student — one with no family_uid — because for that
+   * child's parent it is still the only window onto their work. Removing it
+   * outright would take that away from every school not yet converted.
+   */
+  function applyParentAreaVisibility() {
+    if (!childBelongsToFamily()) return;
+    ['parentGateSidebarBtn', 'parentGateMobileBtn'].forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) el.style.display = 'none';
+    });
+  }
+
   window.switchStudentSection = (section, shouldScroll = true) => {
+    // Guarded here as well as by hiding the buttons: a stale onclick, a
+    // bookmark or anything else that reaches the router directly must not walk
+    // into a section this account is no longer meant to have.
+    if (section === 'parent-gate' && childBelongsToFamily()) return;
+
     if (section === 'parent-gate' && !isParentUnlocked) {
       window.handleParentGateClick();
       return;
     }
 
-    const validSections = ['overview', 'books', 'progress', 'rankings', 'parent-gate'];
+    const validSections = ['overview', 'books', 'progress', 'rankings', 'club', 'parent-gate'];
     const nextSection = validSections.includes(section) ? section : 'overview';
     currentStudentSection = nextSection;
 
@@ -2808,6 +3033,14 @@ ${ParentGateModal()}
       parentSection.classList.toggle('d-none', nextSection !== 'parent-gate');
     }
 
+    // The club card is its own page, not a strip on the overview: showing it
+    // only on demand keeps the daily habit list from competing with the
+    // chapter work for the same scroll.
+    const clubSection = document.getElementById('studentClubSection');
+    if (clubSection) {
+      clubSection.classList.toggle('d-none', nextSection !== 'club');
+    }
+
     if (nextSection === 'parent-gate' && currentStudent) {
       const starsEl = document.getElementById('pgParentStarsValue');
       const compEl = document.getElementById('pgParentCompletedCount');
@@ -2817,6 +3050,7 @@ ${ParentGateModal()}
     }
 
     if (nextSection === 'rankings') loadGlobalRankings();
+    if (nextSection === 'club') loadClubSection();
 
     const target = getStudentSectionTarget(nextSection);
     if (shouldScroll && target) {
@@ -3004,6 +3238,338 @@ ${ParentGateModal()}
       board.style.display = 'none';
     }
   }
+
+  // ── Club: the day's micro-habits ────────────────────────────────────────
+  //
+  // A tick writes a 'pending' habit_log and nothing else. Value Credits are
+  // added by the reviewHabitLogs callable after a mentor approves, which is
+  // why nothing here ever touches club_points — the Firestore rules would
+  // refuse it anyway, and a client that could award its own credits would
+  // make the whole house standing meaningless.
+  //
+  // Today's logs are keyed by document id (student_date_habit), so this reads
+  // three documents by id rather than running a query. That also means a
+  // double tap rewrites the same document instead of banking twice.
+  let clubTodayLogs = {};
+
+  function clubStudentHouse() {
+    const house = currentStudent && currentStudent.house ? String(currentStudent.house) : '';
+    return CLUB_HOUSE_IDS.includes(house) ? house : '';
+  }
+
+  async function loadClubSection() {
+    const noHouse = document.getElementById('clubNoHouse');
+    const body = document.getElementById('clubBody');
+    if (!noHouse || !body || !currentStudent) return;
+
+    const houseId = clubStudentHouse();
+    if (!houseId) {
+      noHouse.classList.remove('d-none');
+      body.classList.add('d-none');
+      return;
+    }
+
+    const house = clubHouse(houseId);
+    noHouse.classList.add('d-none');
+    body.classList.remove('d-none');
+
+    // Banner
+    const crest = document.getElementById('clubCrest');
+    if (crest) {
+      crest.textContent = house.icon;
+      crest.style.background = house.color;
+      crest.style.color = house.ink;
+    }
+    document.getElementById('clubHouseName').textContent = house.name;
+    document.getElementById('clubHouseMotto').textContent = house.sub + ' — ' + house.motto;
+    document.getElementById('clubShadowName').textContent = house.shadow;
+    document.getElementById('clubShadowDesc').textContent = house.shadowDesc;
+
+    const vc = typeof currentStudent.club_points === 'number' ? currentStudent.club_points : 0;
+    const tier = clubTier(vc);
+    document.getElementById('clubVcValue').textContent = String(vc);
+    const chip = document.getElementById('clubTierChip');
+    if (chip) chip.textContent = tier.icon + ' ' + tier.label;
+
+    const dateKey = clubToday();
+    const label = document.getElementById('clubTodayLabel');
+    if (label) {
+      label.textContent = '· ' + new Date().toLocaleDateString('en-GB', {
+        weekday: 'long', day: 'numeric', month: 'long'
+      });
+    }
+
+    await refreshClubHabits(houseId, dateKey);
+    await refreshClubStandings(houseId);
+  }
+
+  /**
+   * The four house totals, read by document id rather than queried.
+   *
+   * house_scores ids are scope__house (see clubHouseScoreId), so the four
+   * documents this student cares about are known up front — no index, no
+   * ordering, and no chance of reading another school's houses by accident.
+   * A house nobody has earned in yet has no document at all, which is a
+   * genuine zero rather than an error.
+   */
+  async function refreshClubStandings(myHouseId) {
+    const el = document.getElementById('clubStandings');
+    if (!el || !currentStudent) return;
+
+    const scope = currentStudent.school_id || '';
+    try {
+      const snaps = await Promise.all(CLUB_HOUSE_IDS.map((id) =>
+        getDoc(doc(db, 'house_scores', clubHouseScoreId(scope, id)))
+      ));
+
+      const rows = CLUB_HOUSE_IDS.map((id, i) => {
+        const data = snaps[i].exists() ? snaps[i].data() : null;
+        const points = data && typeof data.points === 'number' ? data.points : 0;
+        return { id: id, points: points };
+      });
+
+      // Points first; ties fall back to the fixed house order so two level
+      // houses do not swap places every time the page is opened.
+      rows.sort((a, b) =>
+        b.points - a.points || CLUB_HOUSE_IDS.indexOf(a.id) - CLUB_HOUSE_IDS.indexOf(b.id)
+      );
+
+      el.innerHTML = rows.map((row, i) => {
+        const house = clubHouse(row.id);
+        if (!house) return '';
+        const mine = row.id === myHouseId;
+        return '<div class="club-stand-row' + (mine ? ' is-mine' : '') + '">' +
+          '<span class="club-stand-rank">' + (i + 1) + '</span>' +
+          '<span class="club-stand-dot" style="background:' + house.color + ';"></span>' +
+          '<span class="club-stand-name">' + escapeHtml(house.name) + '</span>' +
+          (mine ? '<span class="club-stand-you">Your house</span>' : '') +
+          '<span class="club-stand-pts">' + row.points + '<span>VC</span></span>' +
+        '</div>';
+      }).join('');
+
+      const hint = document.getElementById('clubStandHint');
+      if (hint && !currentStudent.school_id) {
+        // No school means the Global Virtual House: these totals are shared
+        // with every other self-study member, not with classmates.
+        hint.textContent = 'You are in the Global Virtual House — these totals are shared with self-study members everywhere.';
+      }
+    } catch (e) {
+      console.warn('[Club] Standings unavailable:', e && e.message);
+      el.innerHTML = '<p style="color:#94a3b8; text-align:center; padding:1rem; font-size:0.85rem;">Standings are unavailable right now.</p>';
+    }
+  }
+
+  async function refreshClubHabits(houseId, dateKey) {
+    const house = clubHouse(houseId);
+    const listEl = document.getElementById('clubHabitList');
+    if (!house || !listEl) return;
+
+    const studentUid = currentStudent.uid;
+    clubTodayLogs = {};
+
+    try {
+      const snaps = await Promise.all(house.habits.map((habit) =>
+        getDoc(doc(db, 'habit_logs', clubLogId(studentUid, dateKey, habit.id)))
+      ));
+      snaps.forEach((snap) => {
+        if (snap.exists()) clubTodayLogs[snap.data().habit_id] = snap.data();
+      });
+    } catch (e) {
+      console.error('[Club] Could not read today\\'s habits:', e);
+      listEl.innerHTML = '<p style="color:#b91c1c; text-align:center; padding:1.5rem;">Could not load your habits. Please try again.</p>';
+      return;
+    }
+
+    listEl.innerHTML = house.habits.map((habit) => {
+      const log = clubTodayLogs[habit.id];
+      const status = log ? log.status : '';
+      const cls = status === 'approved' ? 'is-approved'
+        : status === 'rejected' ? 'is-rejected'
+        : status === 'pending' ? 'is-pending' : '';
+      const tag = status === 'approved' ? '+' + habit.vc + ' VC earned'
+        : status === 'rejected' ? 'Sent back'
+        : status === 'pending' ? 'Waiting for mentor'
+        : '+' + habit.vc + ' VC';
+      const mark = status === 'rejected'
+        ? '<i class="fas fa-xmark"></i>'
+        : status ? '<i class="fas fa-check"></i>' : '';
+      // Approved work is final; a rejected habit stays ticked so the student
+      // reads the note rather than silently re-ticking past it.
+      const locked = status === 'approved' || status === 'rejected';
+      const note = status === 'rejected' && log.mentor_note
+        ? '<div class="club-habit-note">' + escapeHtml(log.mentor_note) + '</div>'
+        : '';
+
+      const button = '<button type="button" class="club-habit ' + cls + '"' +
+        (locked ? ' disabled' : '') +
+        ' onclick="window.openClubHabit(\\'' + habit.id + '\\')">' +
+        '<span class="club-habit-box">' + mark + '</span>' +
+        '<span class="club-habit-info">' +
+          '<span class="club-habit-name">' + escapeHtml(habit.name) + '</span>' +
+          '<span class="club-habit-desc">' + escapeHtml(habit.desc) + '</span>' +
+          note +
+        '</span>' +
+        '<span class="club-habit-tag">' + tag + '</span>' +
+      '</button>';
+
+      // A mentor has ruled: there is nothing left to write, so no composer.
+      if (locked) return '<div class="club-habit-item">' + button + '</div>';
+
+      const written = log && log.reflection_text ? log.reflection_text : '';
+      return '<div class="club-habit-item" id="clubItem_' + habit.id + '">' +
+        button +
+        '<div class="club-habit-composer d-none" id="clubComposer_' + habit.id + '">' +
+          '<textarea id="clubText_' + habit.id + '"' +
+            ' placeholder="What did you actually do? Write it in a sentence or two."' +
+            ' oninput="window.clubComposerInput(\\'' + habit.id + '\\')">' +
+            escapeHtml(written) +
+          '</textarea>' +
+          '<div class="club-composer-foot">' +
+            '<span class="club-composer-count" id="clubCount_' + habit.id + '"></span>' +
+            (log ? '<button type="button" class="club-composer-btn ghost" onclick="window.removeClubHabit(\\'' + habit.id + '\\')">Remove tick</button>' : '') +
+            '<button type="button" class="club-composer-btn ghost" onclick="window.closeClubHabit(\\'' + habit.id + '\\')">Cancel</button>' +
+            '<button type="button" class="club-composer-btn save" id="clubSave_' + habit.id + '"' +
+              ' onclick="window.saveClubHabit(\\'' + habit.id + '\\')">' +
+              (log ? 'Save' : 'Tick it') +
+            '</button>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+    }).join('');
+
+    const pending = Object.values(clubTodayLogs).filter((l) => l.status === 'pending').length;
+    const pendingEl = document.getElementById('clubPendingValue');
+    if (pendingEl) pendingEl.textContent = String(pending);
+
+    // Lifetime approvals, not just today's — the count is a record of what the
+    // student has actually built, which is the point of a compounding habit.
+    try {
+      const approvedSnap = await getDocs(query(
+        collection(db, 'habit_logs'),
+        where('student_uid', '==', currentStudent.uid),
+        where('status', '==', 'approved')
+      ));
+      const approvedEl = document.getElementById('clubApprovedValue');
+      if (approvedEl) approvedEl.textContent = String(approvedSnap.size);
+    } catch (e) {
+      console.warn('[Club] Approved count unavailable:', e && e.message);
+    }
+  }
+
+  // ── Club: writing the reflection ────────────────────────────────────────
+  //
+  // Ticking used to be a single click. It now opens a box and the log is not
+  // written until CLUB_REFLECTION_MIN characters have been typed, because a
+  // tick with nothing behind it is a button press, not an act. The same floor
+  // is enforced in firestore.rules, so skipping this UI gains nothing.
+
+  window.openClubHabit = (habitId) => {
+    const item = document.getElementById('clubItem_' + habitId);
+    const composer = document.getElementById('clubComposer_' + habitId);
+    if (!item || !composer) return;
+
+    const opening = composer.classList.contains('d-none');
+    composer.classList.toggle('d-none', !opening);
+    item.classList.toggle('is-open', opening);
+    if (opening) {
+      window.clubComposerInput(habitId);
+      const box = document.getElementById('clubText_' + habitId);
+      if (box) box.focus();
+    }
+  };
+
+  window.closeClubHabit = (habitId) => {
+    const item = document.getElementById('clubItem_' + habitId);
+    const composer = document.getElementById('clubComposer_' + habitId);
+    if (composer) composer.classList.add('d-none');
+    if (item) item.classList.remove('is-open');
+  };
+
+  /** Live count, and the save button stays dead until the floor is cleared. */
+  window.clubComposerInput = (habitId) => {
+    const box = document.getElementById('clubText_' + habitId);
+    const count = document.getElementById('clubCount_' + habitId);
+    const save = document.getElementById('clubSave_' + habitId);
+    if (!box) return;
+
+    const written = box.value.trim().length;
+    const ok = written >= CLUB_REFLECTION_MIN;
+    if (count) {
+      count.textContent = ok
+        ? 'Ready to send'
+        : written + ' / ' + CLUB_REFLECTION_MIN + ' characters';
+      count.classList.toggle('is-ok', ok);
+    }
+    if (save) save.disabled = !ok;
+  };
+
+  window.saveClubHabit = async (habitId) => {
+    const houseId = clubStudentHouse();
+    if (!houseId || !currentStudent) return;
+    const habit = clubHabit(houseId, habitId);
+    if (!habit) return;
+
+    const box = document.getElementById('clubText_' + habitId);
+    if (!box) return;
+    const text = box.value.trim();
+    if (text.length < CLUB_REFLECTION_MIN) return;
+
+    const dateKey = clubToday();
+    const logId = clubLogId(currentStudent.uid, dateKey, habitId);
+    const existing = clubTodayLogs[habitId];
+
+    // A mentor has already ruled: the log is a record now, not a draft.
+    if (existing && existing.status !== 'pending') return;
+
+    try {
+      if (existing) {
+        // Rewriting a reflection that is still waiting. The rules allow only
+        // these keys to move, which is why nothing else is sent.
+        await updateDoc(doc(db, 'habit_logs', logId), {
+          reflection_text: text,
+          reflection_key: clubReflectionKey(text),
+          updated_at: new Date().toISOString()
+        });
+      } else {
+        const log = Object.assign({
+          house: houseId,
+          habit_id: habit.id,
+          habit_name: habit.name,
+          log_date: dateKey,
+          status: 'pending',
+          reflection_text: text,
+          reflection_key: clubReflectionKey(text),
+          created_at: new Date().toISOString()
+        }, acOwnership(familyIdentity));
+        // school_id is denormalized the way every other collection does it, so
+        // the teacher's queue can filter on it without a second read. A
+        // self-study account has none and simply omits the field.
+        if (currentStudent.school_id) log.school_id = currentStudent.school_id;
+        await setDoc(doc(db, 'habit_logs', logId), log);
+      }
+      await refreshClubHabits(houseId, dateKey);
+    } catch (e) {
+      console.error('[Club] Could not save habit:', e);
+      alert('Could not save that habit. Please check your connection and try again.');
+    }
+  };
+
+  /** Un-ticking a mistake. Allowed right up until a mentor rules on it. */
+  window.removeClubHabit = async (habitId) => {
+    const houseId = clubStudentHouse();
+    if (!houseId || !currentStudent) return;
+    const existing = clubTodayLogs[habitId];
+    if (!existing || existing.status !== 'pending') return;
+
+    const dateKey = clubToday();
+    try {
+      await deleteDoc(doc(db, 'habit_logs', clubLogId(currentStudent.uid, dateKey, habitId)));
+      await refreshClubHabits(houseId, dateKey);
+    } catch (e) {
+      console.error('[Club] Could not remove habit:', e);
+      alert('Could not remove that tick. Please try again.');
+    }
+  };
 
   async function loadGlobalRankings() {
     if (leaderboardLoaded) return;
@@ -3464,6 +4030,8 @@ ${ParentGateModal()}
         const switchBtn = document.getElementById('familySwitchSidebarBtn');
         if (switchBtn) switchBtn.style.display = '';
       }
+
+      applyParentAreaVisibility();
 
       if (currentStudent.school_id && !currentStudent.school_name) {
         try {

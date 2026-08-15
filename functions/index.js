@@ -764,3 +764,318 @@ function buildPublicScore(user) {
     points
   };
 }
+
+// ===========================================================================
+// Club — mentor verification of daily micro-habits
+// ===========================================================================
+//
+// A student ticks a habit and it lands in /habit_logs as 'pending'. Nothing is
+// earned yet. A mentor rules on it here, and only here, are Value Credits
+// written. The Firestore rules let a client create and un-tick a pending log
+// and nothing else — no client branch can write 'approved', points_awarded or
+// verified_by. This callable runs on the Admin SDK, which bypasses those rules
+// and is therefore the single door credits come through.
+//
+// That split is the whole reason the club is worth anything. Self-awarded
+// credits are just a number a child typed, and a house leaderboard built on
+// them ranks whoever clicked most.
+
+/**
+ * Value Credits per habit.
+ *
+ * SOURCE OF TRUTH IS src/lib/clubData.ts — this map exists only because
+ * functions/ is a separate package with no build step and cannot import a .ts
+ * file from the web app. Adding a habit there and forgetting it here would
+ * make the new habit un-approvable, so a test asserts the two agree
+ * (src/__tests__/clubHabits.test.ts). If that test fails, fix this map.
+ */
+const CLUB_HABIT_VC = {
+  sidq_daily_truth: 10,
+  sidq_own_it: 10,
+  sidq_honest_mirror: 10,
+  amanah_unprompted_duty: 10,
+  amanah_return_with_care: 10,
+  amanah_on_time: 10,
+  rahmah_lonely_outreach: 10,
+  rahmah_proactive_help: 10,
+  rahmah_one_kind_word: 10,
+  adl_speak_up: 10,
+  adl_fair_distribution: 10,
+  adl_defend_the_weak: 10
+};
+
+/** A mentor works through a day's ticks in one pass, so this is a bulk call. */
+const MAX_REVIEW_BATCH = 200;
+
+/**
+ * Shortest reflection that can earn credits.
+ *
+ * SOURCE OF TRUTH IS src/lib/clubData.ts (REFLECTION_MIN), mirrored into
+ * firestore.rules; a test pins all three. Enforced again here because the
+ * rules only govern what a client may write — a log created before this floor
+ * existed would otherwise still pay out.
+ */
+const REFLECTION_MIN = 60;
+
+/** Mirrors reflectionKey() in src/lib/clubData.ts. */
+function reflectionKey(text) {
+  return String(text || '').toLowerCase().replace(/\s+/g, ' ').trim().slice(0, 200);
+}
+
+/** Firestore caps an 'in' filter, and a bulk review can carry more than that. */
+const IN_QUERY_LIMIT = 10;
+
+function chunked(list, size) {
+  const out = [];
+  for (let i = 0; i < list.length; i += size) out.push(list.slice(i, i + size));
+  return out;
+}
+
+/**
+ * Where a house's running total lives.
+ *
+ * A school's houses are its own — Sidq at one school does not compete with
+ * Sidq at another. Accounts with no school (self-study individuals) fall into
+ * the Global Virtual House, which is what the concept calls the track for
+ * students whose school has not joined.
+ */
+function houseScoreId(schoolId, house) {
+  return (schoolId || 'global') + '__' + house;
+}
+
+exports.reviewHabitLogs = onCall({ cors: true }, async (request) => {
+  if (!request.auth) throw new HttpsError('unauthenticated', 'Please sign in.');
+
+  const data = request.data || {};
+  const decision = String(data.decision || '').trim();
+  if (decision !== 'approve' && decision !== 'reject') {
+    throw new HttpsError('invalid-argument', 'Decision must be approve or reject.');
+  }
+
+  const ids = Array.isArray(data.log_ids) ? data.log_ids.map((id) => String(id || '').trim()) : [];
+  const logIds = ids.filter(Boolean);
+  if (!logIds.length) throw new HttpsError('invalid-argument', 'No habit logs were named.');
+  if (logIds.length > MAX_REVIEW_BATCH) {
+    throw new HttpsError('invalid-argument', 'Review at most ' + MAX_REVIEW_BATCH + ' logs at a time.');
+  }
+
+  const note = String(data.note || '').trim().slice(0, 500);
+  if (decision === 'reject' && !note) {
+    // The student has to know what to fix, exactly as the chapter review
+    // already demands of a teacher sending work back.
+    throw new HttpsError('invalid-argument', 'Write a short note when sending a habit back.');
+  }
+
+  const meSnap = await db.collection('users').doc(request.auth.uid).get();
+  if (!meSnap.exists) throw new HttpsError('permission-denied', 'This account has no profile.');
+  const me = meSnap.data();
+  const caller = { uid: request.auth.uid, role: me.role, school_id: me.school_id || '' };
+
+  // Who may rule on a log:
+  //  - teacher / school_admin: their own school's students
+  //  - super_admin: anyone
+  //  - individual: their own logs, and only their own. Self-study accounts have
+  //    no mentor to wait for, the same allowance activity_submissions already
+  //    makes for them. A school student can never reach this branch.
+  const isStaffCaller = ['teacher', 'school_admin', 'super_admin'].includes(caller.role);
+  if (!isStaffCaller && caller.role !== 'individual') {
+    throw new HttpsError('permission-denied', 'Only a mentor can review habits.');
+  }
+
+  const refs = logIds.map((id) => db.collection('habit_logs').doc(id));
+  const snaps = await db.getAll(...refs);
+
+  const skipped = [];
+
+  // ---------------------------------------------------------------------
+  // Pass 1 — who may be ruled on at all
+  // ---------------------------------------------------------------------
+  const candidates = [];
+
+  for (const snap of snaps) {
+    if (!snap.exists) {
+      skipped.push({ id: snap.id, reason: 'not-found' });
+      continue;
+    }
+    const log = snap.data();
+
+    if (log.status !== 'pending') {
+      // Already ruled on — by another mentor, or by a double-tap on the same
+      // button. Skipping rather than failing keeps a bulk approve idempotent.
+      skipped.push({ id: snap.id, reason: 'already-reviewed' });
+      continue;
+    }
+
+    if (isStaffCaller) {
+      if (caller.role !== 'super_admin' && (!caller.school_id || log.school_id !== caller.school_id)) {
+        skipped.push({ id: snap.id, reason: 'other-school' });
+        continue;
+      }
+    } else if (log.student_uid !== caller.uid) {
+      skipped.push({ id: snap.id, reason: 'not-yours' });
+      continue;
+    }
+
+    const vc = CLUB_HABIT_VC[log.habit_id];
+    if (decision === 'approve' && typeof vc !== 'number') {
+      // A habit id nothing recognises. Refusing to price it is the point:
+      // otherwise a forged log with an invented habit would still pay out.
+      skipped.push({ id: snap.id, reason: 'unknown-habit' });
+      continue;
+    }
+
+    const text = String(log.reflection_text || '').trim();
+    if (decision === 'approve' && text.length < REFLECTION_MIN) {
+      // Either a log written before reflections were required, or a client
+      // that skipped the box. Neither earns credits; a mentor can still send
+      // it back, which is what tells the student to write one.
+      skipped.push({ id: snap.id, reason: 'no-reflection' });
+      continue;
+    }
+
+    // Recomputed from the text, never read from the stored field: the key is
+    // what duplicate detection compares, so it cannot be a value the client
+    // chose. Approving also rewrites it (below), so every approved log in the
+    // history this searches carries a server-computed key.
+    candidates.push({ snap: snap, log: log, vc: vc, key: reflectionKey(text) });
+  }
+
+  // ---------------------------------------------------------------------
+  // Pass 2 — the same reflection, used twice
+  // ---------------------------------------------------------------------
+  //
+  // The concept asks the system to flag a reflection pasted over and over.
+  // Two ways it shows up, and both are checked before any credit is written:
+  //
+  //   - the same text on several habits in this very batch, which is what
+  //     filling in a whole day from one sentence looks like;
+  //   - the same text as something this student already had approved.
+  //
+  // The mentor still reads the words — this only stops the paste from being
+  // paid for, and names the reason so the mentor can send it back knowingly.
+  const approvedNow = [];
+
+  if (decision === 'approve') {
+    const seenInBatch = new Map();   // studentUid -> Set of keys
+    const survivors = [];
+
+    for (const item of candidates) {
+      const uid = item.log.student_uid;
+      const seen = seenInBatch.get(uid) || new Set();
+      if (seen.has(item.key)) {
+        skipped.push({ id: item.snap.id, reason: 'duplicate-reflection' });
+        continue;
+      }
+      seen.add(item.key);
+      seenInBatch.set(uid, seen);
+      survivors.push(item);
+    }
+
+    // One lookup per student rather than per log: their own approved history,
+    // asked only about the handful of keys this batch actually carries.
+    const keysByStudent = new Map();
+    for (const item of survivors) {
+      const set = keysByStudent.get(item.log.student_uid) || new Set();
+      set.add(item.key);
+      keysByStudent.set(item.log.student_uid, set);
+    }
+
+    const alreadyUsed = new Map();   // studentUid -> Set of keys seen before
+    for (const [uid, keys] of keysByStudent) {
+      const used = new Set();
+      for (const group of chunked([...keys], IN_QUERY_LIMIT)) {
+        // Two equality filters — no composite index needed. Status is
+        // filtered in memory for the same reason.
+        const prior = await db.collection('habit_logs')
+          .where('student_uid', '==', uid)
+          .where('reflection_key', 'in', group)
+          .get();
+        prior.forEach((d) => {
+          if (d.data().status === 'approved') used.add(d.data().reflection_key);
+        });
+      }
+      alreadyUsed.set(uid, used);
+    }
+
+    for (const item of survivors) {
+      const used = alreadyUsed.get(item.log.student_uid);
+      if (used && used.has(item.key)) {
+        skipped.push({ id: item.snap.id, reason: 'duplicate-reflection' });
+        continue;
+      }
+      approvedNow.push(item);
+    }
+  }
+
+  // ---------------------------------------------------------------------
+  // Pass 3 — write
+  // ---------------------------------------------------------------------
+  const batch = db.batch();
+  const reviewed = [];
+  // Credits are summed per student and per house first, so a student with six
+  // approved habits costs one increment rather than six.
+  const studentCredits = new Map();
+  const houseCredits = new Map();
+  const verifiedAt = nowIso();
+
+  const ruling = decision === 'approve' ? approvedNow : candidates;
+
+  for (const item of ruling) {
+    const log = item.log;
+    const update = {
+      status: decision === 'approve' ? 'approved' : 'rejected',
+      verified_by: caller.uid,
+      verified_at: verifiedAt,
+      updated_at: verifiedAt
+    };
+    if (note) update.mentor_note = note;
+
+    if (decision === 'approve') {
+      update.points_awarded = item.vc;
+      // Stamp the server's own fingerprint, so tomorrow's duplicate check
+      // reads a key this function wrote rather than one a client sent.
+      update.reflection_key = item.key;
+      studentCredits.set(log.student_uid, (studentCredits.get(log.student_uid) || 0) + item.vc);
+      if (log.house) {
+        const key = houseScoreId(log.school_id, log.house);
+        const entry = houseCredits.get(key) || { points: 0, school_id: log.school_id || '', house: log.house };
+        entry.points += item.vc;
+        houseCredits.set(key, entry);
+      }
+    } else {
+      update.points_awarded = 0;
+    }
+
+    batch.update(item.snap.ref, update);
+    reviewed.push(item.snap.id);
+  }
+
+  for (const [studentUid, points] of studentCredits) {
+    batch.set(
+      db.collection('users').doc(studentUid),
+      { club_points: FieldValue.increment(points) },
+      { merge: true }
+    );
+  }
+
+  for (const [key, entry] of houseCredits) {
+    batch.set(
+      db.collection('house_scores').doc(key),
+      {
+        school_id: entry.school_id,
+        house: entry.house,
+        points: FieldValue.increment(entry.points),
+        updated_at: verifiedAt
+      },
+      { merge: true }
+    );
+  }
+
+  if (reviewed.length) await batch.commit();
+
+  return {
+    reviewed: reviewed.length,
+    credits_awarded: [...studentCredits.values()].reduce((a, b) => a + b, 0),
+    skipped: skipped
+  };
+});

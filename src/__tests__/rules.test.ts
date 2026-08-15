@@ -8,7 +8,7 @@ import {
   type RulesTestEnvironment
 } from '@firebase/rules-unit-testing'
 import {
-  doc, getDoc, setDoc, updateDoc, collection, query, where, getDocs
+  doc, getDoc, setDoc, updateDoc, deleteDoc, collection, query, where, getDocs
 } from 'firebase/firestore'
 
 /**
@@ -218,6 +218,205 @@ describe.skipIf(!HAS_EMULATOR)('Firestore rules', () => {
 
     it('cannot touch a child of another family', async () => {
       await assertFails(updateDoc(doc(asOtherFamily(), 'users', CHILD), { game_state: { points: 999 } }))
+    })
+  })
+
+  // -------------------------------------------------------------------
+  // Club habit logs
+  // -------------------------------------------------------------------
+  // The club is only worth something if a student cannot pay themselves.
+  // Everything below is really one claim tested from several directions:
+  // create a pending log, yes; decide its outcome, never.
+  describe('club habit logs', () => {
+    // Comfortably over REFLECTION_MIN (60). Every tick has to carry one now,
+    // so the factory does too — a log without it is a separate test below.
+    const REFLECTION =
+      'I told my friend the truth about breaking his pencil even though I was afraid he would be angry with me.'
+    const KEY = REFLECTION.toLowerCase()
+
+    const pendingLog = (studentUid: string, familyUid?: string) => {
+      const log: Record<string, unknown> = {
+        student_uid: studentUid,
+        school_id: SCHOOL,
+        house: 'sidq',
+        habit_id: 'sidq_daily_truth',
+        habit_name: 'Daily Truth',
+        log_date: '2026-08-14',
+        status: 'pending',
+        reflection_text: REFLECTION,
+        reflection_key: KEY
+      }
+      if (familyUid) log.family_uid = familyUid
+      return log
+    }
+
+    it('a student ticks their own habit', async () => {
+      await assertSucceeds(setDoc(
+        doc(asLegacy(), 'habit_logs', LEGACY_STUDENT + '_2026-08-14_sidq_daily_truth'),
+        pendingLog(LEGACY_STUDENT)
+      ))
+    })
+
+    it('a family ticks a habit for its own child', async () => {
+      await assertSucceeds(setDoc(
+        doc(asFamily(), 'habit_logs', CHILD + '_2026-08-14_sidq_daily_truth'),
+        pendingLog(CHILD, FAMILY)
+      ))
+    })
+
+    it('a family cannot tick for another family child', async () => {
+      await assertFails(setDoc(
+        doc(asOtherFamily(), 'habit_logs', CHILD + '_2026-08-14_sidq_daily_truth'),
+        pendingLog(CHILD, FAMILY)
+      ))
+    })
+
+    it('a student cannot file a log in another student name', async () => {
+      await assertFails(setDoc(
+        doc(asLegacy(), 'habit_logs', OTHER_LEGACY + '_2026-08-14_sidq_daily_truth'),
+        pendingLog(OTHER_LEGACY)
+      ))
+    })
+
+    it('refuses a log that arrives already approved', async () => {
+      await assertFails(setDoc(
+        doc(asLegacy(), 'habit_logs', LEGACY_STUDENT + '_2026-08-14_sidq_own_it'),
+        { ...pendingLog(LEGACY_STUDENT), habit_id: 'sidq_own_it', status: 'approved' }
+      ))
+    })
+
+    it('refuses a log that arrives carrying its own credits', async () => {
+      await assertFails(setDoc(
+        doc(asLegacy(), 'habit_logs', LEGACY_STUDENT + '_2026-08-14_sidq_own_it'),
+        { ...pendingLog(LEGACY_STUDENT), habit_id: 'sidq_own_it', points_awarded: 500 }
+      ))
+    })
+
+    it('refuses a house that does not exist', async () => {
+      await assertFails(setDoc(
+        doc(asLegacy(), 'habit_logs', LEGACY_STUDENT + '_2026-08-14_bogus'),
+        { ...pendingLog(LEGACY_STUDENT), house: 'greenhouse' }
+      ))
+    })
+
+    it('refuses a tick with no reflection at all', async () => {
+      const log = pendingLog(LEGACY_STUDENT)
+      delete log.reflection_text
+      delete log.reflection_key
+      await assertFails(setDoc(
+        doc(asLegacy(), 'habit_logs', LEGACY_STUDENT + '_2026-08-14_sidq_own_it'),
+        { ...log, habit_id: 'sidq_own_it' }
+      ))
+    })
+
+    it('refuses a reflection too short to be a sentence', async () => {
+      await assertFails(setDoc(
+        doc(asLegacy(), 'habit_logs', LEGACY_STUDENT + '_2026-08-14_sidq_own_it'),
+        { ...pendingLog(LEGACY_STUDENT), habit_id: 'sidq_own_it', reflection_text: 'did it', reflection_key: 'did it' }
+      ))
+    })
+
+    it('refuses a tick that omits the duplicate-detection key', async () => {
+      const log = pendingLog(LEGACY_STUDENT)
+      delete log.reflection_key
+      await assertFails(setDoc(
+        doc(asLegacy(), 'habit_logs', LEGACY_STUDENT + '_2026-08-14_sidq_own_it'),
+        { ...log, habit_id: 'sidq_own_it' }
+      ))
+    })
+
+    it('lets a student rewrite a reflection while it is still pending', async () => {
+      const id = LEGACY_STUDENT + '_2026-08-14_sidq_daily_truth'
+      await assertSucceeds(setDoc(doc(asLegacy(), 'habit_logs', id), pendingLog(LEGACY_STUDENT)))
+      const better = REFLECTION + ' I said sorry and offered to buy him a new one from my own pocket money.'
+      await assertSucceeds(updateDoc(doc(asLegacy(), 'habit_logs', id), {
+        reflection_text: better,
+        reflection_key: better.toLowerCase(),
+        updated_at: '2026-08-14T10:00:00.000Z'
+      }))
+    })
+
+    it('will not let a rewrite drop below the floor', async () => {
+      const id = LEGACY_STUDENT + '_2026-08-14_sidq_daily_truth'
+      await assertSucceeds(setDoc(doc(asLegacy(), 'habit_logs', id), pendingLog(LEGACY_STUDENT)))
+      await assertFails(updateDoc(doc(asLegacy(), 'habit_logs', id), {
+        reflection_text: 'nvm',
+        reflection_key: 'nvm',
+        updated_at: '2026-08-14T10:00:00.000Z'
+      }))
+    })
+
+    it('lets a student un-tick while it is still pending', async () => {
+      const id = LEGACY_STUDENT + '_2026-08-14_sidq_daily_truth'
+      await assertSucceeds(setDoc(doc(asLegacy(), 'habit_logs', id), pendingLog(LEGACY_STUDENT)))
+      await assertSucceeds(deleteDoc(doc(asLegacy(), 'habit_logs', id)))
+    })
+
+    it('will not let a student approve their own habit', async () => {
+      const id = LEGACY_STUDENT + '_2026-08-14_sidq_daily_truth'
+      await assertSucceeds(setDoc(doc(asLegacy(), 'habit_logs', id), pendingLog(LEGACY_STUDENT)))
+      await assertFails(updateDoc(doc(asLegacy(), 'habit_logs', id), {
+        status: 'approved', points_awarded: 10
+      }))
+    })
+
+    it('will not let a TEACHER write the approval directly either', async () => {
+      // Not an oversight. Approval has to run through reviewHabitLogs so the
+      // credits and the house tally are written in the same batch as the
+      // status — a teacher flipping the field by hand would approve the habit
+      // and pay nobody.
+      const id = LEGACY_STUDENT + '_2026-08-14_sidq_daily_truth'
+      await env.withSecurityRulesDisabled(async (ctx) => {
+        await setDoc(doc(ctx.firestore(), 'habit_logs', id), pendingLog(LEGACY_STUDENT))
+      })
+      await assertFails(updateDoc(doc(asTeacher(), 'habit_logs', id), {
+        status: 'approved', points_awarded: 10
+      }))
+    })
+
+    it('will not let a student delete a log a mentor has ruled on', async () => {
+      const id = LEGACY_STUDENT + '_2026-08-14_sidq_own_it'
+      await env.withSecurityRulesDisabled(async (ctx) => {
+        await setDoc(doc(ctx.firestore(), 'habit_logs', id), {
+          ...pendingLog(LEGACY_STUDENT), habit_id: 'sidq_own_it', status: 'approved', points_awarded: 10
+        })
+      })
+      await assertFails(deleteDoc(doc(asLegacy(), 'habit_logs', id)))
+    })
+
+    it('a teacher reads their school queue', async () => {
+      await env.withSecurityRulesDisabled(async (ctx) => {
+        await setDoc(doc(ctx.firestore(), 'habit_logs', CHILD + '_2026-08-14_sidq_daily_truth'),
+          pendingLog(CHILD, FAMILY))
+      })
+      const snap = await assertSucceeds(getDocs(query(
+        collection(asTeacher(), 'habit_logs'),
+        where('school_id', '==', SCHOOL),
+        where('status', '==', 'pending')
+      )))
+      expect((snap as any).size).toBeGreaterThan(0)
+    })
+
+    it('a student cannot read another student habit log', async () => {
+      await env.withSecurityRulesDisabled(async (ctx) => {
+        await setDoc(doc(ctx.firestore(), 'habit_logs', CHILD + '_2026-08-14_sidq_daily_truth'),
+          pendingLog(CHILD, FAMILY))
+      })
+      await assertFails(getDoc(doc(asLegacy(), 'habit_logs', CHILD + '_2026-08-14_sidq_daily_truth')))
+    })
+  })
+
+  describe('club house standings', () => {
+    it('are readable but never client-writable', async () => {
+      await env.withSecurityRulesDisabled(async (ctx) => {
+        await setDoc(doc(ctx.firestore(), 'house_scores', SCHOOL + '__sidq'), {
+          school_id: SCHOOL, house: 'sidq', points: 40
+        })
+      })
+      await assertSucceeds(getDoc(doc(asLegacy(), 'house_scores', SCHOOL + '__sidq')))
+      await assertFails(setDoc(doc(asTeacher(), 'house_scores', SCHOOL + '__sidq'), {
+        school_id: SCHOOL, house: 'sidq', points: 99999
+      }))
     })
   })
 

@@ -363,4 +363,237 @@ describe.skipIf(!HAS_EMULATOR)('Family provisioning and migration', () => {
       expect(plan.families[0].children.map((c: any) => c.uid)).toEqual([L3])
     }, 90000)
   })
+
+
+  /**
+   * Mentor verification of club habits.
+   *
+   * The rules already prove a client cannot write 'approved'. What is left to
+   * prove is the other half: that this callable pays exactly the mentors it
+   * should, refuses the ones it should not, and that approving a batch twice
+   * does not pay twice.
+   */
+  describe('Club habit verification', () => {
+    const TEACHER = 'teacher-c'
+    const OTHER_TEACHER = 'teacher-other'
+    const STUDENT = 'student-c'
+    const OTHER_SCHOOL = 'school-other'
+
+    beforeEach(async () => {
+      await signOut(auth).catch(() => {})
+      await clearEmulators()
+      await db.collection('users').doc(TEACHER).set({ role: 'teacher', school_id: SCHOOL, name: 'Mentor' })
+      await db.collection('users').doc(OTHER_TEACHER).set({ role: 'teacher', school_id: OTHER_SCHOOL, name: 'Other Mentor' })
+      await db.collection('users').doc(STUDENT).set({
+        role: 'student', school_id: SCHOOL, house: 'sidq', name: 'Abdullah'
+      })
+    })
+
+    // Distinct per log on purpose: a batch of logs that all said the same
+    // thing would now be caught as repeats, which is a different test.
+    const reflectionFor = (id: string) =>
+      'Today I did the habit and this is what actually happened when I did it: ' + id
+
+    const seedLog = async (id: string, habitId = 'sidq_daily_truth', extra: Record<string, unknown> = {}) => {
+      const text = reflectionFor(id)
+      await db.collection('habit_logs').doc(id).set({
+        student_uid: STUDENT,
+        school_id: SCHOOL,
+        house: 'sidq',
+        habit_id: habitId,
+        habit_name: habitId,
+        log_date: '2026-08-14',
+        status: 'pending',
+        reflection_text: text,
+        reflection_key: text.toLowerCase(),
+        ...extra
+      })
+      return id
+    }
+
+    it('awards credits to the student and to their house', async () => {
+      await seedLog('log-1', 'sidq_daily_truth')
+      await seedLog('log-2', 'sidq_own_it')
+      await signInAs(TEACHER)
+
+      const res = await call('reviewHabitLogs', { log_ids: ['log-1', 'log-2'], decision: 'approve' })
+      expect(res.reviewed).toBe(2)
+      expect(res.credits_awarded).toBe(20)
+
+      const student = (await db.collection('users').doc(STUDENT).get()).data()!
+      expect(student.club_points).toBe(20)
+
+      const house = (await db.collection('house_scores').doc(SCHOOL + '__sidq').get()).data()!
+      expect(house.points).toBe(20)
+      expect(house.house).toBe('sidq')
+
+      const log = (await db.collection('habit_logs').doc('log-1').get()).data()!
+      expect(log.status).toBe('approved')
+      expect(log.points_awarded).toBe(10)
+      expect(log.verified_by).toBe(TEACHER)
+    }, 60000)
+
+    it('does not pay twice when the same batch is approved again', async () => {
+      await seedLog('log-1')
+      await signInAs(TEACHER)
+
+      await call('reviewHabitLogs', { log_ids: ['log-1'], decision: 'approve' })
+      const second = await call('reviewHabitLogs', { log_ids: ['log-1'], decision: 'approve' })
+
+      expect(second.reviewed).toBe(0)
+      expect(second.skipped[0].reason).toBe('already-reviewed')
+      const student = (await db.collection('users').doc(STUDENT).get()).data()!
+      expect(student.club_points).toBe(10)
+    }, 60000)
+
+    it('refuses a mentor from another school', async () => {
+      await seedLog('log-1')
+      await signInAs(OTHER_TEACHER)
+
+      const res = await call('reviewHabitLogs', { log_ids: ['log-1'], decision: 'approve' })
+      expect(res.reviewed).toBe(0)
+      expect(res.skipped[0].reason).toBe('other-school')
+
+      const student = (await db.collection('users').doc(STUDENT).get()).data()!
+      expect(student.club_points).toBeUndefined()
+    }, 60000)
+
+    it('refuses a student trying to approve their own habit', async () => {
+      await seedLog('log-1')
+      await signInAs(STUDENT)
+
+      await expect(call('reviewHabitLogs', { log_ids: ['log-1'], decision: 'approve' }))
+        .rejects.toThrow(/mentor/i)
+    }, 60000)
+
+    it('will not approve a tick with no reflection behind it', async () => {
+      // Logs written before reflections were required still exist, and a
+      // client that skips the box would send exactly this.
+      await seedLog('log-1', 'sidq_daily_truth', { reflection_text: '', reflection_key: '' })
+      await signInAs(TEACHER)
+
+      const res = await call('reviewHabitLogs', { log_ids: ['log-1'], decision: 'approve' })
+      expect(res.reviewed).toBe(0)
+      expect(res.credits_awarded).toBe(0)
+      expect(res.skipped[0].reason).toBe('no-reflection')
+    }, 60000)
+
+    it('still lets a mentor send an empty tick back', async () => {
+      await seedLog('log-1', 'sidq_daily_truth', { reflection_text: '', reflection_key: '' })
+      await signInAs(TEACHER)
+
+      const res = await call('reviewHabitLogs', {
+        log_ids: ['log-1'], decision: 'reject', note: 'Please write what you did.'
+      })
+      expect(res.reviewed).toBe(1)
+    }, 60000)
+
+    it('pays for one copy of a reflection pasted across a day', async () => {
+      const same = 'I helped somebody today and it went well enough to write about here.'
+      await seedLog('log-1', 'sidq_daily_truth', { reflection_text: same, reflection_key: same.toLowerCase() })
+      await seedLog('log-2', 'sidq_own_it', { reflection_text: same, reflection_key: same.toLowerCase() })
+      await signInAs(TEACHER)
+
+      const res = await call('reviewHabitLogs', { log_ids: ['log-1', 'log-2'], decision: 'approve' })
+      expect(res.reviewed).toBe(1)
+      expect(res.credits_awarded).toBe(10)
+      expect(res.skipped[0].reason).toBe('duplicate-reflection')
+    }, 60000)
+
+    it('catches a reflection reused from an earlier day', async () => {
+      const same = 'I helped somebody today and it went well enough to write about here.'
+      await seedLog('log-1', 'sidq_daily_truth', { reflection_text: same, reflection_key: same.toLowerCase() })
+      await signInAs(TEACHER)
+      await call('reviewHabitLogs', { log_ids: ['log-1'], decision: 'approve' })
+
+      // Same words, different day, different habit.
+      await seedLog('log-2', 'sidq_own_it', {
+        log_date: '2026-08-15', reflection_text: same, reflection_key: same.toLowerCase()
+      })
+      const res = await call('reviewHabitLogs', { log_ids: ['log-2'], decision: 'approve' })
+      expect(res.reviewed).toBe(0)
+      expect(res.skipped[0].reason).toBe('duplicate-reflection')
+    }, 60000)
+
+    it('is not fooled by re-casing or re-spacing the same words', async () => {
+      const original = 'I returned the book I borrowed from the library in better condition.'
+      await seedLog('log-1', 'sidq_daily_truth', {
+        reflection_text: original, reflection_key: original.toLowerCase()
+      })
+      await signInAs(TEACHER)
+      await call('reviewHabitLogs', { log_ids: ['log-1'], decision: 'approve' })
+
+      // The client stores whatever key it likes; the callable recomputes.
+      const dressed = '  I RETURNED the book   I borrowed\nfrom the library in better condition.  '
+      await seedLog('log-2', 'sidq_own_it', {
+        log_date: '2026-08-15', reflection_text: dressed, reflection_key: 'something-else-entirely'
+      })
+      const res = await call('reviewHabitLogs', { log_ids: ['log-2'], decision: 'approve' })
+      expect(res.reviewed).toBe(0)
+      expect(res.skipped[0].reason).toBe('duplicate-reflection')
+    }, 60000)
+
+    it('will not price a habit id it does not recognise', async () => {
+      // A forged log naming an invented habit must not pay out just because a
+      // mentor clicked approve on a queue row.
+      await seedLog('log-1', 'sidq_infinite_credits')
+      await signInAs(TEACHER)
+
+      const res = await call('reviewHabitLogs', { log_ids: ['log-1'], decision: 'approve' })
+      expect(res.reviewed).toBe(0)
+      expect(res.skipped[0].reason).toBe('unknown-habit')
+    }, 60000)
+
+    it('sends a habit back with the mentor note and no credits', async () => {
+      await seedLog('log-1')
+      await signInAs(TEACHER)
+
+      const res = await call('reviewHabitLogs', {
+        log_ids: ['log-1'], decision: 'reject', note: 'Tell me what you actually did.'
+      })
+      expect(res.reviewed).toBe(1)
+
+      const log = (await db.collection('habit_logs').doc('log-1').get()).data()!
+      expect(log.status).toBe('rejected')
+      expect(log.points_awarded).toBe(0)
+      expect(log.mentor_note).toBe('Tell me what you actually did.')
+
+      const student = (await db.collection('users').doc(STUDENT).get()).data()!
+      expect(student.club_points).toBeUndefined()
+    }, 60000)
+
+    it('insists on a note when sending work back', async () => {
+      await seedLog('log-1')
+      await signInAs(TEACHER)
+
+      await expect(call('reviewHabitLogs', { log_ids: ['log-1'], decision: 'reject' }))
+        .rejects.toThrow(/note/i)
+    }, 60000)
+
+    it('lets a self-study individual approve their own, and nobody else', async () => {
+      // Individual accounts have no mentor to wait for — the same allowance
+      // activity_submissions already makes for them.
+      const SOLO = 'solo-1'
+      await db.collection('users').doc(SOLO).set({ role: 'individual', house: 'adl', name: 'Solo' })
+      const soloText = reflectionFor('solo-log')
+      await db.collection('habit_logs').doc('solo-log').set({
+        student_uid: SOLO, house: 'adl', habit_id: 'adl_speak_up',
+        log_date: '2026-08-14', status: 'pending',
+        reflection_text: soloText, reflection_key: soloText.toLowerCase()
+      })
+      await seedLog('log-1')
+      await signInAs(SOLO)
+
+      const res = await call('reviewHabitLogs', {
+        log_ids: ['solo-log', 'log-1'], decision: 'approve'
+      })
+      expect(res.reviewed).toBe(1)
+      expect(res.skipped[0].reason).toBe('not-yours')
+
+      // No school: the credits land in the Global Virtual House.
+      const house = (await db.collection('house_scores').doc('global__adl').get()).data()!
+      expect(house.points).toBe(10)
+    }, 60000)
+  })
+
 })
