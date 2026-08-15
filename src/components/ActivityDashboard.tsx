@@ -2416,7 +2416,7 @@ export const ActivityDashboard = () => html`
         <i class="fas fa-medal"></i>
         <span>Rankings</span>
       </button>
-      <button class="mobile-action-btn parent-gate-mobile" type="button" onclick="window.switchStudentSection('parent-gate', false)">
+      <button class="mobile-action-btn parent-gate-mobile" id="parentGateMobileBtn" type="button" onclick="window.switchStudentSection('parent-gate', false)">
         <i class="fas fa-user-shield" style="color: #ffffff; background: linear-gradient(135deg, #243d6b, #cf296d);"></i>
         <span>Parent Area</span>
       </button>
@@ -2780,6 +2780,10 @@ ${ParentGateModal()}
   };
 
   window.handleParentGateClick = async () => {
+    // The gate itself, not just the buttons in front of it: this is a global,
+    // and the PIN it would ask for now belongs to the family dashboard.
+    if (childBelongsToFamily()) return;
+
     pgPendingAction = 'parent-area';
 
     if (isParentUnlocked) {
@@ -2971,7 +2975,42 @@ ${ParentGateModal()}
     }
   };
 
+  /**
+   * Does this child have a parent with an account of their own?
+   *
+   * Keyed on the CHILD's record, not on who is signed in: a migrated student
+   * whose own login has not been switched off yet still has a parent holding a
+   * family account, and that parent belongs on /family rather than inside
+   * their child's dashboard.
+   */
+  function childBelongsToFamily() {
+    return Boolean(currentStudent && currentStudent.family_uid);
+  }
+
+  /**
+   * The Parent Area is the pre-family way in: a section inside the child's own
+   * dashboard, behind a PIN. Once a family account exists, the parent has a
+   * dashboard of their own and the PIN's job is the return trip instead, so
+   * leaving this here would be a second parent entrance nobody maintains.
+   *
+   * It stays for a legacy student — one with no family_uid — because for that
+   * child's parent it is still the only window onto their work. Removing it
+   * outright would take that away from every school not yet converted.
+   */
+  function applyParentAreaVisibility() {
+    if (!childBelongsToFamily()) return;
+    ['parentGateSidebarBtn', 'parentGateMobileBtn'].forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) el.style.display = 'none';
+    });
+  }
+
   window.switchStudentSection = (section, shouldScroll = true) => {
+    // Guarded here as well as by hiding the buttons: a stale onclick, a
+    // bookmark or anything else that reaches the router directly must not walk
+    // into a section this account is no longer meant to have.
+    if (section === 'parent-gate' && childBelongsToFamily()) return;
+
     if (section === 'parent-gate' && !isParentUnlocked) {
       window.handleParentGateClick();
       return;
@@ -3991,6 +4030,8 @@ ${ParentGateModal()}
         const switchBtn = document.getElementById('familySwitchSidebarBtn');
         if (switchBtn) switchBtn.style.display = '';
       }
+
+      applyParentAreaVisibility();
 
       if (currentStudent.school_id && !currentStudent.school_name) {
         try {
