@@ -38,6 +38,30 @@ service cloud.firestore {
       return request.resource.data.diff(resource.data).affectedKeys().hasOnly(keys);
     }
 
+    // A habit tick has to cost a sentence. 60 is REFLECTION_MIN in
+    // src/lib/clubData.ts and in functions/index.js — a test pins all three.
+    //
+    // The floor lives here and not only in the dashboard because a tick with
+    // no reflection is exactly what a client written to skip the box would
+    // send, and that client would otherwise earn the same credits as a
+    // student who actually wrote something.
+    //
+    // reflection_key is the repeat-detection fingerprint. It is required to
+    // exist so that no log can hide from the duplicate check, but its VALUE
+    // is never trusted: reviewHabitLogs recomputes it from the text before
+    // comparing anything.
+    // The 'in' guards are load-bearing: reading a key that is not there
+    // throws inside rules rather than evaluating false, which turns a clean
+    // denial into an evaluation error.
+    function hasReflection(data) {
+      return 'reflection_text' in data &&
+             data.reflection_text is string &&
+             data.reflection_text.size() >= 60 &&
+             'reflection_key' in data &&
+             data.reflection_key is string &&
+             data.reflection_key.size() > 0;
+    }
+
     // ---------------------------------------------------------------
     // Family accounts
     // ---------------------------------------------------------------
@@ -201,10 +225,17 @@ service cloud.firestore {
         request.resource.data.school_id == mySchool() &&
         onlyKeys(['school_id'])
       ) || (
-        // School admin: edit same-school member profiles.
+        // School admin: edit same-school member profiles, including which club
+        // house a student belongs to. Allocation is the school's call, not the
+        // student's — 'house' is deliberately absent from the self branch
+        // above, or a student would re-sort themselves out of every house
+        // whose habits looked like work that week.
+        //
+        // club_points is in no whitelist here or anywhere else: Value Credits
+        // are written only by the reviewHabitLogs callable on the Admin SDK.
         signedIn() && me().role == 'school_admin' &&
         sameSchool(resource.data) &&
-        onlyKeys(['name', 'class_id', 'photoURL'])
+        onlyKeys(['name', 'class_id', 'photoURL', 'house'])
       );
       // The parent branch that marked chapters approved on a linked child is
       // gone with the role: work goes straight from the student to the teacher.
@@ -330,6 +361,78 @@ service cloud.firestore {
     // /users must never allow: a user doc also carries phone, email and
     // invitation_code.
     match /public_scores/{userId} {
+      allow get, list: if signedIn();
+      allow write: if false;
+    }
+
+    // ---------------------------------------------------------------
+    // 8. Club — daily micro-habit logs
+    // ---------------------------------------------------------------
+    // A student ticks a habit, a mentor approves it, and only then are Value
+    // Credits awarded. The whole design rests on the client being unable to
+    // do the second half: no branch below lets anyone write 'approved',
+    // points_awarded, or verified_by — those come from the reviewHabitLogs
+    // callable, which runs on the Admin SDK and bypasses this file entirely.
+    //
+    // Without that split the club would be worth nothing: a student who can
+    // set their own status is a student who can mint their own credits, and
+    // the house leaderboard becomes a typing contest.
+    //
+    // The document id is student_date_habit (see clubLogId), so a duplicate
+    // tick overwrites rather than accumulating. That is why the update branch
+    // exists at all — every re-tick of the same habit on the same day lands
+    // here, not on create.
+    match /habit_logs/{logId} {
+      allow get, list: if signedIn() && (
+        resource.data.student_uid == request.auth.uid ||
+        isMyFamily(resource.data) ||
+        isSuper() ||
+        (isStaff() && sameSchool(resource.data))
+      );
+
+      allow create: if signedIn() &&
+        (request.resource.data.student_uid == request.auth.uid ||
+         isMyFamily(request.resource.data)) &&
+        request.resource.data.status == 'pending' &&
+        request.resource.data.house in ['sidq', 'amanah', 'rahmah', 'adl'] &&
+        request.resource.data.habit_id is string &&
+        request.resource.data.log_date is string &&
+        hasReflection(request.resource.data) &&
+        !('points_awarded' in request.resource.data) &&
+        !('verified_by' in request.resource.data) &&
+        !('verified_at' in request.resource.data);
+
+      // Only while the mentor has not ruled on it yet, and the log may not
+      // change hands mid-update: both versions must point at the same caller.
+      allow update: if signedIn() &&
+        resource.data.status == 'pending' &&
+        request.resource.data.status == 'pending' &&
+        (
+          (resource.data.student_uid == request.auth.uid &&
+           request.resource.data.student_uid == request.auth.uid) ||
+          (isMyFamily(resource.data) && isMyFamily(request.resource.data))
+        ) &&
+        hasReflection(request.resource.data) &&
+        onlyKeys(['reflection_text', 'reflection_key', 'updated_at']);
+
+      // Un-ticking is allowed right up until a mentor has ruled; after that
+      // the log is a record of a decision and only staff may remove it.
+      allow delete: if isSuper() || (
+        signedIn() &&
+        resource.data.status == 'pending' &&
+        (resource.data.student_uid == request.auth.uid || isMyFamily(resource.data))
+      ) || (
+        isStaff() && sameSchool(resource.data)
+      );
+    }
+
+    // ---------------------------------------------------------------
+    // 9. Club — house standings
+    // ---------------------------------------------------------------
+    // Same shape and same reasoning as public_scores: a cross-school read the
+    // club needs, written only by the callable that approves habits. The
+    // client tallying its own house would defeat the point.
+    match /house_scores/{scoreId} {
       allow get, list: if signedIn();
       allow write: if false;
     }

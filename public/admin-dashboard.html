@@ -2975,6 +2975,7 @@
             <button class="btn-outline-light d-none" id="cleanupParentCodesBtn" onclick="cleanupParentCodes()" title="Parent codes are retired. This clears the unused ones."><i class="fas fa-broom me-2"></i> Clear Old Parent Codes (<span id="deadParentCount">0</span>)</button>
             <button class="btn-solid" onclick="openModal('studentModal')"><i class="fas fa-user-plus me-2"></i> Add Student</button>
             <button class="btn-outline-light" onclick="openModal('bulkImportModal')"><i class="fas fa-file-import me-2"></i> Import Roster</button>
+            <button class="btn-outline-light" id="allocateHousesBtn" onclick="allocateHouses()" title="Sort students who have no club house yet into the four houses"><i class="fas fa-shield-halved me-2"></i> Allocate Houses (<span id="unhousedCount">0</span>)</button>
           </div>
         </div>
         
@@ -3391,6 +3392,20 @@
         <option value="Class 8">Class 8</option>
         <option value="Class 9">Class 9</option>
         <option value="Class 10">Class 10</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <!-- Which club house this student belongs to. The school allocates it,
+           never the student: the Firestore rules keep 'house' out of the
+           student's own update whitelist for exactly that reason. Leaving it
+           unassigned simply hides the club section on their dashboard. -->
+      <label>Club House</label>
+      <select id="editStuHouse" class="form-input">
+        <option value="">Not in a house yet</option>
+        <option value="sidq">Sidq — Truthbearers</option>
+        <option value="amanah">Amanah — Guardians of Duty</option>
+        <option value="rahmah">Rahmah — Champions of Compassion</option>
+        <option value="adl">Adl — Keepers of Justice</option>
       </select>
     </div>
     <div class="modal-footer-actions">
@@ -4572,7 +4587,7 @@
       stuDirHtml += '<div class="pill-row ' + motif + '">' +
         '<div class="col-check"><input type="checkbox" class="student-select-cb" data-id="' + student.uid + '" data-type="student" onchange="updateBulkDeleteButton()" style="cursor:pointer; width:16px; height:16px;"></div>' +
         '<div class="col-1 d-flex align-items-center gap-3"><img src="' + imgSrc + '" style="border-radius:50%; width:40px; height:40px; object-fit:cover;">' + student.name + '</div>' +
-        '<div class="col-2"><span style="background:rgba(255,255,255,0.7); padding:5px 12px; border-radius:20px; font-weight:800;">' + (student.class_id || 'Unknown') + '</span></div>' +
+        '<div class="col-2"><span style="background:rgba(255,255,255,0.7); padding:5px 12px; border-radius:20px; font-weight:800;">' + (student.class_id || 'Unknown') + '</span>' + houseBadge(student.house) + '</div>' +
         '<div class="col-2">' + stuCell + '</div>' +
         '<div class="col-2"><span style="color:#22c55e;"><i class="fas fa-check-circle"></i> Active</span></div>' +
         '<div class="col-actions"><button class="action-btn" onclick="editStudent(\'' + student.uid + '\')"><i class="fas fa-edit"></i></button><button class="action-btn text-danger ms-2" onclick="deleteStudent(\'' + student.uid + '\')"><i class="fas fa-trash"></i></button></div></div>';
@@ -4590,6 +4605,8 @@
         '<div class="col-actions"><button class="action-btn text-danger" onclick="deleteInvite(\'' + invite.code + '\', \'student\')"><i class="fas fa-trash"></i></button></div></div>';
     });
     document.getElementById('studentDirectoryBody').innerHTML = stuDirHtml || '<div style="text-align:center; padding:2rem; color:#94a3b8; font-weight:700;">No students enrolled yet.</div>';
+
+    refreshUnhousedCount();
 
     // Families are not filtered by class: a household can have children in
     // several, and hiding a parent because one of their children sits outside
@@ -5294,6 +5311,7 @@
       document.getElementById('editStuId').value = uid;
       document.getElementById('editStuName').value = stu.name;
       document.getElementById('editStuClass').value = stu.class_id || '';
+      document.getElementById('editStuHouse').value = stu.house || '';
       openModal('editStudentModal');
     }
   };
@@ -5302,9 +5320,10 @@
     const uid = document.getElementById('editStuId').value;
     const name = document.getElementById('editStuName').value.trim();
     const cls = document.getElementById('editStuClass').value;
+    const house = document.getElementById('editStuHouse').value;
     if(!name) return;
     try {
-      await updateDoc(doc(db, "users", uid), { name: name, class_id: cls });
+      await updateDoc(doc(db, "users", uid), { name: name, class_id: cls, house: house });
       closeModal('editStudentModal');
       await loadDashboardData();
     } catch(err) {
@@ -5375,6 +5394,89 @@
   };
 
   // Clears out PAR- invites left over from when parents had their own account.
+  // ---------------------------------------------------------------------
+  // Club house allocation
+  // ---------------------------------------------------------------------
+  // Four houses — Sidq, Amanah, Rahmah, Adl. A student with no house sees no
+  // club section at all, so allocation is what actually starts the programme
+  // for a school. One student at a time through the editor is fine for a
+  // correction; for a roster of three hundred it is not, which is what the
+  // button below is for.
+  // Colours mirror CLUB_HOUSES in src/lib/clubData.ts — the concept deck's
+  // four hues, each pinned to a brand token. This page is served as a static
+  // file and cannot import that module, so the table is copied; change it in
+  // both places or a badge here will name a house in a colour the student
+  // dashboard does not use. 'ink' exists because white lettering is
+  // unreadable on Sidq's gold.
+  const CLUB_HOUSE_META = {
+    sidq:   { label: 'Sidq',   color: '#F59E0B', ink: '#2B1E00' },  // brand-gold
+    amanah: { label: 'Amanah', color: '#0F5E55', ink: '#FFFFFF' },  // brand-teal
+    rahmah: { label: 'Rahmah', color: '#D63678', ink: '#FFFFFF' },  // brand-pink
+    adl:    { label: 'Adl',    color: '#1E2D5A', ink: '#FFFFFF' }   // brand-navy
+  };
+  const CLUB_HOUSE_ORDER = ['sidq', 'amanah', 'rahmah', 'adl'];
+
+  function houseBadge(house) {
+    const meta = CLUB_HOUSE_META[house];
+    if (!meta) return '';
+    return ' <span style="background:' + meta.color + '; color:' + meta.ink + '; padding:3px 9px; border-radius:20px; font-weight:800; font-size:0.7rem; text-transform:uppercase; letter-spacing:0.5px;">' + meta.label + '</span>';
+  }
+
+  function refreshUnhousedCount() {
+    const el = document.getElementById('unhousedCount');
+    if (!el) return;
+    const unhoused = studentsList.filter((s) => !CLUB_HOUSE_META[s.house]).length;
+    el.textContent = String(unhoused);
+    const btn = document.getElementById('allocateHousesBtn');
+    if (btn) btn.style.display = unhoused ? '' : 'none';
+  }
+
+  window.allocateHouses = async () => {
+    const unhoused = studentsList.filter((s) => !CLUB_HOUSE_META[s.house]);
+    if (!unhoused.length) {
+      alert('Every student already belongs to a house.');
+      return;
+    }
+
+    // Balance across the houses that already exist rather than dealing blindly:
+    // running this twice as new students enrol must not leave one house double
+    // the size of another, and a lopsided house makes the standings a measure
+    // of headcount rather than of character.
+    const counts = {};
+    CLUB_HOUSE_ORDER.forEach((h) => { counts[h] = 0; });
+    studentsList.forEach((s) => { if (CLUB_HOUSE_META[s.house]) counts[s.house]++; });
+
+    if (!confirm('Sort ' + unhoused.length + ' student(s) into the four houses?\n\nHouses stay balanced, and you can move anyone afterwards from their student editor.')) {
+      return;
+    }
+
+    const btn = document.getElementById('allocateHousesBtn');
+    if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Allocating...'; }
+
+    let done = 0;
+    const failed = [];
+    for (const student of unhoused) {
+      // Smallest house first; ties break in the fixed order above so the
+      // outcome does not depend on object key iteration.
+      const target = CLUB_HOUSE_ORDER.reduce((best, h) => (counts[h] < counts[best] ? h : best), CLUB_HOUSE_ORDER[0]);
+      try {
+        await updateDoc(doc(db, 'users', student.uid), { house: target });
+        counts[target]++;
+        done++;
+      } catch (err) {
+        console.error('[Houses] Could not allocate', student.uid, err);
+        failed.push(student.name || student.uid);
+      }
+    }
+
+    if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-shield-halved me-2"></i> Allocate Houses (<span id="unhousedCount">0</span>)'; }
+
+    let msg = done + ' student(s) sorted into houses.';
+    if (failed.length) msg += '\n\nCould not sort: ' + failed.slice(0, 5).join(', ') + (failed.length > 5 ? ' and ' + (failed.length - 5) + ' more.' : '');
+    alert(msg);
+    await loadDashboardData();
+  };
+
   // Only unredeemed ones: a 'used' invite records that a real person signed up
   // against it, and throwing that history away buys nothing — those accounts
   // simply cannot be used any more. Scoped to this school, which is also the

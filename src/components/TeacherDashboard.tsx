@@ -1,6 +1,7 @@
 import { html, raw } from 'hono/html'
 import activitiesData from '../data/activities.json'
 import { firebaseConfigJS } from '../lib/firebaseConfig'
+import { clubHelpersJS } from '../lib/clubData'
 
 export const TeacherDashboard = () => html`
 <style>
@@ -1096,6 +1097,82 @@ export const TeacherDashboard = () => html`
     box-shadow: 0 14px 24px rgba(207,41,109,0.22);
   }
 
+  /* Club habit verification queue */
+  .club-nav-count {
+    margin-left: auto; background: var(--teacher-pink); color: #fff;
+    border-radius: 999px; padding: 1px 8px; font-size: 0.7rem; font-weight: 800;
+  }
+  .club-nav-count:empty { display: none; }
+
+  .club-queue-toolbar {
+    display: flex; align-items: center; flex-wrap: wrap; gap: 0.6rem;
+    padding: 0.9rem 0 1rem; border-bottom: 1px solid #eef2f7; margin-bottom: 1rem;
+  }
+  .club-select-all { display: flex; align-items: center; gap: 0.45rem; font-weight: 700; color: #243d6b; font-size: 0.86rem; cursor: pointer; }
+  .club-select-all input { width: 17px; height: 17px; cursor: pointer; }
+  .club-selected-count { color: #64748b; font-size: 0.82rem; margin-right: auto; }
+  .btn-reject, .btn-refresh-club {
+    font-family: 'Sora', sans-serif; font-weight: 800; border-radius: 999px;
+    padding: 0.72rem 1rem; font-size: 0.84rem; cursor: pointer;
+    transition: transform 0.2s;
+  }
+  .btn-reject { background: #fff1f2; color: #b91c1c; border: 1px solid #fecaca; }
+  .btn-refresh-club { background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
+  .btn-reject:hover, .btn-refresh-club:hover { transform: translateY(-1px); }
+
+  .club-student-group {
+    border: 1px solid #eef2f7; border-radius: 16px;
+    padding: 0.9rem 1rem; margin-bottom: 0.85rem; background: #fff;
+  }
+  .club-student-head {
+    display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap;
+    margin-bottom: 0.6rem;
+  }
+  .club-student-name { font-weight: 800; color: #243d6b; font-size: 0.95rem; }
+  /* Shown when a student filed the same words twice. Amber, not red: it is
+     something for the mentor to look at, not a verdict. */
+  .club-repeat-flag {
+    display: inline-flex; align-items: center; gap: 6px;
+    margin-top: 6px; padding: 3px 10px; border-radius: 999px;
+    background: #fffbeb; border: 1px solid #fde68a; color: #b45309;
+    font-size: 0.7rem; font-weight: 800;
+  }
+
+  /* House standings. A strip rather than a list: a mentor glances at this on
+     the way to the queue, they do not study it. */
+  .club-standings-strip {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 0.6rem; margin: 0 0 1.1rem;
+  }
+  .club-stand-tile {
+    display: flex; align-items: center; gap: 0.55rem;
+    padding: 0.7rem 0.85rem; border-radius: 12px;
+    background: #f8fafc; border: 1px solid #eef2f7;
+  }
+  .club-stand-tile .cs-rank { font-size: 0.68rem; font-weight: 800; color: #94a3b8; }
+  .club-stand-tile .cs-dot { width: 0.65rem; height: 0.65rem; border-radius: 50%; flex-shrink: 0; }
+  .club-stand-tile .cs-name { flex: 1; min-width: 0; font-weight: 800; font-size: 0.8rem; color: #243d6b; }
+  .club-stand-tile .cs-pts { font-weight: 800; font-size: 0.85rem; color: #1e2d5a; white-space: nowrap; }
+  .club-stand-tile .cs-pts em { font-style: normal; font-size: 0.65rem; color: #94a3b8; margin-left: 2px; }
+  @media (max-width: 900px) { .club-standings-strip { grid-template-columns: repeat(2, 1fr); } }
+
+  /* Background and ink both come from the house — Sidq's gold cannot carry
+     white lettering, so neither is hard-coded here. */
+  .club-house-pill {
+    font-size: 0.66rem; font-weight: 800; text-transform: uppercase;
+    letter-spacing: 0.6px; padding: 2px 9px; border-radius: 999px;
+  }
+  .club-student-class { font-size: 0.76rem; color: #94a3b8; }
+  .club-log-row {
+    display: flex; align-items: flex-start; gap: 0.7rem;
+    padding: 0.55rem 0.2rem; border-top: 1px dashed #eef2f7;
+  }
+  .club-log-row input { margin-top: 3px; width: 16px; height: 16px; cursor: pointer; flex: 0 0 auto; }
+  .club-log-main { flex: 1; min-width: 0; }
+  .club-log-name { font-weight: 700; color: #1e293b; font-size: 0.87rem; }
+  .club-log-desc { font-size: 0.76rem; color: #64748b; line-height: 1.45; }
+  .club-log-date { font-size: 0.72rem; color: #94a3b8; white-space: nowrap; }
+
   .custom-modal-overlay {
     display: none;
     position: fixed;
@@ -1866,6 +1943,7 @@ export const TeacherDashboard = () => html`
       <ul class="sidebar-nav">
         <li class="active" data-section="overview" onclick="switchTeacherSection('overview')"><span class="nav-badge overview"><i class="fas fa-chart-pie"></i></span><span>Overview</span></li>
         <li data-section="reviews" onclick="switchTeacherSection('reviews')"><span class="nav-badge review"><i class="fas fa-clipboard-check"></i></span><span>Reviews</span></li>
+        <li data-section="club" onclick="switchTeacherSection('club')"><span class="nav-badge" style="background:linear-gradient(135deg,#1E2D5A,#C99A6B);color:#fff;"><i class="fas fa-shield-halved"></i></span><span>Club Habits</span><span class="club-nav-count" id="clubNavCount"></span></li>
         <li data-section="rankings" onclick="switchTeacherSection('rankings')"><span class="nav-badge reports"><i class="fas fa-medal"></i></span><span>Rankings</span></li>
         <li data-section="register" onclick="switchTeacherSection('register')"><span class="nav-badge overview" style="background:linear-gradient(135deg,#3b82f6,#2563eb);"><i class="fas fa-calendar-alt"></i></span><span>Monthly Log</span></li>
       </ul>
@@ -2042,6 +2120,46 @@ export const TeacherDashboard = () => html`
           </section>
         </section>
 
+        </section>
+
+        <section id="teacherPanelClub" class="teacher-panel">
+          <section class="surface-card">
+            <div class="section-header">
+              <div class="section-heading">
+                <div class="section-asset" style="background:linear-gradient(135deg,#1E2D5A,#C99A6B);display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.4rem;">
+                  <i class="fas fa-shield-halved"></i>
+                </div>
+                <div>
+                  <h3>Club Habits — Mentor Verification</h3>
+                  <p>Students tick a daily habit; nothing is earned until you approve it. Approve a whole day in one pass.</p>
+                </div>
+              </div>
+              <span class="section-chip" id="clubQueueChip"><i class="fas fa-clock"></i> Loading</span>
+            </div>
+
+            <div class="club-standings-strip" id="clubStandingsStrip"></div>
+
+            <div class="club-queue-toolbar">
+              <label class="club-select-all">
+                <input type="checkbox" id="clubSelectAll" onchange="window.toggleAllClubLogs(this.checked)">
+                <span>Select all</span>
+              </label>
+              <span class="club-selected-count" id="clubSelectedCount">0 selected</span>
+              <button class="btn-approve" type="button" onclick="window.reviewSelectedClubLogs('approve')">
+                <i class="fas fa-check"></i> Approve selected
+              </button>
+              <button class="btn-reject" type="button" onclick="window.reviewSelectedClubLogs('reject')">
+                <i class="fas fa-rotate-left"></i> Send back
+              </button>
+              <button class="btn-refresh-club" type="button" onclick="window.loadClubQueue()">
+                <i class="fas fa-rotate-right"></i> Refresh
+              </button>
+            </div>
+
+            <div id="clubQueueList">
+              <div style="text-align:center;color:#64748b;padding:2rem;"><i class="fas fa-spinner fa-spin fa-2x"></i></div>
+            </div>
+          </section>
         </section>
 
         <section id="teacherPanelRankings" class="teacher-panel">
@@ -2231,6 +2349,7 @@ export const TeacherDashboard = () => html`
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
   import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
   import { getFirestore, collection, query, where, getDocs, getDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+  import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-functions.js";
   import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-storage.js";
 
   const firebaseConfig = ${raw(firebaseConfigJS)};
@@ -2239,6 +2358,17 @@ export const TeacherDashboard = () => html`
   const auth = getAuth(app);
   const db = getFirestore(app);
   const storage = getStorage(app);
+  const functions = getFunctions(app);
+
+  // Value Credits are written by this callable and by nothing else. The
+  // Firestore rules refuse every client write of status/points on a habit log,
+  // so a mentor's approval has to come through here.
+  const callReviewHabitLogs = httpsCallable(functions, 'reviewHabitLogs');
+
+  // CLUB_HOUSES / clubHabit come from clubData.ts — the same table the student
+  // dashboard renders from, so a habit cannot be named one thing when it is
+  // ticked and another when it is approved.
+  ${raw(clubHelpersJS)}
 
   const ACTIVITIES_DATA = ${raw(JSON.stringify(activitiesData))};
   
@@ -2388,6 +2518,10 @@ export const TeacherDashboard = () => html`
 
   let currentTeacher = null;
   let teacherSchoolId = null;
+  // The school's students, by uid. Built once by initDashboard and kept here so
+  // the club queue can put a name and a class against a habit log without
+  // re-reading every student doc.
+  let studentsById = {};
   let currentTeacherSection = 'overview';
   const teacherSectionTargets = {
     overview: 'teacherPanelOverview',
@@ -2395,6 +2529,7 @@ export const TeacherDashboard = () => html`
     reviews: 'teacherPanelReviews',
     attendance: 'teacherPanelAttendance',
     rankings: 'teacherPanelRankings',
+    club: 'teacherPanelClub',
     books: 'teacherPanelBooks',
     register: 'teacherPanelRegister',
     absent: 'teacherPanelAbsent'
@@ -2743,6 +2878,10 @@ export const TeacherDashboard = () => html`
       card.classList.toggle('is-active', card.dataset.section === nextSection);
     });
 
+    // Re-read on every open rather than caching: a mentor who just approved a
+    // batch on their phone should not find it still sitting here on the laptop.
+    if (nextSection === 'club') window.loadClubQueue();
+
     if (shouldScroll) {
       const activePanel = document.getElementById(teacherSectionTargets[nextSection]);
       if (activePanel) {
@@ -2762,6 +2901,265 @@ export const TeacherDashboard = () => html`
       "'": '&#39;'
     }[char]));
   }
+
+  // ── Club: the mentor's habit verification queue ─────────────────────────
+  //
+  // Everything a student ticked and nobody has ruled on yet, for this school
+  // only. Grouped by student rather than listed flat because a mentor thinks
+  // in students, not in rows — and because approving a child's whole day is
+  // the common case, which is the difference between this taking one minute a
+  // day and taking twenty.
+  //
+  // The two equality filters below (school_id, status) need no composite
+  // index; ordering is done in memory for the same reason.
+  let clubQueue = [];
+
+  window.loadClubQueue = async () => {
+    const listEl = document.getElementById('clubQueueList');
+    const chip = document.getElementById('clubQueueChip');
+    if (!listEl) return;
+
+    if (!teacherSchoolId) {
+      listEl.innerHTML = '<div style="padding:2rem;background:#fee2e2;color:#991b1b;border-radius:12px;text-align:center;"><strong>School Link Missing</strong><br>Your account is not linked to a school, so there are no habits to verify.</div>';
+      if (chip) chip.innerHTML = '<i class="fas fa-triangle-exclamation"></i> No school';
+      return;
+    }
+
+    listEl.innerHTML = '<div style="text-align:center;color:#64748b;padding:2rem;"><i class="fas fa-spinner fa-spin fa-2x"></i></div>';
+
+    try {
+      const snap = await getDocs(query(
+        collection(db, 'habit_logs'),
+        where('school_id', '==', teacherSchoolId),
+        where('status', '==', 'pending')
+      ));
+      clubQueue = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+    } catch (e) {
+      console.error('[Club queue] Failed to load:', e);
+      listEl.innerHTML = '<div style="padding:2rem;color:#b91c1c;text-align:center;">Could not load the habit queue. Please refresh.</div>';
+      return;
+    }
+
+    renderClubQueue();
+    await refreshClubStandings();
+  };
+
+  /**
+   * The school's four house totals.
+   *
+   * Read by document id (scope__house — see clubHouseScoreId), so this needs
+   * no index and cannot stray into another school's houses. Refreshed at the
+   * end of loadClubQueue, which the review handler already calls, so the
+   * totals move the moment a mentor approves a batch.
+   */
+  async function refreshClubStandings() {
+    const el = document.getElementById('clubStandingsStrip');
+    if (!el || !teacherSchoolId) return;
+
+    try {
+      const snaps = await Promise.all(CLUB_HOUSE_IDS.map((id) =>
+        getDoc(doc(db, 'house_scores', clubHouseScoreId(teacherSchoolId, id)))
+      ));
+
+      const rows = CLUB_HOUSE_IDS.map((id, i) => {
+        const data = snaps[i].exists() ? snaps[i].data() : null;
+        return { id: id, points: data && typeof data.points === 'number' ? data.points : 0 };
+      });
+      // Ties keep the fixed house order rather than reshuffling per render.
+      rows.sort((a, b) =>
+        b.points - a.points || CLUB_HOUSE_IDS.indexOf(a.id) - CLUB_HOUSE_IDS.indexOf(b.id)
+      );
+
+      el.innerHTML = rows.map((row, i) => {
+        const house = clubHouse(row.id);
+        if (!house) return '';
+        return '<div class="club-stand-tile">' +
+          '<span class="cs-rank">#' + (i + 1) + '</span>' +
+          '<span class="cs-dot" style="background:' + house.color + ';"></span>' +
+          // Just "Sidq" — the tiles are narrow and the dot already says which
+          // house this is.
+          '<span class="cs-name">' + escapeHtml(house.name.replace('House of ', '')) + '</span>' +
+          '<span class="cs-pts">' + row.points + '<em>VC</em></span>' +
+        '</div>';
+      }).join('');
+    } catch (e) {
+      console.warn('[Club] Standings unavailable:', e && e.message);
+      el.innerHTML = '';
+    }
+  }
+
+  function renderClubQueue() {
+    const listEl = document.getElementById('clubQueueList');
+    const chip = document.getElementById('clubQueueChip');
+    const navCount = document.getElementById('clubNavCount');
+    if (!listEl) return;
+
+    if (navCount) navCount.textContent = clubQueue.length ? String(clubQueue.length) : '';
+    if (chip) {
+      chip.innerHTML = clubQueue.length
+        ? '<i class="fas fa-clock"></i> ' + clubQueue.length + ' waiting'
+        : '<i class="fas fa-check"></i> All clear';
+    }
+
+    if (!clubQueue.length) {
+      listEl.innerHTML = '<div style="text-align:center;color:#64748b;padding:2.5rem 1rem;"><div style="font-size:2.2rem;margin-bottom:0.5rem;">✅</div><strong style="color:#243d6b;">Nothing waiting</strong><br><span style="font-size:0.86rem;">Every habit your students ticked has been reviewed.</span></div>';
+      const selectAll = document.getElementById('clubSelectAll');
+      if (selectAll) selectAll.checked = false;
+      updateClubSelectedCount();
+      return;
+    }
+
+    const byStudent = {};
+    clubQueue.forEach((log) => {
+      if (!byStudent[log.student_uid]) byStudent[log.student_uid] = [];
+      byStudent[log.student_uid].push(log);
+    });
+
+    // Which reflections a student has used more than once in what is waiting.
+    // Computed from the text rather than the stored reflection_key, so it does
+    // not depend on the value the student's client happened to save. This is a
+    // reading aid only — the callable refuses to pay for a repeat regardless.
+    const repeatedKeys = {};
+    Object.keys(byStudent).forEach((uid) => {
+      const counts = {};
+      byStudent[uid].forEach((log) => {
+        const key = clubReflectionKey(log.reflection_text);
+        if (key) counts[key] = (counts[key] || 0) + 1;
+      });
+      repeatedKeys[uid] = Object.keys(counts).filter((k) => counts[k] > 1);
+    });
+
+    // Longest-waiting student first: the child whose habit has sat unverified
+    // for three days is the one the queue should surface, not the newest tick.
+    const groups = Object.keys(byStudent).map((uid) => {
+      const logs = byStudent[uid].sort((a, b) => String(a.log_date).localeCompare(String(b.log_date)));
+      return { uid: uid, logs: logs, oldest: logs[0].log_date || '' };
+    }).sort((a, b) => String(a.oldest).localeCompare(String(b.oldest)));
+
+    listEl.innerHTML = groups.map((group) => {
+      const student = studentsById[group.uid] || {};
+      const house = clubHouse(group.logs[0].house);
+      const pill = house
+        ? '<span class="club-house-pill" style="background:' + house.color + ';color:' + house.ink + ';">' + escapeHtml(house.id) + '</span>'
+        : '';
+      const klass = student.class_id
+        ? '<span class="club-student-class">Class ' + escapeHtml(student.class_id) + '</span>'
+        : '';
+
+      const rows = group.logs.map((log) => {
+        const habit = clubHabit(log.house, log.habit_id);
+        // A log whose habit id nothing recognises still shows up rather than
+        // vanishing — the callable will refuse to price it, and a mentor
+        // seeing it is how anyone would ever find out.
+        const name = habit ? habit.name : (log.habit_name || log.habit_id);
+        const desc = habit ? habit.desc : 'Unrecognised habit — cannot be approved.';
+        const reflection = log.reflection_text
+          ? '<div class="club-log-desc" style="color:#475569;font-style:italic;">&ldquo;' + escapeHtml(log.reflection_text) + '&rdquo;</div>'
+          : '<div class="club-log-desc" style="color:#b45309;">No reflection was written — this cannot be approved.</div>';
+        const key = clubReflectionKey(log.reflection_text);
+        const repeated = key && (repeatedKeys[group.uid] || []).indexOf(key) !== -1
+          ? '<span class="club-repeat-flag"><i class="fas fa-copy"></i> Same words used more than once</span>'
+          : '';
+        return '<label class="club-log-row">' +
+          '<input type="checkbox" class="club-log-check" value="' + escapeHtml(log.id) + '" onchange="window.updateClubSelectedCount()">' +
+          '<span class="club-log-main">' +
+            '<span class="club-log-name">' + escapeHtml(name) + '</span>' +
+            '<div class="club-log-desc">' + escapeHtml(desc) + '</div>' +
+            reflection +
+            repeated +
+          '</span>' +
+          '<span class="club-log-date">' + escapeHtml(log.log_date || '') + '</span>' +
+        '</label>';
+      }).join('');
+
+      return '<div class="club-student-group">' +
+        '<div class="club-student-head">' +
+          '<span class="club-student-name">' + escapeHtml(student.name || 'Student') + '</span>' +
+          pill + klass +
+          '<span style="margin-left:auto;font-size:0.76rem;color:#94a3b8;">' + group.logs.length + ' waiting</span>' +
+        '</div>' + rows +
+      '</div>';
+    }).join('');
+
+    updateClubSelectedCount();
+  }
+
+  window.toggleAllClubLogs = (checked) => {
+    document.querySelectorAll('.club-log-check').forEach((box) => { box.checked = checked; });
+    updateClubSelectedCount();
+  };
+
+  window.updateClubSelectedCount = () => updateClubSelectedCount();
+
+  function updateClubSelectedCount() {
+    const boxes = [...document.querySelectorAll('.club-log-check')];
+    const selected = boxes.filter((b) => b.checked).length;
+    const label = document.getElementById('clubSelectedCount');
+    if (label) label.textContent = selected + ' selected';
+    const selectAll = document.getElementById('clubSelectAll');
+    if (selectAll) selectAll.checked = boxes.length > 0 && selected === boxes.length;
+  }
+
+  window.reviewSelectedClubLogs = async (decision) => {
+    const ids = [...document.querySelectorAll('.club-log-check')]
+      .filter((b) => b.checked)
+      .map((b) => b.value);
+
+    if (!ids.length) {
+      alert('Tick the habits you want to review first.');
+      return;
+    }
+
+    let note = '';
+    if (decision === 'reject') {
+      // The student has to know what to fix — the same rule the chapter
+      // review already enforces before work goes back.
+      note = (prompt('Why are these being sent back? The student will read this.') || '').trim();
+      if (!note) return;
+    }
+
+    if (decision === 'approve' && !confirm('Approve ' + ids.length + ' habit' + (ids.length === 1 ? '' : 's') + ' and award the credits?')) {
+      return;
+    }
+
+    try {
+      const res = await callReviewHabitLogs({ log_ids: ids, decision: decision, note: note });
+      const out = (res && res.data) || {};
+      const skippedList = Array.isArray(out.skipped) ? out.skipped : [];
+      let message = decision === 'approve'
+        ? out.reviewed + ' habit(s) approved. ' + (out.credits_awarded || 0) + ' Value Credits awarded.'
+        : out.reviewed + ' habit(s) sent back.';
+
+      // Spelled out rather than counted: "3 were skipped" leaves a mentor
+      // guessing, and the two reasons that matter most — a missing reflection
+      // and a reused one — are things they need to act on.
+      if (skippedList.length) {
+        const reasons = {
+          'duplicate-reflection': 'used the same words as another habit',
+          'no-reflection': 'had no reflection written',
+          'already-reviewed': 'were already reviewed',
+          'unknown-habit': 'are not a habit this club recognises',
+          'other-school': 'belong to another school',
+          'not-yours': 'are not yours to review',
+          'not-found': 'no longer exist'
+        };
+        const counts = {};
+        skippedList.forEach((s) => {
+          const why = (s && s.reason) || 'not-found';
+          counts[why] = (counts[why] || 0) + 1;
+        });
+        message += '\\n\\n' + skippedList.length + ' skipped:';
+        Object.keys(counts).forEach((why) => {
+          message += '\\n· ' + counts[why] + ' ' + (reasons[why] || why);
+        });
+      }
+      alert(message);
+      await window.loadClubQueue();
+    } catch (e) {
+      console.error('[Club queue] Review failed:', e);
+      alert('Could not save that review: ' + (e && e.message ? e.message : 'unknown error'));
+    }
+  };
 
   function normalizeGameState(state) {
     const nextState = state && typeof state === 'object' ? { ...state } : {};
@@ -3319,6 +3717,8 @@ export const TeacherDashboard = () => html`
       });
     }
 
+    studentsById = studentMap;
+
     console.log('[Teacher Dashboard] Found', Object.keys(studentMap).length, 'students for school', teacherSchoolId);
     Object.values(studentMap).forEach(function(s) {
       var gs = s.game_state || {};
@@ -3496,6 +3896,11 @@ export const TeacherDashboard = () => html`
     renderStudentRoster(leaderboardData, pendingReviews, attendanceDocs);
     renderOverviewSnapshot(leaderboardData, pendingReviews, attendanceDocs);
     window.switchTeacherSection(currentTeacherSection, { scroll: false });
+
+    // Loaded even when the club panel is closed: the sidebar badge is how a
+    // mentor learns there is anything waiting at all. Failing here must not
+    // take the rest of the dashboard down with it.
+    window.loadClubQueue().catch((e) => console.warn('[Club queue] initial load skipped:', e && e.message));
   }
 
   function readTeacherNote() {
