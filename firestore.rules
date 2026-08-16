@@ -62,6 +62,16 @@ service cloud.firestore {
              data.reflection_key.size() > 0;
     }
 
+    // A value credit entry asks the Council to award up to a hundred credits,
+    // which it cannot do on a category name alone. 60 is ENTRY_DESCRIPTION_MIN
+    // in src/lib/valueEconomy.ts and in functions/index.js — a test pins all
+    // three. Same 'in' guards as hasReflection, and for the same reason.
+    function hasEntryDescription(data) {
+      return 'description' in data &&
+             data.description is string &&
+             data.description.size() >= 60;
+    }
+
     // ---------------------------------------------------------------
     // Family accounts
     // ---------------------------------------------------------------
@@ -427,7 +437,86 @@ service cloud.firestore {
     }
 
     // ---------------------------------------------------------------
-    // 9. Club — house standings
+    // 9. Value Economy (module 3) — categories, entries, Council complaints
+    // ---------------------------------------------------------------
+    //
+    // Module 2 pays a flat ten credits for a habit the student ticks. This is
+    // the other half: larger acts worth 20 to 100, entered with a written
+    // account and priced by the Values Council.
+    //
+    // The prices live in Firestore rather than in the code because the concept
+    // requires an admin to be able to change them without a deploy. That makes
+    // this collection the one place where editing a single number changes what
+    // every future award is worth, which is exactly why nothing below the
+    // super_admin branch may write to it.
+    match /credit_categories/{categoryId} {
+      allow get, list: if signedIn();
+      allow write: if isSuper();
+    }
+
+    // Same split as habit_logs, and for the same reason: a client may file an
+    // entry and withdraw it while it is pending, and may never write status,
+    // points_awarded or verified_by. Those come from reviewCreditEntries.
+    match /credit_entries/{entryId} {
+      allow get, list: if signedIn() && (
+        resource.data.student_uid == request.auth.uid ||
+        isMyFamily(resource.data) ||
+        isSuper() ||
+        (isStaff() && sameSchool(resource.data))
+      );
+
+      allow create: if signedIn() &&
+        (request.resource.data.student_uid == request.auth.uid ||
+         isMyFamily(request.resource.data)) &&
+        request.resource.data.status == 'pending' &&
+        request.resource.data.house in ['sidq', 'amanah', 'rahmah', 'adl'] &&
+        request.resource.data.category_id is string &&
+        hasEntryDescription(request.resource.data) &&
+        !('points_awarded' in request.resource.data) &&
+        !('verified_by' in request.resource.data) &&
+        !('verified_at' in request.resource.data);
+
+      allow update: if signedIn() &&
+        resource.data.status == 'pending' &&
+        request.resource.data.status == 'pending' &&
+        (
+          (resource.data.student_uid == request.auth.uid &&
+           request.resource.data.student_uid == request.auth.uid) ||
+          (isMyFamily(resource.data) && isMyFamily(request.resource.data))
+        ) &&
+        hasEntryDescription(request.resource.data) &&
+        onlyKeys(['description', 'updated_at']);
+
+      allow delete: if isSuper() || (
+        signedIn() &&
+        resource.data.status == 'pending' &&
+        (resource.data.student_uid == request.auth.uid || isMyFamily(resource.data))
+      ) || (
+        isStaff() && sameSchool(resource.data)
+      );
+    }
+
+    // A complaint costs a whole house points for what one member did, so the
+    // record of who filed it and why has to be something no one can revise
+    // afterwards. fileCouncilComplaint writes these on the Admin SDK; there is
+    // deliberately no client branch, not even for the Council that files them.
+    //
+    // Readable by the house it names, because a house told only that it lost
+    // fifty points has been punished without being told what for.
+    match /council_complaints/{complaintId} {
+      allow get, list: if signedIn() && (
+        isSuper() || sameSchool(resource.data) ||
+        // Self-study members share the global scope and have no school to
+        // match on. get() with a default, never me().house — an account that
+        // has not been allocated a house yet has no such key, and reading it
+        // throws inside rules instead of evaluating false.
+        (resource.data.school_id == '' && resource.data.house == me().get('house', ''))
+      );
+      allow write: if false;
+    }
+
+    // ---------------------------------------------------------------
+    // 10. Club — house standings
     // ---------------------------------------------------------------
     // Same shape and same reasoning as public_scores: a cross-school read the
     // club needs, written only by the callable that approves habits. The

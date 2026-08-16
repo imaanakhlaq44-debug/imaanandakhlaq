@@ -1026,7 +1026,14 @@ exports.reviewHabitLogs = onCall({ cors: true }, async (request) => {
       status: decision === 'approve' ? 'approved' : 'rejected',
       verified_by: caller.uid,
       verified_at: verifiedAt,
-      updated_at: verifiedAt
+      updated_at: verifiedAt,
+      // A self-study member has no mentor and rules on their own work. That is
+      // the weakest form of verification the platform allows, so it is
+      // recorded rather than hidden: a credit nobody else read should not be
+      // indistinguishable from one a teacher signed off. Stamped on every
+      // ruling, true or false, so an old log without the field is never
+      // mistaken for one that was checked.
+      self_verified: !isStaffCaller
     };
     if (note) update.mentor_note = note;
 
@@ -1077,5 +1084,478 @@ exports.reviewHabitLogs = onCall({ cors: true }, async (request) => {
     reviewed: reviewed.length,
     credits_awarded: [...studentCredits.values()].reduce((a, b) => a + b, 0),
     skipped: skipped
+  };
+});
+
+// ===========================================================================
+// Module 3 — the Value Economy
+// ===========================================================================
+//
+// Module 2 above pays a flat ten credits for a daily habit a student ticks
+// themselves. This is the other half the concept asks for: larger, one-off
+// acts worth 20 to 100, entered with a written account and awarded by the
+// Values Council rather than claimed.
+//
+// The same split holds and for the same reason — a client may file an entry
+// and withdraw it while it is pending, and may never write status,
+// points_awarded or verified_by. Those exist only below.
+//
+// One thing here works differently from habits on purpose. A habit's price is
+// a constant in three files that a test pins together. A value category's
+// price is NOT: the concept is explicit that points must be changeable from
+// the admin panel and never hard-coded, so the live price lives in
+// /credit_categories and is read from there on every award. The table in
+// src/lib/valueEconomy.ts is only what a school starts with.
+
+/** Mirrors ENTRY_DESCRIPTION_MIN in src/lib/valueEconomy.ts and the rules. */
+const ENTRY_DESCRIPTION_MIN = 60;
+
+/** Mirrors the COMPLAINT_* constants in src/lib/valueEconomy.ts. */
+const COMPLAINT_MIN_POINTS = 10;
+const COMPLAINT_MAX_POINTS = 100;
+const COMPLAINT_REASON_MIN = 60;
+const COMPLAINT_REASON_MAX = 500;
+
+/** A Council works through a term's entries in one pass, as mentors do. */
+const MAX_ENTRY_BATCH = 200;
+
+const CLUB_HOUSE_IDS = ['sidq', 'amanah', 'rahmah', 'adl'];
+
+/**
+ * What each category is worth before anybody has edited anything.
+ *
+ * SOURCE OF TRUTH IS src/lib/valueEconomy.ts — this map exists only because
+ * functions/ is a separate package with no build step and cannot import a .ts
+ * file from the web app. A test asserts the two agree
+ * (src/__tests__/valueEconomy.test.ts). If that test fails, fix this map.
+ *
+ * Only the prices are duplicated, not the names and examples. The number is
+ * the one thing that must not disagree between the panel a school edits and
+ * the function that pays out.
+ */
+const VALUE_CATEGORY_SEED = {
+  initiative_leadership: 50,
+  academic_empathy: 40,
+  integrity_justice: 60,
+  compassion: 50,
+  consistency: 100,
+  reflection_contribution: 20,
+  clean_classroom: 20,
+  help_struggling_peer: 40,
+  avoid_injustice: 60,
+  clean_speech: 20,
+  greet_with_salaam: 20,
+  respect_teacher: 40
+};
+
+/**
+ * The live price list, read fresh on every award.
+ *
+ * Returns a Map of category id to points. The seed above is the DEFAULT and a
+ * /credit_categories document is an OVERRIDE, not a prerequisite. That way the
+ * economy pays out correctly on a school's first day, before anyone has opened
+ * the admin panel, and an edited price wins the moment it is saved. Requiring
+ * a seeding step instead would mean a school whose seeding never ran had an
+ * economy that silently refused every award.
+ *
+ * A category the school has switched off is dropped, and an entry naming it is
+ * skipped rather than priced — the same refusal reviewHabitLogs makes for a
+ * habit id nothing recognises. A retired category should not still pay out.
+ */
+async function livePriceList() {
+  const prices = new Map(Object.entries(VALUE_CATEGORY_SEED));
+
+  const snap = await db.collection('credit_categories').get();
+  snap.forEach((d) => {
+    const data = d.data() || {};
+    if (data.is_active === false) {
+      prices.delete(d.id);
+      return;
+    }
+    if (typeof data.points !== 'number' || !Number.isFinite(data.points)) return;
+    // A negative or absurd price is a typo in the admin panel, not an
+    // instruction. Refusing it here keeps one bad edit from minting credits;
+    // the category falls back to its seed price rather than vanishing.
+    if (data.points < 0 || data.points > COMPLAINT_MAX_POINTS) return;
+    prices.set(d.id, Math.round(data.points));
+  });
+
+  return prices;
+}
+
+exports.reviewCreditEntries = onCall({ cors: true }, async (request) => {
+  if (!request.auth) throw new HttpsError('unauthenticated', 'Please sign in.');
+
+  const data = request.data || {};
+  const decision = String(data.decision || '').trim();
+  if (decision !== 'approve' && decision !== 'reject') {
+    throw new HttpsError('invalid-argument', 'Decision must be approve or reject.');
+  }
+
+  const ids = Array.isArray(data.entry_ids) ? data.entry_ids.map((id) => String(id || '').trim()) : [];
+  const entryIds = ids.filter(Boolean);
+  if (!entryIds.length) throw new HttpsError('invalid-argument', 'No entries were named.');
+  if (entryIds.length > MAX_ENTRY_BATCH) {
+    throw new HttpsError('invalid-argument', 'Review at most ' + MAX_ENTRY_BATCH + ' entries at a time.');
+  }
+
+  const note = String(data.note || '').trim().slice(0, COMPLAINT_REASON_MAX);
+  if (decision === 'reject' && !note) {
+    throw new HttpsError('invalid-argument', 'Write a short note when sending an entry back.');
+  }
+
+  const meSnap = await db.collection('users').doc(request.auth.uid).get();
+  if (!meSnap.exists) throw new HttpsError('permission-denied', 'This account has no profile.');
+  const me = meSnap.data();
+  const caller = { uid: request.auth.uid, role: me.role, school_id: me.school_id || '' };
+
+  // Who sits on the Values Council: the school's staff, and HQ. An individual
+  // self-study member rules on their own entries — the allowance habit review
+  // and activity_submissions already make for accounts with no mentor.
+  const isStaffCaller = ['teacher', 'school_admin', 'super_admin'].includes(caller.role);
+  if (!isStaffCaller && caller.role !== 'individual') {
+    throw new HttpsError('permission-denied', 'Only the Values Council can award credits.');
+  }
+
+  const prices = decision === 'approve' ? await livePriceList() : new Map();
+
+  const refs = entryIds.map((id) => db.collection('credit_entries').doc(id));
+  const snaps = await db.getAll(...refs);
+
+  const skipped = [];
+  const ruling = [];
+
+  for (const snap of snaps) {
+    if (!snap.exists) {
+      skipped.push({ id: snap.id, reason: 'not-found' });
+      continue;
+    }
+    const entry = snap.data();
+
+    if (entry.status !== 'pending') {
+      // Already ruled on, by another Council member or by a double-tap.
+      // Skipping rather than failing keeps a bulk approve idempotent.
+      skipped.push({ id: snap.id, reason: 'already-reviewed' });
+      continue;
+    }
+
+    if (isStaffCaller) {
+      if (caller.role !== 'super_admin' && (!caller.school_id || entry.school_id !== caller.school_id)) {
+        skipped.push({ id: snap.id, reason: 'other-school' });
+        continue;
+      }
+    } else if (entry.student_uid !== caller.uid) {
+      skipped.push({ id: snap.id, reason: 'not-yours' });
+      continue;
+    }
+
+    let points = 0;
+    if (decision === 'approve') {
+      if (!prices.has(entry.category_id)) {
+        skipped.push({ id: snap.id, reason: 'unknown-category' });
+        continue;
+      }
+      points = prices.get(entry.category_id);
+
+      if (String(entry.description || '').trim().length < ENTRY_DESCRIPTION_MIN) {
+        // Filed before the floor existed, or by a client that skipped the box.
+        // The Council can still send it back, which is what tells the student
+        // to write one.
+        skipped.push({ id: snap.id, reason: 'no-description' });
+        continue;
+      }
+    }
+
+    ruling.push({ snap: snap, entry: entry, points: points });
+  }
+
+  const batch = db.batch();
+  const reviewed = [];
+  // Summed per student and per house first, so a student with four approved
+  // entries costs one increment rather than four.
+  const studentCredits = new Map();
+  const houseCredits = new Map();
+  const verifiedAt = nowIso();
+
+  for (const item of ruling) {
+    const entry = item.entry;
+    const update = {
+      status: decision === 'approve' ? 'approved' : 'rejected',
+      points_awarded: decision === 'approve' ? item.points : 0,
+      verified_by: caller.uid,
+      verified_at: verifiedAt,
+      updated_at: verifiedAt,
+      // Same reasoning as the habit review above: an award nobody but the
+      // member themselves read is marked as such.
+      self_verified: !isStaffCaller
+    };
+    if (note) update.council_note = note;
+
+    if (decision === 'approve' && item.points > 0) {
+      studentCredits.set(entry.student_uid, (studentCredits.get(entry.student_uid) || 0) + item.points);
+      if (entry.house) {
+        const key = houseScoreId(entry.school_id, entry.house);
+        const acc = houseCredits.get(key) || { points: 0, school_id: entry.school_id || '', house: entry.house };
+        acc.points += item.points;
+        houseCredits.set(key, acc);
+      }
+    }
+
+    batch.update(item.snap.ref, update);
+    reviewed.push(item.snap.id);
+  }
+
+  for (const [studentUid, points] of studentCredits) {
+    batch.set(
+      db.collection('users').doc(studentUid),
+      { club_points: FieldValue.increment(points) },
+      { merge: true }
+    );
+  }
+
+  for (const [key, acc] of houseCredits) {
+    batch.set(
+      db.collection('house_scores').doc(key),
+      {
+        school_id: acc.school_id,
+        house: acc.house,
+        points: FieldValue.increment(acc.points),
+        updated_at: verifiedAt
+      },
+      { merge: true }
+    );
+  }
+
+  if (reviewed.length) await batch.commit();
+
+  return {
+    reviewed: reviewed.length,
+    credits_awarded: [...studentCredits.values()].reduce((a, b) => a + b, 0),
+    skipped: skipped
+  };
+});
+
+/**
+ * A Values Council complaint against a house.
+ *
+ * The school's rule, and the reason this is a house-level call and not a
+ * student-level one: if one member of a house breaks the code, the house
+ * answers for it. That is the point — a house that knows it carries its
+ * members' conduct has a reason to hold its own members to it.
+ *
+ * What it deliberately does NOT do is touch any student's club_points. The
+ * penalty lands on the house total and nowhere else, so a child who did
+ * nothing does not carry a mark on their own record for what somebody else
+ * did. Collective responsibility is a lesson; a permanent personal penalty for
+ * another child's act is not one, and this is a children's platform.
+ *
+ * The Council names the size, between COMPLAINT_MIN_POINTS and
+ * COMPLAINT_MAX_POINTS, because a missed greeting and a covered-up injustice
+ * are not the same failure and a fixed price would make them so.
+ */
+exports.fileCouncilComplaint = onCall({ cors: true }, async (request) => {
+  // The Values Council is the school admin's to convene (see the roles table
+  // in the concept), so a teacher cannot fine a whole house on their own.
+  const caller = await requireStaff(request, ['school_admin', 'super_admin']);
+
+  const data = request.data || {};
+  const house = String(data.house || '').trim();
+  if (!CLUB_HOUSE_IDS.includes(house)) {
+    throw new HttpsError('invalid-argument', 'Name one of the four houses.');
+  }
+
+  const reason = String(data.reason || '').trim().slice(0, COMPLAINT_REASON_MAX);
+  if (reason.length < COMPLAINT_REASON_MIN) {
+    // Every other member of the house will ask what this was for. A complaint
+    // that cannot answer that should not cost them anything.
+    throw new HttpsError(
+      'invalid-argument',
+      'Write at least ' + COMPLAINT_REASON_MIN + ' characters explaining what happened.'
+    );
+  }
+
+  const requested = Number(data.points);
+  if (!Number.isFinite(requested) || Math.round(requested) !== requested) {
+    throw new HttpsError('invalid-argument', 'Points must be a whole number.');
+  }
+  if (requested < COMPLAINT_MIN_POINTS || requested > COMPLAINT_MAX_POINTS) {
+    throw new HttpsError(
+      'invalid-argument',
+      'A penalty must be between ' + COMPLAINT_MIN_POINTS + ' and ' + COMPLAINT_MAX_POINTS + ' points.'
+    );
+  }
+
+  // A super_admin has no school of their own and names the one they are acting
+  // on; a school_admin is pinned to theirs. Passing '' is how HQ fines the
+  // Global Virtual House that self-study members share.
+  const schoolId = caller.role === 'super_admin'
+    ? String(data.school_id || '').trim()
+    : caller.school_id;
+  if (caller.role !== 'super_admin' && !schoolId) {
+    throw new HttpsError('failed-precondition', 'Your account is not attached to a school.');
+  }
+
+  const scoreRef = db.collection('house_scores').doc(houseScoreId(schoolId, house));
+  const complaintRef = db.collection('council_complaints').doc();
+  const filedAt = nowIso();
+
+  // A transaction, not an increment: the deduction is floored at the house's
+  // current total so a standings table on a children's platform never shows a
+  // house in the negative. Read and write have to be one operation, or two
+  // complaints filed at once would each floor against a stale total and take
+  // the house below zero between them.
+  const applied = await db.runTransaction(async (tx) => {
+    const snap = await tx.get(scoreRef);
+    const current = snap.exists && typeof snap.data().points === 'number' ? snap.data().points : 0;
+    const deducted = Math.max(0, Math.min(requested, current));
+
+    tx.set(scoreRef, {
+      school_id: schoolId,
+      house: house,
+      points: Math.max(0, current - deducted),
+      updated_at: filedAt
+    }, { merge: true });
+
+    tx.set(complaintRef, {
+      school_id: schoolId,
+      house: house,
+      reason: reason,
+      // What was asked for and what the house could actually pay are both
+      // kept: a house fined 50 with only 20 to its name has still been fined
+      // 50, and the record should say so.
+      points_requested: requested,
+      points_deducted: deducted,
+      raised_by: caller.uid,
+      raised_by_role: caller.role,
+      created_at: filedAt
+    });
+
+    return deducted;
+  });
+
+  return {
+    complaint_id: complaintRef.id,
+    house: house,
+    points_requested: requested,
+    points_deducted: applied
+  };
+});
+
+// ===========================================================================
+// The house quiz — how a self-study member joins a house
+// ===========================================================================
+//
+// A school allocates its students to houses from the admin panel. An
+// individual who signed up alone had no school to do that, and so landed on a
+// club they could not enter.
+//
+// The scoring lives here and not in the browser for the same reason the whole
+// club does: 'house' is kept out of every client's hands by the Firestore
+// rules, so that nobody sorts themselves into the house whose habits look
+// easiest. A quiz scored in the page is a quiz whose result a child can simply
+// post. This callable takes the ANSWERS, does the arithmetic itself, and is
+// the only thing that writes the field.
+
+/**
+ * question id -> option id -> house.
+ *
+ * SOURCE OF TRUTH IS src/lib/houseQuiz.ts — duplicated because functions/ is a
+ * separate package with no build step. A test asserts the two agree
+ * (src/__tests__/houseQuiz.test.ts). If that test fails, fix this map: an
+ * option that disagrees here would sort a child into a house whose answer they
+ * did not give.
+ */
+const QUIZ_ANSWER_KEY = {
+  q1: { a: 'sidq', b: 'rahmah', c: 'amanah', d: 'adl' },
+  q2: { a: 'amanah', b: 'adl', c: 'sidq', d: 'rahmah' },
+  q3: { a: 'rahmah', b: 'adl', c: 'sidq', d: 'amanah' },
+  q4: { a: 'adl', b: 'amanah', c: 'rahmah', d: 'sidq' },
+  q5: { a: 'sidq', b: 'amanah', c: 'adl', d: 'rahmah' },
+  q6: { a: 'rahmah', b: 'sidq', c: 'amanah', d: 'adl' }
+};
+
+const QUIZ_QUESTION_IDS = Object.keys(QUIZ_ANSWER_KEY);
+
+/**
+ * Break a tie without favouring a house.
+ *
+ * Six questions across four houses tie often, and "first in the list wins"
+ * would quietly make Sidq the largest house on the platform. Deriving the
+ * choice from the uid spreads ties evenly and, being deterministic, gives the
+ * same child the same house if the call is retried after a dropped response.
+ */
+function breakTie(candidates, uid) {
+  let sum = 0;
+  for (let i = 0; i < uid.length; i++) sum = (sum + uid.charCodeAt(i)) % 100000;
+  return candidates[sum % candidates.length];
+}
+
+exports.assignHouseFromQuiz = onCall({ cors: true }, async (request) => {
+  if (!request.auth) throw new HttpsError('unauthenticated', 'Please sign in.');
+
+  const answers = (request.data && request.data.answers) || {};
+  if (typeof answers !== 'object' || Array.isArray(answers)) {
+    throw new HttpsError('invalid-argument', 'Send the answers as an object.');
+  }
+
+  const meRef = db.collection('users').doc(request.auth.uid);
+  const meSnap = await meRef.get();
+  if (!meSnap.exists) throw new HttpsError('permission-denied', 'This account has no profile.');
+  const me = meSnap.data();
+
+  // A school student's house is the school's decision, and a family child's is
+  // their school's too. This route exists only for members who have nobody to
+  // allocate them.
+  if (me.role !== 'individual') {
+    throw new HttpsError(
+      'failed-precondition',
+      'Your school decides which house you belong to. Ask your teacher to add you.'
+    );
+  }
+
+  // Already housed. Refusing rather than re-sorting is the point: a quiz you
+  // can retake until you like the answer is a house you chose, and a house you
+  // chose is one you can leave the moment its habits look like work.
+  if (CLUB_HOUSE_IDS.includes(me.house)) {
+    throw new HttpsError('failed-precondition', 'You are already in a house.');
+  }
+
+  const tally = { sidq: 0, amanah: 0, rahmah: 0, adl: 0 };
+
+  for (const qid of QUIZ_QUESTION_IDS) {
+    const picked = String(answers[qid] || '').trim();
+    if (!picked) {
+      // Every question, or nobody is sorted. A half-answered quiz tells us
+      // about the questions that were skipped, not about the child.
+      throw new HttpsError('invalid-argument', 'Please answer every question.');
+    }
+    const house = QUIZ_ANSWER_KEY[qid][picked];
+    if (!house) {
+      throw new HttpsError('invalid-argument', 'That is not one of the answers.');
+    }
+    tally[house]++;
+  }
+
+  const top = Math.max(...Object.values(tally));
+  const leading = CLUB_HOUSE_IDS.filter((h) => tally[h] === top);
+  const house = leading.length === 1 ? leading[0] : breakTie(leading, request.auth.uid);
+
+  const assignedAt = nowIso();
+  await meRef.set({
+    house: house,
+    house_assigned_at: assignedAt,
+    // How this child came to be in this house. A school-allocated student has
+    // no such field, so a later reader can always tell the two apart.
+    house_source: 'quiz',
+    house_quiz_tally: tally
+  }, { merge: true });
+
+  return {
+    house: house,
+    tally: tally,
+    // True when the quiz did not settle it on its own. Worth returning so the
+    // page can say "you lean toward two houses" rather than implying the six
+    // answers pointed one way.
+    was_tie: leading.length > 1
   };
 });

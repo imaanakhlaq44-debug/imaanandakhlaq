@@ -596,4 +596,334 @@ describe.skipIf(!HAS_EMULATOR)('Family provisioning and migration', () => {
     }, 60000)
   })
 
+  describe('Value Economy — awards and Council complaints', () => {
+    const ADMIN = 'admin-v'
+    const TEACHER = 'teacher-v'
+    const STUDENT = 'student-v'
+    const OTHER_SCHOOL = 'school-other-v'
+
+    beforeEach(async () => {
+      await signOut(auth).catch(() => {})
+      await clearEmulators()
+      await db.collection('users').doc(ADMIN).set({ role: 'school_admin', school_id: SCHOOL, name: 'Principal' })
+      await db.collection('users').doc(TEACHER).set({ role: 'teacher', school_id: SCHOOL, name: 'Mentor' })
+      await db.collection('users').doc(STUDENT).set({
+        role: 'student', school_id: SCHOOL, house: 'sidq', name: 'Abdullah'
+      })
+    })
+
+    const describeFor = (id: string) =>
+      'This is what I actually did today and how it went when I did it: ' + id
+
+    const seedEntry = async (id: string, categoryId = 'greet_with_salaam', extra: Record<string, unknown> = {}) => {
+      await db.collection('credit_entries').doc(id).set({
+        student_uid: STUDENT,
+        school_id: SCHOOL,
+        house: 'sidq',
+        category_id: categoryId,
+        description: describeFor(id),
+        status: 'pending',
+        created_at: new Date().toISOString(),
+        ...extra
+      })
+      return id
+    }
+
+    it('prices an award from the seed before anyone has opened the panel', async () => {
+      // The economy has to work on a school's first day. Nothing has been
+      // written to /credit_categories here at all.
+      await seedEntry('e-1', 'avoid_injustice')   // seeded at 60
+      await signInAs(TEACHER)
+
+      const res = await call('reviewCreditEntries', { entry_ids: ['e-1'], decision: 'approve' })
+      expect(res.reviewed).toBe(1)
+      expect(res.credits_awarded).toBe(60)
+
+      const student = (await db.collection('users').doc(STUDENT).get()).data()!
+      expect(student.club_points).toBe(60)
+      const house = (await db.collection('house_scores').doc(SCHOOL + '__sidq').get()).data()!
+      expect(house.points).toBe(60)
+    }, 60000)
+
+    it('lets an edited price win over the seed', async () => {
+      // The concept's rule: points are changed from the panel, never in code.
+      await db.collection('credit_categories').doc('greet_with_salaam').set({ points: 35 })
+      await seedEntry('e-1', 'greet_with_salaam')  // seeded at 20
+      await signInAs(TEACHER)
+
+      const res = await call('reviewCreditEntries', { entry_ids: ['e-1'], decision: 'approve' })
+      expect(res.credits_awarded).toBe(35)
+    }, 60000)
+
+    it('refuses to price a category the school has switched off', async () => {
+      await db.collection('credit_categories').doc('greet_with_salaam').set({ points: 20, is_active: false })
+      await seedEntry('e-1', 'greet_with_salaam')
+      await signInAs(TEACHER)
+
+      const res = await call('reviewCreditEntries', { entry_ids: ['e-1'], decision: 'approve' })
+      expect(res.reviewed).toBe(0)
+      expect(res.skipped[0].reason).toBe('unknown-category')
+    }, 60000)
+
+    it('falls back to the seed when the panel holds a nonsense price', async () => {
+      // A negative price is a typo, not an instruction to take credits away.
+      await db.collection('credit_categories').doc('greet_with_salaam').set({ points: -500 })
+      await seedEntry('e-1', 'greet_with_salaam')
+      await signInAs(TEACHER)
+
+      const res = await call('reviewCreditEntries', { entry_ids: ['e-1'], decision: 'approve' })
+      expect(res.credits_awarded).toBe(20)
+    }, 60000)
+
+    it('will not price an entry naming a category nothing recognises', async () => {
+      await seedEntry('e-1', 'invented_by_a_forged_client')
+      await signInAs(TEACHER)
+
+      const res = await call('reviewCreditEntries', { entry_ids: ['e-1'], decision: 'approve' })
+      expect(res.reviewed).toBe(0)
+      expect(res.skipped[0].reason).toBe('unknown-category')
+    }, 60000)
+
+    it('will not pay for an entry with nothing written on it', async () => {
+      await seedEntry('e-1', 'greet_with_salaam', { description: 'did it' })
+      await signInAs(TEACHER)
+
+      const res = await call('reviewCreditEntries', { entry_ids: ['e-1'], decision: 'approve' })
+      expect(res.reviewed).toBe(0)
+      expect(res.skipped[0].reason).toBe('no-description')
+    }, 60000)
+
+    it('keeps a bulk approve idempotent', async () => {
+      await seedEntry('e-1')
+      await signInAs(TEACHER)
+
+      await call('reviewCreditEntries', { entry_ids: ['e-1'], decision: 'approve' })
+      const second = await call('reviewCreditEntries', { entry_ids: ['e-1'], decision: 'approve' })
+      expect(second.reviewed).toBe(0)
+      expect(second.skipped[0].reason).toBe('already-reviewed')
+
+      const student = (await db.collection('users').doc(STUDENT).get()).data()!
+      expect(student.club_points).toBe(20)
+    }, 60000)
+
+    it("will not let a mentor rule on another school's entry", async () => {
+      await seedEntry('e-1', 'greet_with_salaam', { school_id: OTHER_SCHOOL })
+      await signInAs(TEACHER)
+
+      const res = await call('reviewCreditEntries', { entry_ids: ['e-1'], decision: 'approve' })
+      expect(res.reviewed).toBe(0)
+      expect(res.skipped[0].reason).toBe('other-school')
+    }, 60000)
+
+    it('demands a note when an entry is sent back', async () => {
+      await seedEntry('e-1')
+      await signInAs(TEACHER)
+      await expect(call('reviewCreditEntries', { entry_ids: ['e-1'], decision: 'reject' }))
+        .rejects.toThrow()
+    }, 60000)
+
+    // ── The Values Council's complaint ────────────────────────────────
+    //
+    // The school's rule: one member breaks the code, the house answers. What
+    // these pin is the shape of that — the house pays, and no child's own
+    // record is marked for something another child did.
+
+    const REASON = 'One member of this house was heard using bad language in the corridor this morning, in front of younger students.'
+
+    it('takes the penalty off the house and off nobody else', async () => {
+      await db.collection('house_scores').doc(SCHOOL + '__sidq').set({
+        school_id: SCHOOL, house: 'sidq', points: 200
+      })
+      await db.collection('users').doc(STUDENT).set({ club_points: 90 }, { merge: true })
+      await signInAs(ADMIN)
+
+      const res = await call('fileCouncilComplaint', { house: 'sidq', reason: REASON, points: 50 })
+      expect(res.points_deducted).toBe(50)
+
+      const house = (await db.collection('house_scores').doc(SCHOOL + '__sidq').get()).data()!
+      expect(house.points).toBe(150)
+
+      // The line that matters: a member who did nothing keeps their record.
+      const student = (await db.collection('users').doc(STUDENT).get()).data()!
+      expect(student.club_points).toBe(90)
+    }, 60000)
+
+    it('never takes a house below zero', async () => {
+      await db.collection('house_scores').doc(SCHOOL + '__sidq').set({
+        school_id: SCHOOL, house: 'sidq', points: 20
+      })
+      await signInAs(ADMIN)
+
+      const res = await call('fileCouncilComplaint', { house: 'sidq', reason: REASON, points: 100 })
+      // Both are kept: the house was fined 100 and could only pay 20.
+      expect(res.points_requested).toBe(100)
+      expect(res.points_deducted).toBe(20)
+
+      const house = (await db.collection('house_scores').doc(SCHOOL + '__sidq').get()).data()!
+      expect(house.points).toBe(0)
+    }, 60000)
+
+    it('records what the house was fined for, so it can be told', async () => {
+      await signInAs(ADMIN)
+      const res = await call('fileCouncilComplaint', { house: 'adl', reason: REASON, points: 30 })
+
+      const filed = (await db.collection('council_complaints').doc(res.complaint_id).get()).data()!
+      expect(filed.house).toBe('adl')
+      expect(filed.reason).toBe(REASON)
+      expect(filed.school_id).toBe(SCHOOL)
+      expect(filed.raised_by).toBe(ADMIN)
+    }, 60000)
+
+    it('refuses a complaint with no explanation behind it', async () => {
+      await signInAs(ADMIN)
+      await expect(call('fileCouncilComplaint', { house: 'sidq', reason: 'bad', points: 30 }))
+        .rejects.toThrow()
+    }, 60000)
+
+    it('refuses a penalty outside what the Council may impose', async () => {
+      await signInAs(ADMIN)
+      await expect(call('fileCouncilComplaint', { house: 'sidq', reason: REASON, points: 5 }))
+        .rejects.toThrow()
+      await expect(call('fileCouncilComplaint', { house: 'sidq', reason: REASON, points: 500 }))
+        .rejects.toThrow()
+    }, 60000)
+
+    it('refuses a house that does not exist', async () => {
+      await signInAs(ADMIN)
+      await expect(call('fileCouncilComplaint', { house: 'greenhouse', reason: REASON, points: 30 }))
+        .rejects.toThrow()
+    }, 60000)
+
+    it('will not let a teacher fine a whole house on their own', async () => {
+      // The Values Council is the school admin's to convene. A mentor rules on
+      // one student's entry; fining four houses' worth of children is not the
+      // same power and is deliberately not granted with it.
+      await signInAs(TEACHER)
+      await expect(call('fileCouncilComplaint', { house: 'sidq', reason: REASON, points: 30 }))
+        .rejects.toThrow()
+    }, 60000)
+
+    it('will not let a student fine a house at all', async () => {
+      await signInAs(STUDENT)
+      await expect(call('fileCouncilComplaint', { house: 'sidq', reason: REASON, points: 30 }))
+        .rejects.toThrow()
+    }, 60000)
+  })
+
+  describe('joining a house without a school', () => {
+    const SOLO = 'solo-q'
+    const SCHOOL_STUDENT = 'student-q'
+
+    // Answers taken from src/lib/houseQuiz.ts. Kept literal rather than
+    // imported so that a wrong edit to the key shows up here as a house that
+    // changed, not as a test that quietly follows it.
+    const allSidq = { q1: 'a', q2: 'c', q3: 'c', q4: 'd', q5: 'a', q6: 'b' }
+    const allAdl = { q1: 'd', q2: 'b', q3: 'b', q4: 'a', q5: 'c', q6: 'd' }
+    const allRahmah = { q1: 'b', q2: 'd', q3: 'a', q4: 'c', q5: 'd', q6: 'a' }
+
+    beforeEach(async () => {
+      await signOut(auth).catch(() => {})
+      await clearEmulators()
+      await db.collection('users').doc(SOLO).set({ role: 'individual', name: 'Self study' })
+      await db.collection('users').doc(SCHOOL_STUDENT).set({
+        role: 'student', school_id: SCHOOL, name: 'School child'
+      })
+    })
+
+    it('sorts a self-study member into the house their answers lean toward', async () => {
+      await signInAs(SOLO)
+      const res = await call('assignHouseFromQuiz', { answers: allSidq })
+      expect(res.house).toBe('sidq')
+      expect(res.was_tie).toBe(false)
+
+      const me = (await db.collection('users').doc(SOLO).get()).data()!
+      expect(me.house).toBe('sidq')
+      // How they got here is recorded — a school-allocated student has no
+      // such field, so the two can always be told apart.
+      expect(me.house_source).toBe('quiz')
+    }, 60000)
+
+    it('reads the answers, not a house the client tried to name', async () => {
+      await signInAs(SOLO)
+      // The whole reason the scoring is server-side.
+      const res = await call('assignHouseFromQuiz', { answers: allAdl, house: 'sidq' })
+      expect(res.house).toBe('adl')
+    }, 60000)
+
+    it('gives different answers different houses', async () => {
+      await signInAs(SOLO)
+      expect((await call('assignHouseFromQuiz', { answers: allRahmah })).house).toBe('rahmah')
+    }, 60000)
+
+    it('refuses a half-answered quiz', async () => {
+      await signInAs(SOLO)
+      const partial = { q1: 'a', q2: 'c' }
+      await expect(call('assignHouseFromQuiz', { answers: partial })).rejects.toThrow()
+      const me = (await db.collection('users').doc(SOLO).get()).data()!
+      expect(me.house).toBeUndefined()
+    }, 60000)
+
+    it('refuses an option that does not exist', async () => {
+      await signInAs(SOLO)
+      await expect(call('assignHouseFromQuiz', {
+        answers: { ...allSidq, q3: 'z' }
+      })).rejects.toThrow()
+    }, 60000)
+
+    it('will not re-sort someone who already has a house', async () => {
+      // A quiz you can retake until you like the answer is a house you chose,
+      // and a house you chose is one you can leave when its habits look hard.
+      await signInAs(SOLO)
+      await call('assignHouseFromQuiz', { answers: allSidq })
+      await expect(call('assignHouseFromQuiz', { answers: allAdl })).rejects.toThrow()
+
+      const me = (await db.collection('users').doc(SOLO).get()).data()!
+      expect(me.house).toBe('sidq')
+    }, 60000)
+
+    it('will not let a school student sort themselves', async () => {
+      // Their school allocates them. This route exists only for members who
+      // have nobody to do that.
+      await signInAs(SCHOOL_STUDENT)
+      await expect(call('assignHouseFromQuiz', { answers: allSidq })).rejects.toThrow()
+
+      const me = (await db.collection('users').doc(SCHOOL_STUDENT).get()).data()!
+      expect(me.house).toBeUndefined()
+    }, 60000)
+
+    it('marks a self-study member\'s own approvals as self-verified', async () => {
+      await db.collection('users').doc(SOLO).set({ house: 'sidq' }, { merge: true })
+      const text = 'Today I told my mother the truth about the plate I broke, before she asked me about it.'
+      await db.collection('habit_logs').doc('solo-1').set({
+        student_uid: SOLO, house: 'sidq', habit_id: 'sidq_daily_truth',
+        log_date: '2026-08-16', status: 'pending',
+        reflection_text: text, reflection_key: text.toLowerCase()
+      })
+      await signInAs(SOLO)
+      await call('reviewHabitLogs', { log_ids: ['solo-1'], decision: 'approve' })
+
+      const log = (await db.collection('habit_logs').doc('solo-1').get()).data()!
+      expect(log.status).toBe('approved')
+      // A credit nobody else read must not look like one a teacher signed off.
+      expect(log.self_verified).toBe(true)
+    }, 60000)
+
+    it('marks a mentor-approved habit as NOT self-verified', async () => {
+      await db.collection('users').doc('teacher-q').set({ role: 'teacher', school_id: SCHOOL })
+      const text = 'I owned up to breaking the window in the corridor even though nobody had seen me do it.'
+      await db.collection('habit_logs').doc('school-1').set({
+        student_uid: SCHOOL_STUDENT, school_id: SCHOOL, house: 'sidq',
+        habit_id: 'sidq_daily_truth', log_date: '2026-08-16', status: 'pending',
+        reflection_text: text, reflection_key: text.toLowerCase()
+      })
+      await signInAs('teacher-q')
+      await call('reviewHabitLogs', { log_ids: ['school-1'], decision: 'approve' })
+
+      const log = (await db.collection('habit_logs').doc('school-1').get()).data()!
+      // Stamped either way, so an old log missing the field is never mistaken
+      // for one that was actually checked.
+      expect(log.self_verified).toBe(false)
+    }, 60000)
+  })
+
 })
