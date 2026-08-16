@@ -2,6 +2,7 @@ import { html, raw } from 'hono/html'
 import activitiesData from '../data/activities.json'
 import { firebaseConfigJS } from '../lib/firebaseConfig'
 import { clubHelpersJS } from '../lib/clubData'
+import { valueEconomyHelpersJS } from '../lib/valueEconomy'
 
 export const TeacherDashboard = () => html`
 <style>
@@ -1173,6 +1174,49 @@ export const TeacherDashboard = () => html`
   .club-log-desc { font-size: 0.76rem; color: #64748b; line-height: 1.45; }
   .club-log-date { font-size: 0.72rem; color: #94a3b8; white-space: nowrap; }
 
+  /* Value Economy (module 3). The queue reuses the habit queue's rows so a
+     mentor is not learning two layouts; only the price badge is new. */
+  .ve-log-pts {
+    font-weight: 800; font-size: 0.78rem; color: #0f5e55;
+    background: #ecfdf5; border-radius: 999px; padding: 3px 9px; white-space: nowrap;
+  }
+  .ve-log-body {
+    font-size: 0.82rem; color: #475569; line-height: 1.55; margin-top: 3px;
+    white-space: pre-wrap; word-break: break-word;
+  }
+
+  .ve-council-form { display: flex; flex-direction: column; gap: 0.7rem; }
+  .ve-council-row { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
+  .ve-council-row label { font-weight: 800; color: #243d6b; font-size: 0.84rem; min-width: 4.5rem; }
+  .ve-council-row select, .ve-council-row input {
+    border: 1px solid #e2e8f0; border-radius: 10px; padding: 0.42rem 0.7rem;
+    font-size: 0.88rem; font-family: inherit; color: #1e293b; background: #fff;
+  }
+  .ve-council-row input { width: 6.5rem; }
+  .ve-council-hint { font-size: 0.76rem; color: #94a3b8; flex: 1; min-width: 12rem; }
+  .ve-council-form textarea {
+    width: 100%; min-height: 92px; resize: vertical;
+    border: 1px solid #e2e8f0; border-radius: 10px; padding: 0.6rem 0.7rem;
+    font-size: 0.88rem; line-height: 1.55; font-family: inherit; color: #1e293b;
+  }
+  .ve-council-form textarea:focus { outline: none; border-color: #8c1d3f; }
+  .ve-council-foot { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
+  .ve-council-foot .ve-count { font-size: 0.74rem; font-weight: 800; color: #94a3b8; margin-right: auto; }
+  .ve-council-foot .ve-count.is-ok { color: #16a34a; }
+  .ve-council-form.is-locked { opacity: 0.55; pointer-events: none; }
+
+  .ve-council-history { margin-top: 1rem; display: flex; flex-direction: column; gap: 0.45rem; }
+  .ve-council-entry {
+    padding: 0.6rem 0.85rem; border-radius: 10px;
+    background: #fffbeb; border: 1px solid #fde68a; font-size: 0.84rem; color: #78350f;
+  }
+  .ve-council-entry-head {
+    display: flex; gap: 0.5rem; align-items: center;
+    font-size: 0.7rem; font-weight: 800; text-transform: uppercase;
+    letter-spacing: 0.5px; color: #92400e; margin-bottom: 3px;
+  }
+  .ve-council-entry-head span:last-child { margin-left: auto; }
+
   .custom-modal-overlay {
     display: none;
     position: fixed;
@@ -2160,6 +2204,83 @@ export const TeacherDashboard = () => html`
               <div style="text-align:center;color:#64748b;padding:2rem;"><i class="fas fa-spinner fa-spin fa-2x"></i></div>
             </div>
           </section>
+
+          <section class="surface-card" style="margin-top:1rem;">
+            <div class="section-header">
+              <div class="section-heading">
+                <div class="section-asset" style="background:linear-gradient(135deg,#0F5E55,#C99A6B);display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.4rem;">
+                  <i class="fas fa-hand-holding-heart"></i>
+                </div>
+                <div>
+                  <h3>Value Credits — Council Review</h3>
+                  <p>The larger acts, worth 20 to 100 credits. Read what the student wrote before you award it — the amount comes from the category, not from you.</p>
+                </div>
+              </div>
+              <span class="section-chip" id="veQueueChip"><i class="fas fa-clock"></i> Loading</span>
+            </div>
+
+            <div class="club-queue-toolbar">
+              <label class="club-select-all">
+                <input type="checkbox" id="veSelectAll" onchange="window.toggleAllValueEntries(this.checked)">
+                <span>Select all</span>
+              </label>
+              <span class="club-selected-count" id="veSelectedCount">0 selected</span>
+              <button class="btn-approve" type="button" onclick="window.reviewSelectedValueEntries('approve')">
+                <i class="fas fa-check"></i> Award selected
+              </button>
+              <button class="btn-reject" type="button" onclick="window.reviewSelectedValueEntries('reject')">
+                <i class="fas fa-rotate-left"></i> Send back
+              </button>
+              <button class="btn-refresh-club" type="button" onclick="window.loadValueQueue()">
+                <i class="fas fa-rotate-right"></i> Refresh
+              </button>
+            </div>
+
+            <div id="veQueueList">
+              <div style="text-align:center;color:#64748b;padding:2rem;"><i class="fas fa-spinner fa-spin fa-2x"></i></div>
+            </div>
+          </section>
+
+          <!-- Filing a complaint costs a whole house points, so it is the
+               school admin's to do, not a mentor's. The panel is rendered for
+               everyone and disabled with a reason for anyone who may not use
+               it — hiding it would leave a mentor wondering where it went. -->
+          <section class="surface-card ve-council-card" style="margin-top:1rem;">
+            <div class="section-header">
+              <div class="section-heading">
+                <div class="section-asset" style="background:linear-gradient(135deg,#8C1D3F,#C99A6B);display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.4rem;">
+                  <i class="fas fa-scale-balanced"></i>
+                </div>
+                <div>
+                  <h3>Values Council — House Complaint</h3>
+                  <p>If one member of a house breaks the code, the house answers for it. The penalty comes off the house total only — no student's own credits are touched.</p>
+                </div>
+              </div>
+              <span class="section-chip" id="veCouncilChip"><i class="fas fa-gavel"></i> School admin</span>
+            </div>
+
+            <div id="veCouncilForm" class="ve-council-form">
+              <div class="ve-council-row">
+                <label for="veComplaintHouse">House</label>
+                <select id="veComplaintHouse"></select>
+              </div>
+              <div class="ve-council-row">
+                <label for="veComplaintPoints">Penalty</label>
+                <input type="number" id="veComplaintPoints" min="10" max="100" step="5" value="30">
+                <span class="ve-council-hint">10–100 credits. A missed greeting and a covered-up injustice are not the same failure.</span>
+              </div>
+              <textarea id="veComplaintReason" placeholder="What happened? Every member of this house will read this and ask why they paid for it."
+                oninput="window.veComplaintInput()"></textarea>
+              <div class="ve-council-foot">
+                <span class="ve-count" id="veComplaintCount"></span>
+                <button class="btn-reject" type="button" id="veComplaintSubmit" onclick="window.fileComplaint()" disabled>
+                  <i class="fas fa-gavel"></i> File complaint
+                </button>
+              </div>
+            </div>
+
+            <div id="veComplaintHistory" class="ve-council-history"></div>
+          </section>
         </section>
 
         <section id="teacherPanelRankings" class="teacher-panel">
@@ -2365,10 +2486,22 @@ export const TeacherDashboard = () => html`
   // so a mentor's approval has to come through here.
   const callReviewHabitLogs = httpsCallable(functions, 'reviewHabitLogs');
 
+  // Module 3's two doors. Same reasoning: the rules refuse every client write
+  // of status/points on an entry, and there is no client branch at all for a
+  // complaint — a penalty against a whole house has to carry a record of who
+  // filed it that the filer cannot revise afterwards.
+  const callReviewCreditEntries = httpsCallable(functions, 'reviewCreditEntries');
+  const callFileCouncilComplaint = httpsCallable(functions, 'fileCouncilComplaint');
+
   // CLUB_HOUSES / clubHabit come from clubData.ts — the same table the student
   // dashboard renders from, so a habit cannot be named one thing when it is
   // ticked and another when it is approved.
   ${raw(clubHelpersJS)}
+
+  // VALUE_CATEGORIES / valueCategory come from valueEconomy.ts, for the same
+  // reason: a category cannot be named one thing when a student files it and
+  // another when the Council awards it.
+  ${raw(valueEconomyHelpersJS)}
 
   const ACTIVITIES_DATA = ${raw(JSON.stringify(activitiesData))};
   
@@ -2880,7 +3013,10 @@ export const TeacherDashboard = () => html`
 
     // Re-read on every open rather than caching: a mentor who just approved a
     // batch on their phone should not find it still sitting here on the laptop.
-    if (nextSection === 'club') window.loadClubQueue();
+    if (nextSection === 'club') {
+      window.loadClubQueue();
+      window.loadValueQueue();
+    }
 
     if (shouldScroll) {
       const activePanel = document.getElementById(teacherSectionTargets[nextSection]);
@@ -3098,6 +3234,334 @@ export const TeacherDashboard = () => html`
     if (label) label.textContent = selected + ' selected';
     const selectAll = document.getElementById('clubSelectAll');
     if (selectAll) selectAll.checked = boxes.length > 0 && selected === boxes.length;
+  }
+
+
+  // ── Value Economy (module 3) — the Council's side ───────────────────────
+  //
+  // The habit queue above rules on daily ticks worth ten credits each. This
+  // one rules on the larger acts, worth 20 to 100. The mentor does not choose
+  // the amount: the category carries it, so two students who did the same
+  // thing are worth the same regardless of who read the entry.
+
+  let veQueue = [];
+  /** Live prices, so the queue shows what an award will actually pay. */
+  let veLivePrices = {};
+
+  /**
+   * The price list the school is actually running.
+   *
+   * Same fallback the callable applies: the seed in valueEconomy.ts is the
+   * default and a /credit_categories document overrides it. Showing the seed
+   * where an admin has edited the price would promise credits the callable
+   * will not pay.
+   */
+  async function veLoadPrices() {
+    veLivePrices = {};
+    for (const c of VALUE_CATEGORIES) veLivePrices[c.id] = c.points;
+    try {
+      const snap = await getDocs(collection(db, 'credit_categories'));
+      snap.forEach((d) => {
+        const data = d.data() || {};
+        if (data.is_active === false) { delete veLivePrices[d.id]; return; }
+        if (typeof data.points === 'number' && data.points >= 0) veLivePrices[d.id] = Math.round(data.points);
+      });
+    } catch (e) {
+      console.warn('[Values] Live prices unavailable, using defaults:', e && e.message);
+    }
+  }
+
+  window.loadValueQueue = async () => {
+    const listEl = document.getElementById('veQueueList');
+    const chip = document.getElementById('veQueueChip');
+    if (!listEl) return;
+
+    if (!teacherSchoolId) {
+      listEl.innerHTML = '<div style="padding:2rem;background:#fee2e2;color:#991b1b;border-radius:12px;text-align:center;"><strong>School Link Missing</strong><br>Your account is not linked to a school, so there are no entries to review.</div>';
+      if (chip) chip.innerHTML = '<i class="fas fa-triangle-exclamation"></i> No school';
+      return;
+    }
+
+    listEl.innerHTML = '<div style="text-align:center;color:#64748b;padding:2rem;"><i class="fas fa-spinner fa-spin fa-2x"></i></div>';
+
+    await veLoadPrices();
+
+    try {
+      const snap = await getDocs(query(
+        collection(db, 'credit_entries'),
+        where('school_id', '==', teacherSchoolId),
+        where('status', '==', 'pending')
+      ));
+      veQueue = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+    } catch (e) {
+      console.error('[Values queue] Failed to load:', e);
+      listEl.innerHTML = '<div style="padding:2rem;color:#b91c1c;text-align:center;">Could not load the value queue. Please refresh.</div>';
+      return;
+    }
+
+    renderValueQueue();
+    await loadComplaintHistory();
+  };
+
+  function renderValueQueue() {
+    const listEl = document.getElementById('veQueueList');
+    const chip = document.getElementById('veQueueChip');
+    if (!listEl) return;
+
+    if (chip) {
+      chip.innerHTML = veQueue.length
+        ? '<i class="fas fa-clock"></i> ' + veQueue.length + ' waiting'
+        : '<i class="fas fa-check"></i> All clear';
+    }
+
+    if (!veQueue.length) {
+      listEl.innerHTML = '<div style="text-align:center;color:#64748b;padding:2rem;"><i class="fas fa-check-circle fa-2x" style="color:#16a34a;"></i><p style="margin-top:0.6rem;">No value entries are waiting.</p></div>';
+      window.updateValueSelectedCount();
+      return;
+    }
+
+    // Grouped by student, the way the habit queue is: a Council reads one
+    // child's week together, not a chronological mix of twelve children.
+    const byStudent = {};
+    veQueue.forEach((entry) => {
+      const key = entry.student_uid;
+      if (!byStudent[key]) byStudent[key] = [];
+      byStudent[key].push(entry);
+    });
+
+    listEl.innerHTML = Object.keys(byStudent).map((uid) => {
+      const rows = byStudent[uid];
+      const house = clubHouse(rows[0].house);
+      const pill = house
+        ? '<span class="club-house-pill" style="background:' + house.color + ';color:' + house.ink + ';">' + escapeHtml(house.name) + '</span>'
+        : '';
+      const name = rows[0].student_name || uid;
+
+      return '<div class="club-student-group">' +
+        '<div class="club-student-head">' +
+          '<span class="club-student-name">' + escapeHtml(name) + '</span>' + pill +
+        '</div>' +
+        rows.map((entry) => {
+          const cat = valueCategory(entry.category_id);
+          const label = cat ? cat.name : entry.category_id;
+          const price = veLivePrices[entry.category_id];
+          // A category the school has retired cannot be awarded, and the
+          // callable will skip it. Saying so here saves the Council a
+          // confusing "1 skipped" after it has already clicked approve.
+          const badge = typeof price === 'number'
+            ? '<span class="ve-log-pts">' + price + ' VC</span>'
+            : '<span class="ve-log-pts" style="background:#fef2f2;color:#b91c1c;">retired</span>';
+          const when = String(entry.created_at || '').slice(0, 10);
+          return '<label class="club-log-row">' +
+            '<input type="checkbox" class="ve-entry-check" value="' + escapeHtml(entry.id) + '" onchange="window.updateValueSelectedCount()">' +
+            '<span class="club-log-main">' +
+              '<span class="club-log-name">' + escapeHtml(label) + '</span>' +
+              '<span class="ve-log-body">' + escapeHtml(entry.description || '') + '</span>' +
+            '</span>' +
+            badge +
+            '<span class="club-log-date">' + escapeHtml(when) + '</span>' +
+          '</label>';
+        }).join('') +
+      '</div>';
+    }).join('');
+
+    window.updateValueSelectedCount();
+  }
+
+  window.updateValueSelectedCount = () => {
+    const boxes = [...document.querySelectorAll('.ve-entry-check')];
+    const picked = boxes.filter((b) => b.checked).length;
+    const el = document.getElementById('veSelectedCount');
+    if (el) el.textContent = picked + ' selected';
+    const all = document.getElementById('veSelectAll');
+    if (all) all.checked = boxes.length > 0 && picked === boxes.length;
+  };
+
+  window.toggleAllValueEntries = (checked) => {
+    document.querySelectorAll('.ve-entry-check').forEach((b) => { b.checked = checked; });
+    window.updateValueSelectedCount();
+  };
+
+  window.reviewSelectedValueEntries = async (decision) => {
+    const ids = [...document.querySelectorAll('.ve-entry-check')]
+      .filter((b) => b.checked)
+      .map((b) => b.value);
+
+    if (!ids.length) {
+      alert('Tick the entries you want to review first.');
+      return;
+    }
+
+    let note = '';
+    if (decision === 'reject') {
+      note = (prompt('Why are these being sent back? The student will read this.') || '').trim();
+      if (!note) return;
+    }
+
+    if (decision === 'approve' && !confirm('Award ' + ids.length + ' entr' + (ids.length === 1 ? 'y' : 'ies') + '? The credits come from each category.')) {
+      return;
+    }
+
+    try {
+      const res = await callReviewCreditEntries({ entry_ids: ids, decision: decision, note: note });
+      const out = (res && res.data) || {};
+      const skippedList = Array.isArray(out.skipped) ? out.skipped : [];
+      let message = decision === 'approve'
+        ? out.reviewed + ' entr' + (out.reviewed === 1 ? 'y' : 'ies') + ' awarded. ' + (out.credits_awarded || 0) + ' Value Credits granted.'
+        : out.reviewed + ' entr' + (out.reviewed === 1 ? 'y' : 'ies') + ' sent back.';
+
+      if (skippedList.length) {
+        const reasons = {
+          'no-description': 'had nothing written on them',
+          'already-reviewed': 'were already reviewed',
+          'unknown-category': 'name a category this school no longer awards',
+          'other-school': 'belong to another school',
+          'not-yours': 'are not yours to review',
+          'not-found': 'no longer exist'
+        };
+        const counts = {};
+        skippedList.forEach((s) => {
+          const why = (s && s.reason) || 'not-found';
+          counts[why] = (counts[why] || 0) + 1;
+        });
+        message += '\\n\\n' + skippedList.length + ' skipped:';
+        Object.keys(counts).forEach((why) => {
+          message += '\\n· ' + counts[why] + ' ' + (reasons[why] || why);
+        });
+      }
+      alert(message);
+      await window.loadValueQueue();
+      await refreshClubStandings();
+    } catch (e) {
+      console.error('[Values queue] Review failed:', e);
+      alert('Could not save that review: ' + (e && e.message ? e.message : 'unknown error'));
+    }
+  };
+
+  // ── The Values Council's complaint ──────────────────────────────────────
+
+  /**
+   * Set the complaint panel up for whoever is signed in.
+   *
+   * Only a school admin may fine a house. A mentor sees the panel, disabled,
+   * with the reason — hiding it would leave them hunting for a feature the
+   * concept says exists, and the callable would refuse them anyway.
+   */
+  function initComplaintPanel() {
+    const select = document.getElementById('veComplaintHouse');
+    const form = document.getElementById('veCouncilForm');
+    const chip = document.getElementById('veCouncilChip');
+    if (!select || !form) return;
+
+    select.innerHTML = CLUB_HOUSE_IDS.map((id) => {
+      const house = clubHouse(id);
+      return '<option value="' + id + '">' + escapeHtml(house ? house.name : id) + '</option>';
+    }).join('');
+
+    const role = (currentTeacher && currentTeacher.role) || '';
+    const mayFile = role === 'school_admin' || role === 'super_admin';
+    form.classList.toggle('is-locked', !mayFile);
+    if (chip) {
+      chip.innerHTML = mayFile
+        ? '<i class="fas fa-gavel"></i> You sit on the Council'
+        : '<i class="fas fa-lock"></i> School admin only';
+    }
+  }
+
+  window.veComplaintInput = () => {
+    const box = document.getElementById('veComplaintReason');
+    const count = document.getElementById('veComplaintCount');
+    const submit = document.getElementById('veComplaintSubmit');
+    if (!box) return;
+    const written = box.value.trim().length;
+    const ok = written >= VALUE_COMPLAINT_REASON_MIN;
+    if (count) {
+      count.textContent = ok
+        ? 'Ready to file'
+        : written + ' / ' + VALUE_COMPLAINT_REASON_MIN + ' characters';
+      count.classList.toggle('is-ok', ok);
+    }
+    if (submit) submit.disabled = !ok;
+  };
+
+  window.fileComplaint = async () => {
+    const house = (document.getElementById('veComplaintHouse') || {}).value;
+    const box = document.getElementById('veComplaintReason');
+    const pointsEl = document.getElementById('veComplaintPoints');
+    if (!house || !box || !pointsEl) return;
+
+    const reason = box.value.trim();
+    if (reason.length < VALUE_COMPLAINT_REASON_MIN) return;
+
+    const points = Number(pointsEl.value);
+    if (!Number.isFinite(points) || points < VALUE_COMPLAINT_MIN_POINTS || points > VALUE_COMPLAINT_MAX_POINTS) {
+      alert('A penalty must be between ' + VALUE_COMPLAINT_MIN_POINTS + ' and ' + VALUE_COMPLAINT_MAX_POINTS + ' credits.');
+      return;
+    }
+
+    const houseName = (clubHouse(house) || {}).name || house;
+    // Spelled out because it is not undoable from here and every member of
+    // that house will see it.
+    if (!confirm('Take ' + points + ' credits from ' + houseName + '?\\n\\nEvery member of the house will see this complaint and the reason.')) {
+      return;
+    }
+
+    const submit = document.getElementById('veComplaintSubmit');
+    if (submit) submit.disabled = true;
+
+    try {
+      const res = await callFileCouncilComplaint({ house: house, reason: reason, points: Math.round(points) });
+      const out = (res && res.data) || {};
+      let message = houseName + ' has been fined ' + out.points_requested + ' credits.';
+      if (out.points_deducted !== out.points_requested) {
+        // The house did not have that much to give. Saying so prevents the
+        // Council from thinking the penalty failed and filing it twice.
+        message += '\\n\\nThe house only had ' + out.points_deducted + ' credits, so that is what came off. A house is never taken below zero.';
+      }
+      alert(message);
+      box.value = '';
+      window.veComplaintInput();
+      await refreshClubStandings();
+      await loadComplaintHistory();
+    } catch (e) {
+      console.error('[Council] Could not file that complaint:', e);
+      alert('Could not file that complaint: ' + (e && e.message ? e.message : 'unknown error'));
+      if (submit) submit.disabled = false;
+    }
+  };
+
+  async function loadComplaintHistory() {
+    const el = document.getElementById('veComplaintHistory');
+    if (!el || !teacherSchoolId) return;
+
+    try {
+      const snap = await getDocs(query(
+        collection(db, 'council_complaints'),
+        where('school_id', '==', teacherSchoolId)
+      ));
+      const rows = snap.docs.map((d) => d.data());
+      rows.sort((a, b) => String(b.created_at || '').localeCompare(String(a.created_at || '')));
+
+      if (!rows.length) { el.innerHTML = ''; return; }
+
+      el.innerHTML = '<h4 style="margin:0 0 0.5rem;font-size:0.95rem;color:#243d6b;">Recent rulings</h4>' +
+        rows.slice(0, 8).map((row) => {
+          const house = clubHouse(row.house);
+          const name = house ? house.name : row.house;
+          const when = String(row.created_at || '').slice(0, 10);
+          return '<div class="ve-council-entry">' +
+            '<div class="ve-council-entry-head">' +
+              '<span>' + escapeHtml(name) + '</span>' +
+              '<span>' + escapeHtml(when) + '</span>' +
+              '<span>&minus;' + (row.points_deducted || 0) + ' VC</span>' +
+            '</div>' +
+            escapeHtml(row.reason || '') +
+          '</div>';
+        }).join('');
+    } catch (e) {
+      console.warn('[Council] History unavailable:', e && e.message);
+      el.innerHTML = '';
+    }
   }
 
   window.reviewSelectedClubLogs = async (decision) => {
@@ -3901,6 +4365,11 @@ export const TeacherDashboard = () => html`
     // mentor learns there is anything waiting at all. Failing here must not
     // take the rest of the dashboard down with it.
     window.loadClubQueue().catch((e) => console.warn('[Club queue] initial load skipped:', e && e.message));
+
+    // The complaint panel needs currentTeacher.role, which is set by the time
+    // this runs; the queue is loaded here for the same reason as the habits.
+    initComplaintPanel();
+    window.loadValueQueue().catch((e) => console.warn('[Values queue] initial load skipped:', e && e.message));
   }
 
   function readTeacherNote() {

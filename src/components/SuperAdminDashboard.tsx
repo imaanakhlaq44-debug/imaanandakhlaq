@@ -1,5 +1,7 @@
 import { html, raw } from 'hono/html'
 import { firebaseConfigJS } from '../lib/firebaseConfig'
+import { valueEconomyHelpersJS, COMPLAINT_MAX_POINTS } from '../lib/valueEconomy'
+import { clubHelpersJS } from '../lib/clubData'
 
 export const SuperAdminDashboard = () => html`
 <style>
@@ -325,6 +327,68 @@ export const SuperAdminDashboard = () => html`
   .super-admin-layout .btn-logout i,
   .super-admin-layout .logout-btn i { color: #ffffff !important; }
 
+  /* Value Economy price editor. A table of numbers that change what every
+     school pays, so it reads as a form rather than a dashboard: one row per
+     category, the built-in price always visible beside the override, and no
+     way to save without seeing what you changed. */
+  .ve-admin-chip {
+    background: rgba(207, 41, 109, 0.1); color: var(--brand-secondary);
+    font-size: 0.78rem; font-weight: 700; padding: 5px 12px; border-radius: 999px;
+  }
+  .ve-admin-intro {
+    color: var(--text-sec); font-size: 0.9rem; line-height: 1.6;
+    margin: 0 0 18px; max-width: 720px;
+  }
+  .ve-admin-table { display: flex; flex-direction: column; gap: 8px; }
+  .ve-admin-row {
+    display: flex; align-items: center; gap: 14px;
+    padding: 12px 14px; border-radius: 12px;
+    background: #f8fafc; border: 1px solid #e2e8f0;
+  }
+  .ve-admin-row.is-changed { border-color: var(--brand-secondary); background: #fff; }
+  .ve-admin-row.is-off { opacity: 0.6; }
+  .ve-admin-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .ve-admin-names { flex: 1; min-width: 0; }
+  .ve-admin-name { font-weight: 600; color: var(--brand-primary); font-size: 0.92rem; }
+  /* The Urdu name is what a Pakistani admin scans for first. */
+  .ve-admin-name-ur { font-size: 0.85rem; color: var(--text-sec); direction: rtl; text-align: right; }
+  .ve-admin-seed {
+    font-size: 0.74rem; color: var(--text-light); white-space: nowrap;
+    background: #eef2f7; border-radius: 999px; padding: 3px 10px;
+  }
+  .ve-admin-row input[type="number"] {
+    width: 92px; border: 1px solid #cbd5e1; border-radius: 9px;
+    padding: 7px 10px; font-size: 0.9rem; font-family: inherit;
+    color: var(--brand-primary); text-align: center; background: #fff;
+  }
+  .ve-admin-row input[type="number"]:focus { outline: none; border-color: var(--brand-secondary); }
+  .ve-admin-active {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 0.78rem; color: var(--text-sec); cursor: pointer; white-space: nowrap;
+  }
+  .ve-admin-active input { width: 16px; height: 16px; cursor: pointer; }
+
+  .ve-admin-foot {
+    display: flex; align-items: center; gap: 10px;
+    margin-top: 20px; padding-top: 16px; border-top: 1px solid #e2e8f0; flex-wrap: wrap;
+  }
+  .ve-admin-status { font-size: 0.84rem; font-weight: 600; color: var(--text-light); margin-right: auto; }
+  .ve-admin-status.is-dirty { color: var(--brand-secondary); }
+  .ve-admin-status.is-saved { color: #16a34a; }
+  .ve-admin-btn {
+    border: none; border-radius: 999px; padding: 9px 20px;
+    font-size: 0.86rem; font-weight: 700; cursor: pointer; font-family: inherit;
+  }
+  .ve-admin-btn.save { background: var(--brand-secondary); color: #fff; }
+  .ve-admin-btn.save:disabled { background: #e2e8f0; color: #94a3b8; cursor: not-allowed; }
+  .ve-admin-btn.ghost { background: #f1f5f9; color: var(--text-sec); }
+
+  @media (max-width: 767px) {
+    .ve-admin-row { flex-wrap: wrap; gap: 10px; }
+    .ve-admin-names { flex: 1 1 100%; }
+    .ve-admin-foot .ve-admin-btn { flex: 1; }
+  }
+
   .super-admin-layout .nav-item.active,
   .super-admin-layout .nav-link.active,
   .super-admin-layout a.nav-item.active {
@@ -364,6 +428,7 @@ export const SuperAdminDashboard = () => html`
       <a href="#" class="nav-item active" data-target="dashboard"><i class="fas fa-th-large"></i> Dashboard</a>
       <a href="#" class="nav-item" data-target="schools"><i class="fas fa-school"></i> Schools</a>
       <a href="#" class="nav-item" data-target="reports"><i class="fas fa-chart-pie"></i> Global Reports</a>
+      <a href="#" class="nav-item" data-target="value-economy"><i class="fas fa-coins"></i> Value Economy</a>
       <a href="#" class="nav-item" data-target="coming-soon"><i class="fas fa-file-invoice-dollar"></i> Billing & Plans</a>
       <a href="#" class="nav-item" data-target="coming-soon"><i class="fas fa-bullhorn"></i> Announcements</a>
       <a href="#" class="nav-item" data-target="coming-soon"><i class="fas fa-cog"></i> Platform Settings</a>
@@ -410,6 +475,47 @@ export const SuperAdminDashboard = () => html`
         <i class="fas fa-tools" style="font-size: 4rem; color: var(--text-light); margin-bottom: 20px;"></i>
         <h2 style="color: var(--brand-primary); margin-bottom: 10px;">Feature In Development</h2>
         <p style="color: var(--text-sec); max-width: 500px; margin: 0 auto;">This section is currently being built and will be available in future updates.</p>
+      </div>
+
+      <!-- Value Economy — what each category is worth -->
+      <!--
+        The one screen the concept insists on: "points must be changeable from
+        the Super Admin panel, never hard-coded". The table in valueEconomy.ts
+        is only a seed, and until this page existed the only way to change a
+        price was the Firestore console.
+      -->
+      <div id="dash-value-economy" style="display: none;">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <i class="fas fa-coins" style="color: var(--brand-tertiary)"></i>
+              Value Credit Categories
+            </div>
+            <span class="ve-admin-chip" id="veAdminChip">Loading</span>
+          </div>
+
+          <p class="ve-admin-intro">
+            What the Values Council awards for each act. A change here applies to every
+            school and takes effect on the next award — entries already ruled on keep
+            what they were paid. Blank means the category is left at its built-in price.
+          </p>
+
+          <div class="ve-admin-table" id="veAdminTable">
+            <div style="text-align:center;color:var(--text-light);padding:40px;">
+              <i class="fas fa-spinner fa-spin fa-2x"></i>
+            </div>
+          </div>
+
+          <div class="ve-admin-foot">
+            <span class="ve-admin-status" id="veAdminStatus"></span>
+            <button class="ve-admin-btn ghost" type="button" onclick="window.veAdminReset()">
+              <i class="fas fa-rotate-left"></i> Reset all to built-in prices
+            </button>
+            <button class="ve-admin-btn save" type="button" id="veAdminSave" onclick="window.veAdminSave()">
+              <i class="fas fa-check"></i> Save prices
+            </button>
+          </div>
+        </div>
       </div>
 
       <!-- Global Reports Section -->
@@ -585,7 +691,7 @@ export const SuperAdminDashboard = () => html`
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-  import { getFirestore, collection, getDocs, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+  import { getFirestore, collection, getDocs, doc, getDoc, setDoc, deleteDoc, writeBatch } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
   import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
   import Chart from "https://esm.sh/chart.js/auto";
 
@@ -594,6 +700,17 @@ export const SuperAdminDashboard = () => html`
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
   const auth = getAuth(app);
+
+  // CLUB_HOUSES / clubHouse come from clubData.ts — the price rows are dotted
+  // in the house colour a category belongs to, the same colour the student and
+  // the Council already see it in.
+  ${raw(clubHelpersJS)}
+
+  // VALUE_CATEGORIES comes from valueEconomy.ts. The prices in it are the
+  // BUILT-IN defaults this screen edits away from, never the live values.
+  ${raw(valueEconomyHelpersJS)}
+
+  const VE_MAX_POINTS = ${COMPLAINT_MAX_POINTS};
 
   // HTML escape helper to prevent XSS when using innerHTML
   function esc(str) {
@@ -863,6 +980,238 @@ export const SuperAdminDashboard = () => html`
     }
   });
 
+
+  // ── Value Economy — the price list ──────────────────────────────────────
+  //
+  // The concept's rule, and the reason this screen exists at all: "points must
+  // be changeable from the Super Admin panel, never hard-coded." The table in
+  // valueEconomy.ts is a seed; a /credit_categories document overrides it, and
+  // this is where those documents are written.
+  //
+  // An override is stored ONLY when it differs from the built-in price. That
+  // keeps the collection to the handful of rows a school actually changed, and
+  // it means clearing a box genuinely restores the default rather than pinning
+  // today's default forever as an override.
+
+  /** Overrides as loaded, keyed by category id: { points, is_active }. */
+  let veStored = {};
+
+  const veSeedOf = (id) => {
+    const cat = valueCategory(id);
+    return cat ? cat.points : null;
+  };
+
+  async function veAdminLoad() {
+    const chip = document.getElementById('veAdminChip');
+    veStored = {};
+    try {
+      const snap = await getDocs(collection(db, 'credit_categories'));
+      snap.forEach((d) => {
+        const data = d.data() || {};
+        veStored[d.id] = {
+          points: typeof data.points === 'number' ? data.points : null,
+          is_active: data.is_active !== false
+        };
+      });
+      if (chip) {
+        const edited = Object.keys(veStored).length;
+        chip.textContent = edited
+          ? edited + ' of ' + VALUE_CATEGORIES.length + ' customised'
+          : 'All at built-in prices';
+      }
+    } catch (e) {
+      console.error('[Value Economy] Could not read the price list:', e);
+      if (chip) chip.textContent = 'Could not load';
+    }
+    veAdminRender();
+  }
+
+  function veAdminRender() {
+    const el = document.getElementById('veAdminTable');
+    if (!el) return;
+
+    el.innerHTML = VALUE_CATEGORIES.map((cat) => {
+      const house = clubHouse(cat.house);
+      const dot = house ? house.color : '#94a3b8';
+      const stored = veStored[cat.id] || {};
+      const value = typeof stored.points === 'number' ? stored.points : '';
+      const active = stored.is_active !== false;
+
+      return '<div class="ve-admin-row' + (active ? '' : ' is-off') + '" id="veAdminRow_' + cat.id + '">' +
+        '<span class="ve-admin-dot" style="background:' + dot + ';"></span>' +
+        '<span class="ve-admin-names">' +
+          '<span class="ve-admin-name">' + esc(cat.name) + '</span>' +
+          '<span class="ve-admin-name-ur">' + esc(cat.nameUr) + '</span>' +
+        '</span>' +
+        '<span class="ve-admin-seed">built-in ' + cat.points + '</span>' +
+        '<input type="number" min="0" max="' + VE_MAX_POINTS + '" step="5"' +
+          ' id="veAdminInput_' + cat.id + '" value="' + value + '"' +
+          ' placeholder="' + cat.points + '"' +
+          ' oninput="window.veAdminDirty()">' +
+        '<label class="ve-admin-active">' +
+          '<input type="checkbox" id="veAdminActive_' + cat.id + '"' + (active ? ' checked' : '') +
+            ' onchange="window.veAdminDirty()">' +
+          '<span>Awardable</span>' +
+        '</label>' +
+      '</div>';
+    }).join('');
+
+    window.veAdminDirty();
+  }
+
+  /** What is on screen right now, per category. */
+  function veAdminReadForm() {
+    return VALUE_CATEGORIES.map((cat) => {
+      const input = document.getElementById('veAdminInput_' + cat.id);
+      const active = document.getElementById('veAdminActive_' + cat.id);
+      const raw = input ? String(input.value).trim() : '';
+      return {
+        id: cat.id,
+        seed: cat.points,
+        // Blank means "no override" — the built-in price stands.
+        points: raw === '' ? null : Number(raw),
+        is_active: active ? active.checked : true
+      };
+    });
+  }
+
+  /**
+   * Mark rows that differ from what is saved, and gate the save button.
+   *
+   * A price outside 0..VE_MAX_POINTS is refused here as well as in the
+   * callable — the callable already ignores a nonsense price and falls back to
+   * the seed, so without this an admin could type 5000, see it saved, and
+   * never find out that no award ever used it.
+   */
+  window.veAdminDirty = () => {
+    const rows = veAdminReadForm();
+    let changed = 0;
+    let invalid = 0;
+
+    rows.forEach((row) => {
+      const stored = veStored[row.id] || {};
+      const storedPoints = typeof stored.points === 'number' ? stored.points : null;
+      const storedActive = stored.is_active !== false;
+
+      const bad = row.points !== null &&
+        (!Number.isFinite(row.points) || row.points < 0 || row.points > VE_MAX_POINTS);
+      if (bad) invalid++;
+
+      // Typing the built-in price is not an override — saving would clear the
+      // document, not write one. Normalising here keeps what the screen says
+      // in step with what Save actually does, instead of reporting a change
+      // that then leaves the box blank for no visible reason.
+      const effective = row.points === row.seed ? null : row.points;
+      const differs = effective !== storedPoints || row.is_active !== storedActive;
+      if (differs) changed++;
+
+      const el = document.getElementById('veAdminRow_' + row.id);
+      if (el) {
+        el.classList.toggle('is-changed', differs && !bad);
+        el.classList.toggle('is-off', !row.is_active);
+        el.style.borderColor = bad ? '#dc2626' : '';
+      }
+    });
+
+    const status = document.getElementById('veAdminStatus');
+    const save = document.getElementById('veAdminSave');
+    if (status) {
+      status.classList.remove('is-saved');
+      if (invalid) {
+        status.textContent = invalid + ' price' + (invalid === 1 ? '' : 's') + ' must be between 0 and ' + VE_MAX_POINTS;
+        status.classList.add('is-dirty');
+      } else if (changed) {
+        status.textContent = changed + ' change' + (changed === 1 ? '' : 's') + ' not saved';
+        status.classList.add('is-dirty');
+      } else {
+        status.textContent = 'No unsaved changes';
+        status.classList.remove('is-dirty');
+      }
+    }
+    if (save) save.disabled = invalid > 0 || changed === 0;
+  };
+
+  window.veAdminSave = async () => {
+    const rows = veAdminReadForm();
+    const save = document.getElementById('veAdminSave');
+    const status = document.getElementById('veAdminStatus');
+
+    const retiring = rows.filter((r) => !r.is_active).map((r) => r.id);
+    if (retiring.length && !confirm(
+      retiring.length + ' categor' + (retiring.length === 1 ? 'y' : 'ies') +
+      ' will stop being awardable.\\n\\nEntries students have already filed under them cannot be awarded and the Council will see them marked "retired".'
+    )) {
+      return;
+    }
+
+    if (save) save.disabled = true;
+    if (status) { status.textContent = 'Saving…'; status.classList.remove('is-saved'); }
+
+    try {
+      const batch = writeBatch(db);
+      const next = {};
+
+      rows.forEach((row) => {
+        const ref = doc(db, 'credit_categories', row.id);
+        const overridesPrice = row.points !== null && row.points !== row.seed;
+
+        if (!overridesPrice && row.is_active) {
+          // Back to the built-in price and awardable: the override has nothing
+          // left to say, so it is removed rather than left behind pinning
+          // today's default as tomorrow's override.
+          batch.delete(ref);
+          return;
+        }
+
+        const payload = { is_active: row.is_active };
+        if (overridesPrice) payload.points = row.points;
+        // Written for a human reading the collection directly, never read back
+        // by the callable — which prices from the id alone.
+        payload.name = (valueCategory(row.id) || {}).name || row.id;
+        payload.updated_at = new Date().toISOString();
+
+        batch.set(ref, payload, { merge: true });
+        next[row.id] = { points: overridesPrice ? row.points : null, is_active: row.is_active };
+      });
+
+      await batch.commit();
+      veStored = next;
+      veAdminRender();
+
+      if (status) {
+        status.textContent = 'Saved. New awards use these prices from now on.';
+        status.classList.remove('is-dirty');
+        status.classList.add('is-saved');
+      }
+      const chip = document.getElementById('veAdminChip');
+      if (chip) {
+        const edited = Object.keys(veStored).length;
+        chip.textContent = edited
+          ? edited + ' of ' + VALUE_CATEGORIES.length + ' customised'
+          : 'All at built-in prices';
+      }
+    } catch (e) {
+      console.error('[Value Economy] Could not save the price list:', e);
+      alert('Could not save those prices: ' + (e && e.message ? e.message : 'unknown error'));
+      if (status) { status.textContent = 'Not saved'; status.classList.add('is-dirty'); }
+      if (save) save.disabled = false;
+    }
+  };
+
+  /** Clear every override, putting all twelve back to their built-in price. */
+  window.veAdminReset = () => {
+    if (!confirm('Put all ' + VALUE_CATEGORIES.length + ' categories back to their built-in prices and make them all awardable?')) return;
+    VALUE_CATEGORIES.forEach((cat) => {
+      const input = document.getElementById('veAdminInput_' + cat.id);
+      const active = document.getElementById('veAdminActive_' + cat.id);
+      if (input) input.value = '';
+      if (active) active.checked = true;
+    });
+    // Not saved yet on purpose — the admin still has to press Save, and can
+    // walk away from a mis-click without having changed anything.
+    window.veAdminDirty();
+  };
+
   // Sidebar Navigation Logic
   document.addEventListener('DOMContentLoaded', () => {
     const navItems = document.querySelectorAll('#sidebar-menu .nav-item');
@@ -871,6 +1220,7 @@ export const SuperAdminDashboard = () => html`
     const secSchools = document.getElementById('dash-schools');
     const secReports = document.getElementById('dash-reports');
     const secComingSoon = document.getElementById('coming-soon-section');
+    const secValueEconomy = document.getElementById('dash-value-economy');
 
     navItems.forEach(item => {
       item.addEventListener('click', (e) => {
@@ -888,6 +1238,7 @@ export const SuperAdminDashboard = () => html`
         secSchools.style.display = 'none';
         secReports.style.display = 'none';
         secComingSoon.style.display = 'none';
+        if (secValueEconomy) secValueEconomy.style.display = 'none';
 
         // Show appropriate sections
         if (target === 'dashboard') {
@@ -898,6 +1249,12 @@ export const SuperAdminDashboard = () => html`
           secSchools.style.display = 'block';
         } else if (target === 'reports') {
           secReports.style.display = 'block';
+        } else if (target === 'value-economy') {
+          secValueEconomy.style.display = 'block';
+          // Re-read on every open rather than caching: another HQ admin may
+          // have repriced something since this tab was left open, and saving
+          // over a stale copy would silently undo their change.
+          veAdminLoad();
         } else {
           secComingSoon.style.display = 'block';
         }

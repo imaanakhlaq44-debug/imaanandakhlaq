@@ -5,6 +5,9 @@ import { ParentGateModal } from './ParentGateModal'
 import { parentGateHelpersJS } from '../lib/parentGateService'
 import { activeChildHelpersJS } from '../lib/activeChild'
 import { clubHelpersJS } from '../lib/clubData'
+import { valueEconomyHelpersJS } from '../lib/valueEconomy'
+import { HouseQuizModal } from './HouseQuizModal'
+import { houseQuizHelpersJS } from '../lib/houseQuiz'
 
 export const ActivityDashboard = () => html`
 <style>
@@ -1928,6 +1931,78 @@ export const ActivityDashboard = () => html`
   .student-page .club-stand-pts { font-weight: 800; color: #1e2d5a; font-size: 0.9rem; white-space: nowrap; }
   .student-page .club-stand-pts span { font-size: 0.68rem; color: #94a3b8; font-weight: 700; margin-left: 2px; }
 
+  /* Value Economy (module 3). Deliberately quieter than the habit list: a
+     student does one of these now and then, and a panel shouting for daily
+     attention would push the daily habits down the page. */
+  .student-page .ve-list { display: flex; flex-direction: column; gap: 0.5rem; }
+  .student-page .ve-item { display: flex; flex-direction: column; }
+  .student-page .ve-row {
+    display: flex; align-items: center; gap: 0.7rem;
+    padding: 0.75rem 0.9rem; border-radius: 12px;
+    background: #f8fafc; border: 1px solid #e2e8f0;
+    cursor: pointer; width: 100%; text-align: left;
+    transition: transform 0.15s, border-color 0.15s;
+  }
+  .student-page .ve-row:hover { transform: translateX(3px); border-color: #cbd5e1; }
+  .student-page .ve-row.is-open { border-color: #cf296d; background: #fff; }
+  .student-page .ve-dot { width: 0.62rem; height: 0.62rem; border-radius: 50%; flex-shrink: 0; }
+  .student-page .ve-names { flex: 1; min-width: 0; }
+  .student-page .ve-name { font-weight: 700; color: #1e2d5a; font-size: 0.9rem; }
+  /* The Urdu name is not decoration — the Council and many families read it
+     first, so it sits with the English rather than behind a toggle. */
+  .student-page .ve-name-ur { font-size: 0.82rem; color: #475569; direction: rtl; text-align: right; }
+  .student-page .ve-pts {
+    font-weight: 800; font-size: 0.8rem; color: #0f5e55;
+    background: #ecfdf5; border-radius: 999px; padding: 3px 9px; white-space: nowrap;
+  }
+  .student-page .ve-composer {
+    border: 1px solid #e2e8f0; border-top: none;
+    border-radius: 0 0 12px 12px; padding: 0.8rem 0.9rem; background: #fff;
+  }
+  .student-page .ve-composer textarea {
+    width: 100%; min-height: 84px; resize: vertical;
+    border: 1px solid #e2e8f0; border-radius: 10px; padding: 0.6rem 0.7rem;
+    font-size: 0.88rem; line-height: 1.55; font-family: inherit; color: #1e293b;
+  }
+  .student-page .ve-composer textarea:focus { outline: none; border-color: #cf296d; }
+  .student-page .ve-composer-foot { display: flex; align-items: center; gap: 0.5rem; margin-top: 0.55rem; flex-wrap: wrap; }
+  .student-page .ve-count { font-size: 0.72rem; font-weight: 800; color: #94a3b8; margin-right: auto; }
+  .student-page .ve-count.is-ok { color: #16a34a; }
+  .student-page .ve-btn {
+    border: none; border-radius: 999px; padding: 0.42rem 1rem;
+    font-size: 0.8rem; font-weight: 800; cursor: pointer;
+  }
+  .student-page .ve-btn.save { background: #cf296d; color: #fff; }
+  .student-page .ve-btn.save:disabled { background: #e2e8f0; color: #94a3b8; cursor: not-allowed; }
+  .student-page .ve-btn.ghost { background: #f1f5f9; color: #64748b; }
+
+  .student-page .ve-mine { margin-top: 0.9rem; display: flex; flex-direction: column; gap: 0.4rem; }
+  .student-page .ve-mine-row {
+    display: flex; align-items: center; gap: 0.6rem;
+    padding: 0.55rem 0.8rem; border-radius: 10px;
+    background: #f8fafc; border: 1px solid #e2e8f0; font-size: 0.84rem;
+  }
+  .student-page .ve-mine-row.is-approved { background: #f0fdf4; border-color: #bbf7d0; }
+  .student-page .ve-mine-row.is-rejected { background: #fef2f2; border-color: #fecaca; }
+  .student-page .ve-mine-name { flex: 1; min-width: 0; font-weight: 700; color: #1e2d5a; }
+  .student-page .ve-mine-tag { font-size: 0.68rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; color: #64748b; white-space: nowrap; }
+  .student-page .ve-mine-note { font-size: 0.78rem; color: #b91c1c; margin-top: 3px; line-height: 1.45; }
+
+  /* A penalty the whole house paid. Sober rather than alarming — the point is
+     that the house knows what happened, not that a child feels punished. */
+  .student-page .ve-complaints { margin-top: 1.1rem; display: flex; flex-direction: column; gap: 0.5rem; }
+  .student-page .ve-complaint {
+    padding: 0.7rem 0.9rem; border-radius: 12px;
+    background: #fffbeb; border: 1px solid #fde68a;
+  }
+  .student-page .ve-complaint-head {
+    display: flex; align-items: center; gap: 0.5rem;
+    font-size: 0.72rem; font-weight: 800; text-transform: uppercase;
+    letter-spacing: 0.5px; color: #92400e;
+  }
+  .student-page .ve-complaint-cost { margin-left: auto; white-space: nowrap; }
+  .student-page .ve-complaint p { margin: 0.35rem 0 0; font-size: 0.84rem; color: #78350f; line-height: 1.55; }
+
   .student-page .club-subhead { margin: 0 0 0.25rem; font-size: 1rem; color: #1e2d5a; }
   .student-page .club-subhead span { font-weight: 500; color: #94a3b8; font-size: 0.82rem; }
   .student-page .club-hint { margin: 0 0 0.9rem; font-size: 0.82rem; color: #64748b; line-height: 1.55; }
@@ -2257,11 +2332,17 @@ export const ActivityDashboard = () => html`
             <span class="section-chip" id="clubTierChip"><i class="fas fa-seedling"></i> Junior Naseer</span>
           </div>
 
-          <!-- Shown when the school has not put this student in a house yet. -->
+          <!-- Two different situations, and they need different answers. A
+               school student waits for their school. A self-study member has
+               nobody to wait for, and telling them to ask a teacher they do
+               not have is how they left and never came back. -->
           <div id="clubNoHouse" class="club-empty d-none">
             <div class="club-empty-icon">🏠</div>
             <h4>You have not joined a house yet</h4>
-            <p>Your school decides which house you belong to — Sidq, Amanah, Rahmah or Adl. Ask your teacher to add you, and your daily habits will appear here.</p>
+            <p id="clubNoHouseText">Your school decides which house you belong to — Sidq, Amanah, Rahmah or Adl. Ask your teacher to add you, and your daily habits will appear here.</p>
+            <button type="button" class="club-composer-btn save d-none" id="clubTakeQuizBtn" onclick="window.openHouseQuiz()">
+              Find my house
+            </button>
             <a class="club-empty-link" href="/club">Read about the four houses</a>
           </div>
 
@@ -2293,11 +2374,22 @@ export const ActivityDashboard = () => html`
               <div style="text-align:center; color:#64748b; padding:1.5rem;"><i class="fas fa-spinner fa-spin fa-2x"></i></div>
             </div>
 
+            <h4 class="club-subhead" style="margin-top:1.6rem;"><i class="fas fa-hand-holding-heart"></i> Value Credits</h4>
+            <p class="club-hint">Bigger acts, worth more than a daily habit. Choose what you did, write what happened, and the Values Council decides what it is worth.</p>
+            <div id="veCategoryList" class="ve-list">
+              <div style="text-align:center; color:#64748b; padding:1.25rem;"><i class="fas fa-spinner fa-spin"></i></div>
+            </div>
+            <div id="veMine" class="ve-mine"></div>
+
             <h4 class="club-subhead" style="margin-top:1.6rem;"><i class="fas fa-ranking-star"></i> House standings</h4>
             <p class="club-hint" id="clubStandHint">Every credit your mentor approves lifts your whole house, not just you.</p>
             <div id="clubStandings" class="club-standings">
               <div style="text-align:center; color:#64748b; padding:1.25rem;"><i class="fas fa-spinner fa-spin"></i></div>
             </div>
+
+            <!-- Only rendered when the house actually has a complaint against
+                 it. A house that loses points has to be told what for. -->
+            <div id="veComplaints" class="ve-complaints d-none"></div>
           </div>
         </section>
 
@@ -2430,12 +2522,14 @@ export const ActivityDashboard = () => html`
 </div>
 
 ${ParentGateModal()}
+${HouseQuizModal()}
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
   import { getAuth, onAuthStateChanged, signOut, setPersistence, browserLocalPersistence, indexedDBLocalPersistence } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
-  import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc, collection, query, where, getDocs, enableIndexedDbPersistence } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+  import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc, addDoc, collection, query, where, getDocs, enableIndexedDbPersistence } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
   import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-storage.js";
+  import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-functions.js";
   import { getDoc as _getDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
   const firebaseConfig = ${raw(firebaseConfigJS)};
@@ -2444,6 +2538,12 @@ ${ParentGateModal()}
   const auth = getAuth(app);
   const db = getFirestore(app);
   const storage = getStorage(app);
+  const functions = getFunctions(app);
+
+  // 'house' is in no client whitelist in the Firestore rules — the quiz result
+  // is written by this callable and by nothing else, which is what stops a
+  // member from sorting themselves into whichever house looks easiest.
+  const callAssignHouseFromQuiz = httpsCallable(functions, 'assignHouseFromQuiz');
 
   // Enable Firestore offline persistence for faster initial loading
   enableIndexedDbPersistence(db).catch(function(err) {
@@ -2494,6 +2594,16 @@ ${ParentGateModal()}
 
   // CLUB_HOUSES / clubToday / clubLogId / clubTier come from clubData.ts.
   ${raw(clubHelpersJS)}
+
+  // VALUE_CATEGORIES / valueCategory come from valueEconomy.ts. Names and
+  // examples only — a live price always comes from /credit_categories.
+  ${raw(valueEconomyHelpersJS)}
+
+  // HOUSE_QUIZ comes from houseQuiz.ts with the answer key STRIPPED. The house
+  // each option belongs to is deliberately not here: the scoring runs in the
+  // assignHouseFromQuiz callable, so a child cannot read their way into the
+  // house they fancy. A test pins that the mapping never reaches this page.
+  ${raw(houseQuizHelpersJS)}
 
   // The learner whose dashboard this is.
   let currentStudent = null;
@@ -3257,6 +3367,163 @@ ${ParentGateModal()}
     return CLUB_HOUSE_IDS.includes(house) ? house : '';
   }
 
+
+  // ── The house quiz ──────────────────────────────────────────────────────
+  //
+  // A school allocates its students. A self-study member has nobody to do
+  // that, so they answer six situations and the server works out which house
+  // they lean toward. Nothing here knows which answer means which house — the
+  // questions arrive stripped and assignHouseFromQuiz does the arithmetic.
+
+  /** question id -> chosen option id. */
+  let hqAnswers = {};
+  /** Opened once per visit. A member who dismissed it is not nagged again. */
+  let clubQuizOffered = false;
+
+  /**
+   * Should this account be offered the quiz?
+   *
+   * Checked on every club load rather than only at signup, so members who
+   * registered before the quiz existed are picked up the next time they open
+   * the club. A school student is never offered it: their house is their
+   * school's decision and the callable would refuse them anyway.
+   */
+  function hqShouldOffer() {
+    return !!currentStudent
+      && currentStudent.role === 'individual'
+      && !clubStudentHouse();
+  }
+
+  /**
+   * Does this member verify their own work?
+   *
+   * True only for a self-study account, which reviewHabitLogs and
+   * reviewCreditEntries both allow to rule on their own entries because there
+   * is no mentor to wait for. A school student is never in this position — for
+   * them the whole point is that somebody else reads it.
+   */
+  function isSelfVerifier() {
+    return !!currentStudent && currentStudent.role === 'individual';
+  }
+
+  function hqRender() {
+    const el = document.getElementById('hqQuestions');
+    if (!el) return;
+
+    el.innerHTML = HOUSE_QUIZ.map((q, i) => {
+      return '<div class="hq-q">' +
+        '<span class="hq-q-n">Question ' + (i + 1) + ' of ' + HOUSE_QUIZ.length + '</span>' +
+        '<span class="hq-prompt">' + escapeHtml(q.prompt) +
+          '<span class="hq-prompt-ur">' + escapeHtml(q.promptUr) + '</span>' +
+        '</span>' +
+        '<div class="hq-options">' +
+          q.options.map((o) =>
+            '<button type="button" class="hq-opt" id="hqOpt_' + q.id + '_' + o.id + '"' +
+              ' onclick="window.pickHouseQuiz(\\'' + q.id + '\\', \\'' + o.id + '\\')">' +
+              '<span class="hq-tick"><i class="fas fa-check"></i></span>' +
+              '<span class="hq-opt-text">' +
+                '<span class="hq-opt-en">' + escapeHtml(o.text) + '</span>' +
+                '<span class="hq-opt-ur">' + escapeHtml(o.textUr) + '</span>' +
+              '</span>' +
+            '</button>'
+          ).join('') +
+        '</div>' +
+      '</div>';
+    }).join('');
+
+    hqRefreshProgress();
+  }
+
+  function hqRefreshProgress() {
+    const done = Object.keys(hqAnswers).length;
+    const total = HOUSE_QUIZ.length;
+    const bar = document.getElementById('hqProgressBar');
+    const count = document.getElementById('hqCount');
+    const submit = document.getElementById('hqSubmit');
+
+    if (bar) bar.style.width = Math.round((done / total) * 100) + '%';
+    if (count) {
+      count.textContent = done === total ? 'All answered' : done + ' of ' + total + ' answered';
+      count.classList.toggle('is-ok', done === total);
+    }
+    if (submit) submit.disabled = done !== total;
+  }
+
+  window.pickHouseQuiz = (questionId, optionId) => {
+    const question = HOUSE_QUIZ.find((q) => q.id === questionId);
+    if (!question) return;
+
+    // One answer per question: clear the siblings before marking this one.
+    question.options.forEach((o) => {
+      const el = document.getElementById('hqOpt_' + questionId + '_' + o.id);
+      if (el) el.classList.toggle('is-picked', o.id === optionId);
+    });
+
+    hqAnswers[questionId] = optionId;
+    hqRefreshProgress();
+  };
+
+  window.openHouseQuiz = () => {
+    const modal = document.getElementById('houseQuizModal');
+    if (!modal) return;
+    hqAnswers = {};
+    document.getElementById('hqQuizView').classList.remove('d-none');
+    document.getElementById('hqResultView').classList.add('d-none');
+    hqRender();
+    modal.classList.add('active');
+  };
+
+  window.closeHouseQuiz = () => {
+    const modal = document.getElementById('houseQuizModal');
+    if (modal) modal.classList.remove('active');
+  };
+
+  window.submitHouseQuiz = async () => {
+    const submit = document.getElementById('hqSubmit');
+    if (Object.keys(hqAnswers).length !== HOUSE_QUIZ.length) return;
+    if (submit) { submit.disabled = true; submit.textContent = 'Working it out…'; }
+
+    try {
+      const res = await callAssignHouseFromQuiz({ answers: hqAnswers });
+      const out = (res && res.data) || {};
+      const house = clubHouse(out.house);
+      if (!house) throw new Error('The club did not recognise that house.');
+
+      // Keep the local copy in step so the club can render immediately without
+      // a round trip back to Firestore.
+      currentStudent.house = out.house;
+
+      const crest = document.getElementById('hqCrest');
+      if (crest) {
+        crest.textContent = house.icon;
+        crest.style.background = house.color;
+        crest.style.color = house.ink;
+      }
+      const set = (id, text) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = text;
+      };
+      set('hqHouseName', house.name);
+      set('hqMotto', house.motto);
+      set('hqShadowName', house.shadow);
+      set('hqShadowDesc', house.shadowDesc);
+
+      document.getElementById('hqQuizView').classList.add('d-none');
+      document.getElementById('hqResultView').classList.remove('d-none');
+    } catch (e) {
+      console.error('[Club] Could not join a house:', e);
+      alert('Could not work out your house: ' + (e && e.message ? e.message : 'please try again.'));
+      if (submit) { submit.disabled = false; submit.textContent = 'Join my house'; }
+    }
+  };
+
+  window.finishHouseQuiz = async () => {
+    window.closeHouseQuiz();
+    // Rebuild the club from scratch — the member now has a house, habits and
+    // a place in the Global Virtual House standings.
+    await loadClubSection();
+  };
+
   async function loadClubSection() {
     const noHouse = document.getElementById('clubNoHouse');
     const body = document.getElementById('clubBody');
@@ -3266,6 +3533,23 @@ ${ParentGateModal()}
     if (!houseId) {
       noHouse.classList.remove('d-none');
       body.classList.add('d-none');
+
+      // A self-study member is not waiting for anyone — they can sort
+      // themselves in right now, so say that instead of naming a teacher.
+      const offer = hqShouldOffer();
+      const text = document.getElementById('clubNoHouseText');
+      const btn = document.getElementById('clubTakeQuizBtn');
+      if (text && offer) {
+        text.textContent = 'Answer six short questions and the club will work out which of the four houses fits you — Sidq, Amanah, Rahmah or Adl. It takes a minute, and you only do it once.';
+      }
+      if (btn) btn.classList.toggle('d-none', !offer);
+
+      // Opened for them rather than waiting to be found. Without a house there
+      // is no club at all, so an unprompted member simply sees an empty panel.
+      if (offer && !clubQuizOffered) {
+        clubQuizOffered = true;
+        window.openHouseQuiz();
+      }
       return;
     }
 
@@ -3301,6 +3585,9 @@ ${ParentGateModal()}
 
     await refreshClubHabits(houseId, dateKey);
     await refreshClubStandings(houseId);
+    // Module 3 last: it is the slowest of the three and the least urgent, and
+    // it must not hold up the habits a student came here to tick.
+    await refreshValueEconomy(houseId);
   }
 
   /**
@@ -3359,6 +3646,17 @@ ${ParentGateModal()}
     }
   }
 
+  /**
+   * Is the signed-in account the parent rather than the learner?
+   *
+   * Decides which field a habit_logs query has to filter on. A child who signs
+   * in to their own account is NOT this case even though their logs carry a
+   * family_uid — they are the caller, so student_uid is what the rules match.
+   */
+  function isClubFamilyCaller() {
+    return !!(familyIdentity && familyIdentity.isFamilyAccount && familyIdentity.familyUid);
+  }
+
   async function refreshClubHabits(houseId, dateKey) {
     const house = clubHouse(houseId);
     const listEl = document.getElementById('clubHabitList');
@@ -3368,11 +3666,30 @@ ${ParentGateModal()}
     clubTodayLogs = {};
 
     try {
-      const snaps = await Promise.all(house.habits.map((habit) =>
-        getDoc(doc(db, 'habit_logs', clubLogId(studentUid, dateKey, habit.id)))
+      // Asked as a query rather than three getDoc calls on clubLogId(). A log
+      // exists only once the habit has been ticked, and a get on a document
+      // that is not there evaluates 'resource.data.student_uid' against null,
+      // which the rules raise as an error rather than returning an empty
+      // snapshot. Fetching by id therefore failed for every student who had
+      // not already ticked all three habits — which is every student at the
+      // start of every day. A list is only ever evaluated against documents
+      // that do exist.
+      //
+      // Filtered exactly the way the chapter list above is, and for the same
+      // reason: on a family login student_uid is not the caller, the rules
+      // match on family_uid instead, and a list is permitted only when the
+      // query itself proves the clause the rules will use. Siblings come back
+      // too and are dropped below.
+      const todaySnap = await getDocs(query(
+        collection(db, 'habit_logs'),
+        isClubFamilyCaller()
+          ? where('family_uid', '==', familyIdentity.familyUid)
+          : where('student_uid', '==', studentUid),
+        where('log_date', '==', dateKey)
       ));
-      snaps.forEach((snap) => {
-        if (snap.exists()) clubTodayLogs[snap.data().habit_id] = snap.data();
+      todaySnap.forEach((snap) => {
+        const log = snap.data();
+        if (log.student_uid === studentUid) clubTodayLogs[log.habit_id] = log;
       });
     } catch (e) {
       console.error('[Club] Could not read today\\'s habits:', e);
@@ -3386,9 +3703,13 @@ ${ParentGateModal()}
       const cls = status === 'approved' ? 'is-approved'
         : status === 'rejected' ? 'is-rejected'
         : status === 'pending' ? 'is-pending' : '';
-      const tag = status === 'approved' ? '+' + habit.vc + ' VC earned'
+      // A self-study member rules on their own work — the weakest check the
+      // platform allows, so it is named rather than hidden. "Waiting for
+      // mentor" is also wrong for them: nobody else is coming.
+      const selfRuled = log && log.self_verified === true;
+      const tag = status === 'approved' ? '+' + habit.vc + ' VC earned' + (selfRuled ? ' · self-checked' : '')
         : status === 'rejected' ? 'Sent back'
-        : status === 'pending' ? 'Waiting for mentor'
+        : status === 'pending' ? (isSelfVerifier() ? 'Waiting for you to confirm' : 'Waiting for mentor')
         : '+' + habit.vc + ' VC';
       const mark = status === 'rejected'
         ? '<i class="fas fa-xmark"></i>'
@@ -3444,13 +3765,22 @@ ${ParentGateModal()}
     // Lifetime approvals, not just today's — the count is a record of what the
     // student has actually built, which is the point of a compounding habit.
     try {
+      // Same ownership filter as today's list, for the same rules reason — on
+      // a family login a student_uid query proves nothing the rules can use,
+      // and this tile sat at zero for every family account.
       const approvedSnap = await getDocs(query(
         collection(db, 'habit_logs'),
-        where('student_uid', '==', currentStudent.uid),
+        isClubFamilyCaller()
+          ? where('family_uid', '==', familyIdentity.familyUid)
+          : where('student_uid', '==', currentStudent.uid),
         where('status', '==', 'approved')
       ));
+      let approved = 0;
+      approvedSnap.forEach((snap) => {
+        if (snap.data().student_uid === currentStudent.uid) approved++;
+      });
       const approvedEl = document.getElementById('clubApprovedValue');
-      if (approvedEl) approvedEl.textContent = String(approvedSnap.size);
+      if (approvedEl) approvedEl.textContent = String(approved);
     } catch (e) {
       console.warn('[Club] Approved count unavailable:', e && e.message);
     }
@@ -3568,6 +3898,268 @@ ${ParentGateModal()}
     } catch (e) {
       console.error('[Club] Could not remove habit:', e);
       alert('Could not remove that tick. Please try again.');
+    }
+  };
+
+
+  // ── Value Economy (module 3) ────────────────────────────────────────────
+  //
+  // Daily habits pay a flat ten credits and the student ticks them. These are
+  // the larger acts: the student writes what they did, and the Values Council
+  // decides what it was worth. Nothing here ever writes status or
+  // points_awarded — the rules refuse it, and reviewCreditEntries is the only
+  // door credits come through.
+
+  /** Live prices, keyed by category id. Empty until loaded. */
+  let veLivePrices = {};
+  /** This student's own entries, newest first. */
+  let veMyEntries = [];
+
+  /**
+   * The price list a school is actually running.
+   *
+   * The seed in valueEconomy.ts is only a default — an admin may have changed
+   * a price, and showing the student the old number would mean promising them
+   * credits the callable will not pay. A category with no document keeps its
+   * seed price, which is the same fallback the callable applies.
+   */
+  async function veLoadPrices() {
+    veLivePrices = {};
+    for (const c of VALUE_CATEGORIES) veLivePrices[c.id] = c.points;
+
+    try {
+      const snap = await getDocs(collection(db, 'credit_categories'));
+      snap.forEach((d) => {
+        const data = d.data() || {};
+        if (data.is_active === false) { delete veLivePrices[d.id]; return; }
+        if (typeof data.points === 'number' && data.points >= 0) veLivePrices[d.id] = Math.round(data.points);
+      });
+    } catch (e) {
+      // Prices are readable by anyone signed in, so this should not happen —
+      // but a failure here must not take the panel down. The seed stands.
+      console.warn('[Values] Live prices unavailable, using defaults:', e && e.message);
+    }
+  }
+
+  async function veLoadMyEntries() {
+    veMyEntries = [];
+    try {
+      const snap = await getDocs(query(
+        collection(db, 'credit_entries'),
+        isClubFamilyCaller()
+          ? where('family_uid', '==', familyIdentity.familyUid)
+          : where('student_uid', '==', currentStudent.uid)
+      ));
+      snap.forEach((d) => {
+        const entry = d.data();
+        if (entry.student_uid === currentStudent.uid) veMyEntries.push({ id: d.id, ...entry });
+      });
+      veMyEntries.sort((a, b) => String(b.created_at || '').localeCompare(String(a.created_at || '')));
+    } catch (e) {
+      console.warn('[Values] Could not read your entries:', e && e.message);
+    }
+  }
+
+  function veRenderCategories() {
+    const el = document.getElementById('veCategoryList');
+    if (!el) return;
+
+    // A category the school has switched off is not offered — a student should
+    // not be able to spend an evening on something that cannot be awarded.
+    const live = VALUE_CATEGORIES.filter((c) => typeof veLivePrices[c.id] === 'number');
+    if (!live.length) {
+      el.innerHTML = '<p style="color:#94a3b8; text-align:center; padding:1rem; font-size:0.85rem;">No value categories are open right now.</p>';
+      return;
+    }
+
+    el.innerHTML = live.map((c) => {
+      const house = clubHouse(c.house);
+      const dot = house ? house.color : '#94a3b8';
+      return '<div class="ve-item" id="veItem_' + c.id + '">' +
+        '<button type="button" class="ve-row" id="veRow_' + c.id + '"' +
+          ' onclick="window.veOpen(\\'' + c.id + '\\')">' +
+          '<span class="ve-dot" style="background:' + dot + ';"></span>' +
+          '<span class="ve-names">' +
+            '<span class="ve-name">' + escapeHtml(c.name) + '</span>' +
+            '<span class="ve-name-ur">' + escapeHtml(c.nameUr) + '</span>' +
+          '</span>' +
+          '<span class="ve-pts">' + veLivePrices[c.id] + ' VC</span>' +
+        '</button>' +
+        '<div class="ve-composer d-none" id="veComposer_' + c.id + '">' +
+          '<textarea id="veText_' + c.id + '"' +
+            ' placeholder="' + escapeHtml(c.example) + ' — write what you actually did."' +
+            ' oninput="window.veInput(\\'' + c.id + '\\')"></textarea>' +
+          '<div class="ve-composer-foot">' +
+            '<span class="ve-count" id="veCount_' + c.id + '"></span>' +
+            '<button type="button" class="ve-btn ghost" onclick="window.veClose(\\'' + c.id + '\\')">Cancel</button>' +
+            '<button type="button" class="ve-btn save" id="veSave_' + c.id + '"' +
+              ' onclick="window.veSubmit(\\'' + c.id + '\\')">Send to the Council</button>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+    }).join('');
+  }
+
+  function veRenderMine() {
+    const el = document.getElementById('veMine');
+    if (!el) return;
+    if (!veMyEntries.length) { el.innerHTML = ''; return; }
+
+    // Only the recent ones: this is a status list, not an archive.
+    el.innerHTML = veMyEntries.slice(0, 6).map((entry) => {
+      const cat = valueCategory(entry.category_id);
+      const name = cat ? cat.name : entry.category_id;
+      const cls = entry.status === 'approved' ? 'is-approved'
+        : entry.status === 'rejected' ? 'is-rejected' : '';
+      const tag = entry.status === 'approved'
+          ? '+' + (entry.points_awarded || 0) + ' VC' + (entry.self_verified === true ? ' · self-checked' : '')
+        : entry.status === 'rejected' ? 'Sent back'
+        : (isSelfVerifier() ? 'Waiting for you to confirm' : 'With the Council');
+      const note = entry.status === 'rejected' && entry.council_note
+        ? '<div class="ve-mine-note">' + escapeHtml(entry.council_note) + '</div>'
+        : '';
+      const withdraw = entry.status === 'pending'
+        ? '<button type="button" class="ve-btn ghost" onclick="window.veWithdraw(\\'' + entry.id + '\\')">Withdraw</button>'
+        : '';
+      return '<div class="ve-mine-row ' + cls + '">' +
+        '<span class="ve-mine-name">' + escapeHtml(name) + note + '</span>' +
+        withdraw +
+        '<span class="ve-mine-tag">' + tag + '</span>' +
+      '</div>';
+    }).join('');
+  }
+
+  /**
+   * What the house was fined for.
+   *
+   * Read by house rather than by student: a complaint is filed against the
+   * whole house, and every member is entitled to the reason. A house told only
+   * that it lost fifty points has been punished without being told what for.
+   */
+  async function veRenderComplaints(houseId) {
+    const el = document.getElementById('veComplaints');
+    if (!el || !houseId) return;
+
+    try {
+      const snap = await getDocs(query(
+        collection(db, 'council_complaints'),
+        where('school_id', '==', currentStudent.school_id || ''),
+        where('house', '==', houseId)
+      ));
+      const rows = [];
+      snap.forEach((d) => rows.push(d.data()));
+      rows.sort((a, b) => String(b.created_at || '').localeCompare(String(a.created_at || '')));
+
+      if (!rows.length) { el.classList.add('d-none'); el.innerHTML = ''; return; }
+
+      el.classList.remove('d-none');
+      el.innerHTML = '<h4 class="club-subhead"><i class="fas fa-scale-balanced"></i> Council rulings on your house</h4>' +
+        '<p class="club-hint">When one member of a house breaks the code, the house answers for it together. No member\\'s own credits are touched.</p>' +
+        rows.slice(0, 5).map((row) => {
+          const when = String(row.created_at || '').slice(0, 10);
+          return '<div class="ve-complaint">' +
+            '<div class="ve-complaint-head">' +
+              '<span>' + escapeHtml(when) + '</span>' +
+              '<span class="ve-complaint-cost">&minus;' + (row.points_deducted || 0) + ' VC from the house</span>' +
+            '</div>' +
+            '<p>' + escapeHtml(row.reason || '') + '</p>' +
+          '</div>';
+        }).join('');
+    } catch (e) {
+      console.warn('[Values] Complaints unavailable:', e && e.message);
+      el.classList.add('d-none');
+    }
+  }
+
+  async function refreshValueEconomy(houseId) {
+    await veLoadPrices();
+    veRenderCategories();
+    await veLoadMyEntries();
+    veRenderMine();
+    await veRenderComplaints(houseId);
+  }
+
+  window.veOpen = (categoryId) => {
+    const row = document.getElementById('veRow_' + categoryId);
+    const composer = document.getElementById('veComposer_' + categoryId);
+    if (!row || !composer) return;
+    const opening = composer.classList.contains('d-none');
+    composer.classList.toggle('d-none', !opening);
+    row.classList.toggle('is-open', opening);
+    if (opening) {
+      window.veInput(categoryId);
+      const box = document.getElementById('veText_' + categoryId);
+      if (box) box.focus();
+    }
+  };
+
+  window.veClose = (categoryId) => {
+    const row = document.getElementById('veRow_' + categoryId);
+    const composer = document.getElementById('veComposer_' + categoryId);
+    if (composer) composer.classList.add('d-none');
+    if (row) row.classList.remove('is-open');
+  };
+
+  /** Live count, and the send button stays dead until the floor is cleared. */
+  window.veInput = (categoryId) => {
+    const box = document.getElementById('veText_' + categoryId);
+    const count = document.getElementById('veCount_' + categoryId);
+    const save = document.getElementById('veSave_' + categoryId);
+    if (!box) return;
+    const written = box.value.trim().length;
+    const ok = written >= VALUE_ENTRY_MIN;
+    if (count) {
+      count.textContent = ok ? 'Ready to send' : written + ' / ' + VALUE_ENTRY_MIN + ' characters';
+      count.classList.toggle('is-ok', ok);
+    }
+    if (save) save.disabled = !ok;
+  };
+
+  window.veSubmit = async (categoryId) => {
+    const houseId = clubStudentHouse();
+    if (!houseId || !currentStudent) return;
+    const box = document.getElementById('veText_' + categoryId);
+    if (!box) return;
+    const text = box.value.trim();
+    if (text.length < VALUE_ENTRY_MIN) return;
+
+    const save = document.getElementById('veSave_' + categoryId);
+    if (save) save.disabled = true;
+
+    // Generated id, not a deterministic one: unlike a habit, a student may
+    // earn the same category many times in a term and a fixed id would
+    // silently overwrite the last award.
+    const entry = Object.assign({
+      house: houseId,
+      category_id: categoryId,
+      description: text,
+      status: 'pending',
+      created_at: new Date().toISOString()
+    }, acOwnership(familyIdentity));
+    if (currentStudent.school_id) entry.school_id = currentStudent.school_id;
+
+    try {
+      await addDoc(collection(db, 'credit_entries'), entry);
+      box.value = '';
+      window.veClose(categoryId);
+      await veLoadMyEntries();
+      veRenderMine();
+    } catch (e) {
+      console.error('[Values] Could not send that entry:', e);
+      alert('Could not send that to the Council. Please check your connection and try again.');
+      if (save) save.disabled = false;
+    }
+  };
+
+  /** Withdrawing is allowed right up until the Council has ruled. */
+  window.veWithdraw = async (entryId) => {
+    try {
+      await deleteDoc(doc(db, 'credit_entries', entryId));
+      await veLoadMyEntries();
+      veRenderMine();
+    } catch (e) {
+      console.error('[Values] Could not withdraw that entry:', e);
+      alert('Could not withdraw that entry. Please try again.');
     }
   };
 

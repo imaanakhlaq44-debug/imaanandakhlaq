@@ -35,6 +35,7 @@ const OUTSIDER_CHILD = 'child-3'
 const LEGACY_STUDENT = 'legacy-1'
 const OTHER_LEGACY = 'legacy-2'
 const TEACHER = 'teacher-1'
+const SUPER = 'hq-1'
 
 let env: RulesTestEnvironment
 
@@ -87,6 +88,7 @@ describe.skipIf(!HAS_EMULATOR)('Firestore rules', () => {
   const asOtherFamily = () => env.authenticatedContext(OTHER_FAMILY).firestore()
   const asLegacy = () => env.authenticatedContext(LEGACY_STUDENT).firestore()
   const asTeacher = () => env.authenticatedContext(TEACHER).firestore()
+  const asSuper = () => env.authenticatedContext(SUPER).firestore()
 
   describe('legacy students are unaffected', () => {
     it('reads their own submission', async () => {
@@ -404,6 +406,68 @@ describe.skipIf(!HAS_EMULATOR)('Firestore rules', () => {
       })
       await assertFails(getDoc(doc(asLegacy(), 'habit_logs', CHILD + '_2026-08-14_sidq_daily_truth')))
     })
+
+    // A get on a log that has not been ticked yet evaluates
+    // resource.data.student_uid against null, which the rules raise as an
+    // error rather than returning an empty snapshot. The dashboard used to
+    // fetch today's three habits by id and so broke for every student who had
+    // not ticked all three — the state every student is in each morning. It
+    // asks for them as a list instead, which is only ever evaluated against
+    // documents that exist. These two pin both halves of that.
+    it('a get on a log that does not exist yet is denied, not empty', async () => {
+      await assertFails(getDoc(doc(asLegacy(), 'habit_logs', LEGACY_STUDENT + '_2026-08-14_sidq_daily_truth')))
+    })
+
+    it("a student lists today's habits, ticked or not", async () => {
+      const todaysList = () => getDocs(query(
+        collection(asLegacy(), 'habit_logs'),
+        where('student_uid', '==', LEGACY_STUDENT),
+        where('log_date', '==', '2026-08-14')
+      ))
+
+      // The empty day is the case that was broken: nothing ticked yet.
+      expect(((await assertSucceeds(todaysList())) as any).size).toBe(0)
+
+      await env.withSecurityRulesDisabled(async (ctx) => {
+        await setDoc(doc(ctx.firestore(), 'habit_logs', LEGACY_STUDENT + '_2026-08-14_sidq_daily_truth'),
+          pendingLog(LEGACY_STUDENT))
+      })
+      expect(((await assertSucceeds(todaysList())) as any).size).toBe(1)
+    })
+
+    // A family is not the student, so a student_uid filter proves nothing the
+    // rules can match on and the whole list is refused — a list is allowed
+    // only when the query itself constrains what the rule will check. The
+    // dashboard filters on family_uid for these callers and drops the siblings
+    // in memory, exactly as the chapter list does.
+    it("a family lists its household's habits for the day", async () => {
+      await env.withSecurityRulesDisabled(async (ctx) => {
+        await setDoc(doc(ctx.firestore(), 'habit_logs', CHILD + '_2026-08-14_sidq_daily_truth'),
+          pendingLog(CHILD, FAMILY))
+      })
+      const snap = await assertSucceeds(getDocs(query(
+        collection(asFamily(), 'habit_logs'),
+        where('family_uid', '==', FAMILY),
+        where('log_date', '==', '2026-08-14')
+      )))
+      expect((snap as any).size).toBe(1)
+    })
+
+    it('a family filtering by student_uid alone is refused', async () => {
+      await assertFails(getDocs(query(
+        collection(asFamily(), 'habit_logs'),
+        where('student_uid', '==', CHILD),
+        where('log_date', '==', '2026-08-14')
+      )))
+    })
+
+    it("a family cannot list another household's habits", async () => {
+      await assertFails(getDocs(query(
+        collection(asOtherFamily(), 'habit_logs'),
+        where('family_uid', '==', FAMILY),
+        where('log_date', '==', '2026-08-14')
+      )))
+    })
   })
 
   describe('club house standings', () => {
@@ -417,6 +481,193 @@ describe.skipIf(!HAS_EMULATOR)('Firestore rules', () => {
       await assertFails(setDoc(doc(asTeacher(), 'house_scores', SCHOOL + '__sidq'), {
         school_id: SCHOOL, house: 'sidq', points: 99999
       }))
+    })
+  })
+
+  describe('a house is never the member\'s own to write', () => {
+    // The rule the whole club rests on, and now the quiz too: the quiz is only
+    // a quiz because its result cannot be posted directly. If a client could
+    // write 'house', a member would simply set the one whose habits looked
+    // easiest and skip the questions entirely.
+    it('a student cannot put themselves in a house', async () => {
+      await assertFails(updateDoc(doc(asLegacy(), 'users', LEGACY_STUDENT), { house: 'sidq' }))
+    })
+
+    it('a student cannot move themselves to another house', async () => {
+      await env.withSecurityRulesDisabled(async (ctx) => {
+        await setDoc(doc(ctx.firestore(), 'users', LEGACY_STUDENT), { house: 'adl' }, { merge: true })
+      })
+      await assertFails(updateDoc(doc(asLegacy(), 'users', LEGACY_STUDENT), { house: 'sidq' }))
+    })
+
+    it('a family cannot put its child in a house either', async () => {
+      await assertFails(updateDoc(doc(asFamily(), 'users', CHILD), { house: 'sidq' }))
+    })
+
+    it('a teacher cannot, but their school admin can', async () => {
+      await assertFails(updateDoc(doc(asTeacher(), 'users', CHILD), { house: 'sidq' }))
+    })
+  })
+
+  describe('value economy — credit entries', () => {
+    const DESCRIPTION = 'I stayed behind after class and helped Bilal with the sums he had not understood all week.'
+
+    const pendingEntry = (studentUid: string, familyUid?: string) => {
+      const entry: Record<string, unknown> = {
+        student_uid: studentUid,
+        school_id: SCHOOL,
+        house: 'sidq',
+        category_id: 'help_struggling_peer',
+        description: DESCRIPTION,
+        status: 'pending'
+      }
+      if (familyUid) entry.family_uid = familyUid
+      return entry
+    }
+
+    it('a student files their own entry', async () => {
+      await assertSucceeds(setDoc(doc(asLegacy(), 'credit_entries', 'e1'), pendingEntry(LEGACY_STUDENT)))
+    })
+
+    it('a family files one for its own child', async () => {
+      await assertSucceeds(setDoc(doc(asFamily(), 'credit_entries', 'e2'), pendingEntry(CHILD, FAMILY)))
+    })
+
+    it('a family cannot file for another household', async () => {
+      await assertFails(setDoc(doc(asOtherFamily(), 'credit_entries', 'e3'), pendingEntry(CHILD, FAMILY)))
+    })
+
+    it('refuses an entry that arrives already approved', async () => {
+      await assertFails(setDoc(doc(asLegacy(), 'credit_entries', 'e4'), {
+        ...pendingEntry(LEGACY_STUDENT), status: 'approved'
+      }))
+    })
+
+    it('refuses an entry carrying its own credits', async () => {
+      // The line the module rests on: a student who can set points_awarded is
+      // a student who mints their own credits.
+      await assertFails(setDoc(doc(asLegacy(), 'credit_entries', 'e5'), {
+        ...pendingEntry(LEGACY_STUDENT), points_awarded: 100
+      }))
+    })
+
+    it('refuses an entry with nothing written on it', async () => {
+      await assertFails(setDoc(doc(asLegacy(), 'credit_entries', 'e6'), {
+        ...pendingEntry(LEGACY_STUDENT), description: 'did it'
+      }))
+    })
+
+    it('refuses a house that does not exist', async () => {
+      await assertFails(setDoc(doc(asLegacy(), 'credit_entries', 'e7'), {
+        ...pendingEntry(LEGACY_STUDENT), house: 'greenhouse'
+      }))
+    })
+
+    it('will not let a student award their own entry', async () => {
+      await assertSucceeds(setDoc(doc(asLegacy(), 'credit_entries', 'e8'), pendingEntry(LEGACY_STUDENT)))
+      await assertFails(updateDoc(doc(asLegacy(), 'credit_entries', 'e8'), {
+        status: 'approved', points_awarded: 100
+      }))
+    })
+
+    it('will not let a TEACHER write the award directly either', async () => {
+      // Same reasoning as habit_logs: the award and the credits have to be
+      // written in one batch, so approval runs through reviewCreditEntries.
+      await env.withSecurityRulesDisabled(async (ctx) => {
+        await setDoc(doc(ctx.firestore(), 'credit_entries', 'e9'), pendingEntry(LEGACY_STUDENT))
+      })
+      await assertFails(updateDoc(doc(asTeacher(), 'credit_entries', 'e9'), {
+        status: 'approved', points_awarded: 60
+      }))
+    })
+
+    it('a student may withdraw an entry until it is ruled on, then not', async () => {
+      await assertSucceeds(setDoc(doc(asLegacy(), 'credit_entries', 'e10'), pendingEntry(LEGACY_STUDENT)))
+      await assertSucceeds(deleteDoc(doc(asLegacy(), 'credit_entries', 'e10')))
+
+      await env.withSecurityRulesDisabled(async (ctx) => {
+        await setDoc(doc(ctx.firestore(), 'credit_entries', 'e11'), {
+          ...pendingEntry(LEGACY_STUDENT), status: 'approved', points_awarded: 40
+        })
+      })
+      await assertFails(deleteDoc(doc(asLegacy(), 'credit_entries', 'e11')))
+    })
+
+    it('a student cannot read another student entry', async () => {
+      await env.withSecurityRulesDisabled(async (ctx) => {
+        await setDoc(doc(ctx.firestore(), 'credit_entries', 'e12'), pendingEntry(CHILD, FAMILY))
+      })
+      await assertFails(getDoc(doc(asLegacy(), 'credit_entries', 'e12')))
+    })
+
+    it('a teacher reads their school queue', async () => {
+      await env.withSecurityRulesDisabled(async (ctx) => {
+        await setDoc(doc(ctx.firestore(), 'credit_entries', 'e13'), pendingEntry(CHILD, FAMILY))
+      })
+      const snap = await assertSucceeds(getDocs(query(
+        collection(asTeacher(), 'credit_entries'),
+        where('school_id', '==', SCHOOL),
+        where('status', '==', 'pending')
+      )))
+      expect((snap as any).size).toBeGreaterThan(0)
+    })
+  })
+
+  describe('value economy — prices and Council complaints', () => {
+    it('anyone signed in may read a price, and no one but HQ may set one', async () => {
+      // Editing one number here changes what every future award is worth.
+      await env.withSecurityRulesDisabled(async (ctx) => {
+        await setDoc(doc(ctx.firestore(), 'credit_categories', 'greet_with_salaam'), { points: 20 })
+      })
+      await assertSucceeds(getDoc(doc(asLegacy(), 'credit_categories', 'greet_with_salaam')))
+      await assertFails(setDoc(doc(asTeacher(), 'credit_categories', 'greet_with_salaam'), { points: 5000 }))
+      await assertFails(setDoc(doc(asLegacy(), 'credit_categories', 'greet_with_salaam'), { points: 5000 }))
+    })
+
+    // What the Super Admin price screen actually does. Rejecting everyone is
+    // easy to get right by accident; the panel is useless unless HQ can both
+    // write an override and clear one back to the built-in price.
+    it('HQ may set a price and clear it again', async () => {
+      await env.withSecurityRulesDisabled(async (ctx) => {
+        await setDoc(doc(ctx.firestore(), 'users', SUPER), { role: 'super_admin', name: 'HQ' })
+      })
+      await assertSucceeds(setDoc(doc(asSuper(), 'credit_categories', 'greet_with_salaam'), {
+        points: 35, is_active: true
+      }))
+      await assertSucceeds(setDoc(doc(asSuper(), 'credit_categories', 'consistency'), {
+        is_active: false
+      }, { merge: true }))
+      // Clearing an override is a delete — the panel removes the document
+      // rather than pinning today's default as tomorrow's override.
+      await assertSucceeds(deleteDoc(doc(asSuper(), 'credit_categories', 'greet_with_salaam')))
+      // Deleting one that was never there is what a bulk save does for every
+      // untouched category, so it must not be an error either.
+      await assertSucceeds(deleteDoc(doc(asSuper(), 'credit_categories', 'clean_speech')))
+    })
+
+    it('a house can read what it was fined for', async () => {
+      // A house told only that it lost fifty points has been punished without
+      // being told what for.
+      await env.withSecurityRulesDisabled(async (ctx) => {
+        await setDoc(doc(ctx.firestore(), 'council_complaints', 'c1'), {
+          school_id: SCHOOL, house: 'sidq', reason: 'Bad language in the corridor.',
+          points_requested: 50, points_deducted: 50, raised_by: 'admin-1'
+        })
+      })
+      await assertSucceeds(getDoc(doc(asLegacy(), 'council_complaints', 'c1')))
+      await assertSucceeds(getDoc(doc(asTeacher(), 'council_complaints', 'c1')))
+    })
+
+    it('nobody may write a complaint from a client — not even the Council', async () => {
+      // A penalty against a whole house has to carry a record of who filed it
+      // that the filer cannot revise afterwards.
+      const complaint = {
+        school_id: SCHOOL, house: 'sidq', reason: 'Made up.',
+        points_requested: 50, points_deducted: 50, raised_by: TEACHER
+      }
+      await assertFails(setDoc(doc(asTeacher(), 'council_complaints', 'c2'), complaint))
+      await assertFails(setDoc(doc(asLegacy(), 'council_complaints', 'c2'), complaint))
+      await assertFails(setDoc(doc(asFamily(), 'council_complaints', 'c2'), complaint))
     })
   })
 
