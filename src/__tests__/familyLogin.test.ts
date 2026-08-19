@@ -47,3 +47,38 @@ describe('Family login domain', () => {
     expect(familyLoginHelpersJS).toContain('function familyUsernameToEmail')
   })
 })
+
+/**
+ * The APK is built by rewriting dist/auth.html. For a while one of those
+ * rewrites swapped in its own copy of window.loginUser, written before family
+ * accounts existed: it stripped the hyphen out of PAR-7K4QM and looked the
+ * result up as a phone number. The credentials a school printed worked on the
+ * website and failed in the app, with an error blaming the phone number.
+ *
+ * Any handler the APK build injects has to know about family usernames, or
+ * that comes straight back.
+ */
+const apkSplashSource = readFileSync(
+  resolve(__dirname, '../../scripts/apk-splash.cjs'),
+  'utf-8'
+)
+
+describe('APK auth patch', () => {
+  it('does not ship a login handler that cannot sign a family in', () => {
+    // Every window.loginUser the patch script writes into the page — the string
+    // appears in comments too, so only assignments count.
+    const handlers = apkSplashSource.split(/window\.loginUser\s*=/).slice(1)
+
+    for (const handler of handlers) {
+      // Each injected handler is a self-contained block; the next injection or
+      // the end of the template ends it. Checking the 4 KB after the assignment
+      // is enough to cover one handler body.
+      const body = handler.slice(0, 4000)
+      expect(
+        body.includes('isFamilyUsername'),
+        'apk-splash.cjs injects a window.loginUser with no family-username branch. ' +
+        'A PAR- login would be treated as a phone number and refused in the APK.'
+      ).toBe(true)
+    }
+  })
+})

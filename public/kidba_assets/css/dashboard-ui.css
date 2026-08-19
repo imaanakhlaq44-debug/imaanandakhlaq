@@ -1,0 +1,645 @@
+/* ===========================================================================
+   dashboard-ui.css — one visual language for every dashboard.
+
+   Why this file exists: student, teacher, school-admin and super-admin each
+   grew their own 2,000-line <style> block, so the same idea (a stat, a section
+   heading, a list of people) was drawn four different ways — four palettes,
+   four card shapes, gradients and 3D thumbnails on some, flat on others. That
+   is what made the app read as unfinished.
+
+   Everything below is either a TOKEN (a value the dashboards read) or a
+   DS COMPONENT (a .ds-* class the dashboards' markup uses). Dashboards keep
+   their own layout CSS; they must not redefine these tokens locally, or the
+   dashboards drift apart again.
+
+   Loaded from Head.tsx (every rendered page) and from public/admin-dashboard
+   .html, which is static and maintained by hand.
+   =========================================================================== */
+
+:root {
+  /* Surfaces ------------------------------------------------------------- */
+  --ds-bg:            #f4f6fa;   /* page behind the cards */
+  --ds-surface:       #ffffff;   /* card */
+  --ds-surface-soft:  #f8fafc;   /* nested panel, table head, hover */
+  --ds-line:          #e5e9f0;   /* every border in the app */
+  --ds-line-strong:   #d3dae6;
+
+  /* Ink ------------------------------------------------------------------ */
+  --ds-ink:           #16294d;   /* headings, numbers */
+  --ds-body:          #38455c;   /* body copy */
+  --ds-muted:         #6b7a90;   /* labels, captions */
+
+  /* Brand ---------------------------------------------------------------- */
+  --ds-navy:          #16294d;   /* sidebar, primary buttons */
+  --ds-navy-soft:     #1e3560;
+  --ds-accent:        #cf296d;   /* ONE accent. Use for the active state and
+                                    the single most important action only. */
+  --ds-accent-soft:   #fdeaf1;
+
+  /* Status — muted on purpose: these sit next to children's work ---------- */
+  --ds-positive:      #17795e;
+  --ds-positive-soft: #e8f5f0;
+  --ds-warning:       #9a6510;
+  --ds-warning-soft:  #fdf3e3;
+  --ds-danger:        #b3261e;
+  --ds-danger-soft:   #fdecea;
+  --ds-info:          #2f5aa8;
+  --ds-info-soft:     #eaf0fb;
+
+  /* Shape ---------------------------------------------------------------- */
+  --ds-radius:        14px;
+  --ds-radius-sm:     10px;
+  --ds-radius-pill:   999px;
+  --ds-shadow:        0 1px 2px rgba(22, 41, 77, .04), 0 6px 18px rgba(22, 41, 77, .06);
+  --ds-shadow-lift:   0 2px 4px rgba(22, 41, 77, .06), 0 12px 28px rgba(22, 41, 77, .10);
+
+  /* Rhythm — the only spacings any dashboard should use ------------------ */
+  --ds-1: 4px;
+  --ds-2: 8px;
+  --ds-3: 12px;
+  --ds-4: 16px;
+  --ds-5: 24px;
+  --ds-6: 32px;
+
+  /* Type ----------------------------------------------------------------- */
+  --ds-font-head: 'Sora', 'Poppins', system-ui, sans-serif;
+  --ds-font-body: 'Nunito', system-ui, sans-serif;
+
+  /* Clearance for the fixed bottom bar in the APK. Pages add this to the
+     bottom of their scrolling column; without it the last card sits under
+     the bar and looks cut off. */
+  --ds-bottombar-clear: 84px;
+}
+
+/* ===========================================================================
+   1. Page + section furniture
+   =========================================================================== */
+
+.ds-page-title {
+  font-family: var(--ds-font-head);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--ds-ink);
+  margin: 0 0 var(--ds-1);
+  letter-spacing: -0.01em;
+}
+
+.ds-page-sub {
+  font-family: var(--ds-font-body);
+  font-size: 0.875rem;
+  color: var(--ds-muted);
+  margin: 0;
+}
+
+/* A card. One border, one radius, one shadow — everywhere. */
+.ds-card {
+  background: var(--ds-surface);
+  border: 1px solid var(--ds-line);
+  border-radius: var(--ds-radius);
+  box-shadow: var(--ds-shadow);
+  padding: var(--ds-5);
+}
+
+.ds-card.ds-card-flush { padding: 0; }
+
+/* Section heading: a title, optionally one line of help, optionally one
+   control on the right. No decorative artwork — that was the single biggest
+   source of visual noise on these pages. */
+.ds-card-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--ds-3);
+  margin-bottom: var(--ds-4);
+}
+
+.ds-card-head > div { min-width: 0; }
+
+.ds-title {
+  font-family: var(--ds-font-head);
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: var(--ds-ink);
+  margin: 0;
+  letter-spacing: -0.005em;
+}
+
+.ds-caption {
+  font-family: var(--ds-font-body);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--ds-muted);
+  margin: var(--ds-1) 0 0;
+}
+
+.ds-divider {
+  height: 1px;
+  background: var(--ds-line);
+  border: 0;
+  margin: var(--ds-4) 0;
+}
+
+/* ===========================================================================
+   2. Stats
+   The four dashboards had four stat treatments — gradient tiles with 3D
+   thumbnails, centred mini tiles, wide banners. This is the only one now.
+   =========================================================================== */
+
+.ds-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: var(--ds-3);
+}
+
+.ds-stats-4 { grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); }
+
+.ds-stat {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--ds-3);
+  background: var(--ds-surface);
+  border: 1px solid var(--ds-line);
+  border-radius: var(--ds-radius);
+  box-shadow: var(--ds-shadow);
+  padding: var(--ds-4);
+  overflow: hidden;
+  text-align: left;
+  width: 100%;
+  font: inherit;
+  color: inherit;
+}
+
+/* The accent lives in a 3px rail, not in a full-bleed gradient. */
+.ds-stat::before {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+  background: var(--ds-navy);
+}
+
+.ds-stat.is-accent::before   { background: var(--ds-accent); }
+.ds-stat.is-positive::before { background: var(--ds-positive); }
+.ds-stat.is-warning::before  { background: var(--ds-warning); }
+.ds-stat.is-danger::before   { background: var(--ds-danger); }
+.ds-stat.is-info::before     { background: var(--ds-info); }
+
+.ds-stat[role="button"],
+button.ds-stat,
+a.ds-stat { cursor: pointer; transition: box-shadow .18s ease, transform .18s ease; }
+
+.ds-stat[role="button"]:hover,
+button.ds-stat:hover,
+a.ds-stat:hover { box-shadow: var(--ds-shadow-lift); transform: translateY(-1px); }
+
+.ds-stat-icon {
+  flex: 0 0 34px;
+  width: 34px;
+  height: 34px;
+  border-radius: var(--ds-radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  background: var(--ds-surface-soft);
+  color: var(--ds-navy);
+}
+
+.ds-stat.is-accent   .ds-stat-icon { background: var(--ds-accent-soft);   color: var(--ds-accent); }
+.ds-stat.is-positive .ds-stat-icon { background: var(--ds-positive-soft); color: var(--ds-positive); }
+.ds-stat.is-warning  .ds-stat-icon { background: var(--ds-warning-soft);  color: var(--ds-warning); }
+.ds-stat.is-danger   .ds-stat-icon { background: var(--ds-danger-soft);   color: var(--ds-danger); }
+.ds-stat.is-info     .ds-stat-icon { background: var(--ds-info-soft);     color: var(--ds-info); }
+
+.ds-stat-body { min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+
+.ds-stat-label {
+  font-family: var(--ds-font-body);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--ds-muted);
+}
+
+.ds-stat-value {
+  font-family: var(--ds-font-head);
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--ds-ink);
+}
+
+/* One short line, or nothing. Not a sentence explaining the number. */
+.ds-stat-meta {
+  font-family: var(--ds-font-body);
+  font-size: 0.75rem;
+  color: var(--ds-muted);
+}
+
+/* ===========================================================================
+   3. Rows — rosters, queues, anything that is a list of people or items
+   =========================================================================== */
+
+.ds-list {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--ds-line);
+  border-radius: var(--ds-radius);
+  overflow: hidden;
+  background: var(--ds-surface);
+}
+
+.ds-row {
+  display: flex;
+  align-items: center;
+  gap: var(--ds-3);
+  padding: var(--ds-3) var(--ds-4);
+  border-bottom: 1px solid var(--ds-line);
+  background: var(--ds-surface);
+  transition: background .15s ease;
+}
+
+.ds-row:last-child { border-bottom: 0; }
+.ds-row:hover { background: var(--ds-surface-soft); }
+
+.ds-row-main { flex: 1 1 auto; min-width: 0; }
+
+.ds-row-name {
+  font-family: var(--ds-font-head);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--ds-ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Everything secondary about a row on one line, separated by dots. This is
+   what replaces the five stacked lines each student used to occupy on a
+   phone. */
+.ds-row-meta {
+  font-family: var(--ds-font-body);
+  font-size: 0.8125rem;
+  color: var(--ds-muted);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ds-2);
+  margin-top: 2px;
+}
+
+.ds-row-meta > span + span::before {
+  content: '·';
+  margin-right: var(--ds-2);
+  color: var(--ds-line-strong);
+}
+
+.ds-row-side {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: var(--ds-2);
+}
+
+.ds-avatar {
+  flex: 0 0 36px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--ds-surface-soft);
+  border: 1px solid var(--ds-line);
+  color: var(--ds-navy);
+  font-family: var(--ds-font-head);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: .02em;
+  overflow: hidden;
+}
+
+.ds-avatar img { width: 100%; height: 100%; object-fit: cover; }
+
+/* ===========================================================================
+   4. Chips, badges, buttons
+   =========================================================================== */
+
+.ds-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ds-1);
+  padding: 3px 10px;
+  border-radius: var(--ds-radius-pill);
+  border: 1px solid var(--ds-line);
+  background: var(--ds-surface-soft);
+  font-family: var(--ds-font-body);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--ds-body);
+  white-space: nowrap;
+}
+
+.ds-chip.is-positive { background: var(--ds-positive-soft); border-color: transparent; color: var(--ds-positive); }
+.ds-chip.is-warning  { background: var(--ds-warning-soft);  border-color: transparent; color: var(--ds-warning); }
+.ds-chip.is-danger   { background: var(--ds-danger-soft);   border-color: transparent; color: var(--ds-danger); }
+.ds-chip.is-info     { background: var(--ds-info-soft);     border-color: transparent; color: var(--ds-info); }
+.ds-chip.is-accent   { background: var(--ds-accent-soft);   border-color: transparent; color: var(--ds-accent); }
+
+.ds-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ds-2);
+  padding: 9px 16px;
+  border-radius: var(--ds-radius-sm);
+  border: 1px solid transparent;
+  background: var(--ds-navy);
+  color: #fff;
+  font-family: var(--ds-font-head);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .15s ease, border-color .15s ease, color .15s ease;
+}
+
+.ds-btn:hover { background: var(--ds-navy-soft); color: #fff; }
+
+.ds-btn-accent { background: var(--ds-accent); }
+.ds-btn-accent:hover { background: #b52259; }
+
+.ds-btn-ghost {
+  background: var(--ds-surface);
+  border-color: var(--ds-line-strong);
+  color: var(--ds-ink);
+}
+.ds-btn-ghost:hover { background: var(--ds-surface-soft); color: var(--ds-ink); }
+
+.ds-btn-sm { padding: 6px 12px; font-size: 0.8125rem; }
+
+/* ===========================================================================
+   5. Empty states — used instead of a blank card or a spinner left running
+   =========================================================================== */
+
+.ds-empty {
+  text-align: center;
+  padding: var(--ds-6) var(--ds-4);
+  color: var(--ds-muted);
+  font-family: var(--ds-font-body);
+  font-size: 0.875rem;
+}
+
+.ds-empty i { font-size: 1.5rem; display: block; margin-bottom: var(--ds-2); color: var(--ds-line-strong); }
+
+/* ===========================================================================
+   6. Sidebar — shared shape for the student and teacher shells
+   =========================================================================== */
+
+/* The student and teacher shells share these class names but each used to
+   define them separately — one with pink/orange gradient icon tiles, the other
+   with blue/green ones, both with a full-width red gradient LOGOUT slab. This
+   is the single definition now; the dashboards' own copies were deleted. */
+
+.sidebar-nav {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  /* Without this the rows stretch to fill a full-height sidebar and the nav
+     reads as six items scattered down the page. */
+  align-content: start;
+  gap: 2px;
+}
+
+.sidebar-nav li {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--ds-3);
+  padding: 10px var(--ds-3);
+  border-radius: var(--ds-radius-sm);
+  border: 1px solid transparent;
+  background: transparent;
+  font-family: var(--ds-font-head);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, .74);
+  cursor: pointer;
+  transition: background .15s ease, color .15s ease;
+}
+
+.sidebar-nav li:hover,
+.sidebar-nav li:focus-visible {
+  background: rgba(255, 255, 255, .07);
+  color: #fff;
+  outline: none;
+}
+
+/* Active state: the accent as a 3px rail, and white text. No lift, no glow. */
+.sidebar-nav li.active,
+.sidebar-nav li[aria-current="true"] {
+  background: rgba(255, 255, 255, .10);
+  color: #fff;
+  font-weight: 600;
+}
+
+.sidebar-nav li.active::before,
+.sidebar-nav li[aria-current="true"]::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 8px;
+  bottom: 8px;
+  width: 3px;
+  border-radius: 0 3px 3px 0;
+  background: var(--ds-accent);
+}
+
+/* The icon is an icon, not a coloured tile. */
+.nav-badge {
+  flex: 0 0 20px;
+  width: 20px;
+  height: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0;
+  background: none !important;   /* several nav items set a gradient inline */
+  box-shadow: none;
+  color: currentColor;
+  font-size: 0.9375rem;
+  opacity: .9;
+}
+
+.sidebar-nav li.active .nav-badge { opacity: 1; }
+
+.sidebar-logout-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ds-2);
+  width: 100%;
+  margin-top: var(--ds-3);
+  padding: 10px var(--ds-3);
+  border-radius: var(--ds-radius-sm);
+  border: 1px solid rgba(255, 255, 255, .18);
+  background: transparent;
+  color: rgba(255, 255, 255, .82);
+  font-family: var(--ds-font-head);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: .02em;
+  text-transform: none;
+  cursor: pointer;
+  box-shadow: none;
+  transition: background .15s ease, color .15s ease, border-color .15s ease;
+}
+
+.sidebar-logout-btn:hover {
+  background: rgba(255, 255, 255, .10);
+  border-color: rgba(255, 255, 255, .3);
+  color: #fff;
+}
+
+.sidebar-logout-btn i { color: inherit; }
+
+/* The "Daily Goal" / hint block at the foot of the sidebar: one line of text,
+   no 3D thumbnail squeezing it into a 90px column. */
+.sidebar-note {
+  margin-top: auto;
+  padding: var(--ds-3);
+  border-radius: var(--ds-radius-sm);
+  background: rgba(255, 255, 255, .06);
+  border: 1px solid rgba(255, 255, 255, .10);
+}
+
+.sidebar-note img { display: none; }
+
+.sidebar-note strong {
+  display: block;
+  font-family: var(--ds-font-head);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.sidebar-note span {
+  display: block;
+  margin-top: 2px;
+  font-family: var(--ds-font-body);
+  font-size: 0.75rem;
+  font-weight: 400;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, .62);
+}
+
+/* Identity block: avatar on the left, name over school on the right, actions
+   on their own row underneath. */
+.ds-sidebar-brand {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-3);
+  padding: var(--ds-2) var(--ds-1) var(--ds-4);
+  border-bottom: 1px solid rgba(255, 255, 255, .10);
+}
+
+.ds-sidebar-id {
+  display: flex;
+  align-items: center;
+  gap: var(--ds-3);
+  min-width: 0;
+}
+
+.ds-sidebar-id .sidebar-brand-art {
+  flex: 0 0 42px;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+}
+
+.ds-sidebar-id-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.ds-sidebar-brand .sidebar-chip-actions {
+  display: flex;
+  gap: var(--ds-2);
+}
+
+.ds-sidebar-brand .sidebar-icon-btn {
+  flex: 1 1 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: auto;
+  width: auto;
+  padding: 6px var(--ds-2);
+  border-radius: var(--ds-radius-sm);
+  border: 1px solid rgba(255, 255, 255, .16);
+  background: rgba(255, 255, 255, .06);
+  color: rgba(255, 255, 255, .82);
+  font-family: var(--ds-font-body);
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background .15s ease, color .15s ease;
+}
+
+.ds-sidebar-brand .sidebar-icon-btn:hover {
+  background: rgba(255, 255, 255, .14);
+  color: #fff;
+  transform: none;
+}
+
+.ds-sidebar-title {
+  font-family: var(--ds-font-head);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ds-sidebar-sub {
+  font-family: var(--ds-font-body);
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, .62);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ===========================================================================
+   7. Mobile
+   =========================================================================== */
+
+@media (max-width: 768px) {
+  .ds-card { padding: var(--ds-4); border-radius: var(--ds-radius-sm); }
+  /* Two per row on a phone. Three would fit only by shrinking the number to
+     the size of its label, and a row of three stats plus a widow in a second
+     row is what the old dashboards did. */
+  .ds-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--ds-2); }
+  .ds-stat { padding: var(--ds-3); gap: var(--ds-2); flex-direction: column; }
+  .ds-stat-value { font-size: 1.5rem; }
+  .ds-stat-icon { flex-basis: 30px; width: 30px; height: 30px; font-size: 0.8rem; }
+
+  /* An odd count leaves the last one alone on its row — let it take the row
+     rather than sit half-width next to nothing. */
+  .ds-stats > .ds-stat:last-child:nth-child(odd) { grid-column: 1 / -1; flex-direction: row; }
+  .ds-page-title { font-size: 1.1875rem; }
+  .ds-row { padding: var(--ds-3); }
+
+  /* The sidebar hint is a nicety on a wide screen and a whole card's worth of
+     phone screen above the first real number. */
+  .sidebar-note { display: none; }
+}
+
+/* Anything that scrolls under the APK bottom bar gets this class so its last
+   card clears the bar. */
+.ds-bottombar-safe { padding-bottom: var(--ds-bottombar-clear); }

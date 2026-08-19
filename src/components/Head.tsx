@@ -41,6 +41,12 @@ export const Head = () => html`\n<!DOCTYPE html>
   <!-- Custom CSS -->
   <link rel="stylesheet" href="/kidba_assets/css/style.css">
 
+  <!-- Shared dashboard design system: tokens + the .ds-* components every
+       dashboard is built from. Kept here so the four dashboards cannot drift
+       into four palettes again. Scoped to .ds-* names, so the marketing pages
+       that also load this head are unaffected. -->
+  <link rel="stylesheet" href="/kidba_assets/css/dashboard-ui.css?v=1">
+
   <!-- Capacitor Mobile App: always redirect to Auth on public pages -->
   <script>
     (function() {
@@ -61,7 +67,7 @@ export const Head = () => html`\n<!DOCTYPE html>
         }
         var path = window.location.pathname.replace(/\\/index\\.html$/, '/').replace(/\\.html$/, '').replace(/\\/$/, '') || '/';
         // Only allow these pages in app
-        var allowed = ['/auth', '/student-activities', '/teacher-dashboard', '/admin-dashboard', '/super-admin-dashboard', '/activity'];
+        var allowed = ['/auth', '/student-activities', '/family', '/teacher-dashboard', '/teacher-reader', '/admin-dashboard', '/super-admin-dashboard', '/activity', '/club'];
         if (!allowed.some(p => path === p)) {
           window.location.replace('auth.html');
         }

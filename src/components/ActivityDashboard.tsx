@@ -377,121 +377,6 @@ export const ActivityDashboard = () => html`
     gap: 0.45rem;
   }
 
-  .sidebar-nav li {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.7rem 0.8rem;
-    border-radius: 12px;
-    font-family: 'Sora', sans-serif;
-    font-size: 0.8rem;
-    font-weight: 700;
-    color: rgba(255,255,255,0.82);
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.06);
-    cursor: pointer;
-    transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
-  }
-
-  .sidebar-nav li:hover,
-  .sidebar-nav li:focus-visible {
-    transform: translateY(-1px);
-    background: rgba(255,255,255,0.08);
-    border-color: rgba(255,255,255,0.12);
-    outline: none;
-  }
-
-  .sidebar-nav li.active {
-    background: rgba(255,255,255,0.1);
-    border-color: rgba(255,255,255,0.16);
-    box-shadow: 0 12px 24px rgba(7,17,29,0.16);
-  }
-
-  .nav-badge {
-    width: 28px;
-    height: 28px;
-    flex: 0 0 28px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 9px;
-    color: #ffffff;
-    font-size: 0.8rem;
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);
-  }
-
-  .nav-badge.overview {
-    background: linear-gradient(180deg, #314a7f 0%, #243d6b 100%);
-  }
-
-  .nav-badge.books {
-    background: linear-gradient(180deg, #df4a82 0%, #cf296d 100%);
-  }
-
-  .nav-badge.progress {
-    background: linear-gradient(180deg, #f0a43d 0%, #ea8300 100%);
-  }
-
-  .nav-badge.profile {
-    background: linear-gradient(180deg, #d6a16d 0%, #cb955d 100%);
-  }
-
-  .sidebar-note {
-    margin-top: auto;
-    display: flex;
-    align-items: center;
-    gap: 0.7rem;
-    padding: 0.75rem;
-    border-radius: 16px;
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.12);
-  }
-
-  .sidebar-note img {
-    width: 52px;
-    height: 52px;
-    object-fit: contain;
-    filter: drop-shadow(0 12px 16px rgba(7,17,29,0.18));
-  }
-
-  .sidebar-note strong {
-    display: block;
-    font-family: 'Sora', sans-serif;
-    font-size: 0.82rem;
-    font-weight: 700;
-  }
-
-  .sidebar-note span {
-    display: block;
-    margin-top: 0.18rem;
-    font-size: 0.72rem;
-    font-weight: 700;
-    color: rgba(255,255,255,0.72);
-    line-height: 1.35;
-  }
-
-  .sidebar-logout-btn {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    width: calc(100% - 2rem);
-    margin: 0.6rem 1rem 0.8rem;
-    padding: 0.55rem 1rem;
-    background: rgba(255,255,255,0.08);
-    border: 1.5px solid rgba(255,255,255,0.22);
-    border-radius: 10px;
-    color: rgba(255,255,255,0.85);
-    font-family: 'Sora', sans-serif;
-    font-size: 0.82rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: background 0.18s, color 0.18s;
-  }
-  .sidebar-logout-btn:hover {
-    background: rgba(214,54,120,0.55);
-    color: #fff;
-  }
-
   .dashboard-main {
     min-width: 0;
     display: flex;
@@ -672,51 +557,6 @@ export const ActivityDashboard = () => html`
     white-space: nowrap;
   }
 
-  .summary-strip {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 0.75rem;
-  }
-
-  .summary-card {
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.9rem;
-    padding: 0.9rem 1rem;
-    border-radius: 16px;
-    color: #ffffff;
-    min-height: 118px;
-    box-shadow: var(--student-soft-shadow);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-
-  .summary-card[data-section] {
-    cursor: pointer;
-  }
-
-  .summary-card[data-section]:hover,
-  .summary-card[data-section]:focus-visible,
-  .summary-card.is-active {
-    transform: translateY(-2px);
-    box-shadow: 0 16px 28px rgba(15, 23, 42, 0.16);
-    outline: none;
-  }
-
-  .summary-card.points {
-    background: linear-gradient(180deg, #314a7f 0%, #243d6b 100%);
-  }
-
-  .summary-card.completed {
-    background: linear-gradient(180deg, #df4a82 0%, #cf296d 100%);
-  }
-
-  .summary-card.pending {
-    background: linear-gradient(180deg, #f0a43d 0%, #ea8300 100%);
-  }
-
   /* ===== Champions Board ===== */
   .champions-board {
     background: linear-gradient(135deg, #1a1a2e 0%, #16213e 40%, #0f3460 100%);
@@ -823,46 +663,6 @@ export const ActivityDashboard = () => html`
     .champions-podium { gap: 8px; }
   }
 
-  .summary-copy {
-    position: relative;
-    z-index: 1;
-  }
-
-  .summary-label {
-    display: block;
-    font-family: 'Sora', sans-serif;
-    font-size: 0.64rem;
-    font-weight: 700;
-    letter-spacing: 0.13em;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.74);
-    margin-bottom: 0.3rem;
-  }
-
-  .summary-value {
-    display: block;
-    font-family: 'Sora', sans-serif;
-    font-size: clamp(1.6rem, 2.7vw, 2.2rem);
-    font-weight: 800;
-    line-height: 1;
-  }
-
-  .summary-meta {
-    display: block;
-    margin-top: 0.35rem;
-    font-size: 0.74rem;
-    font-weight: 700;
-    color: rgba(255,255,255,0.78);
-    line-height: 1.35;
-  }
-
-  .summary-card img {
-    width: 68px;
-    height: 68px;
-    object-fit: contain;
-    filter: drop-shadow(0 14px 22px rgba(15,23,42,0.18));
-  }
-
   .student-grid {
     display: grid;
     grid-template-columns: minmax(0, 1.2fr) minmax(290px, 0.8fr);
@@ -893,23 +693,6 @@ export const ActivityDashboard = () => html`
     align-items: flex-start;
     gap: 0.7rem;
     min-width: 0;
-  }
-
-  .section-asset {
-    width: 46px;
-    height: 46px;
-    flex: 0 0 46px;
-    border-radius: 14px;
-    overflow: hidden;
-    background: linear-gradient(180deg, #f7fbff 0%, #eef4fb 100%);
-    border: 1px solid var(--student-line);
-  }
-
-  .section-asset img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    padding: 5px;
   }
 
   .section-heading h3 {
@@ -1008,7 +791,9 @@ export const ActivityDashboard = () => html`
 
   .catalog-grid {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    /* Four fixed columns squeezed each card to ~110px, which is why the two
+       chips on a book card stacked instead of sitting side by side. */
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
     gap: 1rem;
   }
 
@@ -1148,7 +933,7 @@ export const ActivityDashboard = () => html`
     gap: 0.35rem;
     padding: 0.38rem 0.7rem;
     border-radius: 8px;
-    background: linear-gradient(135deg, #cf296d 0%, #e0446e 100%);
+    background: var(--ds-navy);
     border: none;
     color: #ffffff;
     font-family: 'Sora', sans-serif;
@@ -1156,13 +941,12 @@ export const ActivityDashboard = () => html`
     font-weight: 700;
     cursor: pointer;
     transition: transform 0.18s ease, box-shadow 0.18s ease;
-    box-shadow: 0 3px 10px rgba(207, 41, 109, 0.3);
+    box-shadow: none;
     white-space: nowrap;
     pointer-events: none;
   }
   .library-item[role="button"]:hover .lib-view-btn {
-    transform: translateY(-1px);
-    box-shadow: 0 6px 14px rgba(207, 41, 109, 0.4);
+    background: var(--ds-navy-soft);
   }
 
   .library-subtitle {
@@ -1482,13 +1266,7 @@ export const ActivityDashboard = () => html`
       grid-template-columns: repeat(4, minmax(0, 1fr));
     }
 
-    .sidebar-note {
-      width: 100%;
-      margin-top: 0;
-    }
-
-    .student-grid,
-    .summary-strip {
+    .student-grid {
       grid-template-columns: 1fr;
     }
   }
@@ -1553,46 +1331,23 @@ export const ActivityDashboard = () => html`
   }
 
   .student-page .library-item,
-  .student-page .summary-card,
+
+
   .student-page .panel-card,
+
+
   .student-page .section-card,
+
+
   .student-page .widget-card {
     border-radius: 20px !important;
     box-shadow: 0 6px 22px rgba(41, 65, 109, 0.08), 0 1px 3px rgba(41, 65, 109, 0.04) !important;
     border: 1px solid rgba(41, 65, 109, 0.06) !important;
     transition: transform 0.25s ease, box-shadow 0.25s ease !important;
   }
-  .student-page .library-item[role="button"]:hover,
-  .student-page .summary-card:hover {
+  .student-page .library-item[role="button"]:hover {
     transform: translateY(-3px) !important;
     box-shadow: 0 14px 34px rgba(41, 65, 109, 0.12), 0 3px 8px rgba(41, 65, 109, 0.05) !important;
-  }
-
-  .student-page .summary-card.card-green  { border-left: 4px solid var(--brand-success) !important; }
-  .student-page .summary-card.card-yellow { border-left: 4px solid var(--brand-tertiary) !important; }
-  .student-page .summary-card.card-orange { border-left: 4px solid var(--brand-secondary) !important; }
-  .student-page .summary-card.card-blue   { border-left: 4px solid var(--brand-primary) !important; }
-
-  .student-page .sidebar-logout-btn {
-    background: linear-gradient(135deg, #ef4444 0%, #cf296d 100%) !important;
-    color: #ffffff !important;
-    border: 1px solid rgba(239, 68, 68, 0.4) !important;
-    box-shadow: 0 6px 16px rgba(239, 68, 68, 0.28) !important;
-    font-weight: 700 !important;
-  }
-  .student-page .sidebar-logout-btn:hover {
-    background: linear-gradient(135deg, #dc2626 0%, #b91c5e 100%) !important;
-    transform: translateY(-1px);
-    box-shadow: 0 10px 22px rgba(239, 68, 68, 0.36) !important;
-    color: #ffffff !important;
-  }
-  .student-page .sidebar-logout-btn i { color: #ffffff !important; }
-
-  .student-page .sidebar-nav li.active,
-  .student-page .sidebar-nav li[aria-current="true"] {
-    background: linear-gradient(90deg, rgba(207, 41, 109, 0.20), transparent) !important;
-    border-left: 3px solid var(--brand-secondary) !important;
-    color: #ffffff !important;
   }
 
   @media (max-width: 1199px) and (min-width: 768px) {
@@ -1600,7 +1355,6 @@ export const ActivityDashboard = () => html`
     .student-page .catalog-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
   }
   @media (max-width: 767px) {
-    .student-page .summary-card,
     .student-page .library-item { padding: 1rem !important; }
     /* Phones never had a column rule of their own, so the grid fell back to the
        base "repeat(4, ...)" and squeezed every book card into ~85px. The APK
@@ -1633,21 +1387,6 @@ export const ActivityDashboard = () => html`
     background: linear-gradient(180deg, #1f3559 0%, #14223e 100%) !important;
     border-right: 1px solid rgba(207, 41, 109, 0.18) !important;
     box-shadow: 4px 0 24px rgba(15, 23, 42, 0.08) !important;
-  }
-  .student-page .sidebar-nav li {
-    border-radius: 12px !important;
-    margin: 2px 0 !important;
-    transition: background 0.2s ease, transform 0.2s ease !important;
-  }
-  .student-page .sidebar-nav li:hover {
-    background: rgba(255,255,255,0.06) !important;
-    transform: translateX(2px);
-  }
-  .student-page .sidebar-nav li.active,
-  .student-page .sidebar-nav li[aria-current="true"] {
-    background: linear-gradient(90deg, rgba(207, 41, 109, 0.32), rgba(234, 131, 0, 0.12) 70%, transparent) !important;
-    border-left: 3px solid #cf296d !important;
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.06) !important;
   }
   .student-page .sidebar-title {
     font-family: 'Sora', 'Nunito', sans-serif !important;
@@ -1710,47 +1449,6 @@ export const ActivityDashboard = () => html`
   .student-page .dashboard-home-btn:hover {
     background: rgba(255,255,255,0.28) !important;
     transform: translateY(-1px);
-  }
-
-  /* Summary cards: colorful gradient backgrounds */
-  .student-page .summary-strip {
-    margin: 0 1rem 1rem !important;
-    gap: 1rem !important;
-  }
-  .student-page .summary-card {
-    background: #ffffff !important;
-    border: none !important;
-    border-radius: 24px !important;
-    padding: 1.5rem 1.6rem !important;
-    box-shadow: 0 12px 30px rgba(41, 65, 109, 0.10), 0 2px 4px rgba(41, 65, 109, 0.04) !important;
-    position: relative;
-    overflow: hidden;
-    transition: transform 0.25s ease, box-shadow 0.25s ease !important;
-    color: #ffffff !important;
-  }
-  .student-page .summary-card * { color: #ffffff !important; }
-  .student-page .summary-card.card-green,
-  .student-page .summary-card.completed { background: linear-gradient(135deg, #29416d 0%, #1d3156 100%) !important; }
-  .student-page .summary-card.card-yellow,
-  .student-page .summary-card.pending  { background: linear-gradient(135deg, #f4c542 0%, #ea8300 100%) !important; }
-  .student-page .summary-card.card-orange,
-  .student-page .summary-card.points   { background: linear-gradient(135deg, #cf296d 0%, #ea8300 100%) !important; }
-  .student-page .summary-card.card-blue   { background: linear-gradient(135deg, #29416d 0%, #cf296d 100%) !important; }
-  .student-page .summary-card::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    right: -20%;
-    width: 180px;
-    height: 180px;
-    background: radial-gradient(circle, rgba(255,255,255,0.25), transparent 60%);
-    border-radius: 50%;
-    pointer-events: none;
-  }
-  .student-page .summary-card { border-left: none !important; }
-  .student-page .summary-card:hover {
-    transform: translateY(-6px) scale(1.02) !important;
-    box-shadow: 0 22px 45px rgba(41, 65, 109, 0.20), 0 5px 12px rgba(207, 41, 109, 0.12) !important;
   }
 
   /* Section headings */
@@ -2211,52 +1909,48 @@ export const ActivityDashboard = () => html`
            duplicated the one in the bottom bar. The school name now sits under
            the student's name in the sidebar; see #sidebarSchoolName. -->
 
-      <div class="summary-strip" id="studentOverviewSection">
-        <div class="summary-card points" data-section="books" role="button" tabindex="0">
-          <div class="summary-copy">
-            <span class="summary-label">Total Points</span>
-            <strong class="summary-value" id="starsValue">0</strong>
-            <span class="summary-meta">Use 50 points to unlock the next chapter in your sequence.</span>
-          </div>
-          <img src="/kidba_assets/img/3d_individual.png" alt="Points 3D icon">
+      <!-- Three numbers, drawn the same way here as on every other dashboard
+           (.ds-stat, see dashboard-ui.css). They used to be full-bleed
+           gradient tiles carrying a 3D thumbnail and a sentence explaining the
+           number; the sentence said what the Journey Status card below already
+           says, so it is gone rather than repeated. -->
+      <div class="ds-stats" id="studentOverviewSection">
+        <div class="ds-stat is-accent" data-section="books" role="button" tabindex="0">
+          <span class="ds-stat-icon"><i class="fas fa-star"></i></span>
+          <span class="ds-stat-body">
+            <span class="ds-stat-label">Total Points</span>
+            <strong class="ds-stat-value" id="starsValue">0</strong>
+          </span>
         </div>
 
-        <div class="summary-card completed" data-section="progress" role="button" tabindex="0">
-          <div class="summary-copy">
-            <span class="summary-label">Chapters Completed</span>
-            <strong class="summary-value" id="studentCompletedCount">0</strong>
-            <span class="summary-meta">Activities submitted by you across the learning journey.</span>
-          </div>
-          <img src="/kidba_assets/img/3d_student.png" alt="Completed 3D icon">
+        <div class="ds-stat is-positive" data-section="progress" role="button" tabindex="0">
+          <span class="ds-stat-icon"><i class="fas fa-book-open"></i></span>
+          <span class="ds-stat-body">
+            <span class="ds-stat-label">Chapters Done</span>
+            <strong class="ds-stat-value" id="studentCompletedCount">0</strong>
+          </span>
         </div>
 
-        <div class="summary-card pending" data-section="progress" role="button" tabindex="0">
-          <div class="summary-copy">
-            <span class="summary-label">Pending Review</span>
-            <strong class="summary-value" id="studentPendingReviewCount">0</strong>
-            <span class="summary-meta">Submitted chapters still moving through approval.</span>
-          </div>
-          <img src="/kidba_assets/img/3d_login.png" alt="Pending review 3D icon">
+        <div class="ds-stat is-warning" data-section="progress" role="button" tabindex="0">
+          <span class="ds-stat-icon"><i class="fas fa-hourglass-half"></i></span>
+          <span class="ds-stat-body">
+            <span class="ds-stat-label">Pending Review</span>
+            <strong class="ds-stat-value" id="studentPendingReviewCount">0</strong>
+          </span>
         </div>
       </div>
 
       <div class="student-grid">
         <section class="surface-card" id="studentBooksSection">
-          <div class="section-header">
-            <div class="section-heading">
-              <div class="section-asset"><img src="/kidba_assets/img/3d_school.png" alt="Book library 3D icon"></div>
-              <div>
-                <h3>Book Library</h3>
-                <p>Choose a title to browse chapters, continue tasks and unlock the next step in your path.</p>
-              </div>
-            </div>
-          </div>
-
+          <!-- One heading, not two. There used to be a "Book Library" header
+               with a sentence under it, and directly beneath it a second
+               heading saying "Choose a Book" with the same sentence reworded.
+               #currentBookTitle is the live one — JS swaps it for the book's
+               name once a book is opened — so it is the one that stays. -->
           <div class="toolbar-block">
             <div class="toolbar-info">
-
-              <h3 id="currentBookTitle">Choose a Book</h3>
-              <p id="currentBookSubtitle">Select a title to open its chapters and continue your learning journey.</p>
+              <h3 id="currentBookTitle" class="ds-title">Choose a Book</h3>
+              <p id="currentBookSubtitle" class="ds-caption">Open a book to see its chapters.</p>
             </div>
             <button class="dashboard-ghost-btn d-none" id="backToBooksBtn" type="button"><i class="fas fa-arrow-left"></i><span>Back to Books</span></button>
           </div>
@@ -2271,10 +1965,8 @@ export const ActivityDashboard = () => html`
         <aside class="surface-card progress-card" id="studentProgressSection">
           <div class="section-header">
             <div class="section-heading">
-              <div class="section-asset"><img src="/kidba_assets/img/3d_teacher.png" alt="Progress 3D icon"></div>
               <div>
                 <h3>Journey Status</h3>
-                <p>See what is unlocked, what is approved and where your next review step is waiting.</p>
               </div>
             </div>
           </div>
@@ -2284,7 +1976,6 @@ export const ActivityDashboard = () => html`
               <span class="journey-icon unlocked"><i class="fas fa-unlock"></i></span>
               <div class="journey-copy">
                 <strong>Unlocked Access</strong>
-                <span>Chapters currently open in your sequence.</span>
               </div>
               <span class="journey-value" id="studentUnlockedCount">0</span>
             </div>
@@ -2293,7 +1984,6 @@ export const ActivityDashboard = () => html`
               <span class="journey-icon approved"><i class="fas fa-check-double"></i></span>
               <div class="journey-copy">
                 <strong>Teacher Approved</strong>
-                <span>Chapters fully approved and counted in your progress.</span>
               </div>
               <span class="journey-value" id="studentApprovedCount">0</span>
             </div>
@@ -2302,7 +1992,6 @@ export const ActivityDashboard = () => html`
               <span class="journey-icon parent"><i class="fas fa-house-user"></i></span>
               <div class="journey-copy">
                 <strong>Waiting For Parent</strong>
-                <span>Completed chapters still needing family review.</span>
               </div>
               <span class="journey-value" id="studentPendingParentCount">0</span>
             </div>
@@ -2396,7 +2085,6 @@ export const ActivityDashboard = () => html`
         <section class="surface-card leaderboard-card d-none" id="studentRankingsSection">
           <div class="section-header">
             <div class="section-heading">
-              <div class="section-asset"><img src="/kidba_assets/img/3d_teacher.png" alt="Leaderboard 3D icon"></div>
               <div>
                 <h3>Global Rankings</h3>
                 <p>Top 30 performing learners globally. Keep learning to climb the leaderboard!</p>
@@ -2419,9 +2107,6 @@ export const ActivityDashboard = () => html`
 
           <div class="section-header">
             <div class="section-heading">
-              <div class="section-asset" style="background: linear-gradient(135deg, #243d6b, #cf296d); display:flex; align-items:center; justify-content:center; color:#fff; font-size:1.4rem;">
-                <i class="fas fa-user-shield"></i>
-              </div>
               <div>
                 <h3>Parent Dashboard &amp; Analytics</h3>
                 <p>Monitor your child's learning trajectory, review submitted activities, and track stars.</p>
@@ -2430,29 +2115,29 @@ export const ActivityDashboard = () => html`
           </div>
 
           <!-- Parent Summary Metrics -->
-          <div class="summary-strip" style="margin: 1rem 0;">
-            <div class="summary-card" style="background: linear-gradient(135deg, #1d3156 0%, #243d6b 100%) !important;">
-              <div class="summary-copy">
-                <span class="summary-label">Total Stars Earned</span>
-                <strong class="summary-value" id="pgParentStarsValue">0</strong>
-                <span class="summary-meta">Points accumulated by student.</span>
-              </div>
+          <div class="ds-stats" style="margin: 1rem 0;">
+            <div class="ds-stat is-accent">
+              <span class="ds-stat-icon"><i class="fas fa-star"></i></span>
+              <span class="ds-stat-body">
+                <span class="ds-stat-label">Stars Earned</span>
+                <strong class="ds-stat-value" id="pgParentStarsValue">0</strong>
+              </span>
             </div>
 
-            <div class="summary-card" style="background: linear-gradient(135deg, #cf296d 0%, #ea8300 100%) !important;">
-              <div class="summary-copy">
-                <span class="summary-label">Chapters Completed</span>
-                <strong class="summary-value" id="pgParentCompletedCount">0</strong>
-                <span class="summary-meta">Total activities finished.</span>
-              </div>
+            <div class="ds-stat is-positive">
+              <span class="ds-stat-icon"><i class="fas fa-book-open"></i></span>
+              <span class="ds-stat-body">
+                <span class="ds-stat-label">Chapters Done</span>
+                <strong class="ds-stat-value" id="pgParentCompletedCount">0</strong>
+              </span>
             </div>
 
-            <div class="summary-card" style="background: linear-gradient(135deg, #ea8300 0%, #f4c542 100%) !important;">
-              <div class="summary-copy">
-                <span class="summary-label">Awaiting Teacher Review</span>
-                <strong class="summary-value" id="pgParentPendingCount">0</strong>
-                <span class="summary-meta">Submitted, not marked yet.</span>
-              </div>
+            <div class="ds-stat is-warning">
+              <span class="ds-stat-icon"><i class="fas fa-hourglass-half"></i></span>
+              <span class="ds-stat-body">
+                <span class="ds-stat-label">Awaiting Review</span>
+                <strong class="ds-stat-value" id="pgParentPendingCount">0</strong>
+              </span>
             </div>
           </div>
 
@@ -3134,7 +2819,7 @@ ${HouseQuizModal()}
       item.classList.toggle('active', item.dataset.section === nextSection);
     });
 
-    document.querySelectorAll('.summary-card[data-section]').forEach((item) => {
+    document.querySelectorAll('.ds-stat[data-section]').forEach((item) => {
       item.classList.toggle('is-active', item.dataset.section === nextSection);
     });
 
@@ -3270,7 +2955,7 @@ ${HouseQuizModal()}
   }
 
   function bindStudentSectionControls() {
-    document.querySelectorAll('.sidebar-nav li[data-section], .summary-card[data-section]').forEach((control) => {
+    document.querySelectorAll('.sidebar-nav li[data-section], .ds-stat[data-section]').forEach((control) => {
       if (control.dataset.sectionBound === 'true') return;
 
       control.dataset.sectionBound = 'true';
@@ -4299,7 +3984,7 @@ ${HouseQuizModal()}
     backToBooksBtn.classList.add('d-none');
 
     currentBookTitle.textContent = 'Choose a Book';
-    currentBookSubtitle.textContent = 'Select a title to open its chapters and continue your learning journey.';
+    currentBookSubtitle.textContent = 'Open a book to see its chapters.';
     root.classList.remove('chapter-mode');  // 4-col book grid
     root.innerHTML = '';
 
@@ -4322,7 +4007,6 @@ ${HouseQuizModal()}
             '<span class="book-chip muted"><i class="fas fa-lock"></i> ' + unlockedInBook + ' open</span>' +
           '</div>' +
           '<div class="library-title">' + book.title + '</div>' +
-          '<div class="library-subtitle">Open this book to browse chapters available in your learning sequence.</div>' +
           '<div class="library-meta"><button class="lib-view-btn" type="button"><i class="fas fa-book-open"></i> View Chapters</button></div>' +
         '</div>';
       fragment.appendChild(card);
@@ -4337,7 +4021,7 @@ ${HouseQuizModal()}
     backToBooksBtn.classList.remove('d-none');
 
     currentBookTitle.textContent = bookTitle;
-    currentBookSubtitle.textContent = 'Choose the next chapter to start, unlock or review.';
+    currentBookSubtitle.textContent = 'Pick a chapter to start or review.';
     root.classList.add('chapter-mode');  // 1-col chapter list
     root.innerHTML = '';
 
@@ -4923,37 +4607,6 @@ ${HouseQuizModal()}
 
 <style>
   @media (max-width: 1024px) {
-    /* Summary strip -> compact 3-column row */
-    .student-page .summary-strip {
-      display: grid !important;
-      grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-      gap: 0.4rem !important;
-      margin: 0 !important;
-      max-width: 100% !important;
-      min-width: 0 !important;
-    }
-    .student-page .summary-card {
-      padding: 0.55rem 0.35rem !important;
-      min-height: 0 !important;
-      min-width: 0 !important;
-      border-radius: 12px !important;
-      flex-direction: column !important;
-      align-items: center !important;
-      gap: 0.15rem !important;
-      text-align: center !important;
-      overflow: hidden !important;
-    }
-    .student-page .summary-card img { display: none !important; }
-    .student-page .summary-copy { gap: 0.1rem !important; align-items: center !important; text-align: center !important; min-width: 0 !important; }
-    .student-page .summary-label {
-      font-size: 0.55rem !important;
-      letter-spacing: 0.02em !important;
-      white-space: normal !important;
-      line-height: 1.1 !important;
-      overflow-wrap: anywhere !important;
-    }
-    .student-page .summary-value { font-size: 1.35rem !important; line-height: 1 !important; }
-    .student-page .summary-meta { display: none !important; }
 
     /* Card itself: full row (override 50% rule above for chapter list view) */
     .student-page .apk-book-row.open .apk-book-panel .library-item,

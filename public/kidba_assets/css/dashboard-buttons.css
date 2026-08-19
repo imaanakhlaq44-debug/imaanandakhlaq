@@ -6,32 +6,11 @@
    apply at all sizes.
    ========================================================= */
 
-/* ---------- 1) Highlighted logout button (all sizes) ----- */
-.parent-page  .sidebar-logout-btn,
-.teacher-page .sidebar-logout-btn,
-.student-page .sidebar-logout-btn {
-  background: linear-gradient(180deg, #e85a4f 0%, #d63678 100%) !important;
-  color: #ffffff !important;
-  border: 1px solid rgba(255, 255, 255, 0.28) !important;
-  box-shadow: 0 8px 18px rgba(214, 54, 120, 0.38) !important;
-  font-weight: 800 !important;
-  letter-spacing: 0.05em !important;
-  text-transform: uppercase !important;
-}
-.parent-page  .sidebar-logout-btn i,
-.teacher-page .sidebar-logout-btn i,
-.student-page .sidebar-logout-btn i { color: #ffffff !important; }
-
-.admin-page .nav-actions .btn-logout {
-  background: linear-gradient(180deg, #e85a4f 0%, #d63678 100%) !important;
-  color: #ffffff !important;
-  border: 1px solid rgba(255, 255, 255, 0.28) !important;
-  box-shadow: 0 8px 18px rgba(214, 54, 120, 0.38) !important;
-  font-weight: 800 !important;
-  letter-spacing: 0.05em !important;
-  text-transform: uppercase !important;
-}
-.admin-page .nav-actions .btn-logout i { color: #ffffff !important; }
+/* ---------- 1) Logout button --------------------------- */
+/* This section used to paint every logout button as a red-to-pink gradient
+   slab, on every dashboard, at every width — the loudest thing on the page
+   was the way out of it. The button is a quiet outline now; the shape lives
+   in dashboard-ui.css so all four dashboards share one definition. */
 
 /* ---------- 2) Uniform book-card style across roles ------- */
 /* Teacher's book grid should match the student's clean look */
@@ -329,23 +308,10 @@
   .admin-page .brand-copy span:not(.brand-title) { font-size: 0.7rem !important; }
 
   .admin-page .nav-center { width: 100% !important; }
-  .admin-page .nav-links {
-    display: grid !important;
-    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
-    gap: 0.25rem !important;
-    width: 100% !important;
-    margin: 0 !important; padding: 0 !important;
-    list-style: none !important;
-  }
-  .admin-page .nav-links li {
-    padding: 0.45rem 0.2rem !important;
-    font-size: 0.62rem !important;
-    text-align: center !important;
-    border-radius: 9px !important;
-    line-height: 1.1 !important;
-    min-height: 0 !important;
-    cursor: pointer !important;
-  }
+  /* The admin nav used to be a 5-column pill row here. It cannot be: this block
+     starts at 760px, and from 900px down the admin nav is the off-canvas drawer,
+     whose links must stay a vertical list. The pill row now lives in the
+     901-1024px range only, in admin-dashboard.html. */
 
   .admin-page .nav-actions .nav-profile { display: none !important; }
   .admin-page .workspace-admin-chip { display: none !important; }

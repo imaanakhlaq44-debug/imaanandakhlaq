@@ -66,7 +66,7 @@ const html = `<!DOCTYPE html>
           if (u.role === 'school_admin') dest = 'admin-dashboard.html';
           else if (u.role === 'teacher') dest = 'teacher-dashboard.html';
           else if (u.role === 'student' || u.role === 'individual') dest = 'student-activities.html';
-          else if (u.role === 'parent') dest = 'parent-dashboard.html';
+          else if (u.role === 'family') dest = 'family.html';
         }
       } catch(e) {}
       window.location.replace(dest);
@@ -79,33 +79,9 @@ const projectRoot = path.join(__dirname, '..');
 const distDir = path.join(projectRoot, 'dist');
 const dest = path.join(distDir, 'index.html');
 
-function resolveExistingPath(candidates) {
-  for (const candidate of candidates) {
-    const candidatePath = path.join(projectRoot, candidate);
-    if (fs.existsSync(candidatePath)) return candidatePath;
-  }
-  return null;
-}
-
-function installCompressedApkPdfs() {
-  const apkPdfMap = {
-    'book1.pdf': ['book1.pdf', 'Book1.pdf'],
-    'book2.pdf': ['book2.pdf', 'Book2.pdf'],
-    'book3.pdf': ['book3.pdf', 'Book3.pdf']
-  };
-
-  for (const [distName, candidates] of Object.entries(apkPdfMap)) {
-    const sourcePath = resolveExistingPath(candidates);
-    if (!sourcePath) {
-      console.warn('APK PDF source not found for', distName);
-      continue;
-    }
-
-    const targetPath = path.join(distDir, distName);
-    fs.copyFileSync(sourcePath, targetPath);
-    console.log('APK PDF installed:', distName, 'from', path.basename(sourcePath));
-  }
-}
+// The books used to be copied into dist/ so they could ship inside the APK.
+// They are served from Firebase Storage now, and scripts/apk-prune.cjs strips
+// them from the Android payload, so nothing needs to install them here.
 
 function patchApkAuthPage() {
   const authPath = path.join(distDir, 'auth.html');
@@ -501,12 +477,13 @@ function patchApkAuthPage() {
     '\n'
   );
 
-  if (!authHtml.includes('window.setAuthPanel = function (mode) {')) {
-    authHtml = authHtml.replace(
-      '<script type="module">',
-      `<script>\n  window.setAuthPanel = function (mode) {\n    var wrapper = document.querySelector('.auth-wrapper');\n    var loginBtn = document.getElementById('authModeLogin');\n    var registerBtn = document.getElementById('authModeRegister');\n    if (!wrapper || !loginBtn || !registerBtn) return;\n\n    var isRegister = mode === 'register';\n    if (isRegister) {\n      wrapper.classList.add('mode-register');\n      wrapper.classList.remove('mode-login');\n      registerBtn.classList.add('active');\n      loginBtn.classList.remove('active');\n    } else {\n      wrapper.classList.add('mode-login');\n      wrapper.classList.remove('mode-register');\n      loginBtn.classList.add('active');\n      registerBtn.classList.remove('active');\n    }\n  };\n\n  document.addEventListener('DOMContentLoaded', function () {\n    window.setAuthPanel('login');\n  });\n</script>\n\n<script>\n  (function () {\n    if (window.__apkLegacyAuthInit) return;\n    window.__apkLegacyAuthInit = true;\n\n    var FIREBASE_API_KEY = '${legacyApiKey}';\n    var FIREBASE_PROJECT_ID = '${legacyProjectId}';\n\n    function showLegacyToast(message, type) {\n      var toast = document.getElementById('authToast');\n      if (!toast) {\n        alert(message);\n        return;\n      }\n      toast.textContent = message;\n      toast.className = 'toast show ' + (type || 'error');\n      setTimeout(function () {\n        toast.className = 'toast';\n      }, 2500);\n    }\n\n    function showToastCompat(message, type) {\n      if (typeof window.showToast === 'function') {\n        try {\n          window.showToast(message, type);\n          return;\n        } catch (e) {}\n      }\n      showLegacyToast(message, type);\n    }\n\n    function normalizePhone(value) {\n      return String(value || '').replace(/[\\s\\-()]/g, '');\n    }\n\n    function decodeFsValue(value) {\n      if (!value) return null;\n      if (Object.prototype.hasOwnProperty.call(value, 'stringValue')) return value.stringValue;\n      if (Object.prototype.hasOwnProperty.call(value, 'integerValue')) return Number(value.integerValue);\n      if (Object.prototype.hasOwnProperty.call(value, 'doubleValue')) return Number(value.doubleValue);\n      if (Object.prototype.hasOwnProperty.call(value, 'booleanValue')) return !!value.booleanValue;\n      if (Object.prototype.hasOwnProperty.call(value, 'timestampValue')) return value.timestampValue;\n      if (Object.prototype.hasOwnProperty.call(value, 'nullValue')) return null;\n      return null;\n    }\n\n    function decodeFsFields(fields) {\n      var out = {};\n      if (!fields) return out;\n      for (var key in fields) {\n        if (!Object.prototype.hasOwnProperty.call(fields, key)) continue;\n        out[key] = decodeFsValue(fields[key]);\n      }\n      return out;\n    }\n\n    function mapAuthError(message) {\n      if (!message) return 'Login failed. Please retry.';\n      if (message === 'INVALID_LOGIN_CREDENTIALS') return 'Invalid email or password.';\n      if (message === 'INVALID_PASSWORD') return 'Invalid password.';\n      if (message === 'EMAIL_NOT_FOUND') return 'Email not found.';\n      if (message === 'USER_DISABLED') return 'This account is disabled.';\n      if (message === 'TOO_MANY_ATTEMPTS_TRY_LATER') return 'Too many attempts. Try later.';\n      return message;\n    }\n\n    function xhrJson(method, url, body, headers, cb) {\n      var req = new XMLHttpRequest();\n      req.open(method, url, true);\n      req.setRequestHeader('Content-Type', 'application/json');\n      if (headers) {\n        for (var key in headers) {\n          if (Object.prototype.hasOwnProperty.call(headers, key)) {\n            req.setRequestHeader(key, headers[key]);\n          }\n        }\n      }\n\n      req.onreadystatechange = function () {\n        if (req.readyState !== 4) return;\n\n        var parsed = null;\n        try {\n          parsed = req.responseText ? JSON.parse(req.responseText) : {};\n        } catch (e) {\n          parsed = {};\n        }\n\n        if (req.status >= 200 && req.status < 300) cb(null, parsed);\n        else cb(parsed || { error: { message: 'HTTP_' + req.status } }, null);\n      };\n\n      req.onerror = function () {\n        cb({ error: { message: 'NETWORK_ERROR' } }, null);\n      };\n\n      req.send(body ? JSON.stringify(body) : null);\n    }\n\n    function lookupEmailByPhone(phone, done) {\n      var candidates = [phone];\n      if (phone.charAt(0) === '+') candidates.push(phone.slice(1));\n      else candidates.push('+' + phone);\n\n      var index = 0;\n      function next() {\n        if (index >= candidates.length) {\n          done('');\n          return;\n        }\n\n        var candidate = candidates[index++];\n        var queryUrl = 'https://firestore.googleapis.com/v1/projects/' + FIREBASE_PROJECT_ID + '/databases/(default)/documents:runQuery?key=' + FIREBASE_API_KEY;\n        var queryBody = {\n          structuredQuery: {\n            from: [{ collectionId: 'users' }],\n            where: {\n              fieldFilter: {\n                field: { fieldPath: 'phone' },\n                op: 'EQUAL',\n                value: { stringValue: candidate }\n              }\n            },\n            limit: 1\n          }\n        };\n\n        xhrJson('POST', queryUrl, queryBody, null, function (err, data) {\n          if (err || !data || !data.length || !data[0].document || !data[0].document.fields) {\n            next();\n            return;\n          }\n\n          var userFields = decodeFsFields(data[0].document.fields);\n          done(userFields.email || '');\n        });\n      }\n\n      next();\n    }\n\n    function fetchUserDoc(uid, idToken, cb) {\n      var docUrl = 'https://firestore.googleapis.com/v1/projects/' + FIREBASE_PROJECT_ID + '/databases/(default)/documents/users/' + encodeURIComponent(uid) + '?key=' + FIREBASE_API_KEY;\n      xhrJson('GET', docUrl, null, { Authorization: 'Bearer ' + idToken }, function (err, data) {\n        if (err || !data || !data.fields) {\n          cb(new Error('User record not found in system.'), null);\n          return;\n        }\n        cb(null, decodeFsFields(data.fields));\n      });\n    }\n\n    function saveAuthAndRedirect(uid, userData) {\n      var payload = { uid: uid };\n      for (var key in userData) {\n        if (Object.prototype.hasOwnProperty.call(userData, key)) payload[key] = userData[key];\n      }\n\n      var authData = JSON.stringify(payload);\n      localStorage.setItem('auth_user', authData);\n      sessionStorage.setItem('auth_user', authData);\n\n      showToastCompat('Success! Redirecting...', 'success');\n      setTimeout(function () {\n        if (userData.role === 'school_admin') window.location.href = './admin-dashboard.html';\n        else if (userData.role === 'teacher') window.location.href = './teacher-dashboard.html';\n        else if (userData.role === 'student' || userData.role === 'individual') window.location.href = './student-activities.html';\n        else if (userData.role === 'parent') window.location.href = './parent-dashboard.html';\n        else showToastCompat('User role not configured.', 'error');\n      }, 700);\n    }\n\n    function signInWithEmail(email, password, onDone, onError) {\n      var authUrl = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' + FIREBASE_API_KEY;\n      var authBody = { email: email, password: password, returnSecureToken: true };\n\n      xhrJson('POST', authUrl, authBody, null, function (err, data) {\n        if (err || !data || !data.localId || !data.idToken) {\n          var code = err && err.error && err.error.message ? err.error.message : 'LOGIN_FAILED';\n          onError(mapAuthError(code));\n          return;\n        }\n        onDone(data.localId, data.idToken);\n      });\n    }\n\n    window.togglePw = function (id) {\n      var inp = document.getElementById(id);\n      if (!inp) return;\n\n      var btn = inp.nextElementSibling;\n      var icon = null;\n      if (btn && btn.querySelector) icon = btn.querySelector('i');\n      if (!icon && inp.parentElement && inp.parentElement.querySelector) icon = inp.parentElement.querySelector('.pw-toggle i');\n\n      if (inp.type === 'password') {\n        inp.type = 'text';\n        if (icon) icon.className = 'fas fa-eye-slash';\n      } else {\n        inp.type = 'password';\n        if (icon) icon.className = 'fas fa-eye';\n      }\n    };\n\n    window.selectRole = function (role) {\n      if (typeof window.setAuthPanel === 'function') window.setAuthPanel('register');\n\n      var cards = document.querySelectorAll('.role-item');\n      for (var i = 0; i < cards.length; i++) cards[i].classList.remove('active');\n\n      var forms = document.querySelectorAll('.reg-form-wrapper');\n      for (var j = 0; j < forms.length; j++) forms[j].classList.remove('open');\n\n      var targetCard = document.querySelector('.role-item-' + role);\n      if (targetCard) targetCard.classList.add('active');\n\n      var targetForm = document.getElementById('form-' + role);\n      if (targetForm) {\n        targetForm.classList.add('open');\n        if (targetForm.scrollIntoView) targetForm.scrollIntoView();\n      }\n    };\n\n    window.closeSuccess = function () {\n      var overlay = document.getElementById('successOverlay');\n      if (overlay) overlay.classList.remove('show');\n    };\n\n    window.loginUser = function () {\n      var loginIdEl = document.getElementById('loginId');\n      var loginPwEl = document.getElementById('loginPw');\n      if (!loginIdEl || !loginPwEl) return;\n\n      var rawId = String(loginIdEl.value || '').trim();\n      var pw = loginPwEl.value;\n      if (!rawId || !pw) {\n        showToastCompat('Enter email and password', 'error');\n        return;\n      }\n\n      showToastCompat('Logging in...', 'success');\n\n      function completeLogin(uid, idToken) {\n        fetchUserDoc(uid, idToken, function (err, userData) {\n          if (err) {\n            showToastCompat(err.message || 'User record not found in system.', 'error');\n            return;\n          }\n          saveAuthAndRedirect(uid, userData || {});\n        });\n      }\n\n      if (rawId.indexOf('@') !== -1) {\n        signInWithEmail(rawId, pw, completeLogin, function (msg) {\n          showToastCompat(msg, 'error');\n        });\n        return;\n      }\n\n      var normalizedPhone = normalizePhone(rawId);\n      lookupEmailByPhone(normalizedPhone, function (email) {\n        if (!email) {\n          showToastCompat('No account found for this phone number. Try email login.', 'error');\n          return;\n        }\n        signInWithEmail(email, pw, completeLogin, function (msg) {\n          showToastCompat(msg, 'error');\n        });\n      });\n    };\n  })();\n</script>\n\n<script type="module">`
-    );
-  }
+  // A fallback used to sit here that injected a second copy of the legacy
+  // auth helpers — setAuthPanel, togglePw, selectRole and a window.loginUser
+  // written before family accounts existed. AuthPage.tsx has shipped all of
+  // them for a while, so the guard never passed and the copy never ran; what
+  // it left behind was a stale second definition of the login handler that
+  // anyone reading this file would take for the real one. Removed rather
+  // than fixed: the page is the one place that handler should live.
 
   authHtml = authHtml.replace(
     'import { getFirestore, doc, setDoc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";',
@@ -532,66 +509,21 @@ function patchApkAuthPage() {
   };`
   );
 
-  authHtml = authHtml.replace(
-    /window\.loginUser = async \(\) => \{[\s\S]*?\n  \};/,
-    `window.loginUser = async () => {
-    const rawId = document.getElementById('loginId').value.trim();
-    const id = rawId.replace(/[\\s\\-()]/g, '');
-    const pw = document.getElementById('loginPw').value;
-    if (!id || !pw) return showToast('Enter email and password', 'error');
-
-    try {
-      showToast('Logging in...', 'success');
-
-      let emailToUse = id;
-      if (!id.includes('@')) {
-        const phoneCandidates = [id, id.startsWith('+') ? id.slice(1) : '+' + id];
-        let matchedEmail = '';
-
-        for (const phone of phoneCandidates) {
-          const usersRef = collection(db, 'users');
-          const q = query(usersRef, where('phone', '==', phone));
-          const snap = await getDocs(q);
-          if (!snap.empty) {
-            const data = snap.docs[0].data();
-            if (data && data.email) {
-              matchedEmail = data.email;
-              break;
-            }
-          }
-        }
-
-        if (!matchedEmail) {
-          return showToast('No account found for this phone number', 'error');
-        }
-        emailToUse = matchedEmail;
-      }
-
-      const userCredential = await signInWithEmailAndPassword(auth, emailToUse, pw);
-      const user = userCredential.user;
-
-      const userDoc = await getDoc(doc(db, "users", user.uid));
-      if (userDoc.exists()) {
-        const userData = userDoc.data();
-        const authData = JSON.stringify({ uid: user.uid, ...userData });
-        localStorage.setItem('auth_user', authData);
-        sessionStorage.setItem('auth_user', authData);
-
-        showToast('Success! Redirecting...', 'success');
-        setTimeout(() => {
-          if (userData.role === 'school_admin') window.location.href = './admin-dashboard.html';
-          else if (userData.role === 'teacher') window.location.href = './teacher-dashboard.html';
-          else if (userData.role === 'student' || userData.role === 'individual') window.location.href = './student-activities.html';
-          else if (userData.role === 'parent') window.location.href = './parent-dashboard.html';
-        }, 1000);
-      } else {
-        showToast('User record not found in system.', 'error');
-      }
-    } catch (error) {
-      showToast(error.message, 'error');
-    }
-  };`
-  );
+  // The APK used to get its own hand-written copy of window.loginUser here,
+  // replacing the one the page ships with. That copy predated family logins:
+  // it stripped hyphens from whatever was typed (PAR-7K4QM became PAR7K4QM),
+  // had no branch for a PAR- username, and looked the result up as a phone
+  // number — so every school-provisioned parent got "No account found for
+  // this phone number" in the app while the same credentials worked on the
+  // website. It also queried /users directly for that phone, which the
+  // current rules deny to a signed-out visitor, so phone login broke in the
+  // app as well.
+  //
+  // The page's own handler already does both correctly (AuthPage.tsx: a PAR-
+  // username maps through familyUsernameToEmail, a phone goes through the
+  // lookupEmailByPhone callable), so the APK is left with it. A test in
+  // src/__tests__/familyLogin.test.ts fails if a replacement without family
+  // support is reintroduced here.
 
   authHtml = authHtml.replace(
     /id="loginPw"([^>]*?)placeholder="[^"]*"/,
@@ -944,9 +876,9 @@ function patchApkDashboardCompact(fileName, marker, pageSelector, extraBodyScrip
   return true;
 }
 
-// APK-only fix: teacher-dashboard.html and parent-dashboard.html JS reference
-// several DOM ids that don't exist in the rendered HTML (e.g. `schoolNameTag`,
-// `classInfo`, `welcomeName`, `teacherInfo`). The first
+// APK-only fix: teacher-dashboard.html JS references several DOM ids that
+// don't exist in the rendered HTML (e.g. `schoolNameTag`,
+// `classInfo`). The first
 // `document.getElementById(...).innerHTML = ...` throws
 // `Cannot set properties of null` and aborts initDashboard() before the
 // students/child query runs - which is why the dashboards show 0 data and
@@ -984,11 +916,6 @@ function buildMissingIdShim(marker, ids) {
 const TEACHER_MISSING_ID_SHIM = buildMissingIdShim(
   'APK_TEACHER_MISSING_ID_SHIM',
   ['schoolNameTag','classInfo']
-);
-
-const PARENT_MISSING_ID_SHIM = buildMissingIdShim(
-  'APK_PARENT_MISSING_ID_SHIM',
-  ['welcomeName','schoolNameTag','teacherInfo','classInfo']
 );
 
 const ADMIN_MISSING_ID_SHIM = buildMissingIdShim(
@@ -1064,26 +991,10 @@ function patchApkAdminDashboard() {
     .admin-page .brand-title { font-size: 0.9rem !important; line-height: 1.1 !important; }
     .admin-page .brand-copy span:not(.brand-title) { font-size: 0.65rem !important; }
 
-    /* Nav links -> 5-column pill row */
+    /* The 5-column pill row that used to be here applied to phones too, where
+       the admin nav is the off-canvas drawer and its links have to stay a
+       vertical list. It is scoped to the tablet range below. */
     .admin-page .nav-center { width: 100% !important; }
-    .admin-page .nav-links {
-      display: grid !important;
-      grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
-      gap: 0.25rem !important;
-      width: 100% !important;
-      margin: 0 !important;
-      padding: 0 !important;
-      list-style: none !important;
-    }
-    .admin-page .nav-links li {
-      padding: 0.4rem 0.2rem !important;
-      font-size: 0.6rem !important;
-      text-align: center !important;
-      border-radius: 9px !important;
-      line-height: 1.1 !important;
-      min-height: 0 !important;
-      cursor: pointer !important;
-    }
 
     /* Remove redundant duplicate admin chip in nav-actions and workspace bar */
     .admin-page .nav-actions .nav-profile { display: none !important; }
@@ -1281,6 +1192,29 @@ function patchApkAdminDashboard() {
       border-radius: 8px !important;
     }
   }
+
+  /* Nav links -> 5-column pill row, tablet only. Below 901px the admin nav is
+     the off-canvas drawer and its links stay the vertical list from base CSS. */
+  @media (min-width: 901px) and (max-width: 1024px) {
+    .admin-page .nav-links {
+      display: grid !important;
+      grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+      gap: 0.25rem !important;
+      width: 100% !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      list-style: none !important;
+    }
+    .admin-page .nav-links li {
+      padding: 0.4rem 0.2rem !important;
+      font-size: 0.6rem !important;
+      text-align: center !important;
+      border-radius: 9px !important;
+      line-height: 1.1 !important;
+      min-height: 0 !important;
+      cursor: pointer !important;
+    }
+  }
   `;
 
   html = html.replace('</style>', `${css}\n</style>`);
@@ -1336,22 +1270,37 @@ function patchApkAuthSuperAdminRedirect() {
 // super-admin-dashboard.html inside the APK, the guard immediately
 // `window.location.replace`s back to /auth.html. We append the missing
 // route to that array in every dist HTML file. Website build untouched.
+// The list itself now lives in src/components/Head.tsx; this stays as a safety
+// net so a stale dist can never ship an APK that bounces a role back to /auth.
+const APK_ALLOWED_ROUTES = [
+  '/auth',
+  '/student-activities',
+  '/family',
+  '/teacher-dashboard',
+  '/teacher-reader',
+  '/admin-dashboard',
+  '/super-admin-dashboard',
+  '/activity',
+  '/club'
+];
+
 function patchApkAllowedRoutes() {
   if (!fs.existsSync(distDir)) return;
-  const target = "var allowed = ['/auth', '/student-activities', '/parent-dashboard', '/teacher-dashboard', '/admin-dashboard', '/activity'];";
-  const replacement = "var allowed = ['/auth', '/student-activities', '/parent-dashboard', '/teacher-dashboard', '/admin-dashboard', '/super-admin-dashboard', '/activity'];";
+  const pattern = /var allowed = \[[^\]]*\];/g;
+  const replacement =
+    'var allowed = [' + APK_ALLOWED_ROUTES.map((r) => `'${r}'`).join(', ') + '];';
   const htmlFiles = fs.readdirSync(distDir).filter((f) => f.endsWith('.html'));
   let patched = 0;
   for (const file of htmlFiles) {
     const filePath = path.join(distDir, file);
-    let html = fs.readFileSync(filePath, 'utf8');
-    if (!html.includes(target)) continue;
-    if (html.includes('/super-admin-dashboard')) continue;
-    html = html.replace(target, replacement);
-    fs.writeFileSync(filePath, html, 'utf8');
+    const html = fs.readFileSync(filePath, 'utf8');
+    pattern.lastIndex = 0;
+    const next = html.replace(pattern, replacement);
+    if (next === html) continue;
+    fs.writeFileSync(filePath, next, 'utf8');
     patched++;
   }
-  console.log('APK allowed-routes patch (super-admin): ' + patched + ' files updated.');
+  console.log('APK allowed-routes patch: ' + patched + ' files updated.');
 }
 
 function patchApkStudentDashboard() {
@@ -1676,11 +1625,13 @@ function patchApkInternalLinks() {
   const routes = [
     'auth',
     'student-activities',
-    'parent-dashboard',
+    'family',
     'teacher-dashboard',
+    'teacher-reader',
     'admin-dashboard',
     'super-admin-dashboard',
-    'activity'
+    'activity',
+    'club'
   ];
 
   if (!fs.existsSync(distDir)) return;
@@ -1906,12 +1857,10 @@ function patchApkSuperAdminDashboard() {
 
 fs.writeFileSync(dest, html, 'utf8');
 console.log('APK splash index.html written to dist/index.html');
-installCompressedApkPdfs();
 patchApkAuthPage();
 patchApkAuthSuperAdminRedirect();
 patchApkStudentDashboard();
 patchApkDashboardCompact('teacher-dashboard.html', 'APK_TEACHER_DASHBOARD_COMPACT', '.teacher-page', TEACHER_MISSING_ID_SHIM);
-patchApkDashboardCompact('parent-dashboard.html', 'APK_PARENT_DASHBOARD_COMPACT', '.parent-page', PARENT_MISSING_ID_SHIM);
 patchApkAdminDashboard();
 patchApkSuperAdminDashboard();
 patchApkAllowedRoutes();
