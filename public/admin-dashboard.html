@@ -63,97 +63,12 @@
           window.location.replace('auth.html');
         }
 
-        // Add custom Pull-to-Refresh for Capacitor (Facebook-style)
-        document.addEventListener('DOMContentLoaded', function() {
-          var startY = 0;
-          var pY = 0;
-          var isPulling = false;
-          var pullConfirmed = false;
-          var THRESHOLD = 380;
-          var DEAD_ZONE = 40;
-          var isScrolling = false;
-          var scrollTimer = null;
-          
-          var ptrEl = document.createElement('div');
-          ptrEl.id = 'ptrSpinner';
-          ptrEl.innerHTML = '<i class="fas fa-arrow-down"></i>';
-          ptrEl.style.cssText = 'position:fixed; top:-60px; left:50%; transform:translateX(-50%); z-index:99999; background:white; color:#E08020; width:44px; height:44px; border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 14px rgba(0,0,0,0.18); transition: top 0.25s, transform 0.25s; font-size:1.1rem; pointer-events:none;';
-          document.body.appendChild(ptrEl);
-
-          function getScrollTop() {
-            var el = document.querySelector('.dashboard-main') || document.querySelector('.main-content') || window;
-            return el === window ? window.scrollY : el.scrollTop;
-          }
-
-          window.addEventListener('scroll', function() {
-            isScrolling = true;
-            clearTimeout(scrollTimer);
-            scrollTimer = setTimeout(function() { isScrolling = false; }, 150);
-          }, {passive: true});
-
-          document.addEventListener('touchstart', function(e) {
-            if (getScrollTop() <= 2 && !isScrolling) {
-              startY = e.touches[0].clientY;
-              isPulling = true;
-              pullConfirmed = false;
-              ptrEl.style.transition = 'none';
-            } else {
-              isPulling = false;
-              pullConfirmed = false;
-            }
-          }, {passive: true});
-
-          document.addEventListener('touchmove', function(e) {
-            if (!isPulling) return;
-            if (getScrollTop() > 2) {
-              isPulling = false;
-              pullConfirmed = false;
-              ptrEl.style.transition = 'top 0.2s';
-              ptrEl.style.top = '-60px';
-              return;
-            }
-            var y = e.touches[0].clientY;
-            pY = y - startY;
-            if (pY < DEAD_ZONE) return;
-            if (!pullConfirmed) { pullConfirmed = true; ptrEl.style.transition = 'none'; }
-            if (e.cancelable) e.preventDefault();
-            var pullDist = pY - DEAD_ZONE;
-            var topPos = Math.min(pullDist * 0.28 - 60, 55);
-            ptrEl.style.top = topPos + 'px';
-            ptrEl.style.transform = 'translateX(-50%) rotate(' + (pullDist * 1.2) + 'deg)';
-            if (pullDist >= THRESHOLD) {
-              ptrEl.style.color = '#16a34a';
-              ptrEl.style.background = '#f0fdf4';
-              ptrEl.style.boxShadow = '0 4px 14px rgba(22,163,74,0.28)';
-              ptrEl.innerHTML = '<i class="fas fa-sync-alt"></i>';
-            } else {
-              ptrEl.style.color = '#E08020';
-              ptrEl.style.background = 'white';
-              ptrEl.style.boxShadow = '0 4px 14px rgba(0,0,0,0.18)';
-              ptrEl.innerHTML = '<i class="fas fa-arrow-down"></i>';
-            }
-          }, {passive: false});
-
-          document.addEventListener('touchend', function(e) {
-            if (!isPulling) return;
-            isPulling = false;
-            pullConfirmed = false;
-            ptrEl.style.transition = 'top 0.3s';
-            var pullDist = pY - DEAD_ZONE;
-            if (pullDist >= THRESHOLD && getScrollTop() <= 2) {
-              ptrEl.style.top = '55px';
-              ptrEl.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-              setTimeout(function() { window.location.reload(); }, 350);
-            } else {
-              ptrEl.style.top = '-60px';
-              ptrEl.style.color = '#E08020';
-              ptrEl.style.background = 'white';
-              ptrEl.style.boxShadow = '0 4px 14px rgba(0,0,0,0.18)';
-              ptrEl.innerHTML = '<i class="fas fa-arrow-down"></i>';
-            }
-            pY = 0;
-          });
-        });
+        /* IA_PULL_TO_REFRESH — replaced at build time with the shared
+           implementation in src/lib/pullToRefresh.ts. This page is static, so
+           it cannot import it; the /admin-dashboard route substitutes it the
+           same way it substitutes the Firebase config. Its own copy used to
+           live here and drifted: a different threshold, different rules, and
+           none of the fixes the other dashboards got. */
         // Hardware Back Button Handling for Android
         document.addEventListener('DOMContentLoaded', function() {
           if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.App) {
