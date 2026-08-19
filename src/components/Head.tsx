@@ -1,4 +1,5 @@
-import { html } from 'hono/html';
+import { html, raw } from 'hono/html';
+import { pullToRefreshJS } from '../lib/pullToRefresh';
 export const Head = () => html`\n<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -72,102 +73,12 @@ export const Head = () => html`\n<!DOCTYPE html>
           window.location.replace('auth.html');
         }
 
-        // Add custom Pull-to-Refresh for Capacitor
-        document.addEventListener('DOMContentLoaded', function() {
-          var startY = 0;
-          var pY = 0;
-          var isPulling = false;
-          // 220px was most of a phone screen, and the spinner only crept down
-          // a third of what the thumb travelled — so it read as "nothing is
-          // happening" and people let go before anything fired. 90px is about
-          // what Chrome and every native app use.
-          var THRESHOLD = 90;
-          
-          var ptrEl = document.createElement('div');
-          ptrEl.id = 'ptrSpinner';
-          ptrEl.innerHTML = '<i class="fas fa-arrow-down"></i>';
-          ptrEl.style.cssText = 'position:fixed; top:-60px; left:50%; transform:translateX(-50%); z-index:99999; background:white; color:#E08020; width:44px; height:44px; border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 14px rgba(0,0,0,0.18); transition: top 0.25s, transform 0.25s; font-size:1.1rem; pointer-events:none;';
-          document.body.appendChild(ptrEl);
+        // Pull to refresh — rules and wiring both live in
+        // src/lib/pullToRefresh.ts, where the rules can be tested. They could
+        // not be before: this whole block only runs inside a Capacitor
+        // WebView, so nothing on a desktop or in CI ever exercised it.
+        ${raw(pullToRefreshJS)}
 
-          // Which element is actually scrolling varies by page — and on the
-          // family page nothing matched, so the pull only worked when the
-          // window happened to be at the top. Whichever container the touch
-          // started inside is the honest answer.
-          function scrollerAt(target) {
-            var el = target;
-            while (el && el !== document.body && el !== document.documentElement) {
-              if (el.scrollHeight > el.clientHeight + 4) {
-                var overflow = window.getComputedStyle(el).overflowY;
-                if (overflow === 'auto' || overflow === 'scroll') return el;
-              }
-              el = el.parentElement;
-            }
-            return document.querySelector('.dashboard-main') || document.querySelector('.main-content') || window;
-          }
-
-          var scroller = window;
-          function getScrollTop() {
-            return scroller === window ? window.scrollY : scroller.scrollTop;
-          }
-
-          // A pull with a dialog open would reload the page out from under it.
-          function overlayOpen() {
-            return !!document.querySelector('.modal-overlay:not(.d-none), .fam-overlay:not(.d-none), .custom-modal-overlay');
-          }
-
-          document.addEventListener('touchstart', function(e) {
-            if (overlayOpen()) { isPulling = false; return; }
-            scroller = scrollerAt(e.target);
-            if (getScrollTop() <= 0) {
-              startY = e.touches[0].clientY;
-              isPulling = true;
-              ptrEl.style.transition = 'none';
-            }
-          }, {passive: true});
-
-          document.addEventListener('touchmove', function(e) {
-            if (!isPulling) return;
-            var y = e.touches[0].clientY;
-            pY = y - startY;
-            if (pY > 0 && getScrollTop() <= 0) {
-              if (e.cancelable) e.preventDefault();
-              // Follows the thumb closely enough to feel attached to it.
-              var topPos = Math.min(pY * 0.7 - 60, 60);
-              ptrEl.style.top = topPos + 'px';
-              ptrEl.style.transform = 'translateX(-50%) rotate(' + (pY * 1.5) + 'deg)';
-              // Turn green when threshold reached — clear visual cue
-              if (pY >= THRESHOLD) {
-                ptrEl.style.color = '#16a34a';
-                ptrEl.style.background = '#f0fdf4';
-                ptrEl.style.boxShadow = '0 4px 14px rgba(22,163,74,0.28)';
-                ptrEl.innerHTML = '<i class="fas fa-sync-alt"></i>';
-              } else {
-                ptrEl.style.color = '#E08020';
-                ptrEl.style.background = 'white';
-                ptrEl.style.boxShadow = '0 4px 14px rgba(0,0,0,0.18)';
-                ptrEl.innerHTML = '<i class="fas fa-arrow-down"></i>';
-              }
-            }
-          }, {passive: false});
-
-          document.addEventListener('touchend', function(e) {
-            if (!isPulling) return;
-            isPulling = false;
-            ptrEl.style.transition = 'top 0.3s';
-            if (pY >= THRESHOLD && getScrollTop() <= 0) {
-              ptrEl.style.top = '55px';
-              ptrEl.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-              setTimeout(function() { window.location.reload(); }, 350);
-            } else {
-              ptrEl.style.top = '-60px';
-              ptrEl.style.color = '#E08020';
-              ptrEl.style.background = 'white';
-              ptrEl.style.boxShadow = '0 4px 14px rgba(0,0,0,0.18)';
-              ptrEl.innerHTML = '<i class="fas fa-arrow-down"></i>';
-            }
-            pY = 0;
-          });
-        });
         // Hardware Back Button Handling for Android
         document.addEventListener('DOMContentLoaded', function() {
           if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.App) {
