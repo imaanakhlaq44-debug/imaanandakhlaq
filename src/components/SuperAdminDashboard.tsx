@@ -31,9 +31,13 @@ export const SuperAdminDashboard = () => html`
   .sidebar-header { height: 70px; display: flex; align-items: center; padding: 0 20px; background-color: rgba(0, 0, 0, 0.1); font-size: 1.1rem; font-weight: 600; gap: 12px; }
   .sidebar-header img { width: 35px; height: 35px; border-radius: 8px; object-fit: cover; }
   .sidebar-nav { flex: 1; padding: 20px 0; overflow-y: auto; }
-  .nav-item { padding: 14px 25px; display: flex; align-items: center; gap: 15px; color: rgba(255, 255, 255, 0.7); text-decoration: none; font-size: 0.95rem; transition: all 0.2s ease; cursor: pointer; }
-  .nav-item:hover, .nav-item.active { color: var(--white); background-color: rgba(255, 255, 255, 0.05); border-left: 4px solid var(--brand-secondary); }
-  .nav-item i { width: 20px; text-align: center; font-size: 1.1rem; }
+  /* Matches the sidebar on the other dashboards: quiet row, white on hover,
+     and a 3px accent rail on the active one. */
+  .nav-item { position: relative; padding: 10px 12px; margin: 0 8px; border-radius: var(--ds-radius-sm); display: flex; align-items: center; gap: 12px; color: rgba(255, 255, 255, 0.74); text-decoration: none; font-size: 0.875rem; font-weight: 500; transition: background 0.15s ease, color 0.15s ease; cursor: pointer; }
+  .nav-item:hover { color: var(--white); background-color: rgba(255, 255, 255, 0.07); }
+  .nav-item.active { color: var(--white); background-color: rgba(255, 255, 255, 0.10); font-weight: 600; }
+  .nav-item.active::before { content: ''; position: absolute; left: 0; top: 8px; bottom: 8px; width: 3px; border-radius: 0 3px 3px 0; background: var(--ds-accent); }
+  .nav-item i { width: 20px; text-align: center; font-size: 0.9375rem; opacity: .9; }
 
   /* Main Wrapper */
   .main-wrapper { flex: 1; display: flex; flex-direction: column; overflow-x: hidden; }
@@ -53,26 +57,8 @@ export const SuperAdminDashboard = () => html`
   /* Content */
   .content-area { padding: 24px; flex: 1; overflow-y: auto; }
 
-  /* Stats */
-  .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 24px; }
-  .stat-card { border-radius: 16px; padding: 25px; color: white; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 10px 20px rgba(0,0,0,0.08); transition: transform 0.3s ease, box-shadow 0.3s; position: relative; overflow: hidden; }
-  .stat-card::before { content: ''; position: absolute; top: -50%; right: -20%; width: 150px; height: 150px; background: rgba(255, 255, 255, 0.1); border-radius: 50%; z-index: 1; }
-  .stat-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.12); }
-  .stat-card.blue { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
-  .stat-card.green { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
-  .stat-card.red { background: linear-gradient(135deg, #ff0844 0%, #ffb199 100%); }
-  .stat-card.purple { background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%); }
-  .stat-info { position: relative; z-index: 2; }
-  .stat-info h3 { font-size: 2.2rem; font-weight: 700; margin-bottom: 5px; text-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-  .stat-info p { font-size: 0.95rem; opacity: 0.9; font-weight: 500; }
-  .stat-icon { font-size: 3rem; opacity: 0.4; position: relative; z-index: 2; }
-
   /* Filters */
   .filter-section { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-  .filter-tabs { display: flex; background: var(--white); border-radius: 10px; padding: 5px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-  .filter-tab { padding: 8px 16px; border-radius: 8px; font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: all 0.2s; color: var(--text-light); }
-  .filter-tab.active { background: var(--brand-primary); color: var(--white); box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-  .filter-tab:hover:not(.active) { color: var(--brand-primary); background: rgba(41, 65, 109, 0.05); }
 
   /* Dashboard Grid */
   .dash-grid { display: grid; grid-template-columns: 1fr; gap: 25px; margin-bottom: 25px; }
@@ -80,22 +66,31 @@ export const SuperAdminDashboard = () => html`
   .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 15px; }
   .card-title { font-size: 1.15rem; font-weight: 600; color: var(--text-dark); display: flex; align-items: center; gap: 10px; }
 
-  /* Beautiful Graph Area */
-  .graph-wrapper { position: relative; height: 300px; width: 100%; display: flex; align-items: flex-end; justify-content: space-around; padding-top: 20px; background: radial-gradient(circle at top right, rgba(207, 41, 109, 0.03), transparent 50%); border-radius: 10px; }
-  .graph-line-bg { position: absolute; bottom: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; opacity: 0.5; background: repeating-linear-gradient(0deg, transparent, transparent 49px, rgba(0,0,0,0.03) 49px, rgba(0,0,0,0.03) 50px); }
-  .graph-bar-container { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; width: 8%; z-index: 2; position: relative; }
-  .graph-bar { width: 100%; border-radius: 6px 6px 0 0; transition: height 1s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; position: relative; }
-  .graph-bar.schools { background: linear-gradient(to top, var(--brand-primary), #4facfe); }
-  .graph-bar.students { background: linear-gradient(to top, var(--brand-secondary), #ff758c); width: 60%; position: absolute; bottom: 0; border-radius: 4px 4px 0 0; opacity: 0.9; }
-  .graph-label { margin-top: 10px; font-size: 0.75rem; font-weight: 500; color: var(--text-light); }
-  
-  .graph-tooltip { position: absolute; top: -45px; left: 50%; transform: translateX(-50%); background: var(--text-dark); color: var(--white); padding: 5px 10px; border-radius: 6px; font-size: 0.75rem; white-space: nowrap; opacity: 0; transition: opacity 0.2s, top 0.2s; pointer-events: none; z-index: 10; }
-  .graph-bar-container:hover .graph-tooltip { opacity: 1; top: -55px; }
-  .graph-tooltip::after { content: ''; position: absolute; bottom: -4px; left: 50%; transform: translateX(-50%); border-width: 4px 4px 0; border-style: solid; border-color: var(--text-dark) transparent transparent transparent; }
-
-  .graph-legend { display: flex; justify-content: center; gap: 20px; margin-top: 20px; position: relative; z-index: 2; }
-  .legend-item { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; font-weight: 500; color: var(--text-dark); }
-  .legend-dot { width: 12px; height: 12px; border-radius: 4px; }
+  /* Charts: a line of plain English under the title saying what the picture
+     shows, and a frame whose height the chart sets from its own row count. */
+  .chart-caption {
+    font-family: var(--ds-font-body);
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    color: var(--ds-muted);
+    margin: -8px 0 16px;
+    max-width: 62ch;
+  }
+  .chart-note {
+    font-family: var(--ds-font-body);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--ds-muted);
+    white-space: nowrap;
+  }
+  .chart-frame { position: relative; width: 100%; height: 320px; }
+  .chart-empty {
+    text-align: center;
+    padding: 32px 16px;
+    color: var(--ds-muted);
+    font-family: var(--ds-font-body);
+    font-size: 0.875rem;
+  }
 
   /* Table */
   .table-responsive { overflow-x: auto; }
@@ -203,23 +198,16 @@ export const SuperAdminDashboard = () => html`
     /* Content */
     .content-area { padding: 10px; padding-bottom: 72px; }
 
-    /* Stats: 2-column grid on mobile */
-    .stats-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 10px; margin-bottom: 12px; }
-    .stat-card { padding: 14px; border-radius: 12px !important; }
-    .stat-info h3 { font-size: 1.55rem !important; }
-    .stat-info p { font-size: 0.78rem; }
-    .stat-icon { font-size: 2rem; }
-
     /* Cards */
     .card { padding: 14px; border-radius: 12px !important; }
     .card-header { flex-wrap: wrap; gap: 8px; }
-    .filter-tabs { flex-wrap: wrap; }
-    .filter-tab { padding: 5px 9px; font-size: 0.74rem; }
 
     /* Table: horizontal scroll */
     .table-responsive { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-    table { min-width: 460px; }
-    th, td { padding: 10px 8px; font-size: 0.76rem; }
+    /* 460px was narrower than six columns need, so instead of scrolling the
+       table wrapped every heading and every school name down to three lines. */
+    table { min-width: 660px; }
+    th, td { padding: 10px 8px; font-size: 0.76rem; white-space: nowrap; }
 
     /* Reports */
     .reports-grid { grid-template-columns: 1fr !important; }
@@ -293,25 +281,24 @@ export const SuperAdminDashboard = () => html`
   }
 
   .super-admin-layout .card,
-  .super-admin-layout .stat-card,
+
+
   .super-admin-layout .panel-card,
+
+
   .super-admin-layout .section-card,
+
+
   .super-admin-layout .widget-card {
     border-radius: 20px !important;
     box-shadow: 0 6px 22px rgba(41, 65, 109, 0.08), 0 1px 3px rgba(41, 65, 109, 0.04) !important;
     border: 1px solid rgba(41, 65, 109, 0.06) !important;
     transition: transform 0.25s ease, box-shadow 0.25s ease !important;
   }
-  .super-admin-layout .card:hover,
-  .super-admin-layout .stat-card:hover {
+  .super-admin-layout .card:hover {
     transform: translateY(-3px);
     box-shadow: 0 14px 34px rgba(41, 65, 109, 0.12), 0 3px 8px rgba(41, 65, 109, 0.05) !important;
   }
-
-  .super-admin-layout .stat-card.card-green  { border-left: 4px solid var(--brand-success) !important; }
-  .super-admin-layout .stat-card.card-yellow { border-left: 4px solid var(--brand-tertiary) !important; }
-  .super-admin-layout .stat-card.card-orange { border-left: 4px solid var(--brand-secondary) !important; }
-  .super-admin-layout .stat-card.card-blue   { border-left: 4px solid var(--brand-primary) !important; }
 
   .super-admin-layout .btn-logout,
   .super-admin-layout .logout-btn,
@@ -392,8 +379,8 @@ export const SuperAdminDashboard = () => html`
   .super-admin-layout .nav-item.active,
   .super-admin-layout .nav-link.active,
   .super-admin-layout a.nav-item.active {
-    background: linear-gradient(90deg, rgba(207, 41, 109, 0.18), transparent) !important;
-    border-left: 3px solid var(--brand-secondary) !important;
+    background: rgba(255, 255, 255, 0.10) !important;
+    border-left: 0 !important;
     color: #ffffff !important;
   }
 
@@ -550,96 +537,68 @@ export const SuperAdminDashboard = () => html`
       </div>
 
       <!-- Stats Row -->
-      <div class="stats-grid" id="dash-stats">
-        <div class="stat-card blue">
-          <div class="stat-info">
-            <h3 id="total-schools-count">...</h3>
-            <p>Total Schools</p>
-          </div>
-          <div class="stat-icon"><i class="fas fa-school"></i></div>
+      <!-- Four gradient tiles (sky blue, mint, red-to-peach, lilac), each
+           with a translucent circle floating behind the number, became the
+           same .ds-stat row the other dashboards use. -->
+      <div class="ds-stats" id="dash-stats">
+        <div class="ds-stat">
+          <span class="ds-stat-icon"><i class="fas fa-school"></i></span>
+          <span class="ds-stat-body">
+            <span class="ds-stat-label">Total Schools</span>
+            <strong class="ds-stat-value" id="total-schools-count">...</strong>
+          </span>
         </div>
-        <div class="stat-card green">
-          <div class="stat-info">
-            <h3 id="total-students-count">...</h3>
-            <p>Total Students</p>
-          </div>
-          <div class="stat-icon"><i class="fas fa-user-graduate"></i></div>
+
+        <div class="ds-stat is-positive">
+          <span class="ds-stat-icon"><i class="fas fa-user-graduate"></i></span>
+          <span class="ds-stat-body">
+            <span class="ds-stat-label">Total Students</span>
+            <strong class="ds-stat-value" id="total-students-count">...</strong>
+          </span>
         </div>
-        <div class="stat-card red">
-          <div class="stat-info">
-            <h3 id="total-teachers-count">...</h3>
-            <p>Total Teachers</p>
-          </div>
-          <div class="stat-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+
+        <div class="ds-stat is-info">
+          <span class="ds-stat-icon"><i class="fas fa-chalkboard-teacher"></i></span>
+          <span class="ds-stat-body">
+            <span class="ds-stat-label">Total Teachers</span>
+            <strong class="ds-stat-value" id="total-teachers-count">...</strong>
+          </span>
         </div>
-        <div class="stat-card purple">
-          <div class="stat-info">
-            <h3>$500</h3>
-            <p>Monthly Revenue</p>
-          </div>
-          <div class="stat-icon"><i class="fas fa-wallet"></i></div>
+
+        <div class="ds-stat is-warning">
+          <span class="ds-stat-icon"><i class="fas fa-wallet"></i></span>
+          <span class="ds-stat-body">
+            <span class="ds-stat-label">Monthly Revenue</span>
+            <strong class="ds-stat-value">$500</strong>
+          </span>
         </div>
       </div>
 
       <!-- Graph Section -->
+      <!-- One chart, and it says what it plots.
+           What used to be here was labelled as weekly registrations — six bars
+           called Week 1 to Week 6, a legend reading "New Schools Registered"
+           and "New Students Registered", and tabs for 1 Week through 1 Year —
+           while the code behind it filled those bars with the student and
+           teacher counts of individual schools. Nothing on the platform records
+           when a school signed up, so no weekly series can be drawn at all; the
+           honest version of that data is how big each school is. -->
       <div class="card" id="dash-graph" style="margin-bottom: 25px;">
         <div class="card-header">
           <div class="card-title">
-            <i class="fas fa-chart-area" style="color: var(--brand-secondary)"></i> 
-            Platform Growth & Registrations
+            <i class="fas fa-chart-bar" style="color: var(--brand-secondary)"></i>
+            How big each school is
           </div>
-          <div class="filter-tabs">
-            <div class="filter-tab">1 Week</div>
-            <div class="filter-tab active">1 Month</div>
-            <div class="filter-tab">3 Months</div>
-            <div class="filter-tab">6 Months</div>
-            <div class="filter-tab">1 Year</div>
-          </div>
+          <span class="chart-note" id="platformChartNote">Largest schools first</span>
         </div>
-        <div class="graph-wrapper">
-          <div class="graph-line-bg"></div>
-          <!-- Graph Bars (Dummy Data) -->
-          <div class="graph-bar-container">
-            <div class="graph-bar schools" style="height: 30%"></div>
-            <div class="graph-bar students" style="height: 15%"></div>
-            <div class="graph-tooltip">W1: 5 Schools, 200 Students</div>
-            <div class="graph-label">Week 1</div>
-          </div>
-          <div class="graph-bar-container">
-            <div class="graph-bar schools" style="height: 45%"></div>
-            <div class="graph-bar students" style="height: 25%"></div>
-            <div class="graph-tooltip">W2: 8 Schools, 400 Students</div>
-            <div class="graph-label">Week 2</div>
-          </div>
-          <div class="graph-bar-container">
-            <div class="graph-bar schools" style="height: 60%"></div>
-            <div class="graph-bar students" style="height: 35%"></div>
-            <div class="graph-tooltip">W3: 12 Schools, 600 Students</div>
-            <div class="graph-label">Week 3</div>
-          </div>
-          <div class="graph-bar-container">
-            <div class="graph-bar schools" style="height: 85%"></div>
-            <div class="graph-bar students" style="height: 55%"></div>
-            <div class="graph-tooltip">W4: 18 Schools, 1200 Students</div>
-            <div class="graph-label">Week 4</div>
-          </div>
-          <div class="graph-bar-container">
-            <div class="graph-bar schools" style="height: 70%"></div>
-            <div class="graph-bar students" style="height: 40%"></div>
-            <div class="graph-tooltip">W5: 15 Schools, 800 Students</div>
-            <div class="graph-label">Week 5</div>
-          </div>
-          <div class="graph-bar-container">
-            <div class="graph-bar schools" style="height: 100%"></div>
-            <div class="graph-bar students" style="height: 75%"></div>
-            <div class="graph-tooltip">W6: 22 Schools, 1800 Students</div>
-            <div class="graph-label">Week 6</div>
-          </div>
+        <p class="chart-caption">
+          Every registered school, with the number of students and teachers on its roster.
+          The longest bar is the biggest school.
+        </p>
+        <div class="chart-frame">
+          <canvas id="platformChartCanvas"></canvas>
         </div>
-        <div class="graph-legend">
-          <div class="legend-item"><div class="legend-dot" style="background: var(--brand-primary)"></div> New Schools Registered</div>
-          <div class="legend-item"><div class="legend-dot" style="background: var(--brand-secondary)"></div> New Students Registered</div>
-        </div>
+        <p class="chart-empty d-none" id="platformChartEmpty">No schools have registered yet.</p>
       </div>
 
       <!-- Schools List -->
@@ -689,11 +648,20 @@ export const SuperAdminDashboard = () => html`
   </div>
 </div>
 
+<!-- Chart.js as a plain local script, not an ES import from esm.sh.
+     Two reasons. The APK build strips type="module" from these pages (it
+     rewrites the Firebase CDN imports to read off a local bundle), which left
+     this one surviving import statement as a syntax error — the whole script died at
+     parse time and the packaged Super Admin dashboard never got past
+     "Loading Live Data from Database...". And an import from a CDN cannot
+     resolve at all in an offline app. -->
+<script src="/kidba_assets/vendor/js/chart.umd.min.js"></script>
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
   import { getFirestore, collection, getDocs, doc, getDoc, setDoc, deleteDoc, writeBatch } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
   import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
-  import Chart from "https://esm.sh/chart.js/auto";
+
+  const Chart = window.Chart;
 
   const firebaseConfig = ${raw(firebaseConfigJS)};
 
@@ -770,6 +738,8 @@ export const SuperAdminDashboard = () => html`
       document.getElementById('total-schools-count').textContent = schools.length;
       document.getElementById('total-students-count').textContent = totalStudents;
       document.getElementById('total-teachers-count').textContent = totalTeachers;
+
+      if (typeof window.renderPlatformChart === 'function') window.renderPlatformChart(schools, users);
 
       const tbody = document.getElementById('schools-table-body');
       tbody.innerHTML = '';
@@ -1261,91 +1231,133 @@ export const SuperAdminDashboard = () => html`
       });
     });
 
-    // Graph Filter Logic — uses REAL data from Firestore
-    const filterTabs = document.querySelectorAll('.filter-tab');
-    const graphContainers = document.querySelectorAll('#dash-graph .graph-bar-container');
+    /**
+     * How big each school is: students and teachers per school, longest first.
+     *
+     * The chart this replaced drew six bars labelled Week 1..Week 6 from
+     * per-school counts, so the picture and its labels described different
+     * things. Nothing records a school's signup date, so there is no weekly
+     * series to draw — this plots the one thing the data actually says.
+     */
+    window.renderPlatformChart = function (schools, users) {
+      const canvas = document.getElementById('platformChartCanvas');
+      const empty = document.getElementById('platformChartEmpty');
+      const note = document.getElementById('platformChartNote');
+      if (!canvas || typeof Chart === 'undefined') return;
 
-    // Build real growth data from loaded Firestore data
-    function buildGrowthData(schools, users) {
-      // Per-school distribution (actual registered counts)
-      const perSchool = schools.map(school => {
-        let stu = 0, tch = 0;
-        users.forEach(u => {
-          if (u.school_id === school.id) {
-            if (u.role === 'student') stu++;
-            if (u.role === 'teacher') tch++;
+      const perSchool = schools.map((school) => {
+        let students = 0, teachers = 0;
+        users.forEach((u) => {
+          if (u.school_id !== school.id) return;
+          if (u.role === 'student') students++;
+          if (u.role === 'teacher') teachers++;
+        });
+        return { name: school.name || 'Unnamed school', students: students, teachers: teachers };
+      }).sort((a, b) => (b.students + b.teachers) - (a.students + a.teachers));
+
+      // Individual learners belong to no school. Leaving them out entirely
+      // would make the totals above the chart look wrong to anyone adding the
+      // bars up, so they get their own row.
+      const individuals = users.filter((u) => u.role === 'individual' || (u.role === 'student' && !u.school_id)).length;
+      if (individuals) perSchool.push({ name: 'Individual learners', students: individuals, teachers: 0 });
+
+      if (!perSchool.length) {
+        canvas.classList.add('d-none');
+        if (empty) empty.classList.remove('d-none');
+        if (note) note.textContent = '';
+        return;
+      }
+
+      canvas.classList.remove('d-none');
+      if (empty) empty.classList.add('d-none');
+
+      // More than a dozen rows stops being readable on one screen, so the tail
+      // is summed into one row rather than silently dropped.
+      const TOP = 12;
+      let rows = perSchool;
+      if (perSchool.length > TOP) {
+        const rest = perSchool.slice(TOP - 1);
+        rows = perSchool.slice(0, TOP - 1).concat([{
+          name: rest.length + ' smaller schools',
+          students: rest.reduce((t, s) => t + s.students, 0),
+          teachers: rest.reduce((t, s) => t + s.teachers, 0)
+        }]);
+      }
+      if (note) note.textContent = perSchool.length + (perSchool.length === 1 ? ' school' : ' schools') + ', largest first';
+
+      // One row is ~34px; the canvas grows with the data instead of squashing.
+      const frame = canvas.parentElement;
+      if (frame) frame.style.height = Math.max(220, rows.length * 40 + 60) + 'px';
+
+      const valueLabels = {
+        id: 'valueLabels',
+        afterDatasetsDraw: function (chart) {
+          const ctx = chart.ctx;
+          ctx.font = '700 11px Nunito, sans-serif';
+          ctx.textBaseline = 'middle';
+          chart.data.datasets.forEach(function (dataset, i) {
+            const meta = chart.getDatasetMeta(i);
+            if (meta.hidden) return;
+            ctx.fillStyle = dataset.backgroundColor;
+            meta.data.forEach(function (bar, j) {
+              const value = dataset.data[j];
+              if (!value) return;   // a zero needs no label at zero length
+              ctx.fillText(String(value), bar.x + 6, bar.y);
+            });
+          });
+        }
+      };
+
+      if (window.myPlatformChart) window.myPlatformChart.destroy();
+      window.myPlatformChart = new Chart(canvas.getContext('2d'), {
+        type: 'bar',
+        plugins: [valueLabels],
+        data: {
+          // Long enough to tell two schools apart, short enough that the axis
+          // area never eats the first letter of the name.
+          labels: rows.map((r) => (r.name.length > 18 ? r.name.slice(0, 18) + '…' : r.name)),
+          datasets: [
+            { label: 'Students', data: rows.map((r) => r.students), backgroundColor: '#16294d', borderRadius: 4, barPercentage: 0.72, categoryPercentage: 0.7 },
+            { label: 'Teachers', data: rows.map((r) => r.teachers), backgroundColor: '#cf296d', borderRadius: 4, barPercentage: 0.72, categoryPercentage: 0.7 }
+          ]
+        },
+        options: {
+          indexAxis: 'y',
+          animation: { duration: 450 },
+          responsive: true,
+          maintainAspectRatio: false,
+          layout: { padding: { right: 34, left: 4, top: 4 } },
+          plugins: {
+            legend: { position: 'top', align: 'start', labels: { boxWidth: 10, boxHeight: 10, usePointStyle: true, pointStyle: 'circle', font: { family: 'Nunito', size: 12 }, color: '#38455c' } },
+            tooltip: {
+              backgroundColor: '#16294d',
+              padding: 10,
+              titleFont: { family: 'Sora', size: 12 },
+              bodyFont: { family: 'Nunito', size: 12 },
+              callbacks: {
+                title: (items) => rows[items[0].dataIndex].name,
+                label: (item) => ' ' + item.formattedValue + ' ' + item.dataset.label.toLowerCase()
+              }
+            }
+          },
+          scales: {
+            x: {
+              beginAtZero: true,
+              ticks: { precision: 0, font: { family: 'Nunito', size: 11 }, color: '#6b7a90' },
+              grid: { color: '#e5e9f0', drawTicks: false },
+              border: { display: false }
+            },
+            y: {
+              ticks: { font: { family: 'Nunito', size: 12 }, color: '#38455c', autoSkip: false },
+              grid: { display: false },
+              border: { display: false }
+            }
           }
-        });
-        return { name: school.name || 'Unnamed', stu, tch };
-      }).sort((a, b) => (b.stu + b.tch) - (a.stu + a.tch));
-
-      // Individual students (no school)
-      const indivStudents = users.filter(u => u.role === 'individual').length;
-
-      // Normalize to percentage (max = 100%)
-      const allCounts = perSchool.map(s => Math.max(s.stu, s.tch));
-      if (indivStudents > 0) allCounts.push(indivStudents);
-      const maxVal = Math.max(...allCounts, 1);
-
-      const bars = [];
-      perSchool.slice(0, 5).forEach(s => {
-        bars.push({
-          l: s.name.length > 8 ? s.name.substring(0, 8) + '…' : s.name,
-          s: Math.round((s.stu / maxVal) * 100),
-          t: Math.round((s.tch / maxVal) * 100),
-          rawS: s.stu,
-          rawT: s.tch
-        });
+        }
       });
+    };
 
-      if (indivStudents > 0 && bars.length < 6) {
-        bars.push({
-          l: 'Individual',
-          s: Math.round((indivStudents / maxVal) * 100),
-          t: 0,
-          rawS: indivStudents,
-          rawT: 0
-        });
-      }
 
-      // Pad to 6 slots if needed
-      while (bars.length < 6) bars.push({ l: '', s: 0, t: 0, rawS: 0, rawT: 0 });
-
-      return bars;
-    }
-
-    const realBars = buildGrowthData(schools, users);
-
-    // Render real data into the bar chart
-    graphContainers.forEach((container, i) => {
-      if (realBars[i] && realBars[i].l !== '') {
-        container.style.display = 'flex';
-        const schoolBar = container.querySelector('.schools');
-        const studentBar = container.querySelector('.students');
-        const tooltip = container.querySelector('.graph-tooltip');
-        const label = container.querySelector('.graph-label');
-
-        schoolBar.style.height = realBars[i].s + '%';
-        studentBar.style.height = realBars[i].t + '%';
-        label.textContent = realBars[i].l;
-        tooltip.textContent = realBars[i].l + ': ' + realBars[i].rawS + ' Students, ' + realBars[i].rawT + ' Teachers';
-      } else {
-        container.style.display = 'none';
-      }
-    });
-
-    // Hide filter tabs since data is now live (no time-range filtering without timestamps)
-    filterTabs.forEach(tab => {
-      tab.style.opacity = '0.5';
-      tab.style.pointerEvents = 'none';
-    });
-    // Mark the first tab as the only active one with a label change
-    if (filterTabs.length > 0) {
-      filterTabs.forEach(t => t.classList.remove('active'));
-      filterTabs[0].textContent = 'Live';
-      filterTabs[0].classList.add('active');
-      filterTabs[0].style.opacity = '1';
-    }
     // Live Search Functionality
     const searchInput = document.getElementById('dashboard-search');
     searchInput.addEventListener('input', (e) => {

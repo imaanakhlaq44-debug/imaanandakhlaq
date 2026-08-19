@@ -52,45 +52,6 @@ export const TeacherDashboard = () => html`
     background: linear-gradient(180deg, var(--teacher-blue) 0%, var(--teacher-blue-deep) 100%);
     color: #ffffff;
   }
-
-  /* Compact sidebar header with school chip (home + logout icons) */
-  .sidebar-brand-v2 {
-    display: flex !important;
-    flex-wrap: nowrap !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    gap: 0.5rem !important;
-    padding: 0.45rem 0.5rem 0.85rem !important;
-    border-bottom: 1px solid rgba(255,255,255,0.12) !important;
-  }
-  .sidebar-profile-cluster {
-    display: flex; align-items: center; gap: 0.55rem; min-width: 0; flex: 1 1 auto;
-  }
-  .sidebar-profile-cluster .sidebar-brand-art {
-    width: 48px;
-    height: 48px;
-    flex: 0 0 48px;
-    border-radius: 50%;
-    border-width: 2px;
-  }
-  .sidebar-name-block { display: flex; flex-direction: column; justify-content: center; min-width: 0; }
-  .sidebar-name-block .sidebar-title {
-    overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 8rem; font-size: 0.92rem;
-  }
-  .sidebar-school-chip {
-    display: inline-flex; align-items: center; gap: 0.35rem;
-    padding: 0.28rem 0.36rem 0.28rem 0.32rem;
-    border-radius: 999px;
-    background: rgba(255,255,255,0.10);
-    border: 1px solid rgba(255,255,255,0.18);
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 6px 14px rgba(7,17,29,0.18);
-    flex: 0 0 auto; min-width: 0;
-  }
-  .sidebar-school-art {
-    width: 26px; height: 26px; flex: 0 0 26px; border-radius: 8px; overflow: hidden;
-    background: rgba(255,255,255,0.14); border: 1px solid rgba(255,255,255,0.18); position: relative;
-  }
-  .sidebar-school-art img { width: 100%; height: 100%; object-fit: cover; }
   .sidebar-school-cam-badge {
     position: absolute; bottom: -2px; right: -2px;
     background: #D63678; border-radius: 50%; width: 14px; height: 14px;
@@ -98,51 +59,7 @@ export const TeacherDashboard = () => html`
     border: 1.5px solid #1f3559;
   }
   .sidebar-school-cam-badge i { color: #fff; font-size: 6px; }
-  .sidebar-school-name {
-    font-family: 'Sora', sans-serif; font-size: 0.72rem; font-weight: 700; color: #fff;
-    letter-spacing: 0.2px; max-width: 5.5rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-  }
   .sidebar-chip-actions { display: inline-flex; align-items: center; gap: 0.25rem; margin-left: 0.1rem; }
-  .sidebar-icon-btn {
-    width: 26px; height: 26px; flex: 0 0 26px;
-    display: inline-flex; align-items: center; justify-content: center;
-    border-radius: 50%; border: 1px solid rgba(255,255,255,0.22);
-    background: rgba(255,255,255,0.12); color: #fff; cursor: pointer; font-size: 0.72rem;
-    transition: transform 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
-  }
-  .sidebar-icon-btn:hover { transform: translateY(-1px); background: rgba(255,255,255,0.22); }
-  .sidebar-icon-btn.home {
-    background: linear-gradient(135deg, #3a5891 0%, #243d6b 100%);
-    border-color: rgba(255,255,255,0.28);
-    box-shadow: 0 4px 10px rgba(36,61,107,0.35);
-  }
-  .sidebar-icon-btn.logout {
-    background: linear-gradient(135deg, #ef4444 0%, #cf296d 100%);
-    border-color: rgba(239,68,68,0.45);
-    box-shadow: 0 4px 10px rgba(239,68,68,0.35);
-  }
-  .sidebar-icon-btn.logout:hover {
-    background: linear-gradient(135deg, #dc2626 0%, #b91c5e 100%);
-    box-shadow: 0 6px 14px rgba(239,68,68,0.45);
-  }
-  .sidebar-icon-btn.refresh {
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-    border-color: rgba(16,185,129,0.45);
-    box-shadow: 0 4px 10px rgba(16,185,129,0.35);
-  }
-  .sidebar-icon-btn.refresh:hover {
-    background: linear-gradient(135deg, #059669 0%, #047857 100%);
-    box-shadow: 0 6px 14px rgba(16,185,129,0.45);
-  }
-  .sidebar-icon-btn.back {
-    background: linear-gradient(135deg, #64748b 0%, #475569 100%);
-    border-color: rgba(100,116,139,0.45);
-    box-shadow: 0 4px 10px rgba(100,116,139,0.35);
-  }
-  .sidebar-icon-btn.back:hover {
-    background: linear-gradient(135deg, #475569 0%, #334155 100%);
-    box-shadow: 0 6px 14px rgba(100,116,139,0.45);
-  }
 
   .sidebar-brand {
     display: flex;
@@ -203,123 +120,6 @@ export const TeacherDashboard = () => html`
     padding: 0;
     display: grid;
     gap: 0.45rem;
-  }
-
-  .sidebar-nav li {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.7rem 0.8rem;
-    border-radius: 12px;
-    font-family: 'Sora', sans-serif;
-    font-size: 0.8rem;
-    font-weight: 700;
-    color: rgba(255,255,255,0.82);
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.06);
-    cursor: pointer;
-    transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
-  }
-
-  .sidebar-nav li:hover {
-    transform: translateY(-1px);
-    background: rgba(255,255,255,0.08);
-    border-color: rgba(255,255,255,0.12);
-  }
-
-  .sidebar-nav li.active {
-    background: rgba(255,255,255,0.1);
-    border-color: rgba(255,255,255,0.16);
-    box-shadow: 0 12px 24px rgba(7,17,29,0.16);
-  }
-
-  .nav-badge {
-    width: 28px;
-    height: 28px;
-    flex: 0 0 28px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 9px;
-    color: #ffffff;
-    font-size: 0.8rem;
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);
-  }
-
-  .nav-badge.overview {
-    background: linear-gradient(180deg, #314a7f 0%, #243d6b 100%);
-  }
-
-  .nav-badge.students {
-    background: linear-gradient(180deg, #df4a82 0%, #cf296d 100%);
-  }
-
-  .nav-badge.review {
-    background: linear-gradient(180deg, #f0a43d 0%, #ea8300 100%);
-  }
-
-  .nav-badge.reports {
-    background: linear-gradient(180deg, #d6a16d 0%, #cb955d 100%);
-  }
-
-  .nav-badge.attendance {
-    background: linear-gradient(180deg, #1d8f95 0%, #136f7f 100%);
-  }
-
-  .sidebar-note {
-    margin-top: auto;
-    display: flex;
-    align-items: center;
-    gap: 0.7rem;
-    padding: 0.75rem;
-    border-radius: 16px;
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.12);
-  }
-
-  .sidebar-note img {
-    width: 52px;
-    height: 52px;
-    object-fit: contain;
-    filter: drop-shadow(0 12px 16px rgba(7,17,29,0.18));
-  }
-
-  .sidebar-note strong {
-    display: block;
-    font-family: 'Sora', sans-serif;
-    font-size: 0.82rem;
-    font-weight: 700;
-  }
-
-  .sidebar-note span {
-    display: block;
-    margin-top: 0.18rem;
-    font-size: 0.72rem;
-    font-weight: 700;
-    color: rgba(255,255,255,0.72);
-    line-height: 1.35;
-  }
-
-  .sidebar-logout-btn {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    width: calc(100% - 2rem);
-    margin: 0.6rem 1rem 0.8rem;
-    padding: 0.55rem 1rem;
-    background: rgba(255,255,255,0.08);
-    border: 1.5px solid rgba(255,255,255,0.22);
-    border-radius: 10px;
-    color: rgba(255,255,255,0.85);
-    font-family: 'Sora', sans-serif;
-    font-size: 0.82rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: background 0.18s, color 0.18s;
-  }
-  .sidebar-logout-btn:hover {
-    background: rgba(214,54,120,0.55);
-    color: #fff;
   }
 
   .dashboard-main {
@@ -678,34 +478,6 @@ export const TeacherDashboard = () => html`
 
   .surface-card.compact {
     height: 100%;
-  }
-
-  .snapshot-list {
-    display: grid;
-    gap: 0.7rem;
-  }
-
-  .snapshot-item {
-    padding: 0.85rem 0.95rem;
-    border-radius: 14px;
-    background: #f8fbff;
-    border: 1px solid var(--teacher-line);
-  }
-
-  .snapshot-item strong {
-    display: block;
-    font-family: 'Sora', sans-serif;
-    font-size: 0.88rem;
-    font-weight: 800;
-    color: var(--teacher-ink);
-  }
-
-  .snapshot-item span {
-    display: block;
-    margin-top: 0.2rem;
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: var(--teacher-muted);
   }
 
   .student-roster {
@@ -1303,11 +1075,6 @@ export const TeacherDashboard = () => html`
       grid-template-columns: repeat(5, minmax(0, 1fr));
     }
 
-    .sidebar-note {
-      width: 100%;
-      margin-top: 0;
-    }
-
     .summary-strip {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
@@ -1835,12 +1602,6 @@ export const TeacherDashboard = () => html`
     .teacher-page .hero-card { padding: 1rem !important; }
   }
 
-
-  .nav-badge.absent {
-    background: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%);
-    color: #fff;
-  }
-
   .register-table-wrapper {
     overflow-x: auto;
     margin-top: 1rem;
@@ -1961,28 +1722,32 @@ export const TeacherDashboard = () => html`
   <!-- DASHBOARD VIEW -->
   <div id="teacherDashboardView" class="dashboard-shell d-none">
     <aside class="sidebar-panel">
-      <div class="sidebar-brand sidebar-brand-v2">
-        <div class="sidebar-profile-cluster">
+      <!-- Identity block. It used to sit on one line — avatar, name, a pill
+           holding the school logo, the school name and two icon buttons — so
+           on any real school name the name was ellipsised to "Al-Noor P..."
+           and the buttons were squeezed against the edge. Name and school are
+           stacked now, and the two actions have their own row. -->
+      <div class="sidebar-brand ds-sidebar-brand">
+        <div class="ds-sidebar-id">
           <div class="sidebar-brand-art" id="sidebarAvatarClickArea" title="Click to change photo" role="button" tabindex="0" style="position:relative; cursor:pointer; overflow:visible;">
             <img id="sidebarProfilePhoto" src="/kidba_assets/img/3d_teacher.png" alt="Teacher profile" style="border-radius:50%; width:100%; height:100%; object-fit:cover;">
             <div class="sidebar-cam-badge"><i class="fas fa-camera"></i></div>
             <input type="file" id="teacherProfileFileInput" accept="image/*" style="position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;cursor:pointer;z-index:10;">
           </div>
-          <div class="sidebar-name-block">
-            <span class="sidebar-title" id="sidebarProfileName" style="margin:0;">Teacher Name</span>
+          <div class="ds-sidebar-id-text">
+            <span class="ds-sidebar-title" id="sidebarProfileName">Teacher Name</span>
+            <span class="ds-sidebar-sub" id="welcomeName">School</span>
           </div>
         </div>
 
-        <div class="sidebar-school-chip">
-          <div class="sidebar-school-art" style="position:relative; overflow:hidden;">
-            <img id="schoolLogoImg" src="/kidba_assets/img/3d_school.png" alt="School logo" style="border-radius:8px; width:100%; height:100%; object-fit:cover;">
-          </div>
-          <span class="sidebar-school-name" id="welcomeName">School</span>
-          <div class="sidebar-chip-actions">
-            <button class="sidebar-icon-btn home" type="button" onclick="window.location.href='auth.html'" title="Home" aria-label="Home"><i class="fas fa-house"></i></button>
-            <button class="sidebar-icon-btn logout" type="button" onclick="logoutTeacher()" title="Logout" aria-label="Logout"><i class="fas fa-sign-out-alt"></i></button>
-          </div>
+        <div class="sidebar-chip-actions">
+          <button class="sidebar-icon-btn home" type="button" onclick="window.location.href='auth.html'" title="Home" aria-label="Home"><i class="fas fa-house"></i><span>Home</span></button>
+          <button class="sidebar-icon-btn logout" type="button" onclick="logoutTeacher()" title="Logout" aria-label="Logout"><i class="fas fa-sign-out-alt"></i><span>Logout</span></button>
         </div>
+        <!-- The school logo used to ride in the identity pill. It is loaded by
+             JS, so it stays in the DOM, hidden — the school's name is the part
+             a teacher needs to read. -->
+        <img id="schoolLogoImg" src="/kidba_assets/img/3d_school.png" alt="" hidden>
       </div>
       <ul class="sidebar-nav">
         <li class="active" data-section="overview" onclick="switchTeacherSection('overview')"><span class="nav-badge overview"><i class="fas fa-chart-pie"></i></span><span>Overview</span></li>
@@ -1994,98 +1759,79 @@ export const TeacherDashboard = () => html`
       <div class="sidebar-note">
         <img src="/kidba_assets/img/3d_student.png" alt="Student 3D icon">
         <div>
-          <strong>Daily Goal</strong>
-          <span>Review submissions, approve learning sheets and track class momentum.</span>
+          <strong>Daily goal</strong>
+          <span>Review what your students sent in.</span>
         </div>
       </div>
     </aside>
 
     <div class="dashboard-main">
-      <!-- ── Dashboard Stats ── -->
-      <div style="padding:16px 16px 4px 16px;">
+      <!-- Five numbers, one card shape (.ds-stat, dashboard-ui.css). These
+           used to be two separate rows in two different styles — a 2-up of
+           wide cards and a 3-up of centred mini cards — every rule written
+           inline, so nothing here matched any other dashboard. -->
+      <div class="ds-stats ds-stats-4" style="padding:16px 16px 4px;">
 
-        <!-- Top row: 2 wide cards -->
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
-
-          <!-- Students in Scope -->
-          <div onclick="switchTeacherSection('students')" style="background:#fff;border-radius:18px;padding:16px 14px 14px;box-shadow:0 2px 12px rgba(0,0,0,0.07);cursor:pointer;border:1px solid #f0f4ff;position:relative;overflow:hidden;">
-            <div style="position:absolute;top:0;left:0;width:4px;height:100%;background:linear-gradient(180deg,#1E2D5A,#4f72d0);border-radius:4px 0 0 4px;"></div>
-            <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
-              <div style="width:36px;height:36px;border-radius:10px;background:#EEF2FF;display:flex;align-items:center;justify-content:center;">
-                <i class="fas fa-user-graduate" style="color:#1E2D5A;font-size:15px;"></i>
-              </div>
-              <span style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.5px;">Students</span>
-            </div>
-            <div style="font-size:34px;font-weight:900;color:#1E2D5A;line-height:1;" id="teacherStudentCount">0</div>
-            <div style="font-size:11px;color:#94a3b8;margin-top:4px;">in your scope</div>
-          </div>
-
-          <!-- Sheets to Review -->
-          <div onclick="switchTeacherSection('reviews')" style="background:#fff;border-radius:18px;padding:16px 14px 14px;box-shadow:0 2px 12px rgba(0,0,0,0.07);cursor:pointer;border:1px solid #fff0f8;position:relative;overflow:hidden;">
-            <div style="position:absolute;top:0;left:0;width:4px;height:100%;background:linear-gradient(180deg,#D63678,#f97316);border-radius:4px 0 0 4px;"></div>
-            <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
-              <div style="width:36px;height:36px;border-radius:10px;background:#FFF0F8;display:flex;align-items:center;justify-content:center;">
-                <i class="fas fa-clipboard-check" style="color:#D63678;font-size:15px;"></i>
-              </div>
-              <span style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.5px;">To Review</span>
-            </div>
-            <div style="font-size:34px;font-weight:900;color:#D63678;line-height:1;" id="teacherPendingReviews">0</div>
-            <div style="font-size:11px;color:#94a3b8;margin-top:4px;">sheets pending</div>
-          </div>
-
+        <div class="ds-stat" role="button" tabindex="0" onclick="switchTeacherSection('students')">
+          <span class="ds-stat-icon"><i class="fas fa-user-graduate"></i></span>
+          <span class="ds-stat-body">
+            <span class="ds-stat-label">Students</span>
+            <strong class="ds-stat-value" id="teacherStudentCount">0</strong>
+          </span>
         </div>
 
-        <!-- Bottom row: 3 mini cards -->
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
-
-          <!-- Top Points -->
-          <div onclick="switchTeacherSection('rankings')" style="background:#fff;border-radius:16px;padding:14px 10px 12px;box-shadow:0 2px 10px rgba(0,0,0,0.06);cursor:pointer;text-align:center;border:1px solid #f5f0ff;">
-            <div style="width:34px;height:34px;border-radius:10px;background:#F5F0FF;display:flex;align-items:center;justify-content:center;margin:0 auto 8px;">
-              <i class="fas fa-trophy" style="color:#7c3aed;font-size:14px;"></i>
-            </div>
-            <div style="font-size:24px;font-weight:900;color:#7c3aed;line-height:1;" id="teacherTopPoints">0</div>
-            <div style="font-size:10px;font-weight:700;color:#94a3b8;margin-top:3px;text-transform:uppercase;letter-spacing:0.3px;">Top Points</div>
-          </div>
-
-          <!-- Active Today -->
-          <div onclick="switchTeacherSection('attendance')" style="background:#fff;border-radius:16px;padding:14px 10px 12px;box-shadow:0 2px 10px rgba(0,0,0,0.06);cursor:pointer;text-align:center;border:1px solid #f0fdf4;">
-            <div style="width:34px;height:34px;border-radius:10px;background:#F0FDF4;display:flex;align-items:center;justify-content:center;margin:0 auto 8px;">
-              <i class="fas fa-check-circle" style="color:#059669;font-size:14px;"></i>
-            </div>
-            <div style="font-size:24px;font-weight:900;color:#059669;line-height:1;" id="teacherAttendanceCount">0</div>
-            <div style="font-size:10px;font-weight:700;color:#94a3b8;margin-top:3px;text-transform:uppercase;letter-spacing:0.3px;">Active</div>
-          </div>
-
-          <!-- Absent Today -->
-          <div onclick="switchTeacherSection('absent')" style="background:#fff;border-radius:16px;padding:14px 10px 12px;box-shadow:0 2px 10px rgba(0,0,0,0.06);cursor:pointer;text-align:center;border:1px solid #fff5f5;">
-            <div style="width:34px;height:34px;border-radius:10px;background:#FFF5F5;display:flex;align-items:center;justify-content:center;margin:0 auto 8px;">
-              <i class="fas fa-times-circle" style="color:#dc2626;font-size:14px;"></i>
-            </div>
-            <div style="font-size:24px;font-weight:900;color:#dc2626;line-height:1;" id="teacherAbsentCount">0</div>
-            <div style="font-size:10px;font-weight:700;color:#94a3b8;margin-top:3px;text-transform:uppercase;letter-spacing:0.3px;">Absent</div>
-          </div>
-
+        <div class="ds-stat is-accent" role="button" tabindex="0" onclick="switchTeacherSection('reviews')">
+          <span class="ds-stat-icon"><i class="fas fa-clipboard-check"></i></span>
+          <span class="ds-stat-body">
+            <span class="ds-stat-label">To Review</span>
+            <strong class="ds-stat-value" id="teacherPendingReviews">0</strong>
+          </span>
         </div>
+
+        <div class="ds-stat is-info" role="button" tabindex="0" onclick="switchTeacherSection('rankings')">
+          <span class="ds-stat-icon"><i class="fas fa-medal"></i></span>
+          <span class="ds-stat-body">
+            <span class="ds-stat-label">Top Points</span>
+            <strong class="ds-stat-value" id="teacherTopPoints">0</strong>
+          </span>
+        </div>
+
+        <div class="ds-stat is-positive" role="button" tabindex="0" onclick="switchTeacherSection('attendance')">
+          <span class="ds-stat-icon"><i class="fas fa-check-circle"></i></span>
+          <span class="ds-stat-body">
+            <span class="ds-stat-label">Active Today</span>
+            <strong class="ds-stat-value" id="teacherAttendanceCount">0</strong>
+          </span>
+        </div>
+
+        <div class="ds-stat is-danger" role="button" tabindex="0" onclick="switchTeacherSection('absent')">
+          <span class="ds-stat-icon"><i class="fas fa-circle-xmark"></i></span>
+          <span class="ds-stat-body">
+            <span class="ds-stat-label">Absent</span>
+            <strong class="ds-stat-value" id="teacherAbsentCount">0</strong>
+          </span>
+        </div>
+
       </div>
 
       <div class="teacher-tab-panels">
         <section id="teacherPanelOverview" class="teacher-panel active">
           <div class="teacher-grid">
+            <!-- This card used to restate, as three sentences, the three
+                 numbers already standing in the stat row above it ("5 students
+                 are visible in your teacher scope."). What is left is the one
+                 line the stats cannot show: which student to open next. The
+                 JS that filled the three sentences guards on the element, so
+                 removing them is safe. -->
             <section class="surface-card compact">
               <div class="section-header">
                 <div class="section-heading">
-                  <div class="section-asset"><img src="/kidba_assets/img/3d_teacher.png" alt="Teaching snapshot 3D icon"></div>
                   <div>
-                    <h3>Today&apos;s Snapshot</h3>
-                    <p>One glance summary for your next best action.</p>
+                    <h3 class="ds-title">Today&apos;s focus</h3>
                   </div>
-                </div>\n              </div>
-              <div class="snapshot-list">
-                <div class="snapshot-item"><strong id="overviewStudentSummary">Loading class roster...</strong><span>Student coverage</span></div>
-                <div class="snapshot-item"><strong id="overviewReviewSummary">Loading review queue...</strong><span>Review pressure</span></div>
-                <div class="snapshot-item"><strong id="overviewAttendanceSummary">Loading attendance panel...</strong><span>Attendance pulse</span></div>
+                </div>
               </div>
-              <p class="section-caption" id="overviewFocusNote">Preparing today&apos;s teaching focus...</p>
+              <p class="ds-caption" id="overviewFocusNote">Preparing today&apos;s teaching focus...</p>
             </section>
           </div>
         </section>
@@ -2094,15 +1840,13 @@ export const TeacherDashboard = () => html`
           <section class="surface-card">
             <div class="section-header">
               <div class="section-heading">
-                <div class="section-asset"><img src="/kidba_assets/img/3d_student.png" alt="Student roster 3D icon"></div>
                 <div>
                   <h3>Students by Class</h3>
-                  <p id="teacherRosterSummary">Browse learners by class / section with progress, review status and the latest activity update.</p>
+                  <p id="teacherRosterSummary" class="ds-caption">Learners in your classes.</p>
                 </div>
               </div>
               <span class="section-chip" id="teacherRosterClassChip"><i class="fas fa-user-group"></i> Loading classes</span>
             </div>
-            <p class="section-caption">Each card shows class / section, points earned and the quickest path to reviews or activity logs.</p>
             <div id="teacherStudentRoster" class="student-roster">
               <!-- Injected via JS -->
             </div>
@@ -2113,7 +1857,6 @@ export const TeacherDashboard = () => html`
           <section class="surface-card review-queue-card">
             <div class="section-header">
               <div class="section-heading">
-                <div class="section-asset"><img src="/kidba_assets/img/3d_teacher.png" alt="Review queue 3D icon"></div>
                 <div>
                   <h3>Grading &amp; Reviews</h3>
                   <p>Review discussion answers, inspect sheets and award class points.</p>
@@ -2132,7 +1875,6 @@ export const TeacherDashboard = () => html`
           <section class="surface-card attendance-card">
             <div class="section-header">
               <div class="section-heading">
-                <div class="section-asset"><img src="/kidba_assets/img/3d_login.png" alt="Attendance activity 3D icon"></div>
                 <div>
                   <h3>Activity Attendance</h3>
                   <p>See which students opened an activity today, when they started and how long the task took.</p>
@@ -2140,7 +1882,6 @@ export const TeacherDashboard = () => html`
               </div>
               <span class="section-chip" id="attendanceDateBadge"><i class="fas fa-calendar-day"></i> Today</span>
             </div>
-            <p class="section-caption">This panel updates from live student activity sessions recorded during the day.</p>
             <div id="attendanceList" class="attendance-list">
               <!-- Injected via JS -->
             </div>
@@ -2149,7 +1890,6 @@ export const TeacherDashboard = () => html`
           <section class="surface-card attendance-card">
             <div class="section-header">
               <div class="section-heading">
-                <div class="section-asset"><img src="/kidba_assets/img/3d_login.png" alt="Absent 3D icon"></div>
                 <div>
                   <h3>Absent Students</h3>
                   <p>Learners who have not opened any activities today.</p>
@@ -2157,7 +1897,6 @@ export const TeacherDashboard = () => html`
               </div>
               <span class="section-chip" id="absentDateBadge"><i class="fas fa-calendar-times"></i> Today</span>
             </div>
-            <p class="section-caption">This panel shows students currently in your scope who have not logged any activity today.</p>
             <div id="absentList" class="attendance-list">
               <!-- Injected via JS -->
             </div>
@@ -2170,9 +1909,6 @@ export const TeacherDashboard = () => html`
           <section class="surface-card">
             <div class="section-header">
               <div class="section-heading">
-                <div class="section-asset" style="background:linear-gradient(135deg,#1E2D5A,#C99A6B);display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.4rem;">
-                  <i class="fas fa-shield-halved"></i>
-                </div>
                 <div>
                   <h3>Club Habits — Mentor Verification</h3>
                   <p>Students tick a daily habit; nothing is earned until you approve it. Approve a whole day in one pass.</p>
@@ -2208,9 +1944,6 @@ export const TeacherDashboard = () => html`
           <section class="surface-card" style="margin-top:1rem;">
             <div class="section-header">
               <div class="section-heading">
-                <div class="section-asset" style="background:linear-gradient(135deg,#0F5E55,#C99A6B);display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.4rem;">
-                  <i class="fas fa-hand-holding-heart"></i>
-                </div>
                 <div>
                   <h3>Value Credits — Council Review</h3>
                   <p>The larger acts, worth 20 to 100 credits. Read what the student wrote before you award it — the amount comes from the category, not from you.</p>
@@ -2248,9 +1981,6 @@ export const TeacherDashboard = () => html`
           <section class="surface-card ve-council-card" style="margin-top:1rem;">
             <div class="section-header">
               <div class="section-heading">
-                <div class="section-asset" style="background:linear-gradient(135deg,#8C1D3F,#C99A6B);display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.4rem;">
-                  <i class="fas fa-scale-balanced"></i>
-                </div>
                 <div>
                   <h3>Values Council — House Complaint</h3>
                   <p>If one member of a house breaks the code, the house answers for it. The penalty comes off the house total only — no student's own credits are touched.</p>
@@ -2287,7 +2017,6 @@ export const TeacherDashboard = () => html`
           <section class="surface-card leaderboard-card">
             <div class="section-header">
               <div class="section-heading">
-                <div class="section-asset"><img src="/kidba_assets/img/3d_student.png" alt="Leaderboard 3D icon"></div>
                 <div>
                   <h3>Student Rankings</h3>
                   <p id="teacherRankingCaption">Top-performing learners across your current school scope, with class labels for quick context.</p>
@@ -2304,7 +2033,6 @@ export const TeacherDashboard = () => html`
           <section class="surface-card">
             <div class="section-header">
               <div class="section-heading">
-                <div class="section-asset"><img src="/kidba_assets/img/3d_school.png" alt="Books 3D icon"></div>
                 <div>
                   <h3>Book Library</h3>
                   <p>Read the currently available Imaan &amp; Akhlaq books online. Downloads are disabled to protect content.</p>
@@ -2312,7 +2040,6 @@ export const TeacherDashboard = () => html`
               </div>
               <span class="section-chip" style="background:linear-gradient(135deg,#cf296d,#ea8300);color:#fff;"><i class="fas fa-lock"></i> View Only</span>
             </div>
-            <p class="section-caption">Only live books are shown here so the teacher dashboard stays focused on real classroom material.</p>
             <div class="teacher-book-list">
 
               <div class="teacher-book-row" role="button" tabindex="0" onclick="openBookReader('book1', 'Imaan & Akhlaq - Book 1')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openBookReader('book1','Imaan &amp; Akhlaq - Book 1');}">
@@ -2384,7 +2111,6 @@ export const TeacherDashboard = () => html`
           <section class="surface-card">
             <div class="section-header">
               <div class="section-heading">
-                <div class="section-asset"><img src="/kidba_assets/img/3d_school.png" alt="Register 3D icon"></div>
                 <div>
                   <h3>Monthly Attendance Register</h3>
                   <p>Daily activity log for all your classes.</p>
@@ -3934,9 +3660,9 @@ export const TeacherDashboard = () => html`
       } else if (completedTodayCount) {
         focusNoteEl.textContent = completedTodayCount + ' activity session' + (completedTodayCount === 1 ? ' has' : 's have') + ' already been completed today.';
       } else if (leaderboardData.length) {
-        focusNoteEl.textContent = 'No urgent review is pending. Open the Students page to monitor class readiness in detail.';
+        focusNoteEl.textContent = 'Nothing is waiting for review.';
       } else {
-        focusNoteEl.textContent = 'No learners are visible yet. Ask the school admin to connect students to this school scope.';
+        focusNoteEl.textContent = 'No learners yet — ask your school admin to add them.';
       }
     }
   }

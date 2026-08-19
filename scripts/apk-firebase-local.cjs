@@ -14,6 +14,7 @@ const HTML_FILES = [
   'activity.html',
   'admin-dashboard.html',
   'auth.html',
+  'family.html',
   'student-activities.html',
   'super-admin-dashboard.html',
   'teacher-dashboard.html',
@@ -21,17 +22,28 @@ const HTML_FILES = [
 
 const FIREBASE_CDN_RE = /import\s*\{([^}]+)\}\s*from\s*["']https:\/\/www\.gstatic\.com\/firebasejs\/[\d.]+\/firebase-[^"']+["'];?\n?/g;
 
-// ── Step 1: Build Firebase IIFE bundle ──────────────────────────────────────
-async function buildBundle() {
-  const entryContent = `
+// Every firebase-*.js module the pages import from the CDN has to be in here.
+// A missing one does not fail loudly: the destructure from window.firebase just
+// yields undefined, and the page dies on the first call to it. verifyBundle-
+// Exports() below turns that into a build failure instead.
+const ENTRY_CONTENT = `
 import * as app from 'firebase/app';
 import * as auth from 'firebase/auth';
 import * as firestore from 'firebase/firestore';
+import * as functions from 'firebase/functions';
 import * as storage from 'firebase/storage';
-window.firebase = { ...app, ...auth, ...firestore, ...storage };
+window.firebase = { ...app, ...auth, ...firestore, ...functions, ...storage };
 `;
-  const tmpEntry = path.join(__dirname, '_fb_bundle_entry_tmp.js');
-  fs.writeFileSync(tmpEntry, entryContent, 'utf8');
+
+function writeTmpEntry(suffix) {
+  const tmpEntry = path.join(__dirname, `_fb_entry_${suffix}_tmp.js`);
+  fs.writeFileSync(tmpEntry, ENTRY_CONTENT, 'utf8');
+  return tmpEntry;
+}
+
+// ── Step 1: Build Firebase IIFE bundle ──────────────────────────────────────
+async function buildBundle() {
+  const tmpEntry = writeTmpEntry('iife');
 
   try {
     await esbuild.build({
@@ -106,10 +118,80 @@ function patchHtmlFile(filePath) {
     changed = true;
   }
 
+  // A page that still contains an `import` after being de-moduled is dead:
+  // the browser throws "Cannot use import statement outside a module" at parse
+  // time and the entire script — auth guard included — never runs. That is
+  // exactly what happened to super-admin-dashboard.html, which imported
+  // Chart.js from esm.sh alongside its Firebase imports; the packaged page sat
+  // on "Loading Live Data from Database..." forever while the website was
+  // fine. Fail the build instead of shipping it again.
+  const stray = html.match(/^[ \t]*import[\s{][^\n]*/m);
+  if (stray) {
+    throw new Error(
+      'apk-firebase-local: ' + path.basename(filePath) + ' still has an ES import ' +
+      'after type="module" was removed:\n    ' + stray[0].trim() +
+      '\n  Load that dependency as a plain <script> (see the local Chart.js ' +
+      'in SuperAdminDashboard.tsx) — an import here is a page that never boots.'
+    );
+  }
+
   if (changed) {
     fs.writeFileSync(filePath, html, 'utf8');
   }
   return changed;
+}
+
+// ── Step 3: Prove the bundle covers what the pages destructure ─────────────
+// The patched pages read their Firebase helpers off window.firebase. If the
+// bundle entry is missing a module, the page still loads and then throws
+// "X is not a function" on first use — a blank dashboard with one console line.
+// Building the same imports as CJS lets us compare the two lists here instead.
+async function verifyBundleExports(pageFiles) {
+  const wanted = new Set();
+  for (const filePath of pageFiles) {
+    const html = fs.readFileSync(filePath, 'utf8');
+    const match = html.match(/const \{ ([^}]+) \} = window\.firebase;/);
+    if (!match) continue;
+    match[1].split(',').forEach((tok) => {
+      const name = tok.split(':')[0].trim();
+      if (name) wanted.add(name);
+    });
+  }
+  if (wanted.size === 0) return;
+
+  const probeOut = path.join(__dirname, '_fb_probe_tmp.cjs');
+  const tmpEntry = writeTmpEntry('cjs');
+  try {
+    await esbuild.build({
+      entryPoints: [tmpEntry],
+      bundle: true,
+      format: 'cjs',
+      outfile: probeOut,
+      platform: 'node',
+      define: { 'process.env.NODE_ENV': '"production"' },
+      banner: { js: 'var window = {};' },
+      footer: { js: 'module.exports = window.firebase;' }
+    });
+  } finally {
+    fs.rmSync(tmpEntry, { force: true });
+  }
+
+  try {
+    const exported = new Set(Object.keys(require(probeOut)));
+    const missing = [...wanted].filter((name) => !exported.has(name));
+    if (missing.length > 0) {
+      console.error(
+        '[firebase-local] The pages destructure names the bundle does not export: ' +
+          missing.join(', ')
+      );
+      console.error('[firebase-local] Add the module that provides them to buildBundle().');
+      process.exitCode = 1;
+      return;
+    }
+    console.log(`[firebase-local] Verified ${wanted.size} destructured names against the bundle.`);
+  } finally {
+    fs.rmSync(probeOut, { force: true });
+  }
 }
 
 // ── Main ───────────────────────────────────────────────────────────────────
@@ -119,9 +201,11 @@ function patchHtmlFile(filePath) {
 
   console.log('[firebase-local] Patching HTML files...');
   let patched = 0;
+  const present = [];
   for (const name of HTML_FILES) {
     const filePath = path.join(assetsDir, name);
     if (!fs.existsSync(filePath)) continue;
+    present.push(filePath);
     if (patchHtmlFile(filePath)) {
       console.log(`  ✓ ${name}`);
       patched++;
@@ -129,6 +213,8 @@ function patchHtmlFile(filePath) {
       console.log(`  – ${name} (no firebase CDN found, skipped)`);
     }
   }
+
+  await verifyBundleExports(present);
 
   console.log(`[firebase-local] Done — ${patched} files patched, Firebase is now local.\n`);
 })();

@@ -34,6 +34,9 @@
   <!-- Custom CSS -->
   <link rel="stylesheet" href="/kidba_assets/css/style.css">
   <link rel="stylesheet" href="/kidba_assets/css/dashboard-buttons.css?v=4">
+  <!-- Shared dashboard design system (see dashboard-ui.css). This page is
+       static, so unlike the rendered dashboards it has to ask for it here. -->
+  <link rel="stylesheet" href="/kidba_assets/css/dashboard-ui.css?v=1">
 
   <!-- Capacitor Mobile App: always redirect to Auth on public pages -->
   <script>
@@ -392,10 +395,14 @@
     font-weight: 700;
     cursor: pointer;
     transition: transform 0.2s, box-shadow 0.2s, background 0.2s, border-color 0.2s;
-    background: linear-gradient(135deg, #d63678 0%, #e46c2e 58%, #f59e0b 100%);
+    /* One flat accent, the same one the rest of the app uses. The three-stop
+       pink-to-amber gradient with a coloured glow under it made every primary
+       button on the page shout, including Done and Delete.
+       See --ds-accent in dashboard-ui.css. */
+    background: var(--ds-accent);
     color: #ffffff;
-    border: 1px solid rgba(255,255,255,0.18);
-    box-shadow: 0 18px 34px rgba(214, 54, 120, 0.28);
+    border: 1px solid transparent;
+    box-shadow: none;
   }
 
   .btn-primary-light {
@@ -404,8 +411,8 @@
 
   .btn-primary-light:hover,
   .btn-solid:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 22px 42px rgba(214, 54, 120, 0.32);
+    background: #b52259;
+    box-shadow: none;
   }
 
   .btn-outline-light {
@@ -564,81 +571,86 @@
     white-space: normal;
   }
 
+  /* Same shape as the student and teacher sidebars (see dashboard-ui.css).
+     This page keeps its own copy because its nav is built from ::before
+     icons on ids rather than from .nav-badge elements. */
   .nav-links li {
+    position: relative;
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    padding: 0.72rem 0.85rem;
-    border-radius: 12px;
-    font-family: 'Sora', sans-serif;
-    font-weight: 600;
-    color: rgba(255,255,255,0.8);
+    gap: var(--ds-3);
+    padding: 10px var(--ds-3);
+    border-radius: var(--ds-radius-sm);
+    font-family: var(--ds-font-head);
+    font-weight: 500;
+    color: rgba(255,255,255,0.74);
     cursor: pointer;
-    font-size: 0.82rem;
-    border: 1px solid rgba(255,255,255,0.06);
-    background: rgba(255,255,255,0.03);
-    transition: background 0.2s, color 0.2s, transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+    font-size: 0.875rem;
+    border: 1px solid transparent;
+    background: transparent;
+    transition: background 0.15s, color 0.15s;
   }
 
   .nav-links li::before {
     font-family: 'Font Awesome 6 Free';
     font-weight: 900;
-    width: 28px;
-    height: 28px;
-    flex: 0 0 28px;
+    width: 20px;
+    flex: 0 0 20px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    text-align: center;
-    color: #ffffff;
-    border-radius: 8px;
-    font-size: 0.8rem;
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);
+    color: currentColor;
+    background: none;
+    box-shadow: none;
+    border-radius: 0;
+    font-size: 0.9375rem;
+    opacity: .9;
   }
 
   #nav-overview::before {
     content: '\f3fd';
-    background: linear-gradient(180deg, #314a7f 0%, #243d6b 100%);
   }
 
   #nav-parents::before {
     content: '\f0c0';
-    background: linear-gradient(180deg, #2f9e73 0%, #1f7d59 100%);
   }
 
   #nav-teachers::before {
     content: '\f51c';
-    background: linear-gradient(180deg, #f29a2a 0%, #ea8300 100%);
   }
 
   #nav-students::before {
     content: '\f501';
-    background: linear-gradient(180deg, #dd4a83 0%, #cf296d 100%);
   }
 
   #nav-attendance::before {
     content: '\f073';
-    background: linear-gradient(180deg, #d8a26d 0%, #cb955d 100%);
   }
 
   #nav-settings::before {
     content: '\f013';
-    background: linear-gradient(180deg, #314a7f 0%, #243d6b 100%);
   }
 
   .nav-links li:hover {
-    background: rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.07);
     color: #ffffff;
-    transform: translateX(2px);
-    border-color: rgba(255,255,255,0.12);
   }
 
   .nav-links li.active {
     color: #ffffff;
-    background: rgba(255,255,255,0.1);
-    box-shadow: 0 14px 28px rgba(7,17,29,0.18);
-    border-color: rgba(255,255,255,0.16);
-    font-weight: 700;
+    background: rgba(255,255,255,0.10);
+    font-weight: 600;
+  }
+
+  .nav-links li.active::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    bottom: 8px;
+    width: 3px;
+    border-radius: 0 3px 3px 0;
+    background: var(--ds-accent);
   }
 
   .nav-links li:hover::before,
@@ -736,19 +748,21 @@
     border: 1px solid rgba(255,255,255,0.18);
   }
 
+  /* Logging out is not the most important thing on the page, so it stopped
+     being the brightest. Same outline shape as Home. */
   .btn-logout {
     grid-column: 1 / -1;
     width: 100%;
-    background: linear-gradient(135deg, rgba(214,54,120,0.92), rgba(239,123,69,0.88));
-    color: #ffffff;
-    border: 1px solid rgba(255,255,255,0.14);
-    box-shadow: 0 14px 28px rgba(214,54,120,0.22);
+    background: transparent;
+    color: rgba(255,255,255,0.82);
+    border: 1px solid rgba(255,255,255,0.18);
+    box-shadow: none;
   }
 
   .btn-logout:hover {
-    background: linear-gradient(135deg, rgba(214,54,120,1), rgba(239,123,69,0.96));
+    background: rgba(255,255,255,0.10);
     color: #ffffff;
-    border-color: rgba(255,255,255,0.22);
+    border-color: rgba(255,255,255,0.3);
   }
 
   .btn-home-nav {
@@ -967,6 +981,14 @@
   .tab-panel > * {
     position: relative;
     z-index: 1;
+  }
+
+  /* A header that carries only a control (no title) puts it at the end of the
+     row instead of leaving it stranded in a wide empty band. */
+  .section-header.actions-only {
+    justify-content: flex-end;
+    border-bottom: 0;
+    padding-bottom: 0;
   }
 
   .section-header {
@@ -1730,8 +1752,20 @@
     letter-spacing: 0.12em;
   }
 
-  .col-1 { flex: 2; }
-  .col-2 { flex: 1; text-align: center; }
+  /* Every cell keeps its content on one line: with these flex ratios and no
+     min-width reset, a two-word name split across two lines and "0 Chapters"
+     broke after the icon. */
+  .col-1, .col-2, .col-3, .col-4, .col-5, .col-6 { min-width: 0; }
+  .col-1 > span, .col-2 > span, .col-3 > span, .col-4 > span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
+    max-width: 100%;
+    vertical-align: middle;
+  }
+  .col-1 { flex: 3.4; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .col-2 { flex: 1.1; text-align: center; }
   .col-check { flex: 0 0 40px; display: flex; align-items: center; justify-content: center; }
   .col-3 { flex: 2; text-align: center; }
   .col-4 { flex: 1; text-align: center; }
@@ -1768,16 +1802,14 @@
     border-color: rgba(214,54,120,0.18);
   }
 
-  .row-peach {
-    background: linear-gradient(135deg, #fff7fb 0%, #fff2f8 100%);
-  }
-
-  .row-yellow {
-    background: linear-gradient(135deg, #fffaf3 0%, #fff6e8 100%);
-  }
-
+  /* The three row tints used to cycle pink / cream / green down a roster by
+     row index, which made a list of children read as a colour chart. They are
+     all the one surface now; the class names stay because they are written
+     into innerHTML in a dozen places. */
+  .row-peach,
+  .row-yellow,
   .row-green {
-    background: linear-gradient(135deg, #f5fbfa 0%, #edf8f4 100%);
+    background: var(--ds-surface);
   }
 
   .progress-bar-container {
@@ -2231,6 +2263,13 @@
     /* Sidebar: fixed off-canvas drawer */
     .app-container {
       grid-template-columns: 1fr;
+      /* The drawer lives inside this container, while .mobile-overlay is a
+         sibling of it in the body. z-index/backdrop-filter here would trap the
+         drawer in this element's stacking context, so the overlay (z-index 999)
+         would paint over it and blur the drawer along with the page. The blur
+         is invisible anyway — the container's own background is opaque. */
+      z-index: auto;
+      backdrop-filter: none;
     }
     .top-nav {
       position: fixed;
@@ -2277,9 +2316,23 @@
 
     /* Table */
     .table-header-row { display: none; }
-    .pill-row { flex-wrap: wrap; align-items: flex-start; }
-    .col-1,.col-2,.col-3,.col-4,.col-5,.col-6 { flex: 1 1 calc(50% - 0.35rem); text-align: left; }
-    .col-actions { flex: 1 1 100%; }
+    /* Without a header row each cell has to caption itself, so a student used
+       to occupy five stacked lines. Name on one line, everything else on one
+       meta line under it. */
+    .pill-row { flex-wrap: wrap; align-items: center; row-gap: 4px; }
+    .pill-row .col-1 { flex: 1 1 100%; text-align: left; font-size: 0.9375rem; }
+    .pill-row .col-2,
+    .pill-row .col-3,
+    .pill-row .col-4,
+    .pill-row .col-5,
+    .pill-row .col-6 {
+      flex: 0 0 auto;
+      text-align: left;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--ds-muted);
+    }
+    .pill-row .col-actions { flex: 0 0 auto; margin-left: auto; text-align: right; }
 
     .modal-content { padding: 18px; border-radius: 20px; max-height: calc(100vh - 1.5rem); }
     .modal-footer-actions { padding: 0 18px; margin: 0 -18px; bottom: -18px; }
@@ -2323,12 +2376,7 @@
     .section-asset { width: 32px; height: 32px; flex: 0 0 32px; }
     .nav-actions { display: none; } /* bottom bar handles these on small screens */
     .login-card { padding: 1.6rem 1.2rem; }
-  }
-
-      width: 54px;
-      height: 54px;
-      flex-basis: 54px;
-    }
+    /* (this block continues — the phone-only rules below belong to it) */
 
     .overview-lower-grid {
       gap: 0.75rem;
@@ -2412,26 +2460,7 @@
     .admin-page .brand-title { font-size: 0.9rem !important; line-height: 1.1 !important; }
     .admin-page .brand-copy span:not(.brand-title) { font-size: 0.65rem !important; }
 
-    /* Nav links -> 5-column pill row */
     .admin-page .nav-center { width: 100% !important; }
-    .admin-page .nav-links {
-      display: grid !important;
-      grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
-      gap: 0.25rem !important;
-      width: 100% !important;
-      margin: 0 !important;
-      padding: 0 !important;
-      list-style: none !important;
-    }
-    .admin-page .nav-links li {
-      padding: 0.4rem 0.2rem !important;
-      font-size: 0.6rem !important;
-      text-align: center !important;
-      border-radius: 9px !important;
-      line-height: 1.1 !important;
-      min-height: 0 !important;
-      cursor: pointer !important;
-    }
 
     /* Remove redundant duplicate admin chip in nav-actions and workspace bar */
     .admin-page .nav-actions .nav-profile { display: none !important; }
@@ -2460,17 +2489,13 @@
       justify-content: center !important;
     }
 
-    /* Highlighted logout (red-pink) */
     .admin-page .nav-actions .btn-logout {
-      background: linear-gradient(180deg, #e85a4f 0%, #d63678 100%) !important;
-      color: #ffffff !important;
-      border: 1px solid rgba(255,255,255,0.28) !important;
-      box-shadow: 0 8px 18px rgba(214,54,120,0.38) !important;
-      font-weight: 800 !important;
-      letter-spacing: 0.05em !important;
-      text-transform: uppercase !important;
+      background: transparent !important;
+      color: rgba(255,255,255,0.82) !important;
+      border: 1px solid rgba(255,255,255,0.18) !important;
+      box-shadow: none !important;
+      font-weight: 700 !important;
     }
-    .admin-page .nav-actions .btn-logout i { color: #ffffff !important; }
 
     /* Hide repeating 3D decorative images everywhere on admin */
     .admin-page .section-asset { display: none !important; }
@@ -2629,7 +2654,33 @@
       border-radius: 8px !important;
     }
   }
-  
+
+  /* Nav links -> 5-column pill row.
+     Tablet only. Below 901px the nav becomes the off-canvas drawer defined in
+     the max-width: 900px block, where the links have to be a vertical list —
+     and these rules, being later and !important, would otherwise squash that
+     drawer's links into five overlapping columns. */
+  @media (min-width: 901px) and (max-width: 1024px) {
+    .admin-page .nav-links {
+      display: grid !important;
+      grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+      gap: 0.25rem !important;
+      width: 100% !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      list-style: none !important;
+    }
+    .admin-page .nav-links li {
+      padding: 0.4rem 0.2rem !important;
+      font-size: 0.6rem !important;
+      text-align: center !important;
+      border-radius: 9px !important;
+      line-height: 1.1 !important;
+      min-height: 0 !important;
+      cursor: pointer !important;
+    }
+  }
+
 </style>
 
 <!-- LOGIN VIEW (hidden by default to avoid popup after /auth login) -->
@@ -2734,14 +2785,12 @@
       
       <!-- OVERVIEW TAB -->
       <div id="tab-overview" class="fade-in tab-panel">
-        <div class="section-header">
-          <div class="section-shell">
-            <div class="section-asset"><img src="/kidba_assets/img/3d_school.png" alt="Overview 3D icon"></div>
-            <div class="section-copy">
-              <span class="section-eyebrow"><i class="fas fa-chart-line"></i> Dashboard overview</span>
-              <h1 class="section-title">Dashboard</h1>
-            </div>
-          </div>
+        <!-- The page title lives once, in the bar above (it carries the
+             school's own name). This header used to repeat it as an eyebrow
+             plus an <h1> reading "Dashboard", so the top of the page said the
+             same thing three times before the first number. What is left is
+             the control that actually does something. -->
+        <div class="section-header actions-only">
           <div class="section-actions">
             <label class="class-filter-wrap">
               <span class="class-filter-label">Class filter</span>
@@ -2754,66 +2803,63 @@
           </div>
         </div>
 
-        <div class="hero-grid">
-          <div class="hero-card card-white hero-main-card">
-            <div class="hero-main-copy">
-              <div class="hero-tag-row">
-                <span class="hero-tag"><i class="fas fa-signal"></i> Live</span>
-              </div>
-              <div class="stat-block">
-                <div class="stat-title">Current view</div>
-                <div class="stat-value-large" id="heroScopeLabel">All Classes</div>
-              </div>
-              <div class="hero-score-grid">
-                <div class="stat-block">
-                  <div class="stat-title">Average learner XP</div>
-                  <div class="stat-value-large" id="statPoints">0 XP</div>
-                  <div class="metric-meta" id="statPointsMeta">No student activity yet</div>
-                </div>
-                <div class="stat-block">
-                  <div class="stat-title">People in view</div>
-                  <div class="stat-value-large" id="statTotalPop">0</div>
-                  <div class="metric-meta" id="statPopulationMeta">0 teachers and students</div>
-                </div>
-              </div>
-            </div>
-            <div class="hero-visual">
-              <div class="hero-visual-ring"><img src="/kidba_assets/img/3d_school.png" alt="School 3D icon"></div>
-              <div class="hero-badge-card">
-                <span>Classes tracked</span>
-                <strong id="statClassesInScope">0</strong>
-              </div>
-            </div>
+        <!-- The six numbers this page opens on. They used to be a purple
+             gradient banner and three full-bleed colour tiles, each with a 3D
+             thumbnail sitting on top of the number; the ids are unchanged, so
+             the JS that fills them is untouched. -->
+        <div class="ds-stats ds-stats-4">
+          <div class="ds-stat">
+            <span class="ds-stat-icon"><i class="fas fa-layer-group"></i></span>
+            <span class="ds-stat-body">
+              <span class="ds-stat-label">Current view</span>
+              <strong class="ds-stat-value" id="heroScopeLabel" style="font-size:1.125rem;">All Classes</strong>
+              <span class="ds-stat-meta"><span id="statClassesInScope">0</span> classes tracked</span>
+            </span>
           </div>
-          
-          <div class="hero-card card-green tall-card metric-card">
-            <div class="metric-card-copy">
-              <div class="metric-icon"><i class="fas fa-chalkboard-teacher"></i></div>
-              <div class="metric-label">Teachers</div>
-              <div class="tall-stat" id="statTeachers">5</div>
-              <div class="metric-meta" id="teachersMeta">No teachers in this view</div>
-            </div>
-            <img class="metric-illustration" src="/kidba_assets/img/3d_teacher.png" alt="Teacher 3D icon">
+
+          <div class="ds-stat is-info">
+            <span class="ds-stat-icon"><i class="fas fa-chart-line"></i></span>
+            <span class="ds-stat-body">
+              <span class="ds-stat-label">Average XP</span>
+              <strong class="ds-stat-value" id="statPoints">0 XP</strong>
+              <span class="ds-stat-meta" id="statPointsMeta">No student activity yet</span>
+            </span>
           </div>
-          
-          <div class="hero-card card-yellow tall-card metric-card">
-            <div class="metric-card-copy">
-              <div class="metric-icon"><i class="fas fa-user-graduate"></i></div>
-              <div class="metric-label">Students</div>
-              <div class="tall-stat" id="statStudents">10</div>
-              <div class="metric-meta" id="studentsMeta">No students in this view</div>
-            </div>
-            <img class="metric-illustration" src="/kidba_assets/img/3d_student.png" alt="Student 3D icon">
+
+          <div class="ds-stat">
+            <span class="ds-stat-icon"><i class="fas fa-users"></i></span>
+            <span class="ds-stat-body">
+              <span class="ds-stat-label">People in view</span>
+              <strong class="ds-stat-value" id="statTotalPop">0</strong>
+              <span class="ds-stat-meta" id="statPopulationMeta">0 teachers and students</span>
+            </span>
           </div>
-          
-          <div class="hero-card card-orange tall-card metric-card">
-            <div class="metric-card-copy">
-              <div class="metric-icon"><i class="fas fa-envelope-open-text"></i></div>
-              <div class="metric-label">Pending Invites</div>
-              <div class="tall-stat" id="statPending">0</div>
-              <div class="metric-meta" id="pendingMeta">No pending invites</div>
-            </div>
-            <img class="metric-illustration" src="/kidba_assets/img/3d_parent.png" alt="Parent 3D icon">
+
+          <div class="ds-stat is-positive">
+            <span class="ds-stat-icon"><i class="fas fa-chalkboard-teacher"></i></span>
+            <span class="ds-stat-body">
+              <span class="ds-stat-label">Teachers</span>
+              <strong class="ds-stat-value" id="statTeachers">0</strong>
+              <span class="ds-stat-meta" id="teachersMeta">No teachers in this view</span>
+            </span>
+          </div>
+
+          <div class="ds-stat is-accent">
+            <span class="ds-stat-icon"><i class="fas fa-user-graduate"></i></span>
+            <span class="ds-stat-body">
+              <span class="ds-stat-label">Students</span>
+              <strong class="ds-stat-value" id="statStudents">0</strong>
+              <span class="ds-stat-meta" id="studentsMeta">No students in this view</span>
+            </span>
+          </div>
+
+          <div class="ds-stat is-warning">
+            <span class="ds-stat-icon"><i class="fas fa-envelope-open-text"></i></span>
+            <span class="ds-stat-body">
+              <span class="ds-stat-label">Pending Invites</span>
+              <strong class="ds-stat-value" id="statPending">0</strong>
+              <span class="ds-stat-meta" id="pendingMeta">No pending invites</span>
+            </span>
           </div>
         </div>
 
@@ -2821,7 +2867,6 @@
           <div class="widget-panel widget-table-shell">
             <div class="subsection-toolbar">
               <div class="widget-heading-main">
-                <span class="widget-asset"><img src="/kidba_assets/img/3d_student.png" alt="Students list 3D icon"></span>
                 <h2 style="font-size:0.98rem; font-weight:800; margin:0; color:#1e293b;">Students List</h2>
               </div>
               <div style="font-size:0.78rem; font-weight:700; color:#94a3b8; display:flex; gap:12px; flex-wrap:wrap;">
@@ -2845,7 +2890,6 @@
             <div class="widget-panel compact">
               <div class="widget-heading">
                 <div class="widget-heading-main">
-                  <span class="widget-asset"><img src="/kidba_assets/img/3d_login.png" alt="Attendance summary 3D icon"></span>
                   <strong>Attendance Summary</strong>
                 </div>
                 <span>Today</span>
@@ -2867,7 +2911,6 @@
             <div class="widget-panel compact">
               <div class="widget-heading">
                 <div class="widget-heading-main">
-                  <span class="widget-asset"><img src="/kidba_assets/img/3d_individual.png" alt="Operations mix 3D icon"></span>
                   <strong>Operations Mix</strong>
                 </div>
                 <span>Live</span>
@@ -2904,7 +2947,6 @@
       <div id="tab-parents" class="fade-in tab-panel d-none">
         <div class="section-header">
           <div class="section-shell">
-            <div class="section-asset"><img src="/kidba_assets/img/3d_parent.png" alt="Family accounts 3D icon"></div>
             <div class="section-copy">
               <span class="section-eyebrow"><i class="fas fa-users"></i> Family accounts</span>
               <h1 class="section-title">Parents</h1>
@@ -2932,7 +2974,6 @@
       <div id="tab-teachers" class="fade-in tab-panel d-none">
         <div class="section-header">
           <div class="section-shell">
-            <div class="section-asset"><img src="/kidba_assets/img/3d_teacher.png" alt="Teacher management 3D icon"></div>
             <div class="section-copy">
               <span class="section-eyebrow"><i class="fas fa-chalkboard-teacher"></i> Faculty administration</span>
               <h1 class="section-title">Teacher Management</h1>
@@ -2961,7 +3002,6 @@
       <div id="tab-students" class="fade-in tab-panel d-none">
         <div class="section-header">
           <div class="section-shell">
-            <div class="section-asset"><img src="/kidba_assets/img/3d_student.png" alt="Student management 3D icon"></div>
             <div class="section-copy">
               <span class="section-eyebrow"><i class="fas fa-user-graduate"></i> Student administration</span>
               <h1 class="section-title">Student Management</h1>
@@ -2975,6 +3015,12 @@
             <button class="btn-outline-light d-none" id="cleanupParentCodesBtn" onclick="cleanupParentCodes()" title="Parent codes are retired. This clears the unused ones."><i class="fas fa-broom me-2"></i> Clear Old Parent Codes (<span id="deadParentCount">0</span>)</button>
             <button class="btn-solid" onclick="openModal('studentModal')"><i class="fas fa-user-plus me-2"></i> Add Student</button>
             <button class="btn-outline-light" onclick="openModal('bulkImportModal')"><i class="fas fa-file-import me-2"></i> Import Roster</button>
+            <!-- The same scan the Parents tab offers. It was only there, which
+                 is the one place an admin is not looking when the question in
+                 their head is "what about these students I already have?" —
+                 the students are on this screen, so the way to give them a
+                 family login is too. Both call openMigration(). -->
+            <button class="btn-outline-light" id="mergeStudentsBtn" onclick="openMigration()" title="Turn students you already enrolled into family accounts, keeping all their work"><i class="fas fa-wand-magic-sparkles me-2"></i> Merge into families (<span id="unmergedCount">0</span>)</button>
             <button class="btn-outline-light" id="allocateHousesBtn" onclick="allocateHouses()" title="Sort students who have no club house yet into the four houses"><i class="fas fa-shield-halved me-2"></i> Allocate Houses (<span id="unhousedCount">0</span>)</button>
           </div>
         </div>
@@ -2998,7 +3044,6 @@
       <div id="tab-attendance" class="fade-in tab-panel d-none">
         <div class="section-header">
           <div class="section-shell">
-            <div class="section-asset"><img src="/kidba_assets/img/3d_login.png" alt="Attendance management 3D icon"></div>
             <div class="section-copy">
               <span class="section-eyebrow"><i class="fas fa-wave-square"></i> Attendance operations</span>
               <h1 class="section-title">Attendance Management</h1>
@@ -3010,20 +3055,20 @@
           </div>
         </div>
         
-        <div class="hero-grid" style="grid-template-columns: 1fr 1fr; margin-bottom:1rem;">
-          <div class="hero-card card-green attendance-summary-card" style="display:flex; justify-content:space-between; align-items:center;">
-             <div>
-                <div class="tall-stat" id="attPresent">0</div>
-                <div class="tall-label">Total Present Today</div>
-             </div>
-             <img class="summary-card-illustration" src="/kidba_assets/img/3d_student.png" alt="Present attendance 3D icon">
+        <div class="ds-stats" style="margin-bottom:1rem;">
+          <div class="ds-stat is-positive">
+            <span class="ds-stat-icon"><i class="fas fa-user-check"></i></span>
+            <span class="ds-stat-body">
+              <span class="ds-stat-label">Present today</span>
+              <strong class="ds-stat-value" id="attPresent">0</strong>
+            </span>
           </div>
-           <div class="hero-card card-orange attendance-summary-card" style="display:flex; justify-content:space-between; align-items:center;">
-             <div>
-                <div class="tall-stat" id="attAbsent">0</div>
-                <div class="tall-label">Total Absent</div>
-             </div>
-             <img class="summary-card-illustration" src="/kidba_assets/img/3d_login.png" alt="Absent attendance 3D icon">
+          <div class="ds-stat is-danger">
+            <span class="ds-stat-icon"><i class="fas fa-user-xmark"></i></span>
+            <span class="ds-stat-body">
+              <span class="ds-stat-label">Absent</span>
+              <strong class="ds-stat-value" id="attAbsent">0</strong>
+            </span>
           </div>
         </div>
 
@@ -3043,7 +3088,6 @@
       <div id="tab-settings" class="fade-in tab-panel d-none">
         <div class="section-header">
           <div class="section-shell">
-            <div class="section-asset"><img src="/kidba_assets/img/3d_individual.png" alt="System settings 3D icon"></div>
             <div class="section-copy">
               <span class="section-eyebrow"><i class="fas fa-sliders-h"></i> System preferences</span>
               <h1 class="section-title">System Settings</h1>
@@ -3054,7 +3098,6 @@
         <div class="settings-panel">
           <div class="widget-heading" style="margin-bottom:1rem;">
             <div class="widget-heading-main">
-              <span class="widget-asset"><img src="/kidba_assets/img/3d_login.png" alt="Security settings 3D icon"></span>
               <strong>Identity &amp; Access</strong>
             </div>
             <span>Secure</span>
@@ -4607,6 +4650,7 @@
     document.getElementById('studentDirectoryBody').innerHTML = stuDirHtml || '<div style="text-align:center; padding:2rem; color:#94a3b8; font-weight:700;">No students enrolled yet.</div>';
 
     refreshUnhousedCount();
+    refreshUnmergedCount();
 
     // Families are not filtered by class: a household can have children in
     // several, and hiding a parent because one of their children sits outside
@@ -4632,8 +4676,8 @@
       analyticsHtml += '<div class="pill-row ' + motif + '">' +
         '<div class="col-1 d-flex align-items-center gap-3"><img src="' + imgSrc + '" style="border-radius:50%; width:40px; height:40px; object-fit:cover;">' + student.name + '</div>' +
         '<div class="col-3"><span style="background:rgba(255,255,255,0.7); padding:5px 12px; border-radius:20px; font-weight:800;">' + (student.class_id || 'Unknown') + '</span></div>' +
-        '<div class="col-2"><span style="color:#d946ef; font-weight:800;"><i class="fas fa-book-open me-1"></i> ' + completed + ' Chapters</span></div>' +
-        '<div class="col-2"><span style="color:#eab308; font-weight:800; background:#fef08a; padding:4px 10px; border-radius:12px;">' + points + ' XP</span></div>' +
+        '<div class="col-2"><span class="ds-chip"><i class="fas fa-book-open"></i> ' + completed + '</span></div>' +
+        '<div class="col-2"><span class="ds-chip is-info">' + points + ' XP</span></div>' +
         '<div class="col-2"><span style="font-weight:800;">' + statusRank + '</span></div>' +
         '<div class="col-actions"></div></div>';
     });
@@ -5429,6 +5473,21 @@
     el.textContent = String(unhoused);
     const btn = document.getElementById('allocateHousesBtn');
     if (btn) btn.style.display = unhoused ? '' : 'none';
+  }
+
+  /**
+   * How many enrolled students still have no family login. The button says the
+   * number so an admin can see there is something to do without opening the
+   * scan, and it takes itself off the toolbar once every student has a family
+   * — the same way Allocate Houses does.
+   */
+  function refreshUnmergedCount() {
+    const el = document.getElementById('unmergedCount');
+    if (!el) return;
+    const unmerged = studentsList.filter((s) => !s.family_uid).length;
+    el.textContent = String(unmerged);
+    const btn = document.getElementById('mergeStudentsBtn');
+    if (btn) btn.style.display = unmerged ? '' : 'none';
   }
 
   window.allocateHouses = async () => {
