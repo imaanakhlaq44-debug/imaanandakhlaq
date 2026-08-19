@@ -4323,14 +4323,15 @@ export const TeacherDashboard = () => html`
     };
 
   window.logoutTeacher = () => {
-    signOut(auth).then(() => {
+        try { sessionStorage.setItem('ia_just_logged_out', '1'); } catch (e) {}
+        signOut(auth).then(() => {
       localStorage.removeItem('auth_user');
       sessionStorage.removeItem('auth_user');
-      window.location.href = 'auth.html';
+      window.location.replace('auth.html');
     }).catch(() => {
       localStorage.removeItem('auth_user');
       sessionStorage.removeItem('auth_user');
-      window.location.href = 'auth.html';
+      window.location.replace('auth.html');
     });
   };
 

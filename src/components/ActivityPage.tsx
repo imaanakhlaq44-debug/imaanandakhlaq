@@ -96,6 +96,13 @@ export const ActivityPage = () => html`
     margin: 0 auto;
     position: relative;
     min-height: 260px;
+    /* The container fills the reader, and the book StPageFlip builds inside it
+       is a normal block — so it sat at the container's top edge with the rest
+       of a tall phone screen empty underneath. Centring the container's own
+       content is what actually places the book. */
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   .flipbook-container .stf__parent {
     margin: 0 auto;
@@ -231,6 +238,11 @@ export const ActivityPage = () => html`
     font-size: 2rem;
     margin-bottom: 15px;
     line-height: 1.2;
+    /* Bootstrap sets h2 { color: var(--bs-heading-color) }, and a rule on the
+       element beats the white this inherits from .pdf-reader-cover — so the
+       chapter title came out dark navy on a dark blue cover, all but
+       unreadable. Saying it here settles it whatever that variable holds. */
+    color: #ffffff;
     text-shadow: 0 2px 4px rgba(0,0,0,0.3);
   }
   .pdf-reader-cover p, .pdf-reader-end p {

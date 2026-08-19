@@ -1,6 +1,7 @@
 import { Hono } from 'hono'
 import activitiesData from './data/activities.json'
 import { html } from 'hono/html'
+import { pullToRefreshJS } from './lib/pullToRefresh'
 import { firebaseConfigJS } from './lib/firebaseConfig'
 import { Head } from './components/Head'
 import { ScrollProgress } from './components/ScrollProgress'
@@ -191,7 +192,22 @@ app.get('/admin-dashboard', async (c) => {
       'or reformatted, update this route to match.'
     )
   }
-  return c.html(source.replace(CONFIG_BLOCK, 'const firebaseConfig = ' + firebaseConfigJS + ';'))
+  source = source.replace(CONFIG_BLOCK, 'const firebaseConfig = ' + firebaseConfigJS + ';')
+
+  // Same reasoning for pull to refresh. This page carried its own copy, which
+  // drifted from every other dashboard's — a different threshold and none of
+  // the rules that tell a pull apart from a scroll. One implementation now,
+  // substituted here.
+  const PTR_MARKER = /\/\* IA_PULL_TO_REFRESH[\s\S]*?\*\//
+  if (!PTR_MARKER.test(source)) {
+    throw new Error(
+      'admin-dashboard.html: the IA_PULL_TO_REFRESH marker is gone. Put it back, ' +
+      'or this page silently ships without pull to refresh.'
+    )
+  }
+  source = source.replace(PTR_MARKER, pullToRefreshJS)
+
+  return c.html(source)
 })
 
 app.get('/super-admin-dashboard', (c) => {

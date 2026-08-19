@@ -267,6 +267,15 @@ export const AuthPage = () => html`
   .toast.success { border-left-color: #10b981; color: #064e3b; }
   .toast.error { border-left-color: #ef4444; color: #7f1d1d; }
 
+  /* Covers the login form while an existing session is being resumed. */
+  .auth-resume {
+    position: fixed; inset: 0; z-index: 10001; display: none;
+    align-items: center; justify-content: center; gap: 12px;
+    background: #1E2D5A; color: #fff;
+    font-family: 'Sora', system-ui, sans-serif; font-size: 0.95rem; font-weight: 600;
+  }
+  .auth-resume.show { display: flex; }
+
   /* ============================================================
      APK-STYLE AUTH DESIGN — login/register mode switch
      ============================================================ */
@@ -1222,6 +1231,13 @@ export const AuthPage = () => html`
 </div>
 
 <!-- TOAST -->
+<!-- Shown for the moment between "this device already has a session" and the
+     dashboard loading, so a returning user never sees the login form flash. -->
+<div id="authResume" class="auth-resume">
+  <i class="fas fa-spinner fa-spin"></i>
+  <span>Welcome back — opening your dashboard…</span>
+</div>
+
 <div id="authToast" class="toast"></div>
 
 <!-- EmailJS SDK for OTP delivery -->
@@ -1404,12 +1420,12 @@ export const AuthPage = () => html`
 
       showToastCompat('Success! Redirecting...', 'success');
       setTimeout(function () {
-        if (userData.role === 'super_admin') window.location.href = './super-admin-dashboard.html';
-        else if (userData.role === 'school_admin') window.location.href = './admin-dashboard.html';
-        else if (userData.role === 'teacher') window.location.href = './teacher-dashboard.html';
-        else if (userData.role === 'student' || userData.role === 'individual') window.location.href = './student-activities.html';
+        if (userData.role === 'super_admin') window.location.replace('./super-admin-dashboard.html');
+        else if (userData.role === 'school_admin') window.location.replace('./admin-dashboard.html');
+        else if (userData.role === 'teacher') window.location.replace('./teacher-dashboard.html');
+        else if (userData.role === 'student' || userData.role === 'individual') window.location.replace('./student-activities.html');
         // A school-provisioned family: one login, a card per child.
-        else if (userData.role === 'family') window.location.href = './family.html';
+        else if (userData.role === 'family') window.location.replace('./family.html');
         // Accounts left over from when parents signed up separately. That
         // dashboard no longer exists, and sending them to a dead page would
         // just look broken, so say plainly where the Parent Area moved to.
@@ -1558,6 +1574,59 @@ export const AuthPage = () => html`
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const db = getFirestore(app);
+
+  /** Where each role belongs, in one place — used by login and by resume. */
+  function dashboardFor(role) {
+    if (role === 'super_admin') return './super-admin-dashboard.html';
+    if (role === 'school_admin') return './admin-dashboard.html';
+    if (role === 'teacher') return './teacher-dashboard.html';
+    if (role === 'student' || role === 'individual') return './student-activities.html';
+    if (role === 'family') return './family.html';
+    return '';
+  }
+
+  /**
+   * Keep the session across app restarts.
+   *
+   * The APK opens on this page every time. Firebase still had the signed-in
+   * user, but nothing here ever asked — so a parent who never tapped Log out
+   * was shown the login form again on every launch and reasonably concluded
+   * the app had logged them out. IndexedDB survives an Android WebView being
+   * killed more reliably than localStorage, with localStorage as the fallback
+   * for older devices.
+   */
+  setPersistence(auth, indexedDBLocalPersistence)
+    .catch(() => setPersistence(auth, browserLocalPersistence))
+    .catch(() => {})
+    .finally(() => {
+      let resumeHandled = false;
+      onAuthStateChanged(auth, async (user) => {
+        if (resumeHandled) return;
+        resumeHandled = true;
+        if (!user) return;                       // nobody signed in: show the form
+
+        // A tap on Log out lands here a moment before Firebase clears the
+        // user; without this the page would bounce them straight back in.
+        if (sessionStorage.getItem('ia_just_logged_out') === '1') {
+          sessionStorage.removeItem('ia_just_logged_out');
+          return;
+        }
+
+        try {
+          const snap = await getDoc(doc(db, 'users', user.uid));
+          if (!snap.exists()) return;            // no profile: let them sign in properly
+          const target = dashboardFor(snap.data().role);
+          if (!target) return;
+
+          const resume = document.getElementById('authResume');
+          if (resume) resume.classList.add('show');
+          window.location.replace(target);
+        } catch (err) {
+          // Offline, or the read was denied. The login form is still there.
+          console.warn('Could not resume the session', err);
+        }
+      });
+    });
 
   function showToast(msg, type) {
     const t = document.getElementById('authToast');
@@ -1990,11 +2059,11 @@ export const AuthPage = () => html`
 
         showToast('Success! Redirecting...', 'success');
         setTimeout(() => {
-          if (userData.role === 'super_admin') window.location.href = './super-admin-dashboard.html';
-        else if (userData.role === 'school_admin') window.location.href = './admin-dashboard.html';
-          else if (userData.role === 'teacher') window.location.href = './teacher-dashboard.html';
-          else if (userData.role === 'student' || userData.role === 'individual') window.location.href = './student-activities.html';
-          else if (userData.role === 'family') window.location.href = './family.html';
+          if (userData.role === 'super_admin') window.location.replace('./super-admin-dashboard.html');
+        else if (userData.role === 'school_admin') window.location.replace('./admin-dashboard.html');
+          else if (userData.role === 'teacher') window.location.replace('./teacher-dashboard.html');
+          else if (userData.role === 'student' || userData.role === 'individual') window.location.replace('./student-activities.html');
+          else if (userData.role === 'family') window.location.replace('./family.html');
           // See the note on the other redirect block: legacy parent accounts.
           else if (userData.role === 'parent') showToast('Parent accounts have moved. Sign in with your child\\'s Student & Family account and open Parent Area.', 'error');
         }, 1000);

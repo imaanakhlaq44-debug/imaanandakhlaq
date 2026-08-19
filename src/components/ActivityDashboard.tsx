@@ -890,6 +890,34 @@ export const ActivityDashboard = () => html`
     color: var(--student-muted);
   }
 
+  /* A book whose chapters are not written yet: readable, clearly not open,
+     and not dressed up as something to tap. */
+  .book-chip.soon {
+    background: #fdf3e3;
+    border-color: transparent;
+    color: #9a6510;
+  }
+
+  .library-item.is-upcoming {
+    cursor: default;
+  }
+
+  .library-item.is-upcoming .library-cover img {
+    filter: grayscale(0.55);
+    opacity: .72;
+  }
+
+  .library-item.is-upcoming .library-title {
+    color: var(--student-muted);
+  }
+
+  .lib-soon-note {
+    display: inline-block;
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: var(--student-muted);
+  }
+
   .library-body {
     padding: 0.6rem 0.7rem 0.7rem;
     display: flex;
@@ -3998,6 +4026,27 @@ ${HouseQuizModal()}
 
       const card = document.createElement('div');
       card.className = 'library-item';
+
+      // Books 5 to 7 have covers but no chapters yet. They used to show
+      // "0 chapters · 0 open" and a View Chapters button that led to a
+      // Coming Soon panel — a child clicked, waited, and was told no. The card
+      // says so up front now, and does not pretend to be openable.
+      if (!bookChapters.length) {
+        card.classList.add('is-upcoming');
+        card.setAttribute('aria-disabled', 'true');
+        card.innerHTML =
+          '<div class="library-cover"><img src="' + book.cover + '" alt="' + book.title + '" loading="lazy"></div>' +
+          '<div class="library-body">' +
+            '<div class="library-topline">' +
+              '<span class="book-chip soon"><i class="fas fa-hourglass-half"></i> Coming soon</span>' +
+            '</div>' +
+            '<div class="library-title">' + book.title + '</div>' +
+            '<div class="library-meta"><span class="lib-soon-note">Not ready yet</span></div>' +
+          '</div>';
+        fragment.appendChild(card);
+        return;
+      }
+
       makeInteractiveCard(card, () => showChapters(book.id, book.title));
       card.innerHTML =
         '<div class="library-cover"><img src="' + book.cover + '" alt="' + book.title + '" loading="lazy"></div>' +
@@ -4379,14 +4428,15 @@ ${HouseQuizModal()}
   });
 
   window.logoutStudent = () => {
-    signOut(auth).then(() => {
+        try { sessionStorage.setItem('ia_just_logged_out', '1'); } catch (e) {}
+        signOut(auth).then(() => {
       localStorage.removeItem('auth_user');
       sessionStorage.removeItem('auth_user');
-      window.location.href = 'auth.html';
+      window.location.replace('auth.html');
     }).catch(() => {
       localStorage.removeItem('auth_user');
       sessionStorage.removeItem('auth_user');
-      window.location.href = 'auth.html';
+      window.location.replace('auth.html');
     });
   };
 
@@ -4512,13 +4562,20 @@ ${HouseQuizModal()}
         var wrap = document.createElement('div');
         wrap.className = 'apk-book-row';
   
+        // A book with no chapters yet says so on the row itself, rather than
+        // opening onto an empty panel.
+        var upcoming = card.classList.contains('is-upcoming');
+
         var btn = document.createElement('button');
         btn.type = 'button';
-        btn.className = 'apk-book-btn';
+        btn.className = 'apk-book-btn' + (upcoming ? ' is-upcoming' : '');
         btn.setAttribute('aria-expanded', 'false');
+        if (upcoming) btn.disabled = true;
         btn.innerHTML = '<span class="apk-book-num">' + (idx + 1) + '</span>'
           + '<span class="apk-book-label">' + label + '</span>'
-          + '<i class="fas fa-chevron-down apk-book-caret"></i>';
+          + (upcoming
+              ? '<span class="apk-book-soon">Coming soon</span>'
+              : '<i class="fas fa-chevron-down apk-book-caret"></i>');
   
         var panel = document.createElement('div');
         panel.className = 'apk-book-panel';
@@ -4658,6 +4715,28 @@ ${HouseQuizModal()}
       flex: 0 0 26px;
     }
     .apk-book-label { flex: 1 1 auto; }
+    /* A book still being written: greyed, not tappable, and it says why. */
+    .apk-book-btn.is-upcoming {
+      background: #f8fafc;
+      color: #6f7f96;
+      box-shadow: none;
+      cursor: default;
+    }
+    .apk-book-btn.is-upcoming .apk-book-num {
+      background: #e2e8f0;
+      color: #6f7f96;
+    }
+    .apk-book-soon {
+      font-size: 0.68rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #9a6510;
+      background: #fdf3e3;
+      padding: 3px 8px;
+      border-radius: 999px;
+      flex: 0 0 auto;
+    }
     .apk-book-caret {
       color: #94a3b8;
       transition: transform 0.2s ease;
