@@ -608,7 +608,9 @@ export const SuperAdminDashboard = () => html`
             <i class="fas fa-building" style="color: var(--brand-tertiary)"></i>
             Registered Schools Directory
           </div>
-          <button class="btn-icon" title="Export Data"><i class="fas fa-download"></i></button>
+          <!-- This button existed with no handler behind it: clicking it did
+               nothing, silently, for as long as the page has been live. -->
+          <button class="btn-icon" type="button" title="Download this directory as a CSV file" onclick="window.exportSchoolsCsv()"><i class="fas fa-download"></i></button>
         </div>
         <div class="table-responsive">
           <table>
@@ -740,6 +742,44 @@ export const SuperAdminDashboard = () => html`
       document.getElementById('total-teachers-count').textContent = totalTeachers;
 
       if (typeof window.renderPlatformChart === 'function') window.renderPlatformChart(schools, users);
+
+      // Feed the directory's download button. It is built here rather than in
+      // the click handler so the file is the same list the table is showing.
+      window.exportSchoolsCsv = function () {
+        if (!schools.length) { alert('There are no schools to export yet.'); return; }
+
+        function cell(value) {
+          const text = value === null || value === undefined ? '' : String(value);
+          return /[",\\r\\n]/.test(text) ? '"' + text.replace(/"/g, '""') + '"' : text;
+        }
+
+        const rows = [['School', 'Admin', 'Location', 'Teachers', 'Students', 'Status', 'School ID']];
+        schools.forEach((school) => {
+          let teachers = 0, students = 0, adminName = '';
+          users.forEach((u) => {
+            if (u.school_id !== school.id) return;
+            if (u.role === 'teacher') teachers++;
+            if (u.role === 'student') students++;
+            if (u.role === 'school_admin' && !adminName) adminName = u.name || u.email || '';
+          });
+          rows.push([
+            school.name || 'Unnamed', adminName, school.city || school.location || '',
+            teachers, students, school.status || 'active', school.id
+          ]);
+        });
+
+        // A BOM, or Excel reads UTF-8 school names as mojibake.
+        const csv = '\\ufeff' + rows.map((r) => r.map(cell).join(',')).join('\\r\\n');
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'imaan-akhlaq-schools-' + new Date().toISOString().slice(0, 10) + '.csv';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        setTimeout(function () { URL.revokeObjectURL(url); }, 2000);
+      };
 
       const tbody = document.getElementById('schools-table-body');
       tbody.innerHTML = '';
@@ -914,7 +954,7 @@ export const SuperAdminDashboard = () => html`
       if (role !== 'super_admin') {
         const loadingEl = document.getElementById('loading');
         if (loadingEl) loadingEl.textContent = 'Access denied: this area is for the platform administrator only. Redirecting...';
-        setTimeout(() => { window.location.href = 'auth.html'; }, 2000);
+        setTimeout(() => { window.location.replace('auth.html'); }, 2000);
         return;
       }
       loadDashboardData();
@@ -945,7 +985,7 @@ export const SuperAdminDashboard = () => html`
       const loadingEl = document.getElementById('loading');
       if (loadingEl) loadingEl.textContent = 'Please log in first to access the database. Redirecting...';
       setTimeout(() => {
-        window.location.href = 'auth.html';
+        window.location.replace('auth.html');
       }, 2000);
     }
   });
@@ -1393,9 +1433,10 @@ export const SuperAdminDashboard = () => html`
     document.getElementById('logout-btn').addEventListener('click', async (e) => {
       e.preventDefault();
       try {
-        await signOut(auth);
+                try { sessionStorage.setItem('ia_just_logged_out', '1'); } catch (e) {}
+                await signOut(auth);
         localStorage.removeItem('auth_user');
-        window.location.href = 'auth.html';
+        window.location.replace('auth.html');
       } catch (err) {
         alert("Error logging out: " + err.message);
       }

@@ -494,7 +494,17 @@ const BOTTOMBAR_JS = `/* APK-only bottom bar injector. Auto-generated. */
       }
       function isHomeLikePage(){
         var p = (location.pathname || '').toLowerCase();
-        return (p === '/' || p === '' || p.indexOf('/auth') === 0 || p.indexOf('auth.html') !== -1 || p.indexOf('/index.html') !== -1);
+        if (p === '/' || p === '' || p.indexOf('/auth') === 0 || p.indexOf('auth.html') !== -1 || p.indexOf('/index.html') !== -1) return true;
+        // A dashboard is where a signed-in person lives, so back does not walk
+        // out of it. This used to fall through to history.back(), which popped
+        // to whatever came before — the login page — and looked like being
+        // signed out. The page's own handler (Head.tsx) takes it from here:
+        // press back twice to leave the app.
+        var roots = ['student-activities', 'teacher-dashboard', 'admin-dashboard', 'super-admin-dashboard', 'family'];
+        for (var i = 0; i < roots.length; i++) {
+          if (p.indexOf(roots[i]) !== -1) return true;
+        }
+        return false;
       }
       App.addListener('backButton', function(ev){
         // 1) If Qibla AR camera is open, close it first.
@@ -521,6 +531,12 @@ const BOTTOMBAR_JS = `/* APK-only bottom bar injector. Auto-generated. */
             return;
           }
         } catch(e){}
+        // 3b) Pages built from the app's own layout carry their own back
+        //     policy (see Head.tsx). Two handlers deciding at once is how the
+        //     same press both showed "Press back again to exit" and navigated
+        //     away underneath it. Everything below is for this bar's own
+        //     standalone pages — Qibla, Tasbeeh, Azkar and the rest.
+        if (window.__iaBackHandler) return;
         // 4) If history has a previous in-app entry, go back.
         try {
           if (window.history && window.history.length > 1 && !isHomeLikePage()) {

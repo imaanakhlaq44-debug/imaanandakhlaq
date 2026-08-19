@@ -1,6 +1,25 @@
 import { html, raw } from 'hono/html'
+import activitiesData from '../data/activities.json'
 import { firebaseConfigJS } from '../lib/firebaseConfig'
 import { activeChildHelpersJS } from '../lib/activeChild'
+
+/**
+ * chapter_id -> chapter title, emitted as a literal.
+ *
+ * A teacher's note is attached to a submission, and a submission names its
+ * chapter by id ("b1_c4"). Shipping the id to the parent would be shipping
+ * them our database schema, so the page carries the titles — a few kilobytes,
+ * versus importing the whole activities catalogue for one field.
+ */
+const chapterTitlesJS = (() => {
+  const titles: Record<string, string> = {}
+  for (const book of Object.values(activitiesData as Record<string, any>)) {
+    for (const chapter of Object.values(book?.chapters || {}) as any[]) {
+      if (chapter?.id && chapter?.title) titles[chapter.id] = chapter.title
+    }
+  }
+  return JSON.stringify(titles)
+})()
 
 /**
  * The family's home screen: one card per child.
@@ -124,6 +143,50 @@ export const FamilyDashboard = () => html`
     background: rgba(224, 128, 32, .12); color: #a25c0d;
   }
   .fam-badge.clear { background: rgba(47, 158, 115, .12); color: var(--fam-green); }
+  /* Something the parent has to act on — the child has work to redo. */
+  .fam-badge.redo { background: rgba(179, 38, 30, .10); color: #b3261e; }
+
+  /* What happened this week, in the child's own record. Without this the card
+     said only how many points they had, which never changes visibly and tells
+     a parent nothing about the week. */
+  .fam-week {
+    font-size: .82rem; color: #55607a; line-height: 1.5;
+  }
+  .fam-week b { color: var(--fam-ink); font-weight: 800; }
+  .fam-week.quiet { color: #8b94a8; }
+
+  /* The teacher's own words. This is the one thing a parent could not see
+     anywhere before — the note existed on the submission and only the student
+     ever read it. */
+  .fam-note {
+    background: rgba(30, 45, 90, .04);
+    border-left: 3px solid var(--fam-pink);
+    border-radius: 0 12px 12px 0;
+    padding: 10px 12px;
+  }
+  .fam-note-label {
+    font-size: .64rem; font-weight: 800; letter-spacing: .09em;
+    text-transform: uppercase; color: #7a839a; display: block; margin-bottom: 3px;
+  }
+  .fam-note-text {
+    font-size: .84rem; color: #2b3550; line-height: 1.45;
+    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .fam-note-meta { font-size: .7rem; color: #8b94a8; margin-top: 5px; }
+
+  /* One line above the grid: the household at a glance, so a parent with four
+     children does not have to read four cards to learn nothing happened. */
+  .fam-summary {
+    display: inline-flex; flex-wrap: wrap; align-items: center; gap: 8px 14px;
+    background: rgba(255, 255, 255, .72);
+    border: 1px solid rgba(30, 45, 90, .10);
+    border-radius: 999px; padding: 8px 16px; margin-top: 10px;
+    font-size: .84rem; color: #55607a;
+  }
+  .fam-summary b { color: var(--fam-ink); font-weight: 800; }
+  .fam-summary .sep { color: rgba(30, 45, 90, .22); }
+  /* .d-none is defined per element on this page; the summary needs its own. */
+  .fam-summary.d-none { display: none; }
 
   .fam-open {
     margin-top: auto; border: none; cursor: pointer; width: 100%;
@@ -199,6 +262,7 @@ export const FamilyDashboard = () => html`
   <div class="fam-heading">
     <h1>Who is learning today?</h1>
     <p id="famSubtitle">Choose a child to open their activities.</p>
+    <div class="fam-summary d-none" id="famSummary"></div>
   </div>
 
   <div id="famLoading" class="fam-loading"><i class="fas fa-spinner fa-spin"></i> Loading your children…</div>
@@ -249,6 +313,69 @@ export const FamilyDashboard = () => html`
   let family = null;
   let children = [];
   let pendingByChild = {};
+  // Per child: what happened in the last seven days, and the most recent thing
+  // the teacher actually wrote.
+  let weekByChild = {};
+  let noteByChild = {};
+
+  // chapter_id -> title, built from the same catalogue the student reads. A
+  // note that says "b1_c4" is not a note a parent can use.
+  const CHAPTER_TITLES = ${raw(chapterTitlesJS)};
+
+  const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
+
+  /** Timestamps arrive as ISO strings from the client and as Timestamps from
+   *  anything written server-side, so both have to survive this. */
+  function toDate(value) {
+    if (!value) return null;
+    if (typeof value === 'string') { const d = new Date(value); return isNaN(d) ? null : d; }
+    if (typeof value.toDate === 'function') return value.toDate();
+    if (typeof value.seconds === 'number') return new Date(value.seconds * 1000);
+    return null;
+  }
+
+  function whenText(date) {
+    if (!date) return '';
+    const days = Math.floor((Date.now() - date.getTime()) / 86400000);
+    if (days <= 0) return 'today';
+    if (days === 1) return 'yesterday';
+    if (days < 7) return days + ' days ago';
+    return date.toLocaleDateString();
+  }
+
+  function summarise(sub) {
+    const uid = sub.student_uid;
+    if (!uid) return;
+
+    if (sub.reviewStatus === 'pending_teacher') {
+      pendingByChild[uid] = (pendingByChild[uid] || 0) + 1;
+    }
+
+    const week = weekByChild[uid] || (weekByChild[uid] = { sent: 0, approved: 0, redo: 0 });
+    if (sub.reviewStatus === 'needs_redo') week.redo++;
+
+    const sentAt = toDate(sub.submittedAt || sub.updatedAt);
+    if (sentAt && Date.now() - sentAt.getTime() < WEEK_MS) week.sent++;
+
+    const approvedAt = toDate(sub.teacherApprovedAt);
+    if (approvedAt && Date.now() - approvedAt.getTime() < WEEK_MS) week.approved++;
+
+    // The newest note wins, whether it came with an approval or a send-back.
+    const note = String(sub.teacherNotes || '').trim();
+    if (!note) return;
+    const noteAt = toDate(sub.teacherReviewedAt || sub.teacherApprovedAt || sub.updatedAt);
+    const held = noteByChild[uid];
+    if (!held || (noteAt && held.at && noteAt > held.at) || (noteAt && !held.at)) {
+      noteByChild[uid] = {
+        text: note,
+        at: noteAt,
+        // The submission carries the title it was written against; the map is
+        // the fallback for sheets saved before that field existed.
+        chapter: sub.chapter_title || CHAPTER_TITLES[sub.chapter_id] || '',
+        sentBack: sub.reviewStatus === 'needs_redo'
+      };
+    }
+  }
 
   const HTML_ESCAPES = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
   function esc(value) {
@@ -302,17 +429,14 @@ export const FamilyDashboard = () => html`
     // and it is also what the Firestore rules match on, so the list stays
     // provable.
     pendingByChild = {};
+    weekByChild = {};
+    noteByChild = {};
     try {
       const subs = await getDocs(query(
         collection(db, 'activity_submissions'),
         where('family_uid', '==', family.uid)
       ));
-      subs.forEach((d) => {
-        const sub = d.data();
-        if (sub.reviewStatus === 'pending_teacher') {
-          pendingByChild[sub.student_uid] = (pendingByChild[sub.student_uid] || 0) + 1;
-        }
-      });
+      subs.forEach((d) => summarise(d.data()));
     } catch (err) {
       // A missing count is worth far less than a blank page, so the cards
       // still render without it.
@@ -334,9 +458,36 @@ export const FamilyDashboard = () => html`
       ? '<img class="fam-avatar" src="' + esc(child.photoURL) + '" alt="">'
       : '<div class="fam-avatar">' + initial + '</div>';
 
-    const badge = pending
-      ? '<span class="fam-badge"><i class="fas fa-clock"></i> ' + pending + ' waiting for the teacher</span>'
-      : '<span class="fam-badge clear"><i class="fas fa-check"></i> Nothing pending</span>';
+    const week = weekByChild[child.uid] || { sent: 0, approved: 0, redo: 0 };
+    const note = noteByChild[child.uid];
+
+    // Only one badge, and the one that matters most: work sent back needs
+    // someone at home tonight; waiting for the teacher needs nobody.
+    let badge;
+    if (week.redo) {
+      badge = '<span class="fam-badge redo"><i class="fas fa-rotate-left"></i> ' +
+        week.redo + (week.redo === 1 ? ' chapter to do again' : ' chapters to do again') + '</span>';
+    } else if (pending) {
+      badge = '<span class="fam-badge"><i class="fas fa-clock"></i> ' + pending + ' waiting for the teacher</span>';
+    } else {
+      badge = '<span class="fam-badge clear"><i class="fas fa-check"></i> Nothing pending</span>';
+    }
+
+    const weekLine = (week.sent || week.approved)
+      ? '<div class="fam-week">This week: <b>' + week.sent + '</b> sent' +
+        (week.approved ? ', <b>' + week.approved + '</b> approved' : '') + '</div>'
+      : '<div class="fam-week quiet">Nothing sent this week.</div>';
+
+    const noteBlock = note
+      ? '<div class="fam-note">' +
+          '<span class="fam-note-label">' + (note.sentBack ? 'Teacher sent this back' : 'Teacher\\'s note') + '</span>' +
+          '<div class="fam-note-text">' + esc(note.text) + '</div>' +
+          '<div class="fam-note-meta">' +
+            (note.chapter ? esc(note.chapter) : 'Chapter') +
+            (note.at ? ' · ' + esc(whenText(note.at)) : '') +
+          '</div>' +
+        '</div>'
+      : '';
 
     return '<div class="fam-card tone-' + (index % 3) + '">' +
       '<div class="fam-card-top">' + avatar +
@@ -344,6 +495,8 @@ export const FamilyDashboard = () => html`
         '<span class="fam-class">' + esc(child.class_id || 'No class yet') + '</span></div>' +
       '</div>' +
       badge +
+      weekLine +
+      noteBlock +
       '<div class="fam-stats">' +
         '<div class="fam-stat"><b>' + points + '</b><span>Points</span></div>' +
         '<div class="fam-stat"><b>' + approved + '</b><span>Approved</span></div>' +
@@ -374,6 +527,39 @@ export const FamilyDashboard = () => html`
     document.getElementById('famSubtitle').textContent = children.length
       ? 'Choose a child to open their activities.'
       : 'Add your first child using the code from your school.';
+
+    renderSummary();
+  }
+
+  /**
+   * The household in one line. A parent of four should be able to learn "one
+   * thing needs doing" without reading four cards — and, on a quiet week, that
+   * nothing does.
+   */
+  function renderSummary() {
+    const el = document.getElementById('famSummary');
+    if (!el) return;
+    if (!children.length) { el.classList.add('d-none'); return; }
+
+    let sent = 0, approved = 0, redo = 0, waiting = 0;
+    children.forEach((child) => {
+      const week = weekByChild[child.uid] || { sent: 0, approved: 0, redo: 0 };
+      sent += week.sent;
+      approved += week.approved;
+      redo += week.redo;
+      waiting += pendingByChild[child.uid] || 0;
+    });
+
+    const parts = [];
+    if (redo) parts.push('<b>' + redo + '</b> to do again');
+    if (waiting) parts.push('<b>' + waiting + '</b> with the teacher');
+    if (approved) parts.push('<b>' + approved + '</b> approved this week');
+    if (sent && !approved) parts.push('<b>' + sent + '</b> sent this week');
+
+    el.innerHTML = parts.length
+      ? parts.join('<span class="sep">•</span>')
+      : 'Nothing new this week.';
+    el.classList.remove('d-none');
   }
 
   window.famOpenChild = (childUid) => {
@@ -431,12 +617,13 @@ export const FamilyDashboard = () => html`
   });
 
   window.famLogout = async () => {
-    try { await signOut(auth); } catch (err) { console.warn(err); }
+        try { sessionStorage.setItem('ia_just_logged_out', '1'); } catch (e) {}
+        try { await signOut(auth); } catch (err) { console.warn(err); }
     try {
       localStorage.removeItem('auth_user');
       sessionStorage.removeItem('auth_user');
     } catch (err) {}
-    window.location.href = '/auth';
+    window.location.replace('/auth');
   };
 </script>
 `

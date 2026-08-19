@@ -77,7 +77,11 @@ export const Head = () => html`\n<!DOCTYPE html>
           var startY = 0;
           var pY = 0;
           var isPulling = false;
-          var THRESHOLD = 220; // Professional apps need big pull
+          // 220px was most of a phone screen, and the spinner only crept down
+          // a third of what the thumb travelled — so it read as "nothing is
+          // happening" and people let go before anything fired. 90px is about
+          // what Chrome and every native app use.
+          var THRESHOLD = 90;
           
           var ptrEl = document.createElement('div');
           ptrEl.id = 'ptrSpinner';
@@ -85,12 +89,35 @@ export const Head = () => html`\n<!DOCTYPE html>
           ptrEl.style.cssText = 'position:fixed; top:-60px; left:50%; transform:translateX(-50%); z-index:99999; background:white; color:#E08020; width:44px; height:44px; border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 14px rgba(0,0,0,0.18); transition: top 0.25s, transform 0.25s; font-size:1.1rem; pointer-events:none;';
           document.body.appendChild(ptrEl);
 
+          // Which element is actually scrolling varies by page — and on the
+          // family page nothing matched, so the pull only worked when the
+          // window happened to be at the top. Whichever container the touch
+          // started inside is the honest answer.
+          function scrollerAt(target) {
+            var el = target;
+            while (el && el !== document.body && el !== document.documentElement) {
+              if (el.scrollHeight > el.clientHeight + 4) {
+                var overflow = window.getComputedStyle(el).overflowY;
+                if (overflow === 'auto' || overflow === 'scroll') return el;
+              }
+              el = el.parentElement;
+            }
+            return document.querySelector('.dashboard-main') || document.querySelector('.main-content') || window;
+          }
+
+          var scroller = window;
           function getScrollTop() {
-            var el = document.querySelector('.dashboard-main') || document.querySelector('.main-content') || window;
-            return el === window ? window.scrollY : el.scrollTop;
+            return scroller === window ? window.scrollY : scroller.scrollTop;
+          }
+
+          // A pull with a dialog open would reload the page out from under it.
+          function overlayOpen() {
+            return !!document.querySelector('.modal-overlay:not(.d-none), .fam-overlay:not(.d-none), .custom-modal-overlay');
           }
 
           document.addEventListener('touchstart', function(e) {
+            if (overlayOpen()) { isPulling = false; return; }
+            scroller = scrollerAt(e.target);
             if (getScrollTop() <= 0) {
               startY = e.touches[0].clientY;
               isPulling = true;
@@ -104,7 +131,8 @@ export const Head = () => html`\n<!DOCTYPE html>
             pY = y - startY;
             if (pY > 0 && getScrollTop() <= 0) {
               if (e.cancelable) e.preventDefault();
-              var topPos = Math.min(pY * 0.35 - 60, 55);
+              // Follows the thumb closely enough to feel attached to it.
+              var topPos = Math.min(pY * 0.7 - 60, 60);
               ptrEl.style.top = topPos + 'px';
               ptrEl.style.transform = 'translateX(-50%) rotate(' + (pY * 1.5) + 'deg)';
               // Turn green when threshold reached — clear visual cue
@@ -156,12 +184,19 @@ export const Head = () => html`\n<!DOCTYPE html>
               });
             }
 
+            // Tells the bottom bar's own listener to stand down on these
+            // pages: one press, one decision.
+            window.__iaBackHandler = true;
+
             window.Capacitor.Plugins.App.addListener('backButton', function(data) {
               var path = window.location.pathname;
-              
-              // Sub-pages: just go back in history
+
+              // Sub-pages: back one step. If there is nothing to step back to
+              // — the page was opened directly — land on the dashboard rather
+              // than falling out to the login page.
               if (path.includes('activity.html') || path.includes('club.html') || path.includes('blog-article') || path.includes('blog.html') || path.includes('contact.html') || path.includes('about.html')) {
-                 window.history.back();
+                 if (window.history.length > 1) window.history.back();
+                 else window.location.replace('student-activities.html');
                  return;
               }
 

@@ -2955,6 +2955,7 @@
           </div>
           <div class="section-actions">
             <button class="btn-outline-light" onclick="openMigration()" title="Turn students you already enrolled into family accounts, keeping all their work"><i class="fas fa-wand-magic-sparkles me-2"></i> Migrate existing students</button>
+            <button class="btn-outline-light" onclick="exportFamiliesCsv()" title="Download this list as a CSV file you can open in Excel"><i class="fas fa-file-arrow-down me-2"></i> Export CSV</button>
             <button class="btn-solid" onclick="openModal('parentModal')"><i class="fas fa-user-plus me-2"></i> Add Parent</button>
           </div>
         </div>
@@ -2983,6 +2984,7 @@
           <div class="section-actions">
             <button class="btn-solid" onclick="openModal('teacherModal')"><i class="fas fa-plus me-2"></i> Invite Teacher</button>
             <button class="btn-outline-light" onclick="openModal('bulkImportModal')"><i class="fas fa-file-import me-2"></i> Import Roster</button>
+            <button class="btn-outline-light" onclick="exportTeachersCsv()" title="Download this list as a CSV file you can open in Excel"><i class="fas fa-file-arrow-down me-2"></i> Export CSV</button>
           </div>
         </div>
         
@@ -3020,6 +3022,8 @@
                  their head is "what about these students I already have?" —
                  the students are on this screen, so the way to give them a
                  family login is too. Both call openMigration(). -->
+            <button class="btn-outline-light" onclick="openClassesModal()" title="Name your classes the way your school does — every class picker uses this list"><i class="fas fa-chalkboard me-2"></i> Classes</button>
+            <button class="btn-outline-light" onclick="exportStudentsCsv()" title="Download this list as a CSV file you can open in Excel"><i class="fas fa-file-arrow-down me-2"></i> Export CSV</button>
             <button class="btn-outline-light" id="mergeStudentsBtn" onclick="openMigration()" title="Turn students you already enrolled into family accounts, keeping all their work"><i class="fas fa-wand-magic-sparkles me-2"></i> Merge into families (<span id="unmergedCount">0</span>)</button>
             <button class="btn-outline-light" id="allocateHousesBtn" onclick="allocateHouses()" title="Sort students who have no club house yet into the four houses"><i class="fas fa-shield-halved me-2"></i> Allocate Houses (<span id="unhousedCount">0</span>)</button>
           </div>
@@ -3148,16 +3152,7 @@
 
       <label>Assign Classes</label>
       <div id="newTchClassList" class="class-chip-list">
-        <label class="class-chip"><input type="checkbox" name="newTchClasses" value="Class 1"><span>Class 1</span></label>
-        <label class="class-chip"><input type="checkbox" name="newTchClasses" value="Class 2"><span>Class 2</span></label>
-        <label class="class-chip"><input type="checkbox" name="newTchClasses" value="Class 3"><span>Class 3</span></label>
-        <label class="class-chip"><input type="checkbox" name="newTchClasses" value="Class 4"><span>Class 4</span></label>
-        <label class="class-chip"><input type="checkbox" name="newTchClasses" value="Class 5"><span>Class 5</span></label>
-        <label class="class-chip"><input type="checkbox" name="newTchClasses" value="Class 6"><span>Class 6</span></label>
-        <label class="class-chip"><input type="checkbox" name="newTchClasses" value="Class 7"><span>Class 7</span></label>
-        <label class="class-chip"><input type="checkbox" name="newTchClasses" value="Class 8"><span>Class 8</span></label>
-        <label class="class-chip"><input type="checkbox" name="newTchClasses" value="Class 9"><span>Class 9</span></label>
-        <label class="class-chip"><input type="checkbox" name="newTchClasses" value="Class 10"><span>Class 10</span></label>
+        <!-- Filled from the school's class list. -->
       </div>
     </div>
     <div class="modal-footer-actions">
@@ -3195,17 +3190,8 @@
     <div class="form-group mb-4">
       <label><i class="fas fa-chalkboard text-muted me-1"></i> Assign Class</label>
       <select id="newStuClass" class="form-input" style="cursor: pointer;">
-        <option value="" disabled selected>-- Select Grade --</option>
-        <option value="Class 1">Class 1</option>
-        <option value="Class 2">Class 2</option>
-        <option value="Class 3">Class 3</option>
-        <option value="Class 4">Class 4</option>
-        <option value="Class 5">Class 5</option>
-        <option value="Class 6">Class 6</option>
-        <option value="Class 7">Class 7</option>
-        <option value="Class 8">Class 8</option>
-        <option value="Class 9">Class 9</option>
-        <option value="Class 10">Class 10</option>
+        <option value="" disabled selected>-- Select class --</option>
+        <!-- Options are filled from the school's class list. -->
       </select>
     </div>
     <div class="modal-footer-actions">
@@ -3263,17 +3249,8 @@
     <div class="form-group mb-4">
       <label><i class="fas fa-chalkboard text-muted me-1"></i> Assign Class</label>
       <select id="newChildClass" class="form-input" style="cursor: pointer;">
-        <option value="" disabled selected>-- Select Grade --</option>
-        <option value="Class 1">Class 1</option>
-        <option value="Class 2">Class 2</option>
-        <option value="Class 3">Class 3</option>
-        <option value="Class 4">Class 4</option>
-        <option value="Class 5">Class 5</option>
-        <option value="Class 6">Class 6</option>
-        <option value="Class 7">Class 7</option>
-        <option value="Class 8">Class 8</option>
-        <option value="Class 9">Class 9</option>
-        <option value="Class 10">Class 10</option>
+        <option value="" disabled selected>-- Select class --</option>
+        <!-- Options are filled from the school's class list. -->
       </select>
       <p style="font-size:0.78rem; color:#64748b; margin:6px 2px 0;">The class is what connects the student to their teacher.</p>
     </div>
@@ -3335,6 +3312,38 @@
 <!-- Migrate students the school already enrolled.
      Nothing is deleted and no student id changes, so every submission, point
      and teacher note follows the child into their new family. -->
+<!-- The school's own class names. Everything on this page that asks for a
+     class offers exactly this list. -->
+<div id="classesModal" class="modal-overlay d-none">
+  <div class="modal-content">
+    <div class="modal-topbar">
+      <div>
+        <span class="modal-kicker"><i class="fas fa-chalkboard"></i> School setup</span>
+        <h3 class="modal-title">Your classes</h3>
+        <p class="modal-subtitle">Name your classes the way your school does &mdash; "Class 4", "Grade 4", "Prep-A". Every class picker on this dashboard uses this list.</p>
+      </div>
+      <button class="modal-close" type="button" onclick="closeModal('classesModal')"><i class="fas fa-times"></i></button>
+    </div>
+
+    <div class="form-group">
+      <label><i class="fas fa-plus text-muted me-1"></i> Add a class</label>
+      <div style="display:flex; gap:8px;">
+        <input type="text" id="newClassName" class="form-input" placeholder="e.g. Grade 4" maxlength="40"
+               onkeydown="if(event.key==='Enter'){event.preventDefault();addSchoolClass();}">
+        <button class="btn-outline-light" type="button" onclick="addSchoolClass()">Add</button>
+      </div>
+      <p class="fam-error" id="classesError" style="color:#b3261e; font-size:0.8rem; margin:6px 0 0;"></p>
+    </div>
+
+    <div id="classesList" style="display:flex; flex-direction:column; gap:8px; margin-top:6px;"></div>
+
+    <div class="modal-footer-actions">
+      <button class="btn-outline-light" type="button" onclick="closeModal('classesModal')">Cancel</button>
+      <button class="btn-solid" type="button" id="classesSaveBtn" onclick="saveSchoolClasses()">Save classes</button>
+    </div>
+  </div>
+</div>
+
 <div id="migrationModal" class="modal-overlay d-none">
   <div class="modal-content modal-wide">
     <div class="modal-topbar">
@@ -3387,16 +3396,7 @@
 
       <label>Assign Classes</label>
       <div id="editTchClassList" class="class-chip-list">
-        <label class="class-chip"><input type="checkbox" name="editTchClasses" value="Class 1"><span>Class 1</span></label>
-        <label class="class-chip"><input type="checkbox" name="editTchClasses" value="Class 2"><span>Class 2</span></label>
-        <label class="class-chip"><input type="checkbox" name="editTchClasses" value="Class 3"><span>Class 3</span></label>
-        <label class="class-chip"><input type="checkbox" name="editTchClasses" value="Class 4"><span>Class 4</span></label>
-        <label class="class-chip"><input type="checkbox" name="editTchClasses" value="Class 5"><span>Class 5</span></label>
-        <label class="class-chip"><input type="checkbox" name="editTchClasses" value="Class 6"><span>Class 6</span></label>
-        <label class="class-chip"><input type="checkbox" name="editTchClasses" value="Class 7"><span>Class 7</span></label>
-        <label class="class-chip"><input type="checkbox" name="editTchClasses" value="Class 8"><span>Class 8</span></label>
-        <label class="class-chip"><input type="checkbox" name="editTchClasses" value="Class 9"><span>Class 9</span></label>
-        <label class="class-chip"><input type="checkbox" name="editTchClasses" value="Class 10"><span>Class 10</span></label>
+        <!-- Filled from the school's class list. -->
       </div>
     </div>
     <div class="modal-footer-actions">
@@ -3425,16 +3425,7 @@
     <div class="form-group">
       <label>Assign Class</label>
       <select id="editStuClass" class="form-input">
-        <option value="Class 1">Class 1</option>
-        <option value="Class 2">Class 2</option>
-        <option value="Class 3">Class 3</option>
-        <option value="Class 4">Class 4</option>
-        <option value="Class 5">Class 5</option>
-        <option value="Class 6">Class 6</option>
-        <option value="Class 7">Class 7</option>
-        <option value="Class 8">Class 8</option>
-        <option value="Class 9">Class 9</option>
-        <option value="Class 10">Class 10</option>
+        <!-- Filled from the school's class list. -->
       </select>
     </div>
     <div class="form-group">
@@ -3646,9 +3637,23 @@
   let studentsList = [];
   let familiesList = [];
   let invitesList = [];
+  let currentSchoolName = '';
   let currentClassFilter = 'all';
   const defaultClassOptions = Array.from({ length: 10 }, (_, index) => 'Class ' + (index + 1));
 
+  /**
+   * Settle on the name the school actually uses.
+   *
+   * This used to rewrite anything containing a number into "Class N" — so a
+   * school that calls its classes "Grade 4" typed Grade 4, saw Class 4, and
+   * could never get its own wording back. "Section 2B" became "Class 2".
+   *
+   * Once a school has saved its own list that list wins: an incoming name is
+   * matched to it exactly, then by number ("Grade 4" lands on the school's
+   * "Class 4"), and anything genuinely new is kept exactly as written. The old
+   * rewrite survives only for schools that have not set a list up, so nothing
+   * changes underneath them until they do.
+   */
   function normalizeClassName(value) {
     const raw = String(value || '').trim().replace(/\s+/g, ' ');
     if (!raw) return '';
@@ -3657,6 +3662,22 @@
     if (lower === 'all classes' || lower === 'all' || lower === 'school-wide' || lower === 'school wide') return 'All Classes';
 
     const numberMatch = lower.match(/(\d{1,2})/);
+
+    if (schoolClasses && schoolClasses.length) {
+      const exact = schoolClasses.find((name) => name.toLowerCase() === lower);
+      if (exact) return exact;
+
+      if (numberMatch) {
+        const byNumber = schoolClasses.find((name) => {
+          const own = String(name).match(/(\d{1,2})/);
+          return own && own[1] === numberMatch[1];
+        });
+        if (byNumber) return byNumber;
+      }
+
+      return raw;
+    }
+
     if (numberMatch) {
       const classNumber = Number.parseInt(numberMatch[1], 10);
       if (!Number.isNaN(classNumber) && classNumber >= 1 && classNumber <= 10) return 'Class ' + classNumber;
@@ -3687,6 +3708,180 @@
       if (!Number.isNaN(leftNumber) && !Number.isNaN(rightNumber) && leftNumber !== rightNumber) return leftNumber - rightNumber;
       return left.localeCompare(right, undefined, { numeric: true, sensitivity: 'base' });
     });
+  }
+
+  /* =====================================================================
+     The school's own class list
+     ---------------------------------------------------------------------
+     Every class picker on this page used to be ten hardcoded <option>s,
+     "Class 1" to "Class 10", while imports and the family flow wrote
+     whatever text a sheet happened to contain. A school that calls its
+     classes "Grade 4" or "Prep-A" could not pick one, so those students
+     ended up with a class nobody could filter on — the "Unknown" in the
+     roster.
+
+     The list now lives on the school document, editable by the admin. Until
+     one is saved it is derived from the records already there, so nothing
+     needs migrating and no school starts with an empty dropdown.
+     ===================================================================== */
+
+  /** Saved list, or null while the school has never edited one. */
+  let schoolClasses = null;
+
+  function activeClassOptions() {
+    return (schoolClasses && schoolClasses.length) ? schoolClasses : getAvailableClassOptions();
+  }
+
+  /** Fill a <select> without losing what it already had selected. */
+  function fillClassSelect(id, placeholder) {
+    const select = document.getElementById(id);
+    if (!select) return;
+    const chosen = select.value;
+    select.innerHTML = '<option value="" disabled' + (chosen ? '' : ' selected') + '>' + placeholder + '</option>' +
+      activeClassOptions().map((name) =>
+        '<option value="' + escapeHtml(name) + '"' + (name === chosen ? ' selected' : '') + '>' + escapeHtml(name) + '</option>'
+      ).join('');
+  }
+
+  /** The teacher pickers are checkboxes: a teacher can hold several classes. */
+  function fillClassChips(containerId, inputName) {
+    const box = document.getElementById(containerId);
+    if (!box) return;
+    const ticked = new Set(getSelectedClasses(inputName));
+    box.innerHTML = activeClassOptions().map((name) =>
+      '<label class="class-chip"><input type="checkbox" name="' + inputName + '" value="' + escapeHtml(name) + '"' +
+      (ticked.has(name) ? ' checked' : '') + '><span>' + escapeHtml(name) + '</span></label>'
+    ).join('');
+  }
+
+  /**
+   * Add any class name an import introduced to the school's saved list.
+   *
+   * Only writes when the list already exists and something is genuinely new —
+   * a school that has never opened the Classes screen keeps the derived list,
+   * which already includes whatever the sheet brought in.
+   */
+  async function absorbImportedClasses(preview) {
+    if (!schoolClasses) return;
+
+    const known = new Set(schoolClasses.map((c) => c.toLowerCase()));
+    const found = [];
+    const consider = (name) => {
+      const normalized = normalizeClassName(name);
+      if (!normalized) return;
+      const lower = normalized.toLowerCase();
+      if (lower === 'all classes' || lower === 'all' || lower === 'school-wide') return;
+      if (known.has(lower)) return;
+      known.add(lower);
+      found.push(normalized);
+    };
+
+    (preview.students || []).forEach((r) => consider(r.className));
+    (preview.teachers || []).forEach((r) => splitClassNames(r.className).forEach(consider));
+
+    if (!found.length) return;
+
+    const merged = sortClassNames(schoolClasses.concat(found));
+    try {
+      await updateDoc(doc(db, 'schools', currentAdminSession.school_id), { classes: merged });
+      schoolClasses = merged;
+    } catch (err) {
+      // The import itself succeeded; a stale picker is not worth failing it.
+      console.warn('Could not add imported classes to the school list', err);
+    }
+  }
+
+  /* --- Editing the class list ------------------------------------------ */
+
+  // Held while the modal is open, so Cancel really cancels.
+  let classDraft = [];
+
+  window.openClassesModal = () => {
+    classDraft = activeClassOptions().slice();
+    document.getElementById('newClassName').value = '';
+    document.getElementById('classesError').textContent = '';
+    renderClassDraft();
+    openModal('classesModal');
+  };
+
+  function renderClassDraft() {
+    const box = document.getElementById('classesList');
+    if (!box) return;
+
+    if (!classDraft.length) {
+      box.innerHTML = '<p style="color:#94a3b8; font-weight:700; text-align:center; padding:14px;">No classes yet. Add your first one above.</p>';
+      return;
+    }
+
+    box.innerHTML = classDraft.map((name, index) => {
+      // Removing a class that people are still in would leave them filtered
+      // out of every list, so the count is on screen before the click.
+      const inUse = studentsList.filter((s) => (s.class_id || '') === name).length +
+                    teachersList.filter((t) => getClassNamesFromRecord(t).includes(name)).length;
+      return '<div class="pill-row" style="gap:10px;">' +
+        '<div class="col-1" style="font-weight:800;">' + escapeHtml(name) + '</div>' +
+        '<div style="flex:0 0 auto; font-size:0.78rem; color:#64748b; font-weight:700;">' +
+          (inUse ? inUse + (inUse === 1 ? ' person' : ' people') : 'not in use') +
+        '</div>' +
+        '<button class="action-btn text-danger" type="button" title="Remove" onclick="removeSchoolClass(' + index + ')"><i class="fas fa-trash"></i></button>' +
+      '</div>';
+    }).join('');
+  }
+
+  window.addSchoolClass = () => {
+    const input = document.getElementById('newClassName');
+    const error = document.getElementById('classesError');
+    const name = normalizeClassName(input.value);
+
+    if (!name) { error.textContent = 'Type a class name first.'; return; }
+    if (classDraft.some((c) => c.toLowerCase() === name.toLowerCase())) {
+      error.textContent = name + ' is already on the list.';
+      return;
+    }
+
+    classDraft.push(name);
+    classDraft = sortClassNames(classDraft);
+    input.value = '';
+    error.textContent = '';
+    renderClassDraft();
+  };
+
+  window.removeSchoolClass = (index) => {
+    const name = classDraft[index];
+    const inUse = studentsList.filter((s) => (s.class_id || '') === name).length;
+    if (inUse && !confirm(inUse + ' student(s) are in ' + name + '. Removing it from the list does not change them — they keep the class until you edit each one. Remove it anyway?')) {
+      return;
+    }
+    classDraft.splice(index, 1);
+    renderClassDraft();
+  };
+
+  window.saveSchoolClasses = async () => {
+    const button = document.getElementById('classesSaveBtn');
+    const original = button.innerHTML;
+    button.disabled = true;
+    button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving…';
+
+    try {
+      await updateDoc(doc(db, 'schools', currentAdminSession.school_id), { classes: classDraft });
+      schoolClasses = classDraft.slice();
+      closeModal('classesModal');
+      renderUI();
+      alert('Class list saved.');
+    } catch (err) {
+      document.getElementById('classesError').textContent = err.message || 'Could not save the class list.';
+    } finally {
+      button.disabled = false;
+      button.innerHTML = original;
+    }
+  };
+
+  function refreshClassPickers() {
+    fillClassSelect('newStuClass', '-- Select class --');
+    fillClassSelect('newChildClass', '-- Select class --');
+    fillClassSelect('editStuClass', '-- Select class --');
+    fillClassChips('newTchClassList', 'newTchClasses');
+    fillClassChips('editTchClassList', 'editTchClasses');
   }
 
   function getAvailableClassOptions() {
@@ -4260,6 +4455,11 @@
         if (countsEl) countsEl.textContent = 'Importing... ' + Math.min(i + chunk.length, queue.length) + ' / ' + queue.length + ' records';
       }
 
+      // A sheet is where new class names come from. Folding them into the
+      // school's list keeps the pickers honest — otherwise an imported
+      // "Grade 4" exists on students but cannot be chosen for the next one.
+      await absorbImportedClasses(preview);
+
       closeModal('bulkImportModal');
       await loadDashboardData();
       alert('Imported: ' + preview.students.length + ' students, ' + preview.teachers.length + ' teachers.' +
@@ -4382,9 +4582,10 @@
   };
 
   window.logoutAdmin = () => {
-    signOut(auth).then(() => {
+        try { sessionStorage.setItem('ia_just_logged_out', '1'); } catch (e) {}
+        signOut(auth).then(() => {
       sessionStorage.removeItem('auth_user');
-      window.location.href = 'auth.html';
+      window.location.replace('auth.html');
     });
   };
 
@@ -4446,6 +4647,11 @@
         if (schoolData.logo_url) {
           document.getElementById('schoolAdminLogoImg').src = schoolData.logo_url;
         }
+        // Kept for the export filename, so files from two schools landing in
+        // the same inbox are not both called "students.csv".
+        currentSchoolName = schoolData.name || '';
+        // null until the school edits its own list — see activeClassOptions().
+        schoolClasses = Array.isArray(schoolData.classes) ? schoolData.classes.filter(Boolean) : null;
       }
 
       const usersQuery = query(collection(db, "users"), where("school_id", "==", schoolId));
@@ -4516,8 +4722,10 @@
   }
 
   function renderUI() {
-    const classOptions = getAvailableClassOptions();
+    const classOptions = activeClassOptions();
     syncClassFilterSelect(classOptions);
+    // Every picker on the page offers the same list as the filter above it.
+    refreshClassPickers();
 
     const teachers = teachersList.filter(recordMatchesClassFilter);
     const students = studentsList.filter(recordMatchesClassFilter);
@@ -4630,7 +4838,7 @@
       stuDirHtml += '<div class="pill-row ' + motif + '">' +
         '<div class="col-check"><input type="checkbox" class="student-select-cb" data-id="' + student.uid + '" data-type="student" onchange="updateBulkDeleteButton()" style="cursor:pointer; width:16px; height:16px;"></div>' +
         '<div class="col-1 d-flex align-items-center gap-3"><img src="' + imgSrc + '" style="border-radius:50%; width:40px; height:40px; object-fit:cover;">' + student.name + '</div>' +
-        '<div class="col-2"><span style="background:rgba(255,255,255,0.7); padding:5px 12px; border-radius:20px; font-weight:800;">' + (student.class_id || 'Unknown') + '</span>' + houseBadge(student.house) + '</div>' +
+        '<div class="col-2"><span style="background:rgba(255,255,255,0.7); padding:5px 12px; border-radius:20px; font-weight:800;">' + (student.class_id || 'Not assigned') + '</span>' + houseBadge(student.house) + '</div>' +
         '<div class="col-2">' + stuCell + '</div>' +
         '<div class="col-2"><span style="color:#22c55e;"><i class="fas fa-check-circle"></i> Active</span></div>' +
         '<div class="col-actions"><button class="action-btn" onclick="editStudent(\'' + student.uid + '\')"><i class="fas fa-edit"></i></button><button class="action-btn text-danger ms-2" onclick="deleteStudent(\'' + student.uid + '\')"><i class="fas fa-trash"></i></button></div></div>';
@@ -4642,7 +4850,7 @@
       stuDirHtml += '<div class="pill-row row-yellow" style="opacity:0.6;">' +
         '<div class="col-check"><input type="checkbox" class="student-select-cb" data-id="' + invite.code + '" data-type="invite" onchange="updateBulkDeleteButton()" style="cursor:pointer; width:16px; height:16px;"></div>' +
         '<div class="col-1 d-flex align-items-center gap-3">' + pendingImage + invite.name + '</div>' +
-        '<div class="col-2"><span style="background:rgba(255,255,255,0.7); padding:5px 12px; border-radius:20px; font-weight:800;">' + (invite.class_id || 'Unknown') + '</span></div>' +
+        '<div class="col-2"><span style="background:rgba(255,255,255,0.7); padding:5px 12px; border-radius:20px; font-weight:800;">' + (invite.class_id || 'Not assigned') + '</span></div>' +
         '<div class="col-2"><code class="copyable-code" onclick="copyCodeInteractive(this, \'' + invite.code + '\')" title="Click to copy">' + invite.code + ' <i class="far fa-copy text-muted"></i></code></div>' +
         '<div class="col-2"><span style="color:#f59e0b; font-weight:800;"><i class="fas fa-clock"></i> Pending</span></div>' +
         '<div class="col-actions"><button class="action-btn text-danger" onclick="deleteInvite(\'' + invite.code + '\', \'student\')"><i class="fas fa-trash"></i></button></div></div>';
@@ -4675,7 +4883,7 @@
 
       analyticsHtml += '<div class="pill-row ' + motif + '">' +
         '<div class="col-1 d-flex align-items-center gap-3"><img src="' + imgSrc + '" style="border-radius:50%; width:40px; height:40px; object-fit:cover;">' + student.name + '</div>' +
-        '<div class="col-3"><span style="background:rgba(255,255,255,0.7); padding:5px 12px; border-radius:20px; font-weight:800;">' + (student.class_id || 'Unknown') + '</span></div>' +
+        '<div class="col-3"><span style="background:rgba(255,255,255,0.7); padding:5px 12px; border-radius:20px; font-weight:800;">' + (student.class_id || 'Not assigned') + '</span></div>' +
         '<div class="col-2"><span class="ds-chip"><i class="fas fa-book-open"></i> ' + completed + '</span></div>' +
         '<div class="col-2"><span class="ds-chip is-info">' + points + ' XP</span></div>' +
         '<div class="col-2"><span style="font-weight:800;">' + statusRank + '</span></div>' +
@@ -4736,7 +4944,7 @@
 
       attHtml += '<div class="pill-row ' + motif + '">' +
         '<div class="col-1 d-flex align-items-center gap-3"><img src="' + imgSrc + '" style="border-radius:50%; width:40px; height:40px; object-fit:cover;">' + student.name + '</div>' +
-        '<div class="col-3"><span style="background:rgba(255,255,255,0.7); padding:5px 12px; border-radius:20px; font-weight:800;">' + (student.class_id || 'Unknown') + '</span></div>' +
+        '<div class="col-3"><span style="background:rgba(255,255,255,0.7); padding:5px 12px; border-radius:20px; font-weight:800;">' + (student.class_id || 'Not assigned') + '</span></div>' +
         '<div class="col-2">' + loginStatus + '</div>' +
         '<div class="col-2"><span style="color:#64748b; font-weight:800; font-size:0.9rem;">' + hoursAgo + '</span></div>' +
         '<div class="col-actions"></div></div>';
@@ -5465,6 +5673,126 @@
     if (!meta) return '';
     return ' <span style="background:' + meta.color + '; color:' + meta.ink + '; padding:3px 9px; border-radius:20px; font-weight:800; font-size:0.7rem; text-transform:uppercase; letter-spacing:0.5px;">' + meta.label + '</span>';
   }
+
+  /* =====================================================================
+     Export
+     ---------------------------------------------------------------------
+     A school could put a roster IN (Import Roster) and never get anything
+     back OUT. Every number on this page lives in someone else's database,
+     which is a poor answer to "give me the list for the head teacher" or
+     "we are switching systems". These build the file from what is already
+     loaded, so no extra reads and nothing new to keep in sync.
+     ===================================================================== */
+
+  /** RFC 4180 quoting: commas, quotes and newlines all survive Excel. */
+  function csvCell(value) {
+    const text = value === null || value === undefined ? '' : String(value);
+    return /[",\r\n]/.test(text) ? '"' + text.replace(/"/g, '""') + '"' : text;
+  }
+
+  function csvFrom(rows) {
+    // A BOM, or Excel opens UTF-8 names (عائشة, Zainab’s) as mojibake.
+    return '﻿' + rows.map((row) => row.map(csvCell).join(',')).join('\r\n');
+  }
+
+  function downloadCsv(filename, rows) {
+    const csv = csvFrom(rows);
+
+    // Inside the APK the WebView refuses downloads outright — the click does
+    // nothing at all. Rather than leave an admin tapping a dead button, hand
+    // them the text via the clipboard and say so.
+    const isNative = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
+    if (isNative) {
+      const copy = navigator.clipboard && navigator.clipboard.writeText
+        ? navigator.clipboard.writeText(csv)
+        : Promise.reject(new Error('clipboard unavailable'));
+      copy.then(
+        () => alert('The app cannot save files, so the sheet was copied to the clipboard instead (' + (rows.length - 1) + ' rows).\n\nPaste it into any spreadsheet — or open this dashboard on a computer to download it directly.'),
+        () => alert('Downloads are not available inside the app. Please open this dashboard in a browser on a computer to export.')
+      );
+      return;
+    }
+
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    // Freeing it immediately cancels the download in Safari.
+    setTimeout(() => URL.revokeObjectURL(url), 2000);
+  }
+
+  /** School name + today, so files from two schools never collide. */
+  function exportFileName(kind) {
+    const school = (currentSchoolName || 'school').toString().trim().toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'school';
+    return school + '-' + kind + '-' + new Date().toISOString().slice(0, 10) + '.csv';
+  }
+
+  window.exportStudentsCsv = () => {
+    if (!studentsList.length && !invitesList.length) return alert('There is nothing to export yet.');
+
+    const familyName = {};
+    familiesList.forEach((f) => { familyName[f.uid] = f.name || ''; });
+
+    const rows = [[
+      'Name', 'Class', 'House', 'Status', 'Student code',
+      'Points', 'Chapters completed', 'Chapters approved',
+      'Family', 'Family username', 'Student ID'
+    ]];
+
+    studentsList.forEach((s) => {
+      const state = s.game_state || {};
+      const family = familiesList.find((f) => f.uid === s.family_uid);
+      rows.push([
+        s.name || '',
+        s.class_id || '',
+        (CLUB_HOUSE_META[s.house] || {}).label || '',
+        'Registered',
+        s.invitation_code || '',
+        typeof state.points === 'number' ? state.points : 0,
+        Array.isArray(state.completed) ? state.completed.length : 0,
+        Array.isArray(state.teacher_approved) ? state.teacher_approved.length : 0,
+        familyName[s.family_uid] || '',
+        family ? family.username || '' : '',
+        s.uid || ''
+      ]);
+    });
+
+    // Students whose code was printed but never redeemed belong in the same
+    // list — leaving them out is how a school loses track of them.
+    invitesList
+      .filter((inv) => inv.role === 'student' && inv.status !== 'used')
+      .forEach((inv) => {
+        rows.push([inv.name || '', inv.class_id || '', '', 'Pending', inv.code || '', 0, 0, 0, '', '', '']);
+      });
+
+    downloadCsv(exportFileName('students'), rows);
+  };
+
+  window.exportTeachersCsv = () => {
+    if (!teachersList.length) return alert('There are no teachers to export yet.');
+    const rows = [['Name', 'Email', 'Class', 'Teacher ID']];
+    teachersList.forEach((t) => {
+      rows.push([t.name || '', t.email || '', t.class_id || '', t.uid || '']);
+    });
+    downloadCsv(exportFileName('teachers'), rows);
+  };
+
+  window.exportFamiliesCsv = () => {
+    if (!familiesList.length) return alert('There are no family accounts to export yet.');
+    const rows = [['Family', 'Username', 'Phone', 'Children', 'Family ID']];
+    familiesList.forEach((f) => {
+      const kids = studentsList.filter((s) => s.family_uid === f.uid).map((s) => s.name || '').join('; ');
+      // Passwords are never stored anywhere, so they cannot be exported.
+      // Use "Reset password" on the family row to issue a new one.
+      rows.push([f.name || '', f.username || '', f.phone || '', kids, f.uid || '']);
+    });
+    downloadCsv(exportFileName('families'), rows);
+  };
 
   function refreshUnhousedCount() {
     const el = document.getElementById('unhousedCount');
