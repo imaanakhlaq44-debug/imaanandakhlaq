@@ -13,9 +13,15 @@
  * caught anywhere except on a phone.
  */
 
-/** Screens where reloading means "fetch my work again" and not "throw away what I was reading". */
+/**
+ * Screens where reloading means "fetch my work again" and not "throw away what
+ * I was reading".
+ *
+ * The student dashboard is deliberately not here. Children scroll it hard and
+ * fast, and even a gesture that is genuinely a pull only costs them the place
+ * they were in — there is nothing on that screen worth a reload.
+ */
 export const PULL_TO_REFRESH_PAGES = [
-  'student-activities',
   'teacher-dashboard',
   'admin-dashboard',
   'super-admin-dashboard',

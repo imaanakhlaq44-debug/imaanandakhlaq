@@ -2016,14 +2016,6 @@ export const ActivityDashboard = () => html`
               <span class="journey-value" id="studentApprovedCount">0</span>
             </div>
 
-            <div class="journey-item" id="studentPendingParentRow">
-              <span class="journey-icon parent"><i class="fas fa-house-user"></i></span>
-              <div class="journey-copy">
-                <strong>Waiting For Parent</strong>
-              </div>
-              <span class="journey-value" id="studentPendingParentCount">0</span>
-            </div>
-
             <div class="journey-item" id="studentPendingTeacherRow">
               <span class="journey-icon teacher"><i class="fas fa-user-check"></i></span>
               <div class="journey-copy">
@@ -2284,7 +2276,6 @@ ${HouseQuizModal()}
   const studentPendingReviewCount = document.getElementById('studentPendingReviewCount');
   const studentUnlockedCount = document.getElementById('studentUnlockedCount');
   const studentApprovedCount = document.getElementById('studentApprovedCount');
-  const studentPendingParentCount = document.getElementById('studentPendingParentCount');
   const studentPendingTeacherCount = document.getElementById('studentPendingTeacherCount');
   const studentJourneyStatus = document.getElementById('studentJourneyStatus');
   const studentSchoolTag = document.getElementById('studentSchoolTag');
@@ -2294,7 +2285,6 @@ ${HouseQuizModal()}
   const studentProfileAvatarTrigger = document.getElementById('studentAvatarClickArea');
   const studentProfileUploadBtn = document.getElementById('studentProfileManageBtn');
   const studentProfileFileInput = document.getElementById('studentProfileFileInput');
-  const studentPendingParentRow = document.getElementById('studentPendingParentRow');
   const studentPendingTeacherRow = document.getElementById('studentPendingTeacherRow');
   const currentBookTitle = document.getElementById('currentBookTitle');
   const currentBookSubtitle = document.getElementById('currentBookSubtitle');
@@ -2478,7 +2468,6 @@ ${HouseQuizModal()}
     const completedCount = (gameState.completed || []).length;
     const parentApprovedCount = (gameState.parent_approved || []).length;
     const teacherApprovedCount = (gameState.teacher_approved || []).length;
-    const pendingParentCount = Math.max(completedCount - parentApprovedCount, 0);
     const pendingTeacherCount = Math.max(parentApprovedCount - teacherApprovedCount, 0);
     const pendingReviewCount = Math.max(completedCount - teacherApprovedCount, 0);
     const unlockedCount = totalChapters > 0 ? Math.min(gameState.unlockedCount || 1, totalChapters) : 0;
@@ -2489,12 +2478,7 @@ ${HouseQuizModal()}
     studentPendingReviewCount.textContent = String(pendingReviewCount);
     studentUnlockedCount.textContent = String(unlockedCount);
     studentApprovedCount.textContent = String(teacherApprovedCount);
-    studentPendingParentCount.textContent = String(pendingParentCount);
     studentPendingTeacherCount.textContent = String(pendingTeacherCount);
-
-    if (studentPendingParentRow) {
-      studentPendingParentRow.classList.toggle('d-none', pendingParentCount === 0);
-    }
 
     if (studentPendingTeacherRow) {
       studentPendingTeacherRow.classList.toggle('d-none', pendingTeacherCount === 0);
@@ -4483,49 +4467,32 @@ ${HouseQuizModal()}
     if (document.visibilityState === 'visible') refreshGameStateFromFirestore();
   });
 
-  // ── Back button handler (Capacitor) ──────────────────────────────────────────
-  document.addEventListener('DOMContentLoaded', () => {
-    setTimeout(() => {
-      const isCap = window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform();
-      if (isCap && window.Capacitor.Plugins && window.Capacitor.Plugins.App) {
-        var lastBackPressStudent = 0;
-        window.Capacitor.Plugins.App.removeAllListeners('backButton').then(() => {
-          window.Capacitor.Plugins.App.addListener('backButton', () => {
-            // If inside a book or sub-section — just navigate back
-            if (currentBookContext) {
-              currentBookContext = null;
-              renderBooks();
-              return;
-            }
-            if (currentStudentSection !== 'overview') {
-              window.switchStudentSection('overview', false);
-              return;
-            }
-            // On overview (main screen) — show warning toast first
-            var now = new Date().getTime();
-            if (now - lastBackPressStudent < 2000) {
-              if (window.Capacitor.Plugins.App.minimizeApp) {
-                window.Capacitor.Plugins.App.minimizeApp();
-              } else {
-                window.Capacitor.Plugins.App.exitApp();
-              }
-            } else {
-              lastBackPressStudent = now;
-              var toast = document.createElement('div');
-              toast.innerText = 'Press back again to exit';
-              toast.style.cssText = 'position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.85);color:white;padding:12px 24px;border-radius:30px;z-index:999999;font-family:sans-serif;font-size:14px;font-weight:500;text-align:center;box-shadow:0 4px 15px rgba(0,0,0,0.3);transition:opacity 0.2s ease;opacity:0;pointer-events:none;';
-              document.body.appendChild(toast);
-              setTimeout(function() { toast.style.opacity = '1'; }, 10);
-              setTimeout(function() {
-                toast.style.opacity = '0';
-                setTimeout(function() { if(toast.parentNode) toast.remove(); }, 300);
-              }, 2000);
-            }
-          });
-        });
-      }
-    }, 1200);
-  });
+  // ── Back button: what this screen has open ───────────────────────────────
+  //
+  // No listener of its own any more. This page used to register one 1.2s
+  // after load, after removeAllListeners('backButton') had deleted the
+  // handler in Head.tsx and the bottom bar's — so back did one thing in the
+  // first second and another afterwards, and sometimes two things at once.
+  //
+  // Head.tsx owns the single listener and calls this first. Returning true
+  // means the press was spent here; returning false lets it fall through to
+  // "press back again to exit", which is right on the overview because there
+  // is nothing above the student dashboard.
+  //
+  // Assigned immediately, not on a timer: a press one second after the app
+  // opens has to reach the same code as a press a minute later.
+  window.__iaBackIntercept = function () {
+    if (currentBookContext) {
+      currentBookContext = null;
+      renderBooks();
+      return true;
+    }
+    if (currentStudentSection !== 'overview') {
+      window.switchStudentSection('overview', false);
+      return true;
+    }
+    return false;
+  };
 
   // User's custom Book Accordion design
   (function(){
