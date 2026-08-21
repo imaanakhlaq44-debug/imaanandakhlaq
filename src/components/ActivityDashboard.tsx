@@ -1404,6 +1404,90 @@ export const ActivityDashboard = () => html`
     background: transparent !important;
   }
 
+  /* ---- Sidebar nav: buttons that look like buttons ----------------------
+     dashboard-ui.css draws these as bare text with a 3px rail on the active
+     one. That is deliberate there — it is the shared definition for four
+     dashboards, and an adult reads a rail fine. On a child's dashboard it did
+     not carry: six near-identical lines of grey text, with nothing saying
+     "this is a thing you press" or "this is where you are".
+
+     So here, and only here, each item is a filled pill with its own coloured
+     icon tile. The colours are the brand's — navy blue, the pink accent, the
+     club gold — not six arbitrary hues, and the ACTIVE state is the same
+     shape on every item, so "where am I" stays one signal instead of six.
+
+     Scoped to .student-page: the teacher and admin sidebars keep the quiet
+     shared treatment. ---------------------------------------------------- */
+  .student-page .sidebar-nav {
+    gap: 6px !important;
+  }
+
+  .student-page .sidebar-nav li {
+    --nav-c: #3a66b3;
+    --nav-glyph: #ffffff;
+    padding: 10px 11px !important;
+    gap: 11px !important;
+    border-radius: 13px !important;
+    background: rgba(255, 255, 255, 0.055) !important;
+    border: 1px solid rgba(255, 255, 255, 0.10) !important;
+    color: rgba(255, 255, 255, 0.90) !important;
+    font-family: 'Sora', 'Nunito', sans-serif !important;
+    font-size: 0.875rem !important;
+    font-weight: 600 !important;
+    transition: background 0.16s ease, border-color 0.16s ease, transform 0.16s ease !important;
+  }
+
+  /* The rail belongs to the flat treatment; a filled pill says it already. */
+  .student-page .sidebar-nav li.active::before {
+    display: none !important;
+  }
+
+  .student-page .sidebar-nav li:hover,
+  .student-page .sidebar-nav li:focus-visible {
+    background: rgba(255, 255, 255, 0.11) !important;
+    border-color: rgba(255, 255, 255, 0.22) !important;
+    transform: translateX(2px);
+  }
+
+  /* Where you are: the item's own colour, filled. Same shape every time. */
+  .student-page .sidebar-nav li.active {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.17), rgba(255, 255, 255, 0.07)) !important;
+    border-color: var(--nav-c) !important;
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    box-shadow: 0 6px 18px rgba(10, 18, 35, 0.35), inset 0 0 0 1px rgba(255, 255, 255, 0.06) !important;
+  }
+
+  /* The icon tile carries the colour. 30px is a real tap target on its own. */
+  .student-page .sidebar-nav .nav-badge {
+    flex: 0 0 30px !important;
+    width: 30px !important;
+    height: 30px !important;
+    border-radius: 10px !important;
+    background: var(--nav-c) !important;
+    color: var(--nav-glyph) !important;
+    font-size: 0.85rem !important;
+    opacity: 1 !important;
+    box-shadow: 0 2px 6px rgba(10, 18, 35, 0.30) !important;
+  }
+
+  .student-page .sidebar-nav li.active .nav-badge {
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.16), 0 4px 10px rgba(10, 18, 35, 0.4) !important;
+  }
+
+  /* One colour per destination, all from the brand palette, and every one of
+     them dark enough to carry a white glyph at 4.5:1. The club keeps its gold
+     — it is the club's own colour — so that tile takes a navy glyph instead,
+     which is the pairing the club badge already uses. */
+  .student-page .sidebar-nav li[data-section="overview"] { --nav-c: #3a66b3; }
+  .student-page .sidebar-nav li[data-section="books"]    { --nav-c: #cf296d; }
+  .student-page .sidebar-nav li[data-section="progress"] { --nav-c: #a35f0e; }
+  .student-page .sidebar-nav li[data-section="club"]     { --nav-c: #c99a6b; --nav-glyph: #16294d; }
+  .student-page .sidebar-nav li[data-section="rankings"] { --nav-c: #1f7d59; }
+  /* Not a section — it leaves this dashboard — so it is deliberately quieter. */
+  .student-page #familySwitchSidebarBtn { --nav-c: #6f7fa8; }
+
+
   /* Sidebar: deeper gradient with subtle pink edge */
   .student-page .sidebar-panel {
     background: linear-gradient(180deg, #1f3559 0%, #14223e 100%) !important;
@@ -1875,6 +1959,58 @@ export const ActivityDashboard = () => html`
     }
   }
 
+  /* ---- The bottom bar on a phone ---------------------------------------
+     On a phone the sidebar is hidden and this bar IS the navigation, but
+     every button was painted the same grey whichever section was open, so
+     it never answered "where am I". It does now, with the same colours as
+     the sidebar so the two read as one thing. -------------------------- */
+  @media (max-width: 760px) {
+    .mobile-action-btn {
+      --nav-c: #3a66b3;
+      --nav-glyph: #ffffff;
+      /* The label sits on white, so it needs its own ink where the tile
+         colour is too light to read as text. */
+      --nav-ink: var(--nav-c);
+      flex: 1 1 0;
+      min-width: 0;
+      padding: 2px 0;
+      /* Muted, but still 4.5:1 on white — these labels are 11px. */
+      color: #64748b;
+      transition: color 0.16s ease;
+    }
+
+    .mobile-action-btn i {
+      background: #eef2f7;
+      color: #55637a;
+      transition: background 0.16s ease, color 0.16s ease;
+    }
+
+    .mobile-action-btn.is-active {
+      color: var(--nav-ink);
+    }
+
+    .mobile-action-btn.is-active i {
+      background: var(--nav-c);
+      color: var(--nav-glyph);
+      box-shadow: 0 4px 10px rgba(10, 18, 35, 0.22);
+    }
+
+    .mobile-action-btn[data-mobile-section="overview"] { --nav-c: #3a66b3; }
+    .mobile-action-btn[data-mobile-section="books"]    { --nav-c: #cf296d; }
+    .mobile-action-btn[data-mobile-section="progress"] { --nav-c: #a35f0e; }
+    .mobile-action-btn[data-mobile-section="club"]     { --nav-c: #c99a6b; --nav-glyph: #16294d; --nav-ink: #8a6234; }
+    .mobile-action-btn[data-mobile-section="rankings"] { --nav-c: #1f7d59; }
+
+    /* Logout is not a destination and never lights up. It was a solid red
+       square next to five grey ones — the loudest thing on the bar was the
+       way out of the app. Quiet outline instead. */
+    .mobile-action-btn.logout i {
+      background: #fdecea;
+      color: #b3261e;
+      box-shadow: none;
+    }
+  }
+
 </style>
 
 <div class="student-page">
@@ -1896,11 +2032,11 @@ export const ActivityDashboard = () => html`
         <li class="active" data-section="overview" role="button" tabindex="0"><span class="nav-badge overview"><i class="fas fa-chart-pie"></i></span><span>Overview</span></li>
         <li data-section="books" role="button" tabindex="0"><span class="nav-badge books"><i class="fas fa-book-open"></i></span><span>Books</span></li>
         <li data-section="progress" role="button" tabindex="0"><span class="nav-badge progress"><i class="fas fa-star"></i></span><span>Progress</span></li>
-        <li data-section="club" role="button" tabindex="0"><span class="nav-badge club" style="background: linear-gradient(135deg, #1E2D5A, #C99A6B); color:#fff;"><i class="fas fa-shield-halved"></i></span><span>My Club</span></li>
+        <li data-section="club" role="button" tabindex="0"><span class="nav-badge club"><i class="fas fa-shield-halved"></i></span><span>My Club</span></li>
         <li data-section="rankings" role="button" tabindex="0"><span class="nav-badge reports"><i class="fas fa-medal"></i></span><span>Rankings</span></li>
         <!-- Family logins only: the way back to the other children. Hidden for
              a legacy student account, which has nowhere to switch to. -->
-        <li id="familySwitchSidebarBtn" role="button" tabindex="0" style="display:none;" onclick="handleFamilySwitch()"><span class="nav-badge parent" style="background: linear-gradient(135deg, #1f7d59, #7cc47f); color:#fff;"><i class="fas fa-users"></i></span><span>Switch child</span></li>
+        <li id="familySwitchSidebarBtn" role="button" tabindex="0" style="display:none;" onclick="handleFamilySwitch()"><span class="nav-badge parent"><i class="fas fa-users"></i></span><span>Switch child</span></li>
       </ul>
 
       <!-- Red Logout button at bottom -->
@@ -2121,23 +2257,23 @@ export const ActivityDashboard = () => html`
     </div>
     
     <div class="mobile-bottom-actions">
-      <button class="mobile-action-btn" type="button" onclick="window.switchStudentSection('overview', false)">
+      <button class="mobile-action-btn is-active" data-mobile-section="overview" type="button" onclick="window.switchStudentSection('overview', false)">
         <i class="fas fa-chart-pie"></i>
         <span>Overview</span>
       </button>
-      <button class="mobile-action-btn" type="button" onclick="window.switchStudentSection('books', false)">
+      <button class="mobile-action-btn" data-mobile-section="books" type="button" onclick="window.switchStudentSection('books', false)">
         <i class="fas fa-book-open"></i>
         <span>Books</span>
       </button>
-      <button class="mobile-action-btn" type="button" onclick="window.switchStudentSection('progress', false)">
+      <button class="mobile-action-btn" data-mobile-section="progress" type="button" onclick="window.switchStudentSection('progress', false)">
         <i class="fas fa-star"></i>
         <span>Progress</span>
       </button>
-      <button class="mobile-action-btn" type="button" onclick="window.switchStudentSection('club', false)">
+      <button class="mobile-action-btn" data-mobile-section="club" type="button" onclick="window.switchStudentSection('club', false)">
         <i class="fas fa-shield-halved"></i>
         <span>Club</span>
       </button>
-      <button class="mobile-action-btn" type="button" onclick="window.switchStudentSection('rankings', false)">
+      <button class="mobile-action-btn" data-mobile-section="rankings" type="button" onclick="window.switchStudentSection('rankings', false)">
         <i class="fas fa-medal"></i>
         <span>Rankings</span>
       </button>
@@ -2465,6 +2601,12 @@ ${HouseQuizModal()}
 
     document.querySelectorAll('.ds-stat[data-section]').forEach((item) => {
       item.classList.toggle('is-active', item.dataset.section === nextSection);
+    });
+
+    // The phone's bottom bar. It is the whole navigation at that width, and
+    // until now it looked identical no matter which section was open.
+    document.querySelectorAll('.mobile-action-btn[data-mobile-section]').forEach((btn) => {
+      btn.classList.toggle('is-active', btn.dataset.mobileSection === nextSection);
     });
 
     // The club card is its own page, not a strip on the overview: showing it
