@@ -45,6 +45,7 @@ _hostinger_zip_check/
 *.zip
 *.pdf
 *.apk
+*.aab
 
 # Build artifacts
 android/build/
