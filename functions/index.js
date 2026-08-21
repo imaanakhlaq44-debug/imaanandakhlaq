@@ -752,6 +752,308 @@ exports.migrateFamilyGroup = onCall({ cors: true }, async (request) => {
   };
 });
 
+// ===========================================================================
+// Teacher accounts
+// ===========================================================================
+//
+// Teachers used to register themselves: the admin generated a TCH- invite
+// code, and the teacher went to the auth page and created an account with
+// their own email and password. That left the school unable to answer two
+// basic questions — which address a teacher actually signed up with, and how
+// to get them back in when they forgot the password — and it left a code
+// sitting in /invites that anyone holding it could redeem.
+//
+// This is the same arrangement families already have: the school provisions
+// the login, the system generates the credentials, and the plaintext password
+// is returned exactly once. Nothing stores it. Firebase Auth keeps only a
+// hash, and a second copy in Firestore would put every teacher's password one
+// compromised admin account away from leaking.
+
+/**
+ * Login identity for a school-provisioned teacher.
+ *
+ * Same reasoning as FAMILY_LOGIN_DOMAIN: Auth needs an email-shaped
+ * credential, not a deliverable one, and .invalid is reserved so nothing can
+ * ever resolve behind it. A separate domain from families so that the two
+ * namespaces cannot collide and so a glance at an address says which it is.
+ *
+ * MUST stay identical to TEACHER_LOGIN_DOMAIN in src/lib/teacherLogin.ts —
+ * src/__tests__/teacherLogin.test.ts fails if they drift.
+ */
+const TEACHER_LOGIN_DOMAIN = 'teacher.imaanakhlaq.invalid';
+
+const TEACHER_USERNAME_LENGTH = 5;
+
+function teacherEmail(username) {
+  return username.toLowerCase() + '@' + TEACHER_LOGIN_DOMAIN;
+}
+
+/** The teacher this action applies to, checked against the caller's school. */
+async function loadTeacher(caller, teacherUid) {
+  if (!teacherUid) throw new HttpsError('invalid-argument', 'Which teacher?');
+  const snap = await db.collection('users').doc(teacherUid).get();
+  if (!snap.exists || snap.data().role !== 'teacher') {
+    throw new HttpsError('not-found', 'That teacher does not exist.');
+  }
+  const teacher = snap.data();
+  if (caller.role !== 'super_admin' && teacher.school_id !== caller.school_id) {
+    throw new HttpsError('permission-denied', 'That teacher belongs to another school.');
+  }
+  return teacher;
+}
+
+function cleanTeacherInput(data) {
+  const name = String(data.name || '').trim();
+  const phone = String(data.phone || '').trim();
+  const classId = String(data.class_id || '').trim();
+
+  if (name.length < 2 || name.length > 80) {
+    throw new HttpsError('invalid-argument', 'Enter the teacher\'s name.');
+  }
+  if (phone && !/^\+?[\d\s\-()]{7,20}$/.test(phone)) {
+    throw new HttpsError('invalid-argument', 'That phone number does not look right.');
+  }
+  if (classId.length > 200) {
+    throw new HttpsError('invalid-argument', 'That class list is too long.');
+  }
+  return { name, phone, classId };
+}
+
+/**
+ * Draw an unused TCH- username and create the Auth user behind it.
+ *
+ * Returns { uid, username, password }. Caller writes the profile — creation
+ * and migration need different ones, and only creation should roll the Auth
+ * user back on failure.
+ */
+async function allocateTeacherLogin(name) {
+  const password = generatePassword();
+
+  for (let attempt = 0; attempt < ID_RETRIES; attempt++) {
+    const username = 'TCH-' + randomCode(TEACHER_USERNAME_LENGTH);
+    try {
+      const user = await getAuth().createUser({
+        email: teacherEmail(username),
+        password: password,
+        displayName: name
+      });
+      return { uid: user.uid, username: username, password: password };
+    } catch (err) {
+      // Username taken. Nothing else about the request is wrong, so draw
+      // another rather than failing the admin's form.
+      if (err.code === 'auth/email-already-exists') continue;
+      throw new HttpsError('internal', 'Could not create the login: ' + err.message);
+    }
+  }
+
+  throw new HttpsError('resource-exhausted', 'Could not allocate a username. Please try again.');
+}
+
+exports.createTeacherAccount = onCall({ cors: true }, async (request) => {
+  const caller = await requireStaff(request, ['school_admin', 'super_admin']);
+  const data = request.data || {};
+  const { name, phone, classId } = cleanTeacherInput(data);
+  const schoolId = resolveSchoolId(caller, data.school_id);
+
+  const login = await allocateTeacherLogin(name);
+
+  const profile = {
+    role: 'teacher',
+    username: login.username,
+    name: name,
+    school_id: schoolId,
+    created_at: nowIso(),
+    created_by: caller.uid
+  };
+  // Optional, and only written when present: an empty string here would make
+  // the teacher findable by a blank phone at the login screen.
+  if (phone) profile.phone = phone;
+  if (classId) profile.class_id = classId;
+  if (data.photoURL) profile.photoURL = String(data.photoURL);
+  if (data.school_name) profile.school_name = String(data.school_name);
+
+  try {
+    await db.collection('users').doc(login.uid).set(profile);
+  } catch (err) {
+    // An Auth user with no /users doc is a login nobody can reach and no
+    // admin can see well enough to clean up.
+    await getAuth().deleteUser(login.uid).catch(() => {});
+    throw new HttpsError('internal', 'Could not save the teacher profile: ' + err.message);
+  }
+
+  return { teacher_uid: login.uid, username: login.username, password: login.password };
+});
+
+exports.resetTeacherPassword = onCall({ cors: true }, async (request) => {
+  const caller = await requireStaff(request, ['school_admin', 'super_admin']);
+  const teacherUid = String((request.data && request.data.teacher_uid) || '').trim();
+  const teacher = await loadTeacher(caller, teacherUid);
+
+  if (!teacher.username) {
+    throw new HttpsError('failed-precondition',
+      'This teacher still signs in with their own email. Move them to a school login first.');
+  }
+
+  const password = generatePassword();
+  await getAuth().updateUser(teacherUid, { password: password });
+
+  // An audit trail of the reset, never of the password.
+  await db.collection('users').doc(teacherUid).update({
+    password_reset_at: nowIso(),
+    password_reset_by: caller.uid
+  });
+
+  return { username: teacher.username, password: password };
+});
+
+/**
+ * Remove a teacher: the login as well as the profile.
+ *
+ * The dashboard used to delete the /users doc on its own, which was survivable
+ * while a teacher owned their own account — the school was withdrawing a
+ * profile, not a credential. It is not survivable now. A school-provisioned
+ * login whose profile is gone still authenticates, and every page then has a
+ * signed-in user with no role: not staff, not a learner, and invisible to the
+ * admin who thought they had removed them.
+ */
+exports.deleteTeacherAccount = onCall({ cors: true }, async (request) => {
+  const caller = await requireStaff(request, ['school_admin', 'super_admin']);
+  const teacherUid = String((request.data && request.data.teacher_uid) || '').trim();
+  await loadTeacher(caller, teacherUid);
+
+  // Auth first. If the profile went and this failed, the orphan credential is
+  // exactly what this function exists to prevent; the other way round leaves a
+  // profile with no login, which the admin can see and delete again.
+  try {
+    await getAuth().deleteUser(teacherUid);
+  } catch (err) {
+    // A profile with no Auth user is a state the old flow could produce.
+    // Nothing to revoke, so carry on and clear the profile.
+    if (err.code !== 'auth/user-not-found') {
+      throw new HttpsError('internal', 'Could not remove the login: ' + err.message);
+    }
+  }
+
+  await db.collection('users').doc(teacherUid).delete();
+
+  return { teacher_uid: teacherUid };
+});
+
+// ---------------------------------------------------------------------------
+// Moving teachers who already registered themselves
+// ---------------------------------------------------------------------------
+//
+// Converted IN PLACE. The uid never changes, so everything keyed on it — the
+// classes they teach, the notes they wrote, every submission they approved —
+// follows without being touched. Only the Auth credential moves: the address
+// becomes tch-xxxxx@teacher.imaanakhlaq.invalid and the password is reissued.
+//
+// Their old email login stops working, and that is not a side effect but the
+// point. Firebase Auth holds one email per user, so "both keep working" was
+// never on the table; the alternative was a second account, which would split
+// one teacher's history in two.
+//
+// A teacher is "already moved" exactly when their profile carries a username.
+
+/** Dry run: which teachers still sign in with their own email. Writes nothing. */
+exports.planTeacherMigration = onCall({ cors: true }, async (request) => {
+  const caller = await requireStaff(request, ['school_admin', 'super_admin']);
+  const schoolId = resolveSchoolId(caller, (request.data || {}).school_id);
+
+  const snap = await db.collection('users')
+    .where('school_id', '==', schoolId)
+    .where('role', '==', 'teacher')
+    .get();
+
+  const pending = [];
+  let alreadyMoved = 0;
+
+  snap.forEach((docSnap) => {
+    const teacher = docSnap.data();
+    if (teacher.username) {
+      alreadyMoved++;
+      return;
+    }
+    pending.push({
+      uid: docSnap.id,
+      name: teacher.name || 'Teacher',
+      email: teacher.email || '',
+      phone: teacher.phone || '',
+      class_id: teacher.class_id || ''
+    });
+  });
+
+  pending.sort((a, b) => String(a.name).localeCompare(String(b.name)));
+
+  return {
+    school_id: schoolId,
+    total_teachers: snap.size,
+    already_moved: alreadyMoved,
+    pending: pending
+  };
+});
+
+/**
+ * Move one teacher onto a school login. Same uid, new credential.
+ */
+exports.migrateTeacher = onCall({ cors: true }, async (request) => {
+  const caller = await requireStaff(request, ['school_admin', 'super_admin']);
+  const teacherUid = String((request.data && request.data.teacher_uid) || '').trim();
+  const teacher = await loadTeacher(caller, teacherUid);
+
+  if (teacher.username) {
+    // Already moved. Reissuing the password here would be a silent surprise
+    // for whoever is holding the current one, so say so instead.
+    return { teacher_uid: teacherUid, username: teacher.username, already: true };
+  }
+
+  const password = generatePassword();
+  let username = '';
+
+  for (let attempt = 0; attempt < ID_RETRIES; attempt++) {
+    const candidate = 'TCH-' + randomCode(TEACHER_USERNAME_LENGTH);
+    try {
+      await getAuth().updateUser(teacherUid, {
+        email: teacherEmail(candidate),
+        emailVerified: false,
+        password: password
+      });
+      username = candidate;
+      break;
+    } catch (err) {
+      if (err.code === 'auth/email-already-exists') continue;
+      if (err.code === 'auth/user-not-found') {
+        throw new HttpsError('failed-precondition',
+          'This teacher has a profile but no login. Delete the row and create the teacher again.');
+      }
+      throw new HttpsError('internal', 'Could not move this login: ' + err.message);
+    }
+  }
+
+  if (!username) {
+    throw new HttpsError('resource-exhausted', 'Could not allocate a username. Please try again.');
+  }
+
+  // The old address is kept so the school can still tell who this row was —
+  // it is a record, not a credential, and nothing signs in with it any more.
+  const update = {
+    username: username,
+    migrated_at: nowIso(),
+    migrated_by: caller.uid
+  };
+  if (teacher.email) update.legacy_email = teacher.email;
+
+  await db.collection('users').doc(teacherUid).update(update);
+
+  return {
+    teacher_uid: teacherUid,
+    name: teacher.name || 'Teacher',
+    username: username,
+    password: password,
+    previous_email: teacher.email || ''
+  };
+});
+
 function buildPublicScore(user) {
   const points = user.game_state && typeof user.game_state.points === 'number'
     ? user.game_state.points
