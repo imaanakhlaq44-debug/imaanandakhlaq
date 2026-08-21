@@ -15,12 +15,28 @@ const HTML_FILES = [
   'admin-dashboard.html',
   'auth.html',
   'family.html',
+  'reading-plan.html',
   'student-activities.html',
   'super-admin-dashboard.html',
   'teacher-dashboard.html',
 ];
 
 const FIREBASE_CDN_RE = /import\s*\{([^}]+)\}\s*from\s*["']https:\/\/www\.gstatic\.com\/firebasejs\/[\d.]+\/firebase-[^"']+["'];?\n?/g;
+
+// Static imports are not the only way a page reaches the CDN. The student
+// dashboard loads three modules on demand:
+//
+//   const { collection, query } = await import('https://…/firebase-firestore.js');
+//
+// which the regex above does not match, so those three survived every APK
+// build and went to the network at runtime. The bundle puts everything on
+// window.firebase, so the whole await-import expression becomes that object
+// and the destructure around it is left alone.
+const FIREBASE_DYNAMIC_RE =
+  /await\s+import\(\s*["']https:\/\/www\.gstatic\.com\/firebasejs\/[\d.]+\/firebase-[^"']+["']\s*\)/g;
+
+/** Nothing may still point at the CDN once a page has been patched. */
+const FIREBASE_CDN_ANY = /gstatic\.com\/firebasejs/;
 
 // Every firebase-*.js module the pages import from the CDN has to be in here.
 // A missing one does not fail loudly: the destructure from window.firebase just
@@ -109,6 +125,12 @@ function patchHtmlFile(filePath) {
       }
       return '';
     });
+    changed = true;
+  }
+
+  // Modules fetched on demand rather than at parse time. Same destination.
+  if (FIREBASE_DYNAMIC_RE.test(html)) {
+    html = html.replace(new RegExp(FIREBASE_DYNAMIC_RE.source, 'g'), 'window.firebase');
     changed = true;
   }
 
@@ -215,6 +237,46 @@ async function verifyBundleExports(pageFiles) {
   }
 
   await verifyBundleExports(present);
+  verifyNothingReachesTheCdn();
 
   console.log(`[firebase-local] Done — ${patched} files patched, Firebase is now local.\n`);
 })();
+
+/**
+ * The point of this script is that the packaged app never asks the network for
+ * Firebase. Nothing checked that it had actually achieved it.
+ *
+ * Two ways it silently did not: a page using `await import(...)` instead of a
+ * static import, which the rewrite did not match — three of those sat in the
+ * student dashboard through every build — and a new page that nobody added to
+ * HTML_FILES, which is not patched at all. Both ship an APK that works on the
+ * desk and fails on a phone with no signal.
+ *
+ * So the whole payload is swept, not just the list. HTML_FILES stays as the
+ * thing that gets patched; this is the thing that proves the list was right.
+ */
+function verifyNothingReachesTheCdn() {
+  const offenders = [];
+  for (const name of fs.readdirSync(assetsDir)) {
+    if (!name.endsWith('.html')) continue;
+    const filePath = path.join(assetsDir, name);
+    const html = fs.readFileSync(filePath, 'utf8');
+    if (!FIREBASE_CDN_ANY.test(html)) continue;
+
+    const lines = html.split('\n')
+      .map((line, i) => [i + 1, line])
+      .filter(([, line]) => FIREBASE_CDN_ANY.test(String(line)))
+      .map(([n, line]) => `      line ${n}: ${String(line).trim().slice(0, 110)}`);
+    offenders.push(`  ${name}\n${lines.join('\n')}`);
+  }
+
+  if (offenders.length) {
+    throw new Error(
+      'These packaged pages still load Firebase from the CDN, so they need a\n' +
+      'network connection to work at all:\n\n' + offenders.join('\n\n') + '\n\n' +
+      'If the page is missing from HTML_FILES in this script, add it. If it uses\n' +
+      'a form of import the rewrite does not match, extend the rewrite.'
+    );
+  }
+  console.log('[firebase-local] Verified no page reaches the CDN.');
+}

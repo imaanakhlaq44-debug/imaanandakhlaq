@@ -2,6 +2,33 @@
 const fs = require('fs');
 const path = require('path');
 
+/**
+ * Where each role lands after signing in.
+ *
+ * Parsed out of src/lib/appRoutes.ts rather than written out again. This
+ * script is a separate package with no build step, so it cannot import the
+ * .ts file — but it can read it, and reading it is what stops the two from
+ * drifting. They already had: the splash's own copy of this map was missing
+ * super_admin.
+ */
+const ROLE_HOME = (function () {
+  const source = fs.readFileSync(
+    path.join(__dirname, '..', 'src', 'lib', 'appRoutes.ts'),
+    'utf8'
+  );
+  const block = source.match(/export const ROLE_HOME[^=]*= \{([\s\S]*?)\n\}/);
+  if (!block) throw new Error('apk-splash: ROLE_HOME not found in src/lib/appRoutes.ts');
+  const map = {};
+  for (const line of block[1].split('\n')) {
+    const entry = line.match(/([a-z_]+)\s*:\s*'([^']+)'/);
+    if (entry) map[entry[1]] = entry[2];
+  }
+  if (!Object.keys(map).length) throw new Error('apk-splash: ROLE_HOME parsed empty');
+  return map;
+})();
+
+const roleHomeLiteral = JSON.stringify(ROLE_HOME);
+
 const html = `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -59,15 +86,14 @@ const html = `<!DOCTYPE html>
   </div>
   <script>
     setTimeout(function() {
+      // Read from src/lib/appRoutes.ts, not written out here. The ladder that
+      // used to sit in its place had no branch for super_admin, so a signed-in
+      // super admin reopening the app was dropped on the login page.
+      var ROLE_HOME = ${roleHomeLiteral};
       var dest = 'auth.html';
       try {
         var u = JSON.parse(localStorage.getItem('auth_user') || 'null');
-        if (u) {
-          if (u.role === 'school_admin') dest = 'admin-dashboard.html';
-          else if (u.role === 'teacher') dest = 'teacher-dashboard.html';
-          else if (u.role === 'student' || u.role === 'individual') dest = 'student-activities.html';
-          else if (u.role === 'family') dest = 'family.html';
-        }
+        if (u && ROLE_HOME[u.role]) dest = ROLE_HOME[u.role];
       } catch(e) {}
       window.location.replace(dest);
     }, 1800);
@@ -1264,45 +1290,20 @@ function patchApkAuthSuperAdminRedirect() {
   console.log('APK auth.html patched for super_admin redirect (' + count + ' insertions).');
 }
 
-// APK-only fix: every dist HTML file has a Capacitor route guard with a
-// hard-coded `var allowed = [...]` whitelist that does NOT include
-// `/super-admin-dashboard`. So when a super_admin lands on
-// super-admin-dashboard.html inside the APK, the guard immediately
-// `window.location.replace`s back to /auth.html. We append the missing
-// route to that array in every dist HTML file. Website build untouched.
-// The list itself now lives in src/components/Head.tsx; this stays as a safety
-// net so a stale dist can never ship an APK that bounces a role back to /auth.
-const APK_ALLOWED_ROUTES = [
-  '/auth',
-  '/student-activities',
-  '/family',
-  '/teacher-dashboard',
-  '/teacher-reader',
-  '/admin-dashboard',
-  '/super-admin-dashboard',
-  '/activity',
-  '/club'
-];
-
-function patchApkAllowedRoutes() {
-  if (!fs.existsSync(distDir)) return;
-  const pattern = /var allowed = \[[^\]]*\];/g;
-  const replacement =
-    'var allowed = [' + APK_ALLOWED_ROUTES.map((r) => `'${r}'`).join(', ') + '];';
-  const htmlFiles = fs.readdirSync(distDir).filter((f) => f.endsWith('.html'));
-  let patched = 0;
-  for (const file of htmlFiles) {
-    const filePath = path.join(distDir, file);
-    const html = fs.readFileSync(filePath, 'utf8');
-    pattern.lastIndex = 0;
-    const next = html.replace(pattern, replacement);
-    if (next === html) continue;
-    fs.writeFileSync(filePath, next, 'utf8');
-    patched++;
-  }
-  console.log('APK allowed-routes patch: ' + patched + ' files updated.');
-}
-
+// The APK page allowlist lives in ONE place: src/components/Head.tsx.
+//
+// A patchApkAllowedRoutes() used to sit here with a second copy of that list
+// and rewrite the guard in every dist HTML file. It was added as a safety net
+// against a stale dist, and it became the thing that made the list stale:
+// /reading-plan was added to Head.tsx, this list did not have it, and the
+// build quietly stripped it back out. Inside the APK the guard then bounced
+// the reading plan to auth.html, which saw a signed-in parent and sent them
+// to the family dashboard — so the Daily reading button flashed the login
+// page and landed back where it started.
+//
+// dist is rebuilt by vite immediately before this script runs, so there was
+// never a stale dist to defend against. Do not reintroduce a second list;
+// src/__tests__/backButton.test.ts fails if one appears.
 function patchApkStudentDashboard() {
   const fileName = 'student-activities.html';
   const marker = 'APK_STUDENT_DASHBOARD_COMPACT';
@@ -1621,18 +1622,37 @@ function patchApkStudentDashboard() {
 // and fall back to the splash, which then redirects students back to their
 // dashboard. This patch only runs from `npm run build:apk`, so the website
 // build (`npm run build`) is unaffected.
+/**
+ * The APK is a file tree with no extensionless routing: a link to
+ * "/reading-plan" finds nothing, and Capacitor's local server answers with
+ * index.html — the splash. So every in-app link has to be rewritten to
+ * "/reading-plan.html" before the payload ships.
+ *
+ * The list of pages to rewrite is NOT kept here. It used to be, and it fell a
+ * page behind src/components/Head.tsx: the Daily reading button kept its
+ * extensionless link, the server served the splash, and tapping it restarted
+ * the app instead of opening the page. Read from the one list instead, and
+ * fail the build loudly if it cannot be read — a silent empty list would ship
+ * an APK where every link does that.
+ */
+function readApkPages() {
+  const source = fs.readFileSync(
+    path.join(__dirname, '..', 'src', 'lib', 'appRoutes.ts'),
+    'utf8'
+  );
+  const block = source.match(/export const APK_PAGES = \[([\s\S]*?)\]/);
+  if (!block) {
+    throw new Error('apk-splash: APK_PAGES not found in src/lib/appRoutes.ts');
+  }
+  const pages = (block[1].match(/'([a-z0-9-]+)'/g) || []).map((q) => q.slice(1, -1));
+  if (!pages.length) {
+    throw new Error('apk-splash: APK_PAGES parsed empty from src/lib/appRoutes.ts');
+  }
+  return pages;
+}
+
 function patchApkInternalLinks() {
-  const routes = [
-    'auth',
-    'student-activities',
-    'family',
-    'teacher-dashboard',
-    'teacher-reader',
-    'admin-dashboard',
-    'super-admin-dashboard',
-    'activity',
-    'club'
-  ];
+  const routes = readApkPages();
 
   if (!fs.existsSync(distDir)) return;
 
@@ -1863,5 +1883,4 @@ patchApkStudentDashboard();
 patchApkDashboardCompact('teacher-dashboard.html', 'APK_TEACHER_DASHBOARD_COMPACT', '.teacher-page', TEACHER_MISSING_ID_SHIM);
 patchApkAdminDashboard();
 patchApkSuperAdminDashboard();
-patchApkAllowedRoutes();
 patchApkInternalLinks();

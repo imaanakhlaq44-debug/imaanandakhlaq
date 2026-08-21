@@ -507,14 +507,30 @@ const BOTTOMBAR_JS = `/* APK-only bottom bar injector. Auto-generated. */
         return false;
       }
       App.addListener('backButton', function(ev){
-        // 1) If Qibla AR camera is open, close it first.
+        // 0) Pages built from the app's own layout own their back button
+        //    (see Head.tsx). This has to be the FIRST thing checked, not the
+        //    fourth: the checks below used to run before it and one of them
+        //    navigated to the student dashboard, so on a chapter page the same
+        //    press was answered twice — once here and once by Head.tsx — and
+        //    the toast from one appeared over the page the other had left.
+        //    Everything past this line is for this bar's own standalone pages:
+        //    Qibla, Tasbeeh, Azkar, FAQs, About.
+        if (window.__iaBackHandler) return;
+        // 1) Whatever the page has open on top of itself. Same contract
+        //    Head.tsx uses, so a page states its rule once and it holds
+        //    wherever that page is served — auth.html included, which is
+        //    where this bar is the only handler.
+        try {
+          if (typeof window.__iaBackIntercept === 'function' && window.__iaBackIntercept() === true) return;
+        } catch(e){}
+        // 2) If Qibla AR camera is open, close it first.
         try {
           if (document.body && document.body.classList.contains('qibla-ar-open')) {
             var closeBtn = document.getElementById('qiblaArClose');
             if (closeBtn) { closeBtn.click(); return; }
           }
         } catch(e){}
-        // 2) If any visible modal/dialog is open, close it.
+        // 3) If any visible modal/dialog is open, close it.
         try {
           var modal = document.querySelector('[data-modal-open="true"], .modal.open, .modal.show, .apk-modal.open, dialog[open]');
           if (modal) {
@@ -523,20 +539,6 @@ const BOTTOMBAR_JS = `/* APK-only bottom bar injector. Auto-generated. */
             if (typeof modal.close === 'function') { try { modal.close(); return; } catch(e){} }
           }
         } catch(e){}
-        // 3) Activity page: always go back to student dashboard explicitly
-        try {
-          var p3 = (location.pathname || '').toLowerCase();
-          if (p3.indexOf('activity') !== -1 && p3.indexOf('student-activities') === -1) {
-            window.location.href = 'student-activities.html';
-            return;
-          }
-        } catch(e){}
-        // 3b) Pages built from the app's own layout carry their own back
-        //     policy (see Head.tsx). Two handlers deciding at once is how the
-        //     same press both showed "Press back again to exit" and navigated
-        //     away underneath it. Everything below is for this bar's own
-        //     standalone pages — Qibla, Tasbeeh, Azkar and the rest.
-        if (window.__iaBackHandler) return;
         // 4) If history has a previous in-app entry, go back.
         try {
           if (window.history && window.history.length > 1 && !isHomeLikePage()) {
@@ -2860,33 +2862,22 @@ function run() {
   // --- APK INDEX REDIRECT PATCH ---
   // When running inside the Android APK (Capacitor), index.html (website homepage)
   // should redirect to auth.html so users see the login screen, not the marketing site.
-  const indexPath = path.join(distDir, 'index.html');
-  if (fs.existsSync(indexPath)) {
-    let indexHtml = fs.readFileSync(indexPath, 'utf8');
-    const redirectScript = `\n<script>
-  // APK: redirect to login if running inside Capacitor (Android/iOS native app)
-  (function() {
-    var isCap = (typeof window !== 'undefined') &&
-      (window.Capacitor !== undefined ||
-       window.location.protocol === 'capacitor:' ||
-       navigator.userAgent.indexOf('imaanakhlaq') !== -1 ||
-       window.location.href.indexOf('localhost') !== -1 &&
-       typeof window.Capacitor !== 'undefined');
-    if (
-      typeof window !== 'undefined' &&
-      (window.Capacitor !== undefined || window.location.protocol === 'capacitor:')
-    ) {
-      window.location.replace('auth.html');
-    }
-  })();
-</script>`;
-    // Only inject if not already patched
-    if (!indexHtml.includes('APK: redirect to login')) {
-      indexHtml = indexHtml.replace('</head>', redirectScript + '\n</head>');
-      fs.writeFileSync(indexPath, indexHtml, 'utf8');
-      console.log('[apk-bottombar] index.html patched with APK auth redirect');
-    }
-  }
+  // NOTE: this script used to inject a redirect into dist/index.html that ran
+  // in <head> and, inside Capacitor, did window.location.replace('auth.html')
+  // straight away. It ran BEFORE the body, so the splash screen that
+  // apk-splash.cjs writes into that same file — the logo, the wordmark whose
+  // letters pop in one at a time, the progress bar — was built on every build
+  // and never once seen. The app went from the Android system splash to the
+  // login page.
+  //
+  // It was also wrong about where to go. apk-splash.cjs's own script reads the
+  // saved session and sends a signed-in person to their dashboard; this one
+  // sent everybody to auth.html first, so returning users got a flash of the
+  // login screen before being bounced onward.
+  //
+  // Removed rather than fixed: index.html only ever needed one redirect, and
+  // the page that draws the splash is the one that should decide when it is
+  // over. Do not add a second one here.
 
   console.log('[apk-bottombar] css/js written, ' + injected + ' pages injected, sub-pages created in dist/apk/');
 }

@@ -12,6 +12,13 @@
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "preview"],
       "port": 4173
+    },
+    {
+      "name": "apk-payload",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["scripts/serve-apk-payload.cjs"],
+      "port": 4180,
+      "autoPort": true
     }
   ]
 }
