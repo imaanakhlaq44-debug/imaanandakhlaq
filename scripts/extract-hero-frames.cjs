@@ -1,5 +1,5 @@
 /**
- * Pull a scroll-scrub frame sequence out of public/demo/hero-source.mp4.
+ * Pull a scroll-scrub frame sequence out of demo/hero-source.mp4.
  *
  * Scrubbing an mp4 by setting video.currentTime tops out around 7fps: every
  * seek decodes forward from the previous keyframe, so most requested frames
@@ -33,13 +33,17 @@ const listArg = (name, fallback) => {
 };
 const WIDTHS = listArg('widths', [1280, 720]);
 
-const PUBLIC_DIR = path.join(__dirname, '..', 'public');
-const OUT_ROOT = path.join(PUBLIC_DIR, 'demo', 'hero-frames');
+// demo/ sits outside public/ on purpose: everything under public/ is copied
+// into dist/ and published by `npm run deploy`, and the source video alone is
+// 41 MB of scratch work with no business being on the live site. The pages
+// still ask for /demo/..., so the dir is mounted under that prefix below.
+const DEMO_DIR = path.join(__dirname, '..', 'demo');
+const OUT_ROOT = path.join(DEMO_DIR, 'hero-frames');
 const SOURCE = '/demo/hero-source.mp4';
 
 (async () => {
-  if (!fs.existsSync(path.join(PUBLIC_DIR, SOURCE.slice(1)))) {
-    throw new Error('missing public' + SOURCE);
+  if (!fs.existsSync(path.join(DEMO_DIR, SOURCE.replace('/demo/', '')))) {
+    throw new Error('missing' + SOURCE);
   }
   for (const w of WIDTHS) {
     const dir = path.join(OUT_ROOT, String(w));
@@ -51,11 +55,11 @@ const SOURCE = '/demo/hero-source.mp4';
   // poison toDataURL with a SecurityError.
   const app = express();
   // A real 200 page to work from: Chrome refuses media loads initiated by an
-  // error page, and public/ has no index.html of its own.
+  // error page, and demo/ has no index.html of its own.
   app.get('/__extract', (_req, res) => {
     res.type('html').send('<!doctype html><meta charset="utf-8"><body></body>');
   });
-  app.use(express.static(PUBLIC_DIR));
+  app.use('/demo', express.static(DEMO_DIR));
   const server = await new Promise((resolve) => {
     const s = app.listen(0, '127.0.0.1', () => resolve(s));
   });

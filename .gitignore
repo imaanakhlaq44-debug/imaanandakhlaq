@@ -64,7 +64,7 @@ student_screen*
 !public/kidba_assets/**
 
 # Hero scroll source video and the frame sequence extracted from it.
-# scripts/extract-hero-frames.cjs regenerates public/demo/hero-frames/ from
-# public/demo/hero-source.mp4, so neither belongs in history.
+# scripts/extract-hero-frames.cjs regenerates demo/hero-frames/ from
+# demo/hero-source.mp4, so neither belongs in history.
 *.mp4
-public/demo/hero-frames/
+demo/hero-frames/
