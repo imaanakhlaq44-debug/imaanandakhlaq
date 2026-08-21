@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Hero scroll-scrub — DEMO</title>
+<style>
+  :root {
+    --ink: #1E2D5A;
+    --pink: #D63678;
+    --orange: #E08020;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: 'Inter', system-ui, sans-serif; background: #0f172a; color: #fff; }
+
+  /* ── The scroll track ───────────────────────────────────────────────
+     Its HEIGHT is the scroll budget. The hero sticks to the top while
+     the page scrolls through it, and that travel drives the frame index. */
+  .scrollytell { position: relative; }
+
+  /* No perspective here on purpose. A perspective rotateX tapers the far
+     edge, so the hero reads as a card tilting in a box. The ground-flip we
+     want is edge-on and orthographic: the plane keeps its full width and
+     just loses height, the way a floor looks as it swings up past your eye. */
+  .stage {
+    position: sticky; top: 0; height: 100vh;
+    overflow: hidden;
+  }
+
+  /* The section waiting underneath. It is already full-bleed and in place;
+     the flip uncovers it rather than sliding a card over the top of it. */
+  .next-layer {
+    position: absolute; inset: 0; z-index: 1;
+    background: #0b1220 url('/demo/elan/bg.webp') center/cover no-repeat;
+    display: grid; place-items: center;
+    text-align: center; padding: 0 24px;
+    will-change: transform;
+  }
+  .next-layer::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(rgba(8,12,25,.35), rgba(8,12,25,.78));
+  }
+  .next-layer .inner { position: relative; max-width: 620px; }
+  .next-layer .eyebrow {
+    margin: 0 0 10px; font-size: .72rem; letter-spacing: .28em; text-transform: uppercase; opacity: .75;
+  }
+  .next-layer h2 {
+    margin: 0 0 14px; font-size: clamp(2rem, 5.5vw, 3.6rem); line-height: 1.1;
+    text-shadow: 0 4px 24px rgba(0,0,0,.5);
+  }
+  .next-layer p { margin: 0; line-height: 1.7; opacity: .85; }
+
+  .hero-sticky {
+    position: absolute; inset: 0; z-index: 2;
+    height: 100%; width: 100%;
+    overflow: hidden;
+    display: grid; place-items: center;
+    background: #000;
+    /* The fold line. Measured off the reference at ~29% down, not the middle:
+       collapsing toward the centre pulls upper content down as lower content
+       comes up, which is what reads as "a flip". A line up here sends the
+       whole plane one way — up — so it reads as ground being lifted away. */
+    transform-origin: 50% 29%;
+    will-change: transform, filter;
+  }
+
+  .hero-sticky canvas {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    display: block;
+    pointer-events: none;
+  }
+
+  /* Loading veil until enough frames exist to scrub through */
+  .hero-loading {
+    position: absolute; inset: 0; z-index: 5;
+    display: grid; place-items: center; gap: 14px;
+    align-content: center;
+    background: #0f172a; transition: opacity .6s ease;
+    font-weight: 700; letter-spacing: .1em; text-transform: uppercase; font-size: .8rem;
+  }
+  .hero-loading.gone { opacity: 0; pointer-events: none; }
+  .bar { width: 180px; height: 3px; border-radius: 3px; background: rgba(255,255,255,.18); overflow: hidden; }
+  .bar i { display: block; height: 100%; width: 0; background: var(--orange); transition: width .2s ease; }
+
+  .scroll-cue {
+    position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
+    z-index: 4; font-size: .72rem; letter-spacing: .22em; text-transform: uppercase;
+    opacity: .85; transition: opacity .4s ease; text-shadow: 0 2px 8px rgba(0,0,0,.6);
+  }
+  .scroll-cue span { display: block; margin: 8px auto 0; width: 1px; height: 26px;
+    background: linear-gradient(#fff, transparent); animation: cue 1.6s ease-in-out infinite; }
+  @keyframes cue { 0%,100% { opacity:.2; transform: translateY(0) } 50% { opacity:1; transform: translateY(6px) } }
+
+  /* ── Ordinary page content, once the hand-off is done ───────────── */
+  .after {
+    position: relative; z-index: 2;
+    background: #FDF8F5; color: var(--ink);
+    padding: 90px 24px 140px;
+    text-align: center;
+  }
+  .after h2 { font-size: clamp(1.8rem, 4vw, 2.8rem); margin: 0 0 14px; color: var(--pink); }
+  .after p { max-width: 620px; margin: 0 auto; line-height: 1.7; opacity: .8; }
+
+  /* ── Tuning panel (demo only — never ships) ─────────────────────── */
+  .panel {
+    position: fixed; top: 12px; right: 12px; z-index: 999;
+    background: rgba(15,23,42,.92); backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,.16); border-radius: 14px;
+    padding: 14px 16px; width: 250px; font-size: 12px; line-height: 1.5;
+  }
+  .panel h4 { margin: 0 0 10px; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; opacity: .7; }
+  .panel label { display: block; margin: 10px 0 3px; opacity: .85; }
+  .panel input[type=range] { width: 100%; }
+  .panel .val { float: right; font-variant-numeric: tabular-nums; opacity: .95; }
+  .panel .row { display: flex; align-items: center; gap: 8px; margin-top: 10px; }
+  .readout { margin-top: 12px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,.14);
+    font-variant-numeric: tabular-nums; opacity: .85; }
+  .panel button { width: 100%; margin-top: 10px; padding: 7px; border-radius: 8px; cursor: pointer;
+    border: 1px solid rgba(255,255,255,.2); background: rgba(255,255,255,.1); color: #fff; font: inherit; }
+
+  @media (max-width: 700px) { .panel { display: none; } }
+
+  /* Anyone who asked the OS for less motion gets a still frame, no scrub. */
+  @media (prefers-reduced-motion: reduce) {
+    .scrollytell { height: auto !important; }
+    .hero-sticky { position: relative; }
+    .scroll-cue { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="panel">
+  <h4>Demo controls</h4>
+
+  <label>Scroll length <span class="val" id="vLen">500</span>vh</label>
+  <input type="range" id="len" min="200" max="900" step="50" value="500">
+
+  <label>Smoothing <span class="val" id="vSmooth">0.16</span></label>
+  <input type="range" id="smooth" min="0.03" max="1" step="0.01" value="0.16">
+
+  <label>Collapse starts at <span class="val" id="vExit">85</span>%</label>
+  <input type="range" id="exit" min="50" max="100" step="5" value="85">
+
+  <div class="row">
+    <input type="checkbox" id="useExit" checked>
+    <label for="useExit" style="margin:0">Ground-flip on</label>
+  </div>
+
+  <label>Fold line <span class="val" id="vFold">29</span>% from top</label>
+  <input type="range" id="fold" min="0" max="70" step="1" value="29">
+
+  <label>Extra lift <span class="val" id="vLift">3</span>vh</label>
+  <input type="range" id="lift" min="0" max="30" step="1" value="3">
+
+  <label>Motion blur <span class="val" id="vBlur">7</span>px</label>
+  <input type="range" id="blur" min="0" max="24" step="1" value="7">
+
+  <label>Next section rises <span class="val" id="vRise">10</span>vh</label>
+  <input type="range" id="rise" min="0" max="30" step="2" value="10">
+
+  <div class="readout">
+    scroll <span class="val" id="rProg">0%</span><br>
+    frame <span class="val" id="rFrame">0</span><br>
+    loaded <span class="val" id="rLoaded">0</span><br>
+    fps <span class="val" id="rFps">–</span>
+  </div>
+
+  <button id="toTop">Back to top</button>
+</div>
+
+<div class="scrollytell" id="track">
+  <div class="stage" id="stage">
+    <div class="next-layer" id="nextLayer">
+      <div class="inner">
+        <p class="eyebrow">02 / 02</p>
+        <h2>Stories that build character</h2>
+        <p>The hero folds up like ground swinging past your eye, and this was
+           already sitting underneath it the whole time.</p>
+      </div>
+    </div>
+    <div class="hero-sticky" id="hero">
+      <canvas id="cv"></canvas>
+      <div class="hero-loading" id="loading">
+        <span id="loadingText">loading frames…</span>
+        <span class="bar"><i id="loadingBar"></i></span>
+      </div>
+      <div class="scroll-cue" id="cue">Scroll<span></span></div>
+    </div>
+  </div>
+</div>
+
+<section class="after">
+  <h2>The next section slides up over the hero</h2>
+  <p>As the animation finishes, the hero scales down and lifts toward the top while this
+     panel rides over it — so it reads as the hero being gathered away rather than simply
+     scrolling off. Keep scrolling and back up again to feel both directions.</p>
+</section>
+
+<script>
+(function () {
+  'use strict';
+
+  // ── Why images and not the mp4 ─────────────────────────────────────
+  // Driving <video>.currentTime from scroll caps out near 7fps here: each
+  // seek has to decode forward from the previous keyframe, so most requested
+  // frames never render and the hero advances in visible jumps (measured
+  // median jump: 0.24s of footage, worst: 1.28s). A pre-decoded frame
+  // sequence has no seek at all — the scroll handler just picks an image.
+
+  var FRAMES = 120;
+  var SETS = [720, 1280];              // available widths, ascending
+  var PATH = '/demo/hero-frames/';
+
+  var track   = document.getElementById('track');
+  var stage   = document.getElementById('stage');
+  var hero    = document.getElementById('hero');
+  var cv      = document.getElementById('cv');
+  var ctx     = cv.getContext('2d', { alpha: false });
+  var loading = document.getElementById('loading');
+  var loadingText = document.getElementById('loadingText');
+  var loadingBar  = document.getElementById('loadingBar');
+  var cue     = document.getElementById('cue');
+
+  var lenEl = document.getElementById('len'), smoothEl = document.getElementById('smooth');
+  var exitEl = document.getElementById('exit'), useExitEl = document.getElementById('useExit');
+  var vLen = document.getElementById('vLen'), vSmooth = document.getElementById('vSmooth'), vExit = document.getElementById('vExit');
+  var rProg = document.getElementById('rProg'), rFrame = document.getElementById('rFrame');
+  var rLoaded = document.getElementById('rLoaded'), rFps = document.getElementById('rFps');
+
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var nextLayer = document.getElementById('nextLayer');
+  var foldEl = document.getElementById('fold');
+  var liftEl = document.getElementById('lift'), blurEl = document.getElementById('blur'), riseEl = document.getElementById('rise');
+  var vFold = document.getElementById('vFold');
+  var vLift = document.getElementById('vLift'), vBlur = document.getElementById('vBlur'), vRise = document.getElementById('vRise');
+
+  var settings = { lenVh: 500, smooth: 0.16, exitAt: 0.85, exitOn: true, fold: 29, lift: 3, blur: 7, rise: 10 };
+
+  foldEl.addEventListener('input', function () {
+    settings.fold = +foldEl.value;
+    vFold.textContent = foldEl.value;
+    hero.style.transformOrigin = '50% ' + settings.fold + '%';
+  });
+  liftEl.addEventListener('input', function () { settings.lift = +liftEl.value; vLift.textContent = liftEl.value; });
+  blurEl.addEventListener('input', function () { settings.blur = +blurEl.value; vBlur.textContent = blurEl.value; });
+  riseEl.addEventListener('input', function () { settings.rise = +riseEl.value; vRise.textContent = riseEl.value; });
+
+  function applyLength() {
+    track.style.height = settings.lenVh + 'vh';
+    vLen.textContent = settings.lenVh;
+  }
+  applyLength();
+
+  lenEl.addEventListener('input', function () { settings.lenVh = +lenEl.value; applyLength(); });
+  smoothEl.addEventListener('input', function () { settings.smooth = +smoothEl.value; vSmooth.textContent = (+smoothEl.value).toFixed(2); });
+  exitEl.addEventListener('input', function () { settings.exitAt = +exitEl.value / 100; vExit.textContent = exitEl.value; });
+  useExitEl.addEventListener('change', function () { settings.exitOn = useExitEl.checked; });
+  document.getElementById('toTop').addEventListener('click', function () { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+
+  // ── Pick a delivery width ──────────────────────────────────────────
+  // A phone should not download desktop pixels; the canvas is only ever as
+  // wide as the viewport, so anything past that is wasted bytes.
+  function chooseSet() {
+    // Only give retina a partial vote. Honouring dpr in full pushes a 375px
+    // phone to the 1280 set — 10.5MB over mobile data for pixels a 6" screen
+    // cannot resolve. 1.5x is enough that nothing looks soft.
+    var need = window.innerWidth * ((window.devicePixelRatio || 1) > 1 ? 1.5 : 1);
+    for (var i = 0; i < SETS.length; i++) if (SETS[i] >= need) return SETS[i];
+    return SETS[SETS.length - 1];
+  }
+  var setW = chooseSet();
+
+  function src(i) {
+    return PATH + setW + '/f' + String(i).padStart(3, '0') + '.webp';
+  }
+
+  // ── Load ───────────────────────────────────────────────────────────
+  // Fetch in scroll order with a small concurrency window. The hero can be
+  // scrubbed as soon as the opening frames land; the rest stream in behind,
+  // and nearestLoaded() below covers any gap.
+  var imgs = new Array(FRAMES);
+  var loadedCount = 0;
+  var CONCURRENCY = 6;
+  var next = 0;
+  var pending = 0;
+  var started = false;
+
+  function pump() {
+    while (next < FRAMES && pending < CONCURRENCY) load(next++);
+  }
+
+  function load(i) {
+    pending++;
+    var im = new Image();
+    im.decoding = 'async';
+    im.onload = function () {
+      imgs[i] = im;
+      loadedCount++; pending--;
+      loadingBar.style.width = Math.round((loadedCount / FRAMES) * 100) + '%';
+      rLoaded.textContent = loadedCount + '/' + FRAMES;
+      // Enough of the opening to scrub without staring at a veil.
+      if (!started && loadedCount >= 12) {
+        started = true;
+        loading.classList.add('gone');
+        tick();
+      }
+      pump();
+    };
+    im.onerror = function () {
+      pending--; loadedCount++;
+      pump();
+    };
+    im.src = src(i);
+  }
+  // Reduced motion never scrubs, so it must not pull 120 images down either.
+  if (!reduced) pump();
+
+  // If a frame has not arrived yet, show the closest one that has rather
+  // than blanking the canvas.
+  function nearestLoaded(i) {
+    if (imgs[i]) return imgs[i];
+    for (var d = 1; d < FRAMES; d++) {
+      if (imgs[i - d]) return imgs[i - d];
+      if (imgs[i + d]) return imgs[i + d];
+    }
+    return null;
+  }
+
+  // ── Canvas sizing ──────────────────────────────────────────────────
+  var dpr = 1;
+  function resize() {
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    cv.width = Math.round(cv.clientWidth * dpr);
+    cv.height = Math.round(cv.clientHeight * dpr);
+    lastDrawn = -1;                    // force a redraw at the new size
+  }
+  window.addEventListener('resize', function () {
+    resize();
+    var w = chooseSet();
+    if (w !== setW) {                  // crossing the breakpoint mid-session
+      setW = w; imgs = new Array(FRAMES); loadedCount = 0; next = 0; pending = 0; pump();
+    }
+  });
+  resize();
+
+  // object-fit: cover, done by hand so the canvas keeps its pixel ratio.
+  function draw(img) {
+    var cw = cv.width, ch = cv.height;
+    var scale = Math.max(cw / img.naturalWidth, ch / img.naturalHeight);
+    var w = img.naturalWidth * scale, h = img.naturalHeight * scale;
+    ctx.drawImage(img, (cw - w) / 2, (ch - h) / 2, w, h);
+  }
+
+  function progress() {
+    var rect = track.getBoundingClientRect();
+    var scrollable = track.offsetHeight - window.innerHeight;
+    if (scrollable <= 0) return 0;
+    var p = -rect.top / scrollable;
+    return p < 0 ? 0 : p > 1 ? 1 : p;
+  }
+
+  var current = 0;                     // eased frame index we are moving toward
+  var lastDrawn = -1;
+  var lastFrame = performance.now(), frames = 0, fpsAcc = 0;
+
+  function tick() {
+    var now = performance.now();
+    frames++; fpsAcc += now - lastFrame; lastFrame = now;
+    if (fpsAcc > 500) { rFps.textContent = Math.round(frames / (fpsAcc / 1000)); frames = 0; fpsAcc = 0; }
+
+    var p = progress();
+
+    // Ease toward the target so a flick of the wheel glides instead of snapping.
+    var target = p * (FRAMES - 1);
+    current += (target - current) * settings.smooth;
+    if (Math.abs(target - current) < 0.01) current = target;
+
+    var idx = Math.round(current);
+    if (idx < 0) idx = 0; else if (idx > FRAMES - 1) idx = FRAMES - 1;
+
+    if (idx !== lastDrawn) {
+      var img = nearestLoaded(idx);
+      if (img) { draw(img); lastDrawn = idx; }
+    }
+
+    rProg.textContent = Math.round(p * 100) + '%';
+    rFrame.textContent = idx + '/' + (FRAMES - 1);
+    cue.style.opacity = p > 0.03 ? 0 : 0.85;
+
+    // ── The ground flipping up ──────────────────────────────────────
+    // Over the last stretch of scroll the hero is treated as a plane seen
+    // edge-on: it keeps its full width and loses height, so it crushes to a
+    // horizontal line rather than tapering into the distance. At the same
+    // time the whole plane drifts upward, which is what sells "the ground is
+    // being flipped up" instead of "a picture is being squashed". The
+    // section underneath was there all along and simply gets uncovered.
+    if (settings.exitOn && p > settings.exitAt) {
+      var e = (p - settings.exitAt) / (1 - settings.exitAt);   // 0 → 1
+      // Ease-in-out, fitted to the reference: the plane eases off the ground,
+      // travels fastest through the middle, then settles shut. A plain e*e
+      // does its fastest work at the very end, which lands with a snap the
+      // reference does not have.
+      var ease = 0.5 - 0.5 * Math.cos(Math.PI * e);
+
+      hero.style.transform =
+        'translateY(' + (-ease * settings.lift) + 'vh) ' +
+        'scaleY(' + (1 - ease) + ')';
+      // Blur peaks in the middle of the fold, where the plane is moving
+      // fastest, and is gone by the time it lands.
+      var smear = settings.blur * 4 * ease * (1 - ease);
+      hero.style.filter = 'brightness(' + (1 - ease * 0.4) + ')' +
+        (smear > 0.3 ? ' blur(' + smear.toFixed(2) + 'px)' : '');
+
+      // The incoming section settles up into place as it is revealed.
+      var settle = 1 - ease;
+      nextLayer.style.transform =
+        'translateY(' + (settle * settings.rise) + 'vh) scale(' + (1 + settle * 0.06) + ')';
+    } else {
+      hero.style.transform = '';
+      hero.style.filter = '';
+      nextLayer.style.transform =
+        'translateY(' + settings.rise + 'vh) scale(' + 1.06 + ')';
+    }
+
+    requestAnimationFrame(tick);
+  }
+
+  // Reduced motion: one frame, no scrub, no loop.
+  if (reduced) {
+    var still = new Image();
+    still.onload = function () { resize(); draw(still); loading.classList.add('gone'); };
+    still.src = src(0);
+  }
+})();
+</script>
+
+</body>
+</html>

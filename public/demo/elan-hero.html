@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ÉLAN hero — animation demo</title>
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* ------------------------------------------------------------------
+       Layout taken from the Figma frame (1542.79 x 864.64):
+         headline  font-size 400px  -> 25.93% of width, tracking -32px -> -2.07%
+         house     inset 28.57% top, 13.68% left, 10.18% right, 10.06% bottom
+         logo      52px at x 102.5, y 23.8
+       Everything is sized in vw against a full-bleed stage so it scales.
+       ------------------------------------------------------------------ */
+    :root {
+      --neon: #ff7a1a;
+      --ink: #0b1220;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--ink);
+      color: #e2e8f0;
+      font-family: 'Poppins', system-ui, sans-serif;
+      overflow-x: hidden;
+    }
+
+    .stage {
+      position: relative;
+      width: 100vw;
+      aspect-ratio: 1542.79 / 864.64;
+      overflow: hidden;
+      isolation: isolate;
+      background: #97a6b5;
+    }
+
+    /* Each layer moves on its own — that is what sells the depth. */
+    .layer {
+      position: absolute;
+      inset: 0;
+      will-change: transform;
+    }
+
+    .layer-bg img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .headline {
+      position: absolute;
+      top: 20.68%;
+      left: 50%;
+      margin: 0;
+      transform: translateX(-50%);
+      font-size: 25.9vw;
+      line-height: 0.78;
+      font-weight: 800;
+      letter-spacing: -2.07vw;
+      color: #fff;
+      white-space: nowrap;
+      user-select: none;
+    }
+
+    /* The reveal animates each letter separately, so the word builds up. */
+    .headline span {
+      display: inline-block;
+      will-change: transform, opacity, filter;
+    }
+
+    /* Second copy of the word sits ON TOP of the house, blended down to a
+       faint edge — this is the "text in front of the object" touch. */
+    .headline-front {
+      color: rgba(255, 255, 255, 0.55);
+      mix-blend-mode: overlay;
+      opacity: 0.4;
+      z-index: 4;
+      pointer-events: none;
+    }
+
+    .layer-house { z-index: 3; }
+
+    /* Separate element per animated property: layer = parallax (transform),
+       inner = intro (transform), img = neon (filter). */
+    .house-inner {
+      position: absolute;
+      inset: 0;
+      will-change: transform, opacity;
+    }
+
+    .house {
+      position: absolute;
+      left: 13.68%;
+      top: 28.57%;
+      width: 76.14%;
+      display: block;
+    }
+
+    /* Glow that breathes under the building, plus the floor reflection. */
+    .glow {
+      position: absolute;
+      left: 20%;
+      right: 20%;
+      bottom: 8%;
+      height: 16%;
+      z-index: 2;
+      background: radial-gradient(ellipse at center, rgba(255,122,26,0.55) 0%, rgba(255,122,26,0) 70%);
+      filter: blur(14px);
+      opacity: 0;
+    }
+
+    .shimmer {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 3%;
+      height: 10%;
+      z-index: 5;
+      background: linear-gradient(100deg, transparent 20%, rgba(255,196,140,0.35) 45%, rgba(255,255,255,0.18) 50%, transparent 75%);
+      background-size: 250% 100%;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .logo {
+      position: absolute;
+      left: 6.65%;
+      top: 2.75%;
+      width: 3.36%;
+      z-index: 6;
+      opacity: 0.95;
+    }
+
+    /* ---------- 1. Intro reveal (runs on load / replay) ----------
+       The intro animates the INNER element of each layer, never the layer
+       itself: a filled animation would keep overriding the inline transform
+       the parallax writes, and the layer would freeze. */
+    .playing .layer-bg img { animation: bgIn 1.6s cubic-bezier(0.22, 1, 0.36, 1) both; }
+    .playing .headline span { animation: letterIn 0.9s cubic-bezier(0.22, 1, 0.36, 1) both; animation-delay: var(--d); }
+    .playing .house-inner { animation: houseIn 1.3s cubic-bezier(0.22, 1, 0.36, 1) 0.45s both; }
+    .playing .logo { animation: fadeIn 0.8s ease 1.1s both; }
+
+    @keyframes bgIn {
+      from { transform: scale(1.12); opacity: 0; }
+      to   { transform: scale(1); opacity: 1; }
+    }
+    @keyframes letterIn {
+      from { transform: translateY(38%); opacity: 0; filter: blur(18px); }
+      to   { transform: translateY(0); opacity: 1; filter: blur(0); }
+    }
+    @keyframes houseIn {
+      from { transform: translateY(9%) scale(0.97); opacity: 0; }
+      to   { transform: translateY(0) scale(1); opacity: 1; }
+    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 0.95; } }
+
+    /* ---------- 2. Neon pulse ---------- */
+    .fx-glow .house { animation: neon 3.2s ease-in-out infinite; }
+    .fx-glow .glow  { animation: glowPulse 3.2s ease-in-out infinite; }
+
+    @keyframes neon {
+      0%, 100% { filter: drop-shadow(0 0 6px rgba(255,122,26,0.35)); }
+      50%      { filter: drop-shadow(0 0 26px rgba(255,122,26,0.75)); }
+    }
+    @keyframes glowPulse {
+      0%, 100% { opacity: 0.45; transform: scaleX(0.96); }
+      50%      { opacity: 0.9;  transform: scaleX(1.04); }
+    }
+
+    /* ---------- 3. Floor shimmer ---------- */
+    .fx-shimmer .shimmer { opacity: 1; animation: sweep 5s linear infinite; }
+    @keyframes sweep {
+      from { background-position: 160% 0; }
+      to   { background-position: -60% 0; }
+    }
+
+    /* Motion is decoration — respect the OS setting. */
+    @media (prefers-reduced-motion: reduce) {
+      .playing .layer-bg img,
+      .playing .headline span,
+      .playing .house-inner,
+      .playing .logo,
+      .fx-glow .house,
+      .fx-glow .glow,
+      .fx-shimmer .shimmer { animation: none !important; }
+    }
+
+    /* ---------- demo chrome (not part of the hero) ---------- */
+    .panel {
+      max-width: 1000px;
+      margin: 2rem auto 4rem;
+      padding: 0 1.25rem;
+    }
+    .panel h1 { font-size: 1.35rem; margin: 0 0 0.35rem; }
+    .panel p { color: #94a3b8; margin: 0 0 1.25rem; line-height: 1.6; }
+    .toggles { display: flex; flex-wrap: wrap; gap: 0.65rem; }
+    .toggle {
+      display: flex; align-items: center; gap: 0.5rem;
+      background: #16223a; border: 1px solid #24344f; border-radius: 999px;
+      padding: 0.55rem 1rem; cursor: pointer; font-weight: 600; font-size: 0.9rem;
+    }
+    .toggle input { accent-color: var(--neon); width: 16px; height: 16px; cursor: pointer; }
+    .btn {
+      background: var(--neon); color: #1b1005; border: 0; border-radius: 999px;
+      padding: 0.6rem 1.3rem; font-weight: 800; font-family: inherit; cursor: pointer;
+    }
+    .note { font-size: 0.85rem; color: #64748b; margin-top: 1.25rem; }
+    .spacer { height: 70vh; display: flex; align-items: center; justify-content: center; color: #475569; font-weight: 700; }
+
+    @media (max-width: 640px) {
+      .headline { top: 22%; }
+      .panel h1 { font-size: 1.1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="stage" id="stage">
+    <div class="layer layer-bg" data-depth="10">
+      <img src="elan/bg.webp" alt="Mountain lake at dusk">
+    </div>
+
+    <div class="layer layer-text" data-depth="26">
+      <p class="headline" id="headlineBack">ÉLAN</p>
+    </div>
+
+    <div class="glow"></div>
+
+    <div class="layer layer-house" data-depth="45">
+      <div class="house-inner">
+        <img class="house" src="elan/house.webp" alt="Futuristic glass house">
+      </div>
+    </div>
+
+    <div class="layer layer-front" data-depth="26">
+      <p class="headline headline-front" id="headlineFront" aria-hidden="true">ÉLAN</p>
+    </div>
+
+    <div class="shimmer"></div>
+    <img class="logo" src="elan/logo-128.png" alt="ÉLAN logo">
+  </div>
+
+  <div class="panel">
+    <h1>ÉLAN hero — animation demo</h1>
+    <p>Figma file me koi animation data nahi tha (static frame), ye motion code me banaya gaya hai.
+       Har effect alag toggle hai — jo pasand aayen wo site par lagayenge.</p>
+
+    <div class="toggles">
+      <label class="toggle"><input type="checkbox" id="fxMouse" checked> Mouse parallax</label>
+      <label class="toggle"><input type="checkbox" id="fxScroll" checked> Scroll parallax</label>
+      <label class="toggle"><input type="checkbox" id="fxGlow" checked> Neon pulse</label>
+      <label class="toggle"><input type="checkbox" id="fxShimmer" checked> Floor shimmer</label>
+      <button class="btn" id="replay">↻ Replay intro</button>
+    </div>
+
+    <p class="note" id="debugLine" style="font-family:ui-monospace,monospace; color:#7dd3fc;">waiting for first frame…</p>
+
+    <p class="note">Sirf <code>transform</code> aur <code>opacity</code> animate hote hain, is liye mobile par bhi 60fps.
+       Jis user ne OS me "reduce motion" on kiya ho, uske liye animations khud band ho jati hain.
+       Scroll parallax dekhne ke liye neeche scroll karein.</p>
+  </div>
+
+  <div class="spacer">↑ scroll karke wapas dekhein</div>
+
+  <script>
+    (function () {
+      const stage = document.getElementById('stage');
+      const layers = Array.from(stage.querySelectorAll('.layer'));
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      // Split the wordmark into letters so the intro can stagger them.
+      ['headlineBack', 'headlineFront'].forEach((id) => {
+        const el = document.getElementById(id);
+        const text = el.textContent.trim();
+        el.innerHTML = text.split('').map((ch, i) =>
+          '<span style="--d:' + (0.15 + i * 0.09).toFixed(2) + 's">' + ch + '</span>').join('');
+      });
+
+      function playIntro() {
+        stage.classList.remove('playing');
+        void stage.offsetWidth;   // restart the CSS animations
+        stage.classList.add('playing');
+      }
+
+      // --- mouse parallax: each layer shifts by its own depth ---
+      let mouseX = 0, mouseY = 0, scrollY = 0, raf = null, ticks = 0, moves = 0;
+      const state = { mouse: true, scroll: true };
+
+      function apply() {
+        raf = null;
+        ticks++;
+        layers.forEach((layer) => {
+          const depth = Number(layer.dataset.depth || 0);
+          const mx = state.mouse ? mouseX * depth : 0;
+          const my = state.mouse ? mouseY * depth : 0;
+          const sy = state.scroll ? scrollY * (depth / 44) * 0.3 : 0;
+          layer.style.transform = 'translate3d(' + mx.toFixed(1) + 'px,' + (my + sy).toFixed(1) + 'px,0)';
+        });
+        paintDebug();
+      }
+
+      function schedule() { if (!raf) raf = requestAnimationFrame(apply); }
+
+      // Live readout — if the effect looks dead, this says why (reduced motion,
+      // no pointer events arriving, or frames not being painted).
+      const debugEl = document.getElementById('debugLine');
+      function paintDebug() {
+        if (!debugEl) return;
+        const house = document.querySelector('.layer-house').style.transform || 'none';
+        debugEl.textContent =
+          'reduced-motion: ' + (reduced ? 'ON (animations off)' : 'off') +
+          '  |  pointer moves: ' + moves +
+          '  |  frames: ' + ticks +
+          '  |  scrollY: ' + Math.round(scrollY) +
+          '  |  house layer: ' + house;
+      }
+
+      // A frame requested while the tab is hidden never runs, which would leave
+      // `raf` set forever and freeze every later update. Clear it on wake-up.
+      document.addEventListener('visibilitychange', () => {
+        if (!document.hidden) { raf = null; schedule(); }
+      });
+
+      // pointermove covers mouse, pen and trackpad; touch is skipped because a
+      // finger has no hover position to follow.
+      window.addEventListener('pointermove', (e) => {
+        if (reduced || e.pointerType === 'touch') return;
+        const rect = stage.getBoundingClientRect();
+        mouseX = ((e.clientX - rect.left) / rect.width - 0.5) * -2;
+        mouseY = ((e.clientY - rect.top) / rect.height - 0.5) * -2;
+        moves++;
+        schedule();
+      }, { passive: true });
+
+      stage.addEventListener('pointerleave', () => { mouseX = 0; mouseY = 0; schedule(); });
+
+      window.addEventListener('scroll', () => {
+        if (reduced) return;
+        scrollY = window.scrollY;
+        schedule();
+      }, { passive: true });
+
+      // --- toggles ---
+      const bind = (id, handler) => document.getElementById(id).addEventListener('change', (e) => handler(e.target.checked));
+      bind('fxMouse', (on) => { state.mouse = on; if (!on) { mouseX = 0; mouseY = 0; } schedule(); });
+      bind('fxScroll', (on) => { state.scroll = on; schedule(); });
+      bind('fxGlow', (on) => stage.classList.toggle('fx-glow', on));
+      bind('fxShimmer', (on) => stage.classList.toggle('fx-shimmer', on));
+      document.getElementById('replay').addEventListener('click', playIntro);
+
+      stage.classList.add('fx-glow', 'fx-shimmer');
+      playIntro();
+      schedule();
+    })();
+  </script>
+</body>
+</html>
