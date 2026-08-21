@@ -1,5 +1,8 @@
 import { html, raw } from 'hono/html';
 import { pullToRefreshJS } from '../lib/pullToRefresh';
+import { apkAllowedRoutesJS } from '../lib/appRoutes';
+import { appUpdateJS } from '../lib/appUpdate';
+import { backButtonJS } from '../lib/backButton';
 export const Head = () => html`\n<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -68,10 +71,15 @@ export const Head = () => html`\n<!DOCTYPE html>
         }
         var path = window.location.pathname.replace(/\\/index\\.html$/, '/').replace(/\\.html$/, '').replace(/\\/$/, '') || '/';
         // Only allow these pages in app
-        var allowed = ['/auth', '/student-activities', '/family', '/teacher-dashboard', '/teacher-reader', '/admin-dashboard', '/super-admin-dashboard', '/activity', '/club'];
+        // src/lib/appRoutes.ts — the same list the APK link rewriter reads.
+        var allowed = [${raw(apkAllowedRoutesJS)}];
         if (!allowed.some(p => path === p)) {
           window.location.replace('auth.html');
         }
+
+        // A new version on Play, asked for on launch rather than left for
+        // Android to notice in its own time. See src/lib/appUpdate.ts.
+        ${raw(appUpdateJS)}
 
         // Pull to refresh — rules and wiring both live in
         // src/lib/pullToRefresh.ts, where the rules can be tested. They could
@@ -79,70 +87,7 @@ export const Head = () => html`\n<!DOCTYPE html>
         // WebView, so nothing on a desktop or in CI ever exercised it.
         ${raw(pullToRefreshJS)}
 
-        // Hardware Back Button Handling for Android
-        document.addEventListener('DOMContentLoaded', function() {
-          if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.App) {
-            var lastBackPress = 0;
-
-            // Push a dummy history entry so system back doesn't pop the WebView
-            var isDashboard = ['/student-activities', '/teacher-dashboard', '/admin-dashboard', '/super-admin-dashboard'].some(function(p) {
-              return window.location.pathname.includes(p);
-            });
-            if (isDashboard) {
-              history.pushState(null, '', window.location.href);
-              window.addEventListener('popstate', function() {
-                history.pushState(null, '', window.location.href);
-              });
-            }
-
-            // Tells the bottom bar's own listener to stand down on these
-            // pages: one press, one decision.
-            window.__iaBackHandler = true;
-
-            window.Capacitor.Plugins.App.addListener('backButton', function(data) {
-              var path = window.location.pathname;
-
-              // Sub-pages: back one step. If there is nothing to step back to
-              // — the page was opened directly — land on the dashboard rather
-              // than falling out to the login page.
-              if (path.includes('activity.html') || path.includes('club.html') || path.includes('blog-article') || path.includes('blog.html') || path.includes('contact.html') || path.includes('about.html')) {
-                 if (window.history.length > 1) window.history.back();
-                 else window.location.replace('student-activities.html');
-                 return;
-              }
-
-              // Auth page: exit immediately
-              if (path.includes('auth.html')) {
-                 window.Capacitor.Plugins.App.exitApp();
-                 return;
-              }
-
-              // Dashboard pages (student, teacher, parent, admin): warn first, exit/minimize on 2nd press
-              var now = new Date().getTime();
-              if (now - lastBackPress < 2000) {
-                // Second press — minimize app (goes to background, does NOT logout)
-                if (window.Capacitor.Plugins.App.minimizeApp) {
-                  window.Capacitor.Plugins.App.minimizeApp();
-                } else {
-                  window.Capacitor.Plugins.App.exitApp();
-                }
-              } else {
-                lastBackPress = now;
-                var toast = document.createElement('div');
-                toast.innerText = 'Press back again to exit';
-                toast.style.cssText = 'position:fixed; bottom:90px; left:50%; transform:translateX(-50%); background:rgba(0,0,0,0.85); color:white; padding:12px 24px; border-radius:30px; z-index:999999; font-family:sans-serif; font-size:14px; font-weight:500; text-align:center; box-shadow:0 4px 15px rgba(0,0,0,0.3); transition:opacity 0.2s ease; opacity:0; pointer-events:none;';
-                document.body.appendChild(toast);
-                
-                setTimeout(function() { toast.style.opacity = '1'; }, 10);
-                
-                setTimeout(function() {
-                  toast.style.opacity = '0';
-                  setTimeout(function() { if(toast.parentNode) toast.remove(); }, 300);
-                }, 2000);
-              }
-            });
-          }
-        });
+        ${raw(backButtonJS)}
       }
     })();
   </script>

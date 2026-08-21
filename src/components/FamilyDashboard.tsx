@@ -197,6 +197,16 @@ export const FamilyDashboard = () => html`
   }
   .fam-open:hover { background: #16224a; }
 
+  /* Two actions on one card, and only one of them is the loud one. The
+     reading plan is the parent's own door, so it reads as a companion to
+     "Open activities" rather than competing with it. */
+  .fam-open + .fam-open { margin-top: 8px; }
+  .fam-open.secondary {
+    background: rgba(30, 45, 90, .06); color: var(--fam-ink);
+    border: 1px solid rgba(30, 45, 90, .12);
+  }
+  .fam-open.secondary:hover { background: rgba(30, 45, 90, .11); }
+
   /* Add tile, and the dashed placeholders a brand new family sees so the page
      never looks empty or broken. */
   .fam-tile {
@@ -503,6 +513,11 @@ export const FamilyDashboard = () => html`
       '</div>' +
       '<button class="fam-open" type="button" onclick="famOpenChild(\\'' + child.uid + '\\')">' +
         '<i class="fas fa-play"></i> Open activities</button>' +
+      // The second door out of this card. "Open activities" hands the device
+      // to the child; this one stays with the parent and answers a different
+      // question — what to read tonight, and what to ask afterwards.
+      '<button class="fam-open secondary" type="button" onclick="famOpenReading(\\'' + child.uid + '\\')">' +
+        '<i class="fas fa-book-open"></i> Daily reading</button>' +
     '</div>';
   }
 
@@ -567,6 +582,13 @@ export const FamilyDashboard = () => html`
     // to decide whose work to load.
     acRemember(family.uid, childUid);
     window.location.href = '/student-activities';
+  };
+
+  window.famOpenReading = (childUid) => {
+    // The reading plan reads the same remembered child, so the two buttons
+    // never disagree about whose plan is on screen.
+    acRemember(family.uid, childUid);
+    window.location.href = '/reading-plan?child=' + encodeURIComponent(childUid);
   };
 
   window.famOpenClaim = () => {

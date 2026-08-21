@@ -58,10 +58,12 @@
         }
         var path = window.location.pathname.replace(/\/index\.html$/, '/').replace(/\.html$/, '').replace(/\/$/, '') || '/';
         // Only allow these pages in app
-        var allowed = ['/auth', '/student-activities', '/teacher-dashboard', '/admin-dashboard', '/super-admin-dashboard', '/activity'];
+        /* IA_APK_ALLOWED */
         if (!allowed.some(p => path === p)) {
           window.location.replace('auth.html');
         }
+
+        /* IA_APP_UPDATE */
 
         /* IA_PULL_TO_REFRESH — replaced at build time with the shared
            implementation in src/lib/pullToRefresh.ts. This page is static, so
@@ -69,63 +71,7 @@
            same way it substitutes the Firebase config. Its own copy used to
            live here and drifted: a different threshold, different rules, and
            none of the fixes the other dashboards got. */
-        // Hardware Back Button Handling for Android
-        document.addEventListener('DOMContentLoaded', function() {
-          if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.App) {
-            var lastBackPress = 0;
-
-            // Push a dummy history entry so system back doesn't pop the WebView
-            var isDashboard = ['/student-activities', '/teacher-dashboard', '/admin-dashboard', '/super-admin-dashboard'].some(function(p) {
-              return window.location.pathname.includes(p);
-            });
-            if (isDashboard) {
-              history.pushState(null, '', window.location.href);
-              window.addEventListener('popstate', function() {
-                history.pushState(null, '', window.location.href);
-              });
-            }
-
-            window.Capacitor.Plugins.App.addListener('backButton', function(data) {
-              var path = window.location.pathname;
-              
-              // Sub-pages: just go back in history
-              if (path.includes('activity.html') || path.includes('club.html') || path.includes('blog-article') || path.includes('blog.html') || path.includes('contact.html') || path.includes('about.html')) {
-                 window.history.back();
-                 return;
-              }
-
-              // Auth page: exit immediately
-              if (path.includes('auth.html')) {
-                 window.Capacitor.Plugins.App.exitApp();
-                 return;
-              }
-
-              // Dashboard pages (student, teacher, parent, admin): warn first, exit/minimize on 2nd press
-              var now = new Date().getTime();
-              if (now - lastBackPress < 2000) {
-                // Second press — minimize app (goes to background, does NOT logout)
-                if (window.Capacitor.Plugins.App.minimizeApp) {
-                  window.Capacitor.Plugins.App.minimizeApp();
-                } else {
-                  window.Capacitor.Plugins.App.exitApp();
-                }
-              } else {
-                lastBackPress = now;
-                var toast = document.createElement('div');
-                toast.innerText = 'Press back again to exit';
-                toast.style.cssText = 'position:fixed; bottom:90px; left:50%; transform:translateX(-50%); background:rgba(0,0,0,0.85); color:white; padding:12px 24px; border-radius:30px; z-index:999999; font-family:sans-serif; font-size:14px; font-weight:500; text-align:center; box-shadow:0 4px 15px rgba(0,0,0,0.3); transition:opacity 0.2s ease; opacity:0; pointer-events:none;';
-                document.body.appendChild(toast);
-                
-                setTimeout(function() { toast.style.opacity = '1'; }, 10);
-                
-                setTimeout(function() {
-                  toast.style.opacity = '0';
-                  setTimeout(function() { if(toast.parentNode) toast.remove(); }, 300);
-                }, 2000);
-              }
-            });
-          }
-        });
+        /* IA_BACK_BUTTON */
       }
     })();
   </script>
@@ -2893,11 +2839,12 @@
             <div class="section-copy">
               <span class="section-eyebrow"><i class="fas fa-chalkboard-teacher"></i> Faculty administration</span>
               <h1 class="section-title">Teacher Management</h1>
-              <p class="section-subtitle">Invite teachers, assign classes and keep registration access organized in one place.</p>
+              <p class="section-subtitle">Create teacher logins, assign classes and reissue passwords from one place. Teachers no longer register themselves.</p>
             </div>
           </div>
           <div class="section-actions">
-            <button class="btn-solid" onclick="openModal('teacherModal')"><i class="fas fa-plus me-2"></i> Invite Teacher</button>
+            <button class="btn-solid" onclick="openModal('teacherModal')"><i class="fas fa-plus me-2"></i> Add Teacher</button>
+            <button class="btn-outline-light" id="teacherMigrateBtn" onclick="openTeacherMigration()"><i class="fas fa-right-left me-2"></i> Move to school logins</button>
             <button class="btn-outline-light" onclick="openModal('bulkImportModal')"><i class="fas fa-file-import me-2"></i> Import Roster</button>
             <button class="btn-outline-light" onclick="exportTeachersCsv()" title="Download this list as a CSV file you can open in Excel"><i class="fas fa-file-arrow-down me-2"></i> Export CSV</button>
           </div>
@@ -2906,8 +2853,8 @@
         <div class="table-header-row">
           <div class="col-1">Full Name</div>
           <div class="col-3">Assigned Class</div>
-          <div class="col-2">Invitation Code</div>
-          <div class="col-2">Status</div>
+          <div class="col-2">Username</div>
+          <div class="col-2">Sign-in</div>
           <div class="col-actions">Actions</div>
         </div>
         <div id="teacherTableBody">
@@ -3044,14 +2991,18 @@
     <div class="modal-topbar">
       <div>
         <span class="modal-kicker"><i class="fas fa-user-plus"></i> Faculty access</span>
-        <h3 class="modal-title">Add New Teacher</h3>
-        <p class="modal-subtitle">Create the teacher profile, assign classes and generate the registration code in one clean step.</p>
+        <h3 class="modal-title">Create Teacher Login</h3>
+        <p class="modal-subtitle">The login is created here and there is nothing for the teacher to sign up for. You will be shown the username and password once — hand them over before closing.</p>
       </div>
       <button class="modal-close" type="button" onclick="closeModal('teacherModal')"><i class="fas fa-times"></i></button>
     </div>
     <div class="form-group mt-3">
       <label>Full Name</label>
       <input type="text" id="newTchName" class="form-input" placeholder="e.g. Muallima Fatima">
+    </div>
+    <div class="form-group">
+      <label>Phone (optional)</label>
+      <input type="text" id="newTchPhone" class="form-input" placeholder="03XXXXXXXXX">
     </div>
     <div class="form-group">
       <label>Photo (optional)</label>
@@ -3072,7 +3023,7 @@
     </div>
     <div class="modal-footer-actions">
       <button class="btn-outline-light" onclick="closeModal('teacherModal')">Cancel</button>
-      <button class="btn-solid" onclick="addTeacherInvite(this)"><i class="fas fa-check"></i> Confirm Teacher</button>
+      <button class="btn-solid" onclick="createTeacherLogin(this)"><i class="fas fa-key"></i> Create login</button>
     </div>
   </div>
 </div>
@@ -3255,6 +3206,28 @@
     <div class="modal-footer-actions">
       <button class="btn-outline-light" type="button" onclick="closeModal('classesModal')">Cancel</button>
       <button class="btn-solid" type="button" id="classesSaveBtn" onclick="saveSchoolClasses()">Save classes</button>
+    </div>
+  </div>
+</div>
+
+<div id="teacherMigrationModal" class="modal-overlay d-none">
+  <div class="modal-content modal-wide">
+    <div class="modal-topbar">
+      <div>
+        <span class="modal-kicker"><i class="fas fa-right-left"></i> One-time conversion</span>
+        <h3 class="modal-title">Move teachers to school logins</h3>
+        <p class="modal-subtitle">Each teacher keeps their account, their classes and everything they have approved &mdash; only the way they sign in changes. <b>Their own email stops working immediately</b>, so hand over the new username and password before they next log in.</p>
+      </div>
+      <button class="modal-close" type="button" onclick="closeModal('teacherMigrationModal')"><i class="fas fa-times"></i></button>
+    </div>
+
+    <div id="tchMigSummary" style="margin-bottom:14px;"></div>
+    <div id="tchMigBody"></div>
+
+    <div class="modal-footer-actions">
+      <button class="btn-outline-light" onclick="printTeacherLoginSheet()"><i class="fas fa-print"></i> Print issued logins</button>
+      <button class="btn-outline-light" onclick="openTeacherMigration()"><i class="fas fa-rotate"></i> Re-scan</button>
+      <button class="btn-solid" onclick="closeModal('teacherMigrationModal')">Done</button>
     </div>
   </div>
 </div>
@@ -4695,24 +4668,46 @@
     teachers.forEach((teacher, index) => {
       const motif = themeColors[index % 3];
       const color = bgColors[index % 3];
-      const code = teacher.invitation_code || 'Accepted';
       const imgSrc = teacher.photoURL ? teacher.photoURL : ('https://ui-avatars.com/api/?name=' + teacher.name.replace(' ', '+') + '&background=fff&color=' + color.replace('#',''));
+
+      // A teacher on a school login carries a username. One who registered
+      // themselves before this existed still signs in with their own address,
+      // and the row has to say which — an admin cannot reset a password for a
+      // login the school does not own.
+      const onSchoolLogin = !!teacher.username;
+      const identity = onSchoolLogin
+        ? '<code class="copyable-code" onclick="copyCodeInteractive(this, \'' + teacher.username + '\')">' + escapeHtml(teacher.username) + ' <i class="far fa-copy text-muted"></i></code>'
+        : '<code style="background:rgba(255,255,255,0.7); padding:4px 8px; border-radius:8px; font-size:0.78rem; color:#64748b;">' + escapeHtml(teacher.email || '—') + '</code>';
+      const signIn = onSchoolLogin
+        ? '<span style="color:#22c55e;font-weight:800; white-space:normal; line-height:1.2; display:inline-block;"><i class="fas fa-check-circle"></i> School login</span>'
+        : '<span style="color:#f59e0b;font-weight:800; white-space:normal; line-height:1.2; display:inline-block;" title="This teacher still signs in with their own email. Use Move to school logins."><i class="fas fa-triangle-exclamation"></i> Own email</span>';
+      const resetBtn = onSchoolLogin
+        ? '<button class="action-btn" title="Issue a new password" onclick="resetTeacherPwd(\'' + teacher.uid + '\')"><i class="fas fa-key"></i></button>'
+        : '<button class="action-btn" title="Move this teacher to a school login" onclick="migrateOneTeacher(\'' + teacher.uid + '\')"><i class="fas fa-right-left"></i></button>';
+
       tchHtml += '<div class="pill-row ' + motif + '">' +
         '<div class="col-1 d-flex align-items-center gap-3"><img src="' + imgSrc + '" style="border-radius:50%; width:40px; height:40px; object-fit:cover;">' + teacher.name + '</div>' +
         '<div class="col-3"><span style="background:rgba(255,255,255,0.7); padding:5px 12px; border-radius:20px; font-weight:800;">' + (teacher.class_id || teacher.assigned_class || 'All Classes') + '</span></div>' +
-        '<div class="col-2"><code style="background:rgba(255,255,255,0.7); padding:4px 8px; border-radius:8px; font-size:0.8rem;">' + code + '</code></div>' +
-        '<div class="col-2"><span style="color:#22c55e;font-weight:800;"><i class="fas fa-check-circle"></i> Active</span></div>' +
-        '<div class="col-actions"><button class="action-btn" onclick="editTeacher(\'' + teacher.uid + '\')"><i class="fas fa-edit"></i></button><button class="action-btn text-danger ms-2" onclick="deleteTeacher(\'' + teacher.uid + '\')"><i class="fas fa-trash"></i></button></div></div>';
+        '<div class="col-2">' + identity + '</div>' +
+        '<div class="col-2">' + signIn + '</div>' +
+        '<div class="col-actions">' + resetBtn +
+          '<button class="action-btn ms-2" onclick="editTeacher(\'' + teacher.uid + '\')"><i class="fas fa-edit"></i></button>' +
+          '<button class="action-btn text-danger ms-2" onclick="deleteTeacher(\'' + teacher.uid + '\')"><i class="fas fa-trash"></i></button>' +
+        '</div></div>';
     });
 
+    // Teacher invite codes are retired: there is no longer a form on the auth
+    // page that redeems one. Any still sitting here will never be used, so the
+    // row says so plainly rather than showing a code an admin might hand out
+    // and a teacher would then fail to redeem.
     pendingTeacherInvites.forEach((invite) => {
       const pendingImage = invite.photoURL ? '<img src="' + invite.photoURL + '" style="border-radius:50%; width:40px; height:40px; object-fit:cover;">' : '<div style="width:40px;height:40px;border-radius:50%;background:#e2e8f0;display:flex;align-items:center;justify-content:center;color:#94a3b8;"><i class="fas fa-user-clock"></i></div>';
       tchHtml += '<div class="pill-row row-peach" style="opacity:0.6;">' +
         '<div class="col-1 d-flex align-items-center gap-3">' + pendingImage + invite.name + '</div>' +
         '<div class="col-3"><span style="background:rgba(255,255,255,0.7); padding:5px 12px; border-radius:20px; font-weight:800;">' + (invite.class_id || 'Unassigned') + '</span></div>' +
-        '<div class="col-2"><code style="background:rgba(255,255,255,0.7); padding:4px 8px; border-radius:8px; font-size:0.8rem;">' + invite.code + '</code></div>' +
-        '<div class="col-2"><span style="color:#f59e0b;font-weight:800;"><i class="fas fa-clock"></i> Pending</span></div>' +
-        '<div class="col-actions"></div></div>';
+        '<div class="col-2"><code style="background:rgba(255,255,255,0.7); padding:4px 8px; border-radius:8px; font-size:0.78rem; text-decoration:line-through; color:#94a3b8;">' + invite.code + '</code></div>' +
+        '<div class="col-2"><span style="color:#94a3b8;font-weight:800; white-space:normal; line-height:1.2; display:inline-block;" title="Teachers no longer register with a code. Use Add Teacher to create their login."><i class="fas fa-ban"></i> Retired code</span></div>' +
+        '<div class="col-actions"><button class="action-btn" title="Create this teacher\'s login now" onclick="openModal(\'teacherModal\')"><i class="fas fa-key"></i></button></div></div>';
     });
     document.getElementById('teacherTableBody').innerHTML = tchHtml || '<div style="text-align:center; padding:2rem; color:#94a3b8; font-weight:700;">No teachers added yet.</div>';
 
@@ -5289,65 +5284,233 @@
     document.getElementById('nav-' + tab).classList.add('active');
   };
 
-  window.addTeacherInvite = async (trigger) => {
+  // ─────────────────────────────────────────────────────────────────────
+  // Teacher logins
+  // ─────────────────────────────────────────────────────────────────────
+  // Teachers used to redeem a TCH- invite code and pick their own email and
+  // password. The school could not then say which address a teacher had used,
+  // and had no way to get them back in when they forgot it. Same arrangement
+  // as families now: the school creates the login, the function generates the
+  // credentials, and the password is shown exactly once.
+  const callCreateTeacherAccount = httpsCallable(functions, 'createTeacherAccount');
+  const callResetTeacherPassword = httpsCallable(functions, 'resetTeacherPassword');
+  const callPlanTeacherMigration = httpsCallable(functions, 'planTeacherMigration');
+  const callMigrateTeacher = httpsCallable(functions, 'migrateTeacher');
+  const callDeleteTeacherAccount = httpsCallable(functions, 'deleteTeacherAccount');
+
+  window.createTeacherLogin = async (trigger) => {
     const name = document.getElementById('newTchName').value.trim();
+    const phone = document.getElementById('newTchPhone').value.trim();
     const classes = getSelectedClasses('newTchClasses');
     const cls = classes.join(', ');
-    if(!name) return;
+    if (!name) return alert('Enter the teacher\'s name.');
 
-    const tchCode = genCode('TCH', existingCodes());
     const btn = trigger || document.querySelector('#teacherModal .btn-solid');
-    if (btn) {
-      btn.disabled = true;
-      btn.textContent = 'Generating...';
-    }
+    const original = btn ? btn.innerHTML : '';
+    if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating…'; }
 
     let photoURL = null;
-    const file = document.getElementById('newTchPhoto').files[0];
-
+    let result;
     try {
+      const file = document.getElementById('newTchPhoto').files[0];
       if (file) {
-        if (btn) btn.textContent = 'Processing Photo...';
+        if (btn) btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing photo…';
         photoURL = await prepareProfilePhoto(file);
       }
-
-      await setDoc(doc(db, "invites", tchCode), {
-        code: tchCode,
-        role: 'teacher',
-        school_id: currentAdminSession.school_id,
-        class_id: cls,
+      result = await callCreateTeacherAccount({
         name: name,
-        photoURL: photoURL,
-        status: 'pending',
-        created_at: new Date().toISOString()
+        phone: phone,
+        class_id: cls,
+        photoURL: photoURL
       });
-
-      closeModal('teacherModal');
-      document.getElementById('newTchName').value = '';
-      document.getElementById('newTchPhoto').value = '';
-      document.getElementById('newTchPicWrap').innerHTML = '<div style="display: flex; flex-direction: column; align-items: center; color: inherit;"><i class="fas fa-camera mb-1" style="font-size: 1.6rem; color: #94a3b8;"></i><span style="font-size: 0.65rem; font-weight: 800; text-transform: uppercase; color: #64748b;">Photo</span></div>';
-      document.getElementById('newTchPicWrap').style.border = '';
-      // Reset checkboxes
-      document.querySelectorAll('input[name="newTchClasses"]').forEach(cb => cb.checked = false);
-
-      document.getElementById('codeSuccessTitle').textContent = 'Teacher Code Generated';
-      document.getElementById('codeSuccessDesc').textContent = 'Send this code to ' + name + ' to register on the platform.';
-      document.getElementById('codeSuccessBody').innerHTML = 
-        '<div style="background:#f8fafc; border:2px dashed #cbd5e1; border-radius:15px; padding:15px; margin:15px 0;">' +
-        '<div style="font-size:0.8rem; color:#94a3b8; text-transform:uppercase; font-weight:800;">Teacher Code</div>' +
-        '<div style="font-family:monospace; font-size:2rem; font-weight:800; color:#3b82f6; letter-spacing:2px; margin:5px 0;">' + tchCode + '</div>' +
-        '<button class="btn-outline-light" onclick="navigator.clipboard.writeText(\'' + tchCode + '\');this.textContent=\'Copied!\'"><i class="fas fa-copy"></i> Copy</button></div>';
-
-      openModal('codeSuccessModal');
-      await loadDashboardData();
-    } catch(err) {
-      alert("Error generating code: " + err.message);
+    } catch (err) {
+      return alert(err.message || 'Could not create the teacher login.');
     } finally {
-      if (btn) {
-        btn.disabled = false;
-        btn.innerHTML = '<i class="fas fa-check"></i> Confirm Teacher';
-      }
+      if (btn) { btn.disabled = false; btn.innerHTML = original; }
     }
+
+    closeModal('teacherModal');
+    document.getElementById('newTchName').value = '';
+    document.getElementById('newTchPhone').value = '';
+    document.getElementById('newTchPhoto').value = '';
+    document.getElementById('newTchPicWrap').innerHTML = '<div style="display: flex; flex-direction: column; align-items: center; color: inherit;"><i class="fas fa-camera mb-1" style="font-size: 1.6rem; color: #94a3b8;"></i><span style="font-size: 0.65rem; font-weight: 800; text-transform: uppercase; color: #64748b;">Photo</span></div>';
+    document.getElementById('newTchPicWrap').style.border = '';
+    document.querySelectorAll('input[name="newTchClasses"]').forEach(cb => cb.checked = false);
+
+    // Credentials first, refresh second: they exist nowhere but on this
+    // screen, so a failing refresh must not be able to take them down with it.
+    showHandover('Teacher login created', name + (cls ? ' — ' + cls : ''), [
+      { label: 'Username', value: result.data.username },
+      { label: 'Password', value: result.data.password }
+    ]);
+    loadDashboardData();
+  };
+
+  window.resetTeacherPwd = async (teacherUid) => {
+    const teacher = teachersList.find((t) => t.uid === teacherUid);
+    const label = teacher && teacher.name ? teacher.name : 'this teacher';
+    if (!confirm('Issue a new password for ' + label + '?\n\nThe current one stops working immediately, so the new password has to be handed over.')) return;
+
+    let result;
+    try {
+      result = await callResetTeacherPassword({ teacher_uid: teacherUid });
+    } catch (err) {
+      return alert(err.message || 'Could not reset the password.');
+    }
+
+    showHandover('New password issued', label, [
+      { label: 'Username', value: result.data.username },
+      { label: 'Password', value: result.data.password }
+    ]);
+  };
+
+  // Moving one teacher straight from their row. Same call the migration
+  // screen makes; this is the shortcut for a school with two stragglers.
+  window.migrateOneTeacher = async (teacherUid) => {
+    const teacher = teachersList.find((t) => t.uid === teacherUid);
+    const label = teacher && teacher.name ? teacher.name : 'this teacher';
+    if (!confirm('Move ' + label + ' to a school login?\n\nTheir own email login stops working straight away and they get a TCH- username instead. Everything they have done stays with them.')) return;
+
+    let result;
+    try {
+      result = await callMigrateTeacher({ teacher_uid: teacherUid });
+    } catch (err) {
+      return alert(err.message || 'Could not move this teacher.');
+    }
+
+    if (result.data.already) {
+      return alert(label + ' is already on a school login (' + result.data.username + ').');
+    }
+
+    teacherLoginsIssued.push({
+      name: result.data.name,
+      previous: result.data.previous_email || '—',
+      username: result.data.username,
+      password: result.data.password
+    });
+
+    showHandover('Moved to a school login', label, [
+      { label: 'Username', value: result.data.username },
+      { label: 'Password', value: result.data.password }
+    ]);
+    loadDashboardData();
+  };
+
+  // Every login handed out this session, for the print sheet. Not stored
+  // anywhere else — closing the tab loses it, which is why the sheet exists.
+  const teacherLoginsIssued = [];
+  let teacherMigrationPlan = null;
+
+  window.openTeacherMigration = async () => {
+    openModal('teacherMigrationModal');
+    document.getElementById('tchMigSummary').innerHTML =
+      '<div style="color:#64748b; font-weight:700;"><i class="fas fa-spinner fa-spin"></i> Scanning your teachers…</div>';
+    document.getElementById('tchMigBody').innerHTML = '';
+
+    try {
+      const res = await callPlanTeacherMigration({});
+      teacherMigrationPlan = res.data;
+    } catch (err) {
+      document.getElementById('tchMigSummary').innerHTML =
+        '<div style="color:#b91c1c; font-weight:800;">' + escapeHtml(err.message || 'Could not scan the school.') + '</div>';
+      return;
+    }
+    renderTeacherMigration();
+  };
+
+  function renderTeacherMigration() {
+    const plan = teacherMigrationPlan;
+
+    document.getElementById('tchMigSummary').innerHTML =
+      '<div style="display:flex; flex-wrap:wrap; gap:10px;">' +
+        migTile(plan.total_teachers, 'Teachers on roll') +
+        migTile(plan.already_moved, 'On school logins') +
+        migTile(plan.pending.length, 'Still on own email') +
+      '</div>';
+
+    if (!plan.pending.length) {
+      document.getElementById('tchMigBody').innerHTML =
+        '<div style="text-align:center; padding:2rem; color:#22c55e; font-weight:800;">' +
+        '<i class="fas fa-check-circle"></i> Every teacher is already on a school login.</div>';
+      return;
+    }
+
+    document.getElementById('tchMigBody').innerHTML = plan.pending.map((teacher, index) =>
+      '<div id="tch-mig-row-' + index + '" class="pill-row row-yellow" style="flex-wrap:wrap; gap:12px; align-items:center;">' +
+        '<div style="flex:1 1 200px; min-width:170px;">' +
+          '<strong>' + escapeHtml(teacher.name) + '</strong>' +
+          '<div style="font-size:0.76rem; color:#64748b; margin-top:4px;"><i class="far fa-envelope"></i> ' + escapeHtml(teacher.email || 'no email on file') + '</div>' +
+        '</div>' +
+        '<div style="flex:1 1 140px; font-size:0.82rem; color:#475569;">' + escapeHtml(teacher.class_id || 'All classes') + '</div>' +
+        '<div style="flex:0 0 auto;"><button class="btn-solid" id="tch-mig-btn-' + index + '" onclick="runTeacherMigration(' + index + ')"><i class="fas fa-right-left"></i> Move</button></div>' +
+      '</div>').join('');
+  }
+
+  window.runTeacherMigration = async (index) => {
+    const teacher = teacherMigrationPlan.pending[index];
+    const button = document.getElementById('tch-mig-btn-' + index);
+    button.disabled = true;
+    const original = button.innerHTML;
+    button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Moving…';
+
+    let result;
+    try {
+      result = await callMigrateTeacher({ teacher_uid: teacher.uid });
+    } catch (err) {
+      button.disabled = false;
+      button.innerHTML = original;
+      return alert(err.message || 'Could not move this teacher.');
+    }
+
+    if (result.data.already) {
+      button.innerHTML = 'Already moved';
+      return;
+    }
+
+    teacherLoginsIssued.push({
+      name: result.data.name,
+      previous: result.data.previous_email || '—',
+      username: result.data.username,
+      password: result.data.password
+    });
+
+    // The row becomes the receipt. Nothing stores this password, so it has to
+    // stay on screen until the admin has written it down or printed the sheet.
+    const row = document.getElementById('tch-mig-row-' + index);
+    row.className = 'pill-row row-green';
+    row.innerHTML = '<div style="flex:1 1 100%; display:flex; flex-wrap:wrap; gap:12px; align-items:center;">' +
+      '<strong style="flex:1 1 160px;"><i class="fas fa-check-circle" style="color:#22c55e;"></i> ' + escapeHtml(result.data.name) + '</strong>' +
+      '<code class="copyable-code" onclick="copyCodeInteractive(this, \'' + result.data.username + '\')">' + result.data.username + ' <i class="far fa-copy text-muted"></i></code>' +
+      '<code class="copyable-code" onclick="copyCodeInteractive(this, \'' + result.data.password + '\')">' + result.data.password + ' <i class="far fa-copy text-muted"></i></code>' +
+      '<span style="font-size:0.78rem; color:#475569;">history kept · old email login off</span>' +
+    '</div>';
+
+    loadDashboardData();
+  };
+
+  window.printTeacherLoginSheet = () => {
+    if (!teacherLoginsIssued.length) return alert('No teacher logins have been issued yet.');
+
+    const rows = teacherLoginsIssued.map((entry) =>
+      '<tr><td>' + escapeHtml(entry.name) + '</td><td>' + escapeHtml(entry.previous) + '</td>' +
+      '<td><code>' + escapeHtml(entry.username) + '</code></td>' +
+      '<td><code>' + escapeHtml(entry.password) + '</code></td></tr>').join('');
+
+    const sheet = window.open('', '_blank', 'width=780,height=820');
+    if (!sheet) return alert('Allow pop-ups for this site to print the sheet.');
+    sheet.document.write('<!doctype html><meta charset="utf-8"><title>Teacher logins</title>' +
+      '<style>body{font-family:system-ui,-apple-system,sans-serif;padding:26px;color:#0f172a}' +
+      'h2{margin:0 0 4px;font-size:1.1rem}p{color:#64748b;font-size:.82rem;margin:0 0 18px}' +
+      'table{width:100%;border-collapse:collapse;font-size:.86rem}' +
+      'th,td{text-align:left;padding:9px 10px;border-bottom:1px solid #e2e8f0;vertical-align:top}' +
+      'th{font-size:.68rem;text-transform:uppercase;letter-spacing:.08em;color:#64748b}' +
+      'code{font-weight:700;letter-spacing:.04em}</style>' +
+      '<h2>Imaan &amp; Akhlaq — Teacher logins</h2>' +
+      '<p>One line per teacher. These passwords are stored nowhere and cannot be looked up again — if a line is lost, use Reset password. The previous email no longer signs in.</p>' +
+      '<table><tr><th>Teacher</th><th>Previous email</th><th>Username</th><th>Password</th></tr>' + rows + '</table>');
+    sheet.document.close();
+    sheet.focus();
+    sheet.print();
   };
 
   window.addStudentInvite = async (trigger) => {
@@ -5499,11 +5662,14 @@
   };
 
   window.deleteTeacher = async (uid) => {
-    if (confirm("Are you sure you want to completely remove this Teacher? This action cannot be undone.")) {
+    // Goes through the callable, not deleteDoc: the login has to be revoked
+    // along with the profile. Deleting only the document would leave a
+    // credential that still signs in with no role attached to it.
+    if (confirm("Are you sure you want to completely remove this Teacher?\n\nTheir login stops working immediately. This action cannot be undone.")) {
       try {
-        await deleteDoc(doc(db, "users", uid));
+        await callDeleteTeacherAccount({ teacher_uid: uid });
         await loadDashboardData();
-        alert("Teacher deleted successfully.");
+        alert("Teacher removed, and their login no longer works.");
       } catch(err) {
         alert("Error deleting teacher: " + err.message);
       }
@@ -5690,9 +5856,20 @@
 
   window.exportTeachersCsv = () => {
     if (!teachersList.length) return alert('There are no teachers to export yet.');
-    const rows = [['Name', 'Email', 'Class', 'Teacher ID']];
+    // Username is what a teacher signs in with now. The email column keeps
+    // the address they used to register with, which is a record and not a
+    // credential once they are on a school login. Passwords are never stored
+    // anywhere, so they cannot be exported — use Reset password instead.
+    const rows = [['Name', 'Username', 'Sign-in', 'Previous email', 'Class', 'Teacher ID']];
     teachersList.forEach((t) => {
-      rows.push([t.name || '', t.email || '', t.class_id || '', t.uid || '']);
+      rows.push([
+        t.name || '',
+        t.username || '',
+        t.username ? 'School login' : 'Own email',
+        t.legacy_email || t.email || '',
+        t.class_id || '',
+        t.uid || ''
+      ]);
     });
     downloadCsv(exportFileName('teachers'), rows);
   };
