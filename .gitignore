@@ -45,6 +45,7 @@ _hostinger_zip_check/
 *.zip
 *.pdf
 *.apk
+*.aab
 
 # Build artifacts
 android/build/
@@ -62,3 +63,9 @@ student_screen*
 # ...but site images must ship with the build (CI deploys from source)
 !public/assets/**
 !public/kidba_assets/**
+
+# Hero scroll source video and the frame sequence extracted from it.
+# scripts/extract-hero-frames.cjs regenerates demo/hero-frames/ from
+# demo/hero-source.mp4, so neither belongs in history.
+*.mp4
+demo/hero-frames/

@@ -1059,7 +1059,7 @@ export const ActivityPage = () => html`
           '<div class="pf-cover-icon"><i class="fas fa-book-open"></i></div>' +
           '<div class="pf-cover-kicker">Imaan & Akhlaaq</div>' +
           '<h2>' + (chapData.title || 'Chapter') + '</h2>' +
-          '<p>Pages ' + start + '–' + end + '. Drag a corner or swipe to flip.</p>' +
+          '<p>Pages ' + start + '–' + end + '. Swipe left or right to turn the page.</p>' +
         '</div>';
       bookEl.appendChild(coverEl);
 
@@ -1104,9 +1104,20 @@ export const ActivityPage = () => html`
         drawShadow: true,
         autoSize: true,
         clickEventForward: true,
-        useMouseEvents: true,
-        showPageCorners: true,
-        swipeDistance: 24
+        // The library's own input handling is off: it treated every finger
+        // that landed on the book as a page turn, so a pinch flipped three or
+        // four pages while the child was only trying to zoom, and a fingertip
+        // resting on the page turned it as well. With this false it binds no
+        // mouse or touch handlers at all, and the gesture code further down —
+        // which asks for a deliberate swipe — is the only thing that flips.
+        //
+        // disableFlipByClick is deliberately left alone: it also refuses
+        // flipNext()/flipPrev() in portrait mode, which would take the nav
+        // buttons and the swipe down with it. Nothing needs it now that the
+        // library never sees a click.
+        useMouseEvents: false,
+        showPageCorners: false,
+        swipeDistance: 60
       });
 
       pageFlip.loadFromHTML(bookEl.querySelectorAll('.pdf-reader-page-host'));
@@ -1178,6 +1189,8 @@ export const ActivityPage = () => html`
           }
         }
       })();
+
+      return pageFlip;
     }
     
     // Show loading state
@@ -1240,9 +1253,12 @@ export const ActivityPage = () => html`
         // Remove loading spinner and mount the PDF reader
         const loadingEl = document.getElementById('flipbook-loading');
         if (loadingEl) loadingEl.remove();
-        await mountPdfReader(pdf, start, end);
+        const pageFlip = await mountPdfReader(pdf, start, end);
 
-        // ── Pinch-to-zoom ──────────────────────────────────────────
+        // ── Pinch to zoom, drag to pan, swipe to turn ───────────────
+        // Everything the finger does on the reader is decided here, and one
+        // gesture is only ever one thing: a pinch zooms and never flips, a
+        // swipe flips, and a touch that goes nowhere does nothing at all.
         const zoomShell = document.getElementById('flipbook-zoom-shell');
         const flipWrapper = document.getElementById('flipbook-wrapper');
         const resetZoomBtn = document.getElementById('flipResetZoomBtn');
@@ -1257,6 +1273,51 @@ export const ActivityPage = () => html`
         let isPanning = false;
         const MIN_ZOOM = 1;
         const MAX_ZOOM = 3;
+
+        // A page turn has to be a real sideways swipe: far enough that a
+        // fingertip landing on the page cannot reach it, quick enough that
+        // it reads as a flick, and more sideways than up-and-down.
+        const SWIPE_MIN_DISTANCE = 70;
+        const SWIPE_MAX_DURATION = 700;
+        let swipe = null;   // the single-finger gesture in progress, if any
+
+        /**
+         * What a finished gesture was: 'next', 'prev' or 'none'.
+         *
+         * Deliberately the only place a page turn is decided, for the mouse
+         * and the finger alike, and free of the DOM so it can be tested —
+         * this ran inside a phone's WebView and nowhere else, which is how a
+         * resting fingertip turning pages went unnoticed for so long.
+         */
+        function iaSwipeVerdict(g) {
+          if (g.spoiled) return 'none';
+          if (g.zoom > 1.01) return 'none';
+          if (Math.abs(g.dx) < SWIPE_MIN_DISTANCE) return 'none';
+          if (Math.abs(g.dy) > Math.abs(g.dx)) return 'none';
+          if (g.took > SWIPE_MAX_DURATION) return 'none';
+          return g.dx < 0 ? 'next' : 'prev';
+        }
+
+        function beginSwipe(touch) {
+          swipe = { x: touch.clientX, y: touch.clientY, at: Date.now(), spoiled: false };
+        }
+
+        function applyVerdict(verdict) {
+          if (!pageFlip) return;
+          if (verdict === 'next') pageFlip.flipNext();
+          else if (verdict === 'prev') pageFlip.flipPrev();
+        }
+
+        function finishSwipe(start, endX, endY) {
+          if (!start) return;
+          applyVerdict(iaSwipeVerdict({
+            dx: endX - start.x,
+            dy: endY - start.y,
+            took: Date.now() - start.at,
+            zoom: currentZoom,
+            spoiled: !!start.spoiled
+          }));
+        }
 
         function clampZoom(value) {
           return Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, value));
@@ -1302,11 +1363,15 @@ export const ActivityPage = () => html`
         }
 
         function pinchDistance(touches) {
-          return Math.hypot(touches[0].pageX - touches[1].pageX, touches[0].pageY - touches[1].pageY);
+          // clientX/clientY, the same coordinates the pan and swipe code reads.
+          return Math.hypot(touches[0].clientX - touches[1].clientX, touches[0].clientY - touches[1].clientY);
         }
 
         flipWrapper.addEventListener('touchstart', function(e) {
           if (e.touches.length === 2) {
+            // The second finger cancels any swipe the first one had started,
+            // so a pinch can never end in a page turn.
+            swipe = null;
             isPinching = true;
             isPanning = false;
             pinchStartDist = pinchDistance(e.touches);
@@ -1316,14 +1381,20 @@ export const ActivityPage = () => html`
           }
 
           if (e.touches.length === 1 && currentZoom > 1.01) {
+            swipe = null;
             isPanning = true;
             panAnchorX = e.touches[0].clientX - panX;
             panAnchorY = e.touches[0].clientY - panY;
             if (e.cancelable) e.preventDefault();
+            return;
           }
+
+          if (e.touches.length === 1) beginSwipe(e.touches[0]);
         }, { passive: false });
 
         flipWrapper.addEventListener('touchmove', function(e) {
+          if (e.touches.length !== 1 && swipe) swipe.spoiled = true;
+
           if (e.touches.length === 2 && isPinching) {
             const dist = pinchDistance(e.touches);
             if (pinchStartDist > 0) {
@@ -1345,6 +1416,11 @@ export const ActivityPage = () => html`
         }, { passive: false });
 
         flipWrapper.addEventListener('touchend', function(e) {
+          if (e.touches.length === 0 && e.changedTouches.length > 0) {
+            finishSwipe(swipe, e.changedTouches[0].clientX, e.changedTouches[0].clientY);
+          }
+          swipe = null;
+
           if (e.touches.length < 2) {
             isPinching = false;
             pinchStartDist = 0;
@@ -1367,6 +1443,7 @@ export const ActivityPage = () => html`
         }, { passive: false });
 
         flipWrapper.addEventListener('touchcancel', function() {
+          swipe = null;
           isPinching = false;
           isPanning = false;
           clampPan();
@@ -1385,6 +1462,27 @@ export const ActivityPage = () => html`
           applyZoomTransform(false);
           if (e.cancelable) e.preventDefault();
         }, { passive: false });
+
+        // Mouse and keyboard, for the same reason: the library no longer
+        // listens, so the desktop needs its own way to turn a page.
+        let mouseSwipe = null;
+
+        flipWrapper.addEventListener('mousedown', function(e) {
+          if (currentZoom > 1.01) return;
+          mouseSwipe = { x: e.clientX, y: e.clientY, at: Date.now(), spoiled: false };
+        });
+
+        window.addEventListener('mouseup', function(e) {
+          finishSwipe(mouseSwipe, e.clientX, e.clientY);
+          mouseSwipe = null;
+        });
+
+        document.addEventListener('keydown', function(e) {
+          const typing = document.activeElement && /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName);
+          if (typing) return;
+          if (e.key === 'ArrowRight') applyVerdict('next');
+          else if (e.key === 'ArrowLeft') applyVerdict('prev');
+        });
 
         if (resetZoomBtn) {
           resetZoomBtn.addEventListener('click', function() {
@@ -2070,16 +2168,21 @@ export const ActivityPage = () => html`
 
   }
 
-  document.addEventListener('DOMContentLoaded', () => {
-    setTimeout(() => {
-      const isCap = window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform();
-      if (isCap && window.Capacitor.Plugins && window.Capacitor.Plugins.App) {
-        window.Capacitor.Plugins.App.removeAllListeners('backButton');
-        window.Capacitor.Plugins.App.addListener('backButton', () => {
-          window.location.href = 'student-activities.html';
-        });
-      }
-    }, 1000);
-  });
+  // Back on a chapter goes to the student dashboard. That rule now lives in
+  // BACK_PARENT in Head.tsx, which owns the app's one backButton listener —
+  // this page used to register a second one on a 1s timer, after wiping the
+  // others with removeAllListeners. What is left here is the part only this
+  // page can answer: close the reader's own overlays before leaving it.
+  window.__iaBackIntercept = function () {
+    // The parent gate is the one thing on this page that sits above the
+    // chapter. Backing out of the app from behind it would leave the child
+    // looking at work they were being stopped from saving.
+    var gate = document.querySelector('.pg-modal-overlay.active');
+    if (gate) {
+      gate.classList.remove('active');
+      return true;
+    }
+    return false;
+  };
 </script>
 `

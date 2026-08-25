@@ -82,8 +82,11 @@ describe('Pull to refresh — what counts as a pull', () => {
 
 describe('Pull to refresh — where it is offered', () => {
   it('is limited to the screens where reloading fetches work', () => {
-    expect(PULL_TO_REFRESH_PAGES).toContain('student-activities')
+    expect(PULL_TO_REFRESH_PAGES).toContain('teacher-dashboard')
     expect(PULL_TO_REFRESH_PAGES).toContain('family')
+    // The student dashboard opted out: children scroll it hard, and a reload
+    // there only ever costs them their place.
+    expect(PULL_TO_REFRESH_PAGES).not.toContain('student-activities')
     // Reading pages and the marketing site would just be thrown away.
     expect(PULL_TO_REFRESH_PAGES).not.toContain('activity')
     expect(PULL_TO_REFRESH_PAGES).not.toContain('blog')

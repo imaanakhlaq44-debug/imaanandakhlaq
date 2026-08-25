@@ -4194,7 +4194,7 @@ export const TeacherDashboard = () => html`
 
   function getChapterTitle(chapId) {
     let title = chapId;
-    ['book1', 'book2', 'book3'].forEach(b => {
+    Object.keys(ACTIVITIES_DATA).forEach(b => {
       if(ACTIVITIES_DATA[b] && ACTIVITIES_DATA[b].chapters) {
         Object.values(ACTIVITIES_DATA[b].chapters).forEach(c => {
           if(c.id === chapId) title = c.title;
@@ -4232,7 +4232,7 @@ export const TeacherDashboard = () => html`
 
     function generateGridHtml(chapId, gridState) {
       let chapterData = null;
-      ['book1', 'book2', 'book3'].forEach(b => {
+      Object.keys(ACTIVITIES_DATA).forEach(b => {
         if(ACTIVITIES_DATA[b] && ACTIVITIES_DATA[b].chapters) {
           Object.values(ACTIVITIES_DATA[b].chapters).forEach(c => {
             if(c.id === chapId) {
