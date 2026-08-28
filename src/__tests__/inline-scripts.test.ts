@@ -18,6 +18,8 @@ const ROUTES = [
   '/teacher-dashboard',
   '/auth',
   '/family',
+  '/school-wall',
+  '/wall/p',
   // Served straight off disk from public/, so nothing else in the build
   // typechecks or parses it at all.
   '/admin-dashboard'

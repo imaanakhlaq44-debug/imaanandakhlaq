@@ -21,15 +21,35 @@ export const FAMILY_LOGIN_DOMAIN = 'family.imaanakhlaq.invalid';
 export const FAMILY_USERNAME_PATTERN = '^PAR-[A-Z0-9]{4,8}$';
 
 /**
+ * Teachers are provisioned the same way and sign in the same way — a TCH-
+ * username, not an email. The school hands out the credentials; there is no
+ * teacher self-registration any more.
+ *
+ * A separate domain from the family one, so that a leaked or guessed username
+ * cannot cross from one population to the other by changing three letters.
+ * Must stay identical to STAFF_LOGIN_DOMAIN in functions/index.js.
+ */
+export const STAFF_LOGIN_DOMAIN = 'staff.imaanakhlaq.invalid';
+
+/** Same shape as the family pattern, different prefix. */
+export const STAFF_USERNAME_PATTERN = '^TCH-[A-Z0-9]{4,8}$';
+
+/**
  * Helpers for the inline auth script. Embed inside a <script> block:
  * ${familyLoginHelpersJS}
  */
 export const familyLoginHelpersJS = `
   var FAMILY_LOGIN_DOMAIN = '${FAMILY_LOGIN_DOMAIN}';
   var FAMILY_USERNAME_RE = new RegExp('${FAMILY_USERNAME_PATTERN}');
+  var STAFF_LOGIN_DOMAIN = '${STAFF_LOGIN_DOMAIN}';
+  var STAFF_USERNAME_RE = new RegExp('${STAFF_USERNAME_PATTERN}');
 
   function isFamilyUsername(value) {
     return FAMILY_USERNAME_RE.test(String(value || '').trim().toUpperCase());
+  }
+
+  function isStaffUsername(value) {
+    return STAFF_USERNAME_RE.test(String(value || '').trim().toUpperCase());
   }
 
   // Lowercased to match how the Cloud Function built the address. Firebase
@@ -37,5 +57,20 @@ export const familyLoginHelpersJS = `
   // 'par-7k4qm@...' are not the same account.
   function familyUsernameToEmail(value) {
     return String(value || '').trim().toLowerCase() + '@' + FAMILY_LOGIN_DOMAIN;
+  }
+
+  function staffUsernameToEmail(value) {
+    return String(value || '').trim().toLowerCase() + '@' + STAFF_LOGIN_DOMAIN;
+  }
+
+  /**
+   * The one entry point the login screen should use: hand it whatever was
+   * typed and get back the address to sign in with, or null when it is an
+   * ordinary email and should be used as-is.
+   */
+  function usernameToEmail(value) {
+    if (isFamilyUsername(value)) return familyUsernameToEmail(value);
+    if (isStaffUsername(value)) return staffUsernameToEmail(value);
+    return null;
   }
 `

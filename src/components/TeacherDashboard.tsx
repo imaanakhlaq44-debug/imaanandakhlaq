@@ -3,6 +3,7 @@ import activitiesData from '../data/activities.json'
 import { firebaseConfigJS } from '../lib/firebaseConfig'
 import { clubHelpersJS } from '../lib/clubData'
 import { valueEconomyHelpersJS } from '../lib/valueEconomy'
+import { emulatorConnectJS } from '../lib/devEmulators'
 
 export const TeacherDashboard = () => html`
 <style>
@@ -1158,6 +1159,51 @@ export const TeacherDashboard = () => html`
 
   /* === BOOKS READER === */
   /* New compact list (matches student dashboard book accordion look) */
+  /* === Activity sheets === */
+  .sheet-controls {
+    display: flex; gap: 16px; flex-wrap: wrap; margin: 4px 0 18px;
+  }
+  .sheet-controls label { display: flex; flex-direction: column; gap: 6px; flex: 1 1 200px; }
+  .sheet-controls span { font-size: 0.78rem; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.04em; }
+  .sheet-controls select, .sheet-controls input {
+    border: 1px solid #e2e8f0; border-radius: 10px; padding: 9px 12px;
+    font-family: inherit; font-size: 0.92rem; background: #fff;
+  }
+  .sheet-summary { font-size: 0.9rem; color: #475569; font-weight: 600; line-height: 1.6; margin-bottom: 14px; }
+  .sheet-summary b { color: #1E2D5A; }
+  .sheet-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+
+  /* The printed sheet. Hidden on screen; the only thing that survives
+     printing, so a teacher who hits Ctrl+P gets paper a child can write on
+     rather than a screenshot of a dashboard. */
+  #sheetPrintRoot { display: none; }
+  .psheet { page-break-after: always; font-family: 'Inter', system-ui, sans-serif; color: #111; }
+  .psheet:last-child { page-break-after: auto; }
+  .psheet-head { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2pt solid #1E2D5A; padding-bottom: 6pt; margin-bottom: 10pt; }
+  .psheet-school { font-size: 10pt; color: #555; }
+  .psheet-title { font-size: 16pt; font-weight: 800; color: #1E2D5A; margin: 2pt 0 0; }
+  .psheet-who { text-align: right; font-size: 11pt; }
+  .psheet-who strong { display: block; font-size: 14pt; }
+  .psheet-table { width: 100%; border-collapse: collapse; margin-bottom: 10pt; }
+  .psheet-table th, .psheet-table td { border: 0.75pt solid #999; padding: 3pt 5pt; font-size: 9.5pt; }
+  .psheet-table th { background: #f1f5f9; font-weight: 700; text-align: center; }
+  .psheet-table th.q { text-align: left; width: 46%; }
+  .psheet-table td.q { text-align: left; }
+  .psheet-table tr.sec td { background: #fdf2e7; font-weight: 800; color: #9a5a16; }
+  .psheet-box { width: 7.7%; height: 20pt; }
+  .psheet-disc { font-size: 10pt; margin-top: 4pt; }
+  .psheet-disc b { display: block; margin-bottom: 5pt; }
+  .psheet-line { border-bottom: 0.75pt solid #bbb; height: 17pt; }
+  .psheet-foot { margin-top: 8pt; font-size: 8pt; color: #777; display: flex; justify-content: space-between; }
+
+  @media print {
+    @page { size: A4 portrait; margin: 12mm; }
+    body > *:not(#teacherDashboardView) { display: none !important; }
+    #teacherDashboardView > *:not(#sheetPrintRoot) { display: none !important; }
+    .sidebar-panel, .mobile-bottom-actions, .teacher-topbar { display: none !important; }
+    #sheetPrintRoot { display: block; }
+  }
+
   .teacher-book-list {
     display: flex;
     flex-direction: column;
@@ -1755,6 +1801,11 @@ export const TeacherDashboard = () => html`
         <li data-section="club" onclick="switchTeacherSection('club')"><span class="nav-badge" style="background:linear-gradient(135deg,#1E2D5A,#C99A6B);color:#fff;"><i class="fas fa-shield-halved"></i></span><span>Club Habits</span><span class="club-nav-count" id="clubNavCount"></span></li>
         <li data-section="rankings" onclick="switchTeacherSection('rankings')"><span class="nav-badge reports"><i class="fas fa-medal"></i></span><span>Rankings</span></li>
         <li data-section="register" onclick="switchTeacherSection('register')"><span class="nav-badge overview" style="background:linear-gradient(135deg,#3b82f6,#2563eb);"><i class="fas fa-calendar-alt"></i></span><span>Monthly Log</span></li>
+        <!-- Not a section: the wall is its own page, web only, and only for a
+             community school whose wall has been unlocked. Shown by
+             refreshWallNav() once the school doc has loaded. -->
+        <li data-section="sheets" onclick="switchTeacherSection('sheets')"><span class="nav-badge" style="background:linear-gradient(135deg,#0F5E55,#1E2D5A);color:#fff;"><i class="fas fa-print"></i></span><span>Activity Sheets</span></li>
+        <li id="teacherNavWall" class="d-none" onclick="window.location.href='/school-wall'"><span class="nav-badge" style="background:linear-gradient(135deg,#E08020,#C99A6B);color:#fff;"><i class="fas fa-images"></i></span><span>School Wall</span></li>
       </ul>
       <div class="sidebar-note">
         <img src="/kidba_assets/img/3d_student.png" alt="Student 3D icon">
@@ -1881,6 +1932,15 @@ export const TeacherDashboard = () => html`
                 </div>
               </div>
               <span class="section-chip" id="attendanceDateBadge"><i class="fas fa-calendar-day"></i> Today</span>
+              <!-- Community schools only, and web only. Carries today's date,
+                   the chapters that were opened and every student who took
+                   part straight into the wall composer, so a teacher writing
+                   up the day types none of it a second time. -->
+              <button type="button" class="section-chip" id="shareDayBtn"
+                style="display:none; cursor:pointer; border:none;"
+                onclick="shareDayToWall()">
+                <i class="fas fa-share-nodes"></i> Share today to the wall
+              </button>
             </div>
             <div id="attendanceList" class="attendance-list">
               <!-- Injected via JS -->
@@ -2107,6 +2167,50 @@ export const TeacherDashboard = () => html`
             </div>
           </section>
         </section>
+        <!-- Activity sheets, for children who do the activity on paper.
+             See PAPER_WORKFLOW_PLAN.md §2. The sheet is generated from
+             activities.json — the same sections and questions the on-screen
+             grid is built from — so a printed week and a tapped week ask the
+             child exactly the same things. -->
+        <section id="teacherPanelSheets" class="teacher-panel">
+          <section class="surface-card">
+            <div class="section-header">
+              <div class="section-heading">
+                <div>
+                  <h3>Activity Sheets</h3>
+                  <p>Print this week's activity for a whole class. Children fill it in by hand and give it back to you.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="sheet-controls">
+              <label>
+                <span>Chapter</span>
+                <select id="sheetChapter" onchange="renderSheetPreview()"></select>
+              </label>
+              <label>
+                <span>Class</span>
+                <select id="sheetClass" onchange="renderSheetPreview()"></select>
+              </label>
+              <label>
+                <span>Week beginning</span>
+                <input type="date" id="sheetDate" onchange="renderSheetPreview()">
+              </label>
+            </div>
+
+            <div class="sheet-summary" id="sheetSummary"></div>
+
+            <div class="sheet-actions">
+              <button type="button" class="btn-solid" onclick="printClassSheets()">
+                <i class="fas fa-print"></i> Print sheets
+              </button>
+              <button type="button" class="btn-outline-light" onclick="printBlankSheet()">
+                <i class="fas fa-file"></i> One blank sheet
+              </button>
+            </div>
+          </section>
+        </section>
+
         <section id="teacherPanelRegister" class="teacher-panel">
           <section class="surface-card">
             <div class="section-header">
@@ -2129,6 +2233,10 @@ export const TeacherDashboard = () => html`
 
       </div>
     </div>
+
+    <!-- Filled by printClassSheets() just before window.print(), and the only
+         thing the print stylesheet leaves standing. -->
+    <div id="sheetPrintRoot"></div>
 
     <div class="mobile-bottom-actions" id="teacherMobileNav">
       <button class="mobile-action-btn" id="tmb-books" type="button" onclick="switchTeacherSection('books'); setTeacherMobActive(this)">
@@ -2194,10 +2302,10 @@ export const TeacherDashboard = () => html`
   })();
 
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
-  import { getFirestore, collection, query, where, getDocs, getDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
-  import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-functions.js";
-  import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-storage.js";
+  import { getAuth, connectAuthEmulator, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+  import { getFirestore, connectFirestoreEmulator, collection, query, where, getDocs, getDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+  import { getFunctions, connectFunctionsEmulator, httpsCallable } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-functions.js";
+  import { getStorage, connectStorageEmulator, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-storage.js";
 
   const firebaseConfig = ${raw(firebaseConfigJS)};
 
@@ -2206,6 +2314,12 @@ export const TeacherDashboard = () => html`
   const db = getFirestore(app);
   const storage = getStorage(app);
   const functions = getFunctions(app);
+  // Local development only. USE_EMULATORS is a build-time constant, so a
+  // production build emits this block with the connect calls already dead.
+  ${raw(emulatorConnectJS)}
+  connectEmulators({ auth, db, functions, storage,
+    connectAuthEmulator, connectFirestoreEmulator, connectFunctionsEmulator, connectStorageEmulator });
+
 
   // Value Credits are written by this callable and by nothing else. The
   // Firestore rules refuse every client write of status/points on a habit log,
@@ -2377,6 +2491,10 @@ export const TeacherDashboard = () => html`
 
   let currentTeacher = null;
   let teacherSchoolId = null;
+  // True only for a community school whose wall a super admin has unlocked.
+  // Gates the "Share today to the wall" button — offering it to a school with
+  // no wall would be a button that lands on a page telling them to wait.
+  let teacherSchoolWall = false;
   // The school's students, by uid. Built once by initDashboard and kept here so
   // the club queue can put a name and a class against a habit log without
   // re-reading every student doc.
@@ -2390,6 +2508,7 @@ export const TeacherDashboard = () => html`
     rankings: 'teacherPanelRankings',
     club: 'teacherPanelClub',
     books: 'teacherPanelBooks',
+    sheets: 'teacherPanelSheets',
     register: 'teacherPanelRegister',
     absent: 'teacherPanelAbsent'
   };
@@ -3457,6 +3576,234 @@ export const TeacherDashboard = () => html`
     return date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
   }
 
+  /**
+   * Show the wall link only where the wall exists: a community school with an
+   * unlocked wall, on the web.
+   *
+   * The APK check is not redundant with the wall page's own redirect. The SSG
+   * build renders /school-wall into dist/ and Capacitor copies dist/ wholesale,
+   * so the page ships in the app either way — the page bounces out of it, and
+   * this keeps the app from advertising a link that would bounce.
+   */
+  function refreshWallNav() {
+    const link = document.getElementById('teacherNavWall');
+    if (!link) return;
+    const inApp = !!(window.Capacitor && typeof window.Capacitor.isNativePlatform === 'function' &&
+                     window.Capacitor.isNativePlatform());
+    link.classList.toggle('d-none', !teacherSchoolWall || inApp);
+  }
+
+  /**
+   * Hand today's session to the wall composer.
+   *
+   * Passed through sessionStorage rather than the URL. The draft carries a
+   * list of student ids — putting those in a query string would write
+   * children's identifiers into browser history, the address bar and any
+   * Referer header the next page sends, for no benefit at all.
+   *
+   * Only the description, the date and the tags travel. The photographs are
+   * still the teacher's to add, because an activity sheet holds a grid and a
+   * paragraph — there was never a photo in it to carry over.
+   */
+  window.shareDayToWall = () => {
+    const draft = window.wallDayDraft;
+    if (!draft || !draft.tagged || !draft.tagged.length) {
+      alert('Nobody has opened an activity today yet, so there is nothing to share.');
+      return;
+    }
+    try {
+      sessionStorage.setItem('wall_draft', JSON.stringify(draft));
+    } catch (e) {
+      // Private browsing, or a full quota. The composer still opens; the
+      // teacher just fills it in themselves.
+      console.warn('Could not stash the wall draft:', e);
+    }
+    window.location.href = '/school-wall';
+  };
+
+  // -------------------------------------------------------------------------
+  // Activity sheets — the paper route
+  //
+  // A community school's students are roster-only: no login, no phone, no way
+  // to fill the activity on screen. They fill it on paper instead, which means
+  // the paper has to ask exactly what the screen asks — so the sheet is built
+  // from activities.json, the same source generateGridHtml() reads.
+  //
+  // See PAPER_WORKFLOW_PLAN.md §2.
+  // -------------------------------------------------------------------------
+
+  const SHEET_DAYS = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+
+  /** Every chapter across every book, flattened, in reading order. */
+  function allChapters() {
+    const out = [];
+    Object.keys(ACTIVITIES_DATA).forEach((bookId) => {
+      const book = ACTIVITIES_DATA[bookId];
+      if (!book || !book.chapters) return;
+      Object.values(book.chapters).forEach((chapter) => {
+        if (chapter && chapter.id && chapter.sections) {
+          out.push({ book_id: bookId, book_title: book.title || bookId, chapter: chapter });
+        }
+      });
+    });
+    return out;
+  }
+
+  /** Classes this teacher's roster actually contains, not a fixed 1-10 list. */
+  function sheetClassOptions() {
+    const names = new Set();
+    Object.values(studentsById || {}).forEach((s) => {
+      if (s && s.class_id) String(s.class_id).split(',').forEach((c) => {
+        const name = c.trim();
+        if (name) names.add(name);
+      });
+    });
+    return Array.from(names).sort();
+  }
+
+  function studentsInClass(className) {
+    return Object.values(studentsById || {})
+      .filter((s) => !className || String(s.class_id || '').split(',').map((c) => c.trim()).includes(className))
+      .sort((a, b) => String(a.name || '').localeCompare(String(b.name || '')));
+  }
+
+  window.initSheetControls = () => {
+    const chapterSel = document.getElementById('sheetChapter');
+    const classSel = document.getElementById('sheetClass');
+    const dateInput = document.getElementById('sheetDate');
+    if (!chapterSel || !classSel || !dateInput) return;
+
+    const keepChapter = chapterSel.value;
+    chapterSel.innerHTML = allChapters().map((row) =>
+      '<option value="' + escapeHtml(row.chapter.id) + '">' +
+      escapeHtml(row.book_title + ' — ' + row.chapter.title) + '</option>'
+    ).join('');
+    if (keepChapter) chapterSel.value = keepChapter;
+
+    const keepClass = classSel.value;
+    const classes = sheetClassOptions();
+    classSel.innerHTML = '<option value="">All classes</option>' +
+      classes.map((c) => '<option value="' + escapeHtml(c) + '">' + escapeHtml(c) + '</option>').join('');
+    if (keepClass) classSel.value = keepClass;
+
+    if (!dateInput.value) dateInput.value = new Date().toISOString().slice(0, 10);
+
+    renderSheetPreview();
+  };
+
+  window.renderSheetPreview = () => {
+    const summary = document.getElementById('sheetSummary');
+    if (!summary) return;
+
+    const chapterId = document.getElementById('sheetChapter').value;
+    const className = document.getElementById('sheetClass').value;
+    const row = allChapters().find((r) => r.chapter.id === chapterId);
+    const students = studentsInClass(className);
+
+    if (!row) {
+      summary.innerHTML = 'Choose a chapter to print.';
+      return;
+    }
+
+    const questions = row.chapter.sections.reduce((n, s) => n + (s.questions || []).length, 0);
+    summary.innerHTML =
+      '<b>' + students.length + '</b> sheet' + (students.length === 1 ? '' : 's') +
+      ' — one per child in ' + escapeHtml(className || 'every class') + '.<br>' +
+      escapeHtml(row.chapter.title) + ': <b>' + questions + '</b> questions across ' +
+      row.chapter.sections.length + ' sections, seven days each.';
+  };
+
+  /**
+   * One child's sheet.
+   *
+   * First name and class only — never the full name. A stack of these leaves
+   * the classroom in a child's bag, and the wall follows the same rule for
+   * the same reason.
+   */
+  function sheetHtml(row, student, weekOf) {
+    const chapter = row.chapter;
+    // Double backslash: this script lives inside a template literal, where a
+    // lone \s is swallowed and the regex silently becomes /s+/ — which would
+    // split a child's name on the letter s.
+    const firstName = String((student && student.name) || '').trim().split(/\\s+/)[0] || '';
+
+    let body = '';
+    chapter.sections.forEach((section) => {
+      body += '<tr class="sec"><td colspan="8">' + escapeHtml(section.heading) + '</td></tr>';
+      (section.questions || []).forEach((q) => {
+        body += '<tr><td class="q">' + escapeHtml(q) + '</td>' +
+          SHEET_DAYS.map(() => '<td class="psheet-box"></td>').join('') + '</tr>';
+      });
+    });
+
+    return '<div class="psheet">' +
+      '<div class="psheet-head">' +
+        '<div>' +
+          '<div class="psheet-school">' + escapeHtml((currentTeacher && currentTeacher.school_name) || '') + '</div>' +
+          '<h2 class="psheet-title">' + escapeHtml(chapter.title) + '</h2>' +
+        '</div>' +
+        '<div class="psheet-who">' +
+          (student
+            ? '<strong>' + escapeHtml(firstName) + '</strong>' + escapeHtml(student.class_id || '')
+            : '<strong>Name: ______________</strong>Class: __________') +
+        '</div>' +
+      '</div>' +
+
+      '<table class="psheet-table"><thead><tr><th class="q">Activity</th>' +
+        SHEET_DAYS.map((d) => '<th>' + d + '</th>').join('') +
+      '</tr></thead><tbody>' + body + '</tbody></table>' +
+
+      '<div class="psheet-disc">' +
+        '<b>' + escapeHtml(chapter.discussionQuestion || 'What did you learn this week?') + '</b>' +
+        '<div class="psheet-line"></div><div class="psheet-line"></div>' +
+        '<div class="psheet-line"></div><div class="psheet-line"></div>' +
+      '</div>' +
+
+      '<div class="psheet-foot">' +
+        '<span>Week beginning ' + escapeHtml(weekOf) + '</span>' +
+        '<span>Imaan &amp; Akhlaq</span>' +
+      '</div>' +
+    '</div>';
+  }
+
+  function printRoot(html) {
+    const root = document.getElementById('sheetPrintRoot');
+    if (!root) return;
+    root.innerHTML = html;
+    // setTimeout and not requestAnimationFrame: rAF never fires in a tab the
+    // browser is not compositing, so the dialog would simply never open with
+    // nothing on screen to say why.
+    setTimeout(() => window.print(), 60);
+  }
+
+  window.printClassSheets = () => {
+    const chapterId = document.getElementById('sheetChapter').value;
+    const className = document.getElementById('sheetClass').value;
+    const weekOf = document.getElementById('sheetDate').value || new Date().toISOString().slice(0, 10);
+
+    const row = allChapters().find((r) => r.chapter.id === chapterId);
+    if (!row) return alert('Choose a chapter first.');
+
+    const students = studentsInClass(className);
+    if (!students.length) {
+      return alert('There are no students in that class yet. Ask your school admin to import the roster.');
+    }
+    // A whole school at once is usually a misclick, and it is three hundred
+    // pages if it is not.
+    if (students.length > 60 &&
+        !confirm('This will print ' + students.length + ' pages. Continue?')) return;
+
+    printRoot(students.map((s) => sheetHtml(row, s, weekOf)).join(''));
+  };
+
+  window.printBlankSheet = () => {
+    const chapterId = document.getElementById('sheetChapter').value;
+    const weekOf = document.getElementById('sheetDate').value || new Date().toISOString().slice(0, 10);
+    const row = allChapters().find((r) => r.chapter.id === chapterId);
+    if (!row) return alert('Choose a chapter first.');
+    printRoot(sheetHtml(row, null, weekOf));
+  };
+
   function formatAttendanceDate(dateKey) {
     if (!dateKey) return 'Today';
     const date = new Date(dateKey + 'T00:00:00');
@@ -3580,6 +3927,34 @@ export const TeacherDashboard = () => html`
     });
 
     attendanceListEl.innerHTML = attendanceHtml;
+
+    // What "Share today" will carry across. Built from the same list that was
+    // just drawn, so what the teacher sees on screen is exactly what the post
+    // will say — no second query that could disagree with it.
+    const chapters = [];
+    const seenChapters = new Set();
+    const attendees = [];
+    const seenAttendees = new Set();
+    todaysAttendance.forEach((session) => {
+      const title = session.chapter_title || getChapterTitle(session.chapter_id);
+      if (title && !seenChapters.has(title)) { seenChapters.add(title); chapters.push(title); }
+      if (session.student_uid && !seenAttendees.has(session.student_uid)) {
+        seenAttendees.add(session.student_uid);
+        attendees.push(session.student_uid);
+      }
+    });
+    window.wallDayDraft = {
+      session_date: todayKey,
+      text: chapters.length ? chapters.join(' · ') : '',
+      tagged: attendees
+    };
+
+    const shareBtn = document.getElementById('shareDayBtn');
+    if (shareBtn) {
+      const inApp = !!(window.Capacitor && typeof window.Capacitor.isNativePlatform === 'function' &&
+                       window.Capacitor.isNativePlatform());
+      shareBtn.style.display = (teacherSchoolWall && !inApp && attendees.length) ? '' : 'none';
+    }
 
     const absentListEl = document.getElementById('absentList');
     const absentCountEl = document.getElementById('teacherAbsentCount');
@@ -3779,14 +4154,23 @@ export const TeacherDashboard = () => html`
           currentTeacher = { uid: user.uid, ...userDoc.data() };
           teacherSchoolId = currentTeacher.school_id;
           
-          if (teacherSchoolId && !currentTeacher.school_name) {
+          // The school doc is fetched unconditionally now. It used to be read
+          // only when the teacher's own profile had no school_name cached,
+          // which meant the wall settings below were missing for exactly the
+          // teachers whose name was cached — most of them.
+          if (teacherSchoolId) {
             try {
               const schoolSnap = await getDoc(doc(db, 'schools', teacherSchoolId));
               if (schoolSnap.exists()) {
-                currentTeacher.school_name = schoolSnap.data().name || teacherSchoolId;
-                if (!currentTeacher.school_logo_url && schoolSnap.data().logo_url) {
-                  currentTeacher.school_logo_url = schoolSnap.data().logo_url;
+                const schoolData = schoolSnap.data();
+                if (!currentTeacher.school_name) {
+                  currentTeacher.school_name = schoolData.name || teacherSchoolId;
                 }
+                if (!currentTeacher.school_logo_url && schoolData.logo_url) {
+                  currentTeacher.school_logo_url = schoolData.logo_url;
+                }
+                teacherSchoolWall = schoolData.type === 'weekly' && schoolData.wall_enabled === true;
+                refreshWallNav();
               }
             } catch (e) {
               console.warn('Failed to load school details:', e);
@@ -3908,6 +4292,12 @@ export const TeacherDashboard = () => html`
     }
 
     studentsById = studentMap;
+
+    // The sheet pickers are built from the roster, so they can only be filled
+    // once it exists. Called here rather than on section switch: a teacher who
+    // opens Activity Sheets first would otherwise find an empty class list and
+    // conclude the roster had not loaded.
+    if (typeof window.initSheetControls === 'function') window.initSheetControls();
 
     console.log('[Teacher Dashboard] Found', Object.keys(studentMap).length, 'students for school', teacherSchoolId);
     Object.values(studentMap).forEach(function(s) {

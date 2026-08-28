@@ -3,6 +3,7 @@ import activitiesData from './data/activities.json'
 import { html } from 'hono/html'
 import { pullToRefreshJS } from './lib/pullToRefresh'
 import { firebaseConfigJS } from './lib/firebaseConfig'
+import { emulatorConnectJS } from './lib/devEmulators'
 import { Head } from './components/Head'
 import { ScrollProgress } from './components/ScrollProgress'
 import { Preloader } from './components/Preloader'
@@ -45,6 +46,8 @@ import { SchoolAdminDashboard } from './components/SchoolAdminDashboard'
 import { AuthPage } from './components/AuthPage'
 import { FamilyDashboard } from './components/FamilyDashboard'
 import { SuperAdminDashboard } from './components/SuperAdminDashboard'
+import { SchoolWall } from './components/SchoolWall'
+import { ParentWall } from './components/ParentWall'
 import { NotFoundPage } from './components/NotFoundPage'
 
 export const app = new Hono()
@@ -140,6 +143,26 @@ app.get('/family', (c) => {
   return c.html(generateFamilyDashboardHTML())
 })
 
+// The school wall. Web only — the page itself redirects out of the APK,
+// because the SSG build renders every route into dist/ and Capacitor copies
+// dist/ wholesale, so the file ships in the app whatever links to it.
+app.get('/school-wall', (c) => {
+  return c.html(generateSchoolWallHTML())
+})
+
+// A parent opens their child's wall with a link, no account: /wall/p#TOKEN.
+//
+// The token is a URL FRAGMENT, and that is load-bearing twice over. A fragment
+// is never sent to the server, so it cannot land in an access log or a Referer
+// header — and this site is a static SSG build, where a path segment like
+// /wall/p/:token has no file to be served from at all.
+//
+// The page reads nothing from Firestore; readParentWall on the Admin SDK is
+// the only door. See SCHOOL_GROUP_PLAN.md §7.
+app.get('/wall/p', (c) => {
+  return c.html(generateParentWallHTML())
+})
+
 app.get('/teacher-dashboard', (c) => {
   return c.html(generateTeacherDashboardHTML())
 })
@@ -207,6 +230,20 @@ app.get('/admin-dashboard', async (c) => {
   }
   source = source.replace(PTR_MARKER, pullToRefreshJS)
 
+  // Same substitution for the local emulator connector. The marker is a
+  // comment in the static file, so a production build simply leaves the
+  // already-dead USE_EMULATORS block in place.
+  const EMU_MARKER = /\/\* IA_DEV_EMULATORS[\s\S]*?\*\//
+  if (EMU_MARKER.test(source)) {
+    source = source.replace(
+      EMU_MARKER,
+      emulatorConnectJS +
+        '\n  connectEmulators({ auth, db, functions, storage,' +
+        '\n    connectAuthEmulator, connectFirestoreEmulator,' +
+        '\n    connectFunctionsEmulator, connectStorageEmulator });'
+    )
+  }
+
   return c.html(source)
 })
 
@@ -263,6 +300,16 @@ ${SchoolAdminDashboard()}`
 function generateSuperAdminDashboardHTML() {
   return html`${Head()}
 ${SuperAdminDashboard()}`
+}
+
+function generateParentWallHTML() {
+  return html`${Head()}
+${ParentWall()}`
+}
+
+function generateSchoolWallHTML() {
+  return html`${Head()}
+${SchoolWall()}`
 }
 
 function generateClubPortalHTML() {

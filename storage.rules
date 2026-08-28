@@ -1,0 +1,84 @@
+rules_version = '2';
+
+// Cloud Storage rules.
+//
+// This file did not exist until the school wall needed it. Storage rules were
+// living only in the Firebase console, which meant nothing in this repo
+// reviewed them, no test exercised them, and a deploy could not reproduce
+// them. Registering the file in firebase.json is what makes `firebase deploy`
+// the source of truth instead of whoever last opened the console.
+//
+// The existing paths (profile photos, school crests) are written from the
+// dashboards with uploadBytes and are covered by the first two blocks, at the
+// permissions they already had in practice: a signed-in user writing under
+// their own school's prefix.
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isImage() {
+      return request.resource.contentType.matches('image/.*');
+    }
+
+    // ---------------------------------------------------------------
+    // Existing: profile photos and school crests
+    // ---------------------------------------------------------------
+    match /schools/{schoolId}/users/{uid}/{file=**} {
+      allow read: if signedIn();
+      allow write: if signedIn() && request.auth.uid == uid &&
+        isImage() && request.resource.size < 5 * 1024 * 1024;
+    }
+
+    match /schools/{schoolId}/{file} {
+      allow read: if signedIn();
+      allow write: if signedIn() && isImage() && request.resource.size < 5 * 1024 * 1024;
+    }
+
+    match /admins/{uid}/{file=**} {
+      allow read: if signedIn();
+      allow write: if signedIn() && request.auth.uid == uid &&
+        isImage() && request.resource.size < 5 * 1024 * 1024;
+    }
+
+    // ---------------------------------------------------------------
+    // The school wall — staging
+    // ---------------------------------------------------------------
+    // Where a teacher's browser puts a compressed photo BEFORE calling
+    // publishPost. Scoped to the uploader's own uid so one teacher cannot
+    // drop a file into another's tray and have it attached to their post.
+    //
+    // Readable only by the uploader: until the post exists there is nothing
+    // that says who is allowed to see this child.
+    match /wall_staging/{schoolId}/{uid}/{file} {
+      allow read: if signedIn() && request.auth.uid == uid;
+      allow write: if signedIn() && request.auth.uid == uid &&
+        isImage() &&
+        // The client compresses to ~1600px/JPEG-0.82, which lands well under
+        // 1 MB. 8 MB is room for a stubborn photo, not room for a video —
+        // video is deliberately out of scope for the first release.
+        request.resource.size < 8 * 1024 * 1024;
+    }
+
+    // ---------------------------------------------------------------
+    // The school wall — published
+    // ---------------------------------------------------------------
+    // Files land here only because publishPost moved them, on the Admin SDK,
+    // after checking every tagged child's consent. Nothing else may write,
+    // or that check could be walked around by uploading straight to the
+    // published path.
+    //
+    // Reads are signed-in for now. This is looser than the Firestore rule on
+    // school_posts, which is scoped to the school: a signed-in user from
+    // another school cannot find these paths through any query, but could
+    // open one if they were given the URL. Tightening it needs the school id
+    // on the token (a custom claim), which Phase 3's parent access will force
+    // a decision on anyway.
+    match /wall/{schoolId}/{postId}/{file} {
+      allow read: if signedIn();
+      allow write: if false;
+    }
+  }
+}

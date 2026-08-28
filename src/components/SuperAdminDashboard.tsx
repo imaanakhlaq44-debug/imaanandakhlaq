@@ -1,6 +1,7 @@
 import { html, raw } from 'hono/html'
 import { firebaseConfigJS } from '../lib/firebaseConfig'
 import { valueEconomyHelpersJS, COMPLAINT_MAX_POINTS } from '../lib/valueEconomy'
+import { emulatorConnectJS } from '../lib/devEmulators'
 import { clubHelpersJS } from '../lib/clubData'
 
 export const SuperAdminDashboard = () => html`
@@ -601,6 +602,35 @@ export const SuperAdminDashboard = () => html`
         <p class="chart-empty d-none" id="platformChartEmpty">No schools have registered yet.</p>
       </div>
 
+      <!-- Community schools waiting for approval.
+           Registration is open to anyone with an email address, which was
+           harmless while a fake school could only mint invite codes nobody
+           would redeem. An approved community school can upload photographs of
+           children and hand out parent links, so that step waits here.
+           The card hides itself when the queue is empty. -->
+      <div class="card d-none" id="dash-pending-schools">
+        <div class="card-header">
+          <div class="card-title">
+            <i class="fas fa-user-shield" style="color: var(--brand-tertiary)"></i>
+            Community Schools Awaiting Verification
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>School &amp; Admin</th>
+                <th>Location</th>
+                <th>Meets</th>
+                <th>Contact</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="pending-schools-body"></tbody>
+          </table>
+        </div>
+      </div>
+
       <!-- Schools List -->
       <div class="card" id="dash-schools">
         <div class="card-header">
@@ -660,8 +690,9 @@ export const SuperAdminDashboard = () => html`
 <script src="/kidba_assets/vendor/js/chart.umd.min.js"></script>
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-  import { getFirestore, collection, getDocs, doc, getDoc, setDoc, deleteDoc, writeBatch } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
-  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+  import { getFirestore, connectFirestoreEmulator, collection, getDocs, doc, getDoc, setDoc, deleteDoc, writeBatch } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+  import { getAuth, connectAuthEmulator, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+  import { getFunctions, connectFunctionsEmulator, httpsCallable } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-functions.js";
 
   const Chart = window.Chart;
 
@@ -670,6 +701,13 @@ export const SuperAdminDashboard = () => html`
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
   const auth = getAuth(app);
+  const functions = getFunctions(app);
+  // Local development only. USE_EMULATORS is a build-time constant, so a
+  // production build emits this block with the connect calls already dead.
+  ${raw(emulatorConnectJS)}
+  connectEmulators({ auth, db, functions,
+    connectAuthEmulator, connectFirestoreEmulator, connectFunctionsEmulator });
+
 
   // CLUB_HOUSES / clubHouse come from clubData.ts — the price rows are dotted
   // in the house colour a category belongs to, the same colour the student and
@@ -718,6 +756,27 @@ export const SuperAdminDashboard = () => html`
       });
     });
   })();
+
+  /**
+   * Unlock a community school's wall.
+   *
+   * Goes through the approveSchool callable rather than writing the school doc
+   * directly: firestore.rules keeps approval_status and wall_enabled out of
+   * every client whitelist, so the Admin SDK is the only writer. A super admin
+   * COULD write them here — isSuper() bypasses the whitelist — but then the
+   * one place that decides what approval means would live in two files.
+   */
+  window.approveSchoolById = async function (schoolId) {
+    if (!schoolId) return;
+    if (!confirm('Approve this school? Its wall unlocks and it can start sharing activity photos with parents.')) return;
+    try {
+      await httpsCallable(functions, 'approveSchool')({ school_id: schoolId, approved: true });
+      await loadDashboardData();
+    } catch (err) {
+      console.error('approveSchool failed:', err);
+      alert('Could not approve that school: ' + (err.message || 'unknown error'));
+    }
+  };
 
   async function loadDashboardData() {
     try {
@@ -781,6 +840,44 @@ export const SuperAdminDashboard = () => html`
         setTimeout(function () { URL.revokeObjectURL(url); }, 2000);
       };
 
+      // ---- Community schools awaiting verification -------------------------
+      // A school is pending only if it asked to be: type 'weekly'. Full-time
+      // schools registered before this queue existed carry no approval_status
+      // and must not appear here — get(…, 'approved') is what keeps them out.
+      const pendingSchools = schools.filter((s) =>
+        s.type === 'weekly' && (s.approval_status || 'pending') !== 'approved');
+      const pendingCard = document.getElementById('dash-pending-schools');
+      const pendingBody = document.getElementById('pending-schools-body');
+      if (pendingCard && pendingBody) {
+        pendingCard.classList.toggle('d-none', pendingSchools.length === 0);
+        pendingBody.innerHTML = pendingSchools.map((school) => {
+          const sAdmin = users.find((u) => u.uid === school.admin_uid) || {};
+          return \`
+            <tr>
+              <td>
+                <div class="school-details">
+                  <strong>\${esc(school.name || 'Unnamed School')}</strong>
+                  <span>Admin: \${esc(sAdmin.name || 'Unknown')}</span>
+                </div>
+              </td>
+              <td>\${esc(school.location || 'Not specified')}</td>
+              <td>\${esc(school.meeting_day || '—')}</td>
+              <td>
+                <div class="school-details">
+                  <strong>\${esc(sAdmin.email || school.admin_email || '—')}</strong>
+                  <span>\${esc(sAdmin.phone || '—')}</span>
+                </div>
+              </td>
+              <td>
+                <button class="btn-icon" title="Approve this school and unlock its wall"
+                  onclick="window.approveSchoolById('\${esc(school.id)}')">
+                  <i class="fas fa-check" style="color:#16a34a;"></i>
+                </button>
+              </td>
+            </tr>\`;
+        }).join('');
+      }
+
       const tbody = document.getElementById('schools-table-body');
       tbody.innerHTML = '';
       
@@ -818,7 +915,9 @@ export const SuperAdminDashboard = () => html`
                 <td>\${esc(school.location || 'Not specified')}</td>
                 <td><div class="metrics-pill"><i class="fas fa-chalkboard-teacher"></i> \${schTch}</div></td>
                 <td><div class="metrics-pill"><i class="fas fa-user-graduate"></i> \${schStu}</div></td>
-                <td><span class="badge-status badge-active">Active</span></td>
+                <td>\${school.type === 'weekly' && (school.approval_status || 'pending') !== 'approved'
+                      ? '<span class="badge-status">Pending verification</span>'
+                      : '<span class="badge-status badge-active">Active</span>'}</td>
                 <td>
                   <button class="btn-icon" title="View Details"><i class="fas fa-eye"></i></button>
                   <button class="btn-icon" title="Edit School"><i class="fas fa-edit"></i></button>

@@ -1,6 +1,7 @@
 import { html, raw } from 'hono/html'
 import { FIREBASE_CONFIG, firebaseConfigJS } from '../lib/firebaseConfig'
 import { familyLoginHelpersJS } from '../lib/familyLogin'
+import { emulatorConnectJS } from '../lib/devEmulators'
 
 export const AuthPage = () => html`
 <style>
@@ -102,6 +103,7 @@ export const AuthPage = () => html`
     box-shadow: inset 0 -2px 0 rgba(15,23,42,0.02);
   }
   .role-item-school     { --accent: #1E2D5A; --accent-soft: #eef1fa; }
+  .role-item-community    { --accent: #E08020; --accent-soft: #fdf2e7; }
   .role-item-teacher    { --accent: #29416d; --accent-soft: #eaeff7; }
   .role-item-student    { --accent: #D63678; --accent-soft: #fdeaf3; }
   .role-item-individual { --accent: #b8860b; --accent-soft: #fdf6dd; }
@@ -1011,7 +1013,7 @@ export const AuthPage = () => html`
       </div>
 
       <h1 style="font-size:1.75rem; font-weight:800; color:var(--brand-navy); margin-bottom:8px; letter-spacing:-0.02em;">Create your account</h1>
-      <p style="color:var(--text-sec); font-size:0.92rem; margin-bottom:24px; max-width:520px; line-height:1.5;">Choose a role to get started. Schools register directly. Teachers, Students, and Parents need a school invitation code.</p>
+      <p style="color:var(--text-sec); font-size:0.92rem; margin-bottom:24px; max-width:520px; line-height:1.5;">Schools register here. Pick <strong>Community School</strong> if your students attend one day a week. Teachers and families do not register &mdash; your school creates your account and gives you a username and password.</p>
 
       <div class="role-list">
         
@@ -1024,23 +1026,30 @@ export const AuthPage = () => html`
           <div class="role-chev"><i class="fas fa-arrow-right"></i></div>
         </div>
 
-        <div class="role-item role-item-teacher" onclick="selectRole('teacher')">
-          <div class="role-img"><i class="fas fa-chalkboard-teacher"></i></div>
+        <!-- A community school meets one day a week: no student ever logs in,
+             so the invite-code flow above is the wrong door for them. Its own
+             card, but NOT its own role — the account is still school_admin and
+             the difference lives on the school doc as type: 'weekly'. See
+             SCHOOL_GROUP_PLAN.md §12.2. -->
+        <div class="role-item role-item-community" onclick="selectRole('community')">
+          <div class="role-img"><i class="fas fa-calendar-day"></i></div>
           <div class="role-item-info">
-            <div class="role-item-name">Teacher</div>
-            <div class="role-item-desc">Join your school using an invitation code.</div>
+            <div class="role-item-name">Community School</div>
+            <div class="role-item-desc">Meets once a week. Add your whole roster at once and share activity photos with parents &mdash; no logins for students.</div>
           </div>
           <div class="role-chev"><i class="fas fa-arrow-right"></i></div>
         </div>
 
-        <div class="role-item role-item-student" onclick="selectRole('student')">
-          <div class="role-img"><i class="fas fa-user-graduate"></i></div>
-          <div class="role-item-info">
-            <div class="role-item-name">Student &amp; Family Account</div>
-            <div class="role-item-desc">Single unified account with built-in PIN Parent Gate.</div>
-          </div>
-          <div class="role-chev"><i class="fas fa-arrow-right"></i></div>
-        </div>
+        <!-- The Teacher and Student & Family cards are gone on purpose.
+             Neither population registers here any more: a school provisions a
+             teacher with createTeacherAccount (TCH- username + password) and a
+             family with createFamilyAccount (PAR- username + password), and
+             both sign in on the login panel. Leaving the cards up asked people
+             who already have credentials to make a second account.
+
+             The forms below still exist, reachable only from the "invitation
+             code" link under this list, because TCH-/STU- invites handed out
+             before the change are still redeemable. -->
 
         <div class="role-item role-item-individual" onclick="selectRole('individual')">
           <div class="role-img"><i class="fas fa-rocket"></i></div>
@@ -1052,6 +1061,18 @@ export const AuthPage = () => html`
         </div>
 
       </div>
+
+      <!-- The way back in for anyone still holding a paper slip. Deliberately
+           a line of text and not a card: it is a closing path, and it should
+           not look like one of the four ways to start. -->
+      <p style="margin-top:18px; font-size:0.86rem; color:var(--text-sec); line-height:1.6;">
+        Teachers and families: your school gives you a username and password &mdash;
+        <a href="#" onclick="setAuthPanel('login'); return false;" style="color:var(--brand-pink); font-weight:600; text-decoration:none;">sign in here</a>.
+        Holding an older <strong>TCH-</strong> or <strong>STU-</strong> invitation code instead?
+        <a href="#" onclick="selectRole('teacher'); return false;" style="color:var(--brand-pink); font-weight:600; text-decoration:none;">Redeem a teacher code</a>
+        or
+        <a href="#" onclick="selectRole('student'); return false;" style="color:var(--brand-pink); font-weight:600; text-decoration:none;">a student code</a>.
+      </p>
 
       <!-- DYNAMIC FORMS BELLOW -->
       <!-- School Form -->
@@ -1072,6 +1093,42 @@ export const AuthPage = () => html`
             <div class="form-group"><label class="form-label">Confirm Password</label><div class="pw-wrapper"><input type="password" class="form-control" id="regSchoolPw2" placeholder="Confirm password"><button type="button" class="pw-toggle" onclick="togglePw('regSchoolPw2')"><i class="fas fa-eye"></i></button></div></div>
           </div>
           <button class="btn btn-accent" onclick="registerSchool()">Create School Account</button>
+        </div>
+      </div>
+
+      <!-- Community School Form -->
+      <div id="form-community" class="reg-form-wrapper">
+        <div class="auth-box" style="border-top: 4px solid #E08020;">
+          <h3 class="auth-box-title">Community School Registration</h3>
+          <p class="auth-box-desc">For schools whose students attend one day a week. You add the roster; the children never need an account.</p>
+
+          <div class="form-grid">
+            <div class="form-group"><label class="form-label">School Name</label><input type="text" class="form-control" id="regComName" placeholder="Imaan Community Academy"></div>
+            <div class="form-group"><label class="form-label">Admin Name</label><input type="text" class="form-control" id="regComAdmin" placeholder="M. Usman"></div>
+            <div class="form-group"><label class="form-label">Location/City</label><input type="text" class="form-control" id="regComLoc" placeholder="Lahore"></div>
+            <div class="form-group">
+              <label class="form-label">Which day do you meet?</label>
+              <select class="form-control" id="regComDay">
+                <option value="saturday">Saturday</option>
+                <option value="sunday">Sunday</option>
+                <option value="friday">Friday</option>
+                <option value="other">Another day</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-grid">
+            <div class="form-group"><label class="form-label">Phone Number</label><input type="text" class="form-control" id="regComPhone" placeholder="03XXXXXXXXX"></div>
+            <div class="form-group"><label class="form-label">Work Email</label><input type="email" class="form-control" id="regComEmail" placeholder="admin@school.com"></div>
+          </div>
+          <div class="form-grid">
+            <div class="form-group"><label class="form-label">Password</label><div class="pw-wrapper"><input type="password" class="form-control" id="regComPw" placeholder="Create password"><button type="button" class="pw-toggle" onclick="togglePw('regComPw')"><i class="fas fa-eye"></i></button></div></div>
+            <div class="form-group"><label class="form-label">Confirm Password</label><div class="pw-wrapper"><input type="password" class="form-control" id="regComPw2" placeholder="Confirm password"><button type="button" class="pw-toggle" onclick="togglePw('regComPw2')"><i class="fas fa-eye"></i></button></div></div>
+          </div>
+          <p style="font-size:0.8rem; color:var(--text-sec); margin:-4px 0 14px; line-height:1.5;">
+            <i class="fas fa-shield-halved" style="color:#E08020; margin-right:6px;"></i>
+            You can set up classes and import your roster straight away. Photo sharing with parents unlocks once we verify your school &mdash; usually within a day.
+          </p>
+          <button class="btn btn-accent" style="background:#E08020;" onclick="registerCommunitySchool()">Create Community School</button>
         </div>
       </div>
 
@@ -1521,11 +1578,13 @@ export const AuthPage = () => html`
         return;
       }
 
-      // A school-provisioned family signs in with a PAR- username. There is no
-      // inbox behind the address it maps to, which is the point: parents were
-      // never able to complete an email signup.
-      if (isFamilyUsername(rawId)) {
-        signInWithEmail(familyUsernameToEmail(rawId), pw, completeLogin, function (msg) {
+      // A school-provisioned login signs in with a username: PAR- for a
+      // family, TCH- for a teacher. There is no inbox behind the address
+      // either maps to, which is the point — neither population was ever able
+      // to complete an email signup, and neither registers from this page.
+      var usernameEmail = usernameToEmail(rawId);
+      if (usernameEmail) {
+        signInWithEmail(usernameEmail, pw, completeLogin, function (msg) {
           showToastCompat(msg, 'error');
         });
         return;
@@ -1547,8 +1606,8 @@ export const AuthPage = () => html`
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-  import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, signOut, onAuthStateChanged, updateProfile, setPersistence, browserLocalPersistence, indexedDBLocalPersistence } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-  import { getFirestore, doc, setDoc, getDoc, updateDoc, query, collection, where, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+  import { getAuth, connectAuthEmulator, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, signOut, onAuthStateChanged, updateProfile, setPersistence, browserLocalPersistence, indexedDBLocalPersistence } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+  import { getFirestore, connectFirestoreEmulator, doc, setDoc, getDoc, updateDoc, query, collection, where, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
   // Emitted here as well as in the compat script above, which is an IIFE and
   // keeps its copy private. Both come from the one constant in familyLogin.ts,
@@ -1574,6 +1633,11 @@ export const AuthPage = () => html`
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const db = getFirestore(app);
+  // Local development only. USE_EMULATORS is a build-time constant, so a
+  // production build emits this block with the connect calls already dead.
+  ${raw(emulatorConnectJS)}
+  connectEmulators({ auth, db, connectAuthEmulator, connectFirestoreEmulator });
+
 
   /** Where each role belongs, in one place — used by login and by resume. */
   function dashboardFor(role) {
@@ -1663,15 +1727,33 @@ export const AuthPage = () => html`
     }
   };
 
-  document.addEventListener('DOMContentLoaded', () => { window.setAuthPanel('login'); });
+  document.addEventListener('DOMContentLoaded', () => {
+    window.setAuthPanel('login');
+
+    // /auth?role=community opens that card already selected, so a landing page
+    // can point a community school straight at its own form instead of asking
+    // it to work out which of five cards it is.
+    try {
+      const wanted = new URLSearchParams(window.location.search).get('role');
+      if (wanted && document.getElementById('form-' + wanted)) window.selectRole(wanted);
+    } catch (_) {}
+  });
 
   window.selectRole = (role) => {
     if (typeof window.setAuthPanel === 'function') window.setAuthPanel('register');
     document.querySelectorAll('.role-item').forEach(c => c.classList.remove('active'));
     document.querySelectorAll('.reg-form-wrapper').forEach(f => f.classList.remove('open'));
-    document.querySelector('.role-item-' + role).classList.add('active');
-    document.getElementById('form-' + role).classList.add('open');
-    setTimeout(() => document.getElementById('form-' + role).scrollIntoView({ behavior:'smooth', block:'center' }), 100);
+
+    // The teacher and student forms are reachable from the invitation-code
+    // link and have no card of their own any more, so a missing card is
+    // normal here — not the error it would once have been.
+    const card = document.querySelector('.role-item-' + role);
+    if (card) card.classList.add('active');
+
+    const form = document.getElementById('form-' + role);
+    if (!form) return;
+    form.classList.add('open');
+    setTimeout(() => form.scrollIntoView({ behavior:'smooth', block:'center' }), 100);
   };
 
   window.togglePw = (id) => {
@@ -1875,6 +1957,56 @@ export const AuthPage = () => html`
     });
   };
 
+  /**
+   * A community school registers itself. Same account shape as registerSchool —
+   * role stays 'school_admin', so not one branch of firestore.rules changes —
+   * and the whole difference is on the school doc: type 'weekly'.
+   *
+   * wall_enabled and approval_status are written at their locked values here
+   * because the schools create rule pins them there. They are NOT the school's
+   * to raise: only the approveSchool callable, super-admin only, turns the
+   * wall on. See SCHOOL_GROUP_PLAN.md §12.4.
+   */
+  window.registerCommunitySchool = async () => {
+    const name  = document.getElementById('regComName').value.trim();
+    const admin = document.getElementById('regComAdmin').value.trim();
+    const loc   = document.getElementById('regComLoc').value.trim();
+    const day   = document.getElementById('regComDay').value;
+    const email = document.getElementById('regComEmail').value.trim();
+    const phone = document.getElementById('regComPhone').value.trim();
+    const pw    = document.getElementById('regComPw').value;
+    const pw2   = document.getElementById('regComPw2').value;
+
+    if (!name || !admin || !email || !phone || !pw) return showToast('Please fill all fields', 'error');
+    if (pw !== pw2) return showToast('Passwords do not match', 'error');
+
+    beginOtp(email, admin, async () => {
+      showToast('Creating your school...', 'success');
+      const userCredential = await createUserWithEmailAndPassword(auth, email, pw);
+      const user = userCredential.user;
+      const code = genCode('SCH');
+      const sId  = genId('sch');
+
+      // User doc FIRST, for the same reason as registerSchool: the schools
+      // create rule calls me() and needs this profile to already exist.
+      await setDoc(doc(db, "users", user.uid), { role: 'school_admin', email: email, phone: phone, name: admin, school_id: sId });
+      await setDoc(doc(db, "schools", sId), {
+        name: name, location: loc, school_code: code, admin_uid: user.uid,
+        type: 'weekly',
+        meeting_day: day,
+        approval_status: 'pending',
+        wall_enabled: false,
+        wall_settings: { comments: 'staff', require_approval: false }
+      });
+
+      lastRegisteredEmail = email;
+      document.getElementById('successTitle').textContent = 'Community School Registered!';
+      document.getElementById('successMsg').textContent = 'Welcome ' + admin + '! Log in to add your classes and import your student roster. Photo sharing with parents unlocks once we verify your school.';
+      document.getElementById('successCodes').innerHTML = '';
+      document.getElementById('successOverlay').classList.add('show');
+    });
+  };
+
   window.registerWithCode = async (role) => {
     let pre = role==='teacher'?'TCH':role==='student'?'STU':'PAR';
     let p = role === 'teacher' ? 'Tch' : role === 'student' ? 'Stu' : 'Par';
@@ -2012,10 +2144,12 @@ export const AuthPage = () => html`
       showToast('Logging in...', 'success');
 
       let emailToUse = rawId;
-      if (!rawId.includes('@') && isFamilyUsername(rawId)) {
-        // Family account: PAR-XXXXX maps to the synthetic address the school's
-        // Cloud Function created it with.
-        emailToUse = familyUsernameToEmail(rawId);
+      const usernameEmail = rawId.includes('@') ? null : usernameToEmail(rawId);
+      if (usernameEmail) {
+        // A school-provisioned login: PAR-XXXXX (family) or TCH-XXXXX
+        // (teacher) maps to the synthetic address its Cloud Function created
+        // the account with.
+        emailToUse = usernameEmail;
       } else if (!rawId.includes('@')) {
         const id = rawId.replace(/[^0-9+]/g, '');
         if (!id) return showToast('Please enter a valid email or phone number', 'error');

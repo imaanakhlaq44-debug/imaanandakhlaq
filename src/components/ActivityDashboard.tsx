@@ -2,6 +2,7 @@ import { html, raw } from 'hono/html'
 import activitiesData from '../data/activities.json'
 import { firebaseConfigJS } from '../lib/firebaseConfig'
 import { ParentGateModal } from './ParentGateModal'
+import { emulatorConnectJS } from '../lib/devEmulators'
 import { parentGateHelpersJS } from '../lib/parentGateService'
 import { activeChildHelpersJS } from '../lib/activeChild'
 import { clubHelpersJS } from '../lib/clubData'
@@ -2239,10 +2240,10 @@ ${HouseQuizModal()}
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-  import { getAuth, onAuthStateChanged, signOut, setPersistence, browserLocalPersistence, indexedDBLocalPersistence } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
-  import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc, addDoc, collection, query, where, getDocs, enableIndexedDbPersistence } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
-  import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-storage.js";
-  import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-functions.js";
+  import { getAuth, connectAuthEmulator, onAuthStateChanged, signOut, setPersistence, browserLocalPersistence, indexedDBLocalPersistence } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+  import { getFirestore, connectFirestoreEmulator, doc, getDoc, setDoc, updateDoc, deleteDoc, addDoc, collection, query, where, getDocs, enableIndexedDbPersistence } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+  import { getStorage, connectStorageEmulator, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-storage.js";
+  import { getFunctions, connectFunctionsEmulator, httpsCallable } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-functions.js";
   import { getDoc as _getDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
   const firebaseConfig = ${raw(firebaseConfigJS)};
@@ -2252,6 +2253,12 @@ ${HouseQuizModal()}
   const db = getFirestore(app);
   const storage = getStorage(app);
   const functions = getFunctions(app);
+  // Local development only. USE_EMULATORS is a build-time constant, so a
+  // production build emits this block with the connect calls already dead.
+  ${raw(emulatorConnectJS)}
+  connectEmulators({ auth, db, functions, storage,
+    connectAuthEmulator, connectFirestoreEmulator, connectFunctionsEmulator, connectStorageEmulator });
+
 
   // 'house' is in no client whitelist in the Firestore rules — the quiz result
   // is written by this callable and by nothing else, which is what stops a

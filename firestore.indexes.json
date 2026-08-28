@@ -1,4 +1,41 @@
 {
-  "indexes": [],
+  "indexes": [
+    {
+      "collectionGroup": "school_posts",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "school_id", "order": "ASCENDING" },
+        { "fieldPath": "status", "order": "ASCENDING" },
+        { "fieldPath": "session_date", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "school_posts",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "school_id", "order": "ASCENDING" },
+        { "fieldPath": "class_ids", "arrayConfig": "CONTAINS" },
+        { "fieldPath": "status", "order": "ASCENDING" },
+        { "fieldPath": "session_date", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "school_posts",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "school_id", "order": "ASCENDING" },
+        { "fieldPath": "session_date", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "school_posts",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "school_id", "order": "ASCENDING" },
+        { "fieldPath": "class_ids", "arrayConfig": "CONTAINS" },
+        { "fieldPath": "session_date", "order": "DESCENDING" }
+      ]
+    }
+  ],
   "fieldOverrides": []
 }

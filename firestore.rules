@@ -133,13 +133,34 @@ service cloud.firestore {
       // profile points at this exact school id, claiming himself as admin.
       // (The /users create rule below guarantees that profile could only be
       // created while this school id was still unused.)
+      //
+      // A community school (type 'weekly') registers itself from the auth page
+      // and must land unapproved. Registration is open — anyone with an email
+      // address reaches this rule — and an approved community school can upload
+      // photographs of children and hand out parent links. So the two fields
+      // that unlock that are pinned here at their locked values, and the ONLY
+      // writer that can change them afterwards is the approveSchool callable
+      // on the Admin SDK. See SCHOOL_GROUP_PLAN.md §12.4.
       allow create: if signedIn() &&
         request.resource.data.admin_uid == request.auth.uid &&
         me().role == 'school_admin' &&
-        mySchool() == schoolId;
+        mySchool() == schoolId &&
+        request.resource.data.get('wall_enabled', false) == false &&
+        request.resource.data.get('approval_status', 'pending') == 'pending';
 
-      allow update: if isSuper() ||
-        (signedIn() && me().role == 'school_admin' && resource.data.admin_uid == request.auth.uid);
+      // Field-whitelisted, and not as tidiness: without onlyKeys the branch
+      // below read "the admin may update their own school", which included
+      // flipping their own wall_enabled to true and approving themselves.
+      // type / approval_status / wall_enabled / approved_by are absent on
+      // purpose — none of them is the school's own call.
+      allow update: if isSuper() || (
+        signedIn() && me().role == 'school_admin' &&
+        resource.data.admin_uid == request.auth.uid &&
+        // 'classes' is the class list the dashboard maintains, and 'logo_url'
+        // the crest upload — both are existing writes and must stay allowed.
+        onlyKeys(['name', 'location', 'logo_url', 'school_code', 'classes',
+                  'meeting_day', 'wall_settings'])
+      );
 
       allow delete: if isSuper();
     }
@@ -243,9 +264,14 @@ service cloud.firestore {
         //
         // club_points is in no whitelist here or anywhere else: Value Credits
         // are written only by the reviewHabitLogs callable on the Admin SDK.
+        // media_consent is here and in no other branch. Whether a child's
+        // photograph may appear on the school wall is the school's record of
+        // what the parent said — not something the student, the family, or a
+        // teacher flips from their own dashboard. roster_only is absent
+        // everywhere: only createRosterStudents sets it.
         signedIn() && me().role == 'school_admin' &&
         sameSchool(resource.data) &&
-        onlyKeys(['name', 'class_id', 'photoURL', 'house'])
+        onlyKeys(['name', 'class_id', 'photoURL', 'house', 'media_consent'])
       );
       // The parent branch that marked chapters approved on a linked child is
       // gone with the role: work goes straight from the student to the teacher.
@@ -524,6 +550,127 @@ service cloud.firestore {
     match /house_scores/{scoreId} {
       allow get, list: if signedIn();
       allow write: if false;
+    }
+
+    // ---------------------------------------------------------------
+    // 11. The school wall
+    // ---------------------------------------------------------------
+    // A community school posts photographs of its activity day, and each
+    // tagged child shows as first name + class. See SCHOOL_GROUP_PLAN.md.
+    //
+    // Every write goes through the publishPost / moderatePost callables on the
+    // Admin SDK; there is no client branch at all. That is not tidiness:
+    // publishing has to check, PER TAGGED CHILD, that photo consent was
+    // granted. Doing that here costs one get() per tag — twenty document reads
+    // on a class post, re-evaluated on every write attempt — and is still
+    // unprovable inside `allow list`. The callable does it in one getAll().
+    //
+    // Same split that protects club_points: the thing that must not be
+    // forgeable is written only by the Admin SDK.
+    match /school_posts/{postId} {
+      // sameSchool() and not a bare signedIn(): a post carries children's
+      // faces and their class, so a signed-in stranger from another school
+      // reading the whole collection is the exact failure this feature cannot
+      // have. Dashboard queries must filter on school_id for list evaluation
+      // to stay provable, the same way every other collection here does.
+      //
+      // Staff see pending and hidden posts too, because somebody has to be
+      // able to find the post they took down.
+      allow get, list: if signedIn() && (
+        isSuper() ||
+        (isStaff() && sameSchool(resource.data)) ||
+        (sameSchool(resource.data) && resource.data.status == 'published')
+      );
+
+      allow write: if false;
+
+      // -------------------------------------------------------------
+      // Likes — one document per person per post, id == uid, so liking
+      // twice overwrites rather than accumulating.
+      //
+      // like_count is NOT written here and cannot be: the post document
+      // above is write-closed to every client, and countWallReactions on
+      // the Admin SDK is its only writer. A browser that could increment
+      // its own applause would be minting it.
+      // -------------------------------------------------------------
+      match /likes/{likerUid} {
+        allow get, list: if signedIn() && sameSchool(resource.data);
+
+        // hasOnly and not onlyKeys: onlyKeys diffs against resource.data,
+        // which does not exist on a create. The whitelist is what stops a
+        // client writing source:'parent_link' and passing its own like off
+        // as a parent's — those are written by appreciatePost on the Admin
+        // SDK, which never reaches this rule.
+        //
+        // The get() is not decoration either. Checking only that the like
+        // carries the CALLER's school lets a teacher from another school
+        // write a like into a post they cannot even read — and
+        // countWallReactions would dutifully increment that post's counter.
+        // A test caught exactly that. One read on a low-frequency write.
+        allow create: if signedIn() &&
+          likerUid == request.auth.uid &&
+          request.resource.data.school_id == mySchool() &&
+          request.resource.data.keys().hasOnly(['school_id', 'created_at']) &&
+          get(/databases/$(database)/documents/school_posts/$(postId)).data.school_id == mySchool();
+
+        allow delete: if signedIn() && likerUid == request.auth.uid &&
+          sameSchool(resource.data);
+
+        // Nothing about a like is editable. Un-liking is a delete.
+        allow update: if false;
+      }
+
+      // -------------------------------------------------------------
+      // Comments — staff only, per SCHOOL_GROUP_PLAN.md §11.
+      //
+      // A school's wall carries photographs of children. Opening the
+      // comment box to every account in the school turns a record of the
+      // week into a place where a disagreement between two families
+      // happens under a photograph of somebody's child.
+      // -------------------------------------------------------------
+      match /comments/{commentId} {
+        allow get, list: if signedIn() && sameSchool(resource.data) &&
+          (resource.data.status == 'visible' || isStaff());
+
+        allow create: if signedIn() && isStaff() &&
+          request.resource.data.school_id == mySchool() &&
+          // Same reason as the likes branch: the caller's school matching is
+          // not the same as the POST's school matching.
+          get(/databases/$(database)/documents/school_posts/$(postId)).data.school_id == mySchool() &&
+          request.resource.data.author_uid == request.auth.uid &&
+          request.resource.data.status == 'visible' &&
+          request.resource.data.text is string &&
+          request.resource.data.text.size() > 0 &&
+          request.resource.data.text.size() <= 500 &&
+          // The policy is stamped onto the post at publish time, so a school
+          // that switched comments off is provable without reading the school
+          // document. One get() on a low-frequency write, never on a list.
+          get(/databases/$(database)/documents/school_posts/$(postId)).data.comments_policy != 'off';
+
+        // Staff hide; nobody rewrites. An edited comment under a
+        // photograph is a comment whose history nobody can check.
+        allow update: if isStaff() && sameSchool(resource.data) &&
+          onlyKeys(['status']);
+
+        allow delete: if isSuper() ||
+          (signedIn() && me().role == 'school_admin' && sameSchool(resource.data));
+      }
+    }
+
+    // ---------------------------------------------------------------
+    // 12. Parent links
+    // ---------------------------------------------------------------
+    // A bearer token per child, printed on a slip or sent to a parent. The
+    // whole collection is closed: readParentWall and appreciatePost resolve
+    // tokens on the Admin SDK, and issueParentLink mints them there.
+    //
+    // No branch here, not even for staff. A readable collection of bearer
+    // tokens is not a collection of secrets — one signed-in teacher could
+    // list every parent's link in their school, and one compromised school
+    // account could list them all. The school's own copy of a link lives on
+    // the screen where it was issued, and reissuing replaces it.
+    match /parent_links/{token} {
+      allow read, write: if false;
     }
   }
 }
