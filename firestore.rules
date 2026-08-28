@@ -672,5 +672,45 @@ service cloud.firestore {
     match /parent_links/{token} {
       allow read, write: if false;
     }
+
+    // ---------------------------------------------------------------
+    // 13. Organisations
+    // ---------------------------------------------------------------
+    // An organisation is a container schools arrive through, not a tenant
+    // boundary — sameSchool() is still the only membership answer in this
+    // file. See ORG_PORTAL_PLAN.md section 1.1.
+    //
+    // Closed to every client, and not only because the doc holds a bearer
+    // token. A readable orgs collection is an index of every organisation
+    // working with us, which is a list we were never asked to publish. The
+    // register page needs the organisation's NAME before anyone has signed
+    // in, and it gets that from describeOrgInvite — a callable that answers
+    // that one question and refuses everything else.
+    match /orgs/{orgId} {
+      allow read, write: if false;
+    }
+
+    // ---------------------------------------------------------------
+    // 14. Student PIN attempts
+    // ---------------------------------------------------------------
+    // The lockout counter behind studentSignIn. Closed for the obvious
+    // reason — a client that could delete its own row could sit and guess
+    // PINs all afternoon — and readable by nobody, because the row's
+    // existence tells you a roll number that somebody has been trying.
+    match /pin_attempts/{key} {
+      allow read, write: if false;
+    }
+
+    // ---------------------------------------------------------------
+    // 15. School links
+    // ---------------------------------------------------------------
+    // One bearer token per school, the thing in the fragment of the link a
+    // child opens. Closed for the same reason as parent_links, and for one
+    // more: schools above is readable by every signed-in account, so this
+    // could not live on the school doc without being readable by all of
+    // them. A school reads its own through getSchoolLink.
+    match /school_links/{token} {
+      allow read, write: if false;
+    }
   }
 }

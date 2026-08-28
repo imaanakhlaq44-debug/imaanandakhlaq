@@ -4,7 +4,7 @@ const { initializeApp } = require('firebase-admin/app');
 const { getFirestore, FieldValue } = require('firebase-admin/firestore');
 const { getAuth } = require('firebase-admin/auth');
 const { getStorage } = require('firebase-admin/storage');
-const { randomInt, createHash } = require('node:crypto');
+const { randomInt, createHash, randomBytes, scryptSync, timingSafeEqual } = require('node:crypto');
 
 initializeApp();
 const db = getFirestore();
@@ -2431,4 +2431,473 @@ exports.countWallReactions = onDocumentWritten('school_posts/{postId}/{sub}/{doc
     // count and nothing wrong.
     if (err.code !== 5) console.warn('countWallReactions:', err.message);
   }
+});
+
+/* ===========================================================================
+   Organisation portals — see ORG_PORTAL_PLAN.md
+
+   An organisation (Alkhidmat, a telecom's CSR arm) gets one link. Schools
+   arrive through it and register themselves; each one leaves with its own
+   link for children, who sign in with a roll number and a PIN and never have
+   an email address anywhere in the system.
+   =========================================================================== */
+
+// 32^8 is about 1.1 x 10^12. Unlike a child code these are not transcribed by
+// hand off a slip — they are forwarded as a link — so length costs nothing,
+// and guessing has to stay out of reach for a token that lives for years.
+const ORG_TOKEN_LENGTH = 8;
+const SCHOOL_TOKEN_LENGTH = 8;
+
+const PIN_LENGTH = 4;
+const PIN_MAX_FAILS = 5;
+const PIN_LOCK_MINUTES = 15;
+
+// 64 bytes out of scrypt. A 4-digit PIN has so little entropy of its own that
+// everything protecting it has to come from the work factor and the lockout.
+const PIN_KEY_BYTES = 64;
+
+/**
+ * A name a URL can carry: 'Gulshan Campus (Girls)' -> 'gulshan-campus-girls'.
+ *
+ * Deliberately lossy for anything outside a-z0-9, Urdu names included. A
+ * school named only in Urdu slugs to '' and the caller falls back to a
+ * generic stem, which is plain but readable; the alternative is
+ * percent-encoded mojibake in a link somebody has to read out loud.
+ */
+function slugify(value) {
+  return String(value || '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 40);
+}
+
+/** The first free slug in this org: 'campus', then 'campus-2', 'campus-3'. */
+async function uniqueSchoolSlug(orgId, base) {
+  const stem = base || 'school';
+  for (let n = 1; n < 100; n++) {
+    const candidate = n === 1 ? stem : stem + '-' + n;
+    const clash = await db.collection('schools')
+      .where('org_id', '==', orgId)
+      .where('slug', '==', candidate)
+      .limit(1)
+      .get();
+    if (clash.empty) return candidate;
+  }
+  throw new HttpsError('resource-exhausted', 'Too many schools with that name.');
+}
+
+function hashPin(pin, salt) {
+  return scryptSync(String(pin), salt, PIN_KEY_BYTES).toString('hex');
+}
+
+/**
+ * Constant time, and tolerant of a stored hash that is missing or the wrong
+ * length. timingSafeEqual throws on a length mismatch, and a throw here would
+ * be its own oracle: 'that student has no PIN' would answer faster and louder
+ * than 'that PIN is wrong'.
+ */
+function pinMatches(pin, salt, expectedHex) {
+  if (!salt || !expectedHex) return false;
+  const actual = Buffer.from(hashPin(pin, salt), 'hex');
+  const expected = Buffer.from(String(expectedHex), 'hex');
+  if (actual.length !== expected.length) return false;
+  return timingSafeEqual(actual, expected);
+}
+
+function randomPin() {
+  // randomInt, not Math.random: this is a credential, however short.
+  let out = '';
+  for (let i = 0; i < PIN_LENGTH; i++) out += String(randomInt(10));
+  return out;
+}
+
+/** Create an organisation and hand back the one link its schools arrive through. */
+exports.createOrg = onCall({ cors: true }, async (request) => {
+  const caller = await requireStaff(request, ['super_admin']);
+  const data = request.data || {};
+
+  const name = String(data.name || '').trim();
+  if (!name) throw new HttpsError('invalid-argument', 'The organisation needs a name.');
+
+  const slug = slugify(data.slug || name);
+  if (!slug) throw new HttpsError('invalid-argument', 'That name has no letters or digits a link can carry. Give the organisation a short English slug as well.');
+
+  const clash = await db.collection('orgs').where('slug', '==', slug).limit(1).get();
+  if (!clash.empty) throw new HttpsError('already-exists', 'An organisation already uses the link /o/' + slug + '.');
+
+  const joinToken = randomCode(ORG_TOKEN_LENGTH);
+  const ref = db.collection('orgs').doc();
+  await ref.set({
+    name: name,
+    slug: slug,
+    join_token: joinToken,
+    contact_email: String(data.contact_email || '').trim(),
+    contact_phone: String(data.contact_phone || '').trim(),
+    status: 'active',
+    school_count: 0,
+    created_at: nowIso(),
+    created_by: caller.uid
+  });
+
+  return {
+    org_id: ref.id,
+    name: name,
+    slug: slug,
+    // A fragment, for the same reason as a parent link: the browser never
+    // sends it to the server, so the token stays out of access logs and
+    // Referer headers.
+    join_path: '/o/' + slug + '#' + joinToken
+  };
+});
+
+/** Retire every copy of an organisation's link at once. */
+exports.rotateOrgToken = onCall({ cors: true }, async (request) => {
+  const caller = await requireStaff(request, ['super_admin']);
+  const orgId = String((request.data && request.data.org_id) || '').trim();
+  if (!orgId) throw new HttpsError('invalid-argument', 'Which organisation?');
+
+  const ref = db.collection('orgs').doc(orgId);
+  const snap = await ref.get();
+  if (!snap.exists) throw new HttpsError('not-found', 'No such organisation.');
+
+  const joinToken = randomCode(ORG_TOKEN_LENGTH);
+  await ref.update({ join_token: joinToken, token_rotated_at: nowIso(), token_rotated_by: caller.uid });
+
+  // The schools already registered are untouched: the join token is spent at
+  // registration and never read again.
+  return { org_id: orgId, join_path: '/o/' + snap.get('slug') + '#' + joinToken };
+});
+
+/**
+ * What is this organisation called?
+ *
+ * The one function here that anybody on the internet can call, so it answers
+ * exactly one question. No school list, no contact details, no id. A head
+ * teacher opening the link needs to see they are in the right place, and
+ * nothing beyond that is theirs to see before they have registered.
+ */
+exports.describeOrgInvite = onCall({ cors: true }, async (request) => {
+  const data = request.data || {};
+  const slug = slugify(data.slug);
+  const token = String(data.token || '').trim();
+  if (!slug || !token) throw new HttpsError('invalid-argument', 'That link is incomplete.');
+
+  const snap = await db.collection('orgs').where('slug', '==', slug).limit(1).get();
+  const org = snap.empty ? null : snap.docs[0];
+
+  // One error for a wrong slug, a wrong token and a closed organisation. A
+  // caller with a bad link learns that it is bad, and nothing else.
+  if (!org || org.get('join_token') !== token || org.get('status') !== 'active') {
+    throw new HttpsError('not-found', 'This link is not valid any more. Ask the organisation for a current one.');
+  }
+
+  return { name: org.get('name'), slug: org.get('slug') };
+});
+
+/**
+ * A school registers itself under an organisation and is live immediately.
+ *
+ * No approval step — a settled decision, ORG_PORTAL_PLAN.md section 3. What
+ * makes it safe to skip is not trust in the link but what a new school can
+ * reach: nothing. It starts with no students and no wall, and sameSchool() in
+ * firestore.rules keeps it out of every other school's data. The join token
+ * is rotatable the moment a link goes astray.
+ *
+ * approval_status is 'approved' because the organisation vouched for the
+ * school; wall_enabled stays false, because publishing photographs of
+ * children is a separate decision from being able to log in.
+ */
+exports.registerSchoolInOrg = onCall({ cors: true }, async (request) => {
+  const data = request.data || {};
+  const slug = slugify(data.slug);
+  const token = String(data.token || '').trim();
+  const schoolName = String(data.school_name || '').trim();
+  const adminName = String(data.admin_name || '').trim();
+  const email = String(data.email || '').trim().toLowerCase();
+  const password = String(data.password || '');
+
+  if (!slug || !token) throw new HttpsError('invalid-argument', 'That link is incomplete.');
+  if (!schoolName) throw new HttpsError('invalid-argument', 'The school needs a name.');
+  if (!adminName) throw new HttpsError('invalid-argument', 'Who runs the school?');
+  if (!email) throw new HttpsError('invalid-argument', 'An email address is needed to sign in.');
+  if (password.length < 6) throw new HttpsError('invalid-argument', 'The password needs at least 6 characters.');
+
+  const orgSnap = await db.collection('orgs').where('slug', '==', slug).limit(1).get();
+  const org = orgSnap.empty ? null : orgSnap.docs[0];
+  if (!org || org.get('join_token') !== token || org.get('status') !== 'active') {
+    throw new HttpsError('not-found', 'This link is not valid any more. Ask the organisation for a current one.');
+  }
+
+  const schoolSlug = await uniqueSchoolSlug(org.id, slugify(schoolName));
+  const studentToken = randomCode(SCHOOL_TOKEN_LENGTH);
+
+  let user;
+  try {
+    user = await getAuth().createUser({ email: email, password: password, displayName: adminName });
+  } catch (err) {
+    if (err && err.code === 'auth/email-already-exists') {
+      throw new HttpsError('already-exists', 'That email address already has an account. Sign in instead, or use another address.');
+    }
+    throw new HttpsError('internal', 'Could not create the account.');
+  }
+
+  const schoolId = db.collection('schools').doc().id;
+
+  try {
+    // The profile first, then the school: the same order the auth page uses,
+    // because the schools create rule reads the caller's profile.
+    await db.collection('users').doc(user.uid).set({
+      role: 'school_admin',
+      email: email,
+      name: adminName,
+      school_id: schoolId
+    });
+
+    await db.collection('schools').doc(schoolId).set({
+      name: schoolName,
+      location: String(data.location || '').trim(),
+      school_code: randomCode(CHILD_CODE_LENGTH),
+      admin_uid: user.uid,
+      org_id: org.id,
+      slug: schoolSlug,
+      type: 'weekly',
+      meeting_day: String(data.meeting_day || '').trim(),
+      approval_status: 'approved',
+      wall_enabled: false,
+      wall_settings: { comments: 'staff', require_approval: false },
+      created_at: nowIso()
+    });
+
+    // The link lives in its own closed collection, keyed BY the token, so
+    // signing a child in is one document read rather than a query — and so
+    // that nothing readable anywhere holds the secret.
+    await db.collection('school_links').doc(studentToken).set({
+      school_id: schoolId,
+      org_slug: org.get('slug'),
+      school_slug: schoolSlug,
+      created_at: nowIso()
+    });
+
+    await db.collection('orgs').doc(org.id).update({ school_count: FieldValue.increment(1) });
+  } catch (err) {
+    // A half-made school is worse than none: the head would hold an account
+    // that signs in to nothing, and could not register again with that email.
+    await getAuth().deleteUser(user.uid).catch(() => {});
+    await db.collection('users').doc(user.uid).delete().catch(() => {});
+    throw new HttpsError('internal', 'Could not finish registering the school.');
+  }
+
+  return {
+    school_id: schoolId,
+    school_slug: schoolSlug,
+    org_slug: org.get('slug'),
+    student_path: '/s/' + org.get('slug') + '/' + schoolSlug + '#' + studentToken
+  };
+});
+
+/**
+ * Roll numbers and PINs for a class, shown once.
+ *
+ * The same shape as createTeacherAccount: the credential is returned here and
+ * nowhere else, because only the hash is stored. Reissuing is resetStudentPin,
+ * not a lookup — there is nothing to look up.
+ */
+exports.issueStudentPins = onCall({ cors: true }, async (request) => {
+  const caller = await requireStaff(request, ['teacher', 'school_admin', 'super_admin']);
+  const data = request.data || {};
+  const schoolId = resolveSchoolId(caller, data.school_id);
+
+  const uids = Array.isArray(data.student_uids) ? data.student_uids.map(String) : [];
+  if (!uids.length) throw new HttpsError('invalid-argument', 'Name at least one student.');
+  if (uids.length > 300) throw new HttpsError('invalid-argument', 'Three hundred students at a time is the limit.');
+
+  // The highest roll number already in use, so a second import continues the
+  // series instead of colliding with it.
+  const existing = await db.collection('users')
+    .where('school_id', '==', schoolId)
+    .where('role', '==', 'student')
+    .get();
+  let next = 0;
+  existing.forEach((d) => {
+    const n = parseInt(d.get('roll_no'), 10);
+    if (Number.isFinite(n) && n > next) next = n;
+  });
+
+  const issued = [];
+  const batch = db.batch();
+
+  for (const uid of uids) {
+    const snap = await db.collection('users').doc(uid).get();
+    if (!snap.exists || snap.get('role') !== 'student') continue;
+    if (snap.get('school_id') !== schoolId) {
+      throw new HttpsError('permission-denied', 'One of those students belongs to another school.');
+    }
+
+    const rollNo = snap.get('roll_no') ? String(snap.get('roll_no')) : String(++next);
+    const pin = randomPin();
+    const salt = randomBytes(16).toString('hex');
+
+    batch.update(snap.ref, {
+      roll_no: rollNo,
+      pin_hash: hashPin(pin, salt),
+      pin_salt: salt,
+      pin_set_at: nowIso()
+    });
+
+    issued.push({
+      student_uid: uid,
+      name: snap.get('name') || '',
+      class_id: snap.get('class_id') || '',
+      roll_no: rollNo,
+      pin: pin
+    });
+  }
+
+  if (!issued.length) throw new HttpsError('not-found', 'None of those students are on this roster.');
+  await batch.commit();
+
+  return { issued: issued };
+});
+
+/** One child, one new PIN — a slip that went home in the wrong bag. */
+exports.resetStudentPin = onCall({ cors: true }, async (request) => {
+  const caller = await requireStaff(request, ['teacher', 'school_admin', 'super_admin']);
+  const uid = String((request.data && request.data.student_uid) || '').trim();
+  if (!uid) throw new HttpsError('invalid-argument', 'Which student?');
+
+  const snap = await db.collection('users').doc(uid).get();
+  if (!snap.exists || snap.get('role') !== 'student') throw new HttpsError('not-found', 'That student does not exist.');
+  if (caller.role !== 'super_admin' && snap.get('school_id') !== caller.school_id) {
+    throw new HttpsError('permission-denied', 'That student belongs to another school.');
+  }
+  if (!snap.get('roll_no')) throw new HttpsError('failed-precondition', 'That student has no roll number yet.');
+
+  const pin = randomPin();
+  const salt = randomBytes(16).toString('hex');
+  await snap.ref.update({ pin_hash: hashPin(pin, salt), pin_salt: salt, pin_set_at: nowIso() });
+
+  // A fresh PIN should not inherit a lockout the old one earned.
+  await db.collection('pin_attempts').doc(snap.get('school_id') + '_' + snap.get('roll_no')).delete().catch(() => {});
+
+  return { student_uid: uid, roll_no: String(snap.get('roll_no')), pin: pin };
+});
+
+/**
+ * A child signs in with a roll number and a PIN.
+ *
+ * Returns a Firebase custom token for the child's own uid, so from here they
+ * are request.auth.uid like anybody else and every student rule already in
+ * firestore.rules applies unchanged. ORG_PORTAL_PLAN.md section 1.2 has why
+ * this is a real session rather than a side channel.
+ *
+ * Four digits are only safe because of the lockout below: five tries every
+ * fifteen minutes is eighty years to walk ten thousand PINs. The counter is
+ * per child, never per school — one child fumbling must not lock a classroom
+ * out on activity day.
+ */
+exports.studentSignIn = onCall({ cors: true }, async (request) => {
+  const data = request.data || {};
+  const token = String(data.school_token || '').trim();
+  const rollNo = String(data.roll_no || '').trim();
+  const pin = String(data.pin || '').trim();
+
+  // One message for every way this fails. A caller guessing a school token
+  // must not be able to tell it apart from a caller guessing a PIN.
+  const wrong = new HttpsError('permission-denied', 'That roll number and PIN do not match. Check the slip from your teacher.');
+
+  if (!token || !rollNo || !pin) throw wrong;
+
+  const linkSnap = await db.collection('school_links').doc(token).get();
+  if (!linkSnap.exists) throw wrong;
+  const schoolId = linkSnap.get('school_id');
+
+  const attemptsRef = db.collection('pin_attempts').doc(schoolId + '_' + rollNo);
+  const attempts = await attemptsRef.get();
+  const lockedUntil = attempts.exists ? attempts.get('locked_until') : null;
+  if (lockedUntil && new Date(lockedUntil) > new Date()) {
+    throw new HttpsError('resource-exhausted', 'Too many wrong tries. Try again in a few minutes, or ask your teacher.');
+  }
+
+  const studentSnap = await db.collection('users')
+    .where('school_id', '==', schoolId)
+    .where('role', '==', 'student')
+    .where('roll_no', '==', rollNo)
+    .limit(1)
+    .get();
+
+  const student = studentSnap.empty ? null : studentSnap.docs[0];
+  const ok = student && pinMatches(pin, student.get('pin_salt'), student.get('pin_hash'));
+
+  if (!ok) {
+    // Keyed on the roll number rather than the student, so guessing a roll
+    // number that does not exist is rate limited too.
+    const fails = (attempts.exists ? (attempts.get('fails') || 0) : 0) + 1;
+    const update = { fails: fails, last_attempt_at: nowIso() };
+    if (fails >= PIN_MAX_FAILS) {
+      update.locked_until = new Date(Date.now() + PIN_LOCK_MINUTES * 60000).toISOString();
+      update.fails = 0;
+    }
+    await attemptsRef.set(update, { merge: true });
+    throw wrong;
+  }
+
+  await attemptsRef.delete().catch(() => {});
+
+  return {
+    token: await getAuth().createCustomToken(student.id),
+    student_uid: student.id,
+    name: student.get('name') || '',
+    school_id: schoolId
+  };
+});
+
+/**
+ * The school's own link for children.
+ *
+ * A callable rather than a field on the school doc, because schools are
+ * readable by every signed-in account (firestore.rules section 4) and this is
+ * a bearer token. Only the school's own staff get it back.
+ */
+exports.getSchoolLink = onCall({ cors: true }, async (request) => {
+  const caller = await requireStaff(request, ['teacher', 'school_admin', 'super_admin']);
+  const schoolId = resolveSchoolId(caller, request.data && request.data.school_id);
+
+  const links = await db.collection('school_links').where('school_id', '==', schoolId).limit(1).get();
+  if (links.empty) throw new HttpsError('not-found', 'This school has no student link yet.');
+
+  const link = links.docs[0];
+  return { path: '/s/' + link.get('org_slug') + '/' + link.get('school_slug') + '#' + link.id };
+});
+
+/**
+ * Retire a school's link and issue another.
+ *
+ * Every child's slip stops working, so this is the school admin's decision
+ * alone, never a teacher's. The PINs are untouched — a new link, the same
+ * roll numbers — because a leaked link is not a leaked PIN.
+ */
+exports.rotateSchoolLink = onCall({ cors: true }, async (request) => {
+  const caller = await requireStaff(request, ['school_admin', 'super_admin']);
+  const schoolId = resolveSchoolId(caller, request.data && request.data.school_id);
+
+  const links = await db.collection('school_links').where('school_id', '==', schoolId).get();
+  if (links.empty) throw new HttpsError('not-found', 'This school has no student link yet.');
+
+  const old = links.docs[0];
+  const token = randomCode(SCHOOL_TOKEN_LENGTH);
+
+  await db.collection('school_links').doc(token).set({
+    school_id: schoolId,
+    org_slug: old.get('org_slug'),
+    school_slug: old.get('school_slug'),
+    created_at: nowIso(),
+    rotated_by: caller.uid
+  });
+
+  const batch = db.batch();
+  links.forEach((d) => batch.delete(d.ref));
+  await batch.commit();
+
+  return { path: '/s/' + old.get('org_slug') + '/' + old.get('school_slug') + '#' + token };
 });
