@@ -37,7 +37,7 @@ export const SuperAdminDashboard = () => html`
   .nav-item { position: relative; padding: 10px 12px; margin: 0 8px; border-radius: var(--ds-radius-sm); display: flex; align-items: center; gap: 12px; color: rgba(255, 255, 255, 0.74); text-decoration: none; font-size: 0.875rem; font-weight: 500; transition: background 0.15s ease, color 0.15s ease; cursor: pointer; }
   .nav-item:hover { color: var(--white); background-color: rgba(255, 255, 255, 0.07); }
   .nav-item.active { color: var(--white); background-color: rgba(255, 255, 255, 0.10); font-weight: 600; }
-  .nav-item.active::before { content: ''; position: absolute; left: 0; top: 8px; bottom: 8px; width: 3px; border-radius: 0 3px 3px 0; background: var(--ds-accent); }
+  .nav-item.active::before { content: ''; position: absolute; left: 0; top: 8px; bottom: 8px; width: 3px; border-radius: 0 3px 3px 0; background: var(--ds-accent, #cf296d); }
   .nav-item i { width: 20px; text-align: center; font-size: 0.9375rem; opacity: .9; }
 
   /* Main Wrapper */

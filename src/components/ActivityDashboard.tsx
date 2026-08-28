@@ -962,7 +962,7 @@ export const ActivityDashboard = () => html`
     gap: 0.35rem;
     padding: 0.38rem 0.7rem;
     border-radius: 8px;
-    background: var(--ds-navy);
+    background: var(--ds-navy, #16294d);
     border: none;
     color: #ffffff;
     font-family: 'Sora', sans-serif;
@@ -975,7 +975,7 @@ export const ActivityDashboard = () => html`
     pointer-events: none;
   }
   .library-item[role="button"]:hover .lib-view-btn {
-    background: var(--ds-navy-soft);
+    background: var(--ds-navy-soft, #1e3560);
   }
 
   .library-subtitle {

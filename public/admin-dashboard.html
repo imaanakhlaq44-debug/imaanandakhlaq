@@ -313,8 +313,13 @@
     /* One flat accent, the same one the rest of the app uses. The three-stop
        pink-to-amber gradient with a coloured glow under it made every primary
        button on the page shout, including Done and Delete.
-       See --ds-accent in dashboard-ui.css. */
-    background: var(--ds-accent);
+       See --ds-accent in dashboard-ui.css.
+
+       The literal after the token is not decoration. It is the only thing
+       standing between a missed stylesheet and a Confirm Import button
+       rendered as white text on a white card — invisible until you happened
+       to hover it, because :hover sets its own colour. */
+    background: var(--ds-accent, #cf296d);
     color: #ffffff;
     border: 1px solid transparent;
     box-shadow: none;
@@ -565,7 +570,7 @@
     bottom: 8px;
     width: 3px;
     border-radius: 0 3px 3px 0;
-    background: var(--ds-accent);
+    background: var(--ds-accent, #cf296d);
   }
 
   .nav-links li:hover::before,
