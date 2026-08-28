@@ -456,6 +456,7 @@ export const SuperAdminDashboard = () => html`
     <div class="sidebar-nav" id="sidebar-menu">
       <a href="#" class="nav-item active" data-target="dashboard"><i class="fas fa-th-large"></i> Dashboard</a>
       <a href="#" class="nav-item" data-target="schools"><i class="fas fa-school"></i> Schools</a>
+      <a href="/orgs" class="nav-item nav-leaves"><i class="fas fa-building"></i> Organisations</a>
       <a href="#" class="nav-item" data-target="reports"><i class="fas fa-chart-pie"></i> Global Reports</a>
       <a href="#" class="nav-item" data-target="value-economy"><i class="fas fa-coins"></i> Value Economy</a>
       <a href="#" class="nav-item" data-target="coming-soon"><i class="fas fa-file-invoice-dollar"></i> Billing & Plans</a>
@@ -1364,7 +1365,10 @@ export const SuperAdminDashboard = () => html`
 
   // Sidebar Navigation Logic
   document.addEventListener('DOMContentLoaded', () => {
-    const navItems = document.querySelectorAll('#sidebar-menu .nav-item');
+    // :not(.nav-leaves) — an item that navigates somewhere else is not a
+    // section of this page, and the handler below preventDefault()s every
+    // click it is given.
+    const navItems = document.querySelectorAll('#sidebar-menu .nav-item:not(.nav-leaves)');
     const secStats = document.getElementById('dash-stats');
     const secGraph = document.getElementById('dash-graph');
     const secSchools = document.getElementById('dash-schools');

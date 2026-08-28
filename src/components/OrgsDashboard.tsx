@@ -127,6 +127,7 @@ export const OrgsDashboard = () => html`
   <div class="og-wrap">
     <div class="og-head">
       <div>
+        <a href="/super-admin-dashboard" style="font-size:.82rem; font-weight:700; color:#6b7a90; text-decoration:none; display:inline-block; margin-bottom:4px;">&larr; Super admin dashboard</a>
         <h1 class="og-title">Organisations</h1>
         <div class="og-sub">Each one gets a link. Schools register themselves through it.</div>
       </div>
