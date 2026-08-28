@@ -181,7 +181,10 @@ export const StudentPinPage = () => html`
       await signInWithCustomToken(auth, res.token);
 
       btn.textContent = 'Welcome ' + (res.name || '') + '!';
-      location.href = '/student-activities';
+      // The wall, not the books dashboard. A child who signs in with a slip
+      // from a community school comes for what their class did last week —
+      // their own work is one link away, on the wall's bar.
+      location.href = '/school-wall';
     } catch (err) {
       btn.disabled = false;
       btn.textContent = 'Open my dashboard';

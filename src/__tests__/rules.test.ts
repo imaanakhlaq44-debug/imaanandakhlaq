@@ -894,6 +894,11 @@ describe.skipIf(!HAS_EMULATOR)('Firestore rules', () => {
           class_ids: ['Class 4'], author_uid: TEACHER, text: 'A session',
           comments_policy: 'staff', like_count: 0, comment_count: 0
         })
+        await setDoc(doc(db, 'school_posts', 'rp-students'), {
+          school_id: SCHOOL, status: 'published', session_date: '2026-08-22',
+          class_ids: ['Class 4'], author_uid: TEACHER, text: 'Children may reply',
+          comments_policy: 'students', like_count: 0, comment_count: 0
+        })
         await setDoc(doc(db, 'school_posts', 'rp-off'), {
           school_id: SCHOOL, status: 'published', session_date: '2026-08-22',
           class_ids: ['Class 4'], author_uid: TEACHER, text: 'Comments off',
@@ -969,6 +974,41 @@ describe.skipIf(!HAS_EMULATOR)('Firestore rules', () => {
       })
     })
 
+    // Listing is its own permission, and it is not "get, repeated". A rule
+    // has to be provable from the QUERY, so a clause about resource.data that
+    // the query does not constrain fails for every caller — which is exactly
+    // what sameSchool(resource.data) did here until it was found by opening a
+    // thread in a browser. These four are the regression guard.
+    describe('listing a thread', () => {
+      const visibleOnly = (db: any, postId: string) => getDocs(query(
+        collection(db, 'school_posts', postId, 'comments'),
+        where('status', '==', 'visible')
+      ))
+
+      it('staff list the whole thread, hidden comments included', async () => {
+        const snap = await getDocs(collection(asTeacher(), 'school_posts', 'rp-1', 'comments'))
+        expect(snap.size).toBe(2)
+      })
+
+      it('a student lists the visible ones', async () => {
+        const snap = await visibleOnly(asLegacy(), 'rp-1')
+        expect(snap.docs.map((d) => d.id)).toEqual(['c-visible'])
+      })
+
+      it('a student cannot ask for the hidden ones', async () => {
+        await assertFails(getDocs(collection(asLegacy(), 'school_posts', 'rp-1', 'comments')))
+      })
+
+      it('another school cannot list at all', async () => {
+        await assertFails(visibleOnly(asOutsider(), 'rp-1'))
+      })
+
+      it('an empty thread lists cleanly', async () => {
+        const snap = await visibleOnly(asLegacy(), 'rp-students')
+        expect(snap.size).toBe(0)
+      })
+    })
+
     describe('comments', () => {
       const comment = {
         school_id: SCHOOL, author_uid: TEACHER, author_name: 'Teacher',
@@ -988,10 +1028,36 @@ describe.skipIf(!HAS_EMULATOR)('Firestore rules', () => {
         ))
       })
 
-      it('a student cannot', async () => {
+      it('a student cannot, where the school kept comments to staff', async () => {
         await assertFails(setDoc(
           doc(asLegacy(), 'school_posts', 'rp-1', 'comments', 'c-new'),
           { ...comment, author_uid: LEGACY_STUDENT }
+        ))
+      })
+
+      it('a student can, where the school opened them', async () => {
+        await assertSucceeds(setDoc(
+          doc(asLegacy(), 'school_posts', 'rp-students', 'comments', 'c-kid'),
+          { ...comment, author_uid: LEGACY_STUDENT, author_name: 'Legacy' }
+        ))
+      })
+
+      // 'students' opens the wall to the children of the school, and to
+      // nobody else. A family reading a post through a parent link is not a
+      // member of it and never becomes one by this setting.
+      it('a family still cannot, even where students may', async () => {
+        await assertFails(setDoc(
+          doc(asFamily(), 'school_posts', 'rp-students', 'comments', 'c-fam'),
+          { ...comment, author_uid: FAMILY }
+        ))
+      })
+
+      // OUTSIDER is staff at OTHER_SCHOOL: opening comments to students is a
+      // school opening them to ITS students, and sameSchool() still decides.
+      it('somebody from another school cannot', async () => {
+        await assertFails(setDoc(
+          doc(asOutsider(), 'school_posts', 'rp-students', 'comments', 'c-out'),
+          { ...comment, author_uid: OUTSIDER, school_id: OTHER_SCHOOL }
         ))
       })
 

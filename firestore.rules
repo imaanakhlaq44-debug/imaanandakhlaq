@@ -629,10 +629,39 @@ service cloud.firestore {
       // happens under a photograph of somebody's child.
       // -------------------------------------------------------------
       match /comments/{commentId} {
-        allow get, list: if signedIn() && sameSchool(resource.data) &&
+        allow get: if signedIn() && sameSchool(resource.data) &&
           (resource.data.status == 'visible' || isStaff());
 
-        allow create: if signedIn() && isStaff() &&
+        // list is NOT get with a loop around it. Rules must be provable from
+        // the query alone, and sameSchool(resource.data) is not: a query with
+        // no where('school_id') clause cannot show that every document it
+        // returns will satisfy it, so listing a thread failed for everyone —
+        // staff included — with "school_id is undefined on object". Nothing
+        // caught it because no test ever listed comments, only read one and
+        // wrote one.
+        //
+        // The parent post is the honest place to ask. A comment's school is
+        // its post's school, the post id is fixed by the path, and one get()
+        // per opened thread is not one per comment.
+        //
+        // The status clause stays on resource.data on purpose: that is what
+        // makes the client add where('status', '==', 'visible'), so a reader
+        // who is not staff cannot ask for a hidden comment at all.
+        allow list: if signedIn() &&
+          get(/databases/$(database)/documents/school_posts/$(postId)).data.school_id == mySchool() &&
+          (isStaff() || resource.data.status == 'visible');
+
+        // Everything a comment must satisfy whoever writes it, and then one
+        // clause for WHO. The policy is stamped onto the post at publish
+        // time, so a school that changed its mind is provable without reading
+        // the school document — one get() on a low-frequency write, never on
+        // a list.
+        //
+        // 'students' is a school's deliberate choice and not the default. The
+        // original design allowed staff only, for the reason written above
+        // this block, and that reason has not gone away: it is now a setting
+        // a school turns on with its eyes open, not a door that stands open.
+        allow create: if signedIn() &&
           request.resource.data.school_id == mySchool() &&
           // Same reason as the likes branch: the caller's school matching is
           // not the same as the POST's school matching.
@@ -642,10 +671,12 @@ service cloud.firestore {
           request.resource.data.text is string &&
           request.resource.data.text.size() > 0 &&
           request.resource.data.text.size() <= 500 &&
-          // The policy is stamped onto the post at publish time, so a school
-          // that switched comments off is provable without reading the school
-          // document. One get() on a low-frequency write, never on a list.
-          get(/databases/$(database)/documents/school_posts/$(postId)).data.comments_policy != 'off';
+          (
+            (isStaff() &&
+              get(/databases/$(database)/documents/school_posts/$(postId)).data.comments_policy != 'off') ||
+            (me().role == 'student' &&
+              get(/databases/$(database)/documents/school_posts/$(postId)).data.comments_policy == 'students')
+          );
 
         // Staff hide; nobody rewrites. An edited comment under a
         // photograph is a comment whose history nobody can check.

@@ -238,7 +238,17 @@ export const SchoolWall = () => html`
   <div class="wall-bar">
     <h1 id="wallSchoolName">School Wall</h1>
     <div class="spacer"></div>
+    <label id="commentPolicyWrap" style="display:none; align-items:center; gap:6px; font-size:0.82rem; color:var(--muted); font-weight:700;">
+      Comments
+      <select id="commentPolicy" onchange="saveCommentPolicy(this.value)"
+              style="font:inherit; padding:6px 8px; border:1px solid var(--line); border-radius:9px; color:var(--navy);">
+        <option value="staff">Staff only</option>
+        <option value="students">Students too</option>
+        <option value="off">Nobody</option>
+      </select>
+    </label>
     <button class="btn btn-primary" id="newPostBtn" style="display:none;" onclick="openComposer()">New post</button>
+    <a href="/student-activities" id="myWorkLink" class="btn btn-quiet" style="display:none; text-decoration:none;">My work</a>
     <a href="/" class="btn btn-quiet" style="text-decoration:none;">Back</a>
   </div>
 
@@ -345,6 +355,20 @@ export const SchoolWall = () => html`
   let mediaUrls = {};       // storage path -> resolved URL
 
   function isStaff() { return me && (me.role === 'teacher' || me.role === 'school_admin'); }
+  function isStudent() { return me && me.role === 'student'; }
+
+  /**
+   * A child on the wall is a first name, never a full one.
+   *
+   * The posts already follow this — a tagged child shows as first name plus
+   * class — and a comment signed with the full name would undo that on the
+   * same screen, under the same photograph.
+   */
+  function commentAuthorName() {
+    const full = String((me && me.name) || '').trim();
+    if (!isStudent()) return full || 'Staff';
+    return full.split(/\s+/)[0] || 'Student';
+  }
 
   function esc(value) {
     const d = document.createElement('div');
@@ -401,6 +425,20 @@ export const SchoolWall = () => html`
     // After the roster is in, so the handed-over tags can be checked against
     // it. Opening the composer earlier would drop every tag on the floor.
     const draft = takeStashedDraft();
+    // The school admin's call, not a teacher's: opening the wall to a
+    // classroom of children is a safeguarding decision, and the head is the
+    // one who answers for it.
+    // A child lands here from their slip, so the way to their own chapters
+    // has to be on this page or it does not exist for them.
+    if (isStudent()) document.getElementById('myWorkLink').style.display = 'inline-flex';
+
+    if (me && me.role === 'school_admin') {
+      const wrap = document.getElementById('commentPolicyWrap');
+      document.getElementById('commentPolicy').value =
+        (school.wall_settings && school.wall_settings.comments) || 'staff';
+      wrap.style.display = 'inline-flex';
+    }
+
     if (draft && isStaff() && school.wall_enabled === true) openComposer(draft);
   });
 
@@ -700,11 +738,14 @@ export const SchoolWall = () => html`
 
     let snap;
     try {
-      snap = await getDocs(query(
-        collection(db, 'school_posts', postId, 'comments'),
-        orderBy('created_at', 'asc'),
-        limit(100)
-      ));
+      // Staff see hidden comments so they can restore one; everybody else
+      // must say so in the query, because that is the only way the list rule
+      // can prove a hidden comment will not come back. See firestore.rules.
+      const clauses = [collection(db, 'school_posts', postId, 'comments')];
+      if (!isStaff()) clauses.push(where('status', '==', 'visible'));
+      clauses.push(orderBy('created_at', 'asc'), limit(100));
+
+      snap = await getDocs(query.apply(null, clauses));
     } catch (err) {
       console.error('comments failed', err);
       box.innerHTML = '<div class="comment-empty">The comments could not be loaded.</div>';
@@ -714,7 +755,15 @@ export const SchoolWall = () => html`
     const rows = [];
     snap.forEach((d) => rows.push(Object.assign({ id: d.id }, d.data())));
 
-    const canPost = isStaff() && commentsAllowed(postId);
+    const post = posts.find((p) => p.id === postId);
+    const policy = post && post.comments_policy;
+    // Staff whenever comments are on at all; a student only where the school
+    // has deliberately opened them. See firestore.rules — the same two
+    // clauses, because a UI that offers what the rules refuse is a UI that
+    // hands people an error.
+    const canPost = (isStaff() && commentsAllowed(postId)) ||
+                    (isStudent() && policy === 'students');
+    const placeholder = isStudent() ? 'Say something kind' : 'Write a note for your colleagues';
 
     box.innerHTML =
       (rows.length
@@ -731,10 +780,37 @@ export const SchoolWall = () => html`
         : '<div class="comment-empty">No comments yet.</div>') +
       (canPost
         ? '<div class="comment-new">' +
-            '<input type="text" maxlength="500" id="cmt-' + esc(postId) + '" placeholder="Write a note for your colleagues">' +
+            '<input type="text" maxlength="500" id="cmt-' + esc(postId) + '" placeholder="' + esc(placeholder) + '">' +
             '<button class="btn btn-quiet" onclick="addComment(\\'' + postId + '\\')">Post</button>' +
           '</div>'
         : '');
+  };
+
+  /**
+   * Change who may comment.
+   *
+   * Only posts published from here on carry the new setting: comments_policy
+   * is stamped onto a post at publish time so the rules can check it with one
+   * get(), and rewriting every past post to match would be a migration, not a
+   * toggle. Said plainly on screen rather than left to be discovered.
+   */
+  window.saveCommentPolicy = async (value) => {
+    const select = document.getElementById('commentPolicy');
+    select.disabled = true;
+    try {
+      await updateDoc(doc(db, 'schools', me.school_id), {
+        wall_settings: Object.assign({}, school.wall_settings || {}, { comments: value })
+      });
+      school.wall_settings = Object.assign({}, school.wall_settings || {}, { comments: value });
+      showNotice(value === 'students'
+        ? 'Students can comment on posts you publish from now on. Earlier posts keep the setting they were published with.'
+        : 'Saved. It applies to posts you publish from now on.');
+    } catch (err) {
+      alert(err.message || 'That setting could not be saved.');
+      select.value = (school.wall_settings && school.wall_settings.comments) || 'staff';
+    } finally {
+      select.disabled = false;
+    }
   };
 
   /** The school's setting, stamped on each post when it was published. */
@@ -754,7 +830,7 @@ export const SchoolWall = () => html`
       await addDoc(collection(db, 'school_posts', postId, 'comments'), {
         school_id: me.school_id,
         author_uid: me.uid,
-        author_name: me.name || 'Staff',
+        author_name: commentAuthorName(),
         author_role: me.role,
         text: text,
         status: 'visible',
