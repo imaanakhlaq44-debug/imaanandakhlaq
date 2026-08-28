@@ -2,6 +2,7 @@ import { html, raw } from 'hono/html'
 import activitiesData from '../data/activities.json'
 import { firebaseConfigJS } from '../lib/firebaseConfig'
 import { activeChildHelpersJS } from '../lib/activeChild'
+import { emulatorConnectJS } from '../lib/devEmulators'
 
 export const ActivityPage = () => html`
 <style>
@@ -733,14 +734,20 @@ export const ActivityPage = () => html`
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
-  import { getFirestore, doc, getDoc, updateDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+  import { getAuth, connectAuthEmulator, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+  import { getFirestore, connectFirestoreEmulator, doc, getDoc, updateDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
   const firebaseConfig = ${raw(firebaseConfigJS)};
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const db = getFirestore(app);
+  // Local development only. USE_EMULATORS is a build-time constant, so a
+  // production build emits this block with the connect calls already dead.
+  ${raw(emulatorConnectJS)}
+  connectEmulators({ auth, db,
+    connectAuthEmulator, connectFirestoreEmulator });
+
 
   const urlParams = new URLSearchParams(window.location.search);
   const currentBook = urlParams.get('book') || 'book1';

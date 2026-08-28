@@ -15,9 +15,9 @@
     "cf-typegen": "wrangler types --env-interface CloudflareBindings",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:rules": "firebase emulators:exec --only firestore \"vitest run src/__tests__/rules.test.ts\"",
-    "test:functions": "firebase emulators:exec --only firestore,auth,functions \"vitest run src/__tests__/functions.test.ts\"",
-    "test:emulator": "firebase emulators:exec --only firestore,auth,functions \"vitest run src/__tests__/rules.test.ts src/__tests__/functions.test.ts\""
+    "test:rules": "firebase emulators:exec --config firebase.test.json --only firestore \"node scripts/run-emulator-tests.cjs src/__tests__/rules.test.ts\"",
+    "test:functions": "firebase emulators:exec --config firebase.test.json --only firestore,auth,functions,storage \"node scripts/run-emulator-tests.cjs src/__tests__/functions.test.ts src/__tests__/orgPortal.test.ts\"",
+    "test:emulator": "firebase emulators:exec --config firebase.test.json --only firestore,auth,functions,storage \"node scripts/run-emulator-tests.cjs src/__tests__/rules.test.ts src/__tests__/functions.test.ts src/__tests__/orgPortal.test.ts\""
   },
   "dependencies": {
     "@capacitor/android": "^8.3.1",

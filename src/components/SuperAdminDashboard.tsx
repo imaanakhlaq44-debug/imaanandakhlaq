@@ -1,6 +1,7 @@
 import { html, raw } from 'hono/html'
 import { firebaseConfigJS } from '../lib/firebaseConfig'
 import { valueEconomyHelpersJS, COMPLAINT_MAX_POINTS } from '../lib/valueEconomy'
+import { emulatorConnectJS } from '../lib/devEmulators'
 import { clubHelpersJS } from '../lib/clubData'
 
 export const SuperAdminDashboard = () => html`
@@ -36,7 +37,7 @@ export const SuperAdminDashboard = () => html`
   .nav-item { position: relative; padding: 10px 12px; margin: 0 8px; border-radius: var(--ds-radius-sm); display: flex; align-items: center; gap: 12px; color: rgba(255, 255, 255, 0.74); text-decoration: none; font-size: 0.875rem; font-weight: 500; transition: background 0.15s ease, color 0.15s ease; cursor: pointer; }
   .nav-item:hover { color: var(--white); background-color: rgba(255, 255, 255, 0.07); }
   .nav-item.active { color: var(--white); background-color: rgba(255, 255, 255, 0.10); font-weight: 600; }
-  .nav-item.active::before { content: ''; position: absolute; left: 0; top: 8px; bottom: 8px; width: 3px; border-radius: 0 3px 3px 0; background: var(--ds-accent); }
+  .nav-item.active::before { content: ''; position: absolute; left: 0; top: 8px; bottom: 8px; width: 3px; border-radius: 0 3px 3px 0; background: var(--ds-accent, #cf296d); }
   .nav-item i { width: 20px; text-align: center; font-size: 0.9375rem; opacity: .9; }
 
   /* Main Wrapper */
@@ -392,6 +393,47 @@ export const SuperAdminDashboard = () => html`
     .super-admin-layout .sidebar { width: 260px !important; }
   }
 
+
+  /* ── The shell holds still; only the page inside it scrolls ─────────────
+     Every dashboard was built as a flex column of 'min-height: 100vh', so a tall
+     page simply grew it and the DOCUMENT scrolled. The inner
+     'overflow-y: auto' never engaged, because .content-area had no height to
+     overflow — which is why the sidebar and the bar at the top rode up and
+     off the screen together with the content.
+
+     Giving the shell an exact viewport height is the whole fix: .content-area
+     becomes the only scroller on the page, and .sidebar and .top-header
+     stay where they are.
+
+     Desktop only. Below 901px the sidebar is an off-canvas drawer and the
+     page is meant to scroll as one piece; pinning things there would fight
+     the mobile layout instead of helping it.
+
+     100dvh follows 100vh so a phone-sized desktop window still fills the
+     visible area when the browser chrome collapses; browsers that do not
+     know the unit keep the line above. */
+  @media (min-width: 901px) {
+    .super-admin-layout {
+      min-height: 0;
+      height: 100vh;
+      height: 100dvh;
+    }
+
+    .sidebar { overflow-y: auto; }
+
+    /* .top-header and .content-area are already siblings in .main-wrapper,
+       and .content-area already asks for overflow-y:auto — so unlike the
+       other dashboards this one needs no sticky rule. It only ever needed a
+       height to push against. */
+    .main-wrapper { min-height: 0; }
+
+    /* Same trap, one element up: the header is a flex item beside the
+       scroller, and would give up its 70px rather than let the page overflow. */
+    .top-header { flex-shrink: 0; }
+
+    .content-area { min-height: 0; }
+  }
+
 </style>
 
 <div class="super-admin-layout">
@@ -414,6 +456,7 @@ export const SuperAdminDashboard = () => html`
     <div class="sidebar-nav" id="sidebar-menu">
       <a href="#" class="nav-item active" data-target="dashboard"><i class="fas fa-th-large"></i> Dashboard</a>
       <a href="#" class="nav-item" data-target="schools"><i class="fas fa-school"></i> Schools</a>
+      <a href="/orgs" class="nav-item nav-leaves"><i class="fas fa-building"></i> Organisations</a>
       <a href="#" class="nav-item" data-target="reports"><i class="fas fa-chart-pie"></i> Global Reports</a>
       <a href="#" class="nav-item" data-target="value-economy"><i class="fas fa-coins"></i> Value Economy</a>
       <a href="#" class="nav-item" data-target="coming-soon"><i class="fas fa-file-invoice-dollar"></i> Billing & Plans</a>
@@ -601,6 +644,35 @@ export const SuperAdminDashboard = () => html`
         <p class="chart-empty d-none" id="platformChartEmpty">No schools have registered yet.</p>
       </div>
 
+      <!-- Community schools waiting for approval.
+           Registration is open to anyone with an email address, which was
+           harmless while a fake school could only mint invite codes nobody
+           would redeem. An approved community school can upload photographs of
+           children and hand out parent links, so that step waits here.
+           The card hides itself when the queue is empty. -->
+      <div class="card d-none" id="dash-pending-schools">
+        <div class="card-header">
+          <div class="card-title">
+            <i class="fas fa-user-shield" style="color: var(--brand-tertiary)"></i>
+            Community Schools Awaiting Verification
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>School &amp; Admin</th>
+                <th>Location</th>
+                <th>Meets</th>
+                <th>Contact</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="pending-schools-body"></tbody>
+          </table>
+        </div>
+      </div>
+
       <!-- Schools List -->
       <div class="card" id="dash-schools">
         <div class="card-header">
@@ -660,8 +732,9 @@ export const SuperAdminDashboard = () => html`
 <script src="/kidba_assets/vendor/js/chart.umd.min.js"></script>
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-  import { getFirestore, collection, getDocs, doc, getDoc, setDoc, deleteDoc, writeBatch } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
-  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+  import { getFirestore, connectFirestoreEmulator, collection, getDocs, doc, getDoc, setDoc, deleteDoc, writeBatch } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+  import { getAuth, connectAuthEmulator, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+  import { getFunctions, connectFunctionsEmulator, httpsCallable } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-functions.js";
 
   const Chart = window.Chart;
 
@@ -670,6 +743,13 @@ export const SuperAdminDashboard = () => html`
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
   const auth = getAuth(app);
+  const functions = getFunctions(app);
+  // Local development only. USE_EMULATORS is a build-time constant, so a
+  // production build emits this block with the connect calls already dead.
+  ${raw(emulatorConnectJS)}
+  connectEmulators({ auth, db, functions,
+    connectAuthEmulator, connectFirestoreEmulator, connectFunctionsEmulator });
+
 
   // CLUB_HOUSES / clubHouse come from clubData.ts — the price rows are dotted
   // in the house colour a category belongs to, the same colour the student and
@@ -718,6 +798,27 @@ export const SuperAdminDashboard = () => html`
       });
     });
   })();
+
+  /**
+   * Unlock a community school's wall.
+   *
+   * Goes through the approveSchool callable rather than writing the school doc
+   * directly: firestore.rules keeps approval_status and wall_enabled out of
+   * every client whitelist, so the Admin SDK is the only writer. A super admin
+   * COULD write them here — isSuper() bypasses the whitelist — but then the
+   * one place that decides what approval means would live in two files.
+   */
+  window.approveSchoolById = async function (schoolId) {
+    if (!schoolId) return;
+    if (!confirm('Approve this school? Its wall unlocks and it can start sharing activity photos with parents.')) return;
+    try {
+      await httpsCallable(functions, 'approveSchool')({ school_id: schoolId, approved: true });
+      await loadDashboardData();
+    } catch (err) {
+      console.error('approveSchool failed:', err);
+      alert('Could not approve that school: ' + (err.message || 'unknown error'));
+    }
+  };
 
   async function loadDashboardData() {
     try {
@@ -781,6 +882,44 @@ export const SuperAdminDashboard = () => html`
         setTimeout(function () { URL.revokeObjectURL(url); }, 2000);
       };
 
+      // ---- Community schools awaiting verification -------------------------
+      // A school is pending only if it asked to be: type 'weekly'. Full-time
+      // schools registered before this queue existed carry no approval_status
+      // and must not appear here — get(…, 'approved') is what keeps them out.
+      const pendingSchools = schools.filter((s) =>
+        s.type === 'weekly' && (s.approval_status || 'pending') !== 'approved');
+      const pendingCard = document.getElementById('dash-pending-schools');
+      const pendingBody = document.getElementById('pending-schools-body');
+      if (pendingCard && pendingBody) {
+        pendingCard.classList.toggle('d-none', pendingSchools.length === 0);
+        pendingBody.innerHTML = pendingSchools.map((school) => {
+          const sAdmin = users.find((u) => u.uid === school.admin_uid) || {};
+          return \`
+            <tr>
+              <td>
+                <div class="school-details">
+                  <strong>\${esc(school.name || 'Unnamed School')}</strong>
+                  <span>Admin: \${esc(sAdmin.name || 'Unknown')}</span>
+                </div>
+              </td>
+              <td>\${esc(school.location || 'Not specified')}</td>
+              <td>\${esc(school.meeting_day || '—')}</td>
+              <td>
+                <div class="school-details">
+                  <strong>\${esc(sAdmin.email || school.admin_email || '—')}</strong>
+                  <span>\${esc(sAdmin.phone || '—')}</span>
+                </div>
+              </td>
+              <td>
+                <button class="btn-icon" title="Approve this school and unlock its wall"
+                  onclick="window.approveSchoolById('\${esc(school.id)}')">
+                  <i class="fas fa-check" style="color:#16a34a;"></i>
+                </button>
+              </td>
+            </tr>\`;
+        }).join('');
+      }
+
       const tbody = document.getElementById('schools-table-body');
       tbody.innerHTML = '';
       
@@ -818,7 +957,9 @@ export const SuperAdminDashboard = () => html`
                 <td>\${esc(school.location || 'Not specified')}</td>
                 <td><div class="metrics-pill"><i class="fas fa-chalkboard-teacher"></i> \${schTch}</div></td>
                 <td><div class="metrics-pill"><i class="fas fa-user-graduate"></i> \${schStu}</div></td>
-                <td><span class="badge-status badge-active">Active</span></td>
+                <td>\${school.type === 'weekly' && (school.approval_status || 'pending') !== 'approved'
+                      ? '<span class="badge-status">Pending verification</span>'
+                      : '<span class="badge-status badge-active">Active</span>'}</td>
                 <td>
                   <button class="btn-icon" title="View Details"><i class="fas fa-eye"></i></button>
                   <button class="btn-icon" title="Edit School"><i class="fas fa-edit"></i></button>
@@ -1224,7 +1365,10 @@ export const SuperAdminDashboard = () => html`
 
   // Sidebar Navigation Logic
   document.addEventListener('DOMContentLoaded', () => {
-    const navItems = document.querySelectorAll('#sidebar-menu .nav-item');
+    // :not(.nav-leaves) — an item that navigates somewhere else is not a
+    // section of this page, and the handler below preventDefault()s every
+    // click it is given.
+    const navItems = document.querySelectorAll('#sidebar-menu .nav-item:not(.nav-leaves)');
     const secStats = document.getElementById('dash-stats');
     const secGraph = document.getElementById('dash-graph');
     const secSchools = document.getElementById('dash-schools');

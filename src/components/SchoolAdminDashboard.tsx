@@ -2154,6 +2154,66 @@ export const SchoolAdminDashboard = () => html`
       height: 124px;
     }
   }
+
+  /* ── The shell holds still; only the page inside it scrolls ─────────────
+     Every dashboard was built as a grid of 'min-height: 100vh', so a tall
+     page simply grew it and the DOCUMENT scrolled. The inner
+     'overflow-y: auto' never engaged, because .main-content had no height to
+     overflow — which is why the sidebar and the bar at the top rode up and
+     off the screen together with the content.
+
+     Giving the shell an exact viewport height is the whole fix: .main-content
+     becomes the only scroller on the page, and .top-nav and .workspace-topbar
+     stay where they are.
+
+     Desktop only. Below 901px the sidebar is an off-canvas drawer and the
+     page is meant to scroll as one piece; pinning things there would fight
+     the mobile layout instead of helping it.
+
+     100dvh follows 100vh so a phone-sized desktop window still fills the
+     visible area when the browser chrome collapses; browsers that do not
+     know the unit keep the line above. */
+  @media (min-width: 901px) {
+    .app-container {
+      min-height: 0;
+      height: 100vh;
+      height: 100dvh;
+    }
+
+    /* A nav list longer than the screen scrolls inside the sidebar rather
+       than pushing the log-out button out of reach. */
+    .top-nav { overflow-y: auto; }
+
+    /* min-height:0 lets a grid item shrink below its content, which is what
+       makes overflow-y:auto here mean anything at all. */
+    .main-content {
+      min-height: 0;
+      padding-top: 0;
+    }
+
+    /* A flex item shrinks before it overflows. .main-content is a flex column, so
+       the moment the shell got a real height its children stopped being as
+       tall as their content and started being as tall as the space left over
+       — the students list squashed to fit and the rest was simply cut off,
+       with nothing to scroll because nothing overflowed.
+
+       flex-shrink: 0 is what turns a squashed column back into a scrolling
+       one. It is the other half of giving the shell a height, not a tweak. */
+    .main-content > * { flex-shrink: 0; }
+
+
+    /* Flush to the top, so nothing shows in a gap above it on the way past.
+       The bottom corners keep their radius; the top two would only frame two
+       notches of scrolling content. */
+    .workspace-topbar {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+    }
+  }
+
 </style>
 
 <!-- LOGIN VIEW (hidden by default to avoid popup after /auth login) -->

@@ -671,6 +671,455 @@ describe.skipIf(!HAS_EMULATOR)('Firestore rules', () => {
     })
   })
 
+  /**
+   * A community school registers itself from the auth page, so the create rule
+   * is reachable by anyone with an email address. What must not be reachable
+   * is the pair of fields that unlock publishing photographs of children —
+   * approval_status and wall_enabled — from either the create or the update
+   * side. See SCHOOL_GROUP_PLAN.md §12.4.
+   */
+  describe('a school cannot approve itself', () => {
+    const NEW_ADMIN = 'wk-admin-1'
+    const NEW_SCHOOL = 'sch-community-1'
+
+    const asNewAdmin = () => env.authenticatedContext(NEW_ADMIN).firestore()
+
+    beforeEach(async () => {
+      await env.withSecurityRulesDisabled(async (ctx) => {
+        await setDoc(doc(ctx.firestore(), 'users', NEW_ADMIN), {
+          role: 'school_admin', school_id: NEW_SCHOOL, name: 'Community Admin'
+        })
+        await setDoc(doc(ctx.firestore(), 'users', SUPER), { role: 'super_admin', name: 'HQ' })
+      })
+    })
+
+    const pendingSchool = {
+      name: 'Saturday Academy', admin_uid: NEW_ADMIN, type: 'weekly',
+      meeting_day: 'saturday', approval_status: 'pending', wall_enabled: false
+    }
+
+    it('registers itself while unapproved', async () => {
+      await assertSucceeds(setDoc(doc(asNewAdmin(), 'schools', NEW_SCHOOL), pendingSchool))
+    })
+
+    it('cannot register itself already approved', async () => {
+      await assertFails(setDoc(doc(asNewAdmin(), 'schools', NEW_SCHOOL), {
+        ...pendingSchool, approval_status: 'approved', wall_enabled: true
+      }))
+    })
+
+    it('cannot turn its own wall on afterwards', async () => {
+      await env.withSecurityRulesDisabled(async (ctx) => {
+        await setDoc(doc(ctx.firestore(), 'schools', NEW_SCHOOL), pendingSchool)
+      })
+      await assertFails(updateDoc(doc(asNewAdmin(), 'schools', NEW_SCHOOL), { wall_enabled: true }))
+      await assertFails(updateDoc(doc(asNewAdmin(), 'schools', NEW_SCHOOL), { approval_status: 'approved' }))
+      await assertFails(updateDoc(doc(asNewAdmin(), 'schools', NEW_SCHOOL), { type: 'full_time' }))
+    })
+
+    it('still edits the fields that are its own', async () => {
+      await env.withSecurityRulesDisabled(async (ctx) => {
+        await setDoc(doc(ctx.firestore(), 'schools', NEW_SCHOOL), pendingSchool)
+      })
+      // classes and logo_url are pre-existing dashboard writes: the whitelist
+      // that blocks self-approval must not have blocked those too.
+      await assertSucceeds(updateDoc(doc(asNewAdmin(), 'schools', NEW_SCHOOL), {
+        classes: ['Class 1', 'Class 2']
+      }))
+      await assertSucceeds(updateDoc(doc(asNewAdmin(), 'schools', NEW_SCHOOL), {
+        logo_url: 'https://example.invalid/logo.png', meeting_day: 'sunday'
+      }))
+    })
+
+    it('a super admin approves it', async () => {
+      await env.withSecurityRulesDisabled(async (ctx) => {
+        await setDoc(doc(ctx.firestore(), 'schools', NEW_SCHOOL), pendingSchool)
+      })
+      await assertSucceeds(updateDoc(doc(env.authenticatedContext(SUPER).firestore(), 'schools', NEW_SCHOOL), {
+        approval_status: 'approved', wall_enabled: true
+      }))
+    })
+  })
+
+  describe('photo consent belongs to the school', () => {
+    const ADMIN = 'sch-admin-1'
+    const asAdmin = () => env.authenticatedContext(ADMIN).firestore()
+
+    beforeEach(async () => {
+      await env.withSecurityRulesDisabled(async (ctx) => {
+        await setDoc(doc(ctx.firestore(), 'users', ADMIN), {
+          role: 'school_admin', school_id: SCHOOL, name: 'Admin'
+        })
+      })
+    })
+
+    it('the school admin records what the parent said', async () => {
+      await assertSucceeds(updateDoc(doc(asAdmin(), 'users', LEGACY_STUDENT), {
+        media_consent: 'granted'
+      }))
+    })
+
+    it('a teacher cannot', async () => {
+      await assertFails(updateDoc(doc(asTeacher(), 'users', LEGACY_STUDENT), {
+        media_consent: 'granted'
+      }))
+    })
+
+    it('the student cannot grant it for themselves', async () => {
+      await assertFails(updateDoc(doc(asLegacy(), 'users', LEGACY_STUDENT), {
+        media_consent: 'granted'
+      }))
+    })
+
+    it('a family cannot set it on its own child', async () => {
+      // Deliberate: the school holds the consent record, and a shared family
+      // login is not proof the parent is the one at the keyboard.
+      await assertFails(updateDoc(doc(asFamily(), 'users', CHILD), {
+        media_consent: 'granted'
+      }))
+    })
+
+    it('nobody may claim roster_only from a client', async () => {
+      await assertFails(updateDoc(doc(asAdmin(), 'users', LEGACY_STUDENT), {
+        roster_only: true
+      }))
+    })
+  })
+
+  /**
+   * The wall carries children's faces and their class. Two properties matter:
+   * nobody outside the school can read a post, and nobody at all can write
+   * one from a client — publishPost checks consent per tagged child, and a
+   * client write branch would be a way around that check.
+   */
+  describe('the school wall', () => {
+    const OTHER_SCHOOL = 'school-2'
+    const OUTSIDER = 'outsider-1'
+    const ADMIN = 'wall-admin-1'
+
+    const asOutsider = () => env.authenticatedContext(OUTSIDER).firestore()
+    const asAdmin = () => env.authenticatedContext(ADMIN).firestore()
+
+    beforeEach(async () => {
+      await env.withSecurityRulesDisabled(async (ctx) => {
+        const db = ctx.firestore()
+        await setDoc(doc(db, 'users', OUTSIDER), {
+          role: 'teacher', school_id: OTHER_SCHOOL, name: 'Other School Teacher'
+        })
+        await setDoc(doc(db, 'users', ADMIN), {
+          role: 'school_admin', school_id: SCHOOL, name: 'Admin'
+        })
+        await setDoc(doc(db, 'school_posts', 'post-1'), {
+          school_id: SCHOOL, status: 'published', session_date: '2026-08-22',
+          class_ids: ['Class 4'], author_uid: TEACHER, text: 'Great session',
+          tagged: [{ student_uid: CHILD, first_name: 'Abdullah', class_id: 'Class 4' }]
+        })
+        await setDoc(doc(db, 'school_posts', 'post-hidden'), {
+          school_id: SCHOOL, status: 'hidden', session_date: '2026-08-15',
+          class_ids: ['Class 4'], author_uid: TEACHER, text: 'Taken down'
+        })
+      })
+    })
+
+    it('a family in the school reads a published post', async () => {
+      await assertSucceeds(getDoc(doc(asFamily(), 'school_posts', 'post-1')))
+    })
+
+    it('a teacher from another school cannot', async () => {
+      await assertFails(getDoc(doc(asOutsider(), 'school_posts', 'post-1')))
+    })
+
+    it('a teacher from another school cannot list the wall', async () => {
+      await assertFails(getDocs(query(
+        collection(asOutsider(), 'school_posts'), where('school_id', '==', SCHOOL)
+      )))
+    })
+
+    it('a hidden post is invisible to the school but not to its staff', async () => {
+      // Somebody has to be able to find the post they took down.
+      await assertFails(getDoc(doc(asFamily(), 'school_posts', 'post-hidden')))
+      await assertSucceeds(getDoc(doc(asTeacher(), 'school_posts', 'post-hidden')))
+    })
+
+    it('nobody writes a post from a client — not even the school admin', async () => {
+      // publishPost is the only writer. A client that could create a post
+      // could tag a child whose parent said no.
+      const post = {
+        school_id: SCHOOL, status: 'published', session_date: '2026-08-22',
+        class_ids: ['Class 4'], author_uid: ADMIN, text: 'Forged'
+      }
+      await assertFails(setDoc(doc(asAdmin(), 'school_posts', 'post-2'), post))
+      await assertFails(setDoc(doc(asTeacher(), 'school_posts', 'post-2'), post))
+      await assertFails(setDoc(doc(asFamily(), 'school_posts', 'post-2'), post))
+      await assertFails(setDoc(doc(asLegacy(), 'school_posts', 'post-2'), post))
+    })
+
+    it('nobody unhides or edits a post from a client', async () => {
+      await assertFails(updateDoc(doc(asAdmin(), 'school_posts', 'post-hidden'), { status: 'published' }))
+      await assertFails(updateDoc(doc(asTeacher(), 'school_posts', 'post-1'), { text: 'Rewritten' }))
+      await assertFails(updateDoc(doc(asAdmin(), 'school_posts', 'post-1'), { like_count: 999 }))
+    })
+
+    it('nobody deletes a post from a client', async () => {
+      // Deleting has to take the photographs with it, which only the callable
+      // can do — a client delete would leave the images fetchable.
+      await assertFails(deleteDoc(doc(asAdmin(), 'school_posts', 'post-1')))
+    })
+  })
+
+  /**
+   * Likes and comments. Two properties carry the weight: the counters cannot
+   * be written from a browser at all, and a client cannot pass its own like
+   * off as a parent's by writing the field appreciatePost uses.
+   */
+  describe('wall reactions', () => {
+    const OTHER_SCHOOL = 'school-9'
+    const OUTSIDER = 'outsider-9'
+    const ADMIN = 'react-admin'
+
+    const asOutsider = () => env.authenticatedContext(OUTSIDER).firestore()
+    const asAdmin = () => env.authenticatedContext(ADMIN).firestore()
+
+    beforeEach(async () => {
+      await env.withSecurityRulesDisabled(async (ctx) => {
+        const db = ctx.firestore()
+        await setDoc(doc(db, 'users', OUTSIDER), {
+          role: 'teacher', school_id: OTHER_SCHOOL, name: 'Other school'
+        })
+        await setDoc(doc(db, 'users', ADMIN), {
+          role: 'school_admin', school_id: SCHOOL, name: 'Admin'
+        })
+        await setDoc(doc(db, 'school_posts', 'rp-1'), {
+          school_id: SCHOOL, status: 'published', session_date: '2026-08-22',
+          class_ids: ['Class 4'], author_uid: TEACHER, text: 'A session',
+          comments_policy: 'staff', like_count: 0, comment_count: 0
+        })
+        await setDoc(doc(db, 'school_posts', 'rp-students'), {
+          school_id: SCHOOL, status: 'published', session_date: '2026-08-22',
+          class_ids: ['Class 4'], author_uid: TEACHER, text: 'Children may reply',
+          comments_policy: 'students', like_count: 0, comment_count: 0
+        })
+        await setDoc(doc(db, 'school_posts', 'rp-off'), {
+          school_id: SCHOOL, status: 'published', session_date: '2026-08-22',
+          class_ids: ['Class 4'], author_uid: TEACHER, text: 'Comments off',
+          comments_policy: 'off', like_count: 0, comment_count: 0
+        })
+        await setDoc(doc(db, 'school_posts', 'rp-1', 'comments', 'c-visible'), {
+          school_id: SCHOOL, author_uid: TEACHER, author_name: 'Teacher',
+          text: 'Lovely session', status: 'visible'
+        })
+        await setDoc(doc(db, 'school_posts', 'rp-1', 'comments', 'c-hidden'), {
+          school_id: SCHOOL, author_uid: TEACHER, author_name: 'Teacher',
+          text: 'Taken down', status: 'hidden'
+        })
+      })
+    })
+
+    describe('likes', () => {
+      const like = { school_id: SCHOOL, created_at: '2026-08-22T10:00:00.000Z' }
+
+      it('a family in the school likes a post, and un-likes it', async () => {
+        const ref = doc(asFamily(), 'school_posts', 'rp-1', 'likes', FAMILY)
+        await assertSucceeds(setDoc(ref, like))
+        await assertSucceeds(deleteDoc(ref))
+      })
+
+      it('a teacher likes a post', async () => {
+        await assertSucceeds(setDoc(
+          doc(asTeacher(), 'school_posts', 'rp-1', 'likes', TEACHER), like
+        ))
+      })
+
+      it('cannot like as somebody else', async () => {
+        await assertFails(setDoc(
+          doc(asFamily(), 'school_posts', 'rp-1', 'likes', TEACHER), like
+        ))
+      })
+
+      it('cannot forge a like that looks like a parent appreciation', async () => {
+        // source is what appreciatePost writes on the Admin SDK. A client that
+        // could write it could pass its own tap off as a parent's.
+        await assertFails(setDoc(
+          doc(asFamily(), 'school_posts', 'rp-1', 'likes', FAMILY),
+          { ...like, source: 'parent_link' }
+        ))
+      })
+
+      it('cannot like a post in another school', async () => {
+        await assertFails(setDoc(
+          doc(asOutsider(), 'school_posts', 'rp-1', 'likes', OUTSIDER),
+          { school_id: OTHER_SCHOOL, created_at: '2026-08-22T10:00:00.000Z' }
+        ))
+      })
+
+      it('a teacher from another school cannot comment either', async () => {
+        await assertFails(setDoc(
+          doc(asOutsider(), 'school_posts', 'rp-1', 'comments', 'c-x'),
+          { school_id: OTHER_SCHOOL, author_uid: OUTSIDER, author_name: 'Other',
+            text: 'Hello', status: 'visible' }
+        ))
+      })
+
+      it('cannot delete somebody else like', async () => {
+        await env.withSecurityRulesDisabled(async (ctx) => {
+          await setDoc(doc(ctx.firestore(), 'school_posts', 'rp-1', 'likes', TEACHER), like)
+        })
+        await assertFails(deleteDoc(doc(asFamily(), 'school_posts', 'rp-1', 'likes', TEACHER)))
+      })
+
+      it('cannot touch the counter on the post', async () => {
+        // The whole reason the trigger exists.
+        await assertFails(updateDoc(doc(asFamily(), 'school_posts', 'rp-1'), { like_count: 999 }))
+        await assertFails(updateDoc(doc(asAdmin(), 'school_posts', 'rp-1'), { like_count: 999 }))
+      })
+    })
+
+    // Listing is its own permission, and it is not "get, repeated". A rule
+    // has to be provable from the QUERY, so a clause about resource.data that
+    // the query does not constrain fails for every caller — which is exactly
+    // what sameSchool(resource.data) did here until it was found by opening a
+    // thread in a browser. These four are the regression guard.
+    describe('listing a thread', () => {
+      const visibleOnly = (db: any, postId: string) => getDocs(query(
+        collection(db, 'school_posts', postId, 'comments'),
+        where('status', '==', 'visible')
+      ))
+
+      it('staff list the whole thread, hidden comments included', async () => {
+        const snap = await getDocs(collection(asTeacher(), 'school_posts', 'rp-1', 'comments'))
+        expect(snap.size).toBe(2)
+      })
+
+      it('a student lists the visible ones', async () => {
+        const snap = await visibleOnly(asLegacy(), 'rp-1')
+        expect(snap.docs.map((d) => d.id)).toEqual(['c-visible'])
+      })
+
+      it('a student cannot ask for the hidden ones', async () => {
+        await assertFails(getDocs(collection(asLegacy(), 'school_posts', 'rp-1', 'comments')))
+      })
+
+      it('another school cannot list at all', async () => {
+        await assertFails(visibleOnly(asOutsider(), 'rp-1'))
+      })
+
+      it('an empty thread lists cleanly', async () => {
+        const snap = await visibleOnly(asLegacy(), 'rp-students')
+        expect(snap.size).toBe(0)
+      })
+    })
+
+    describe('comments', () => {
+      const comment = {
+        school_id: SCHOOL, author_uid: TEACHER, author_name: 'Teacher',
+        text: 'Well done everyone', status: 'visible'
+      }
+
+      it('a teacher comments', async () => {
+        await assertSucceeds(setDoc(
+          doc(asTeacher(), 'school_posts', 'rp-1', 'comments', 'c-new'), comment
+        ))
+      })
+
+      it('a family cannot — comments are staff only', async () => {
+        await assertFails(setDoc(
+          doc(asFamily(), 'school_posts', 'rp-1', 'comments', 'c-new'),
+          { ...comment, author_uid: FAMILY }
+        ))
+      })
+
+      it('a student cannot, where the school kept comments to staff', async () => {
+        await assertFails(setDoc(
+          doc(asLegacy(), 'school_posts', 'rp-1', 'comments', 'c-new'),
+          { ...comment, author_uid: LEGACY_STUDENT }
+        ))
+      })
+
+      it('a student can, where the school opened them', async () => {
+        await assertSucceeds(setDoc(
+          doc(asLegacy(), 'school_posts', 'rp-students', 'comments', 'c-kid'),
+          { ...comment, author_uid: LEGACY_STUDENT, author_name: 'Legacy' }
+        ))
+      })
+
+      // 'students' opens the wall to the children of the school, and to
+      // nobody else. A family reading a post through a parent link is not a
+      // member of it and never becomes one by this setting.
+      it('a family still cannot, even where students may', async () => {
+        await assertFails(setDoc(
+          doc(asFamily(), 'school_posts', 'rp-students', 'comments', 'c-fam'),
+          { ...comment, author_uid: FAMILY }
+        ))
+      })
+
+      // OUTSIDER is staff at OTHER_SCHOOL: opening comments to students is a
+      // school opening them to ITS students, and sameSchool() still decides.
+      it('somebody from another school cannot', async () => {
+        await assertFails(setDoc(
+          doc(asOutsider(), 'school_posts', 'rp-students', 'comments', 'c-out'),
+          { ...comment, author_uid: OUTSIDER, school_id: OTHER_SCHOOL }
+        ))
+      })
+
+      it('cannot comment under somebody else name', async () => {
+        await assertFails(setDoc(
+          doc(asTeacher(), 'school_posts', 'rp-1', 'comments', 'c-new'),
+          { ...comment, author_uid: ADMIN }
+        ))
+      })
+
+      it('cannot comment on a post whose school switched comments off', async () => {
+        await assertFails(setDoc(
+          doc(asTeacher(), 'school_posts', 'rp-off', 'comments', 'c-new'), comment
+        ))
+      })
+
+      it('refuses an empty comment and an overlong one', async () => {
+        await assertFails(setDoc(
+          doc(asTeacher(), 'school_posts', 'rp-1', 'comments', 'c-empty'),
+          { ...comment, text: '' }
+        ))
+        await assertFails(setDoc(
+          doc(asTeacher(), 'school_posts', 'rp-1', 'comments', 'c-long'),
+          { ...comment, text: 'x'.repeat(501) }
+        ))
+      })
+
+      it('a family reads visible comments but not hidden ones', async () => {
+        await assertSucceeds(getDoc(doc(asFamily(), 'school_posts', 'rp-1', 'comments', 'c-visible')))
+        await assertFails(getDoc(doc(asFamily(), 'school_posts', 'rp-1', 'comments', 'c-hidden')))
+      })
+
+      it('staff read hidden ones — somebody has to find what they took down', async () => {
+        await assertSucceeds(getDoc(doc(asTeacher(), 'school_posts', 'rp-1', 'comments', 'c-hidden')))
+      })
+
+      it('another school reads nothing', async () => {
+        await assertFails(getDoc(doc(asOutsider(), 'school_posts', 'rp-1', 'comments', 'c-visible')))
+      })
+
+      it('staff hide a comment but cannot rewrite it', async () => {
+        await assertSucceeds(updateDoc(
+          doc(asTeacher(), 'school_posts', 'rp-1', 'comments', 'c-visible'), { status: 'hidden' }
+        ))
+        // An edited comment under a photograph is one whose history nobody
+        // can check.
+        await assertFails(updateDoc(
+          doc(asTeacher(), 'school_posts', 'rp-1', 'comments', 'c-visible'), { text: 'Rewritten' }
+        ))
+      })
+
+      it('only the school admin deletes one', async () => {
+        await assertFails(deleteDoc(doc(asTeacher(), 'school_posts', 'rp-1', 'comments', 'c-visible')))
+        await assertSucceeds(deleteDoc(doc(asAdmin(), 'school_posts', 'rp-1', 'comments', 'c-visible')))
+      })
+
+      it('cannot touch the comment counter', async () => {
+        await assertFails(updateDoc(doc(asAdmin(), 'school_posts', 'rp-1'), { comment_count: 42 }))
+      })
+    })
+  })
+
   describe('staff are unaffected', () => {
     it('a teacher still reads same-school students', async () => {
       const snap = await assertSucceeds(getDocs(query(

@@ -313,8 +313,13 @@
     /* One flat accent, the same one the rest of the app uses. The three-stop
        pink-to-amber gradient with a coloured glow under it made every primary
        button on the page shout, including Done and Delete.
-       See --ds-accent in dashboard-ui.css. */
-    background: var(--ds-accent);
+       See --ds-accent in dashboard-ui.css.
+
+       The literal after the token is not decoration. It is the only thing
+       standing between a missed stylesheet and a Confirm Import button
+       rendered as white text on a white card — invisible until you happened
+       to hover it, because :hover sets its own colour. */
+    background: var(--ds-accent, #cf296d);
     color: #ffffff;
     border: 1px solid transparent;
     box-shadow: none;
@@ -565,7 +570,7 @@
     bottom: 8px;
     width: 3px;
     border-radius: 0 3px 3px 0;
-    background: var(--ds-accent);
+    background: var(--ds-accent, #cf296d);
   }
 
   .nav-links li:hover::before,
@@ -2596,6 +2601,66 @@
     }
   }
 
+
+  /* ── The shell holds still; only the page inside it scrolls ─────────────
+     Every dashboard was built as a grid of 'min-height: 100vh', so a tall
+     page simply grew it and the DOCUMENT scrolled. The inner
+     'overflow-y: auto' never engaged, because .main-content had no height to
+     overflow — which is why the sidebar and the bar at the top rode up and
+     off the screen together with the content.
+
+     Giving the shell an exact viewport height is the whole fix: .main-content
+     becomes the only scroller on the page, and .top-nav and .workspace-topbar
+     stay where they are.
+
+     Desktop only. Below 901px the sidebar is an off-canvas drawer and the
+     page is meant to scroll as one piece; pinning things there would fight
+     the mobile layout instead of helping it.
+
+     100dvh follows 100vh so a phone-sized desktop window still fills the
+     visible area when the browser chrome collapses; browsers that do not
+     know the unit keep the line above. */
+  @media (min-width: 901px) {
+    .app-container {
+      min-height: 0;
+      height: 100vh;
+      height: 100dvh;
+    }
+
+    /* A nav list longer than the screen scrolls inside the sidebar rather
+       than pushing the log-out button out of reach. */
+    .top-nav { overflow-y: auto; }
+
+    /* min-height:0 lets a grid item shrink below its content, which is what
+       makes overflow-y:auto here mean anything at all. */
+    .main-content {
+      min-height: 0;
+      padding-top: 0;
+    }
+
+    /* A flex item shrinks before it overflows. .main-content is a flex column, so
+       the moment the shell got a real height its children stopped being as
+       tall as their content and started being as tall as the space left over
+       — the students list squashed to fit and the rest was simply cut off,
+       with nothing to scroll because nothing overflowed.
+
+       flex-shrink: 0 is what turns a squashed column back into a scrolling
+       one. It is the other half of giving the shell a height, not a tweak. */
+    .main-content > * { flex-shrink: 0; }
+
+
+    /* Flush to the top, so nothing shows in a gap above it on the way past.
+       The bottom corners keep their radius; the top two would only frame two
+       notches of scrolling content. */
+    .workspace-topbar {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+    }
+  }
+
 </style>
 
 <!-- LOGIN VIEW (hidden by default to avoid popup after /auth login) -->
@@ -2646,6 +2711,10 @@
           <li id="nav-students" onclick="switchAdminTab('students')">Students</li>
           <li id="nav-attendance" onclick="switchAdminTab('attendance')">Attendance</li>
           <li id="nav-settings" onclick="switchAdminTab('settings')">Settings</li>
+          <!-- Not a tab: the wall is its own page, and it is web only. Shown
+               only to community schools, and never inside the Android app —
+               see wireWallLink(). -->
+          <li id="nav-wall" class="d-none" onclick="window.location.href='/school-wall'">School Wall</li>
         </ul>
       </div>
       <div class="nav-actions">
@@ -2700,6 +2769,21 @@
       
       <!-- OVERVIEW TAB -->
       <div id="tab-overview" class="fade-in tab-panel">
+        <!-- Community schools only, and only until they are set up.
+             A weekly school arrives with an empty dashboard and six zeroes,
+             and the order of work is not obvious from that: classes have to
+             exist before a roster can name them, and consent has to be
+             recorded before a photo can carry a child's name. So the first
+             thing it sees is the order, not the numbers.
+             Hides itself for good once every step is done. -->
+        <div id="onboardingChecklist" class="d-none" style="background:#fff; border:1px solid #e2e8f0; border-radius:14px; padding:18px 20px; margin-bottom:18px;">
+          <div style="display:flex; align-items:baseline; justify-content:space-between; gap:12px; flex-wrap:wrap;">
+            <h3 style="margin:0; font-size:1.05rem; font-weight:800; color:#0f172a;">Getting started</h3>
+            <span id="onboardingProgress" style="font-size:0.82rem; font-weight:700; color:#64748b;"></span>
+          </div>
+          <div id="onboardingSteps" style="margin-top:14px; display:flex; flex-direction:column; gap:10px;"></div>
+        </div>
+
         <!-- The page title lives once, in the bar above (it carries the
              school's own name). This header used to repeat it as an eyebrow
              plus an <h1> reading "Dashboard", so the top of the page said the
@@ -2927,6 +3011,12 @@
           </div>
           <div class="section-actions">
             <button class="btn-outline-light text-danger d-none" id="bulkDeleteBtn" onclick="deleteSelectedStudents()"><i class="fas fa-trash-alt me-2"></i> Delete Selected (<span id="selectedCount">0</span>)</button>
+            <!-- Community schools only. A roster of 300 children is 300 clicks
+                 without this, which is the same as the school never recording
+                 consent at all — and a child with no answer recorded is a
+                 child left out of every photograph. -->
+            <button class="btn-outline-light d-none" id="bulkConsentYes" onclick="setSelectedConsent('granted')"><i class="fas fa-camera me-2"></i> Photos allowed (<span class="bulk-consent-count">0</span>)</button>
+            <button class="btn-outline-light d-none" id="bulkConsentNo" onclick="setSelectedConsent('denied')"><i class="fas fa-ban me-2"></i> No photos (<span class="bulk-consent-count">0</span>)</button>
             <!-- Only appears while dead PAR- invites are still lying around, so
                  it disappears for good once the school is cleaned up. -->
             <button class="btn-outline-light d-none" id="cleanupParentCodesBtn" onclick="cleanupParentCodes()" title="Parent codes are retired. This clears the unused ones."><i class="fas fa-broom me-2"></i> Clear Old Parent Codes (<span id="deadParentCount">0</span>)</button>
@@ -2941,9 +3031,24 @@
             <button class="btn-outline-light" onclick="exportStudentsCsv()" title="Download this list as a CSV file you can open in Excel"><i class="fas fa-file-arrow-down me-2"></i> Export CSV</button>
             <button class="btn-outline-light" id="mergeStudentsBtn" onclick="openMigration()" title="Turn students you already enrolled into family accounts, keeping all their work"><i class="fas fa-wand-magic-sparkles me-2"></i> Merge into families (<span id="unmergedCount">0</span>)</button>
             <button class="btn-outline-light" id="allocateHousesBtn" onclick="allocateHouses()" title="Sort students who have no club house yet into the four houses"><i class="fas fa-shield-halved me-2"></i> Allocate Houses (<span id="unhousedCount">0</span>)</button>
+            <button class="btn-outline-light" onclick="openPinsModal()" title="Your school's link for students, and the roll number and PIN each one signs in with"><i class="fas fa-key me-2"></i> Student link &amp; PINs</button>
           </div>
         </div>
         
+        <!-- Community schools only, and only until a super admin verifies them.
+             Everything else on this screen works meanwhile: the point is that
+             the roster is worth building before the wall opens, not that the
+             admin should sit and wait. -->
+        <div id="wallPendingBanner" class="d-none" style="display:flex; gap:12px; align-items:flex-start; background:#fdf2e7; border:1px solid #E08020; border-radius:10px; padding:14px 16px; margin-bottom:14px;">
+          <i class="fas fa-shield-halved" style="color:#E08020; margin-top:2px;"></i>
+          <div style="font-weight:700; color:#7a4712; line-height:1.5;">
+            Verification in progress
+            <span style="display:block; font-weight:600; color:#9a5a16; font-size:0.88rem;">
+              Add your classes, import your roster and record photo consent now. Sharing activity photos with parents unlocks once we verify your school &mdash; usually within a day.
+            </span>
+          </div>
+        </div>
+
         <div class="table-header-row mb-2">
           <div class="col-check" style="flex: 0 0 40px; display: flex; align-items: center; justify-content: center;">
             <input type="checkbox" id="selectAllStudents" onchange="toggleSelectAllStudents(this)" style="cursor:pointer; width:16px; height:16px;">
@@ -2951,7 +3056,7 @@
           <div class="col-1">Full Name</div>
           <div class="col-2">Class</div>
           <div class="col-2">Student Code</div>
-          <div class="col-2">Status</div>
+          <div class="col-2" id="studentStatusHeading">Status</div>
           <div class="col-actions">Actions</div>
         </div>
         <div id="studentDirectoryBody">
@@ -3039,13 +3144,57 @@
 </div>
 
 <!-- MODALS -->
+
+<!-- The school's link for children, and the slips they sign in with.
+     A modal rather than a column on the roster, because a PIN is shown ONCE
+     at issue and never again — there is nothing to put in a column. The link
+     is fetched from getSchoolLink rather than read from the school document,
+     which does not hold it: schools is readable by every signed-in account.
+     See ORG_PORTAL_PLAN.md sections 4 and 6. -->
+<div id="pinsModal" class="modal-overlay d-none">
+  <div class="modal-content">
+    <div class="modal-topbar">
+      <div>
+        <span class="modal-kicker"><i class="fas fa-key"></i> Student access</span>
+        <h3 class="modal-title">Student link &amp; PINs</h3>
+        <p class="modal-subtitle">Your students open one link and sign in with a roll number and a four-digit PIN. No email, no password, no account to remember.</p>
+      </div>
+      <button class="modal-close" type="button" onclick="closeModal('pinsModal')"><i class="fas fa-times"></i></button>
+    </div>
+
+    <div class="form-group">
+      <label><i class="fas fa-link text-muted me-1"></i> Your school's link</label>
+      <div id="pinsLinkBox" style="background:#f8fafc; border:1px solid #e5e9f0; border-radius:12px; padding:12px;">
+        <div id="pinsLink" style="font-family:ui-monospace,Menlo,Consolas,monospace; font-size:0.8rem; word-break:break-all; color:#16294d; line-height:1.5;">Loading…</div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:10px;">
+          <button class="btn-outline-light" type="button" id="pinsCopyBtn" onclick="copySchoolLink()"><i class="fas fa-copy me-1"></i> Copy</button>
+          <button class="btn-outline-light" type="button" onclick="rotateSchoolStudentLink()" title="Every slip already handed out stops working"><i class="fas fa-rotate me-1"></i> New link</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label><i class="fas fa-id-card text-muted me-1"></i> Roll numbers and PINs</label>
+      <p class="modal-subtitle" style="margin-top:0;">
+        Issue them for every student who has none yet. A PIN is shown once, here &mdash; print or write it down before you close this.
+      </p>
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        <button class="btn-solid" type="button" id="pinsIssueBtn" onclick="issuePinsForAll()"><i class="fas fa-wand-magic-sparkles me-1"></i> Issue for students without a PIN (<span id="pinsMissingCount">0</span>)</button>
+        <button class="btn-outline-light" type="button" id="pinsReissueBtn" onclick="reissuePinsForAll()" title="Every student gets a fresh PIN. Their roll numbers do not change."><i class="fas fa-rotate me-1"></i> Reissue for everyone (<span id="pinsTotalCount">0</span>)</button>
+      </div>
+    </div>
+
+    <div id="pinsResult"></div>
+  </div>
+</div>
+
 <div id="teacherModal" class="modal-overlay d-none">
   <div class="modal-content">
     <div class="modal-topbar">
       <div>
         <span class="modal-kicker"><i class="fas fa-user-plus"></i> Faculty access</span>
         <h3 class="modal-title">Add New Teacher</h3>
-        <p class="modal-subtitle">Create the teacher profile, assign classes and generate the registration code in one clean step.</p>
+        <p class="modal-subtitle">The system creates the login and shows the username and password once. No email address is needed.</p>
       </div>
       <button class="modal-close" type="button" onclick="closeModal('teacherModal')"><i class="fas fa-times"></i></button>
     </div>
@@ -3386,6 +3535,27 @@
       </div>
       <button class="modal-close" type="button" onclick="closeModal('bulkImportModal')"><i class="fas fa-times"></i></button>
     </div>
+    <!-- Community schools only. A claim code is a slip a family redeems to get
+         a login; a community school's students have no phone to log in from and
+         no second day to do it on, so every slip it generated would sit
+         pending forever. It imports students instead. -->
+    <div class="form-group d-none" id="bulkImportModeRow">
+      <label>How should students be added?</label>
+      <div style="display:flex; flex-direction:column; gap:8px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:12px;">
+        <label style="display:flex; gap:10px; align-items:flex-start; cursor:pointer; font-weight:700;">
+          <input type="radio" name="bulkImportMode" value="roster" checked style="margin-top:4px;">
+          <span>Create students directly
+            <span style="display:block; font-weight:600; color:#64748b; font-size:0.85rem;">Recommended. Students appear on your roster straight away, with no login and no code to hand out.</span>
+          </span>
+        </label>
+        <label style="display:flex; gap:10px; align-items:flex-start; cursor:pointer; font-weight:700;">
+          <input type="radio" name="bulkImportMode" value="invites" style="margin-top:4px;">
+          <span>Generate claim codes
+            <span style="display:block; font-weight:600; color:#64748b; font-size:0.85rem;">Each student gets a code a family redeems to create their own login.</span>
+          </span>
+        </label>
+      </div>
+    </div>
     <div class="form-group">
       <label>File</label>
       <input type="file" id="bulkFileInput" accept=".csv,.txt,.tsv,.xls,.xlsx,.xlsm,.ods,.docx,.pdf" onchange="handleBulkFileInput(this)" class="form-input">
@@ -3463,10 +3633,10 @@
 </script>
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-  import { getAuth, onAuthStateChanged, signOut, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
-  import { getFirestore, doc, getDoc, collection, query, where, getDocs, setDoc, updateDoc, deleteDoc, writeBatch } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
-  import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-storage.js";
-  import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-functions.js";
+  import { getAuth, connectAuthEmulator, onAuthStateChanged, signOut, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+  import { getFirestore, connectFirestoreEmulator, doc, getDoc, collection, query, where, getDocs, setDoc, updateDoc, deleteDoc, writeBatch } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+  import { getStorage, connectStorageEmulator, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-storage.js";
+  import { getFunctions, connectFunctionsEmulator, httpsCallable } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-functions.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyA4MrV-oXhK_johreyzIucti5RFrKcvyG8",
@@ -3484,6 +3654,12 @@
   // Family provisioning runs entirely server-side: creating a login needs the
   // Admin SDK, and /users create stays locked to self in the Firestore rules.
   const functions = getFunctions(app);
+
+  /* IA_DEV_EMULATORS
+     Replaced by the /admin-dashboard route in src/app.ts with the shared
+     emulator connector, the same way this file's firebaseConfig and
+     pull-to-refresh are substituted. Left as a marker rather than a copy so
+     there is only one place that decides what "local" means. */
 
   function showDebug(msg) {
     void msg;
@@ -3553,7 +3729,16 @@
   let familiesList = [];
   let invitesList = [];
   let currentSchoolName = '';
+  // A community school (type 'weekly') meets one day a week and its students
+  // never log in. That changes what this dashboard leads with: a roster, not
+  // a stack of claim codes nobody will redeem. See SCHOOL_GROUP_PLAN.md §12.5.
+  let currentSchoolType = 'full_time';
+  // Photo sharing waits for a super admin. False until then, and the roster
+  // screens say so rather than offering a button that would be refused.
+  let currentSchoolApproved = false;
   let currentClassFilter = 'all';
+
+  function isCommunitySchool() { return currentSchoolType === 'weekly'; }
   const defaultClassOptions = Array.from({ length: 10 }, (_, index) => 'Class ' + (index + 1));
 
   /**
@@ -4313,6 +4498,242 @@
     previewEl.innerHTML = html;
   };
 
+  /**
+   * Show the parts of this dashboard that only a community school has, and
+   * hide the ones only a full-time school needs.
+   *
+   * Called once the school doc has loaded, because until then we do not know
+   * which kind of school this is and guessing wrong would flash the wrong
+   * dashboard at every admin on every refresh.
+   */
+  function applySchoolTypeToUI() {
+    const community = isCommunitySchool();
+
+    const modeRow = document.getElementById('bulkImportModeRow');
+    if (modeRow) modeRow.classList.toggle('d-none', !community);
+
+    const banner = document.getElementById('wallPendingBanner');
+    if (banner) banner.classList.toggle('d-none', !community || currentSchoolApproved);
+
+    // The column the roster rows actually fill differs by school type, and a
+    // heading that says "Status" over a row of consent buttons is a heading
+    // that will be misread.
+    const statusHeading = document.getElementById('studentStatusHeading');
+    if (statusHeading) statusHeading.textContent = community ? 'Photo consent' : 'Status';
+
+    wireWallLink();
+    renderOnboardingChecklist();
+  }
+
+  /**
+   * Offer the wall only where it exists: a community school, on the web.
+   *
+   * The APK check is not belt and braces. The SSG build renders /school-wall
+   * into dist/ and Capacitor copies dist/ wholesale, so the page is inside the
+   * app whatever links to it — the page redirects itself out, and this keeps
+   * the app from advertising a link that would bounce.
+   */
+  function wireWallLink() {
+    const link = document.getElementById('nav-wall');
+    if (!link) return;
+    const inApp = !!(window.Capacitor && typeof window.Capacitor.isNativePlatform === 'function' &&
+                     window.Capacitor.isNativePlatform());
+    link.classList.toggle('d-none', !isCommunitySchool() || inApp);
+  }
+
+  /**
+   * The four steps a community school works through, in the order the data
+   * forces: classes, then roster, then consent, then the wall.
+   *
+   * Every step reads its own state off what is already loaded rather than
+   * storing a "completed" flag. A flag would go stale the moment an admin
+   * deleted their last class, and would then tell a school it had finished
+   * something it had not.
+   */
+  function renderOnboardingChecklist() {
+    const box = document.getElementById('onboardingChecklist');
+    const list = document.getElementById('onboardingSteps');
+    if (!box || !list) return;
+
+    if (!isCommunitySchool()) { box.classList.add('d-none'); return; }
+
+    const consented = studentsList.filter((s) => s.media_consent === 'granted' ||
+                                                s.media_consent === 'denied').length;
+    const steps = [
+      {
+        done: activeClassOptions().length > 0,
+        label: 'Name your classes',
+        hint: 'Every student and every post is filed under one.',
+        action: 'Open classes', run: 'openClassesModal()'
+      },
+      {
+        done: studentsList.length > 0,
+        label: 'Add your students',
+        hint: studentsList.length ? studentsList.length + ' on the roster' : 'Import a list, or add them one at a time. No logins needed.',
+        action: 'Import roster', run: "openModal('bulkImportModal')"
+      },
+      {
+        done: studentsList.length > 0 && consented === studentsList.length,
+        label: 'Record photo consent',
+        hint: studentsList.length
+          ? consented + ' of ' + studentsList.length + ' asked — a student nobody asked about is left out of every photo'
+          : 'Ask each parent, then mark it on the roster.',
+        action: 'Open roster', run: "switchAdminTab('students')"
+      },
+      {
+        done: currentSchoolApproved,
+        label: 'Share your first activity day',
+        hint: currentSchoolApproved
+          ? 'Your wall is open.'
+          : 'Unlocks once we verify your school — usually within a day.',
+        action: null, run: null
+      }
+    ];
+
+    const doneCount = steps.filter((s) => s.done).length;
+
+    // Four of four means there is nothing left to instruct, and a permanent
+    // "you have finished" panel is just clutter above the numbers.
+    if (doneCount === steps.length) { box.classList.add('d-none'); return; }
+    box.classList.remove('d-none');
+
+    document.getElementById('onboardingProgress').textContent = doneCount + ' of ' + steps.length + ' done';
+
+    list.innerHTML = steps.map((step, index) => {
+      const mark = step.done
+        ? '<i class="fas fa-circle-check" style="color:#16a34a;"></i>'
+        : '<span style="display:inline-flex; align-items:center; justify-content:center; width:18px; height:18px; border-radius:50%; border:2px solid #cbd5e1; font-size:0.7rem; font-weight:800; color:#94a3b8;">' + (index + 1) + '</span>';
+      const button = (!step.done && step.action)
+        ? '<button class="btn-outline-light" style="flex:0 0 auto;" onclick="' + step.run + '">' + escapeHtml(step.action) + '</button>'
+        : '';
+      return '<div style="display:flex; gap:12px; align-items:center;">' +
+        '<div style="flex:0 0 20px; text-align:center;">' + mark + '</div>' +
+        '<div style="flex:1 1 auto; min-width:0;">' +
+          '<div style="font-weight:800; color:' + (step.done ? '#94a3b8' : '#0f172a') + ';">' + escapeHtml(step.label) + '</div>' +
+          '<div style="font-size:0.82rem; color:#64748b; font-weight:600;">' + escapeHtml(step.hint) + '</div>' +
+        '</div>' + button +
+      '</div>';
+    }).join('');
+  }
+
+  /**
+   * The photo-consent control on a community school's roster row.
+   *
+   * 'unset' is drawn as "Not asked" rather than as a soft yes, because that is
+   * what it is and because publishPost treats it exactly like 'denied'. An
+   * admin who cannot tell the two apart on screen will assume silence means
+   * consent, which is the one assumption this feature cannot afford.
+   */
+  function consentCell(student) {
+    const state = student.media_consent === 'granted' ? 'granted'
+                : student.media_consent === 'denied' ? 'denied' : 'unset';
+    const label = state === 'granted' ? '<i class="fas fa-camera"></i> Photos allowed'
+                : state === 'denied' ? '<i class="fas fa-ban"></i> No photos'
+                : '<i class="fas fa-question-circle"></i> Not asked';
+    const colour = state === 'granted' ? '#16a34a' : state === 'denied' ? '#dc2626' : '#94a3b8';
+    return '<button class="action-btn" style="font-weight:800; font-size:0.78rem; color:' + colour + ';" ' +
+      'title="Click to change what the parent agreed to" ' +
+      'onclick="cycleMediaConsent(\'' + student.uid + '\')">' + label + '</button>';
+  }
+
+  /**
+   * Not asked -> allowed -> no photos -> not asked.
+   *
+   * A cycle rather than a switch because there are three states and the
+   * middle one is not a default: a school has to be able to record "we asked
+   * and they said no" distinctly from "we never asked".
+   */
+  /**
+   * Record the same answer for every selected student.
+   *
+   * Batched, and chunked at 400 because Firestore caps a batch at 500 — a
+   * roster import of three hundred children is the case this exists for, and
+   * it is exactly the size that would fail on a single batch.
+   *
+   * Deliberately no "mark everyone allowed" shortcut anywhere: this only ever
+   * acts on a selection the admin made, so granting consent stays a
+   * deliberate act about particular children rather than one button that
+   * signs off the whole school.
+   */
+  window.setSelectedConsent = async (value) => {
+    const uids = [...document.querySelectorAll('.student-select-cb:checked')]
+      .filter((cb) => cb.dataset.type === 'student')
+      .map((cb) => cb.dataset.id);
+    if (!uids.length) return;
+
+    const label = value === 'granted'
+      ? 'Photos allowed for ' + uids.length + ' student(s)?'
+      : 'No photos for ' + uids.length + ' student(s)?';
+    if (!confirm(label + '\n\nRecord only what the parents actually said.')) return;
+
+    try {
+      for (let i = 0; i < uids.length; i += 400) {
+        const batch = writeBatch(db);
+        uids.slice(i, i + 400).forEach((uid) => {
+          batch.update(doc(db, 'users', uid), { media_consent: value });
+        });
+        await batch.commit();
+      }
+      await loadDashboardData();
+    } catch (err) {
+      alert('Could not save that: ' + err.message);
+    }
+  };
+
+  window.cycleMediaConsent = async (uid) => {
+    const student = studentsList.find((s) => s.uid === uid);
+    if (!student) return;
+    const order = ['unset', 'granted', 'denied'];
+    const current = order.indexOf(student.media_consent) === -1 ? 'unset' : student.media_consent;
+    const next = order[(order.indexOf(current) + 1) % order.length];
+    try {
+      await updateDoc(doc(db, 'users', uid), { media_consent: next });
+      student.media_consent = next;
+      await loadDashboardData();
+    } catch (err) {
+      alert('Could not save that: ' + err.message);
+    }
+  };
+
+  /** Which import path the admin picked. Full-time schools never see the choice. */
+  function selectedImportMode() {
+    if (!isCommunitySchool()) return 'invites';
+    const picked = document.querySelector('input[name="bulkImportMode"]:checked');
+    return picked ? picked.value : 'roster';
+  }
+
+  /**
+   * Import students as roster records — no logins, no claim codes.
+   *
+   * Goes through the createRosterStudents callable rather than writing /users
+   * from here: Firestore rules let nobody create another person's user doc,
+   * and roster_only / media_consent are server-set for the same reason
+   * club_points is. See SCHOOL_GROUP_PLAN.md §3.
+   */
+  async function importRosterStudents(records, countsEl) {
+    const rows = records.map((record) => ({
+      name: record.name,
+      class_id: normalizeClassName(record.className)
+    }));
+
+    // 100 per call is the callable's own ceiling — it reads the whole existing
+    // roster once per call to dedupe, so bigger calls would not be cheaper.
+    const CHUNK = 100;
+    let created = 0;
+    const skipped = [];
+    for (let i = 0; i < rows.length; i += CHUNK) {
+      const slice = rows.slice(i, i + CHUNK);
+      const res = await callCreateRosterStudents({ students: slice });
+      const payload = (res && res.data) || {};
+      created += (payload.created || []).length;
+      (payload.skipped || []).forEach((s) => skipped.push(s));
+      if (countsEl) {
+        countsEl.textContent = 'Adding students... ' + Math.min(i + slice.length, rows.length) + ' / ' + rows.length;
+      }
+    }
+    return { created: created, skipped: skipped };
+  }
+
   window.confirmBulkImport = async (trigger) => {
     const preview = window.bulkImportPreview;
     if(!preview) return alert('No data to import. Upload a file first.');
@@ -4344,16 +4765,21 @@
       // with this code and unlocks Parent Area with a 4-digit PIN. The father's
       // name and contact stay on the student record, they just no longer mint a
       // login the rules would now reject.
-      preview.students.forEach((record) => {
-        const code = genCode('STU', taken);
-        queue.push({ code: code, payload: {
-          code: code, role: 'student', school_id: schoolId, name: record.name,
-          class_id: normalizeClassName(record.className), section: record.section,
-          roll_number: record.roll, gender: record.gender,
-          parent_name: record.fatherName, parent_phone: record.phone, parent_email: record.email,
-          raw: record.raw, status: 'pending', created_at: createdAt
-        } });
-      });
+      // A community school importing in 'roster' mode queues no student invites
+      // at all — the students are created below, after the teacher batch.
+      const rosterMode = selectedImportMode() === 'roster';
+      if (!rosterMode) {
+        preview.students.forEach((record) => {
+          const code = genCode('STU', taken);
+          queue.push({ code: code, payload: {
+            code: code, role: 'student', school_id: schoolId, name: record.name,
+            class_id: normalizeClassName(record.className), section: record.section,
+            roll_number: record.roll, gender: record.gender,
+            parent_name: record.fatherName, parent_phone: record.phone, parent_email: record.email,
+            raw: record.raw, status: 'pending', created_at: createdAt
+          } });
+        });
+      }
 
       // Parent-only rows are reported, not imported. Turning them into students
       // would invent pupils who do not exist.
@@ -4370,6 +4796,14 @@
         if (countsEl) countsEl.textContent = 'Importing... ' + Math.min(i + chunk.length, queue.length) + ' / ' + queue.length + ' records';
       }
 
+      // Students, when the school asked for a roster rather than claim codes.
+      // After the invite batches, so a failure here leaves the teachers in
+      // rather than rolling everything back to nothing.
+      let roster = null;
+      if (rosterMode && preview.students.length) {
+        roster = await importRosterStudents(preview.students, countsEl);
+      }
+
       // A sheet is where new class names come from. Folding them into the
       // school's list keeps the pickers honest — otherwise an imported
       // "Grade 4" exists on students but cannot be chosen for the next one.
@@ -4377,7 +4811,11 @@
 
       closeModal('bulkImportModal');
       await loadDashboardData();
-      alert('Imported: ' + preview.students.length + ' students, ' + preview.teachers.length + ' teachers.' +
+      const studentLine = roster
+        ? roster.created + ' students added to your roster' +
+          (roster.skipped.length ? ', ' + roster.skipped.length + ' skipped (already on the roster)' : '')
+        : preview.students.length + ' students';
+      alert('Imported: ' + studentLine + ', ' + preview.teachers.length + ' teachers.' +
         (skippedParents ? '\n\n' + skippedParents + ' parent row(s) were skipped — parents do not need their own account any more. They sign in with their child\'s code and open Parent Area.' : ''));
       window.bulkImportPreview = null;
       const fileInput = document.getElementById('bulkFileInput');
@@ -4565,8 +5003,16 @@
         // Kept for the export filename, so files from two schools landing in
         // the same inbox are not both called "students.csv".
         currentSchoolName = schoolData.name || '';
+        // Absent on every school that registered before community schools
+        // existed, and those are full-time — so the default is not 'weekly'.
+        currentSchoolType = schoolData.type === 'weekly' ? 'weekly' : 'full_time';
+        // Only a community school waits for approval. A full-time school has no
+        // wall to unlock, so it is never held up by a field it does not carry.
+        currentSchoolApproved = currentSchoolType !== 'weekly' ||
+          schoolData.approval_status === 'approved';
         // null until the school edits its own list — see activeClassOptions().
         schoolClasses = Array.isArray(schoolData.classes) ? schoolData.classes.filter(Boolean) : null;
+        applySchoolTypeToUI();
       }
 
       const usersQuery = query(collection(db, "users"), where("school_id", "==", schoolId));
@@ -4702,7 +5148,13 @@
         '<div class="col-3"><span style="background:rgba(255,255,255,0.7); padding:5px 12px; border-radius:20px; font-weight:800;">' + (teacher.class_id || teacher.assigned_class || 'All Classes') + '</span></div>' +
         '<div class="col-2"><code style="background:rgba(255,255,255,0.7); padding:4px 8px; border-radius:8px; font-size:0.8rem;">' + code + '</code></div>' +
         '<div class="col-2"><span style="color:#22c55e;font-weight:800;"><i class="fas fa-check-circle"></i> Active</span></div>' +
-        '<div class="col-actions"><button class="action-btn" onclick="editTeacher(\'' + teacher.uid + '\')"><i class="fas fa-edit"></i></button><button class="action-btn text-danger ms-2" onclick="deleteTeacher(\'' + teacher.uid + '\')"><i class="fas fa-trash"></i></button></div></div>';
+        '<div class="col-actions"><button class="action-btn" onclick="editTeacher(\'' + teacher.uid + '\')"><i class="fas fa-edit"></i></button>' +
+        // Only a school-provisioned teacher has a username, and only they can
+        // be reset from here. A teacher who registered with an old TCH- invite
+        // owns a real email address and uses "Forgot password" instead — the
+        // callable refuses them, so the button is not offered.
+        (teacher.username ? '<button class="action-btn ms-2" title="Reset password" onclick="resetTeacherPwd(\'' + teacher.uid + '\')"><i class="fas fa-key"></i></button>' : '') +
+        '<button class="action-btn text-danger ms-2" onclick="deleteTeacher(\'' + teacher.uid + '\')"><i class="fas fa-trash"></i></button></div></div>';
     });
 
     pendingTeacherInvites.forEach((invite) => {
@@ -4755,8 +5207,19 @@
         '<div class="col-1 d-flex align-items-center gap-3"><img src="' + imgSrc + '" style="border-radius:50%; width:40px; height:40px; object-fit:cover;">' + student.name + '</div>' +
         '<div class="col-2"><span style="background:rgba(255,255,255,0.7); padding:5px 12px; border-radius:20px; font-weight:800;">' + (student.class_id || 'Not assigned') + '</span>' + houseBadge(student.house) + '</div>' +
         '<div class="col-2">' + stuCell + '</div>' +
-        '<div class="col-2"><span style="color:#22c55e;"><i class="fas fa-check-circle"></i> Active</span></div>' +
-        '<div class="col-actions"><button class="action-btn" onclick="editStudent(\'' + student.uid + '\')"><i class="fas fa-edit"></i></button><button class="action-btn text-danger ms-2" onclick="deleteStudent(\'' + student.uid + '\')"><i class="fas fa-trash"></i></button></div></div>';
+        '<div class="col-2">' + (isCommunitySchool() ? consentCell(student) : '<span style="color:#22c55e;"><i class="fas fa-check-circle"></i> Active</span>') + '</div>' +
+        '<div class="col-actions"><button class="action-btn" onclick="editStudent(\'' + student.uid + '\')"><i class="fas fa-edit"></i></button>' +
+        // Community schools only: a full-time school's parents reach the child
+        // through the family login, and have no wall to be given a link to.
+        (isCommunitySchool()
+          ? '<button class="action-btn ms-2" title="' +
+              (student.parent_link_issued_at
+                ? 'A link was already given to this parent — issuing a new one stops the old one working'
+                : 'Give this parent a link to their child\'s wall') +
+              '" onclick="issueParentLink(\'' + student.uid + '\')">' +
+              '<i class="fas fa-link"' + (student.parent_link_issued_at ? ' style="color:#16a34a;"' : '') + '></i></button>'
+          : '') +
+        '<button class="action-btn text-danger ms-2" onclick="deleteStudent(\'' + student.uid + '\')"><i class="fas fa-trash"></i></button></div></div>';
     });
 
     pendingStudentInvites.forEach((invite) => {
@@ -4771,6 +5234,11 @@
         '<div class="col-actions"><button class="action-btn text-danger" onclick="deleteInvite(\'' + invite.code + '\', \'student\')"><i class="fas fa-trash"></i></button></div></div>';
     });
     document.getElementById('studentDirectoryBody').innerHTML = stuDirHtml || '<div style="text-align:center; padding:2rem; color:#94a3b8; font-weight:700;">No students enrolled yet.</div>';
+
+    // Again here, not only from applySchoolTypeToUI: that runs the moment the
+    // school doc lands, which is before studentsList exists. Rendered from
+    // there alone, every step that counts students would read zero.
+    renderOnboardingChecklist();
 
     refreshUnhousedCount();
     refreshUnmergedCount();
@@ -4917,6 +5385,190 @@
   const callCreateFamilyAccount = httpsCallable(functions, 'createFamilyAccount');
   const callCreateChild = httpsCallable(functions, 'createChild');
   const callResetFamilyPassword = httpsCallable(functions, 'resetFamilyPassword');
+  const callCreateRosterStudents = httpsCallable(functions, 'createRosterStudents');
+  const callCreateTeacherAccount = httpsCallable(functions, 'createTeacherAccount');
+  const callResetTeacherPassword = httpsCallable(functions, 'resetTeacherPassword');
+  const callIssueParentLink = httpsCallable(functions, 'issueParentLink');
+  const callGetSchoolLink = httpsCallable(functions, 'getSchoolLink');
+  const callRotateSchoolLink = httpsCallable(functions, 'rotateSchoolLink');
+  const callIssueStudentPins = httpsCallable(functions, 'issueStudentPins');
+  const callResetStudentPin = httpsCallable(functions, 'resetStudentPin');
+
+  // ─────────────────────────────────────────────────────────────────────
+  // Student link and PINs. See ORG_PORTAL_PLAN.md section 4.
+  //
+  // Everything here goes through a callable, and not for symmetry with the
+  // rest of the file: pin_hash is not in the onlyKeys() allowlist on /users,
+  // so a PIN cannot be written from a dashboard even by the admin issuing it.
+  // ─────────────────────────────────────────────────────────────────────
+  let currentSchoolLink = '';
+
+  /** Students on this roster with no PIN yet. */
+  function studentsWithoutPin() {
+    return (studentsList || []).filter(function (s) { return !s.pin_set_at; });
+  }
+
+  window.openPinsModal = async () => {
+    document.getElementById('pinsModal').classList.remove('d-none');
+    document.getElementById('pinsResult').innerHTML = '';
+    document.getElementById('pinsMissingCount').textContent = studentsWithoutPin().length;
+    document.getElementById('pinsTotalCount').textContent = (studentsList || []).length;
+
+    const box = document.getElementById('pinsLink');
+    box.textContent = 'Loading…';
+    try {
+      const res = (await callGetSchoolLink({})).data;
+      currentSchoolLink = location.origin + res.path;
+      box.textContent = currentSchoolLink;
+    } catch (err) {
+      currentSchoolLink = '';
+      // A school that registered directly rather than through an organisation
+      // has no student link, and that is not an error to apologise for.
+      box.innerHTML = '<span style="color:#6b7a90">This school has no student link yet. It is created when a school registers through an organisation\'s link.</span>';
+    }
+  };
+
+  window.copySchoolLink = async () => {
+    if (!currentSchoolLink) return;
+    const btn = document.getElementById('pinsCopyBtn');
+    try {
+      await navigator.clipboard.writeText(currentSchoolLink);
+      btn.innerHTML = '<i class="fas fa-check me-1"></i> Copied';
+    } catch (_) {
+      btn.innerHTML = '<i class="fas fa-i-cursor me-1"></i> Select it above';
+    }
+    setTimeout(function () { btn.innerHTML = '<i class="fas fa-copy me-1"></i> Copy'; }, 2200);
+  };
+
+  window.rotateSchoolStudentLink = async () => {
+    if (!confirm('Issue a new link?\n\nEvery copy of the current one stops working, including the ones already sent to parents. Roll numbers and PINs are not affected.')) return;
+    try {
+      const res = (await callRotateSchoolLink({})).data;
+      currentSchoolLink = location.origin + res.path;
+      document.getElementById('pinsLink').textContent = currentSchoolLink;
+      alert('New link issued. Share it again with your students.');
+    } catch (err) {
+      alert(err.message || 'Could not issue a new link.');
+    }
+  };
+
+  window.issuePinsForAll = async () => {
+    const missing = studentsWithoutPin();
+    if (!missing.length) return alert('Every student already has a PIN.\n\nA PIN is only ever shown once, so there is nothing to look up. To get printable slips again, use "Reissue for everyone" — every student keeps their roll number and gets a fresh PIN.');
+
+    const btn = document.getElementById('pinsIssueBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Issuing…';
+
+    try {
+      const res = (await callIssueStudentPins({ student_uids: missing.map(function (s) { return s.uid; }) })).data;
+      renderPinSlips(res.issued);
+      alert(res.issued.length + ' PINs issued. Print them before you close this — they cannot be shown again.');
+      await loadDashboardData();
+      // The count is not touched here: the spinner above replaced the whole
+      // button, span and all, and the finally block below rebuilds it with
+      // the fresh number. Setting it here reached for an element that the
+      // spinner had already removed.
+    } catch (err) {
+      alert(err.message || 'Could not issue PINs.');
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fas fa-wand-magic-sparkles me-1"></i> Issue for students without a PIN (<span id="pinsMissingCount">' + studentsWithoutPin().length + '</span>)';
+    }
+  };
+
+
+  /**
+   * Fresh PINs for the whole school.
+   *
+   * The only way back from a lost slip, and there has to be one: a PIN is
+   * returned once and stored as a scrypt hash, so nothing anywhere can show
+   * an old one again. Roll numbers are untouched — issueStudentPins keeps the
+   * one a student already has — so a reissued slip differs from the old one
+   * in exactly one number.
+   */
+  window.reissuePinsForAll = async () => {
+    const all = (studentsList || []);
+    if (!all.length) return alert('There are no students on this roster yet.');
+
+    if (!confirm('Give all ' + all.length + ' students a new PIN?\n\nEvery PIN already handed out stops working, so every slip has to be printed and given out again. Roll numbers do not change.')) return;
+
+    const btn = document.getElementById('pinsReissueBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Issuing…';
+
+    try {
+      // The callable takes 300 at a time, which is also about as many slips
+      // as a school prints in one sitting.
+      const issued = [];
+      for (let i = 0; i < all.length; i += 300) {
+        const batch = all.slice(i, i + 300).map(function (s) { return s.uid; });
+        const res = (await callIssueStudentPins({ student_uids: batch })).data;
+        issued.push.apply(issued, res.issued);
+      }
+      renderPinSlips(issued);
+      alert(issued.length + ' PINs issued. Print them now — they cannot be shown again.');
+      await loadDashboardData();
+    } catch (err) {
+      alert(err.message || 'Could not reissue PINs.');
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fas fa-rotate me-1"></i> Reissue for everyone (<span id="pinsTotalCount">' + (studentsList || []).length + '</span>)';
+    }
+  };
+
+  /**
+   * The slips, on screen and ready to print.
+   *
+   * This is the only time these PINs exist anywhere outside a scrypt hash, so
+   * the print button is not a convenience — it is the one chance to keep them.
+   */
+  function renderPinSlips(issued) {
+    const cards = issued.map(function (s) {
+      return '<div style="border:1px solid #e5e9f0; border-radius:12px; padding:12px 14px; background:#fff; break-inside:avoid;">' +
+        '<div style="font-size:0.72rem; font-weight:800; letter-spacing:0.12em; text-transform:uppercase; color:#6b7a90;">' + escapeHtml(schoolNameForSlip()) + '</div>' +
+        '<div style="font-weight:700; color:#16294d; margin:2px 0 8px;">' + escapeHtml(s.name || 'Student') +
+          (s.class_id ? ' <span style="font-weight:600; color:#6b7a90;">· ' + escapeHtml(s.class_id) + '</span>' : '') + '</div>' +
+        '<div style="display:flex; gap:18px;">' +
+          '<div><div style="font-size:0.7rem; color:#6b7a90;">Roll number</div>' +
+            '<div style="font-size:1.25rem; font-weight:800; letter-spacing:0.08em; color:#16294d;">' + escapeHtml(s.roll_no) + '</div></div>' +
+          '<div><div style="font-size:0.7rem; color:#6b7a90;">PIN</div>' +
+            '<div style="font-size:1.25rem; font-weight:800; letter-spacing:0.18em; color:#cf296d;">' + escapeHtml(s.pin) + '</div></div>' +
+        '</div></div>';
+    }).join('');
+
+    document.getElementById('pinsResult').innerHTML =
+      '<div class="form-group">' +
+        '<label><i class="fas fa-print text-muted me-1"></i> ' + issued.length + ' slips &mdash; shown once</label>' +
+        '<div style="background:#fdf3e3; border:1px solid #f0dcb8; color:#7a4712; border-radius:12px; padding:11px 13px; font-size:0.86rem; margin-bottom:12px;">' +
+          'These PINs are not stored and cannot be shown again. Print them now; a lost one is reset from this screen, not looked up.' +
+        '</div>' +
+        '<button class="btn-outline-light" type="button" onclick="printPinSlips()"><i class="fas fa-print me-1"></i> Print these slips</button>' +
+        '<div id="pinsSlips" style="display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:10px; margin-top:12px;">' + cards + '</div>' +
+      '</div>';
+  }
+
+  function schoolNameForSlip() {
+    return currentSchoolName || 'Imaan & Akhlaq';
+  }
+
+  window.printPinSlips = () => {
+    const slips = document.getElementById('pinsSlips');
+    if (!slips) return;
+    // A child window rather than a print stylesheet on this page: the
+    // dashboard is 5,000 lines of layout, and none of it belongs on paper.
+    const w = window.open('', '_blank');
+    if (!w) return alert('Your browser blocked the print window.');
+    w.document.write('<html><head><title>Student PINs</title>' +
+      '<style>body{font-family:system-ui,sans-serif;padding:16px}' +
+      '#g{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}' +
+      '@media print{@page{margin:12mm}}</style></head><body>' +
+      '<div id="g">' + slips.innerHTML + '</div></body></html>');
+    w.document.close();
+    w.focus();
+    w.print();
+  };
+
 
   // This file builds every row by string concatenation and had no escaping of
   // any kind. Names arrive from admin typing and from roster imports, neither
@@ -5070,6 +5722,57 @@
       { label: 'Student code', value: result.data.code }
     ]);
     loadDashboardData();
+  };
+
+  /**
+   * Give a parent a link to their child's wall.
+   *
+   * One live link per child — the callable revokes any previous one — so the
+   * confirmation is not a formality: reissuing silently stops the slip a
+   * parent may already be using.
+   */
+  window.issueParentLink = async (studentUid) => {
+    const student = studentsList.find((s) => s.uid === studentUid);
+    const label = student && student.name ? student.name : 'this student';
+
+    if (student && student.parent_link_issued_at &&
+        !confirm(label + ' already has a parent link.\n\nIssuing a new one stops the old one working immediately, so the new link has to be handed over.')) {
+      return;
+    }
+
+    let result;
+    try {
+      result = await callIssueParentLink({ student_uid: studentUid });
+    } catch (err) {
+      return alert(err.message || 'Could not create the link.');
+    }
+
+    // Origin is built here, not in the callable: the same function serves the
+    // live site, a staging host and localhost, and a hardcoded domain would
+    // hand out links that do not work on two of them.
+    const url = window.location.origin + result.data.path;
+    showHandover('Parent link for ' + label, 'Send this to the parent. It works without any account.', [
+      { label: 'Link', value: url }
+    ]);
+    await loadDashboardData();
+  };
+
+  window.resetTeacherPwd = async (teacherUid) => {
+    const teacher = teachersList.find((t) => t.uid === teacherUid);
+    const label = teacher && teacher.name ? teacher.name : 'this teacher';
+    if (!confirm('Issue a new password for ' + label + '?\n\nThe current one stops working immediately, so the new password has to be handed over.')) return;
+
+    let result;
+    try {
+      result = await callResetTeacherPassword({ teacher_uid: teacherUid });
+    } catch (err) {
+      return alert(err.message || 'Could not reset the password.');
+    }
+
+    showHandover('New password issued', label, [
+      { label: 'Username', value: result.data.username },
+      { label: 'Password', value: result.data.password }
+    ]);
   };
 
   window.resetFamilyPwd = async (familyUid) => {
@@ -5295,13 +5998,13 @@
     const cls = classes.join(', ');
     if(!name) return;
 
-    const tchCode = genCode('TCH', existingCodes());
     const btn = trigger || document.querySelector('#teacherModal .btn-solid');
     if (btn) {
       btn.disabled = true;
-      btn.textContent = 'Generating...';
+      btn.textContent = 'Creating...';
     }
 
+    let result;
     let photoURL = null;
     const file = document.getElementById('newTchPhoto').files[0];
 
@@ -5311,15 +6014,13 @@
         photoURL = await prepareProfilePhoto(file);
       }
 
-      await setDoc(doc(db, "invites", tchCode), {
-        code: tchCode,
-        role: 'teacher',
-        school_id: currentAdminSession.school_id,
-        class_id: cls,
-        name: name,
-        photoURL: photoURL,
-        status: 'pending',
-        created_at: new Date().toISOString()
+      // The login is created here and handed over, rather than a TCH- invite
+      // the teacher would redeem on the auth page. That registration card is
+      // gone: a teacher is somebody the school already employs, and asking
+      // them to build their own account meant the school could not answer
+      // "has she signed up yet?" without reading the invite list.
+      result = await callCreateTeacherAccount({
+        name: name, class_id: cls, photoURL: photoURL
       });
 
       closeModal('teacherModal');
@@ -5330,18 +6031,16 @@
       // Reset checkboxes
       document.querySelectorAll('input[name="newTchClasses"]').forEach(cb => cb.checked = false);
 
-      document.getElementById('codeSuccessTitle').textContent = 'Teacher Code Generated';
-      document.getElementById('codeSuccessDesc').textContent = 'Send this code to ' + name + ' to register on the platform.';
-      document.getElementById('codeSuccessBody').innerHTML = 
-        '<div style="background:#f8fafc; border:2px dashed #cbd5e1; border-radius:15px; padding:15px; margin:15px 0;">' +
-        '<div style="font-size:0.8rem; color:#94a3b8; text-transform:uppercase; font-weight:800;">Teacher Code</div>' +
-        '<div style="font-family:monospace; font-size:2rem; font-weight:800; color:#3b82f6; letter-spacing:2px; margin:5px 0;">' + tchCode + '</div>' +
-        '<button class="btn-outline-light" onclick="navigator.clipboard.writeText(\'' + tchCode + '\');this.textContent=\'Copied!\'"><i class="fas fa-copy"></i> Copy</button></div>';
-
-      openModal('codeSuccessModal');
+      // Shown before anything refreshes: the password exists nowhere but on
+      // this screen, so a refresh that failed must not be able to take it
+      // down with it. Same reasoning as the family handover above.
+      showHandover('Teacher account created', name + (cls ? ' — ' + cls : ''), [
+        { label: 'Username', value: result.data.username },
+        { label: 'Password', value: result.data.password }
+      ]);
       await loadDashboardData();
     } catch(err) {
-      alert("Error generating code: " + err.message);
+      alert("Could not create the teacher account: " + err.message);
     } finally {
       if (btn) {
         btn.disabled = false;
@@ -5550,6 +6249,16 @@
     const cbs = document.querySelectorAll('.student-select-cb:checked');
     const btn = document.getElementById('bulkDeleteBtn');
     const countSpan = document.getElementById('selectedCount');
+
+    // The consent pair rides the same selection. Only students carry consent,
+    // so a selection of nothing but pending invites offers nothing to set.
+    const students = [...cbs].filter((cb) => cb.dataset.type === 'student');
+    document.querySelectorAll('.bulk-consent-count')
+      .forEach((el) => { el.textContent = students.length; });
+    ['bulkConsentYes', 'bulkConsentNo'].forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) el.classList.toggle('d-none', !(isCommunitySchool() && students.length));
+    });
     if (btn) {
       if (cbs.length > 0) {
         btn.classList.remove('d-none');

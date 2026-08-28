@@ -2,13 +2,14 @@ import { describe, it, expect, beforeAll, afterAll, beforeEach } from 'vitest'
 import { initializeApp as initAdmin, deleteApp as deleteAdminApp, type App } from 'firebase-admin/app'
 import { getFirestore as adminFirestore } from 'firebase-admin/firestore'
 import { getAuth as adminAuth } from 'firebase-admin/auth'
+import { getStorage as adminStorage } from 'firebase-admin/storage'
 import { initializeApp as initClient, deleteApp as deleteClientApp } from 'firebase/app'
 import {
   getAuth, connectAuthEmulator, signInWithCustomToken,
   signInWithEmailAndPassword, signOut
 } from 'firebase/auth'
 import { getFunctions, connectFunctionsEmulator, httpsCallable } from 'firebase/functions'
-import { FAMILY_LOGIN_DOMAIN } from '../lib/familyLogin'
+import { FAMILY_LOGIN_DOMAIN, STAFF_LOGIN_DOMAIN } from '../lib/familyLogin'
 
 /**
  * The provisioning and migration callables, run against the emulators.
@@ -28,6 +29,10 @@ const HAS_EMULATOR = !!(process.env.FIRESTORE_EMULATOR_HOST && process.env.FIREB
 // .firebaserc, so everything here has to agree on it.
 const PROJECT = 'imaan-app-1d2da'
 const SCHOOL = 'school-m'
+// The bucket the Storage emulator serves for this project. The test process
+// has no FIREBASE_CONFIG of its own, so it names the bucket the way the
+// emulator does — the function inside gets the same one from its config.
+const BUCKET = PROJECT + '.firebasestorage.app'
 
 let adminApp: App
 let clientApp: ReturnType<typeof initClient>
@@ -55,6 +60,28 @@ async function signInAs(uid: string) {
 
 const call = <T = any>(name: string, data: any = {}) =>
   httpsCallable<any, T>(fns, name)(data).then((r) => r.data)
+
+/**
+ * Wait for a background trigger to land.
+ *
+ * countWallReactions owns like_count and comment_count, and a trigger runs
+ * after the callable has already returned — reading the counter straight
+ * afterwards races it. Polling states what the test is actually waiting for;
+ * a fixed sleep would either be flaky or slow, and usually both.
+ */
+async function waitFor<T>(read: () => Promise<T>, want: (value: T) => boolean, label = 'condition') {
+  for (let i = 0; i < 50; i++) {
+    const value = await read()
+    if (want(value)) return value
+    await new Promise((r) => setTimeout(r, 100))
+  }
+  throw new Error('timed out waiting for ' + label)
+}
+
+async function likeCount(postId: string) {
+  const snap = await db.collection('school_posts').doc(postId).get()
+  return (snap.data() || {}).like_count
+}
 
 async function seedAdmin(uid = 'admin-1') {
   await db.collection('users').doc(uid).set({ role: 'school_admin', school_id: SCHOOL, name: 'Admin' })
@@ -135,6 +162,796 @@ describe.skipIf(!HAS_EMULATOR)('Family provisioning and migration', () => {
       expect(doc.phone).toBeUndefined()
       expect(doc.email).toBeUndefined()
     }, 60000)
+  })
+
+  /**
+   * A community school's roster. The property that matters is what these
+   * students DO NOT have: no invite code, because a slip nobody redeems is a
+   * pending counter that never reaches zero, and no consent, because a
+   * photograph of a child is opt-in and nobody has been asked yet.
+   */
+  describe('community school roster', () => {
+    it('creates students with no login and no claim code', async () => {
+      await seedAdmin()
+      const res = await call('createRosterStudents', {
+        students: [
+          { name: 'Abdullah', class_id: 'Class 4' },
+          { name: 'Maryam', class_id: 'Class 5' }
+        ]
+      })
+
+      expect(res.created).toHaveLength(2)
+      expect(res.skipped).toHaveLength(0)
+
+      const doc = (await db.collection('users').doc(res.created[0].student_uid).get()).data()!
+      expect(doc.role).toBe('student')
+      expect(doc.school_id).toBe(SCHOOL)
+      expect(doc.class_id).toBe('Class 4')
+      expect(doc.roster_only).toBe(true)
+      // 'unset' and not 'granted': publishPost treats it exactly like denied.
+      expect(doc.media_consent).toBe('unset')
+      expect(doc.family_uid).toBeUndefined()
+      expect(doc.phone).toBeUndefined()
+
+      const invites = await db.collection('invites').get()
+      expect(invites.size).toBe(0)
+    }, 60000)
+
+    it('skips a student already on the roster instead of failing the import', async () => {
+      await seedAdmin()
+      await call('createRosterStudents', { students: [{ name: 'Abdullah', class_id: 'Class 4' }] })
+
+      const res = await call('createRosterStudents', {
+        students: [
+          { name: '  abdullah  ', class_id: 'Class 4' },  // same person, sloppier sheet
+          { name: 'Abdullah', class_id: 'Class 5' },      // same name, different class
+          { name: 'Yusuf', class_id: 'Class 4' }
+        ]
+      })
+
+      expect(res.created).toHaveLength(2)
+      expect(res.skipped).toHaveLength(1)
+      expect(res.skipped[0].reason).toBe('duplicate')
+    }, 60000)
+
+    it('skips an unusable row rather than writing it', async () => {
+      await seedAdmin()
+      const res = await call('createRosterStudents', {
+        students: [{ name: 'A', class_id: 'Class 4' }, { name: 'Fatima', class_id: 'Class 4' }]
+      })
+      expect(res.created).toHaveLength(1)
+      expect(res.skipped[0].reason).toBe('invalid_name')
+    }, 60000)
+
+    it('refuses a caller who is not school staff', async () => {
+      await db.collection('users').doc('pupil').set({ role: 'student', school_id: SCHOOL })
+      await signInAs('pupil')
+      await expect(call('createRosterStudents', {
+        students: [{ name: 'Ghost', class_id: 'Class 1' }]
+      })).rejects.toThrow()
+      expect((await db.collection('users').where('roster_only', '==', true).get()).size).toBe(0)
+    }, 60000)
+  })
+
+  describe('unlocking a community school wall', () => {
+    async function seedPendingSchool() {
+      await db.collection('schools').doc(SCHOOL).set({
+        name: 'Saturday Academy', type: 'weekly', admin_uid: 'admin-1',
+        approval_status: 'pending', wall_enabled: false
+      })
+    }
+
+    it('a super admin approves and the wall unlocks', async () => {
+      await seedPendingSchool()
+      await db.collection('users').doc('hq').set({ role: 'super_admin', name: 'HQ' })
+      await signInAs('hq')
+
+      await call('approveSchool', { school_id: SCHOOL })
+
+      const school = (await db.collection('schools').doc(SCHOOL).get()).data()!
+      expect(school.approval_status).toBe('approved')
+      expect(school.wall_enabled).toBe(true)
+      expect(school.approved_by).toBe('hq')
+    }, 60000)
+
+    it('the school admin cannot approve their own school', async () => {
+      await seedPendingSchool()
+      await seedAdmin()
+
+      await expect(call('approveSchool', { school_id: SCHOOL })).rejects.toThrow()
+
+      const school = (await db.collection('schools').doc(SCHOOL).get()).data()!
+      expect(school.wall_enabled).toBe(false)
+    }, 60000)
+
+    it('putting a school back to pending locks the wall again', async () => {
+      await seedPendingSchool()
+      await db.collection('users').doc('hq').set({ role: 'super_admin', name: 'HQ' })
+      await signInAs('hq')
+
+      await call('approveSchool', { school_id: SCHOOL })
+      await call('approveSchool', { school_id: SCHOOL, approved: false })
+
+      const school = (await db.collection('schools').doc(SCHOOL).get()).data()!
+      expect(school.approval_status).toBe('pending')
+      expect(school.wall_enabled).toBe(false)
+    }, 60000)
+  })
+
+  /**
+   * Teachers no longer register themselves — the Teacher card is gone from the
+   * auth page, so this callable is the only way a teacher account comes into
+   * existence, and the login it produces has to actually work.
+   */
+  describe('teacher provisioning', () => {
+    it('creates a teacher login the school can hand over', async () => {
+      await seedAdmin()
+      const res = await call('createTeacherAccount', { name: 'Muallima Fatima', class_id: 'Class 4' })
+
+      expect(res.username).toMatch(/^TCH-[A-Z0-9]{5}$/)
+      expect(res.password).toMatch(/^[A-Z0-9]{4}-[A-Z0-9]{4}$/)
+
+      const profile = (await db.collection('users').doc(res.teacher_uid).get()).data()!
+      expect(profile.role).toBe('teacher')
+      expect(profile.school_id).toBe(SCHOOL)
+      expect(profile.class_id).toBe('Class 4')
+      expect(profile.username).toBe(res.username)
+
+      // No invite is minted: the whole point of provisioning is that there is
+      // no code left lying around for anyone to redeem.
+      expect((await db.collection('invites').get()).size).toBe(0)
+    }, 60000)
+
+    it('signs in with the address the login page builds from the username', async () => {
+      await seedAdmin()
+      const res = await call('createTeacherAccount', { name: 'Muallima Fatima' })
+
+      // Exactly what usernameToEmail does for a TCH- username. If the two ever
+      // disagreed on the domain, this is where it shows.
+      const email = res.username.toLowerCase() + '@' + STAFF_LOGIN_DOMAIN
+      const cred = await signInWithEmailAndPassword(auth, email, res.password)
+      expect(cred.user.uid).toBe(res.teacher_uid)
+    }, 60000)
+
+    it('refuses a caller who is not school staff', async () => {
+      await db.collection('users').doc('pupil2').set({ role: 'student', school_id: SCHOOL })
+      await signInAs('pupil2')
+      await expect(call('createTeacherAccount', { name: 'Sneaky' })).rejects.toThrow()
+    }, 60000)
+
+    it('reissues a password, and the old one stops working', async () => {
+      await seedAdmin()
+      const created = await call('createTeacherAccount', { name: 'Muallima Fatima' })
+      const reset = await call('resetTeacherPassword', { teacher_uid: created.teacher_uid })
+
+      expect(reset.username).toBe(created.username)
+      expect(reset.password).not.toBe(created.password)
+
+      const email = created.username.toLowerCase() + '@' + STAFF_LOGIN_DOMAIN
+      await expect(signInWithEmailAndPassword(auth, email, created.password)).rejects.toThrow()
+      await expect(signInWithEmailAndPassword(auth, email, reset.password)).resolves.toBeTruthy()
+    }, 60000)
+
+    it('will not reset a teacher who owns a real email address', async () => {
+      // Someone who registered with an old TCH- invite has no username, and
+      // their address is theirs — a school admin must not take it over.
+      await seedAdmin()
+      await db.collection('users').doc('legacy-teacher').set({
+        role: 'teacher', school_id: SCHOOL, name: 'Legacy', email: 'her@example.com'
+      })
+      await expect(call('resetTeacherPassword', { teacher_uid: 'legacy-teacher' }))
+        .rejects.toThrow()
+    }, 60000)
+
+    it('will not reset a teacher from another school', async () => {
+      await seedAdmin()
+      await db.collection('users').doc('outsider').set({
+        role: 'teacher', school_id: 'some-other-school', name: 'Outsider', username: 'TCH-ZZZZZ'
+      })
+      await expect(call('resetTeacherPassword', { teacher_uid: 'outsider' })).rejects.toThrow()
+    }, 60000)
+  })
+
+  /**
+   * The wall. publishPost is the only writer of school_posts, and the reason
+   * it exists rather than a client write is consent: a child whose parent was
+   * never asked must not appear in a photograph, and rules cannot prove that
+   * without a document read per tag.
+   */
+  describe('the school wall', () => {
+    const TEACHER = 'wall-teacher-1'
+
+    async function seedOpenSchool(settings: any = {}) {
+      await db.collection('schools').doc(SCHOOL).set({
+        name: 'Saturday Academy', type: 'weekly', admin_uid: 'admin-1',
+        approval_status: 'approved', wall_enabled: true,
+        wall_settings: Object.assign({ comments: 'staff', require_approval: false }, settings)
+      })
+    }
+
+    /** A roster student with consent recorded one way or the other. */
+    async function seedStudent(uid: string, name: string, consent: string, classId = 'Class 4') {
+      await db.collection('users').doc(uid).set({
+        role: 'student', school_id: SCHOOL, class_id: classId,
+        name: name, roster_only: true, media_consent: consent
+      })
+      return uid
+    }
+
+    async function seedTeacher(uid = TEACHER) {
+      await db.collection('users').doc(uid).set({
+        role: 'teacher', school_id: SCHOOL, name: 'Muallima Fatima', username: 'TCH-AAAAA'
+      })
+      await signInAs(uid)
+      return uid
+    }
+
+    it('publishes a post and tags only the children who may be photographed', async () => {
+      await seedOpenSchool()
+      await seedStudent('stu-yes', 'Abdullah Ahmed', 'granted')
+      await seedStudent('stu-no', 'Maryam Khan', 'denied')
+      await seedStudent('stu-unasked', 'Yusuf Ali', 'unset')
+      await seedTeacher()
+
+      const res = await call('publishPost', {
+        text: 'Wudu practice',
+        session_date: '2026-08-22',
+        tagged: ['stu-yes', 'stu-no', 'stu-unasked']
+      })
+
+      expect(res.status).toBe('published')
+      expect(res.dropped_tags).toHaveLength(2)
+      expect(res.dropped_tags.every((d: any) => d.reason === 'no_consent')).toBe(true)
+
+      const post = (await db.collection('school_posts').doc(res.post_id).get()).data()!
+      expect(post.tagged).toHaveLength(1)
+      expect(post.tagged[0].student_uid).toBe('stu-yes')
+      // First name only. A full name never reaches the wall.
+      expect(post.tagged[0].first_name).toBe('Abdullah')
+      expect(post.school_id).toBe(SCHOOL)
+    }, 60000)
+
+    it('files the post under every tagged class, whatever the caller passed', async () => {
+      await seedOpenSchool()
+      await seedStudent('stu-a', 'Abdullah', 'granted', 'Class 4')
+      await seedStudent('stu-b', 'Maryam', 'granted', 'Class 5')
+      await seedTeacher()
+
+      const res = await call('publishPost', {
+        text: 'Joint session', session_date: '2026-08-22',
+        class_ids: ['Class 1'], tagged: ['stu-a', 'stu-b']
+      })
+
+      const post = (await db.collection('school_posts').doc(res.post_id).get()).data()!
+      // A post showing a Class 4 child has to be findable under Class 4.
+      expect(post.class_ids.sort()).toEqual(['Class 1', 'Class 4', 'Class 5'])
+    }, 60000)
+
+    it('will not publish while the school is still unverified', async () => {
+      await db.collection('schools').doc(SCHOOL).set({
+        name: 'Saturday Academy', type: 'weekly', admin_uid: 'admin-1',
+        approval_status: 'pending', wall_enabled: false
+      })
+      await seedTeacher()
+
+      await expect(call('publishPost', { text: 'Too early', session_date: '2026-08-22' }))
+        .rejects.toThrow()
+      expect((await db.collection('school_posts').get()).size).toBe(0)
+    }, 60000)
+
+    it('drops a child who belongs to another school', async () => {
+      await seedOpenSchool()
+      await db.collection('users').doc('stu-elsewhere').set({
+        role: 'student', school_id: 'some-other-school', name: 'Zainab', media_consent: 'granted'
+      })
+      await seedTeacher()
+
+      const res = await call('publishPost', {
+        text: 'Session', session_date: '2026-08-22', tagged: ['stu-elsewhere']
+      })
+      expect(res.dropped_tags[0].reason).toBe('other_school')
+      const post = (await db.collection('school_posts').doc(res.post_id).get()).data()!
+      expect(post.tagged).toHaveLength(0)
+    }, 60000)
+
+    it('refuses a media path outside the caller own staging tray', async () => {
+      await seedOpenSchool()
+      await seedTeacher()
+
+      // Another teacher's tray. Without the prefix check, naming any file in
+      // the bucket would publish it under this post.
+      await expect(call('publishPost', {
+        text: 'Borrowed', session_date: '2026-08-22',
+        media: [{ path: 'wall_staging/' + SCHOOL + '/someone-else/photo.jpg' }]
+      })).rejects.toThrow()
+
+      // And a traversal out of it.
+      await expect(call('publishPost', {
+        text: 'Borrowed', session_date: '2026-08-22',
+        media: [{ path: 'wall_staging/' + SCHOOL + '/' + TEACHER + '/../../../secret.jpg' }]
+      })).rejects.toThrow()
+
+      expect((await db.collection('school_posts').get()).size).toBe(0)
+    }, 60000)
+
+    it('moves a staged photo into the post and leaves the tray empty', async () => {
+      await seedOpenSchool()
+      await seedTeacher()
+
+      const bucket = adminStorage(adminApp).bucket(BUCKET)
+      const staged = 'wall_staging/' + SCHOOL + '/' + TEACHER + '/snap.jpg'
+      await bucket.file(staged).save(Buffer.from('not really a jpeg'), {
+        contentType: 'image/jpeg'
+      })
+
+      const res = await call('publishPost', {
+        text: 'Wudu practice', session_date: '2026-08-22',
+        media: [{ path: staged, w: 1600, h: 1200, bytes: 17 }]
+      })
+
+      const post = (await db.collection('school_posts').doc(res.post_id).get()).data()!
+      expect(post.media).toHaveLength(1)
+      expect(post.media[0].path).toBe('wall/' + SCHOOL + '/' + res.post_id + '/snap.jpg')
+      expect(post.media[0].type).toBe('image')
+      expect(post.media[0].w).toBe(1600)
+
+      // Moved, not copied. A staging tray that keeps a second copy of every
+      // photograph is a second place a parent's takedown request has to reach.
+      const [stillStaged] = await bucket.file(staged).exists()
+      expect(stillStaged).toBe(false)
+      const [published] = await bucket.file(post.media[0].path).exists()
+      expect(published).toBe(true)
+    }, 60000)
+
+    it('deleting a post takes its photographs with it', async () => {
+      await seedOpenSchool()
+      await seedTeacher()
+
+      const bucket = adminStorage(adminApp).bucket(BUCKET)
+      const staged = 'wall_staging/' + SCHOOL + '/' + TEACHER + '/gone.jpg'
+      await bucket.file(staged).save(Buffer.from('x'), { contentType: 'image/jpeg' })
+
+      const res = await call('publishPost', {
+        text: 'Session', session_date: '2026-08-22', media: [{ path: staged }]
+      })
+      const published = 'wall/' + SCHOOL + '/' + res.post_id + '/gone.jpg'
+      expect((await bucket.file(published).exists())[0]).toBe(true)
+
+      await call('moderatePost', { post_id: res.post_id, action: 'delete' })
+
+      // A post taken down because a parent asked is not taken down while its
+      // images are still fetchable by anyone holding the URL.
+      expect((await bucket.file(published).exists())[0]).toBe(false)
+    }, 60000)
+
+    it('refuses a post with neither a photo nor a note, and a bad date', async () => {
+      await seedOpenSchool()
+      await seedTeacher()
+
+      await expect(call('publishPost', { session_date: '2026-08-22' })).rejects.toThrow()
+      await expect(call('publishPost', { text: 'Hello', session_date: '22 August' })).rejects.toThrow()
+      await expect(call('publishPost', { text: 'Hello', session_date: '' })).rejects.toThrow()
+    }, 60000)
+
+    it('holds a teacher post for review when the school asked for that', async () => {
+      await seedOpenSchool({ require_approval: true })
+      await seedTeacher()
+
+      const res = await call('publishPost', { text: 'Waiting', session_date: '2026-08-22' })
+      expect(res.status).toBe('pending')
+
+      const post = (await db.collection('school_posts').doc(res.post_id).get()).data()!
+      expect(post.published_at).toBeUndefined()
+    }, 60000)
+
+    it('does not hold an admin own post for the admin own review', async () => {
+      await seedOpenSchool({ require_approval: true })
+      await seedAdmin()
+
+      const res = await call('publishPost', { text: 'Mine', session_date: '2026-08-22' })
+      expect(res.status).toBe('published')
+    }, 60000)
+
+    it('refuses a caller who is not staff', async () => {
+      await seedOpenSchool()
+      await db.collection('users').doc('a-pupil').set({ role: 'student', school_id: SCHOOL })
+      await signInAs('a-pupil')
+
+      await expect(call('publishPost', { text: 'Hi', session_date: '2026-08-22' }))
+        .rejects.toThrow()
+    }, 60000)
+
+    /**
+     * countWallReactions is the only writer of like_count and comment_count.
+     * These check that it is exactly one writer — not none, and not two.
+     */
+    describe('reaction counters', () => {
+      async function postWithSchool() {
+        await seedOpenSchool()
+        await seedTeacher()
+        return call('publishPost', { text: 'A session', session_date: '2026-08-22' })
+      }
+
+      it('counts a like written straight to Firestore', async () => {
+        const post = await postWithSchool()
+        const likes = db.collection('school_posts').doc(post.post_id).collection('likes')
+
+        await likes.doc('someone').set({ school_id: SCHOOL, created_at: '2026-08-22T00:00:00.000Z' })
+        await waitFor(() => likeCount(post.post_id), (n) => n === 1, 'one like')
+
+        await likes.doc('someone').delete()
+        await waitFor(() => likeCount(post.post_id), (n) => n === 0, 'no likes')
+      }, 60000)
+
+      it('counts each person once, however many rewrites', async () => {
+        const post = await postWithSchool()
+        const like = db.collection('school_posts').doc(post.post_id).collection('likes').doc('someone')
+
+        await like.set({ school_id: SCHOOL, created_at: 'a' })
+        await like.set({ school_id: SCHOOL, created_at: 'b' })
+        await like.set({ school_id: SCHOOL, created_at: 'c' })
+
+        await waitFor(() => likeCount(post.post_id), (n) => n === 1, 'still one like')
+        // Give a stray increment time to arrive before declaring it absent.
+        await new Promise((r) => setTimeout(r, 600))
+        expect(await likeCount(post.post_id)).toBe(1)
+      }, 60000)
+
+      it('counts comments separately, and hiding one does not change the count', async () => {
+        const post = await postWithSchool()
+        const comments = db.collection('school_posts').doc(post.post_id).collection('comments')
+
+        await comments.doc('c1').set({
+          school_id: SCHOOL, author_uid: 'someone', text: 'Well done', status: 'visible'
+        })
+        await waitFor(
+          async () => (await db.collection('school_posts').doc(post.post_id).get()).get('comment_count'),
+          (n) => n === 1, 'one comment'
+        )
+
+        // A hidden comment still occupies a row in the thread staff can see.
+        await comments.doc('c1').update({ status: 'hidden' })
+        await new Promise((r) => setTimeout(r, 600))
+        const snap = await db.collection('school_posts').doc(post.post_id).get()
+        expect(snap.get('comment_count')).toBe(1)
+        expect(snap.get('like_count')).toBe(0)
+      }, 60000)
+
+      it('deleting a post takes its likes and comments with it', async () => {
+        const post = await postWithSchool()
+        const ref = db.collection('school_posts').doc(post.post_id)
+        await ref.collection('likes').doc('someone').set({ school_id: SCHOOL, created_at: 'a' })
+        await ref.collection('comments').doc('c1').set({
+          school_id: SCHOOL, author_uid: 'someone', text: 'Hello', status: 'visible'
+        })
+        await waitFor(() => likeCount(post.post_id), (n) => n === 1, 'one like')
+
+        await call('moderatePost', { post_id: post.post_id, action: 'delete' })
+
+        // Firestore does not delete subcollections with their parent. Left
+        // alone, a post taken down because a parent asked would keep every
+        // like and comment written about their child.
+        expect((await ref.collection('likes').get()).size).toBe(0)
+        expect((await ref.collection('comments').get()).size).toBe(0)
+        expect((await ref.get()).exists).toBe(false)
+      }, 60000)
+    })
+
+    describe('moderation', () => {
+      async function publishAs(uid: string) {
+        await seedOpenSchool()
+        await seedTeacher(uid)
+        return call('publishPost', { text: 'Session', session_date: '2026-08-22' })
+      }
+
+      it('hides and restores a post', async () => {
+        const post = await publishAs(TEACHER)
+
+        await call('moderatePost', { post_id: post.post_id, action: 'hide' })
+        let doc = (await db.collection('school_posts').doc(post.post_id).get()).data()!
+        expect(doc.status).toBe('hidden')
+
+        await call('moderatePost', { post_id: post.post_id, action: 'publish' })
+        doc = (await db.collection('school_posts').doc(post.post_id).get()).data()!
+        expect(doc.status).toBe('published')
+      }, 60000)
+
+      it('deletes a post', async () => {
+        const post = await publishAs(TEACHER)
+        await call('moderatePost', { post_id: post.post_id, action: 'delete' })
+        expect((await db.collection('school_posts').doc(post.post_id).get()).exists).toBe(false)
+      }, 60000)
+
+      it('stops one teacher from taking down another teacher post', async () => {
+        const post = await publishAs(TEACHER)
+
+        // A second teacher at the same school.
+        await db.collection('users').doc('teacher-2').set({
+          role: 'teacher', school_id: SCHOOL, name: 'Another'
+        })
+        await signInAs('teacher-2')
+
+        await expect(call('moderatePost', { post_id: post.post_id, action: 'delete' }))
+          .rejects.toThrow()
+        expect((await db.collection('school_posts').doc(post.post_id).get()).exists).toBe(true)
+      }, 60000)
+
+      it('lets the school admin moderate anyone post', async () => {
+        const post = await publishAs(TEACHER)
+        await seedAdmin()
+        await call('moderatePost', { post_id: post.post_id, action: 'hide' })
+        const doc = (await db.collection('school_posts').doc(post.post_id).get()).data()!
+        expect(doc.status).toBe('hidden')
+      }, 60000)
+
+      it('stops another school staff from touching it at all', async () => {
+        const post = await publishAs(TEACHER)
+        await db.collection('users').doc('outsider-admin').set({
+          role: 'school_admin', school_id: 'some-other-school', name: 'Outsider'
+        })
+        await signInAs('outsider-admin')
+
+        await expect(call('moderatePost', { post_id: post.post_id, action: 'delete' }))
+          .rejects.toThrow()
+      }, 60000)
+    })
+  })
+
+  /**
+   * Parent access. The token is the credential — there is no sign-in — so the
+   * properties that matter are what a token does NOT open: another child's
+   * posts, an unpublished post, or anything after it expires or is revoked.
+   */
+  describe('parent links', () => {
+    const TEACHER = 'wall-teacher-2'
+
+    async function seedOpenSchool() {
+      await db.collection('schools').doc(SCHOOL).set({
+        name: 'Saturday Academy', type: 'weekly', admin_uid: 'admin-1',
+        approval_status: 'approved', wall_enabled: true,
+        wall_settings: { comments: 'staff', require_approval: false }
+      })
+    }
+
+    async function seedStudent(uid: string, name: string, classId = 'Class 4') {
+      await db.collection('users').doc(uid).set({
+        role: 'student', school_id: SCHOOL, class_id: classId,
+        name: name, roster_only: true, media_consent: 'granted'
+      })
+    }
+
+    async function seedTeacher(uid = TEACHER) {
+      await db.collection('users').doc(uid).set({
+        role: 'teacher', school_id: SCHOOL, name: 'Muallima Fatima'
+      })
+      await signInAs(uid)
+    }
+
+    /** School set up, two children, one post tagging only the first. */
+    async function setup() {
+      await seedOpenSchool()
+      await seedStudent('stu-mine', 'Abdullah Ahmed')
+      await seedStudent('stu-theirs', 'Yusuf Ali', 'Class 5')
+      await seedTeacher()
+      const post = await call('publishPost', {
+        text: 'Wudu practice', session_date: '2026-08-22', tagged: ['stu-mine']
+      })
+      const link = await call('issueParentLink', { student_uid: 'stu-mine' })
+      return { post, link }
+    }
+
+    it('issues a link and marks the student, without putting the token on them', async () => {
+      const { link } = await setup()
+
+      expect(link.token).toMatch(/^[A-Z0-9]{32}$/)
+      expect(link.path).toBe('/wall/p#' + link.token)
+
+      const student = (await db.collection('users').doc('stu-mine').get()).data()!
+      expect(student.parent_link_issued_at).toBeTruthy()
+      // The roster is a list a whole staff room reads. A token on it would be
+      // every parent's link on one screen.
+      expect(JSON.stringify(student)).not.toContain(link.token)
+    }, 60000)
+
+    it('shows the parent their own child posts', async () => {
+      const { link } = await setup()
+      await signOut(auth)
+
+      const wall = await call('readParentWall', { token: link.token })
+      expect(wall.student_name).toBe('Abdullah Ahmed')
+      expect(wall.school_name).toBe('Saturday Academy')
+      expect(wall.posts).toHaveLength(1)
+      expect(wall.posts[0].text).toBe('Wudu practice')
+      expect(wall.posts[0].child_first_name).toBe('Abdullah')
+    }, 60000)
+
+    it('hands the parent a usable link to each photo', async () => {
+      await seedOpenSchool()
+      await seedStudent('stu-mine', 'Abdullah Ahmed')
+      await seedTeacher()
+
+      const bucket = adminStorage(adminApp).bucket(BUCKET)
+      const staged = 'wall_staging/' + SCHOOL + '/' + TEACHER + '/p.jpg'
+      await bucket.file(staged).save(Buffer.from('x'), { contentType: 'image/jpeg' })
+      await call('publishPost', {
+        text: 'With a photo', session_date: '2026-08-22',
+        tagged: ['stu-mine'], media: [{ path: staged, w: 1600, h: 1200 }]
+      })
+      const link = await call('issueParentLink', { student_uid: 'stu-mine' })
+      await signOut(auth)
+
+      const wall = await call('readParentWall', { token: link.token })
+      // The entry survives even when the URL could not be produced, so the
+      // page can draw a placeholder. Dropping it would show the parent a post
+      // that looks like it never had a photograph, and nobody reports a
+      // photograph that quietly went missing.
+      expect(wall.posts[0].media).toHaveLength(1)
+      expect(wall.posts[0].media[0].w).toBe(1600)
+
+      // The URL itself needs the service account's signBlob permission. A
+      // deployed function has it; the Storage emulator cannot sign at all
+      // ('Cannot sign data without client_email'), so this half of the
+      // guarantee is only checkable where signing works.
+      if (wall.posts[0].media[0].url) {
+        expect(wall.posts[0].media[0].url).toMatch(/^https?:/)
+      }
+    }, 60000)
+
+    it('does not show a post that does not tag their child', async () => {
+      const { link } = await setup()
+      await seedTeacher()
+      await call('publishPost', {
+        text: 'A different class', session_date: '2026-08-22', tagged: ['stu-theirs']
+      })
+      await signOut(auth)
+
+      const wall = await call('readParentWall', { token: link.token })
+      // One link must not become a reader of the whole school's photographs.
+      expect(wall.posts).toHaveLength(1)
+      expect(wall.posts[0].text).toBe('Wudu practice')
+    }, 60000)
+
+    it('names only their own child on a post that tags several', async () => {
+      await seedOpenSchool()
+      await seedStudent('stu-mine', 'Abdullah Ahmed')
+      await seedStudent('stu-other', 'Maryam Khan')
+      await seedTeacher()
+      await call('publishPost', {
+        text: 'Both classes', session_date: '2026-08-22', tagged: ['stu-mine', 'stu-other']
+      })
+      const link = await call('issueParentLink', { student_uid: 'stu-mine' })
+      await signOut(auth)
+
+      const wall = await call('readParentWall', { token: link.token })
+      expect(wall.posts[0].child_first_name).toBe('Abdullah')
+      // The other children are in the picture; their names are not this
+      // parent's to collect.
+      expect(JSON.stringify(wall.posts[0])).not.toContain('Maryam')
+    }, 60000)
+
+    it('hides a post the school took down', async () => {
+      const { post, link } = await setup()
+      await call('moderatePost', { post_id: post.post_id, action: 'hide' })
+      await signOut(auth)
+
+      const wall = await call('readParentWall', { token: link.token })
+      expect(wall.posts).toHaveLength(0)
+    }, 60000)
+
+    it('refuses a wrong, revoked or expired token the same way', async () => {
+      const { link } = await setup()
+
+      await signOut(auth)
+      await expect(call('readParentWall', { token: 'NOTAREALTOKEN' })).rejects.toThrow()
+
+      await seedTeacher()
+      await call('revokeParentLink', { token: link.token })
+      await signOut(auth)
+      await expect(call('readParentWall', { token: link.token })).rejects.toThrow()
+
+      // Revoking also clears the roster marker, or the school would think the
+      // parent still had a working link.
+      const student = (await db.collection('users').doc('stu-mine').get()).data()!
+      expect(student.parent_link_issued_at).toBeUndefined()
+    }, 60000)
+
+    it('expires', async () => {
+      const { link } = await setup()
+      await db.collection('parent_links').doc(link.token)
+        .update({ expires_at: new Date(Date.now() - 86400000).toISOString() })
+      await signOut(auth)
+
+      await expect(call('readParentWall', { token: link.token })).rejects.toThrow()
+    }, 60000)
+
+    it('reissuing revokes the previous slip', async () => {
+      const { link } = await setup()
+      const second = await call('issueParentLink', { student_uid: 'stu-mine' })
+      expect(second.token).not.toBe(link.token)
+
+      await signOut(auth)
+      // A slip handed to the wrong parent has to stop working.
+      await expect(call('readParentWall', { token: link.token })).rejects.toThrow()
+      await expect(call('readParentWall', { token: second.token })).resolves.toBeTruthy()
+    }, 60000)
+
+    it('will not issue a link for another school student', async () => {
+      await seedOpenSchool()
+      await db.collection('users').doc('stu-elsewhere').set({
+        role: 'student', school_id: 'some-other-school', name: 'Zainab'
+      })
+      await seedTeacher()
+      await expect(call('issueParentLink', { student_uid: 'stu-elsewhere' })).rejects.toThrow()
+    }, 60000)
+
+    describe('appreciation', () => {
+      it('adds a heart, and taking it back removes it', async () => {
+        const { post, link } = await setup()
+        await signOut(auth)
+
+        const on = await call('appreciatePost', { token: link.token, post_id: post.post_id })
+        expect(on.liked).toBe(true)
+        // The counter is the trigger's, not the callable's, so it lands a beat
+        // later. appreciatePost stopped incrementing when countWallReactions
+        // shipped — doing both would count one heart twice.
+        await waitFor(() => likeCount(post.post_id), (n) => n === 1, 'like_count 1')
+
+        const off = await call('appreciatePost', { token: link.token, post_id: post.post_id })
+        expect(off.liked).toBe(false)
+        await waitFor(() => likeCount(post.post_id), (n) => n === 0, 'like_count 0')
+      }, 60000)
+
+      it('counts one link once, however many times it is tapped', async () => {
+        const { post, link } = await setup()
+        await signOut(auth)
+
+        await call('appreciatePost', { token: link.token, post_id: post.post_id })
+        await call('appreciatePost', { token: link.token, post_id: post.post_id })
+        await call('appreciatePost', { token: link.token, post_id: post.post_id })
+
+        await waitFor(() => likeCount(post.post_id), (n) => n === 1, 'like_count 1')
+
+        const wall = await call('readParentWall', { token: link.token })
+        expect(wall.posts[0].liked).toBe(true)
+        expect(wall.posts[0].like_count).toBe(1)
+      }, 60000)
+
+      it('stores no token on the like document', async () => {
+        const { post, link } = await setup()
+        await signOut(auth)
+        await call('appreciatePost', { token: link.token, post_id: post.post_id })
+
+        const likes = await db.collection('school_posts').doc(post.post_id)
+          .collection('likes').get()
+        expect(likes.size).toBe(1)
+        // The id is a hash and the body carries no token: a like is read by
+        // the page, and a token in readable data is a token that leaks.
+        expect(likes.docs[0].id).toMatch(/^guardian_[0-9a-f]{16}$/)
+        expect(JSON.stringify(likes.docs[0].data())).not.toContain(link.token)
+      }, 60000)
+
+      it('cannot appreciate a post that does not tag their child', async () => {
+        const { link } = await setup()
+        await seedTeacher()
+        const other = await call('publishPost', {
+          text: 'A different class', session_date: '2026-08-22', tagged: ['stu-theirs']
+        })
+        await signOut(auth)
+
+        await expect(call('appreciatePost', { token: link.token, post_id: other.post_id }))
+          .rejects.toThrow()
+      }, 60000)
+
+      it('cannot appreciate with a revoked token', async () => {
+        const { post, link } = await setup()
+        await seedTeacher()
+        await call('revokeParentLink', { token: link.token })
+        await signOut(auth)
+
+        await expect(call('appreciatePost', { token: link.token, post_id: post.post_id }))
+          .rejects.toThrow()
+      }, 60000)
+    })
   })
 
   describe('claiming a child', () => {

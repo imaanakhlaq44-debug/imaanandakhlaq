@@ -40,6 +40,16 @@ describe('Hono Routes', () => {
     expect(res.status).toBe(200)
   })
 
+  it('should return 200 for the parent wall', async () => {
+    const res = await app.request('/wall/p')
+    expect(res.status).toBe(200)
+  })
+
+  it('should return 200 for the school wall', async () => {
+    const res = await app.request('/school-wall')
+    expect(res.status).toBe(200)
+  })
+
   it('should return 200 for club portal', async () => {
     const res = await app.request('/club')
     expect(res.status).toBe(200)

@@ -1,7 +1,10 @@
 import { describe, it, expect } from 'vitest'
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
-import { FAMILY_LOGIN_DOMAIN, FAMILY_USERNAME_PATTERN, familyLoginHelpersJS } from '../lib/familyLogin'
+import {
+  FAMILY_LOGIN_DOMAIN, FAMILY_USERNAME_PATTERN, familyLoginHelpersJS,
+  STAFF_LOGIN_DOMAIN, STAFF_USERNAME_PATTERN
+} from '../lib/familyLogin'
 
 /**
  * The parent's username is turned into a synthetic email in two places: the
@@ -45,6 +48,46 @@ describe('Family login domain', () => {
     expect(familyLoginHelpersJS).toContain(FAMILY_LOGIN_DOMAIN)
     expect(familyLoginHelpersJS).toContain('function isFamilyUsername')
     expect(familyLoginHelpersJS).toContain('function familyUsernameToEmail')
+  })
+})
+
+/**
+ * Teachers are now provisioned the same way families are, so the same silent
+ * failure is possible: a TCH- username that plainly exists, refused with
+ * "user not found", and no error anywhere mentioning a domain.
+ */
+describe('Staff login domain', () => {
+  it('matches the domain the Cloud Function creates accounts with', () => {
+    const match = functionsSource.match(/const STAFF_LOGIN_DOMAIN = '([^']+)'/)
+    expect(match, 'STAFF_LOGIN_DOMAIN not found in functions/index.js').toBeTruthy()
+    expect(match![1]).toBe(STAFF_LOGIN_DOMAIN)
+  })
+
+  it('is a different domain from the family one', () => {
+    // Deliberate: a guessed username must not cross from one population to the
+    // other by changing three letters.
+    expect(STAFF_LOGIN_DOMAIN).not.toBe(FAMILY_LOGIN_DOMAIN)
+  })
+
+  it('accepts the usernames the function generates and nothing else', () => {
+    const re = new RegExp(STAFF_USERNAME_PATTERN)
+    expect(re.test('TCH-7K4QM')).toBe(true)
+    expect(re.test('PAR-7K4QM')).toBe(false)
+    expect(re.test('STU-7K4QM')).toBe(false)
+    expect(re.test('teacher@example.com')).toBe(false)
+  })
+
+  it('routes each username to its own domain', () => {
+    // usernameToEmail is the single entry point the login screen uses. If it
+    // ever sent a TCH- login to the family domain, the account would not exist
+    // and the teacher would be told their password was wrong.
+    const scope: any = {}
+    new Function(familyLoginHelpersJS + '; this.usernameToEmail = usernameToEmail;').call(scope)
+
+    expect(scope.usernameToEmail('TCH-7K4QM')).toBe('tch-7k4qm@' + STAFF_LOGIN_DOMAIN)
+    expect(scope.usernameToEmail('PAR-7K4QM')).toBe('par-7k4qm@' + FAMILY_LOGIN_DOMAIN)
+    // An ordinary email is not a username and must be used exactly as typed.
+    expect(scope.usernameToEmail('teacher@example.com')).toBeNull()
   })
 })
 

@@ -2,6 +2,7 @@ import { html, raw } from 'hono/html'
 import activitiesData from '../data/activities.json'
 import { firebaseConfigJS } from '../lib/firebaseConfig'
 import { ParentGateModal } from './ParentGateModal'
+import { emulatorConnectJS } from '../lib/devEmulators'
 import { parentGateHelpersJS } from '../lib/parentGateService'
 import { activeChildHelpersJS } from '../lib/activeChild'
 import { clubHelpersJS } from '../lib/clubData'
@@ -961,7 +962,7 @@ export const ActivityDashboard = () => html`
     gap: 0.35rem;
     padding: 0.38rem 0.7rem;
     border-radius: 8px;
-    background: var(--ds-navy);
+    background: var(--ds-navy, #16294d);
     border: none;
     color: #ffffff;
     font-family: 'Sora', sans-serif;
@@ -974,7 +975,7 @@ export const ActivityDashboard = () => html`
     pointer-events: none;
   }
   .library-item[role="button"]:hover .lib-view-btn {
-    background: var(--ds-navy-soft);
+    background: var(--ds-navy-soft, #1e3560);
   }
 
   .library-subtitle {
@@ -1881,6 +1882,63 @@ export const ActivityDashboard = () => html`
     }
   }
 
+
+  /* ── The shell holds still; only the page inside it scrolls ─────────────
+     Every dashboard was built as a grid of 'min-height: 100vh', so a tall
+     page simply grew it and the DOCUMENT scrolled. The inner
+     'overflow-y: auto' never engaged, because .dashboard-main had no height to
+     overflow — which is why the sidebar and the bar at the top rode up and
+     off the screen together with the content.
+
+     Giving the shell an exact viewport height is the whole fix: .dashboard-main
+     becomes the only scroller on the page, and .sidebar-panel and .workspace-bar
+     stay where they are.
+
+     Desktop only. Below 901px the sidebar is an off-canvas drawer and the
+     page is meant to scroll as one piece; pinning things there would fight
+     the mobile layout instead of helping it.
+
+     100dvh follows 100vh so a phone-sized desktop window still fills the
+     visible area when the browser chrome collapses; browsers that do not
+     know the unit keep the line above. */
+  @media (min-width: 901px) {
+    .dashboard-shell {
+      min-height: 0;
+      height: 100vh;
+      height: 100dvh;
+    }
+
+    .sidebar-panel {
+      min-height: 0;
+      overflow-y: auto;
+    }
+
+    .dashboard-main {
+      min-height: 0;
+      overflow-y: auto;
+      padding-top: 0;
+    }
+
+    /* A flex item shrinks before it overflows. .dashboard-main is a flex column, so
+       the moment the shell got a real height its children stopped being as
+       tall as their content and started being as tall as the space left over
+       — the students list squashed to fit and the rest was simply cut off,
+       with nothing to scroll because nothing overflowed.
+
+       flex-shrink: 0 is what turns a squashed column back into a scrolling
+       one. It is the other half of giving the shell a height, not a tweak. */
+    .dashboard-main > * { flex-shrink: 0; }
+
+
+    .workspace-bar {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+    }
+  }
+
 </style>
 
 <div class="student-page">
@@ -2239,10 +2297,10 @@ ${HouseQuizModal()}
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-  import { getAuth, onAuthStateChanged, signOut, setPersistence, browserLocalPersistence, indexedDBLocalPersistence } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
-  import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc, addDoc, collection, query, where, getDocs, enableIndexedDbPersistence } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
-  import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-storage.js";
-  import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-functions.js";
+  import { getAuth, connectAuthEmulator, onAuthStateChanged, signOut, setPersistence, browserLocalPersistence, indexedDBLocalPersistence } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+  import { getFirestore, connectFirestoreEmulator, doc, getDoc, setDoc, updateDoc, deleteDoc, addDoc, collection, query, where, getDocs, enableIndexedDbPersistence } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+  import { getStorage, connectStorageEmulator, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-storage.js";
+  import { getFunctions, connectFunctionsEmulator, httpsCallable } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-functions.js";
   import { getDoc as _getDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
   const firebaseConfig = ${raw(firebaseConfigJS)};
@@ -2252,6 +2310,12 @@ ${HouseQuizModal()}
   const db = getFirestore(app);
   const storage = getStorage(app);
   const functions = getFunctions(app);
+  // Local development only. USE_EMULATORS is a build-time constant, so a
+  // production build emits this block with the connect calls already dead.
+  ${raw(emulatorConnectJS)}
+  connectEmulators({ auth, db, functions, storage,
+    connectAuthEmulator, connectFirestoreEmulator, connectFunctionsEmulator, connectStorageEmulator });
+
 
   // 'house' is in no client whitelist in the Firestore rules — the quiz result
   // is written by this callable and by nothing else, which is what stops a

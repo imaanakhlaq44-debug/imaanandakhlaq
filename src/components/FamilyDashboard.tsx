@@ -2,6 +2,7 @@ import { html, raw } from 'hono/html'
 import activitiesData from '../data/activities.json'
 import { firebaseConfigJS } from '../lib/firebaseConfig'
 import { activeChildHelpersJS } from '../lib/activeChild'
+import { emulatorConnectJS } from '../lib/devEmulators'
 
 /**
  * chapter_id -> chapter title, emitted as a literal.
@@ -295,15 +296,21 @@ export const FamilyDashboard = () => html`
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
-  import { getFirestore, doc, getDoc, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
-  import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-functions.js";
+  import { getAuth, connectAuthEmulator, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+  import { getFirestore, connectFirestoreEmulator, doc, getDoc, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+  import { getFunctions, connectFunctionsEmulator, httpsCallable } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-functions.js";
 
   const firebaseConfig = ${raw(firebaseConfigJS)};
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const db = getFirestore(app);
   const functions = getFunctions(app);
+  // Local development only. USE_EMULATORS is a build-time constant, so a
+  // production build emits this block with the connect calls already dead.
+  ${raw(emulatorConnectJS)}
+  connectEmulators({ auth, db, functions,
+    connectAuthEmulator, connectFirestoreEmulator, connectFunctionsEmulator });
+
 
   // acRemember lets this device reopen whoever used it last.
   ${raw(activeChildHelpersJS)}

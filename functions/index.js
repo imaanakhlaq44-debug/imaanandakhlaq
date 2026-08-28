@@ -3,7 +3,8 @@ const { onDocumentCreated, onDocumentWritten } = require('firebase-functions/v2/
 const { initializeApp } = require('firebase-admin/app');
 const { getFirestore, FieldValue } = require('firebase-admin/firestore');
 const { getAuth } = require('firebase-admin/auth');
-const { randomInt } = require('node:crypto');
+const { getStorage } = require('firebase-admin/storage');
+const { randomInt, createHash, randomBytes, scryptSync, timingSafeEqual } = require('node:crypto');
 
 initializeApp();
 const db = getFirestore();
@@ -134,6 +135,13 @@ exports.mirrorPublicScore = onDocumentWritten('users/{uid}', async (event) => {
  */
 const FAMILY_LOGIN_DOMAIN = 'family.imaanakhlaq.invalid';
 
+// Teachers are provisioned by their school exactly like families are, and sign
+// in with a TCH- username. A separate domain from the family one so a guessed
+// username cannot cross populations by changing three letters.
+// Must stay identical to STAFF_LOGIN_DOMAIN in src/lib/familyLogin.ts — a test
+// reads both and pins them together.
+const STAFF_LOGIN_DOMAIN = 'staff.imaanakhlaq.invalid';
+
 /** Read aloud over a phone and copied off a paper slip: no O/0, no I/1/l. */
 const CODE_ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
 const MAX_CHILDREN_PER_FAMILY = 8;
@@ -162,6 +170,10 @@ function generatePassword() {
 
 function familyEmail(username) {
   return username.toLowerCase() + '@' + FAMILY_LOGIN_DOMAIN;
+}
+
+function staffEmail(username) {
+  return username.toLowerCase() + '@' + STAFF_LOGIN_DOMAIN;
 }
 
 function nowIso() {
@@ -274,6 +286,121 @@ async function provisionFamilyAccount(options) {
 
   throw new HttpsError('resource-exhausted', 'Could not allocate a username. Please try again.');
 }
+
+/**
+ * Create a teacher login. The school hands out the credentials.
+ *
+ * Replaces the TCH- invite flow, where the admin generated a code and the
+ * teacher went to /auth to build their own account. That put a registration
+ * card on the front page for a population that never registers from there —
+ * every teacher is somebody a school already employs — and it left a school
+ * unable to answer "did she sign up yet?" without reading the invite list.
+ *
+ * Same shape as provisionFamilyAccount, deliberately: one function to reason
+ * about when the question is "how does a school-provisioned login work".
+ * Different prefix, different domain, and role 'teacher' rather than 'family'.
+ */
+exports.createTeacherAccount = onCall({ cors: true }, async (request) => {
+  const caller = await requireStaff(request, ['school_admin', 'super_admin']);
+  const data = request.data || {};
+  const schoolId = resolveSchoolId(caller, data.school_id);
+
+  const name = String(data.name || '').trim();
+  const classId = String(data.class_id || '').trim();
+  const phone = String(data.phone || '').trim();
+  if (name.length < 2 || name.length > 80) {
+    throw new HttpsError('invalid-argument', 'Enter the teacher name.');
+  }
+  if (phone && !/^\+?[\d\s\-()]{7,20}$/.test(phone)) {
+    throw new HttpsError('invalid-argument', 'That phone number does not look right.');
+  }
+
+  const password = generatePassword();
+
+  for (let attempt = 0; attempt < ID_RETRIES; attempt++) {
+    const username = 'TCH-' + randomCode(FAMILY_USERNAME_LENGTH);
+    let user;
+    try {
+      user = await getAuth().createUser({
+        email: staffEmail(username),
+        password: password,
+        displayName: name
+      });
+    } catch (err) {
+      if (err.code === 'auth/email-already-exists') continue;
+      throw new HttpsError('internal', 'Could not create the login: ' + err.message);
+    }
+
+    const profile = {
+      role: 'teacher',
+      username: username,
+      name: name,
+      school_id: schoolId,
+      class_id: classId,
+      created_at: nowIso(),
+      created_by: caller.uid
+    };
+    if (phone) profile.phone = phone;
+    if (data.photoURL) profile.photoURL = data.photoURL;
+
+    try {
+      await db.collection('users').doc(user.uid).set(profile);
+    } catch (err) {
+      // Same reasoning as provisionFamilyAccount: an auth user with no /users
+      // doc is a login nobody can reach and no admin can see to clean up.
+      await getAuth().deleteUser(user.uid).catch(() => {});
+      throw new HttpsError('internal', 'Could not save the teacher profile: ' + err.message);
+    }
+
+    // Returned ONCE. Nothing stores the password — Firebase keeps only a hash,
+    // and a second plaintext copy in Firestore would put every teacher's
+    // password in that school one compromised admin account away from leaking.
+    return { teacher_uid: user.uid, username: username, password: password };
+  }
+
+  throw new HttpsError('resource-exhausted', 'Could not allocate a username. Please try again.');
+});
+
+/**
+ * Reissue a teacher's password.
+ *
+ * A TCH- login has no deliverable email behind it, so Firebase's own password
+ * reset cannot reach the teacher. Without this, a forgotten password means a
+ * teacher permanently locked out of a school that employs them — the same
+ * reason resetFamilyPassword exists.
+ */
+exports.resetTeacherPassword = onCall({ cors: true }, async (request) => {
+  const caller = await requireStaff(request, ['school_admin', 'super_admin']);
+  const teacherUid = String((request.data && request.data.teacher_uid) || '').trim();
+  if (!teacherUid) throw new HttpsError('invalid-argument', 'Which teacher?');
+
+  const snap = await db.collection('users').doc(teacherUid).get();
+  if (!snap.exists || snap.data().role !== 'teacher') {
+    throw new HttpsError('not-found', 'That teacher account does not exist.');
+  }
+  const teacher = snap.data();
+  // A school admin resets their own school's teachers and nobody else's.
+  if (caller.role !== 'super_admin' && teacher.school_id !== caller.school_id) {
+    throw new HttpsError('permission-denied', 'That teacher belongs to another school.');
+  }
+  // A teacher who registered with the old TCH- invite signed up with a real
+  // email of their own. Resetting that from here would hand a school admin
+  // control of an address they do not own, so it stays with Firebase.
+  if (!teacher.username) {
+    throw new HttpsError('failed-precondition',
+      'This teacher signs in with their own email. Use "Forgot password" on the login screen.');
+  }
+
+  const password = generatePassword();
+  await getAuth().updateUser(teacherUid, { password: password });
+
+  await db.collection('users').doc(teacherUid).update({
+    password_reset_at: nowIso(),
+    password_reset_by: caller.uid
+  });
+
+  return { username: teacher.username, password: password };
+});
 
 exports.createFamilyAccount = onCall({ cors: true }, async (request) => {
   const caller = await requireStaff(request, ['school_admin', 'super_admin']);
@@ -1557,5 +1684,1260 @@ exports.assignHouseFromQuiz = onCall({ cors: true }, async (request) => {
     // page can say "you lean toward two houses" rather than implying the six
     // answers pointed one way.
     was_tie: leading.length > 1
+  };
+});
+
+// ---------------------------------------------------------------------------
+// Community schools — roster provisioning and wall approval
+//
+// A community school (schools/{id}.type === 'weekly') meets one day a week. Its
+// students never log in: there is no phone to log in from and no second day to
+// do it on. So the roster has to produce STUDENTS, not the invite codes the
+// full-time flow hands out — a claim slip nobody redeems is a student who does
+// not exist, and a wall with nobody to tag.
+//
+// See SCHOOL_GROUP_PLAN.md §3 and §12.
+// ---------------------------------------------------------------------------
+
+/** One batch of roster rows per call. Firestore's own batch ceiling is 500. */
+const MAX_ROSTER_PER_CALL = 100;
+
+/** Normalized identity of a roster row, for the duplicate guard. */
+function rosterKey(classId, name) {
+  return String(classId || '').trim().toLowerCase() + '\u0000' +
+         String(name || '').trim().toLowerCase().replace(/\s+/g, ' ');
+}
+
+/**
+ * Bulk-create roster students with no login of their own.
+ *
+ * Deliberately NOT createChild in a loop:
+ *  - createChild allocates an invites/{STU-XXXXX} code per student, which is
+ *    exactly what this flow must not do. Two hundred unredeemable slips is
+ *    two hundred documents of litter and a pending-invites counter that never
+ *    reaches zero.
+ *  - Two hundred callable round-trips over a school's connection is minutes
+ *    of a spinner. One batch is one write.
+ *
+ * A student created here converts to a login later with no migration: mint a
+ * STU- code carrying child_uid and claimChild attaches it, exactly as it does
+ * for a child created by the family flow.
+ */
+exports.createRosterStudents = onCall({ cors: true }, async (request) => {
+  const caller = await requireStaff(request, ['school_admin', 'super_admin']);
+  const data = request.data || {};
+  const schoolId = resolveSchoolId(caller, data.school_id);
+
+  const rows = Array.isArray(data.students) ? data.students : null;
+  if (!rows || rows.length === 0) {
+    throw new HttpsError('invalid-argument', 'Send at least one student.');
+  }
+  if (rows.length > MAX_ROSTER_PER_CALL) {
+    throw new HttpsError('invalid-argument',
+      'Send at most ' + MAX_ROSTER_PER_CALL + ' students per call.');
+  }
+
+  // Everyone already on this school's roster, read once. The alternative — a
+  // query per row — is 100 reads to import 100 students.
+  const existing = new Set();
+  const rosterSnap = await db.collection('users')
+    .where('school_id', '==', schoolId)
+    .where('role', '==', 'student')
+    .get();
+  rosterSnap.forEach((d) => {
+    existing.add(rosterKey(d.get('class_id'), d.get('name')));
+  });
+
+  const batch = db.batch();
+  const created = [];
+  const skipped = [];
+
+  for (const row of rows) {
+    const name = String((row && row.name) || '').trim().replace(/\s+/g, ' ');
+    const classId = String((row && row.class_id) || '').trim();
+
+    if (name.length < 2 || name.length > 80) {
+      skipped.push({ name: name, class_id: classId, reason: 'invalid_name' });
+      continue;
+    }
+
+    const key = rosterKey(classId, name);
+    // Re-importing last term's list is the normal case, not an error: the
+    // admin exports from the school's own register and half the rows are
+    // already here. Skipping and reporting beats failing the whole import.
+    if (existing.has(key)) {
+      skipped.push({ name: name, class_id: classId, reason: 'duplicate' });
+      continue;
+    }
+    existing.add(key);
+
+    const ref = db.collection('users').doc();
+    batch.set(ref, {
+      role: 'student',
+      name: name,
+      school_id: schoolId,
+      class_id: classId,
+      // Never had a login and is not waiting for one. This is what tells the
+      // dashboard not to show a pending claim code against the name.
+      roster_only: true,
+      // Photographs of a child are opt-in, and the opt-in is the parent's to
+      // give. 'unset' behaves exactly like 'denied' at publish time —
+      // publishPost drops the tag. See SCHOOL_GROUP_PLAN.md §8.
+      media_consent: 'unset',
+      created_at: nowIso(),
+      created_by: caller.uid
+      // No phone and no email, for the reason spelled out in createChild:
+      // lookupEmailByPhone matches on phone across /users and a child holding
+      // the family's number could win that race.
+    });
+    created.push({ student_uid: ref.id, name: name, class_id: classId });
+  }
+
+  if (created.length > 0) {
+    try {
+      await batch.commit();
+    } catch (err) {
+      throw new HttpsError('internal', 'Could not save the roster: ' + err.message);
+    }
+  }
+
+  return { created: created, skipped: skipped };
+});
+
+/**
+ * Unlock a new community school's wall.
+ *
+ * Registration is open — anyone with an email address can create a school, and
+ * that was fine while a fake one could only generate invite codes nobody would
+ * redeem. It stops being fine when the same account can upload photographs of
+ * children and hand out parent links. So the school is created instantly and
+ * can do everything EXCEPT publish: wall_enabled starts false and only this
+ * function, super-admin only, turns it on.
+ *
+ * Firestore rules deliberately keep approval_status and wall_enabled out of
+ * every school_admin update whitelist, so this is the only path.
+ */
+exports.approveSchool = onCall({ cors: true }, async (request) => {
+  const caller = await requireStaff(request, ['super_admin']);
+  const data = request.data || {};
+
+  const schoolId = String(data.school_id || '').trim();
+  if (!schoolId) throw new HttpsError('invalid-argument', 'Name the school_id to approve.');
+
+  const approved = data.approved !== false;
+
+  const ref = db.collection('schools').doc(schoolId);
+  const snap = await ref.get();
+  if (!snap.exists) throw new HttpsError('not-found', 'That school does not exist.');
+
+  await ref.set({
+    approval_status: approved ? 'approved' : 'pending',
+    // Approval is what unlocks the wall; the two are not separate switches to
+    // get out of step. A school put back to 'pending' loses publishing again.
+    wall_enabled: approved,
+    approved_at: approved ? nowIso() : null,
+    approved_by: approved ? caller.uid : null
+  }, { merge: true });
+
+  return { school_id: schoolId, approval_status: approved ? 'approved' : 'pending' };
+});
+
+// ---------------------------------------------------------------------------
+// The school wall
+//
+// A community school photographs its activity day and posts it; every tagged
+// child shows as first name + class. See SCHOOL_GROUP_PLAN.md §2 and §5.
+//
+// firestore.rules has NO client write branch for school_posts. These two
+// callables are the only writers, because publishing has to check per tagged
+// child that photo consent was granted, and rules cannot do that without one
+// document read per tag on every write attempt.
+// ---------------------------------------------------------------------------
+
+const WALL_MAX_MEDIA = 10;
+const WALL_MAX_TEXT = 2000;
+const WALL_MAX_TAGS = 40;
+const SESSION_DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+
+/**
+ * The bucket wall media lives in.
+ *
+ * getStorage().bucket() reads storageBucket out of FIREBASE_CONFIG, which a
+ * deployed Cloud Function always has and a bare initializeApp() does not — it
+ * throws "Bucket name not specified or invalid", from inside a publish, after
+ * the teacher has already waited for the upload. Wrapped so that failure
+ * arrives as something a reader can act on.
+ */
+function wallBucket() {
+  try {
+    return getStorage().bucket();
+  } catch (err) {
+    throw new HttpsError('failed-precondition',
+      'Storage is not configured for this project: ' + err.message);
+  }
+}
+
+/**
+ * The wall shows a first name, never a full one. Split here rather than in the
+ * page, so no caller can decide to send the whole thing.
+ */
+function firstNameOf(full) {
+  return String(full || '').trim().split(/\s+/)[0] || '';
+}
+
+/** Load a school and prove its wall is open. */
+async function loadWallSchool(schoolId) {
+  const snap = await db.collection('schools').doc(schoolId).get();
+  if (!snap.exists) throw new HttpsError('not-found', 'That school does not exist.');
+  const school = snap.data();
+
+  // wall_enabled is set only by approveSchool. A school that registered five
+  // minutes ago can build its whole roster, but cannot publish a photograph
+  // of a child until a human has looked at the school.
+  if (school.wall_enabled !== true) {
+    throw new HttpsError('failed-precondition',
+      'This school wall is not open yet. It unlocks once the school is verified.');
+  }
+  return school;
+}
+
+/**
+ * Post an activity day to the wall.
+ *
+ * Returns dropped_tags so the teacher is told which children were left out and
+ * why. Dropping them silently would look like the app had lost the tag, and
+ * the teacher would try again rather than go and ask the parent.
+ */
+exports.publishPost = onCall({ cors: true }, async (request) => {
+  const caller = await requireStaff(request, ['teacher', 'school_admin', 'super_admin']);
+  const data = request.data || {};
+  const schoolId = resolveSchoolId(caller, data.school_id);
+  const school = await loadWallSchool(schoolId);
+
+  const text = String(data.text || '').trim();
+  if (text.length > WALL_MAX_TEXT) {
+    throw new HttpsError('invalid-argument', 'That note is too long.');
+  }
+
+  const sessionDate = String(data.session_date || '').trim();
+  if (!SESSION_DATE_RE.test(sessionDate)) {
+    throw new HttpsError('invalid-argument', 'Which day was this? Use YYYY-MM-DD.');
+  }
+
+  const tagIds = Array.isArray(data.tagged)
+    ? data.tagged.map((t) => String(t || '').trim()).filter(Boolean)
+    : [];
+  if (tagIds.length > WALL_MAX_TAGS) {
+    throw new HttpsError('invalid-argument', 'Tag at most ' + WALL_MAX_TAGS + ' students on one post.');
+  }
+
+  const media = Array.isArray(data.media) ? data.media : [];
+  if (media.length > WALL_MAX_MEDIA) {
+    throw new HttpsError('invalid-argument', 'Attach at most ' + WALL_MAX_MEDIA + ' photos to one post.');
+  }
+  if (!text && media.length === 0) {
+    throw new HttpsError('invalid-argument', 'A post needs a photo or a note.');
+  }
+
+  // --- Consent, the whole reason this is a callable ------------------------
+  const tagged = [];
+  const droppedTags = [];
+  if (tagIds.length) {
+    const refs = tagIds.map((id) => db.collection('users').doc(id));
+    const snaps = await db.getAll.apply(db, refs);
+    snaps.forEach((snap, i) => {
+      const id = tagIds[i];
+      if (!snap.exists) return droppedTags.push({ student_uid: id, reason: 'not_found' });
+      const student = snap.data();
+      if (student.school_id !== schoolId) {
+        return droppedTags.push({ student_uid: id, reason: 'other_school' });
+      }
+      // 'unset' is not a soft yes. A child nobody asked about is treated
+      // exactly like a child whose parent said no.
+      if (student.media_consent !== 'granted') {
+        return droppedTags.push({
+          student_uid: id, name: student.name || '', reason: 'no_consent'
+        });
+      }
+      tagged.push({
+        student_uid: id,
+        // Snapshotted, not resolved on read: the wall is read constantly and
+        // the roster changes rarely. Renaming a student does not rewrite
+        // history, which is the right behaviour for a photo caption anyway.
+        first_name: firstNameOf(student.name),
+        class_id: student.class_id || ''
+      });
+    });
+  }
+
+  // The class filter has to stay honest: a post showing a Class 4 child must
+  // be findable under Class 4, whatever the caller passed.
+  const classIds = new Set(
+    (Array.isArray(data.class_ids) ? data.class_ids : [])
+      .map((c) => String(c || '').trim()).filter(Boolean)
+  );
+  tagged.forEach((t) => { if (t.class_id) classIds.add(t.class_id); });
+
+  const postRef = db.collection('school_posts').doc();
+
+  // --- Media ---------------------------------------------------------------
+  // Paths come from the client, so each is checked against the caller's own
+  // staging prefix before anything moves. Without that check a caller could
+  // name any file in the bucket and have it published under their post.
+  const stagingPrefix = 'wall_staging/' + schoolId + '/' + caller.uid + '/';
+  const finalMedia = [];
+  if (media.length) {
+    const bucket = wallBucket();
+    for (const item of media) {
+      const path = String((item && item.path) || '');
+      if (path.indexOf(stagingPrefix) !== 0 || path.indexOf('..') !== -1) {
+        throw new HttpsError('permission-denied', 'That file is not one of yours.');
+      }
+      const source = bucket.file(path);
+      const [exists] = await source.exists();
+      if (!exists) {
+        throw new HttpsError('not-found', 'One of the photos had not finished uploading. Try again.');
+      }
+
+      const name = path.slice(stagingPrefix.length);
+      const destination = 'wall/' + schoolId + '/' + postRef.id + '/' + name;
+      await source.move(destination);
+
+      finalMedia.push({
+        path: destination,
+        type: 'image',
+        w: Number(item.w) || 0,
+        h: Number(item.h) || 0,
+        bytes: Number(item.bytes) || 0
+      });
+    }
+  }
+
+  // A teacher post waits for the admin only when the school asked for that.
+  // An admin post never waits for itself.
+  const needsApproval = !!(school.wall_settings &&
+    school.wall_settings.require_approval === true &&
+    caller.role === 'teacher');
+
+  const now = nowIso();
+  const post = {
+    school_id: schoolId,
+    class_ids: Array.from(classIds),
+    author_uid: caller.uid,
+    author_role: caller.role,
+    text: text,
+    media: finalMedia,
+    tagged: tagged,
+    session_date: sessionDate,
+    source: data.source === 'activity_submission' ? 'activity_submission' : 'manual',
+    status: needsApproval ? 'pending' : 'published',
+    // Denormalized so a comment rule can prove the policy without reading the
+    // school doc. Phase 4 needs it; stamping it now costs nothing and means
+    // posts written before then are not a special case later.
+    comments_policy: (school.wall_settings && school.wall_settings.comments) || 'staff',
+    like_count: 0,
+    comment_count: 0,
+    created_at: now
+  };
+  if (data.source_id) post.source_id = String(data.source_id);
+  if (post.status === 'published') post.published_at = now;
+
+  try {
+    await postRef.set(post);
+  } catch (err) {
+    throw new HttpsError('internal', 'Could not save the post: ' + err.message);
+  }
+
+  return { post_id: postRef.id, status: post.status, dropped_tags: droppedTags };
+});
+
+/**
+ * Hide, restore, or delete a post.
+ *
+ * Deleting removes the photographs too. A post taken down because a parent
+ * asked has not really been taken down while its images are still fetchable
+ * by anyone holding the URL.
+ */
+exports.moderatePost = onCall({ cors: true }, async (request) => {
+  const caller = await requireStaff(request, ['teacher', 'school_admin', 'super_admin']);
+  const data = request.data || {};
+
+  const postId = String(data.post_id || '').trim();
+  if (!postId) throw new HttpsError('invalid-argument', 'Which post?');
+
+  const action = String(data.action || '').trim();
+  if (['hide', 'publish', 'delete'].indexOf(action) === -1) {
+    throw new HttpsError('invalid-argument', 'Unknown action.');
+  }
+
+  const ref = db.collection('school_posts').doc(postId);
+  const snap = await ref.get();
+  if (!snap.exists) throw new HttpsError('not-found', 'That post no longer exists.');
+  const post = snap.data();
+
+  if (caller.role !== 'super_admin' && post.school_id !== caller.school_id) {
+    throw new HttpsError('permission-denied', 'That post belongs to another school.');
+  }
+  // A teacher moderates what they wrote. Taking down a colleague post is the
+  // admin call — otherwise the wall becomes a place where staff quietly
+  // delete each other classes.
+  if (caller.role === 'teacher' && post.author_uid !== caller.uid) {
+    throw new HttpsError('permission-denied',
+      'Only a school admin can moderate another teacher post.');
+  }
+
+  if (action === 'delete') {
+    const bucket = wallBucket();
+    for (const item of (post.media || [])) {
+      await bucket.file(item.path).delete().catch(() => {});
+    }
+
+    // Deleting a document does not delete its subcollections — Firestore
+    // leaves them addressable under a path whose parent is gone. A post taken
+    // down because a parent asked would otherwise keep every like and every
+    // comment written about their child, out of reach of the dashboard that
+    // was supposed to have removed it.
+    for (const sub of ['likes', 'comments']) {
+      const snap = await ref.collection(sub).get();
+      for (const group of chunked(snap.docs, 400)) {
+        const batch = db.batch();
+        group.forEach((d) => batch.delete(d.ref));
+        await batch.commit();
+      }
+    }
+
+    await ref.delete();
+    return { post_id: postId, deleted: true };
+  }
+
+  const status = action === 'hide' ? 'hidden' : 'published';
+  await ref.update({
+    status: status,
+    moderated_at: nowIso(),
+    moderated_by: caller.uid
+  });
+  return { post_id: postId, status: status };
+});
+
+// ---------------------------------------------------------------------------
+// Parent access
+//
+// Parents are the reason a school keeps posting, and they will not create
+// accounts. So a school hands out a link — a bearer token on a printed slip or
+// sent over WhatsApp — and the parent sees their own child's posts with no
+// sign-in at all.
+//
+// The token is resolved here, on the Admin SDK. It is deliberately NOT a
+// Firestore rule: a rule cannot verify a bearer token without making
+// parent_links readable, and a readable collection of bearer tokens is not a
+// secret. See SCHOOL_GROUP_PLAN.md §7.
+// ---------------------------------------------------------------------------
+
+const PARENT_TOKEN_LENGTH = 32;
+const PARENT_LINK_DAYS = 180;
+const PARENT_WALL_PAGE = 30;
+
+/** Signed media URLs live an hour: long enough to read a page, short enough
+ *  that a forwarded URL stops working long before the link itself does. */
+const SIGNED_URL_MS = 60 * 60 * 1000;
+
+/**
+ * Resolve a parent token to the child it names.
+ *
+ * Every failure returns the same 'not-found' so that a wrong token, an expired
+ * one and a revoked one are indistinguishable to whoever is holding it.
+ */
+async function resolveParentToken(rawToken) {
+  const token = String(rawToken || '').trim();
+  if (!token || token.length > 64) {
+    throw new HttpsError('not-found', 'That link is not valid.');
+  }
+
+  const snap = await db.collection('parent_links').doc(token).get();
+  if (!snap.exists) throw new HttpsError('not-found', 'That link is not valid.');
+
+  const link = snap.data();
+  if (link.revoked_at) throw new HttpsError('not-found', 'That link is not valid.');
+  if (link.expires_at && new Date(link.expires_at).getTime() < Date.now()) {
+    throw new HttpsError('not-found', 'That link has expired. Ask the school for a new one.');
+  }
+  return { token: token, link: link };
+}
+
+/**
+ * Mint a link for one child.
+ *
+ * One live link per child: issuing again revokes the previous one. Otherwise a
+ * slip handed to the wrong parent stays valid forever, and the school has no
+ * way to take it back other than deleting a token nobody wrote down.
+ */
+exports.issueParentLink = onCall({ cors: true }, async (request) => {
+  const caller = await requireStaff(request, ['teacher', 'school_admin', 'super_admin']);
+  const data = request.data || {};
+
+  const studentUid = String(data.student_uid || '').trim();
+  if (!studentUid) throw new HttpsError('invalid-argument', 'Which student?');
+
+  const studentSnap = await db.collection('users').doc(studentUid).get();
+  if (!studentSnap.exists || studentSnap.data().role !== 'student') {
+    throw new HttpsError('not-found', 'That student does not exist.');
+  }
+  const student = studentSnap.data();
+  if (caller.role !== 'super_admin' && student.school_id !== caller.school_id) {
+    throw new HttpsError('permission-denied', 'That student belongs to another school.');
+  }
+
+  const existing = await db.collection('parent_links')
+    .where('student_uid', '==', studentUid)
+    .get();
+  const revokeBatch = db.batch();
+  existing.forEach((d) => {
+    if (!d.get('revoked_at')) revokeBatch.update(d.ref, { revoked_at: nowIso(), revoked_by: caller.uid });
+  });
+  await revokeBatch.commit();
+
+  const token = randomCode(PARENT_TOKEN_LENGTH);
+  const expiresAt = new Date(Date.now() + PARENT_LINK_DAYS * 86400000).toISOString();
+
+  await db.collection('parent_links').doc(token).set({
+    student_uid: studentUid,
+    school_id: student.school_id,
+    student_name: student.name || '',
+    created_at: nowIso(),
+    created_by: caller.uid,
+    expires_at: expiresAt
+  });
+
+  // A marker on the student, because parent_links is closed to every client
+  // (see firestore.rules §12). Without it the roster could not show which
+  // children already have a link, and an admin would reissue by accident —
+  // silently revoking the slip a parent is already using.
+  //
+  // Deliberately a date, never the token: the roster is a list a whole staff
+  // room reads, and a token on it would be every parent's link on one screen.
+  await db.collection('users').doc(studentUid).update({
+    parent_link_issued_at: nowIso()
+  });
+
+  return {
+    token: token,
+    // A fragment, never a path segment: the browser does not send it to the
+    // server, so the token stays out of access logs and Referer headers — and
+    // a static SSG build has no file to serve /wall/p/<token> from anyway.
+    path: '/wall/p#' + token,
+    student_uid: studentUid,
+    expires_at: expiresAt
+  };
+});
+
+/** Take a link back — a slip handed to the wrong person, or a child who left. */
+exports.revokeParentLink = onCall({ cors: true }, async (request) => {
+  const caller = await requireStaff(request, ['teacher', 'school_admin', 'super_admin']);
+  const token = String((request.data && request.data.token) || '').trim();
+  if (!token) throw new HttpsError('invalid-argument', 'Which link?');
+
+  const ref = db.collection('parent_links').doc(token);
+  const snap = await ref.get();
+  if (!snap.exists) throw new HttpsError('not-found', 'That link does not exist.');
+  if (caller.role !== 'super_admin' && snap.get('school_id') !== caller.school_id) {
+    throw new HttpsError('permission-denied', 'That link belongs to another school.');
+  }
+
+  await ref.update({ revoked_at: nowIso(), revoked_by: caller.uid });
+  await db.collection('users').doc(snap.get('student_uid'))
+    .update({ parent_link_issued_at: FieldValue.delete() })
+    .catch(() => {});
+  return { token: token, revoked: true };
+});
+
+/**
+ * One child's wall, for whoever holds the link.
+ *
+ * Unauthenticated on purpose — the token IS the credential. Only posts that
+ * tag this child are returned, and only published ones: a parent has no
+ * business seeing a post the school is still deciding about, or one it took
+ * down.
+ */
+exports.readParentWall = onCall({ cors: true }, async (request) => {
+  const data = request.data || {};
+  const resolved = await resolveParentToken(data.token);
+  const link = resolved.link;
+
+  const snap = await db.collection('school_posts')
+    .where('school_id', '==', link.school_id)
+    .where('status', '==', 'published')
+    .orderBy('session_date', 'desc')
+    .limit(PARENT_WALL_PAGE)
+    .get();
+
+  const bucket = wallBucket();
+  const likeId = guardianLikeId(resolved.token);
+  const posts = [];
+
+  for (const d of snap.docs) {
+    const post = d.data();
+    const tagged = post.tagged || [];
+    // Only this child. A parent holding one link must not become a reader of
+    // the whole school's photographs.
+    if (!tagged.some((t) => t.student_uid === link.student_uid)) continue;
+
+    const media = [];
+    for (const item of (post.media || [])) {
+      let url = '';
+      try {
+        const signed = await bucket.file(item.path).getSignedUrl({
+          action: 'read', expires: Date.now() + SIGNED_URL_MS
+        });
+        url = signed[0];
+      } catch (err) {
+        // Signing needs the service account's signBlob permission, which a
+        // deployed function has and the local emulator does not. One photo
+        // that cannot be signed must not take the whole page down with it.
+        console.warn('could not sign', item.path, err.message);
+      }
+      // Pushed even when the URL is empty. Dropping it would show the parent a
+      // post that looks like it never had a photograph, and nobody would ever
+      // report the photograph that quietly went missing — the page draws a
+      // placeholder instead, which is a thing a parent can complain about.
+      media.push({ url: url, w: item.w || 0, h: item.h || 0 });
+    }
+
+    const liked = (await d.ref.collection('likes').doc(likeId).get()).exists;
+
+    posts.push({
+      id: d.id,
+      text: post.text || '',
+      session_date: post.session_date,
+      author_name: post.author_name || '',
+      media: media,
+      // Only this child's tag is returned. The other children in the photo are
+      // in the picture, but their names are not this parent's to collect.
+      child_first_name: (tagged.find((t) => t.student_uid === link.student_uid) || {}).first_name || '',
+      like_count: post.like_count || 0,
+      liked: liked
+    });
+  }
+
+  return {
+    student_name: link.student_name || '',
+    school_name: await schoolNameFor(link.school_id),
+    posts: posts
+  };
+});
+
+async function schoolNameFor(schoolId) {
+  const snap = await db.collection('schools').doc(schoolId).get();
+  return snap.exists ? (snap.get('name') || '') : '';
+}
+
+/**
+ * A stable, opaque id for the holder of one link.
+ *
+ * The token itself is never stored on the like: a like document is read by the
+ * page, and a token that appears in readable data is a token that leaks. The
+ * hash is one-way and one-per-link, so appreciating twice is idempotent and no
+ * two links collide.
+ */
+function guardianLikeId(token) {
+  return 'guardian_' + createHash('sha256').update(token).digest('hex').slice(0, 16);
+}
+
+/**
+ * A parent's heart, with no account.
+ *
+ * Written on the Admin SDK because the caller has no Firebase identity at all
+ * — there is nothing for a Firestore rule to check. Toggling: appreciating an
+ * already-appreciated post takes it back.
+ */
+exports.appreciatePost = onCall({ cors: true }, async (request) => {
+  const data = request.data || {};
+  const resolved = await resolveParentToken(data.token);
+  const link = resolved.link;
+
+  const postId = String(data.post_id || '').trim();
+  if (!postId) throw new HttpsError('invalid-argument', 'Which post?');
+
+  const postRef = db.collection('school_posts').doc(postId);
+  const postSnap = await postRef.get();
+  if (!postSnap.exists) throw new HttpsError('not-found', 'That post no longer exists.');
+
+  const post = postSnap.data();
+  // The same two checks readParentWall makes. Without them a link holder could
+  // appreciate — and so learn the existence of — any post id they guessed.
+  if (post.school_id !== link.school_id || post.status !== 'published') {
+    throw new HttpsError('not-found', 'That post no longer exists.');
+  }
+  if (!(post.tagged || []).some((t) => t.student_uid === link.student_uid)) {
+    throw new HttpsError('not-found', 'That post no longer exists.');
+  }
+
+  const likeRef = postRef.collection('likes').doc(guardianLikeId(resolved.token));
+
+  // The count is NOT touched here. countWallReactions owns like_count and
+  // fires on this write like any other — incrementing here as well would
+  // count a parent's single heart twice, and the drift would be permanent
+  // because nothing ever recomputes the total from the documents.
+  const liked = await db.runTransaction(async (tx) => {
+    const existing = await tx.get(likeRef);
+    if (existing.exists) {
+      tx.delete(likeRef);
+      return false;
+    }
+    tx.set(likeRef, { source: 'parent_link', school_id: link.school_id, created_at: nowIso() });
+    return true;
+  });
+
+  return { post_id: postId, liked: liked };
+});
+
+/**
+ * Keep like_count and comment_count honest.
+ *
+ * The counters are the one part of a post a client can see but must never
+ * write: firestore.rules has no write branch for school_posts at all, so a
+ * browser that could increment its own applause would be minting it. This
+ * trigger is the only writer, and it is the ONLY writer — appreciatePost
+ * deliberately stopped incrementing when this landed, or a parent's single
+ * heart would have counted twice with nothing to correct the drift.
+ *
+ * One trigger for both subcollections. Two would be the same eight lines
+ * twice, and they would drift.
+ */
+exports.countWallReactions = onDocumentWritten('school_posts/{postId}/{sub}/{docId}', async (event) => {
+  const field = event.params.sub === 'likes' ? 'like_count'
+              : event.params.sub === 'comments' ? 'comment_count'
+              : null;
+  // Any other subcollection someone adds later is not a counter's business.
+  if (!field) return;
+
+  const existedBefore = !!(event.data && event.data.before && event.data.before.exists);
+  const existsAfter = !!(event.data && event.data.after && event.data.after.exists);
+
+  let delta = 0;
+  if (!existedBefore && existsAfter) delta = 1;
+  else if (existedBefore && !existsAfter) delta = -1;
+  // An edit is neither: hiding a comment leaves the document in place, and a
+  // hidden comment still occupies a row in the thread staff can see.
+  else return;
+
+  const update = {};
+  update[field] = FieldValue.increment(delta);
+
+  try {
+    await db.collection('school_posts').doc(event.params.postId).update(update);
+  } catch (err) {
+    // The post is gone — moderatePost deletes the subcollections before the
+    // document, so this fires for every one of them on the way out. Nothing to
+    // count and nothing wrong.
+    if (err.code !== 5) console.warn('countWallReactions:', err.message);
+  }
+});
+
+/* ===========================================================================
+   Organisation portals — see ORG_PORTAL_PLAN.md
+
+   An organisation (Alkhidmat, a telecom's CSR arm) gets one link. Schools
+   arrive through it and register themselves; each one leaves with its own
+   link for children, who sign in with a roll number and a PIN and never have
+   an email address anywhere in the system.
+   =========================================================================== */
+
+// 32^8 is about 1.1 x 10^12. Unlike a child code these are not transcribed by
+// hand off a slip — they are forwarded as a link — so length costs nothing,
+// and guessing has to stay out of reach for a token that lives for years.
+const ORG_TOKEN_LENGTH = 8;
+const SCHOOL_TOKEN_LENGTH = 8;
+
+const PIN_LENGTH = 4;
+const PIN_MAX_FAILS = 5;
+const PIN_LOCK_MINUTES = 15;
+
+// 64 bytes out of scrypt. A 4-digit PIN has so little entropy of its own that
+// everything protecting it has to come from the work factor and the lockout.
+const PIN_KEY_BYTES = 64;
+
+/**
+ * A name a URL can carry: 'Gulshan Campus (Girls)' -> 'gulshan-campus-girls'.
+ *
+ * Deliberately lossy for anything outside a-z0-9, Urdu names included. A
+ * school named only in Urdu slugs to '' and the caller falls back to a
+ * generic stem, which is plain but readable; the alternative is
+ * percent-encoded mojibake in a link somebody has to read out loud.
+ */
+function slugify(value) {
+  return String(value || '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 40);
+}
+
+/** The first free slug in this org: 'campus', then 'campus-2', 'campus-3'. */
+async function uniqueSchoolSlug(orgId, base) {
+  const stem = base || 'school';
+  for (let n = 1; n < 100; n++) {
+    const candidate = n === 1 ? stem : stem + '-' + n;
+    const clash = await db.collection('schools')
+      .where('org_id', '==', orgId)
+      .where('slug', '==', candidate)
+      .limit(1)
+      .get();
+    if (clash.empty) return candidate;
+  }
+  throw new HttpsError('resource-exhausted', 'Too many schools with that name.');
+}
+
+function hashPin(pin, salt) {
+  return scryptSync(String(pin), salt, PIN_KEY_BYTES).toString('hex');
+}
+
+/**
+ * Constant time, and tolerant of a stored hash that is missing or the wrong
+ * length. timingSafeEqual throws on a length mismatch, and a throw here would
+ * be its own oracle: 'that student has no PIN' would answer faster and louder
+ * than 'that PIN is wrong'.
+ */
+function pinMatches(pin, salt, expectedHex) {
+  if (!salt || !expectedHex) return false;
+  const actual = Buffer.from(hashPin(pin, salt), 'hex');
+  const expected = Buffer.from(String(expectedHex), 'hex');
+  if (actual.length !== expected.length) return false;
+  return timingSafeEqual(actual, expected);
+}
+
+/**
+ * The link a child opens: /s?org=alkhidmat&school=gulshan-campus#7fK3aQ
+ *
+ * Only the fragment is load-bearing — studentSignIn resolves the school from
+ * the token alone. The two slugs are there so a link forwarded on WhatsApp
+ * can be recognised by the person receiving it.
+ */
+function studentPath(orgSlug, schoolSlug, token) {
+  return '/s?org=' + encodeURIComponent(orgSlug) +
+         '&school=' + encodeURIComponent(schoolSlug) +
+         '#' + token;
+}
+
+function randomPin() {
+  // randomInt, not Math.random: this is a credential, however short.
+  let out = '';
+  for (let i = 0; i < PIN_LENGTH; i++) out += String(randomInt(10));
+  return out;
+}
+
+/** Create an organisation and hand back the one link its schools arrive through. */
+exports.createOrg = onCall({ cors: true }, async (request) => {
+  const caller = await requireStaff(request, ['super_admin']);
+  const data = request.data || {};
+
+  const name = String(data.name || '').trim();
+  if (!name) throw new HttpsError('invalid-argument', 'The organisation needs a name.');
+
+  const slug = slugify(data.slug || name);
+  if (!slug) throw new HttpsError('invalid-argument', 'That name has no letters or digits a link can carry. Give the organisation a short English slug as well.');
+
+  const clash = await db.collection('orgs').where('slug', '==', slug).limit(1).get();
+  if (!clash.empty) throw new HttpsError('already-exists', 'An organisation already uses the link /join?org=' + slug + '.');
+
+  const joinToken = randomCode(ORG_TOKEN_LENGTH);
+  const ref = db.collection('orgs').doc();
+  await ref.set({
+    name: name,
+    slug: slug,
+    join_token: joinToken,
+    contact_email: String(data.contact_email || '').trim(),
+    contact_phone: String(data.contact_phone || '').trim(),
+    status: 'active',
+    school_count: 0,
+    created_at: nowIso(),
+    created_by: caller.uid
+  });
+
+  return {
+    org_id: ref.id,
+    name: name,
+    slug: slug,
+    // The name is a QUERY, the secret is a FRAGMENT, and the path is a
+    // file that exists. This site is a static SSG build with no rewrites, so
+    // /o/<slug> would need a file per organisation — there is nowhere to
+    // serve it from, and organisations are made after the build. The query
+    // keeps the name where a human can read it; the fragment keeps the token
+    // out of access logs and Referer headers, the way a parent link does.
+    join_path: '/join?org=' + slug + '#' + joinToken
+  };
+});
+
+/** Retire every copy of an organisation's link at once. */
+exports.rotateOrgToken = onCall({ cors: true }, async (request) => {
+  const caller = await requireStaff(request, ['super_admin']);
+  const orgId = String((request.data && request.data.org_id) || '').trim();
+  if (!orgId) throw new HttpsError('invalid-argument', 'Which organisation?');
+
+  const ref = db.collection('orgs').doc(orgId);
+  const snap = await ref.get();
+  if (!snap.exists) throw new HttpsError('not-found', 'No such organisation.');
+
+  const joinToken = randomCode(ORG_TOKEN_LENGTH);
+  await ref.update({ join_token: joinToken, token_rotated_at: nowIso(), token_rotated_by: caller.uid });
+
+  // The schools already registered are untouched: the join token is spent at
+  // registration and never read again.
+  return { org_id: orgId, join_path: '/join?org=' + snap.get('slug') + '#' + joinToken };
+});
+
+/**
+ * What is this organisation called?
+ *
+ * The one function here that anybody on the internet can call, so it answers
+ * exactly one question. No school list, no contact details, no id. A head
+ * teacher opening the link needs to see they are in the right place, and
+ * nothing beyond that is theirs to see before they have registered.
+ */
+exports.describeOrgInvite = onCall({ cors: true }, async (request) => {
+  const data = request.data || {};
+  const slug = slugify(data.slug);
+  const token = String(data.token || '').trim();
+  if (!slug || !token) throw new HttpsError('invalid-argument', 'That link is incomplete.');
+
+  const snap = await db.collection('orgs').where('slug', '==', slug).limit(1).get();
+  const org = snap.empty ? null : snap.docs[0];
+
+  // One error for a wrong slug, a wrong token and a closed organisation. A
+  // caller with a bad link learns that it is bad, and nothing else.
+  if (!org || org.get('join_token') !== token || org.get('status') !== 'active') {
+    throw new HttpsError('not-found', 'This link is not valid any more. Ask the organisation for a current one.');
+  }
+
+  return { name: org.get('name'), slug: org.get('slug') };
+});
+
+/**
+ * A school registers itself under an organisation and is live immediately.
+ *
+ * No approval step — a settled decision, ORG_PORTAL_PLAN.md section 3. What
+ * makes it safe to skip is not trust in the link but what a new school can
+ * reach: nothing. It starts with no students and no wall, and sameSchool() in
+ * firestore.rules keeps it out of every other school's data. The join token
+ * is rotatable the moment a link goes astray.
+ *
+ * approval_status is 'approved' because the organisation vouched for the
+ * school; wall_enabled stays false, because publishing photographs of
+ * children is a separate decision from being able to log in.
+ */
+exports.registerSchoolInOrg = onCall({ cors: true }, async (request) => {
+  const data = request.data || {};
+  const slug = slugify(data.slug);
+  const token = String(data.token || '').trim();
+  const schoolName = String(data.school_name || '').trim();
+  const adminName = String(data.admin_name || '').trim();
+  const email = String(data.email || '').trim().toLowerCase();
+  const password = String(data.password || '');
+
+  if (!slug || !token) throw new HttpsError('invalid-argument', 'That link is incomplete.');
+  if (!schoolName) throw new HttpsError('invalid-argument', 'The school needs a name.');
+  if (!adminName) throw new HttpsError('invalid-argument', 'Who runs the school?');
+  if (!email) throw new HttpsError('invalid-argument', 'An email address is needed to sign in.');
+  if (password.length < 6) throw new HttpsError('invalid-argument', 'The password needs at least 6 characters.');
+
+  const orgSnap = await db.collection('orgs').where('slug', '==', slug).limit(1).get();
+  const org = orgSnap.empty ? null : orgSnap.docs[0];
+  if (!org || org.get('join_token') !== token || org.get('status') !== 'active') {
+    throw new HttpsError('not-found', 'This link is not valid any more. Ask the organisation for a current one.');
+  }
+
+  const schoolSlug = await uniqueSchoolSlug(org.id, slugify(schoolName));
+  const studentToken = randomCode(SCHOOL_TOKEN_LENGTH);
+
+  let user;
+  try {
+    user = await getAuth().createUser({ email: email, password: password, displayName: adminName });
+  } catch (err) {
+    if (err && err.code === 'auth/email-already-exists') {
+      throw new HttpsError('already-exists', 'That email address already has an account. Sign in instead, or use another address.');
+    }
+    throw new HttpsError('internal', 'Could not create the account.');
+  }
+
+  const schoolId = db.collection('schools').doc().id;
+
+  try {
+    // The profile first, then the school: the same order the auth page uses,
+    // because the schools create rule reads the caller's profile.
+    await db.collection('users').doc(user.uid).set({
+      role: 'school_admin',
+      email: email,
+      name: adminName,
+      school_id: schoolId
+    });
+
+    await db.collection('schools').doc(schoolId).set({
+      name: schoolName,
+      location: String(data.location || '').trim(),
+      school_code: randomCode(CHILD_CODE_LENGTH),
+      admin_uid: user.uid,
+      org_id: org.id,
+      slug: schoolSlug,
+      type: 'weekly',
+      meeting_day: String(data.meeting_day || '').trim(),
+      approval_status: 'approved',
+      wall_enabled: false,
+      wall_settings: { comments: 'staff', require_approval: false },
+      created_at: nowIso()
+    });
+
+    // The link lives in its own closed collection, keyed BY the token, so
+    // signing a child in is one document read rather than a query — and so
+    // that nothing readable anywhere holds the secret.
+    await db.collection('school_links').doc(studentToken).set({
+      school_id: schoolId,
+      org_slug: org.get('slug'),
+      school_slug: schoolSlug,
+      created_at: nowIso()
+    });
+
+    await db.collection('orgs').doc(org.id).update({ school_count: FieldValue.increment(1) });
+  } catch (err) {
+    // A half-made school is worse than none: the head would hold an account
+    // that signs in to nothing, and could not register again with that email.
+    await getAuth().deleteUser(user.uid).catch(() => {});
+    await db.collection('users').doc(user.uid).delete().catch(() => {});
+    throw new HttpsError('internal', 'Could not finish registering the school.');
+  }
+
+  return {
+    school_id: schoolId,
+    school_slug: schoolSlug,
+    org_slug: org.get('slug'),
+    student_path: studentPath(org.get('slug'), schoolSlug, studentToken)
+  };
+});
+
+/**
+ * Roll numbers and PINs for a class, shown once.
+ *
+ * The same shape as createTeacherAccount: the credential is returned here and
+ * nowhere else, because only the hash is stored. Reissuing is resetStudentPin,
+ * not a lookup — there is nothing to look up.
+ */
+exports.issueStudentPins = onCall({ cors: true }, async (request) => {
+  const caller = await requireStaff(request, ['teacher', 'school_admin', 'super_admin']);
+  const data = request.data || {};
+  const schoolId = resolveSchoolId(caller, data.school_id);
+
+  const uids = Array.isArray(data.student_uids) ? data.student_uids.map(String) : [];
+  if (!uids.length) throw new HttpsError('invalid-argument', 'Name at least one student.');
+  if (uids.length > 300) throw new HttpsError('invalid-argument', 'Three hundred students at a time is the limit.');
+
+  // The highest roll number already in use, so a second import continues the
+  // series instead of colliding with it.
+  const existing = await db.collection('users')
+    .where('school_id', '==', schoolId)
+    .where('role', '==', 'student')
+    .get();
+  let next = 0;
+  existing.forEach((d) => {
+    const n = parseInt(d.get('roll_no'), 10);
+    if (Number.isFinite(n) && n > next) next = n;
+  });
+
+  const issued = [];
+  const batch = db.batch();
+
+  for (const uid of uids) {
+    const snap = await db.collection('users').doc(uid).get();
+    if (!snap.exists || snap.get('role') !== 'student') continue;
+    if (snap.get('school_id') !== schoolId) {
+      throw new HttpsError('permission-denied', 'One of those students belongs to another school.');
+    }
+
+    const rollNo = snap.get('roll_no') ? String(snap.get('roll_no')) : String(++next);
+    const pin = randomPin();
+    const salt = randomBytes(16).toString('hex');
+
+    batch.update(snap.ref, {
+      roll_no: rollNo,
+      pin_hash: hashPin(pin, salt),
+      pin_salt: salt,
+      pin_set_at: nowIso()
+    });
+
+    issued.push({
+      student_uid: uid,
+      name: snap.get('name') || '',
+      class_id: snap.get('class_id') || '',
+      roll_no: rollNo,
+      pin: pin
+    });
+  }
+
+  if (!issued.length) throw new HttpsError('not-found', 'None of those students are on this roster.');
+  await batch.commit();
+
+  return { issued: issued };
+});
+
+/** One child, one new PIN — a slip that went home in the wrong bag. */
+exports.resetStudentPin = onCall({ cors: true }, async (request) => {
+  const caller = await requireStaff(request, ['teacher', 'school_admin', 'super_admin']);
+  const uid = String((request.data && request.data.student_uid) || '').trim();
+  if (!uid) throw new HttpsError('invalid-argument', 'Which student?');
+
+  const snap = await db.collection('users').doc(uid).get();
+  if (!snap.exists || snap.get('role') !== 'student') throw new HttpsError('not-found', 'That student does not exist.');
+  if (caller.role !== 'super_admin' && snap.get('school_id') !== caller.school_id) {
+    throw new HttpsError('permission-denied', 'That student belongs to another school.');
+  }
+  if (!snap.get('roll_no')) throw new HttpsError('failed-precondition', 'That student has no roll number yet.');
+
+  const pin = randomPin();
+  const salt = randomBytes(16).toString('hex');
+  await snap.ref.update({ pin_hash: hashPin(pin, salt), pin_salt: salt, pin_set_at: nowIso() });
+
+  // A fresh PIN should not inherit a lockout the old one earned.
+  await db.collection('pin_attempts').doc(snap.get('school_id') + '_' + snap.get('roll_no')).delete().catch(() => {});
+
+  return { student_uid: uid, roll_no: String(snap.get('roll_no')), pin: pin };
+});
+
+/**
+ * A child signs in with a roll number and a PIN.
+ *
+ * Returns a Firebase custom token for the child's own uid, so from here they
+ * are request.auth.uid like anybody else and every student rule already in
+ * firestore.rules applies unchanged. ORG_PORTAL_PLAN.md section 1.2 has why
+ * this is a real session rather than a side channel.
+ *
+ * Four digits are only safe because of the lockout below: five tries every
+ * fifteen minutes is eighty years to walk ten thousand PINs. The counter is
+ * per child, never per school — one child fumbling must not lock a classroom
+ * out on activity day.
+ */
+exports.studentSignIn = onCall({ cors: true }, async (request) => {
+  const data = request.data || {};
+  const token = String(data.school_token || '').trim();
+  const rollNo = String(data.roll_no || '').trim();
+  const pin = String(data.pin || '').trim();
+
+  // One message for every way this fails. A caller guessing a school token
+  // must not be able to tell it apart from a caller guessing a PIN.
+  const wrong = new HttpsError('permission-denied', 'That roll number and PIN do not match. Check the slip from your teacher.');
+
+  if (!token || !rollNo || !pin) throw wrong;
+
+  const linkSnap = await db.collection('school_links').doc(token).get();
+  if (!linkSnap.exists) throw wrong;
+  const schoolId = linkSnap.get('school_id');
+
+  const attemptsRef = db.collection('pin_attempts').doc(schoolId + '_' + rollNo);
+  const attempts = await attemptsRef.get();
+  const lockedUntil = attempts.exists ? attempts.get('locked_until') : null;
+  if (lockedUntil && new Date(lockedUntil) > new Date()) {
+    throw new HttpsError('resource-exhausted', 'Too many wrong tries. Try again in a few minutes, or ask your teacher.');
+  }
+
+  const studentSnap = await db.collection('users')
+    .where('school_id', '==', schoolId)
+    .where('role', '==', 'student')
+    .where('roll_no', '==', rollNo)
+    .limit(1)
+    .get();
+
+  const student = studentSnap.empty ? null : studentSnap.docs[0];
+  const ok = student && pinMatches(pin, student.get('pin_salt'), student.get('pin_hash'));
+
+  if (!ok) {
+    // Keyed on the roll number rather than the student, so guessing a roll
+    // number that does not exist is rate limited too.
+    const fails = (attempts.exists ? (attempts.get('fails') || 0) : 0) + 1;
+    const update = { fails: fails, last_attempt_at: nowIso() };
+    if (fails >= PIN_MAX_FAILS) {
+      update.locked_until = new Date(Date.now() + PIN_LOCK_MINUTES * 60000).toISOString();
+      update.fails = 0;
+    }
+    await attemptsRef.set(update, { merge: true });
+    throw wrong;
+  }
+
+  await attemptsRef.delete().catch(() => {});
+
+  return {
+    token: await getAuth().createCustomToken(student.id),
+    student_uid: student.id,
+    name: student.get('name') || '',
+    school_id: schoolId
+  };
+});
+
+/**
+ * The school's own link for children.
+ *
+ * A callable rather than a field on the school doc, because schools are
+ * readable by every signed-in account (firestore.rules section 4) and this is
+ * a bearer token. Only the school's own staff get it back.
+ */
+exports.getSchoolLink = onCall({ cors: true }, async (request) => {
+  const caller = await requireStaff(request, ['teacher', 'school_admin', 'super_admin']);
+  const schoolId = resolveSchoolId(caller, request.data && request.data.school_id);
+
+  const links = await db.collection('school_links').where('school_id', '==', schoolId).limit(1).get();
+  if (links.empty) throw new HttpsError('not-found', 'This school has no student link yet.');
+
+  const link = links.docs[0];
+  return { path: studentPath(link.get('org_slug'), link.get('school_slug'), link.id) };
+});
+
+/**
+ * Retire a school's link and issue another.
+ *
+ * Every child's slip stops working, so this is the school admin's decision
+ * alone, never a teacher's. The PINs are untouched — a new link, the same
+ * roll numbers — because a leaked link is not a leaked PIN.
+ */
+exports.rotateSchoolLink = onCall({ cors: true }, async (request) => {
+  const caller = await requireStaff(request, ['school_admin', 'super_admin']);
+  const schoolId = resolveSchoolId(caller, request.data && request.data.school_id);
+
+  const links = await db.collection('school_links').where('school_id', '==', schoolId).get();
+  if (links.empty) throw new HttpsError('not-found', 'This school has no student link yet.');
+
+  const old = links.docs[0];
+  const token = randomCode(SCHOOL_TOKEN_LENGTH);
+
+  await db.collection('school_links').doc(token).set({
+    school_id: schoolId,
+    org_slug: old.get('org_slug'),
+    school_slug: old.get('school_slug'),
+    created_at: nowIso(),
+    rotated_by: caller.uid
+  });
+
+  const batch = db.batch();
+  links.forEach((d) => batch.delete(d.ref));
+  await batch.commit();
+
+  return { path: studentPath(old.get('org_slug'), old.get('school_slug'), token) };
+});
+
+/**
+ * Every organisation, for the super admin's dashboard.
+ *
+ * orgs is closed to every client (firestore.rules section 13), so the list
+ * has to come from here. It carries the join link, which is why this is
+ * super_admin only and not merely signed-in.
+ */
+exports.listOrgs = onCall({ cors: true }, async (request) => {
+  await requireStaff(request, ['super_admin']);
+
+  const snap = await db.collection('orgs').orderBy('created_at', 'desc').get();
+  return {
+    orgs: snap.docs.map((d) => ({
+      org_id: d.id,
+      name: d.get('name'),
+      slug: d.get('slug'),
+      status: d.get('status'),
+      school_count: d.get('school_count') || 0,
+      created_at: d.get('created_at'),
+      join_path: '/join?org=' + d.get('slug') + '#' + d.get('join_token')
+    }))
   };
 });
