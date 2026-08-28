@@ -3178,7 +3178,10 @@
       <p class="modal-subtitle" style="margin-top:0;">
         Issue them for every student who has none yet. A PIN is shown once, here &mdash; print or write it down before you close this.
       </p>
-      <button class="btn-solid" type="button" id="pinsIssueBtn" onclick="issuePinsForAll()"><i class="fas fa-wand-magic-sparkles me-1"></i> Issue for students without a PIN (<span id="pinsMissingCount">0</span>)</button>
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        <button class="btn-solid" type="button" id="pinsIssueBtn" onclick="issuePinsForAll()"><i class="fas fa-wand-magic-sparkles me-1"></i> Issue for students without a PIN (<span id="pinsMissingCount">0</span>)</button>
+        <button class="btn-outline-light" type="button" id="pinsReissueBtn" onclick="reissuePinsForAll()" title="Every student gets a fresh PIN. Their roll numbers do not change."><i class="fas fa-rotate me-1"></i> Reissue for everyone (<span id="pinsTotalCount">0</span>)</button>
+      </div>
     </div>
 
     <div id="pinsResult"></div>
@@ -5409,6 +5412,7 @@
     document.getElementById('pinsModal').classList.remove('d-none');
     document.getElementById('pinsResult').innerHTML = '';
     document.getElementById('pinsMissingCount').textContent = studentsWithoutPin().length;
+    document.getElementById('pinsTotalCount').textContent = (studentsList || []).length;
 
     const box = document.getElementById('pinsLink');
     box.textContent = 'Loading…';
@@ -5450,7 +5454,7 @@
 
   window.issuePinsForAll = async () => {
     const missing = studentsWithoutPin();
-    if (!missing.length) return alert('Every student already has a PIN.');
+    if (!missing.length) return alert('Every student already has a PIN.\n\nA PIN is only ever shown once, so there is nothing to look up. To get printable slips again, use "Reissue for everyone" — every student keeps their roll number and gets a fresh PIN.');
 
     const btn = document.getElementById('pinsIssueBtn');
     btn.disabled = true;
@@ -5470,6 +5474,46 @@
     } finally {
       btn.disabled = false;
       btn.innerHTML = '<i class="fas fa-wand-magic-sparkles me-1"></i> Issue for students without a PIN (<span id="pinsMissingCount">' + studentsWithoutPin().length + '</span>)';
+    }
+  };
+
+
+  /**
+   * Fresh PINs for the whole school.
+   *
+   * The only way back from a lost slip, and there has to be one: a PIN is
+   * returned once and stored as a scrypt hash, so nothing anywhere can show
+   * an old one again. Roll numbers are untouched — issueStudentPins keeps the
+   * one a student already has — so a reissued slip differs from the old one
+   * in exactly one number.
+   */
+  window.reissuePinsForAll = async () => {
+    const all = (studentsList || []);
+    if (!all.length) return alert('There are no students on this roster yet.');
+
+    if (!confirm('Give all ' + all.length + ' students a new PIN?\n\nEvery PIN already handed out stops working, so every slip has to be printed and given out again. Roll numbers do not change.')) return;
+
+    const btn = document.getElementById('pinsReissueBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Issuing…';
+
+    try {
+      // The callable takes 300 at a time, which is also about as many slips
+      // as a school prints in one sitting.
+      const issued = [];
+      for (let i = 0; i < all.length; i += 300) {
+        const batch = all.slice(i, i + 300).map(function (s) { return s.uid; });
+        const res = (await callIssueStudentPins({ student_uids: batch })).data;
+        issued.push.apply(issued, res.issued);
+      }
+      renderPinSlips(issued);
+      alert(issued.length + ' PINs issued. Print them now — they cannot be shown again.');
+      await loadDashboardData();
+    } catch (err) {
+      alert(err.message || 'Could not reissue PINs.');
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fas fa-rotate me-1"></i> Reissue for everyone (<span id="pinsTotalCount">' + (studentsList || []).length + '</span>)';
     }
   };
 
