@@ -2505,6 +2505,19 @@ function pinMatches(pin, salt, expectedHex) {
   return timingSafeEqual(actual, expected);
 }
 
+/**
+ * The link a child opens: /s?org=alkhidmat&school=gulshan-campus#7fK3aQ
+ *
+ * Only the fragment is load-bearing — studentSignIn resolves the school from
+ * the token alone. The two slugs are there so a link forwarded on WhatsApp
+ * can be recognised by the person receiving it.
+ */
+function studentPath(orgSlug, schoolSlug, token) {
+  return '/s?org=' + encodeURIComponent(orgSlug) +
+         '&school=' + encodeURIComponent(schoolSlug) +
+         '#' + token;
+}
+
 function randomPin() {
   // randomInt, not Math.random: this is a credential, however short.
   let out = '';
@@ -2524,7 +2537,7 @@ exports.createOrg = onCall({ cors: true }, async (request) => {
   if (!slug) throw new HttpsError('invalid-argument', 'That name has no letters or digits a link can carry. Give the organisation a short English slug as well.');
 
   const clash = await db.collection('orgs').where('slug', '==', slug).limit(1).get();
-  if (!clash.empty) throw new HttpsError('already-exists', 'An organisation already uses the link /o/' + slug + '.');
+  if (!clash.empty) throw new HttpsError('already-exists', 'An organisation already uses the link /join?org=' + slug + '.');
 
   const joinToken = randomCode(ORG_TOKEN_LENGTH);
   const ref = db.collection('orgs').doc();
@@ -2544,10 +2557,13 @@ exports.createOrg = onCall({ cors: true }, async (request) => {
     org_id: ref.id,
     name: name,
     slug: slug,
-    // A fragment, for the same reason as a parent link: the browser never
-    // sends it to the server, so the token stays out of access logs and
-    // Referer headers.
-    join_path: '/o/' + slug + '#' + joinToken
+    // The name is a QUERY, the secret is a FRAGMENT, and the path is a
+    // file that exists. This site is a static SSG build with no rewrites, so
+    // /o/<slug> would need a file per organisation — there is nowhere to
+    // serve it from, and organisations are made after the build. The query
+    // keeps the name where a human can read it; the fragment keeps the token
+    // out of access logs and Referer headers, the way a parent link does.
+    join_path: '/join?org=' + slug + '#' + joinToken
   };
 });
 
@@ -2566,7 +2582,7 @@ exports.rotateOrgToken = onCall({ cors: true }, async (request) => {
 
   // The schools already registered are untouched: the join token is spent at
   // registration and never read again.
-  return { org_id: orgId, join_path: '/o/' + snap.get('slug') + '#' + joinToken };
+  return { org_id: orgId, join_path: '/join?org=' + snap.get('slug') + '#' + joinToken };
 });
 
 /**
@@ -2692,7 +2708,7 @@ exports.registerSchoolInOrg = onCall({ cors: true }, async (request) => {
     school_id: schoolId,
     school_slug: schoolSlug,
     org_slug: org.get('slug'),
-    student_path: '/s/' + org.get('slug') + '/' + schoolSlug + '#' + studentToken
+    student_path: studentPath(org.get('slug'), schoolSlug, studentToken)
   };
 });
 
@@ -2867,7 +2883,7 @@ exports.getSchoolLink = onCall({ cors: true }, async (request) => {
   if (links.empty) throw new HttpsError('not-found', 'This school has no student link yet.');
 
   const link = links.docs[0];
-  return { path: '/s/' + link.get('org_slug') + '/' + link.get('school_slug') + '#' + link.id };
+  return { path: studentPath(link.get('org_slug'), link.get('school_slug'), link.id) };
 });
 
 /**
@@ -2899,5 +2915,29 @@ exports.rotateSchoolLink = onCall({ cors: true }, async (request) => {
   links.forEach((d) => batch.delete(d.ref));
   await batch.commit();
 
-  return { path: '/s/' + old.get('org_slug') + '/' + old.get('school_slug') + '#' + token };
+  return { path: studentPath(old.get('org_slug'), old.get('school_slug'), token) };
+});
+
+/**
+ * Every organisation, for the super admin's dashboard.
+ *
+ * orgs is closed to every client (firestore.rules section 13), so the list
+ * has to come from here. It carries the join link, which is why this is
+ * super_admin only and not merely signed-in.
+ */
+exports.listOrgs = onCall({ cors: true }, async (request) => {
+  await requireStaff(request, ['super_admin']);
+
+  const snap = await db.collection('orgs').orderBy('created_at', 'desc').get();
+  return {
+    orgs: snap.docs.map((d) => ({
+      org_id: d.id,
+      name: d.get('name'),
+      slug: d.get('slug'),
+      status: d.get('status'),
+      school_count: d.get('school_count') || 0,
+      created_at: d.get('created_at'),
+      join_path: '/join?org=' + d.get('slug') + '#' + d.get('join_token')
+    }))
+  };
 });

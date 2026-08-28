@@ -116,7 +116,7 @@ describe.skipIf(!HAS_EMULATOR)('Organisation portals', () => {
       const org = await call('createOrg', { name: 'Alkhidmat Foundation' })
 
       expect(org.slug).toBe('alkhidmat-foundation')
-      expect(org.join_path).toMatch(/^\/o\/alkhidmat-foundation#[A-Z0-9]{8}$/)
+      expect(org.join_path).toMatch(/^\/join\?org=alkhidmat-foundation#[A-Z0-9]{8}$/)
     }, 60000)
 
     it('refuses a second organisation on the same path', async () => {
@@ -155,6 +155,23 @@ describe.skipIf(!HAS_EMULATOR)('Organisation portals', () => {
       expect(noSuchOrg).toBe(wrongToken)
     }, 60000)
 
+    it('lists every organisation for the super admin, and for nobody else', async () => {
+      await seedSuper()
+      const org = await call('createOrg', { name: 'Alkhidmat' })
+      const listed = (await call('listOrgs')).orgs
+
+      expect(listed).toHaveLength(1)
+      expect(listed[0].name).toBe('Alkhidmat')
+      // The dashboard cannot read orgs directly — it is closed — so the join
+      // link has to arrive here, which is why this is not merely signed-in.
+      expect(listed[0].join_path).toBe(org.join_path)
+
+      await signOut(auth)
+      await db.collection('users').doc('head-list').set({ role: 'school_admin', school_id: 's1' })
+      await signInAs('head-list')
+      expect(await codeOf(call('listOrgs'))).toBe('functions/permission-denied')
+    }, 60000)
+
     it('rotating retires every copy of the old link', async () => {
       await seedSuper()
       const org = await call('createOrg', { name: 'Alkhidmat' })
@@ -173,7 +190,7 @@ describe.skipIf(!HAS_EMULATOR)('Organisation portals', () => {
     it('registers, is live at once, and leaves with its own link', async () => {
       const { org, school } = await seedOrgWithSchool()
 
-      expect(school.student_path).toMatch(/^\/s\/alkhidmat-foundation\/gulshan-campus#[A-Z0-9]{8}$/)
+      expect(school.student_path).toMatch(/^\/s\?org=alkhidmat-foundation&school=gulshan-campus#[A-Z0-9]{8}$/)
 
       const doc = (await db.collection('schools').doc(school.school_id).get()).data()!
       expect(doc.org_id).toBe(org.org_id)

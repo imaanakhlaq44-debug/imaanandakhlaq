@@ -3031,6 +3031,7 @@
             <button class="btn-outline-light" onclick="exportStudentsCsv()" title="Download this list as a CSV file you can open in Excel"><i class="fas fa-file-arrow-down me-2"></i> Export CSV</button>
             <button class="btn-outline-light" id="mergeStudentsBtn" onclick="openMigration()" title="Turn students you already enrolled into family accounts, keeping all their work"><i class="fas fa-wand-magic-sparkles me-2"></i> Merge into families (<span id="unmergedCount">0</span>)</button>
             <button class="btn-outline-light" id="allocateHousesBtn" onclick="allocateHouses()" title="Sort students who have no club house yet into the four houses"><i class="fas fa-shield-halved me-2"></i> Allocate Houses (<span id="unhousedCount">0</span>)</button>
+            <button class="btn-outline-light" onclick="openPinsModal()" title="Your school's link for students, and the roll number and PIN each one signs in with"><i class="fas fa-key me-2"></i> Student link &amp; PINs</button>
           </div>
         </div>
         
@@ -3143,6 +3144,47 @@
 </div>
 
 <!-- MODALS -->
+
+<!-- The school's link for children, and the slips they sign in with.
+     A modal rather than a column on the roster, because a PIN is shown ONCE
+     at issue and never again — there is nothing to put in a column. The link
+     is fetched from getSchoolLink rather than read from the school document,
+     which does not hold it: schools is readable by every signed-in account.
+     See ORG_PORTAL_PLAN.md sections 4 and 6. -->
+<div id="pinsModal" class="modal-overlay d-none">
+  <div class="modal-content">
+    <div class="modal-topbar">
+      <div>
+        <span class="modal-kicker"><i class="fas fa-key"></i> Student access</span>
+        <h3 class="modal-title">Student link &amp; PINs</h3>
+        <p class="modal-subtitle">Your students open one link and sign in with a roll number and a four-digit PIN. No email, no password, no account to remember.</p>
+      </div>
+      <button class="modal-close" type="button" onclick="closeModal('pinsModal')"><i class="fas fa-times"></i></button>
+    </div>
+
+    <div class="form-group">
+      <label><i class="fas fa-link text-muted me-1"></i> Your school's link</label>
+      <div id="pinsLinkBox" style="background:#f8fafc; border:1px solid #e5e9f0; border-radius:12px; padding:12px;">
+        <div id="pinsLink" style="font-family:ui-monospace,Menlo,Consolas,monospace; font-size:0.8rem; word-break:break-all; color:#16294d; line-height:1.5;">Loading…</div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:10px;">
+          <button class="btn-outline-light" type="button" id="pinsCopyBtn" onclick="copySchoolLink()"><i class="fas fa-copy me-1"></i> Copy</button>
+          <button class="btn-outline-light" type="button" onclick="rotateSchoolStudentLink()" title="Every slip already handed out stops working"><i class="fas fa-rotate me-1"></i> New link</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label><i class="fas fa-id-card text-muted me-1"></i> Roll numbers and PINs</label>
+      <p class="modal-subtitle" style="margin-top:0;">
+        Issue them for every student who has none yet. A PIN is shown once, here &mdash; print or write it down before you close this.
+      </p>
+      <button class="btn-solid" type="button" id="pinsIssueBtn" onclick="issuePinsForAll()"><i class="fas fa-wand-magic-sparkles me-1"></i> Issue for students without a PIN (<span id="pinsMissingCount">0</span>)</button>
+    </div>
+
+    <div id="pinsResult"></div>
+  </div>
+</div>
+
 <div id="teacherModal" class="modal-overlay d-none">
   <div class="modal-content">
     <div class="modal-topbar">
@@ -5344,6 +5386,142 @@
   const callCreateTeacherAccount = httpsCallable(functions, 'createTeacherAccount');
   const callResetTeacherPassword = httpsCallable(functions, 'resetTeacherPassword');
   const callIssueParentLink = httpsCallable(functions, 'issueParentLink');
+  const callGetSchoolLink = httpsCallable(functions, 'getSchoolLink');
+  const callRotateSchoolLink = httpsCallable(functions, 'rotateSchoolLink');
+  const callIssueStudentPins = httpsCallable(functions, 'issueStudentPins');
+  const callResetStudentPin = httpsCallable(functions, 'resetStudentPin');
+
+  // ─────────────────────────────────────────────────────────────────────
+  // Student link and PINs. See ORG_PORTAL_PLAN.md section 4.
+  //
+  // Everything here goes through a callable, and not for symmetry with the
+  // rest of the file: pin_hash is not in the onlyKeys() allowlist on /users,
+  // so a PIN cannot be written from a dashboard even by the admin issuing it.
+  // ─────────────────────────────────────────────────────────────────────
+  let currentSchoolLink = '';
+
+  /** Students on this roster with no PIN yet. */
+  function studentsWithoutPin() {
+    return (studentsList || []).filter(function (s) { return !s.pin_set_at; });
+  }
+
+  window.openPinsModal = async () => {
+    document.getElementById('pinsModal').classList.remove('d-none');
+    document.getElementById('pinsResult').innerHTML = '';
+    document.getElementById('pinsMissingCount').textContent = studentsWithoutPin().length;
+
+    const box = document.getElementById('pinsLink');
+    box.textContent = 'Loading…';
+    try {
+      const res = (await callGetSchoolLink({})).data;
+      currentSchoolLink = location.origin + res.path;
+      box.textContent = currentSchoolLink;
+    } catch (err) {
+      currentSchoolLink = '';
+      // A school that registered directly rather than through an organisation
+      // has no student link, and that is not an error to apologise for.
+      box.innerHTML = '<span style="color:#6b7a90">This school has no student link yet. It is created when a school registers through an organisation\'s link.</span>';
+    }
+  };
+
+  window.copySchoolLink = async () => {
+    if (!currentSchoolLink) return;
+    const btn = document.getElementById('pinsCopyBtn');
+    try {
+      await navigator.clipboard.writeText(currentSchoolLink);
+      btn.innerHTML = '<i class="fas fa-check me-1"></i> Copied';
+    } catch (_) {
+      btn.innerHTML = '<i class="fas fa-i-cursor me-1"></i> Select it above';
+    }
+    setTimeout(function () { btn.innerHTML = '<i class="fas fa-copy me-1"></i> Copy'; }, 2200);
+  };
+
+  window.rotateSchoolStudentLink = async () => {
+    if (!confirm('Issue a new link?\n\nEvery copy of the current one stops working, including the ones already sent to parents. Roll numbers and PINs are not affected.')) return;
+    try {
+      const res = (await callRotateSchoolLink({})).data;
+      currentSchoolLink = location.origin + res.path;
+      document.getElementById('pinsLink').textContent = currentSchoolLink;
+      alert('New link issued. Share it again with your students.');
+    } catch (err) {
+      alert(err.message || 'Could not issue a new link.');
+    }
+  };
+
+  window.issuePinsForAll = async () => {
+    const missing = studentsWithoutPin();
+    if (!missing.length) return alert('Every student already has a PIN.');
+
+    const btn = document.getElementById('pinsIssueBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Issuing…';
+
+    try {
+      const res = (await callIssueStudentPins({ student_uids: missing.map(function (s) { return s.uid; }) })).data;
+      renderPinSlips(res.issued);
+      alert(res.issued.length + ' PINs issued. Print them before you close this — they cannot be shown again.');
+      await loadDashboardData();
+      document.getElementById('pinsMissingCount').textContent = studentsWithoutPin().length;
+    } catch (err) {
+      alert(err.message || 'Could not issue PINs.');
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fas fa-wand-magic-sparkles me-1"></i> Issue for students without a PIN (<span id="pinsMissingCount">' + studentsWithoutPin().length + '</span>)';
+    }
+  };
+
+  /**
+   * The slips, on screen and ready to print.
+   *
+   * This is the only time these PINs exist anywhere outside a scrypt hash, so
+   * the print button is not a convenience — it is the one chance to keep them.
+   */
+  function renderPinSlips(issued) {
+    const cards = issued.map(function (s) {
+      return '<div style="border:1px solid #e5e9f0; border-radius:12px; padding:12px 14px; background:#fff; break-inside:avoid;">' +
+        '<div style="font-size:0.72rem; font-weight:800; letter-spacing:0.12em; text-transform:uppercase; color:#6b7a90;">' + esc(schoolNameForSlip()) + '</div>' +
+        '<div style="font-weight:700; color:#16294d; margin:2px 0 8px;">' + esc(s.name || 'Student') +
+          (s.class_id ? ' <span style="font-weight:600; color:#6b7a90;">· ' + esc(s.class_id) + '</span>' : '') + '</div>' +
+        '<div style="display:flex; gap:18px;">' +
+          '<div><div style="font-size:0.7rem; color:#6b7a90;">Roll number</div>' +
+            '<div style="font-size:1.25rem; font-weight:800; letter-spacing:0.08em; color:#16294d;">' + esc(s.roll_no) + '</div></div>' +
+          '<div><div style="font-size:0.7rem; color:#6b7a90;">PIN</div>' +
+            '<div style="font-size:1.25rem; font-weight:800; letter-spacing:0.18em; color:#cf296d;">' + esc(s.pin) + '</div></div>' +
+        '</div></div>';
+    }).join('');
+
+    document.getElementById('pinsResult').innerHTML =
+      '<div class="form-group">' +
+        '<label><i class="fas fa-print text-muted me-1"></i> ' + issued.length + ' slips &mdash; shown once</label>' +
+        '<div style="background:#fdf3e3; border:1px solid #f0dcb8; color:#7a4712; border-radius:12px; padding:11px 13px; font-size:0.86rem; margin-bottom:12px;">' +
+          'These PINs are not stored and cannot be shown again. Print them now; a lost one is reset from this screen, not looked up.' +
+        '</div>' +
+        '<button class="btn-outline-light" type="button" onclick="printPinSlips()"><i class="fas fa-print me-1"></i> Print these slips</button>' +
+        '<div id="pinsSlips" style="display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:10px; margin-top:12px;">' + cards + '</div>' +
+      '</div>';
+  }
+
+  function schoolNameForSlip() {
+    return currentSchoolName || 'Imaan & Akhlaq';
+  }
+
+  window.printPinSlips = () => {
+    const slips = document.getElementById('pinsSlips');
+    if (!slips) return;
+    // A child window rather than a print stylesheet on this page: the
+    // dashboard is 5,000 lines of layout, and none of it belongs on paper.
+    const w = window.open('', '_blank');
+    if (!w) return alert('Your browser blocked the print window.');
+    w.document.write('<html><head><title>Student PINs</title>' +
+      '<style>body{font-family:system-ui,sans-serif;padding:16px}' +
+      '#g{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}' +
+      '@media print{@page{margin:12mm}}</style></head><body>' +
+      '<div id="g">' + slips.innerHTML + '</div></body></html>');
+    w.document.close();
+    w.focus();
+    w.print();
+  };
+
 
   // This file builds every row by string concatenation and had no escaping of
   // any kind. Names arrive from admin typing and from roster imports, neither

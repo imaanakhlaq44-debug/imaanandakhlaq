@@ -47,6 +47,9 @@ import { AuthPage } from './components/AuthPage'
 import { FamilyDashboard } from './components/FamilyDashboard'
 import { SuperAdminDashboard } from './components/SuperAdminDashboard'
 import { SchoolWall } from './components/SchoolWall'
+import { generateOrgJoinHTML } from './components/OrgJoinPage'
+import { generateStudentPinHTML } from './components/StudentPinPage'
+import { generateOrgsDashboardHTML } from './components/OrgsDashboard'
 import { ParentWall } from './components/ParentWall'
 import { NotFoundPage } from './components/NotFoundPage'
 
@@ -161,6 +164,26 @@ app.get('/school-wall', (c) => {
 // the only door. See SCHOOL_GROUP_PLAN.md §7.
 app.get('/wall/p', (c) => {
   return c.html(generateParentWallHTML())
+})
+
+// Organisation portals. See ORG_PORTAL_PLAN.md.
+//
+// All three take their secret from the URL FRAGMENT and their names from the
+// QUERY, and both halves of that are load-bearing. The fragment never reaches
+// a server, so a token cannot land in an access log or a Referer header. The
+// query is what lets ONE file answer for every organisation: this is a static
+// SSG build with no rewrite rules, so /join/alkhidmat would need a file that
+// a build running before the organisation existed could not have written.
+app.get('/join', (c) => {
+  return c.html(generateOrgJoinHTML())
+})
+
+app.get('/s', (c) => {
+  return c.html(generateStudentPinHTML())
+})
+
+app.get('/orgs', (c) => {
+  return c.html(generateOrgsDashboardHTML())
 })
 
 app.get('/teacher-dashboard', (c) => {
