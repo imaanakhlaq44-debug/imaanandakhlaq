@@ -426,6 +426,11 @@ export const SuperAdminDashboard = () => html`
        other dashboards this one needs no sticky rule. It only ever needed a
        height to push against. */
     .main-wrapper { min-height: 0; }
+
+    /* Same trap, one element up: the header is a flex item beside the
+       scroller, and would give up its 70px rather than let the page overflow. */
+    .top-header { flex-shrink: 0; }
+
     .content-area { min-height: 0; }
   }
 

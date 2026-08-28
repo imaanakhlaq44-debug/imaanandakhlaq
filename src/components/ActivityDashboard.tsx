@@ -1919,6 +1919,17 @@ export const ActivityDashboard = () => html`
       padding-top: 0;
     }
 
+    /* A flex item shrinks before it overflows. .dashboard-main is a flex column, so
+       the moment the shell got a real height its children stopped being as
+       tall as their content and started being as tall as the space left over
+       — the students list squashed to fit and the rest was simply cut off,
+       with nothing to scroll because nothing overflowed.
+
+       flex-shrink: 0 is what turns a squashed column back into a scrolling
+       one. It is the other half of giving the shell a height, not a tweak. */
+    .dashboard-main > * { flex-shrink: 0; }
+
+
     .workspace-bar {
       position: sticky;
       top: 0;

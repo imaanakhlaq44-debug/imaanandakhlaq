@@ -2191,6 +2191,17 @@ export const SchoolAdminDashboard = () => html`
       padding-top: 0;
     }
 
+    /* A flex item shrinks before it overflows. .main-content is a flex column, so
+       the moment the shell got a real height its children stopped being as
+       tall as their content and started being as tall as the space left over
+       — the students list squashed to fit and the rest was simply cut off,
+       with nothing to scroll because nothing overflowed.
+
+       flex-shrink: 0 is what turns a squashed column back into a scrolling
+       one. It is the other half of giving the shell a height, not a tweak. */
+    .main-content > * { flex-shrink: 0; }
+
+
     /* Flush to the top, so nothing shows in a gap above it on the way past.
        The bottom corners keep their radius; the top two would only frame two
        notches of scrolling content. */
