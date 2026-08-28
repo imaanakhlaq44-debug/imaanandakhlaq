@@ -5461,7 +5461,10 @@
       renderPinSlips(res.issued);
       alert(res.issued.length + ' PINs issued. Print them before you close this — they cannot be shown again.');
       await loadDashboardData();
-      document.getElementById('pinsMissingCount').textContent = studentsWithoutPin().length;
+      // The count is not touched here: the spinner above replaced the whole
+      // button, span and all, and the finally block below rebuilds it with
+      // the fresh number. Setting it here reached for an element that the
+      // spinner had already removed.
     } catch (err) {
       alert(err.message || 'Could not issue PINs.');
     } finally {
@@ -5479,14 +5482,14 @@
   function renderPinSlips(issued) {
     const cards = issued.map(function (s) {
       return '<div style="border:1px solid #e5e9f0; border-radius:12px; padding:12px 14px; background:#fff; break-inside:avoid;">' +
-        '<div style="font-size:0.72rem; font-weight:800; letter-spacing:0.12em; text-transform:uppercase; color:#6b7a90;">' + esc(schoolNameForSlip()) + '</div>' +
-        '<div style="font-weight:700; color:#16294d; margin:2px 0 8px;">' + esc(s.name || 'Student') +
-          (s.class_id ? ' <span style="font-weight:600; color:#6b7a90;">· ' + esc(s.class_id) + '</span>' : '') + '</div>' +
+        '<div style="font-size:0.72rem; font-weight:800; letter-spacing:0.12em; text-transform:uppercase; color:#6b7a90;">' + escapeHtml(schoolNameForSlip()) + '</div>' +
+        '<div style="font-weight:700; color:#16294d; margin:2px 0 8px;">' + escapeHtml(s.name || 'Student') +
+          (s.class_id ? ' <span style="font-weight:600; color:#6b7a90;">· ' + escapeHtml(s.class_id) + '</span>' : '') + '</div>' +
         '<div style="display:flex; gap:18px;">' +
           '<div><div style="font-size:0.7rem; color:#6b7a90;">Roll number</div>' +
-            '<div style="font-size:1.25rem; font-weight:800; letter-spacing:0.08em; color:#16294d;">' + esc(s.roll_no) + '</div></div>' +
+            '<div style="font-size:1.25rem; font-weight:800; letter-spacing:0.08em; color:#16294d;">' + escapeHtml(s.roll_no) + '</div></div>' +
           '<div><div style="font-size:0.7rem; color:#6b7a90;">PIN</div>' +
-            '<div style="font-size:1.25rem; font-weight:800; letter-spacing:0.18em; color:#cf296d;">' + esc(s.pin) + '</div></div>' +
+            '<div style="font-size:1.25rem; font-weight:800; letter-spacing:0.18em; color:#cf296d;">' + escapeHtml(s.pin) + '</div></div>' +
         '</div></div>';
     }).join('');
 
