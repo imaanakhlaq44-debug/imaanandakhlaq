@@ -393,6 +393,42 @@ export const SuperAdminDashboard = () => html`
     .super-admin-layout .sidebar { width: 260px !important; }
   }
 
+
+  /* ── The shell holds still; only the page inside it scrolls ─────────────
+     Every dashboard was built as a flex column of 'min-height: 100vh', so a tall
+     page simply grew it and the DOCUMENT scrolled. The inner
+     'overflow-y: auto' never engaged, because .content-area had no height to
+     overflow — which is why the sidebar and the bar at the top rode up and
+     off the screen together with the content.
+
+     Giving the shell an exact viewport height is the whole fix: .content-area
+     becomes the only scroller on the page, and .sidebar and .top-header
+     stay where they are.
+
+     Desktop only. Below 901px the sidebar is an off-canvas drawer and the
+     page is meant to scroll as one piece; pinning things there would fight
+     the mobile layout instead of helping it.
+
+     100dvh follows 100vh so a phone-sized desktop window still fills the
+     visible area when the browser chrome collapses; browsers that do not
+     know the unit keep the line above. */
+  @media (min-width: 901px) {
+    .super-admin-layout {
+      min-height: 0;
+      height: 100vh;
+      height: 100dvh;
+    }
+
+    .sidebar { overflow-y: auto; }
+
+    /* .top-header and .content-area are already siblings in .main-wrapper,
+       and .content-area already asks for overflow-y:auto — so unlike the
+       other dashboards this one needs no sticky rule. It only ever needed a
+       height to push against. */
+    .main-wrapper { min-height: 0; }
+    .content-area { min-height: 0; }
+  }
+
 </style>
 
 <div class="super-admin-layout">

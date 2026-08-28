@@ -1761,6 +1761,52 @@ export const TeacherDashboard = () => html`
     .mobile-action-btn.logout i { color: #ffffff; background: #dc2626; }
     .mobile-action-btn.logout { color: #dc2626; }
   }
+
+  /* ── The shell holds still; only the page inside it scrolls ─────────────
+     Every dashboard was built as a grid of 'min-height: 100vh', so a tall
+     page simply grew it and the DOCUMENT scrolled. The inner
+     'overflow-y: auto' never engaged, because .dashboard-main had no height to
+     overflow — which is why the sidebar and the bar at the top rode up and
+     off the screen together with the content.
+
+     Giving the shell an exact viewport height is the whole fix: .dashboard-main
+     becomes the only scroller on the page, and .sidebar-panel and .workspace-bar
+     stay where they are.
+
+     Desktop only. Below 901px the sidebar is an off-canvas drawer and the
+     page is meant to scroll as one piece; pinning things there would fight
+     the mobile layout instead of helping it.
+
+     100dvh follows 100vh so a phone-sized desktop window still fills the
+     visible area when the browser chrome collapses; browsers that do not
+     know the unit keep the line above. */
+  @media (min-width: 901px) {
+    .dashboard-shell {
+      min-height: 0;
+      height: 100vh;
+      height: 100dvh;
+    }
+
+    .sidebar-panel {
+      min-height: 0;
+      overflow-y: auto;
+    }
+
+    .dashboard-main {
+      min-height: 0;
+      overflow-y: auto;
+      padding-top: 0;
+    }
+
+    .workspace-bar {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+    }
+  }
+
 </style>
 
 <div class="teacher-page">
