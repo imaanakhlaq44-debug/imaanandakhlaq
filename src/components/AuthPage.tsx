@@ -1,7 +1,7 @@
 import { html, raw } from 'hono/html'
 import { FIREBASE_CONFIG, firebaseConfigJS } from '../lib/firebaseConfig'
 import { familyLoginHelpersJS } from '../lib/familyLogin'
-import { emulatorConnectJS } from '../lib/devEmulators'
+import { emulatorConnectJS, emulatorRestBasesJS } from '../lib/devEmulators'
 
 export const AuthPage = () => html`
 <style>
@@ -1346,6 +1346,11 @@ export const AuthPage = () => html`
     var FIREBASE_API_KEY = '${raw(FIREBASE_CONFIG.apiKey)}';
     var FIREBASE_PROJECT_ID = '${raw(FIREBASE_CONFIG.projectId)}';
 
+    // This block never touches the SDK, so connectEmulators() cannot reach
+    // it. Without these two the fallback path signed in against PRODUCTION
+    // while every other page on the same screen used the emulator.
+    ${raw(emulatorRestBasesJS)}
+
     function showLegacyToast(message, type) {
       var toast = document.getElementById('authToast');
       if (!toast) {
@@ -1455,7 +1460,7 @@ export const AuthPage = () => html`
     }
 
     function fetchUserDoc(uid, idToken, cb) {
-      var docUrl = 'https://firestore.googleapis.com/v1/projects/' + FIREBASE_PROJECT_ID + '/databases/(default)/documents/users/' + encodeURIComponent(uid) + '?key=' + FIREBASE_API_KEY;
+      var docUrl = FIRESTORE_REST_BASE + '/projects/' + FIREBASE_PROJECT_ID + '/databases/(default)/documents/users/' + encodeURIComponent(uid) + '?key=' + FIREBASE_API_KEY;
       xhrJson('GET', docUrl, null, { Authorization: 'Bearer ' + idToken }, function (err, data) {
         if (err || !data || !data.fields) {
           cb(new Error('User record not found in system.'), null);
@@ -1492,7 +1497,7 @@ export const AuthPage = () => html`
     }
 
     function signInWithEmail(email, password, onDone, onError) {
-      var authUrl = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' + FIREBASE_API_KEY;
+      var authUrl = IDENTITY_REST_BASE + '/v1/accounts:signInWithPassword?key=' + FIREBASE_API_KEY;
       var authBody = { email: email, password: password, returnSecureToken: true };
 
       xhrJson('POST', authUrl, authBody, null, function (err, data) {
@@ -1637,6 +1642,7 @@ export const AuthPage = () => html`
   // production build emits this block with the connect calls already dead.
   ${raw(emulatorConnectJS)}
   connectEmulators({ auth, db, connectAuthEmulator, connectFirestoreEmulator });
+  ${raw(emulatorRestBasesJS)}
 
 
   /** Where each role belongs, in one place — used by login and by resume. */
@@ -2037,7 +2043,7 @@ export const AuthPage = () => html`
       try {
         const PROJ = firebaseConfig.projectId;
         const KEY  = firebaseConfig.apiKey;
-        const url  = 'https://firestore.googleapis.com/v1/projects/' + PROJ + '/databases/(default)/documents/invites/' + encodeURIComponent(rawCode) + '?key=' + KEY;
+        const url  = FIRESTORE_REST_BASE + '/projects/' + PROJ + '/databases/(default)/documents/invites/' + encodeURIComponent(rawCode) + '?key=' + KEY;
         const resp = await fetch(url);
         if (resp.ok) {
           const json = await resp.json();

@@ -130,7 +130,7 @@ export const OrgsDashboard = () => html`
         <h1 class="og-title">Organisations</h1>
         <div class="og-sub">Each one gets a link. Schools register themselves through it.</div>
       </div>
-      <button class="og-btn" id="ogNewBtn" type="button">New organisation</button>
+      <button class="og-btn" id="ogNewBtn" type="button" style="display:none">New organisation</button>
     </div>
 
     <div class="og-card og-new" id="ogNew">
@@ -294,9 +294,18 @@ export const OrgsDashboard = () => html`
   // showing a sensible screen rather than an error — the real check is there.
   onAuthStateChanged(auth, (user) => {
     if (!user) {
-      body.innerHTML = '<div class="og-state">Sign in as a super admin to see this page.</div>';
+      document.getElementById('ogNewBtn').style.display = 'none';
+      panel.classList.remove('show');
+      body.innerHTML =
+        '<div class="og-state">This page is for super admins.' +
+          '<div style="margin-top:14px"><a class="og-btn" style="text-decoration:none; display:inline-block" href="/auth">Sign in</a></div>' +
+        '</div>';
       return;
     }
+    // Shown once there is a session, though listOrgs is still the real gate:
+    // a school admin who reaches this page sees the button and then an
+    // honest refusal from the server, rather than a silently broken screen.
+    document.getElementById('ogNewBtn').style.display = '';
     load();
   });
 </script>

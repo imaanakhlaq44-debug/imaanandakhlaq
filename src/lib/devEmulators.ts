@@ -35,6 +35,25 @@ const DEV = import.meta.env.DEV === true
  *
  * Every pair is optional; pass only what the page actually built.
  */
+/**
+ * Where the REST calls go.
+ *
+ * connectEmulators() above only redirects the Firebase SDK. AuthPage does not
+ * always use the SDK: it carries a hand-rolled REST fallback that POSTs
+ * straight to identitytoolkit and firestore, for the browsers where the
+ * module build fails to load. Those URLs were absolute, so on a developer's
+ * machine that path signed in against PRODUCTION while every other page on
+ * the same screen was talking to the emulator — an account made locally could
+ * not log in, and an account made through it landed in the real project.
+ *
+ * The constant is substituted at build time exactly like USE_EMULATORS, so a
+ * production build emits the googleapis hosts and nothing else.
+ */
+export const emulatorRestBasesJS = `
+  var IDENTITY_REST_BASE = '${DEV ? 'http://127.0.0.1:9099/identitytoolkit.googleapis.com' : 'https://identitytoolkit.googleapis.com'}';
+  var FIRESTORE_REST_BASE = '${DEV ? 'http://127.0.0.1:8080/v1' : 'https://firestore.googleapis.com/v1'}';
+`
+
 export const emulatorConnectJS = `
   const USE_EMULATORS = ${DEV ? 'true' : 'false'};
 
