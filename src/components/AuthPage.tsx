@@ -1226,6 +1226,7 @@ export const AuthPage = () => html`
           </div>
         </div>
         
+        <div id="authSwitchNote" style="display:none; background:#fdf3e3; border:1px solid #f0dcb8; color:#7a4712; border-radius:10px; padding:10px 12px; font-size:0.85rem; margin-bottom:12px;"></div>
         <button class="btn btn-primary" onclick="loginUser()">Sign In</button>
         <a class="forgot-link" onclick="showResetModal()">Forgot your password?</a>
       </div>
@@ -1679,6 +1680,22 @@ export const AuthPage = () => html`
         // user; without this the page would bounce them straight back in.
         if (sessionStorage.getItem('ia_just_logged_out') === '1') {
           sessionStorage.removeItem('ia_just_logged_out');
+          return;
+        }
+
+        // ?switch=1 — "I know I am signed in; I want to sign in as somebody
+        // else." Resuming is right for the ordinary visit and wrong here:
+        // whoever runs the super admin also registers and tests schools, and
+        // without this there is no way to reach the form at all except by
+        // logging out of the account you are trying to keep. The school
+        // registration page sends people here for exactly that reason.
+        if (new URLSearchParams(location.search).get('switch') === '1') {
+          const note = document.getElementById('authSwitchNote');
+          if (note) {
+            note.textContent = 'You are signed in as ' + (user.email || 'another account') +
+              '. Signing in below will replace that session.';
+            note.style.display = '';
+          }
           return;
         }
 
