@@ -62,3 +62,6 @@ student_screen*
 # ...but site images must ship with the build (CI deploys from source)
 !public/assets/**
 !public/kidba_assets/**
+
+# Emulator data exported by --export-on-exit
+.emulator-data/
