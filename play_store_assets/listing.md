@@ -1,5 +1,5 @@
 # Imaan & Akhlaq — Google Play Store Listing
-**Version: 3.3 (versionCode 24) — May 2026**
+**Version: 1.5.0 (versionCode 41) — August 2026**
 
 Copy-paste these values into Google Play Console.
 
@@ -26,13 +26,13 @@ Copy-paste these values into Google Play Console.
 ## 2. Short description (max 80 characters)
 
 ```
-Islamic learning for kids — stories, Qibla, Tasbeeh, books and school progress.
+Islamic learning for kids — stories, Azkar, Tasbeeh, books and school progress.
 ```
-(79 chars)
+(78 chars)
 
 **Urdu alternative (for ur-PK locale, optional):**
 ```
-بچوں کے لیے اسلامی تعلیم — کہانیاں، قبلہ، تسبیح، کتابیں اور اسکول کی پیش رفت۔
+بچوں کے لیے اسلامی تعلیم — کہانیاں، اذکار، تسبیح، کتابیں اور اسکول کی پیش رفت۔
 ```
 
 ---
@@ -40,13 +40,13 @@ Islamic learning for kids — stories, Qibla, Tasbeeh, books and school progress
 ## 3. Full description (max 4000 characters)
 
 ```
-Imaan & Akhlaq is a joyful character-building app for children aged 5–12, built by Imaan Akhlaq in Islamabad. The app brings together stories, illustrated books, puppet shows, audio lessons, daily prayers, the Qibla finder, a digital Tasbeeh and a complete school workflow for parents, teachers and administrators — all in one place.
+Imaan & Akhlaq is a joyful character-building app for children aged 5–12, built by Imaan Akhlaq in Islamabad. The app brings together stories, illustrated books, puppet shows, audio lessons, daily prayers, daily Azkar, a digital Tasbeeh and a complete school workflow for parents, teachers and administrators — all in one place.
 
 WHAT YOUR CHILD CAN DO
 • Read beautifully illustrated Islamic story books with audio narration.
 • Watch puppet shows and short videos that teach Akhlaq (good character) in a fun way.
 • Practice the digital Tasbeeh counter with vibration and progress saving.
-• Find the Qibla using the camera-based AR Qibla Finder (works offline, no internet needed).
+• Learn the daily Azkar — morning, evening, after salah and before sleep — with Arabic, transliteration, English meaning and the Hadith reference for each one.
 • Track learning progress and earn small achievements as books are completed.
 • Colour, play simple games and explore safe, ad-free Islamic content.
 
@@ -63,8 +63,7 @@ FOR TEACHERS & SCHOOLS
 • Designed with input from real Islamic schools in Pakistan.
 
 PRIVACY-FIRST DESIGN
-• Camera (for Qibla AR) is processed entirely on your device — never recorded or uploaded.
-• Location (for Qibla direction) is used on-device only — never sent to our servers, never sold.
+• The app requests no camera, no location and no microphone access — internet is the only permission it asks for.
 • No third-party advertising SDKs. No social-media tracking pixels. No AI-model training on your data.
 • Children's accounts are created and managed by a parent, teacher or school administrator.
 • Built to comply with COPPA, GDPR-K and Google Play's Designed for Families policy.
@@ -94,9 +93,15 @@ JazakAllahu khairan for installing Imaan & Akhlaq. May Allah make it beneficial 
 |---|---|---|
 | App icon | `play_store_assets/icon-512.png` | 512×512 PNG |
 | Feature graphic | `play_store_assets/feature-graphic.png` | 1024×500 PNG |
-| Phone screenshots | `play_store_assets/screenshots/01_splash.png` … `06_book.png` | min 320 px, max 3840 px |
+| Phone screenshots | `play_store_assets/screenshots/01_welcome.png` … `06_about.png` | 1080×2340 PNG, six shots |
 
 Tablet screenshots are optional — skip unless you have tablet-specific shots.
+
+Regenerate the phone shots with `node scripts/play-store-screenshots.cjs` after a
+`npm run build:apk`. It renders them from the payload that is actually inside the
+APK, so the listing cannot drift from the build. (`05_dashboard.png` and
+`06_book.png` were replaced: both had been committed as UTF-16 text and were not
+readable as images at all.)
 
 ---
 
@@ -127,7 +132,7 @@ Run the questionnaire. Honest answers for this app:
 - Gambling: **None**
 - User-generated content shared with others: **No** (teacher notes are private to the school)
 - User interaction: **No** (no public chat / no social features)
-- Shares user location: **No** (location stays on device)
+- Shares user location: **No** (the app does not request location permission at all)
 - Digital purchases: **No**
 
 Expected rating: **Everyone** / PEGI 3.
@@ -236,10 +241,10 @@ See section 6 below — copy answers from there.
 - **None collected.** (We use Firebase UID, which is an account ID, not a device ID.)
 
 #### Location
-- **Approximate location** — **NOT collected** (used on-device only, never sent to servers).
-- **Precise location** — **NOT collected** (used on-device only for Qibla bearing calculation).
+- **Approximate location** — **NOT collected.**
+- **Precise location** — **NOT collected.**
 
-> Important note for the form: If Play Console asks specifically about *runtime permission usage*, declare that the app **uses** location and camera permissions but **does not collect or share** that data. The "Data safety" section is about data leaving the device — your app keeps it local, so the answer is **Not collected**.
+> The app no longer declares `ACCESS_FINE_LOCATION`, `ACCESS_COARSE_LOCATION` or `CAMERA`. `INTERNET` is the only permission in the manifest, so there is no runtime permission usage to declare here either.
 
 ### 6.3 Security practices
 - ☑ Data is encrypted in transit (TLS / HTTPS).
@@ -260,20 +265,20 @@ See section 6 below — copy answers from there.
 
 ## 8. Release plan (recommended order)
 
-1. **Internal testing** — upload `app-release.aab`, add yourself + 2–3 testers by email, test login, Qibla, Tasbeeh, books, dashboards.
+1. **Internal testing** — upload `app-release.aab`, add yourself + 2–3 testers by email, test login, Azkar, Tasbeeh, books, dashboards.
 2. **Closed testing** (only required if your developer account is brand-new under the new Personal Developer rules — needs 12 testers × 14 days).
 3. **Production** — submit for review. First review usually takes 1–7 days.
 
 ### Release notes for first version (paste in "What's new")
 ```
-Welcome to Imaan & Akhlaq! This first release brings illustrated Islamic books, audio stories, the Qibla finder, a Tasbeeh counter and complete dashboards for parents, teachers and schools. JazakAllahu khairan for trying us out.
+New in this release: a Daily Azkar section with the morning, evening, after-salah and bedtime supplications — each with Arabic, transliteration, English meaning and its Hadith reference. The Qibla finder has been removed, and with it the camera and location permissions: the app now asks for internet access only. Alongside that are illustrated Islamic books, audio stories, the Tasbeeh counter and dashboards for parents, teachers and schools.
 ```
 
 ---
 
 ## 9. Things to remember for every future release
 
-- Bump `versionCode` in `android/app/build.gradle` (currently `1`).
+- Bump `versionCode` in `android/app/build.gradle` (currently `41`). It must be higher than every code already uploaded to Play — 39 is the highest so far.
 - Optionally bump `versionName` (e.g. `1.0.1`).
 - Pause OneDrive sync before running `gradlew bundleRelease`.
 - Build command:

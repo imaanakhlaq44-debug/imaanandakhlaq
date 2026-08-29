@@ -95,7 +95,7 @@ body.apk-keyboard-open .apk-bottombar { display: none !important; }
 body.apk-keyboard-open.apk-bar-fixed { padding-bottom: 0 !important; }
 html.apk-keyboard-open.apk-bar-fixed { padding-bottom: 0 !important; }
 
-/* Shared APK-page styling (used by qibla/tasbeeh/faqs/azkar/about) */
+/* Shared APK-page styling (used by azkar/tasbeeh/faqs/about) */
 .apk-page {
   font-family: 'Nunito', system-ui, sans-serif;
   background: #FDF8F5;

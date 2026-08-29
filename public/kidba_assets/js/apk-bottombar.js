@@ -21,13 +21,12 @@
   var WA = '923335756028';
   // Clean Meezan-style icon set. Two-tone where useful; brand-colored.
   var BUTTONS = [
-    { key:'qibla',   label:'Qibla',    href:'apk/qibla.html',
+    { key:'azkar',   label:'Azkar',    href:'apk/azkar.html',
       svg:'<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">' +
-          '<defs><linearGradient id="gQ" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#E85B98"/><stop offset="100%" stop-color="#B62E66"/></linearGradient></defs>' +
-          '<path fill="url(#gQ)" d="M16 2C10 2 6 6.3 6 12c0 6.5 6.6 13.7 9.2 16.4a1.1 1.1 0 0 0 1.6 0C19.4 25.7 26 18.5 26 12 26 6.3 22 2 16 2z"/>' +
-          '<circle cx="16" cy="12" r="4" fill="#fff"/>' +
-          '<rect x="13" y="10" width="6" height="4" rx="0.5" fill="#1E2D5A"/>' +
-          '<rect x="13" y="11" width="6" height="1" fill="#E0B341"/>' +
+          '<defs><linearGradient id="gZ" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#3FBF8F"/><stop offset="100%" stop-color="#0E7A57"/></linearGradient></defs>' +
+          '<path fill="url(#gZ)" d="M4 8.2a1.6 1.6 0 0 1 1.9-1.6c2.9.5 6.1 1.4 8.7 3.1a1 1 0 0 1 .4.9v14.2a1 1 0 0 1-1.5.85c-2.5-1.6-5.4-2.4-8-2.8A1.6 1.6 0 0 1 4 21.2z"/>' +
+          '<path fill="url(#gZ)" d="M28 8.2a1.6 1.6 0 0 0-1.9-1.6c-2.9.5-6.1 1.4-8.7 3.1a1 1 0 0 0-.4.9v14.2a1 1 0 0 0 1.5.85c2.5-1.6 5.4-2.4 8-2.8A1.6 1.6 0 0 0 28 21.2z"/>' +
+          '<circle cx="16" cy="4.6" r="1.7" fill="#E0B341"/>' +
           '</svg>' },
     { key:'tasbeeh', label:'Tasbeeh',  href:'apk/tasbeeh.html',
       svg:'<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">' +
@@ -76,15 +75,15 @@
     var a = document.createElement('a');
     a.className = 'apk-bottombar__btn';
     a.setAttribute('data-k', b.key);
-    // FIX: hrefs like 'apk/qibla.html' break when current page already lives
-    // under /apk/ (would become /apk/apk/qibla.html). Detect that and rewrite
+    // FIX: hrefs like 'apk/azkar.html' break when current page already lives
+    // under /apk/ (would become /apk/apk/azkar.html). Detect that and rewrite
     // to '../apk/...' (effectively just the same file in the same folder).
     var href = b.href;
     if (!b.external) {
       try {
         var path = location.pathname || '';
         if (path.indexOf('/apk/') !== -1 && href.indexOf('apk/') === 0) {
-          href = href.substring(4); // drop leading 'apk/' so it becomes 'qibla.html' (same folder)
+          href = href.substring(4); // drop leading 'apk/' so it becomes 'azkar.html' (same folder)
         }
       } catch(e){}
     }
@@ -325,7 +324,7 @@
         //    press was answered twice — once here and once by Head.tsx — and
         //    the toast from one appeared over the page the other had left.
         //    Everything past this line is for this bar's own standalone pages:
-        //    Qibla, Tasbeeh, Azkar, FAQs, About.
+        //    Azkar, Tasbeeh, FAQs, About.
         if (window.__iaBackHandler) return;
         // 1) Whatever the page has open on top of itself. Same contract
         //    Head.tsx uses, so a page states its rule once and it holds
@@ -334,14 +333,7 @@
         try {
           if (typeof window.__iaBackIntercept === 'function' && window.__iaBackIntercept() === true) return;
         } catch(e){}
-        // 2) If Qibla AR camera is open, close it first.
-        try {
-          if (document.body && document.body.classList.contains('qibla-ar-open')) {
-            var closeBtn = document.getElementById('qiblaArClose');
-            if (closeBtn) { closeBtn.click(); return; }
-          }
-        } catch(e){}
-        // 3) If any visible modal/dialog is open, close it.
+        // 2) If any visible modal/dialog is open, close it.
         try {
           var modal = document.querySelector('[data-modal-open="true"], .modal.open, .modal.show, .apk-modal.open, dialog[open]');
           if (modal) {
@@ -350,7 +342,7 @@
             if (typeof modal.close === 'function') { try { modal.close(); return; } catch(e){} }
           }
         } catch(e){}
-        // 4) If history has a previous in-app entry, go back.
+        // 3) If history has a previous in-app entry, go back.
         try {
           if (window.history && window.history.length > 1 && !isHomeLikePage()) {
             window.history.back();

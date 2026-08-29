@@ -62,6 +62,12 @@ student_screen*
 
 # ...but site images must ship with the build (CI deploys from source)
 !public/assets/**
+
+# ...and so must the Play Store artwork. The rules above are aimed at stray
+# debug captures in the repo root; they were also swallowing every new file in
+# play_store_assets/screenshots, which is why two of those shots went stale
+# without anyone noticing.
+!play_store_assets/**
 !public/kidba_assets/**
 
 # Hero scroll source video and the frame sequence extracted from it.
