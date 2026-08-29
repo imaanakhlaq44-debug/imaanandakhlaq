@@ -75,3 +75,6 @@ student_screen*
 # demo/hero-source.mp4, so neither belongs in history.
 *.mp4
 demo/hero-frames/
+
+# Signed build output, staged for upload — never committed
+release_*/
