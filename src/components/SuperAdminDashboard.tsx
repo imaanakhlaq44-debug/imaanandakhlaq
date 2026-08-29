@@ -808,6 +808,35 @@ export const SuperAdminDashboard = () => html`
    * COULD write them here — isSuper() bypasses the whitelist — but then the
    * one place that decides what approval means would live in two files.
    */
+  /**
+   * Switch a school's wall on, from the directory rather than the queue.
+   *
+   * A school that registered through an organisation arrives already
+   * approved — the organisation vouched for it — but with its wall off,
+   * because publishing photographs of children is a separate decision. That
+   * left it in a state the approval queue never shows, since the queue lists
+   * schools that are NOT approved, and approveSchool was the only thing that
+   * flips wall_enabled. The wall could not be switched on at all.
+   *
+   * Same callable, because it is the same decision: rules keep wall_enabled
+   * out of every client's hands, and it sets approval_status to 'approved'
+   * too, which an org school already is.
+   */
+  window.enableSchoolWall = async function (schoolId) {
+    // Double quotes and no escape sequences: this whole file is a template
+    // literal, so a \' here reaches the browser as a bare ' and ends the
+    // string. It cost the dashboard its entire script once already.
+    if (!confirm("Switch this school's wall on? It will then be able to publish photographs of the children whose parents have given consent.")) return;
+    try {
+      await httpsCallable(functions, 'approveSchool')({ school_id: schoolId, approved: true });
+      alert('The wall is on. The school can post from its next visit.');
+      location.reload();
+    } catch (err) {
+      console.error('enableSchoolWall failed:', err);
+      alert(err.message || 'That did not work.');
+    }
+  };
+
   window.approveSchoolById = async function (schoolId) {
     if (!schoolId) return;
     if (!confirm('Approve this school? Its wall unlocks and it can start sharing activity photos with parents.')) return;
@@ -961,6 +990,9 @@ export const SuperAdminDashboard = () => html`
                       ? '<span class="badge-status">Pending verification</span>'
                       : '<span class="badge-status badge-active">Active</span>'}</td>
                 <td>
+                  \${school.type === 'weekly' && school.wall_enabled !== true
+                      ? '<button class="btn-icon" title="Switch this school&apos;s wall on" onclick="window.enableSchoolWall(&quot;' + esc(school.id) + '&quot;)"><i class="fas fa-image" style="color:#cf296d;"></i></button>'
+                      : ''}
                   <button class="btn-icon" title="View Details"><i class="fas fa-eye"></i></button>
                   <button class="btn-icon" title="Edit School"><i class="fas fa-edit"></i></button>
                 </td>

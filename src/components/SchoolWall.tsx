@@ -413,8 +413,13 @@ export const SchoolWall = () => html`
       if (school.wall_enabled === true) {
         document.getElementById('newPostBtn').style.display = '';
       } else {
-        showNotice('Your wall opens once we verify your school — usually within a day. '
-          + 'Everything else on your dashboard works meanwhile.');
+        // Two different closed walls, and saying "we are verifying you" to a
+        // school that was verified an hour ago is how a dead end gets mistaken
+        // for a queue. A school that arrived through an organisation is
+        // approved from the moment it registers; its wall is simply off.
+        showNotice(school.approval_status === 'approved'
+          ? 'Your wall is not switched on yet. Ask Imaan & Akhlaq to turn it on — everything else on your dashboard works meanwhile.'
+          : 'Your wall opens once we verify your school — usually within a day. Everything else on your dashboard works meanwhile.');
       }
       await loadRoster();
     }
