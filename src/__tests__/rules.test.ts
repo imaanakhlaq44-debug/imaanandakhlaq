@@ -1045,6 +1045,21 @@ describe.skipIf(!HAS_EMULATOR)('Firestore rules', () => {
       // 'students' opens the wall to the children of the school, and to
       // nobody else. A family reading a post through a parent link is not a
       // member of it and never becomes one by this setting.
+      it('a photo alone is a comment; nothing at all is not', async () => {
+        // A child answering with a picture of the sheet they filled in has
+        // said something. Making them type as well would be a toll on the
+        // one group least able to pay it.
+        await assertSucceeds(setDoc(
+          doc(asLegacy(), 'school_posts', 'rp-students', 'comments', 'c-photo'),
+          { ...comment, author_uid: LEGACY_STUDENT, text: '', photo_url: 'https://example.test/sheet.jpg' }
+        ))
+
+        await assertFails(setDoc(
+          doc(asLegacy(), 'school_posts', 'rp-students', 'comments', 'c-empty'),
+          { ...comment, author_uid: LEGACY_STUDENT, text: '' }
+        ))
+      })
+
       it('a family still cannot, even where students may', async () => {
         await assertFails(setDoc(
           doc(asFamily(), 'school_posts', 'rp-students', 'comments', 'c-fam'),

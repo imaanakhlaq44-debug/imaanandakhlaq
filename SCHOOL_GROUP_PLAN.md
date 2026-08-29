@@ -703,6 +703,39 @@ in those words rather than "something went wrong".
 
 ---
 
+## 10d. Phase 7 — the child answers back
+
+The wall was designed to travel one way: the school shows the day, parents
+see it. A community school wanted the other direction as well — the school
+posts the activity, and each child photographs the sheet they filled in by
+hand and attaches it to that post.
+
+So a comment may now carry a photo, and a school may open comments to its
+own students.
+
+**Comments are still staff-only by default.** `wall_settings.comments` gains
+a third value, `students`, alongside `staff` and `off`. The reason written
+in §4 has not gone away — a comment box open to everybody turns a record of
+the week into somewhere two families argue under a photograph of somebody
+else's child — so this is a switch a school admin turns on knowingly, not a
+default. A teacher cannot flip it; the head answers for it. Families still
+cannot comment even where children can: a parent holding a link is not a
+member of the school.
+
+**A comment photo is not a post photo, and the difference decides the rules.**
+A post carries photographs OF children, so `publishPost` checks every tagged
+child's consent on the Admin SDK before a file moves. A comment photo is a
+child's own sheet of paper, attached by that child, under their own uid —
+there is no second person in it to consent for. So it is written straight
+from the browser to `wall_comments/{schoolId}/{postId}/{uid}/{file}`, scoped
+to the uploader, and staff moderate it through the comment's `status` field
+exactly as they moderate its text.
+
+**Words, a photo, or both — but not nothing.** Requiring text as well would
+be a toll on the one group least able to pay it.
+
+---
+
 ## 11. Decisions (formerly open)
 
 **Video — images only, permanently for v1.** `media[].type` stays in the
