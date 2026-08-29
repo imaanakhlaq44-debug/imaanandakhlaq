@@ -269,7 +269,7 @@ export const SchoolWall = () => html`
     </label>
     <button class="btn btn-primary" id="newPostBtn" style="display:none;" onclick="openComposer()">New post</button>
     <a href="/student-activities" id="myWorkLink" class="btn btn-quiet" style="display:none; text-decoration:none;">My work</a>
-    <a href="/" class="btn btn-quiet" style="text-decoration:none;">Back</a>
+    <a href="/" id="wallBackLink" class="btn btn-quiet" style="text-decoration:none;">Back</a>
   </div>
 
   <div class="wall-inner">
@@ -418,6 +418,16 @@ export const SchoolWall = () => html`
     const meSnap = await getDoc(doc(db, 'users', user.uid));
     if (!meSnap.exists()) { window.location.replace('/auth'); return; }
     me = Object.assign({ uid: user.uid }, meSnap.data());
+
+    // Back means "the desk I came from", not the public home page. The wall is
+    // a top-level page, so with a bare href="/" a signed-in teacher landed on
+    // the marketing site and had to come back in through the front door.
+    //
+    // Not history.back(): a child arrives from the PIN slip at /s, which sends
+    // them here the moment the sign-in lands, so one step back would bounce
+    // them onto the wall again.
+    document.getElementById('wallBackLink').setAttribute(
+      'href', isStudent() ? '/student-activities' : '/teacher-dashboard');
 
     if (!me.school_id) {
       showNotice('This account is not attached to a school, so there is no wall to show.');
