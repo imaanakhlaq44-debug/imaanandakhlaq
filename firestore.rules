@@ -669,8 +669,15 @@ service cloud.firestore {
           request.resource.data.author_uid == request.auth.uid &&
           request.resource.data.status == 'visible' &&
           request.resource.data.text is string &&
-          request.resource.data.text.size() > 0 &&
           request.resource.data.text.size() <= 500 &&
+          // Words, a photo, or both — but not nothing. A child answering with
+          // a picture of the sheet they filled in has said something; making
+          // them type as well would be a toll on the one group least able to
+          // pay it.
+          (request.resource.data.text.size() > 0 ||
+           (request.resource.data.keys().hasAll(['photo_url']) &&
+            request.resource.data.photo_url is string &&
+            request.resource.data.photo_url.size() > 0)) &&
           (
             (isStaff() &&
               get(/databases/$(database)/documents/school_posts/$(postId)).data.comments_policy != 'off') ||

@@ -63,6 +63,30 @@ service firebase.storage {
     }
 
     // ---------------------------------------------------------------
+    // The school wall — a photo attached to a comment
+    // ---------------------------------------------------------------
+    // A child photographs the activity sheet they filled in by hand and
+    // attaches it to the school's post. That is the whole point of the wall
+    // for a community school: the school shows the day, the children show
+    // what they did.
+    //
+    // Written straight from the browser rather than staged for a callable,
+    // and the difference from a post is deliberate. A post carries
+    // photographs OF children, so publishPost checks every tagged child's
+    // consent on the Admin SDK before a file moves. A comment photo is a
+    // child's own sheet of paper, attached by that child to one post, under
+    // their own uid — there is no second person in it to consent for.
+    //
+    // Scoped to the uploader's uid, so one child cannot attach a photo as
+    // another. Staff moderate what appears through the comment's status
+    // field, exactly as they moderate its text.
+    match /wall_comments/{schoolId}/{postId}/{uid}/{file} {
+      allow read: if signedIn();
+      allow write: if signedIn() && request.auth.uid == uid &&
+        isImage() && request.resource.size < 8 * 1024 * 1024;
+    }
+
+    // ---------------------------------------------------------------
     // The school wall — published
     // ---------------------------------------------------------------
     // Files land here only because publishPost moved them, on the Admin SDK,

@@ -191,7 +191,27 @@ export const SchoolWall = () => html`
     text-decoration: underline;
   }
   .comment-empty { font-size: 0.85rem; color: var(--muted); font-weight: 600; padding: 4px 0; }
-  .comment-new { display: flex; gap: 8px; margin-top: 8px; }
+  .comment-new { display: flex; gap: 8px; margin-top: 8px; align-items: center; }
+  .comment-photo-btn {
+    flex: 0 0 auto; cursor: pointer; padding: 8px 11px;
+    border: 1px solid var(--line); border-radius: 10px; color: var(--navy);
+    background: #fff; display: inline-flex; align-items: center;
+  }
+  .comment-photo-btn:hover { background: #f1f5f9; }
+  .comment-photo-preview:empty { display: none; }
+  .comment-photo-preview {
+    margin-top: 8px; display: flex; align-items: center; gap: 10px;
+    font-size: 0.82rem; color: var(--muted);
+  }
+  .comment-photo-preview img {
+    width: 64px; height: 64px; object-fit: cover; border-radius: 10px;
+    border: 1px solid var(--line);
+  }
+  /* A child's answer sheet, shown big enough to read a line of handwriting. */
+  .comment img.comment-photo {
+    display: block; margin-top: 6px; max-width: 260px; width: 100%;
+    border-radius: 10px; border: 1px solid var(--line); cursor: zoom-in;
+  }
   .comment-new input {
     flex: 1 1 auto; min-width: 0; border: 1px solid var(--line);
     border-radius: 10px; padding: 8px 12px; font-family: inherit; font-size: 0.88rem;
@@ -775,6 +795,13 @@ export const SchoolWall = () => html`
         ? rows.map((c) =>
             '<div class="comment' + (c.status === 'hidden' ? ' is-hidden' : '') + '">' +
               '<b>' + esc(c.author_name || 'Staff') + '</b> ' + esc(c.text) +
+              // The child's answer sheet. Big enough to read a line of
+              // handwriting without opening it, and it opens on a tap.
+              (c.photo_url
+                ? '<img class="comment-photo" src="' + esc(c.photo_url) +
+                  '" alt="Work shared by ' + esc(c.author_name || 'a student') +
+                  '" loading="lazy" onclick="window.open(this.src)">'
+                : '') +
               (c.status === 'hidden' ? '<span class="comment-flag">hidden</span>' : '') +
               (isStaff()
                 ? '<button class="comment-act" onclick="setCommentStatus(\\'' + postId + '\\', \\'' + c.id + '\\', \\'' +
@@ -786,8 +813,15 @@ export const SchoolWall = () => html`
       (canPost
         ? '<div class="comment-new">' +
             '<input type="text" maxlength="500" id="cmt-' + esc(postId) + '" placeholder="' + esc(placeholder) + '">' +
+            // A child photographs the sheet they filled in by hand and
+            // attaches it here. On a phone this opens the camera directly.
+            '<label class="comment-photo-btn" title="Add a photo of your work">' +
+              '<i class="fas fa-camera"></i>' +
+              '<input type="file" accept="image/*" style="display:none" onchange="stageCommentPhoto(this, \\'' + postId + '\\')">' +
+            '</label>' +
             '<button class="btn btn-quiet" onclick="addComment(\\'' + postId + '\\')">Post</button>' +
-          '</div>'
+          '</div>' +
+          '<div class="comment-photo-preview" id="cmtpv-' + esc(postId) + '"></div>'
         : '');
   };
 
@@ -824,15 +858,62 @@ export const SchoolWall = () => html`
     return !!post && post.comments_policy !== 'off';
   }
 
+  // One pending photo per open thread, keyed by post.
+  const commentPhotos = {};
+
+  window.stageCommentPhoto = async (input, postId) => {
+    const file = input.files && input.files[0];
+    input.value = '';
+    if (!file) return;
+
+    const box = document.getElementById('cmtpv-' + postId);
+    box.innerHTML = '<span>Preparing the photo…</span>';
+    try {
+      // Same compressor the composer uses: a phone photo of a worksheet is
+      // 4 MB of nothing, and these are posted over a school's connection.
+      const shot = await compress(file);
+      commentPhotos[postId] = shot;
+      box.innerHTML =
+        '<img src="' + URL.createObjectURL(shot.blob) + '" alt="">' +
+        '<span>Photo ready</span>' +
+        '<button class="comment-act" onclick="dropCommentPhoto(\\'' + postId + '\\')">Remove</button>';
+    } catch (err) {
+      delete commentPhotos[postId];
+      box.innerHTML = '';
+      alert(err.message || 'That photo could not be read.');
+    }
+  };
+
+  window.dropCommentPhoto = (postId) => {
+    delete commentPhotos[postId];
+    const box = document.getElementById('cmtpv-' + postId);
+    if (box) box.innerHTML = '';
+  };
+
   window.addComment = async (postId) => {
     const input = document.getElementById('cmt-' + postId);
     if (!input) return;
     const text = String(input.value || '').trim();
-    if (!text) return;
+    const shot = commentPhotos[postId];
+    // Words, a photo, or both — the rules agree, so a child who answers with
+    // a picture of their sheet does not also have to type.
+    if (!text && !shot) return;
 
     input.disabled = true;
     try {
-      await addDoc(collection(db, 'school_posts', postId, 'comments'), {
+      let photo = null;
+      if (shot) {
+        // Under the child's own uid, which is what storage.rules checks.
+        const path = 'wall_comments/' + me.school_id + '/' + postId + '/' + me.uid +
+                     '/' + Date.now() + '.jpg';
+        const fileRef = ref(storage, path);
+        await uploadBytesResumable(fileRef, shot.blob, { contentType: 'image/jpeg' });
+        photo = { url: await getDownloadURL(fileRef), path: path, w: shot.w, h: shot.h };
+      }
+
+      await addDoc(collection(db, 'school_posts', postId, 'comments'), Object.assign(photo ? {
+        photo_url: photo.url, photo_path: photo.path, photo_w: photo.w, photo_h: photo.h
+      } : {}, {
         school_id: me.school_id,
         author_uid: me.uid,
         author_name: commentAuthorName(),
@@ -840,7 +921,8 @@ export const SchoolWall = () => html`
         text: text,
         status: 'visible',
         created_at: new Date().toISOString()
-      });
+      }));
+      dropCommentPhoto(postId);
       const post = posts.find((p) => p.id === postId);
       if (post) post.comment_count = (post.comment_count || 0) + 1;
       input.value = '';
@@ -1252,7 +1334,14 @@ export const SchoolWall = () => html`
           resolve({ blob: blob, w: w, h: h });
         }, 'image/jpeg', 0.82);
       };
-      img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('That file is not an image.')); };
+      // Named, because "that file is not an image" is useless when you just
+      // picked a photo. The usual culprit is an iPhone HEIC, which the file
+      // picker offers and no browser can decode.
+      img.onerror = () => {
+        URL.revokeObjectURL(url);
+        reject(new Error('This browser could not open "' + (file.name || 'that file') +
+          '". If it came from an iPhone it may be a HEIC — send it as JPG, or take the photo with the camera button here.'));
+      };
       img.src = url;
     });
   }

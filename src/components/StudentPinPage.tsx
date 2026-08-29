@@ -122,7 +122,16 @@ export const StudentPinPage = () => html`
   // alone; these two only tell the child they opened the right link.
   const orgSlug    = params.get('org') || '';
   const schoolSlug = params.get('school') || '';
-  const token = decodeURIComponent((location.hash || '').replace(/^#/, '').trim());
+  let token = decodeURIComponent((location.hash || '').replace(/^#/, '').trim());
+
+  // A school that rotated its link sends the new one round, and a child may
+  // open it in the tab where the old one is still sitting. Changing only the
+  // fragment does not reload the page, so without this the child would keep
+  // signing in against the retired token and be told their PIN is wrong.
+  // ParentWall listens for the same reason.
+  window.addEventListener('hashchange', () => {
+    token = decodeURIComponent((location.hash || '').replace(/^#/, '').trim());
+  });
 
   const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => (
     { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
