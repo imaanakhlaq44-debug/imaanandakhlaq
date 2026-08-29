@@ -1,5 +1,6 @@
 import { html, raw } from 'hono/html'
 import { FIREBASE_CONFIG, firebaseConfigJS } from '../lib/firebaseConfig'
+import { authErrorHelpersJS } from '../lib/errorHandler'
 import { familyLoginHelpersJS } from '../lib/familyLogin'
 import { teacherLoginHelpersJS } from '../lib/teacherLogin'
 import { roleHomeJS } from '../lib/appRoutes'
@@ -1316,6 +1317,15 @@ export const AuthPage = () => html`
   });
 </script>
 
+<!-- Sign-in errors are reported from two separate script blocks below: the
+     legacy one, which is wrapped in an IIFE, and the module one, which has its
+     own scope. Neither can see inside the other, so the wording lives here, in
+     plain global scope, and both call into it. -->
+<script>
+${raw(authErrorHelpersJS)}
+  window.friendlyAuthError = friendlyAuthError;
+</script>
+
 <script>
   (function () {
     if (window.__apkLegacyAuthInit) return;
@@ -1546,7 +1556,7 @@ export const AuthPage = () => html`
       function completeLogin(uid, idToken) {
         fetchUserDoc(uid, idToken, function (err, userData) {
           if (err) {
-            showToastCompat(err.message || 'User record not found in system.', 'error');
+            showToastCompat(window.friendlyAuthError(err, 'User record not found in system.'), 'error');
             return;
           }
           saveAuthAndRedirect(uid, userData || {});
@@ -1986,7 +1996,7 @@ export const AuthPage = () => html`
       await fn();
     } catch (err) {
       console.error('verifyOtp -> register error:', err);
-      showToast(err.message || 'Registration failed', 'error');
+      showToast(window.friendlyAuthError(err, 'Registration failed. Please try again.'), 'error');
     } finally {
       verifyBtn.disabled = false;
       verifyBtn.innerHTML = 'Verify &amp; Continue';
@@ -2235,7 +2245,7 @@ export const AuthPage = () => html`
         try { await signOut(auth); } catch(_) {}
       }
     } catch (error) {
-      showToast(error.message, 'error');
+      showToast(window.friendlyAuthError(error, 'Could not sign you in. Please try again.'), 'error');
     }
   };
 
@@ -2257,10 +2267,7 @@ export const AuthPage = () => html`
       showToast('Reset email sent! Check your inbox.', 'success');
       setTimeout(() => window.closeReset(), 2000);
     } catch (error) {
-      let msg = error.message;
-      if (error.code === 'auth/user-not-found') msg = 'No account found with this email.';
-      if (error.code === 'auth/invalid-email') msg = 'Please enter a valid email address.';
-      showToast(msg, 'error');
+      showToast(window.friendlyAuthError(error, 'Could not send the reset email. Please try again.'), 'error');
     } finally {
       btn.disabled = false;
       btn.textContent = 'Find Account';
