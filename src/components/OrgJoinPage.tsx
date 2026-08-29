@@ -235,7 +235,7 @@ export const OrgJoinPage = () => html`
           '<button class="jn-copy" id="jnCopy" type="button">Copy link</button>' +
         '</div>' +
         '<div class="jn-warn">Keep this link. Your students open it and sign in with the roll number and PIN you give them from your dashboard. You can always find it again there.</div>' +
-        '<button class="jn-submit" style="margin-top:18px" type="button" onclick="location.href=\\'/auth\\'">Go to sign in</button>' +
+        '<button class="jn-submit" style="margin-top:18px" type="button" onclick="location.href=\\'/auth?switch=1\\'">Go to sign in</button>' +
       '</div>';
 
     document.getElementById('jnCopy').addEventListener('click', async () => {

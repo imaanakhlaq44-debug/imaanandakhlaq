@@ -3020,7 +3020,7 @@
             <!-- Only appears while dead PAR- invites are still lying around, so
                  it disappears for good once the school is cleaned up. -->
             <button class="btn-outline-light d-none" id="cleanupParentCodesBtn" onclick="cleanupParentCodes()" title="Parent codes are retired. This clears the unused ones."><i class="fas fa-broom me-2"></i> Clear Old Parent Codes (<span id="deadParentCount">0</span>)</button>
-            <button class="btn-solid" onclick="openModal('studentModal')"><i class="fas fa-user-plus me-2"></i> Add Student</button>
+            <button class="btn-solid" id="addStudentBtn" onclick="openModal('studentModal')"><i class="fas fa-user-plus me-2"></i> Add Student</button>
             <button class="btn-outline-light" onclick="openModal('bulkImportModal')"><i class="fas fa-file-import me-2"></i> Import Roster</button>
             <!-- The same scan the Parents tab offers. It was only there, which
                  is the one place an admin is not looking when the question in
@@ -3729,6 +3729,7 @@
   let familiesList = [];
   let invitesList = [];
   let currentSchoolName = '';
+  let currentSchoolInOrg = false;
   // A community school (type 'weekly') meets one day a week and its students
   // never log in. That changes what this dashboard leads with: a roster, not
   // a stack of claim codes nobody will redeem. See SCHOOL_GROUP_PLAN.md §12.5.
@@ -5006,6 +5007,19 @@
         // Absent on every school that registered before community schools
         // existed, and those are full-time — so the default is not 'weekly'.
         currentSchoolType = schoolData.type === 'weekly' ? 'weekly' : 'full_time';
+
+        // A school that arrived through an organisation's link. Its children
+        // sign in with a roll number and a PIN from "Student link & PINs";
+        // nobody's family will ever redeem a STU- code, because there are no
+        // families in this arrangement at all. Offering both routes on one
+        // screen is how somebody ends up printing codes that can never be
+        // used — which is exactly what happened. See ORG_PORTAL_PLAN.md.
+        //
+        // Schools that registered directly are untouched: no org_id, so the
+        // Add Student button stays exactly where it has always been.
+        currentSchoolInOrg = !!schoolData.org_id;
+        const addBtn = document.getElementById('addStudentBtn');
+        if (addBtn) addBtn.style.display = currentSchoolInOrg ? 'none' : '';
         // Only a community school waits for approval. A full-time school has no
         // wall to unlock, so it is never held up by a field it does not carry.
         currentSchoolApproved = currentSchoolType !== 'weekly' ||
