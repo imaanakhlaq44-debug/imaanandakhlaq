@@ -1093,9 +1093,23 @@ export const SuperAdminDashboard = () => html`
         role = meSnap.exists() ? (meSnap.data().role || '') : '';
       } catch (e) { console.error('Role check failed:', e); }
       if (role !== 'super_admin') {
+        // ?switch=1, not the bare login page. A browser holds ONE Firebase
+        // session for the whole site, so signing in as a child — or as a
+        // school — replaces the one that was here. Sending somebody to /auth
+        // then bounced them straight back, because /auth resumes whatever
+        // session exists and returns them to that role's dashboard: a loop
+        // with no way out except logging out by hand.
+        //
+        // Naming the account is half the fix. "Access denied" while signed in
+        // as a nine-year-old reads like a broken site rather than the plain
+        // fact that this browser is somebody else at the moment.
         const loadingEl = document.getElementById('loading');
-        if (loadingEl) loadingEl.textContent = 'Access denied: this area is for the platform administrator only. Redirecting...';
-        setTimeout(() => { window.location.replace('auth.html'); }, 2000);
+        if (loadingEl) {
+          loadingEl.textContent = 'This browser is signed in as ' +
+            (user.email || 'another account') +
+            ', which is not the platform administrator. Taking you to the sign-in form...';
+        }
+        setTimeout(() => { window.location.replace('/auth?switch=1'); }, 2500);
         return;
       }
       loadDashboardData();
