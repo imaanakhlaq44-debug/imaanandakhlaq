@@ -40,7 +40,7 @@ ${Header()}
             <p><strong>(b) Educational activity data</strong> &mdash; quiz scores, book reading progress, attendance, teacher notes, fee status, and parent feedback. This data is stored in Google Firebase (Firestore + Storage).</p>
             <p><strong>(c) Device information</strong> &mdash; device model, OS version, app version, language and crash logs, used solely for diagnostics and to improve stability.</p>
             <p><strong>(d) Camera (Android only, optional)</strong> &mdash; the Qibla Finder feature can use your rear camera to overlay the Qibla direction on a live camera view, similar to Google&rsquo;s Qibla Finder. <strong>The camera feed is processed entirely on your device, is never recorded, never uploaded and never stored.</strong> You may deny or revoke this permission in Android Settings; the rest of the app continues to work.</p>
-            <p><strong>(e) Location (Android only, optional)</strong> &mdash; the Qibla feature uses your approximate or precise location <em>only on-device</em> to calculate the direction of the Kaaba and the distance to Makkah. <strong>Your location is never sent to our servers, never sold and never shared.</strong> You may deny or revoke this permission at any time.</p>
+            <p><strong>(e) Location (Android only, optional)</strong> &mdash; the Qibla feature uses your approximate location <em>only on-device</em> to calculate the direction of the Kaaba and the distance to Makkah. <strong>Your location is never sent to our servers, never sold and never shared.</strong> You may deny or revoke this permission at any time.</p>
             <p><strong>(f) Local storage</strong> &mdash; the Tasbeeh counter, theme preference and last-opened page are stored only in your device&rsquo;s local storage and are never transmitted.</p>
 
             <h3 class="fw-bold mt-5 mb-3">4. How We Use Your Information</h3>
@@ -100,7 +100,7 @@ ${Header()}
             <ul>
               <li><strong>INTERNET</strong> &mdash; required to load lessons and sync progress.</li>
               <li><strong>CAMERA</strong> &mdash; optional, used <em>only</em> for the Qibla AR camera mode; feed never leaves the device.</li>
-              <li><strong>ACCESS_FINE_LOCATION / ACCESS_COARSE_LOCATION</strong> &mdash; optional, used <em>only on-device</em> to compute Qibla bearing and distance to Makkah.</li>
+              <li><strong>ACCESS_COARSE_LOCATION</strong> &mdash; optional, used <em>only on-device</em> to compute Qibla bearing and distance to Makkah.</li>
             </ul>
 
             <h3 class="fw-bold mt-5 mb-3">12. Changes to this Policy</h3>

@@ -591,7 +591,6 @@ ${bodyHtml}
 }
 
 const QIBLA_HTML = pageShell('Qibla Direction', `
-<div id="qiblaVersionBanner" style="background:#D63678;color:#fff;padding:8px 12px;text-align:center;font-weight:700;font-size:13px;border-radius:8px;margin:0 0 10px">v3.2 \u2014 Keyboard black gap direct fix</div>
 <div id="qiblaGlobalError" style="display:none;background:#fee2e2;color:#991b1b;border:2px solid #dc2626;padding:10px 12px;border-radius:8px;margin:0 0 10px;font-family:monospace;font-size:11px;white-space:pre-wrap;word-break:break-word"></div>
 <style>
   .qibla-stage {
@@ -858,11 +857,12 @@ const QIBLA_HTML = pageShell('Qibla Direction', `
   </div>
 
 <script>
+var QIBLA_DEBUG = /[?&]debug=1/.test(location.search);
 // Global error catcher \u2014 shows any JS error visibly on the page so we can debug.
 window.addEventListener('error', function(ev){
   try {
     var box = document.getElementById('qiblaGlobalError');
-    if (box) {
+    if (box && QIBLA_DEBUG) {
       box.style.display = 'block';
       box.textContent = 'JS ERROR: ' + (ev.message || ev) + '\\n@ ' + (ev.filename || '') + ':' + (ev.lineno || '?') + ':' + (ev.colno || '?');
     }
@@ -871,7 +871,7 @@ window.addEventListener('error', function(ev){
 window.addEventListener('unhandledrejection', function(ev){
   try {
     var box = document.getElementById('qiblaGlobalError');
-    if (box) {
+    if (box && QIBLA_DEBUG) {
       box.style.display = 'block';
       box.textContent = 'PROMISE REJECTED: ' + (ev.reason && ev.reason.message ? ev.reason.message : ev.reason);
     }
@@ -895,7 +895,7 @@ window.addEventListener('unhandledrejection', function(ev){
   diag.id = 'qiblaDiag';
   diag.style.cssText = 'margin:10px auto 0;max-width:340px;background:#0b1a3d;color:#9fe6c4;font-family:monospace;font-size:11px;padding:8px 10px;border-radius:8px;text-align:left;line-height:1.5;white-space:pre-wrap;word-break:break-word';
   diag.textContent = 'diag: JS loaded \u2014 tap "Enable Compass"';
-  if (status && status.parentNode) status.parentNode.insertBefore(diag, status.nextSibling);
+  if (QIBLA_DEBUG && status && status.parentNode) status.parentNode.insertBefore(diag, status.nextSibling);
   var diagState = { geo:'-', perm:'-', orient:'-', cam:'-' };
   function setDiag(key, val){ diagState[key] = val; diag.textContent = 'geo: ' + diagState.geo + '\\nperm: ' + diagState.perm + '\\norient: ' + diagState.orient + '\\ncam: ' + diagState.cam; }
   // Expose for camera section
@@ -1195,10 +1195,20 @@ window.addEventListener('unhandledrejection', function(ev){
     arVideo.srcObject = null;
   }
 
+  // Something failed before the camera opened: put the screen back and say so
+  // in the page, rather than throwing a raw error at a child.
+  function arAbort(msg) {
+    if (arWarn) arWarn.style.display = 'none';
+    if (arEl) arEl.style.display = 'none';
+    arActive = false;
+    document.body.classList.remove('qibla-ar-open');
+    var st = document.getElementById('qiblaArStatus');
+    if (st) st.textContent = msg;
+  }
   function ensureLocationThen(cb){
     if (qiblaBearing != null) { cb(); return; }
     setDiag('geo', 'AR requesting...');
-    if (!navigator.geolocation){ setDiag('geo', 'API missing'); alert('Geolocation not supported'); return; }
+    if (!navigator.geolocation){ setDiag('geo', 'API missing'); arAbort('This device cannot provide a location, so the Qibla direction cannot be worked out.'); return; }
     navigator.geolocation.getCurrentPosition(function(pos){
       setDiag('geo', 'AR OK ' + pos.coords.latitude.toFixed(2) + ',' + pos.coords.longitude.toFixed(2));
       lastUserPos = pos;
@@ -1208,7 +1218,7 @@ window.addEventListener('unhandledrejection', function(ev){
       if (distTxt) distTxt.textContent = dist.toFixed(0) + ' km';
       if (arDistance) arDistance.textContent = Math.round(dist).toLocaleString() + ' km';
       cb();
-    }, function(err){ setDiag('geo', 'AR ERR code=' + err.code + ' ' + err.message); alert('Location error: ' + err.message); }, { enableHighAccuracy:true, timeout:10000 });
+    }, function(err){ setDiag('geo', 'AR ERR code=' + err.code + ' ' + err.message); arAbort('Could not get your location. Please allow location access and try again.'); }, { enableHighAccuracy:false, timeout:10000 });
   }
 
   // Render 8 tiny tick-dots around mini compass
@@ -1226,7 +1236,7 @@ window.addEventListener('unhandledrejection', function(ev){
     var dist = (lastUserPos && qiblaBearing != null)
       ? distanceKm(lastUserPos.coords.latitude, lastUserPos.coords.longitude, KAABA.lat, KAABA.lng).toFixed(0) + ' km'
       : 'unknown';
-    alert('Qibla bearing: ' + (qiblaBearing != null ? qiblaBearing.toFixed(1) + '\\u00b0' : '—') + '\\nDistance to Kaaba: ' + dist + '\\n\\nThe blue beam shows the direction of the Qibla. Turn the camera until the Kaaba pin sits inside the reticle.');
+    alert('Qibla bearing: ' + (qiblaBearing != null ? qiblaBearing.toFixed(1) + '\\u00b0' : '—') + '\\nDistance to Kaaba: ' + dist + '\\n\\nThe blue beam shows the direction of the Qibla. Turn the camera until the Kaaba pin sits inside the reticle.\\n\\nSafety: children should use this camera view with a parent or guardian nearby, and everybody should stay aware of their surroundings.');
   });
 
   function attachOrientation(){
@@ -1263,11 +1273,15 @@ window.addEventListener('unhandledrejection', function(ev){
   // location lookup only start once the user acknowledges it (Families policy).
   function openArSection(){
     hideBottomBar();
-    if (arWarn) {
+    if (arWarn && document.body.contains(arWarn)) {
       arWarn.style.display = 'flex';
       try { arWarnOk.focus(); } catch (e) {}
     } else {
-      startArAfterWarning();
+      // The notice is a condition of opening AR, not a decoration: if it is
+      // not on the page for any reason, the camera view stays shut.
+      document.body.classList.remove('qibla-ar-open');
+      var st = document.getElementById('qiblaArStatus');
+      if (st) st.textContent = 'The safety notice could not be shown, so the camera view stays closed.';
     }
   }
   function startArAfterWarning(){
@@ -1303,7 +1317,7 @@ window.addEventListener('unhandledrejection', function(ev){
       if (arDistance) arDistance.textContent = Math.round(dist).toLocaleString() + ' km';
       status.textContent = 'Phone ko flat pakdein \u2014 teer Kaaba ki taraf ghoomega.';
       attachOrientation();
-    }, function(err){ status.textContent = 'Location error: ' + err.message; setDiag('geo', 'ERR code=' + err.code + ' ' + err.message); }, { enableHighAccuracy:true, timeout:10000 });
+    }, function(err){ status.textContent = 'Location error: ' + err.message; setDiag('geo', 'ERR code=' + err.code + ' ' + err.message); }, { enableHighAccuracy:false, timeout:10000 });
   };
   if (btn) btn.addEventListener('click', enableHandler);
   // Also expose as global so inline onclick fallback can call it
