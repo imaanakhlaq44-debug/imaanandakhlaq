@@ -38,7 +38,10 @@ const PRUNE = [
   { rel: 'kidba_assets/img/hero-slide-5-DjDsLXyf.png', why: 'homepage hero slider, unreachable in the app' },
   { rel: 'kidba_assets/img/hero-slide-6-D0eMAfvp.png', why: 'homepage hero slider, unreachable in the app' },
   // Referenced by nothing at all — not by the app, not by the website.
-  { rel: 'assets/brand', why: 'no page anywhere links to these' }
+  { rel: 'assets/brand', why: 'no page anywhere links to these' },
+  // Apache config for the website; meaningless inside an APK, and Gradle
+  // chokes on it when OneDrive keeps it as a cloud-only placeholder.
+  { rel: '.htaccess', why: 'Apache config, the APK never serves over Apache' }
 ];
 
 /**

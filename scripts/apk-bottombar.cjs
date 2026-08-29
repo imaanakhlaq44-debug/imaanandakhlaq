@@ -693,7 +693,7 @@ const QIBLA_HTML = pageShell('Qibla Direction', `
     <div style="font-family:'Fredoka One',serif;color:#1E2D5A;font-size:22px;margin-bottom:6px">Qibla Finder</div>
     <p style="margin:0 0 24px;color:#64748b;font-size:13.5px;max-width:280px;line-height:1.5">Open the camera and hold your phone in front of you \u2014 a blue beam and Kaaba pin will guide you toward the Qibla.</p>
     <button class="apk-btn" id="qiblaArBtn" type="button"
-            onclick="document.getElementById('qiblaArStatus').textContent='\u2705 Starting camera...';if(window.__qiblaArHandler){window.__qiblaArHandler();}else if(window.__qiblaEnableHandler){window.__qiblaEnableHandler();setTimeout(function(){if(window.__qiblaArHandler)window.__qiblaArHandler();},150);}else{document.getElementById('qiblaArStatus').textContent='\u26a0\ufe0f Page is still loading. Please try again in a second.';}"
+            onclick="document.getElementById('qiblaArStatus').textContent='\u2705 Opening AR view...';if(window.__qiblaArHandler){window.__qiblaArHandler();}else if(window.__qiblaEnableHandler){window.__qiblaEnableHandler();setTimeout(function(){if(window.__qiblaArHandler)window.__qiblaArHandler();},150);}else{document.getElementById('qiblaArStatus').textContent='\u26a0\ufe0f Page is still loading. Please try again in a second.';}"
             style="background:linear-gradient(135deg,#1E2D5A,#D63678);color:#fff;border:none;width:140px;height:140px;border-radius:50%;cursor:pointer;-webkit-tap-highlight-color:rgba(255,0,255,0.3);box-shadow:0 14px 36px rgba(214,54,120,0.45),0 0 0 8px rgba(214,54,120,0.10);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px;padding:0">
       <svg width="58" height="58" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
         <path fill="#fff" d="M11 6 L13 4 H19 L21 6 H26 A3 3 0 0 1 29 9 V23 A3 3 0 0 1 26 26 H6 A3 3 0 0 1 3 23 V9 A3 3 0 0 1 6 6 Z"/>
@@ -704,6 +704,7 @@ const QIBLA_HTML = pageShell('Qibla Direction', `
       <span style="font-size:13px;font-weight:800;letter-spacing:0.4px">START</span>
     </button>
     <p id="qiblaArStatus" style="margin:18px 0 0;color:#1E2D5A;font-weight:700;min-height:18px;font-size:13px"></p>
+    <p style="margin:16px auto 0;max-width:300px;color:#64748b;font-size:12px;line-height:1.55"><strong>Safety:</strong> children should use the camera view with a parent or guardian nearby, and everyone should stay aware of their surroundings. A full safety notice is shown before the camera opens.</p>
   </div>
 
   <!-- Hidden legacy compass UI (kept for JS compatibility \u2014 IDs referenced by handlers) -->
@@ -834,7 +835,27 @@ const QIBLA_HTML = pageShell('Qibla Direction', `
   <div id="qiblaArLeft" style="display:none"></div>
   <div id="qiblaArRight" style="display:none"></div>
   <div id="qiblaArLabel" style="display:none"></div>
+
+
 </div>
+
+  <!-- ===== AR SAFETY WARNING =====
+       Google Play Families policy (Special restrictions: Augmented Reality):
+       the warning must appear as soon as the AR section starts, before the
+       camera view can be used. Shown every single time AR is opened. -->
+  <div id="qiblaArWarn" role="alertdialog" aria-modal="true" aria-labelledby="qiblaArWarnTitle" style="position:fixed;inset:0;z-index:2147483700;background:rgba(4,8,22,0.95);display:none;align-items:center;justify-content:center;padding:22px">
+    <div style="width:100%;max-width:340px;background:#fff;color:#1E2D5A;border-radius:20px;padding:22px 20px;box-shadow:0 18px 50px rgba(0,0,0,0.55);text-align:center;max-height:88%;overflow:auto">
+      <div style="font-size:40px;line-height:1">&#9888;&#65039;</div>
+      <h2 id="qiblaArWarnTitle" style="margin:8px 0 12px;font-size:19px;font-weight:800">Safety first before you use AR</h2>
+      <ul style="margin:0 0 18px;padding:0;list-style:none;text-align:left;font-size:14px;line-height:1.55;color:#33406b">
+        <li style="margin-bottom:10px"><strong>Parental supervision is important.</strong> Children should use this camera feature only with a parent or guardian nearby.</li>
+        <li style="margin-bottom:10px"><strong>Be aware of your surroundings.</strong> Look up often and watch out for traffic, stairs, obstacles and other people while holding up the phone.</li>
+        <li>Do not use AR mode while walking in unsafe places, cycling or driving.</li>
+      </ul>
+      <button id="qiblaArWarnOk" type="button" style="width:100%;background:linear-gradient(135deg,#1E2D5A,#D63678);color:#fff;border:none;border-radius:14px;padding:13px 16px;font-size:15px;font-weight:800;cursor:pointer">I understand &mdash; continue</button>
+      <button id="qiblaArWarnCancel" type="button" style="width:100%;margin-top:10px;background:transparent;color:#64748b;border:none;padding:10px;font-size:14px;font-weight:700;cursor:pointer">Cancel</button>
+    </div>
+  </div>
 
 <script>
 // Global error catcher \u2014 shows any JS error visibly on the page so we can debug.
@@ -1057,6 +1078,9 @@ window.addEventListener('unhandledrejection', function(ev){
   var arMiniWedge = document.getElementById('qiblaArMiniWedge');
   var arHint = document.getElementById('qiblaArHint');
   var arInfo = document.getElementById('qiblaArInfo');
+  var arWarn = document.getElementById('qiblaArWarn');
+  var arWarnOk = document.getElementById('qiblaArWarnOk');
+  var arWarnCancel = document.getElementById('qiblaArWarnCancel');
   var arStream = null;
   var arActive = false;
   var hintTimer = null;
@@ -1122,8 +1146,8 @@ window.addEventListener('unhandledrejection', function(ev){
     }
   }
 
-  function startCamera(){
-    // Hide bottom shortcut bar so it doesn't cover the mini-compass / AR controls.
+  // Hide bottom shortcut bar so it doesn't cover the mini-compass / AR controls.
+  function hideBottomBar(){
     document.body.classList.add('qibla-ar-open');
     var __style = document.getElementById('qiblaArHideBar');
     if (!__style) {
@@ -1132,6 +1156,10 @@ window.addEventListener('unhandledrejection', function(ev){
       __style.textContent = 'body.qibla-ar-open .apk-bottombar { display:none !important; } body.qibla-ar-open .apk-page__body, body.qibla-ar-open .apk-page__header { padding-bottom:0 !important; }';
       document.head.appendChild(__style);
     }
+  }
+
+  function startCamera(){
+    hideBottomBar();
     arHint.textContent = 'Starting camera\u2026';
     setDiag('cam', 'requesting...');
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
@@ -1155,6 +1183,7 @@ window.addEventListener('unhandledrejection', function(ev){
   function stopCamera(){
     arActive = false;
     arEl.style.display = 'none';
+    if (arWarn) arWarn.style.display = 'none';
     var __flat = document.getElementById('qiblaFlatOverlay');
     if (__flat) __flat.style.display = 'none';
     // Restore bottom shortcut bar.
@@ -1230,23 +1259,31 @@ window.addEventListener('unhandledrejection', function(ev){
     } else { setDiag('perm', 'no iOS perm needed'); attach(); }
   }
 
-  if (arBtn) arBtn.addEventListener('click', function(){
+  // Entering the AR section shows the safety warning first. The camera and the
+  // location lookup only start once the user acknowledges it (Families policy).
+  function openArSection(){
+    hideBottomBar();
+    if (arWarn) {
+      arWarn.style.display = 'flex';
+      try { arWarnOk.focus(); } catch (e) {}
+    } else {
+      startArAfterWarning();
+    }
+  }
+  function startArAfterWarning(){
+    if (arWarn) arWarn.style.display = 'none';
     ensureLocationThen(function(){
       arEl.style.display = 'block';
       arActive = true;
       startCamera();
       attachOrientation();
     });
-  });
+  }
+  if (arWarnOk) arWarnOk.addEventListener('click', startArAfterWarning);
+  if (arWarnCancel) arWarnCancel.addEventListener('click', stopCamera);
+  if (arBtn) arBtn.addEventListener('click', openArSection);
   // Also expose as global so inline onclick fallback can call it
-  window.__qiblaArHandler = function(){
-    ensureLocationThen(function(){
-      arEl.style.display = 'block';
-      arActive = true;
-      startCamera();
-      attachOrientation();
-    });
-  };
+  window.__qiblaArHandler = openArSection;
   if (arClose) arClose.addEventListener('click', stopCamera);
   document.addEventListener('visibilitychange', function(){
     if (document.hidden && arActive) stopCamera();
