@@ -19,9 +19,18 @@ const WHATSAPP_NUMBER = '923335756028';
 // Pages that should display the bottom bar.
 // Splash/marketing pages are intentionally excluded; auth.html is included
 // so users can access Azkar/Tasbeeh/etc. before logging in (Meezan-style).
+//
+// family.html is here because auth.html is not enough on its own: a signed-in
+// parent stays signed in, so the second time they open the app they land on
+// their dashboard and never pass the login page again. Without the bar there,
+// the shortcuts were reachable exactly once.
+//
+// student-activities.html is deliberately absent. That dashboard draws its own
+// row of mobile-action buttons along the bottom (overview, books, progress,
+// club, rankings), and this bar sat underneath it as a second row.
 const TARGET_PAGES = [
   'auth.html',
-  'student-activities.html',
+  'family.html',
   'teacher-dashboard.html',
   'admin-dashboard.html',
   'super-admin-dashboard.html',

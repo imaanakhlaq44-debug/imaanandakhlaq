@@ -4423,7 +4423,4 @@ ${HouseQuizModal()}
     }
   }
 </style>
-
-<link rel="stylesheet" href="kidba_assets/css/apk-bottombar.css">
-<script defer src="kidba_assets/js/apk-bottombar.js"></script>
 `
