@@ -184,6 +184,38 @@ describe.skipIf(!HAS_EMULATOR)('Organisation portals', () => {
       await expect(call('describeOrgInvite', { slug: org.slug, token: tokenOf(rotated.join_path) }))
         .resolves.toBeTruthy()
     }, 60000)
+
+    it('deletes an organisation nothing has joined, and its link with it', async () => {
+      await seedSuper()
+      const org = await call('createOrg', { name: 'Alkhidmat' })
+      await call('deleteOrg', { org_id: org.org_id })
+
+      expect((await db.collection('orgs').doc(org.org_id).get()).exists).toBe(false)
+
+      await signOut(auth)
+      expect(await codeOf(call('describeOrgInvite', { slug: org.slug, token: tokenOf(org.join_path) })))
+        .toBe('functions/not-found')
+    }, 60000)
+
+    it('refuses to delete one a school has registered through', async () => {
+      const { org } = await seedOrgWithSchool()
+      await seedSuper()
+
+      expect(await codeOf(call('deleteOrg', { org_id: org.org_id }))).toBe('functions/failed-precondition')
+      // The point of refusing: the school keeps the organisation it belongs to.
+      expect((await db.collection('orgs').doc(org.org_id).get()).exists).toBe(true)
+    }, 60000)
+
+    it('is the super admin\'s to delete, nobody else\'s', async () => {
+      await seedSuper()
+      const org = await call('createOrg', { name: 'Alkhidmat' })
+      await signOut(auth)
+
+      await db.collection('users').doc('head-9').set({ role: 'school_admin', school_id: 's1' })
+      await signInAs('head-9')
+      expect(await codeOf(call('deleteOrg', { org_id: org.org_id }))).toBe('functions/permission-denied')
+      expect((await db.collection('orgs').doc(org.org_id).get()).exists).toBe(true)
+    }, 60000)
   })
 
   describe('a school arriving through the link', () => {
