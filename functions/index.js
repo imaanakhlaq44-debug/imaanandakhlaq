@@ -2586,6 +2586,47 @@ exports.rotateOrgToken = onCall({ cors: true }, async (request) => {
 });
 
 /**
+ * Remove an organisation.
+ *
+ * Only while nothing has registered through it. An organisation is not a
+ * folder its schools sit inside — a school carries org_id and its own
+ * school_links row, and studentSignIn resolves a child's school from that row
+ * without ever reading orgs. So deleting a used organisation would break
+ * nothing on the day, and that is exactly why it must not be allowed: the
+ * damage is silent. Every school it vouched for would be left pointing at an
+ * id with nothing behind it, and the record of who vouched for them — the one
+ * thing that let those schools skip verification — would be gone.
+ *
+ * The count is a query, not the school_count field. That field is kept by an
+ * increment on registration, and a counter that drifts must never be the
+ * thing standing between a delete and a school's records.
+ */
+exports.deleteOrg = onCall({ cors: true }, async (request) => {
+  await requireStaff(request, ['super_admin']);
+  const orgId = String((request.data && request.data.org_id) || '').trim();
+  if (!orgId) throw new HttpsError('invalid-argument', 'Which organisation?');
+
+  const ref = db.collection('orgs').doc(orgId);
+  const snap = await ref.get();
+  if (!snap.exists) throw new HttpsError('not-found', 'No such organisation.');
+
+  const schools = await db.collection('schools').where('org_id', '==', orgId).get();
+  if (!schools.empty) {
+    const n = schools.size;
+    throw new HttpsError('failed-precondition',
+      n + ' school' + (n === 1 ? ' has' : 's have') + ' registered through this organisation, so it cannot be removed. ' +
+      'Use New link to retire its link instead — that stops any further school joining and leaves the ones already here untouched.');
+  }
+
+  await ref.delete();
+
+  // The link dies with the document: describeOrgInvite and registerSchoolInOrg
+  // both resolve the organisation by slug before they look at the token, so
+  // there is no separate token record left behind to revoke.
+  return { org_id: orgId, name: snap.get('name') || '' };
+});
+
+/**
  * What is this organisation called?
  *
  * The one function here that anybody on the internet can call, so it answers

@@ -93,6 +93,8 @@ export const OrgsDashboard = () => html`
     border-radius: 9px; cursor: pointer;
   }
   .og-mini:hover { background: #f1f5f9; }
+  .og-mini.danger { color: #b3261e; border-color: #f0c6c2; }
+  .og-mini.danger:hover { background: #fdecea; }
 
   .og-schools { margin-top: 12px; border-top: 1px solid var(--line); padding-top: 10px; }
   .og-school {
@@ -164,6 +166,7 @@ export const OrgsDashboard = () => html`
   const callList   = httpsCallable(functions, 'listOrgs');
   const callCreate = httpsCallable(functions, 'createOrg');
   const callRotate = httpsCallable(functions, 'rotateOrgToken');
+  const callDelete = httpsCallable(functions, 'deleteOrg');
 
   const body = document.getElementById('ogBody');
 
@@ -207,6 +210,12 @@ export const OrgsDashboard = () => html`
         '<div class="og-link">' + esc(location.origin + org.join_path) + '</div>' +
         '<button class="og-mini" data-copy="' + esc(location.origin + org.join_path) + '">Copy</button>' +
         '<button class="og-mini" data-rotate="' + esc(org.org_id) + '">New link</button>' +
+        // Offered for every organisation, including the ones deleteOrg will
+        // refuse. Hiding it where it cannot be used leaves somebody hunting
+        // for an option that is simply absent, with nothing on screen saying
+        // why; the refusal explains itself, an empty toolbar does not.
+        '<button class="og-mini danger" data-delete="' + esc(org.org_id) +
+          '" data-name="' + esc(org.name) + '">Delete</button>' +
       '</div>' +
       '<div class="og-schools">' + rows + '</div>' +
     '</div>';
@@ -239,6 +248,24 @@ export const OrgsDashboard = () => html`
           btn.textContent = 'Select it above';
         }
         setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+      });
+    });
+
+    body.querySelectorAll('[data-delete]').forEach((btn) => {
+      btn.addEventListener('click', async () => {
+        const name = btn.getAttribute('data-name') || 'this organisation';
+        if (!confirm('Delete ' + name + '?' + String.fromCharCode(10) + String.fromCharCode(10) +
+          'Its registration link stops working for good. This cannot be undone.')) return;
+        btn.disabled = true;
+        btn.textContent = 'Deleting…';
+        try {
+          await callDelete({ org_id: btn.getAttribute('data-delete') });
+          await load();
+        } catch (err) {
+          btn.disabled = false;
+          btn.textContent = 'Delete';
+          alert((err && err.message) || 'Could not delete it.');
+        }
       });
     });
 
