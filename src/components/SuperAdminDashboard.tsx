@@ -818,6 +818,15 @@ export const SuperAdminDashboard = () => html`
    * schools that are NOT approved, and approveSchool was the only thing that
    * flips wall_enabled. The wall could not be switched on at all.
    *
+   * The button is offered for ANY school whose wall is off, not only the
+   * weekly ones. A school registered through the ordinary form carries no
+   * type and no wall_enabled at all, so it fell out of both the queue (which
+   * wants type 'weekly') and this button (which wanted the same) — while its
+   * own wall page told its staff to ask us to switch it on. There was nobody
+   * who could. What gates publishing is wall_enabled and nothing else:
+   * loadWallSchool never reads type, so neither should the one control that
+   * sets it.
+   *
    * Same callable, because it is the same decision: rules keep wall_enabled
    * out of every client's hands, and it sets approval_status to 'approved'
    * too, which an org school already is.
@@ -990,7 +999,7 @@ export const SuperAdminDashboard = () => html`
                       ? '<span class="badge-status">Pending verification</span>'
                       : '<span class="badge-status badge-active">Active</span>'}</td>
                 <td>
-                  \${school.type === 'weekly' && school.wall_enabled !== true
+                  \${school.wall_enabled !== true
                       ? '<button class="btn-icon" title="Switch this school&apos;s wall on" onclick="window.enableSchoolWall(&quot;' + esc(school.id) + '&quot;)"><i class="fas fa-image" style="color:#cf296d;"></i></button>'
                       : ''}
                   <button class="btn-icon" title="View Details"><i class="fas fa-eye"></i></button>
