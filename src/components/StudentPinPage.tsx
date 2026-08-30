@@ -189,6 +189,23 @@ export const StudentPinPage = () => html`
       await setPersistence(auth, browserLocalPersistence).catch(() => {});
       await signInWithCustomToken(auth, res.token);
 
+      // The same marker every other login in this app writes. It is not the
+      // session - the session is Firebase's - it is the note that says one is
+      // on its way. The page we hand the child to loads before Firebase has
+      // finished restoring, sees no user, and without this it cannot tell a
+      // child mid-restore from a stranger who typed the URL, so it sends the
+      // child it has just signed in back to /auth.
+      try {
+        const marker = JSON.stringify({
+          uid: res.student_uid,
+          role: 'student',
+          name: res.name || '',
+          school_id: res.school_id || ''
+        });
+        localStorage.setItem('auth_user', marker);
+        sessionStorage.setItem('auth_user', marker);
+      } catch (e) { /* a browser with storage off still has the session */ }
+
       btn.textContent = 'Welcome ' + (res.name || '') + '!';
       // The wall, not the books dashboard. A child who signs in with a slip
       // from a community school comes for what their class did last week —
