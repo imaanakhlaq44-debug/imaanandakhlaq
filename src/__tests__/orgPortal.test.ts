@@ -283,6 +283,84 @@ describe.skipIf(!HAS_EMULATOR)('Organisation portals', () => {
     }, 60000)
   })
 
+  describe('removing a school', () => {
+    /** A school with a child, a PIN, a wall post and a parent link on it. */
+    async function seedFurnishedSchool() {
+      const { org, school } = await seedOrgWithSchool()
+      const schoolId = school.school_id
+
+      await db.collection('users').doc('kid-1').set({
+        role: 'student', name: 'Ayesha', school_id: schoolId, class_id: '3', roll_no: '1'
+      })
+      await db.collection('habit_logs').doc('log-1').set({ student_uid: 'kid-1', status: 'pending' })
+      await db.collection('school_posts').doc('post-1').set({ school_id: schoolId, text: 'Sports day' })
+      await db.collection('school_posts').doc('post-1').collection('likes').doc('someone').set({ at: 'now' })
+      await db.collection('parent_links').doc('PTOKEN12').set({ school_id: schoolId, student_uid: 'kid-1' })
+      await db.collection('pin_attempts').doc(schoolId + '_1').set({ fails: 2 })
+
+      return { org, school, schoolId }
+    }
+
+    it('takes the school, its people and everything keyed to them', async () => {
+      const { schoolId } = await seedFurnishedSchool()
+      await seedSuper()
+
+      await call('deleteSchool', { school_id: schoolId, confirm_name: 'Gulshan Campus' })
+
+      expect((await db.collection('schools').doc(schoolId).get()).exists).toBe(false)
+      expect((await db.collection('users').doc('kid-1').get()).exists).toBe(false)
+      expect((await db.collection('habit_logs').doc('log-1').get()).exists).toBe(false)
+      expect((await db.collection('school_posts').doc('post-1').get()).exists).toBe(false)
+      expect((await db.collection('parent_links').doc('PTOKEN12').get()).exists).toBe(false)
+      expect((await db.collection('pin_attempts').doc(schoolId + '_1').get()).exists).toBe(false)
+
+      // The subcollection under the post, which a plain delete would strand.
+      const likes = await db.collection('school_posts').doc('post-1').collection('likes').get()
+      expect(likes.empty).toBe(true)
+
+      // The school's own link, so a slip already printed stops working.
+      const links = await db.collection('school_links').where('school_id', '==', schoolId).get()
+      expect(links.empty).toBe(true)
+    }, 120000)
+
+    it('refuses unless the name is typed exactly', async () => {
+      const { schoolId } = await seedFurnishedSchool()
+      await seedSuper()
+
+      expect(await codeOf(call('deleteSchool', { school_id: schoolId, confirm_name: 'Gulshan' })))
+        .toBe('functions/failed-precondition')
+      expect(await codeOf(call('deleteSchool', { school_id: schoolId })))
+        .toBe('functions/failed-precondition')
+
+      // Nothing was touched on the way to being refused.
+      expect((await db.collection('schools').doc(schoolId).get()).exists).toBe(true)
+      expect((await db.collection('users').doc('kid-1').get()).exists).toBe(true)
+    }, 120000)
+
+    it('is the super admin\'s to do, nobody else\'s', async () => {
+      const { schoolId } = await seedFurnishedSchool()
+
+      await db.collection('users').doc('head-9').set({ role: 'school_admin', school_id: schoolId })
+      await signInAs('head-9')
+      expect(await codeOf(call('deleteSchool', { school_id: schoolId, confirm_name: 'Gulshan Campus' })))
+        .toBe('functions/permission-denied')
+      expect((await db.collection('schools').doc(schoolId).get()).exists).toBe(true)
+    }, 120000)
+
+    it('frees the organisation it belonged to, so that can go too', async () => {
+      const { org, schoolId } = await seedFurnishedSchool()
+      await seedSuper()
+
+      // The whole reason this exists: deleteOrg refuses while a school is here.
+      expect(await codeOf(call('deleteOrg', { org_id: org.org_id }))).toBe('functions/failed-precondition')
+
+      await call('deleteSchool', { school_id: schoolId, confirm_name: 'Gulshan Campus' })
+      await call('deleteOrg', { org_id: org.org_id })
+
+      expect((await db.collection('orgs').doc(org.org_id).get()).exists).toBe(false)
+    }, 120000)
+  })
+
   describe('a child signing in', () => {
     async function seedChild() {
       const { school } = await seedOrgWithSchool()

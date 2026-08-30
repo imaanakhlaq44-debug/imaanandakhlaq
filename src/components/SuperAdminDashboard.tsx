@@ -846,6 +846,41 @@ export const SuperAdminDashboard = () => html`
     }
   };
 
+  /**
+   * Remove a school and everything it holds.
+   *
+   * The only control in this dashboard that destroys records instead of
+   * withdrawing access, so it does not settle for a confirm box: the name
+   * has to be typed. A confirm box is one keystroke from an accident, and
+   * a row in a table is one scroll away from being the wrong row.
+   *
+   * The callable checks the typed name again. This prompt is the warning;
+   * the check on the server is what actually holds.
+   */
+  window.deleteSchoolById = async function (schoolId, schoolName) {
+    // Double quotes and no escape sequences: this whole file is a template
+    // literal, and a backslash-apostrophe here reaches the browser as a bare
+    // apostrophe that ends the string.
+    const typed = prompt(
+      "This deletes " + schoolName + " for good: its students and teachers, their logins, " +
+      "the roster, every wall post and photograph, and the parent links. It cannot be undone." +
+      String.fromCharCode(10) + String.fromCharCode(10) +
+      "Type the school name to confirm:");
+    if (typed === null) return;
+
+    try {
+      const res = (await httpsCallable(functions, 'deleteSchool')(
+        { school_id: schoolId, confirm_name: typed })).data;
+      const d = res.deleted || {};
+      alert(schoolName + " is gone. " + (d.users || 0) + " account(s), " +
+        (d.posts || 0) + " wall post(s) and " + (d.records || 0) + " other record(s) removed.");
+      await loadDashboardData();
+    } catch (err) {
+      console.error('deleteSchool failed:', err);
+      alert(err.message || 'Could not delete that school.');
+    }
+  };
+
   window.approveSchoolById = async function (schoolId) {
     if (!schoolId) return;
     if (!confirm('Approve this school? Its wall unlocks and it can start sharing activity photos with parents.')) return;
@@ -1004,6 +1039,9 @@ export const SuperAdminDashboard = () => html`
                       : ''}
                   <button class="btn-icon" title="View Details"><i class="fas fa-eye"></i></button>
                   <button class="btn-icon" title="Edit School"><i class="fas fa-edit"></i></button>
+                  <button class="btn-icon" title="Delete this school and everything in it"
+                    onclick="window.deleteSchoolById(&quot;\${esc(school.id)}&quot;, &quot;\${esc(school.name || 'this school')}&quot;)">
+                    <i class="fas fa-trash" style="color:#b3261e;"></i></button>
                 </td>
               </tr>
             \`;
