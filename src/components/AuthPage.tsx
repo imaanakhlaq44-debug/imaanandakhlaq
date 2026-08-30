@@ -272,11 +272,19 @@ export const AuthPage = () => html`
   /* Covers the login form while an existing session is being resumed. */
   .auth-resume {
     position: fixed; inset: 0; z-index: 10001; display: none;
+    flex-direction: column;
     align-items: center; justify-content: center; gap: 12px;
-    background: #1E2D5A; color: #fff;
+    background: #1E2D5A; color: #fff; text-align: center; padding: 24px;
     font-family: 'Sora', system-ui, sans-serif; font-size: 0.95rem; font-weight: 600;
   }
   .auth-resume.show { display: flex; }
+  .auth-resume-other {
+    margin-top: 6px; padding: 10px 18px;
+    font: inherit; font-size: 0.86rem; font-weight: 700;
+    color: #fff; background: transparent;
+    border: 1px solid rgba(255,255,255,.5); border-radius: 999px; cursor: pointer;
+  }
+  .auth-resume-other:hover { background: rgba(255,255,255,.12); }
 
   /* ============================================================
      APK-STYLE AUTH DESIGN — login/register mode switch
@@ -1293,7 +1301,10 @@ export const AuthPage = () => html`
      dashboard loading, so a returning user never sees the login form flash. -->
 <div id="authResume" class="auth-resume">
   <i class="fas fa-spinner fa-spin"></i>
-  <span>Welcome back — opening your dashboard…</span>
+  <span id="authResumeText">Welcome back — opening your dashboard…</span>
+  <button type="button" class="auth-resume-other" id="authResumeOther" onclick="signInAsSomeoneElse()">
+    Sign in as someone else
+  </button>
 </div>
 
 <div id="authToast" class="toast"></div>
@@ -1666,6 +1677,9 @@ export const AuthPage = () => html`
    * killed more reliably than localStorage, with localStorage as the fallback
    * for older devices.
    */
+  /** Pending resume redirect, so 'Sign in as someone else' can call it off. */
+  let resumeTimer = null;
+
   setPersistence(auth, indexedDBLocalPersistence)
     .catch(() => setPersistence(auth, browserLocalPersistence))
     .catch(() => {})
@@ -1705,15 +1719,65 @@ export const AuthPage = () => html`
           const target = dashboardFor(snap.data().role);
           if (!target) return;
 
+          // Whose session this is, by name. A browser holds ONE Firebase
+          // session for the whole site, so the account being resumed is not
+          // always the account the person came here to use: whoever runs the
+          // platform also tests a school and a child's PIN on the same
+          // machine, and each of those replaces the last.
+          const who = snap.data().name || user.email || 'your account';
+          const label = document.getElementById('authResumeText');
+          if (label) label.textContent = 'Welcome back, ' + who + ' — opening your dashboard…';
+
           const resume = document.getElementById('authResume');
           if (resume) resume.classList.add('show');
-          window.location.replace(target);
+
+          // In the app, resume at once: it opens on this page at every launch,
+          // and a parent who never tapped Log out should not watch a delay.
+          // On the web, arriving at /auth is usually a decision to sign in, so
+          // hold the redirect long enough for 'Sign in as someone else' to be
+          // seen and pressed. Without it the form was unreachable: opening
+          // /auth while a child's PIN session was live teleported the admin
+          // to the child's dashboard, every time.
+          const inApp = !!(window.Capacitor && window.Capacitor.isNativePlatform
+            && window.Capacitor.isNativePlatform());
+          if (inApp) { window.location.replace(target); return; }
+          resumeTimer = setTimeout(() => { window.location.replace(target); }, 5000);
         } catch (err) {
           // Offline, or the read was denied. The login form is still there.
           console.warn('Could not resume the session', err);
         }
       });
     });
+
+  /**
+   * Cancel the resume and hand the form back.
+   *
+   * Signing out is the point, not a side effect: the next sign-in replaces
+   * this session anyway, and leaving it in place means one stray reload puts
+   * the wrong person back in the wrong dashboard.
+   */
+  window.signInAsSomeoneElse = async () => {
+    if (resumeTimer) { clearTimeout(resumeTimer); resumeTimer = null; }
+    const resume = document.getElementById('authResume');
+    if (resume) resume.classList.remove('show');
+
+    const was = auth.currentUser && (auth.currentUser.email || '');
+    try { await signOut(auth); } catch (e) { /* the form is still there */ }
+    try {
+      localStorage.removeItem('auth_user');
+      sessionStorage.removeItem('auth_user');
+    } catch (e) { /* storage off: nothing cached to clear */ }
+
+    const note = document.getElementById('authSwitchNote');
+    if (note) {
+      note.textContent = was
+        ? 'Signed out of ' + was + '. Sign in below.'
+        : 'Signed out. Sign in below.';
+      note.style.display = '';
+    }
+    const id = document.getElementById('loginId');
+    if (id) id.focus();
+  };
 
   function showToast(msg, type) {
     const t = document.getElementById('authToast');
