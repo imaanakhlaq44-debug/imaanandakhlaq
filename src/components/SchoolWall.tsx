@@ -412,10 +412,65 @@ export const SchoolWall = () => html`
   // Loading
   // -------------------------------------------------------------------------
 
-  onAuthStateChanged(auth, async (user) => {
-    if (!user) { window.location.replace('/auth'); return; }
+  // onAuthStateChanged fires again on every token refresh and on resume, and
+  // the wall is not idempotent: a second run appends the first page of the
+  // feed underneath itself and re-renders the chips.
+  let started = false;
 
-    const meSnap = await getDoc(doc(db, 'users', user.uid));
+  /**
+   * Wait out a null that only means 'not restored yet'.
+   *
+   * Firebase emits null before it has finished reading the stored session -
+   * over the network in production, where the ID token has to be refreshed
+   * before the user is handed over. Bouncing on that first null is how a
+   * child who has just signed in with a roll number and a PIN lands back on
+   * /auth: the PIN page navigates here the moment signInWithCustomToken
+   * resolves, so this page loads into exactly that gap.
+   *
+   * The marker is what every login in this app writes, and this is the same
+   * question the teacher and student dashboards ask before they give up: is
+   * there a session that OUGHT to come back? If there is, wait for it.
+   */
+  function storedSession() {
+    try { return localStorage.getItem('auth_user') || sessionStorage.getItem('auth_user'); }
+    catch (e) { return null; }
+  }
+
+  async function waitForRestore() {
+    const isCap = !!(window.Capacitor && window.Capacitor.isNativePlatform
+      && window.Capacitor.isNativePlatform());
+    const attempts = isCap ? 12 : 6;
+    for (let i = 0; i < attempts; i++) {
+      await new Promise((r) => setTimeout(r, 1000));
+      if (auth.currentUser) return auth.currentUser;
+    }
+    return null;
+  }
+
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) {
+      // No marker means nobody signed in here - send them to the front door
+      // at once rather than making them watch a spinner for six seconds.
+      if (!storedSession()) { window.location.replace('/auth'); return; }
+      showNotice('Restoring your session…');
+      user = await waitForRestore();
+      if (!user) { window.location.replace('/auth'); return; }
+      hideNotice();
+    }
+
+    if (started) return;
+    started = true;
+
+    // A profile that cannot be read is not a signed-out child. Redirecting on
+    // a dropped connection would throw the session away for a page reload.
+    let meSnap;
+    try {
+      meSnap = await getDoc(doc(db, 'users', user.uid));
+    } catch (err) {
+      started = false;
+      showNotice('Could not open your account just now. Check your connection and reload the page.');
+      return;
+    }
     if (!meSnap.exists()) { window.location.replace('/auth'); return; }
     me = Object.assign({ uid: user.uid }, meSnap.data());
 
@@ -481,6 +536,12 @@ export const SchoolWall = () => html`
     const el = document.getElementById('wallNotice');
     el.textContent = text;
     el.style.display = '';
+  }
+
+  function hideNotice() {
+    const el = document.getElementById('wallNotice');
+    el.textContent = '';
+    el.style.display = 'none';
   }
 
   /** The roster feeds the tag picker and the class chips. Staff only: a family
