@@ -1,7 +1,7 @@
 const { onCall, HttpsError } = require('firebase-functions/v2/https');
 const { onDocumentCreated, onDocumentWritten } = require('firebase-functions/v2/firestore');
 const { initializeApp } = require('firebase-admin/app');
-const { getFirestore, FieldValue } = require('firebase-admin/firestore');
+const { getFirestore, FieldValue, FieldPath } = require('firebase-admin/firestore');
 const { getAuth } = require('firebase-admin/auth');
 const { getStorage } = require('firebase-admin/storage');
 const { randomInt, createHash, randomBytes, scryptSync, timingSafeEqual } = require('node:crypto');
@@ -2601,6 +2601,135 @@ exports.rotateOrgToken = onCall({ cors: true }, async (request) => {
  * increment on registration, and a counter that drifts must never be the
  * thing standing between a delete and a school's records.
  */
+/** Firestore takes at most ten values in an 'in' query, and 500 writes a batch. */
+function chunked(list, size) {
+  const out = [];
+  for (let i = 0; i < list.length; i += size) out.push(list.slice(i, i + size));
+  return out;
+}
+
+async function deleteAll(refs) {
+  for (const group of chunked(refs, 400)) {
+    const batch = db.batch();
+    group.forEach((r) => batch.delete(r));
+    await batch.commit();
+  }
+  return refs.length;
+}
+
+/** Every doc in `coll` whose `field` names this school. */
+async function refsWhere(coll, field, value) {
+  const snap = await db.collection(coll).where(field, '==', value).get();
+  return snap.docs.map((d) => d.ref);
+}
+
+/**
+ * Remove a school and everything attached to it.
+ *
+ * This is the one call in the codebase that destroys records rather than
+ * withdrawing access, and it does not ask whether the school was ever used.
+ * That is deliberate and it was decided deliberately: the platform owner
+ * needs to clear away schools created by mistake or in testing, and a rule
+ * like 'only if it never published' would have left exactly those behind
+ * the moment somebody tried the wall once.
+ *
+ * So the guard is not a condition on the data, it is the caller typing the
+ * school's name. Nothing here can be undone, there are no soft deletes and
+ * no backup of these collections, and a wrong school id is otherwise
+ * indistinguishable from the right one.
+ *
+ * A school is not one document. What follows is the whole list, and the
+ * order matters: the child records go before the accounts that own them,
+ * and the accounts before the school, so a failure part way through leaves
+ * orphans pointing at something that still exists rather than at nothing.
+ */
+exports.deleteSchool = onCall({ cors: true, timeoutSeconds: 540, memory: '512MiB' }, async (request) => {
+  await requireStaff(request, ['super_admin']);
+  const data = request.data || {};
+  const schoolId = String(data.school_id || '').trim();
+  if (!schoolId) throw new HttpsError('invalid-argument', 'Which school?');
+
+  const ref = db.collection('schools').doc(schoolId);
+  const snap = await ref.get();
+  if (!snap.exists) throw new HttpsError('not-found', 'That school does not exist.');
+
+  // Typing the name is the entire safety net. Exact, but not fussy: case
+  // and surrounding space are not what anybody means to get wrong.
+  const name = String(snap.get('name') || '').trim();
+  const typed = String(data.confirm_name || '').trim();
+  if (!name || typed.toLowerCase() !== name.toLowerCase()) {
+    throw new HttpsError('failed-precondition',
+      'Type the school name exactly as it appears to confirm this.');
+  }
+
+  const members = await db.collection('users').where('school_id', '==', schoolId).get();
+  const uids = members.docs.map((d) => d.id);
+  const counts = { users: uids.length, posts: 0, records: 0 };
+
+  // 1. What each child did. Keyed by the child rather than by the school,
+  //    so these become unreachable once the accounts go — they must go first.
+  const byChild = ['activity_submissions', 'activity_drafts', 'activity_attendance',
+                   'habit_logs', 'credit_entries'];
+  for (const group of chunked(uids, 10)) {
+    for (const coll of byChild) {
+      const found = await db.collection(coll).where('student_uid', 'in', group).get();
+      counts.records += await deleteAll(found.docs.map((d) => d.ref));
+    }
+  }
+  counts.records += await deleteAll(uids.map((uid) => db.collection('public_scores').doc(uid)));
+
+  // 2. The wall. recursiveDelete, because a post owns its likes and its
+  //    comments as subcollections, and deleting the parent strands them.
+  const posts = await db.collection('school_posts').where('school_id', '==', schoolId).get();
+  for (const d of posts.docs) await db.recursiveDelete(d.ref);
+  counts.posts = posts.size;
+
+  // 3. Everything else that names the school.
+  for (const coll of ['school_links', 'parent_links', 'invites', 'council_complaints', 'house_scores']) {
+    counts.records += await deleteAll(await refsWhere(coll, 'school_id', schoolId));
+  }
+
+  // pin_attempts is keyed '<school>_<roll>' and carries no school_id field
+  // of its own, so it is found by the shape of its id rather than by a
+  // query on the data. 0xf8ff is the last character an id can hold.
+  const attempts = await db.collection('pin_attempts')
+    .where(FieldPath.documentId(), '>=', schoolId + '_')
+    .where(FieldPath.documentId(), '<', schoolId + '_' + String.fromCharCode(0xf8ff))
+    .get();
+  counts.records += await deleteAll(attempts.docs.map((d) => d.ref));
+
+  // 4. The people. The Firestore profile first, then the sign-in behind it:
+  //    a login with no profile can reach nothing, while a profile with no
+  //    login is a name on a roster that answers to nobody.
+  await deleteAll(members.docs.map((d) => d.ref));
+  for (const group of chunked(uids, 1000)) {
+    // Roster children have no sign-in at all until they first use a PIN, and
+    // deleteUsers reports those as failures rather than throwing.
+    await getAuth().deleteUsers(group).catch(() => {});
+  }
+
+  // 5. Photographs. Every path in storage.rules is prefixed by the school,
+  //    which is what makes this a prefix delete and not a file-by-file list.
+  try {
+    const bucket = wallBucket();
+    for (const prefix of ['schools/', 'wall/', 'wall_staging/', 'wall_comments/']) {
+      await bucket.deleteFiles({ prefix: prefix + schoolId + '/' }).catch(() => {});
+    }
+  } catch (err) {
+    // Storage being unreachable must not strand the records half deleted.
+  }
+
+  // 6. The organisation's tally, and then the school itself.
+  const orgId = snap.get('org_id');
+  if (orgId) {
+    await db.collection('orgs').doc(orgId)
+      .update({ school_count: FieldValue.increment(-1) }).catch(() => {});
+  }
+  await ref.delete();
+
+  return { school_id: schoolId, name: name, deleted: counts };
+});
+
 exports.deleteOrg = onCall({ cors: true }, async (request) => {
   await requireStaff(request, ['super_admin']);
   const orgId = String((request.data && request.data.org_id) || '').trim();
@@ -2615,7 +2744,7 @@ exports.deleteOrg = onCall({ cors: true }, async (request) => {
     const n = schools.size;
     throw new HttpsError('failed-precondition',
       n + ' school' + (n === 1 ? ' has' : 's have') + ' registered through this organisation, so it cannot be removed. ' +
-      'Use New link to retire its link instead — that stops any further school joining and leaves the ones already here untouched.');
+      'Remove them from the Schools directory first, or use New link to retire its link instead — that stops any further school joining and leaves the ones already here untouched.');
   }
 
   await ref.delete();
