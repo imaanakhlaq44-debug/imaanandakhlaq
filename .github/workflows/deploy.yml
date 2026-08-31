@@ -25,9 +25,19 @@ jobs:
   # ka job is ke poora hone ka intezar karta hai (needs: functions), aur ye
   # fail ho jaye to site nahi jaati.
   #
-  # Har push par chalta hai. firebase-tools un functions ko khud chhod deta
-  # hai jinka code nahi badla, is liye "sirf jab functions/ badle" wali nazuk
-  # shart ki zaroorat nahi.
+  # Sirf tab chalta hai jab functions/ ya firebase.json waqai badle hon.
+  #
+  # "Har push par chala do, firebase khud unchanged functions chhod dega" —
+  # ye 31 Aug 2026 ko ghalat sabit hua. Ek poora deploy 37 functions ke Cloud
+  # Run services ko chhoota hai, aur project do quota deewaron se ja takraya:
+  # pehle "Write requests per minute per region", phir
+  # run.googleapis.com/cpu_allocation. Uske baad functions ke naye instance
+  # start hi nahi ho pa rahe the — /orgs page "Rate exceeded" (503) par
+  # "internal" dikha raha tha, jabke code bilkul theek tha.
+  #
+  # Zyadatar merge sirf website ke hote hain. Un par backend ko chhoona
+  # muft nahi, quota ka kharcha hai — is liye pehle dekho ke kuch badla bhi
+  # hai ya nahi.
   functions:
     name: Deploy Cloud Functions
     runs-on: ubuntu-latest
@@ -35,8 +45,26 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
+        with:
+          # Pichla commit chahiye taake diff nikal saken.
+          fetch-depth: 2
+
+      - name: Backend mein kuch badla hai?
+        id: changed
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "Manually chalaya gaya — deploy kar rahe hain."
+            echo "yes=true" >> "$GITHUB_OUTPUT"
+          elif git diff --quiet HEAD^ HEAD -- functions/ firebase.json; then
+            echo "functions/ mein koi tabdeeli nahi — deploy skip."
+            echo "yes=false" >> "$GITHUB_OUTPUT"
+          else
+            git diff --name-only HEAD^ HEAD -- functions/ firebase.json
+            echo "yes=true" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Setup Node
+        if: steps.changed.outputs.yes == 'true'
         uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -45,6 +73,7 @@ jobs:
       # GOOGLE_APPLICATION_CREDENTIALS se uthata hai. `firebase login:ci` wale
       # token ke bajaye ye, kyunki wo tareeqa deprecated hai.
       - name: Write the service account key
+        if: steps.changed.outputs.yes == 'true'
         env:
           KEY: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
         run: |
@@ -58,6 +87,7 @@ jobs:
           echo "GOOGLE_APPLICATION_CREDENTIALS=$RUNNER_TEMP/firebase-key.json" >> "$GITHUB_ENV"
 
       - name: Deploy functions
+        if: steps.changed.outputs.yes == 'true'
         run: npx --yes firebase-tools@14 deploy --only functions --project imaan-app-1d2da --non-interactive
 
       # Key runner par padi na rahe, chahe deploy fail hi kyun na ho.
