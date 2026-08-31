@@ -1380,6 +1380,92 @@ export const SchoolWall = () => html`
   window.togglePick = (input) => {
     if (input.checked) picked.add(input.value); else picked.delete(input.value);
   };
+  /**
+   * Decode a picked file into something drawable.
+   *
+   * Three attempts, and the third is the one that matters. A file picked from
+   * OneDrive, iCloud or Google Drive is a placeholder on disk: the picker hands
+   * over a File, and the read behind it can fail or come back short, so the
+   * <img> reports onerror with no reason and the photo looks broken when it is
+   * perfectly fine. Copying the bytes out first — file.arrayBuffer() waits for
+   * the download the placeholder needs — turns that into a plain in-memory blob
+   * that decodes like any other.
+   *
+   * createImageBitmap goes first because it decodes off the main thread; the
+   * <img> path stays for browsers without it.
+   */
+  async function decodeViaBlob(blob) {
+    if (typeof createImageBitmap === 'function') {
+      try {
+        return await createImageBitmap(blob);
+      } catch (e) {
+        // Fall through: a format refused here can still load in an <img>.
+      }
+    }
+    const url = URL.createObjectURL(blob);
+    try {
+      return await new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => resolve(img);
+        img.onerror = () => reject(new Error('decode-failed'));
+        img.src = url;
+      });
+    } finally {
+      URL.revokeObjectURL(url);
+    }
+  }
+
+  async function decodeImage(file) {
+    try {
+      return await decodeViaBlob(file);
+    } catch (e) {
+      // Second pass on our own copy of the bytes. If this throws too, the file
+      // is genuinely unreadable or a format no browser opens.
+      const bytes = await file.arrayBuffer();
+      return await decodeViaBlob(new Blob([bytes], { type: file.type || 'image/png' }));
+    }
+  }
+
+  /**
+   * Why the decode failed, in words a teacher can act on.
+   *
+   * "That file is not an image" is useless when you just picked a photo, so
+   * each guess names the thing to do next. The order matters: bytes we could
+   * not even read look identical to a format we could not decode, and telling
+   * someone to convert a file that OneDrive never downloaded sends them the
+   * wrong way entirely.
+   */
+  async function decodeFailureMessage(file) {
+    const name = file.name || 'that file';
+    const lower = String(file.name || '').toLowerCase();
+
+    // The file picker offers these and no browser decodes them. No regex:
+    // this whole script lives inside a tagged template, so a backslash is
+    // eaten before the browser sees it and an escaped dot in a pattern would
+    // quietly turn into "any character".
+    const type = String(file.type || '').toLowerCase();
+    if (lower.endsWith('.heic') || lower.endsWith('.heif') ||
+        type.indexOf('heic') !== -1 || type.indexOf('heif') !== -1) {
+      return 'iPhone photos in HEIC format cannot be opened here. Send "' + name +
+        '" as a JPG, or take the photo with the camera button here.';
+    }
+
+    // A cloud placeholder — OneDrive, iCloud, Google Drive — is a real entry in
+    // the picker with no bytes behind it until it is downloaded.
+    try {
+      await file.slice(0, Math.min(1024, file.size || 1)).arrayBuffer();
+    } catch (e) {
+      return '"' + name + '" could not be read from your device. If it lives in ' +
+        'OneDrive or iCloud, open it once so it downloads, then try again.';
+    }
+    if (!file.size) {
+      return '"' + name + '" is empty. If it lives in OneDrive or iCloud, open it ' +
+        'once so it downloads, then try again.';
+    }
+
+    return '"' + name + '" is not a picture this browser can open. A JPG or ' +
+      'a PNG will go through — or take the photo with the camera button here.';
+  }
 
   /**
    * Compress before upload: longest edge 1600px, JPEG 0.82.
@@ -1388,33 +1474,30 @@ export const SchoolWall = () => html`
    * school's connection is the difference between a teacher finishing and a
    * teacher giving up, and it is also what keeps the storage bill sane.
    */
-  function compress(file) {
-    return new Promise((resolve, reject) => {
-      const img = new Image();
-      const url = URL.createObjectURL(file);
-      img.onload = () => {
-        const scale = Math.min(1, 1600 / Math.max(img.width, img.height));
-        const w = Math.round(img.width * scale);
-        const h = Math.round(img.height * scale);
-        const canvas = document.createElement('canvas');
-        canvas.width = w; canvas.height = h;
-        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-        URL.revokeObjectURL(url);
-        canvas.toBlob((blob) => {
-          if (!blob) return reject(new Error('That image could not be read.'));
-          resolve({ blob: blob, w: w, h: h });
-        }, 'image/jpeg', 0.82);
-      };
-      // Named, because "that file is not an image" is useless when you just
-      // picked a photo. The usual culprit is an iPhone HEIC, which the file
-      // picker offers and no browser can decode.
-      img.onerror = () => {
-        URL.revokeObjectURL(url);
-        reject(new Error('This browser could not open "' + (file.name || 'that file') +
-          '". If it came from an iPhone it may be a HEIC — send it as JPG, or take the photo with the camera button here.'));
-      };
-      img.src = url;
-    });
+  async function compress(file) {
+    let source;
+    try {
+      source = await decodeImage(file);
+    } catch (e) {
+      throw new Error(await decodeFailureMessage(file));
+    }
+
+    const sw = source.width;
+    const sh = source.height;
+    const scale = Math.min(1, 1600 / Math.max(sw, sh));
+    const w = Math.max(1, Math.round(sw * scale));
+    const h = Math.max(1, Math.round(sh * scale));
+
+    const canvas = document.createElement('canvas');
+    canvas.width = w; canvas.height = h;
+    canvas.getContext('2d').drawImage(source, 0, 0, w, h);
+    // An ImageBitmap holds its pixels until told otherwise, and a teacher
+    // staging ten of them should not carry ten decoded originals in memory.
+    if (typeof ImageBitmap !== 'undefined' && source instanceof ImageBitmap) source.close();
+
+    const blob = await new Promise((res) => canvas.toBlob(res, 'image/jpeg', 0.82));
+    if (!blob) throw new Error('"' + (file.name || 'That image') + '" could not be prepared for upload.');
+    return { blob: blob, w: w, h: h };
   }
 
   window.stageFiles = async (input) => {
