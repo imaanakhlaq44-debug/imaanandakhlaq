@@ -1,7 +1,7 @@
-name: Deploy to Hostinger
+name: Deploy
 
-# Har baar `main` par push karne se site khud update ho jaayegi.
-# Actions tab se "Run workflow" par manually bhi chala sakte hain.
+# Har baar `main` par push karne se backend aur site dono khud update ho
+# jaayenge. Actions tab se "Run workflow" par manually bhi chala sakte hain.
 on:
   push:
     branches: [main]
@@ -13,9 +13,62 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  # Backend pehle, website baad mein.
+  #
+  # Ye workflow pehle sirf dist/ ko FTP karta tha aur functions/ kabhi deploy
+  # hota hi nahi tha. Natija: deleteOrg ka button live chala gaya jabke wo
+  # function project mein mojood hi nahi tha — browser 404 par jaata tha aur
+  # Firebase SDK use "internal" bana kar dikhata tha. Us tarah ki khamoshi se
+  # tooti hui cheez dhoondhna mushkil hai.
+  #
+  # Is liye tarteeb ye hai: jise website bulati hai wo pehle mojood ho. Site
+  # ka job is ke poora hone ka intezar karta hai (needs: functions), aur ye
+  # fail ho jaye to site nahi jaati.
+  #
+  # Har push par chalta hai. firebase-tools un functions ko khud chhod deta
+  # hai jinka code nahi badla, is liye "sirf jab functions/ badle" wali nazuk
+  # shart ki zaroorat nahi.
+  functions:
+    name: Deploy Cloud Functions
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # Service account key ek file mein — firebase-tools use
+      # GOOGLE_APPLICATION_CREDENTIALS se uthata hai. `firebase login:ci` wale
+      # token ke bajaye ye, kyunki wo tareeqa deprecated hai.
+      - name: Write the service account key
+        env:
+          KEY: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+        run: |
+          if [ -z "$KEY" ]; then
+            echo "FIREBASE_SERVICE_ACCOUNT secret set nahi hai."
+            echo "Firebase Console > Project settings > Service accounts se JSON"
+            echo "key banaen aur repo ke GitHub Secrets mein daalen."
+            exit 1
+          fi
+          printf '%s' "$KEY" > "$RUNNER_TEMP/firebase-key.json"
+          echo "GOOGLE_APPLICATION_CREDENTIALS=$RUNNER_TEMP/firebase-key.json" >> "$GITHUB_ENV"
+
+      - name: Deploy functions
+        run: npx --yes firebase-tools@14 deploy --only functions --project imaan-app-1d2da --non-interactive
+
+      # Key runner par padi na rahe, chahe deploy fail hi kyun na ho.
+      - name: Remove the key
+        if: always()
+        run: rm -f "$RUNNER_TEMP/firebase-key.json"
+
   deploy:
     name: Build and upload to public_html
     runs-on: ubuntu-latest
+    needs: functions
 
     # Firebase config local .env se aata hai, jo repo mein nahi hai.
     # CI mein ye GitHub Secrets se aata hai — warna build mein
