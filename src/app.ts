@@ -12,7 +12,9 @@ import { Header } from './components/Header'
 import { Footer } from './components/Footer'
 
 // NEW HOMEPAGE FLOW COMPONENTS
-import { HeroSectionV2 } from './components/HeroSectionV2'
+// HeroSectionV2 (the four hover flashcards) is kept in components/ but no
+// longer mounted — the scroll film replaced it on the homepage.
+import { HeroScrollFilm } from './components/HeroScrollFilm'
 import { ProblemSection } from './components/ProblemSection'
 import { SolutionSection } from './components/SolutionSection'
 import { StoryWorldV2 } from './components/StoryWorldV2'
@@ -352,7 +354,7 @@ ${ScrollProgress()}
 ${Preloader()}
 ${BackToTop()}
 ${Header()}
-${HeroSectionV2()}
+${HeroScrollFilm()}
 ${ProblemSection()}
 ${SolutionSection()}
 ${StoryWorldV2()}
