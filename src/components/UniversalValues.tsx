@@ -248,7 +248,7 @@ export const UniversalValues = () => html`
       
       <div class="progression-grid">
         <div class="prog-card prog-green" data-aos="fade-up" data-aos-delay="100">
-          <div class="img-wrapper"><img src="./kidba_assets/img/prog_new_p1.png" alt="Phase 1" class="prog-img" /></div>
+          <div class="img-wrapper"><img src="./kidba_assets/img/prog_new_p1.webp" alt="Phase 1" class="prog-img" loading="lazy" /></div>
           <div class="prog-content">
             <span class="prog-label">Phase 1</span>
             Ages 5 - 8
@@ -261,7 +261,7 @@ export const UniversalValues = () => html`
         </div>
 
         <div class="prog-card prog-blue" data-aos="fade-up" data-aos-delay="200">
-          <div class="img-wrapper"><img src="./kidba_assets/img/prog_new_p2.png" alt="Phase 2" class="prog-img" /></div>
+          <div class="img-wrapper"><img src="./kidba_assets/img/prog_new_p2.webp" alt="Phase 2" class="prog-img" loading="lazy" /></div>
           <div class="prog-content">
             <span class="prog-label">Phase 2</span>
             Ages 9 - 10
@@ -274,7 +274,7 @@ export const UniversalValues = () => html`
         </div>
 
         <div class="prog-card prog-yellow" data-aos="fade-up" data-aos-delay="300">
-          <div class="img-wrapper"><img src="./kidba_assets/img/prog_new_p3.png" alt="Phase 3" class="prog-img" /></div>
+          <div class="img-wrapper"><img src="./kidba_assets/img/prog_new_p3.webp" alt="Phase 3" class="prog-img" loading="lazy" /></div>
           <div class="prog-content">
             <span class="prog-label">Phase 3</span>
             Ages 11 - 13
@@ -287,7 +287,7 @@ export const UniversalValues = () => html`
         </div>
 
         <div class="prog-card prog-red" data-aos="fade-up" data-aos-delay="400">
-          <div class="img-wrapper"><img src="./kidba_assets/img/prog_new_p4.png" alt="Phase 4" class="prog-img" /></div>
+          <div class="img-wrapper"><img src="./kidba_assets/img/prog_new_p4.webp" alt="Phase 4" class="prog-img" loading="lazy" /></div>
           <div class="prog-content">
             <span class="prog-label">Phase 4</span>
             Age 14+

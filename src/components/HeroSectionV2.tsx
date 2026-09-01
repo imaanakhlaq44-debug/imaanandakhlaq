@@ -5,7 +5,7 @@ export const HeroSectionV2 = () => html`
   .hero-flashcards {
     position: relative;
     padding: 160px 20px 80px;
-    background: url('/kidba_assets/img/hero_bg_magical.png') center/cover no-repeat;
+    background: url('/kidba_assets/img/hero_bg_magical.webp') center/cover no-repeat;
     overflow: hidden;
     color: #fff;
     font-family: 'Inter', sans-serif;
@@ -73,10 +73,10 @@ export const HeroSectionV2 = () => html`
   }
   .flashcard:hover .fc-bg { filter: blur(0px) brightness(0.85); transform: scale(1.05); }
 
-  .bg-books { background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(16, 185, 129, 0.95) 100%), url('/kidba_assets/img/fc_books_real.jpg'); }
-  .bg-colors { background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(239, 68, 68, 0.95) 100%), url('/kidba_assets/img/fc_coloring.png'); }
-  .bg-audio { background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(139, 92, 246, 0.95) 100%), url('/kidba_assets/img/fc_audio.png'); }
-  .bg-puppet { background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(245, 158, 11, 0.95) 100%), url('/kidba_assets/img/fc_puppet.png'); }
+  .bg-books { background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(16, 185, 129, 0.95) 100%), url('/kidba_assets/img/fc_books_real.webp'); }
+  .bg-colors { background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(239, 68, 68, 0.95) 100%), url('/kidba_assets/img/fc_coloring.webp'); }
+  .bg-audio { background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(139, 92, 246, 0.95) 100%), url('/kidba_assets/img/fc_audio.webp'); }
+  .bg-puppet { background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(245, 158, 11, 0.95) 100%), url('/kidba_assets/img/fc_puppet.webp'); }
 
   /* Content inside the card */
   .fc-content { position: relative; z-index: 2; padding: 30px; display: flex; flex-direction: column; height: 100%; justify-content: flex-end; color: white; }
@@ -136,7 +136,7 @@ export const HeroSectionV2 = () => html`
     <!-- Card 1: Books -->
     <a href="/products/books" class="flashcard" data-aos="fade-up" data-aos-delay="100">
       <div class="fc-bg bg-books"></div>
-      <img class="hero-pointer" src="/assets/journey/imaan_pointing_nobg.png" alt="" />
+      <img class="hero-pointer" src="/assets/journey/imaan_pointing_nobg.webp" alt="" />
       <div class="fc-content">
         <div class="fc-icon">📚</div>
         <h3 class="fc-title">Curriculum Books</h3>
@@ -148,7 +148,7 @@ export const HeroSectionV2 = () => html`
     <!-- Card 2: Coloring -->
     <a href="/products/coloring" class="flashcard" data-aos="fade-up" data-aos-delay="200">
       <div class="fc-bg bg-colors"></div>
-      <img class="hero-pointer" src="/assets/journey/akhlaq_pointing_nobg.png" alt="" />
+      <img class="hero-pointer" src="/assets/journey/akhlaq_pointing_nobg.webp" alt="" />
       <div class="fc-content">
         <div class="fc-icon">🖍️</div>
         <h3 class="fc-title">Magic Coloring</h3>
@@ -160,7 +160,7 @@ export const HeroSectionV2 = () => html`
     <!-- Card 3: Audio -->
     <a href="/products/audio" class="flashcard" data-aos="fade-up" data-aos-delay="300">
       <div class="fc-bg bg-audio"></div>
-      <img class="hero-pointer" src="/assets/journey/imaan_pointing_nobg.png" alt="" />
+      <img class="hero-pointer" src="/assets/journey/imaan_pointing_nobg.webp" alt="" />
       <div class="fc-content">
         <div class="fc-icon">🎧</div>
         <h3 class="fc-title">Audio Stories</h3>
@@ -172,7 +172,7 @@ export const HeroSectionV2 = () => html`
     <!-- Card 4: Puppet Shows -->
     <a href="/products/puppet" class="flashcard" data-aos="fade-up" data-aos-delay="400">
       <div class="fc-bg bg-puppet"></div>
-      <img class="hero-pointer" src="/assets/journey/akhlaq_pointing_nobg.png" alt="" />
+      <img class="hero-pointer" src="/assets/journey/akhlaq_pointing_nobg.webp" alt="" />
       <div class="fc-content">
         <div class="fc-icon">🎭</div>
         <h3 class="fc-title">Live Puppets</h3>

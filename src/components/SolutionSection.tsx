@@ -139,17 +139,17 @@ export const SolutionSection = () => html`
 
     <div class="features-row">
       <div class="solution-card" style="--card-color: #E08020; --card-shadow: rgba(224, 128, 32, 0.3);" data-aos="zoom-in" data-aos-delay="100">
-        <div class="sol-image-container"><img src="./kidba_assets/img/icon_conviction.png" alt="Believe with Conviction" /></div>
+        <div class="sol-image-container"><img src="./kidba_assets/img/icon_conviction.webp" alt="Believe with Conviction" loading="lazy" /></div>
         <h4>Believe with Conviction</h4>
       </div>
       
       <div class="solution-card" style="--card-color: #D63678; --card-shadow: rgba(214, 54, 120, 0.3);" data-aos="zoom-in" data-aos-delay="200">
-        <div class="sol-image-container"><img src="./kidba_assets/img/icon_integrity.png" alt="Act with Integrity" /></div>
+        <div class="sol-image-container"><img src="./kidba_assets/img/icon_integrity.webp" alt="Act with Integrity" loading="lazy" /></div>
         <h4>Act with Integrity</h4>
       </div>
       
       <div class="solution-card" style="--card-color: #6382EB; --card-shadow: rgba(99, 130, 235, 0.3);" data-aos="zoom-in" data-aos-delay="300">
-        <div class="sol-image-container"><img src="./kidba_assets/img/icon_purpose.png" alt="Live with Purpose" /></div>
+        <div class="sol-image-container"><img src="./kidba_assets/img/icon_purpose.webp" alt="Live with Purpose" loading="lazy" /></div>
         <h4>Live with Purpose</h4>
       </div>
     </div>
