@@ -1021,7 +1021,7 @@ export const AuthPage = () => html`
       </div>
 
       <h1 style="font-size:1.75rem; font-weight:800; color:var(--brand-navy); margin-bottom:8px; letter-spacing:-0.02em;">Create your account</h1>
-      <p style="color:var(--text-sec); font-size:0.92rem; margin-bottom:24px; max-width:520px; line-height:1.5;">Schools register here. Pick <strong>Community School</strong> if your students attend one day a week. Teachers and families do not register &mdash; your school creates your account and gives you a username and password.</p>
+      <p style="color:var(--text-sec); font-size:0.92rem; margin-bottom:24px; max-width:520px; line-height:1.5;">Schools register here. Teachers and families do not register &mdash; your school creates your account and gives you a username and password.</p>
 
       <div class="role-list">
         
@@ -1034,19 +1034,19 @@ export const AuthPage = () => html`
           <div class="role-chev"><i class="fas fa-arrow-right"></i></div>
         </div>
 
-        <!-- A community school meets one day a week: no student ever logs in,
-             so the invite-code flow above is the wrong door for them. Its own
-             card, but NOT its own role — the account is still school_admin and
+        <!-- The Community School card is gone on purpose. We set those schools
+             up ourselves rather than letting them arrive through the public
+             page, so advertising the card here invited registrations we do not
+             want to field.
+
+             The form itself is untouched and still reachable at
+             /auth?role=community — selectRole() below already tolerates a role
+             whose card is missing, the same way the teacher and student forms
+             work. That link is how we open it.
+
+             It was never its own role either: the account is school_admin and
              the difference lives on the school doc as type: 'weekly'. See
              SCHOOL_GROUP_PLAN.md §12.2. -->
-        <div class="role-item role-item-community" onclick="selectRole('community')">
-          <div class="role-img"><i class="fas fa-calendar-day"></i></div>
-          <div class="role-item-info">
-            <div class="role-item-name">Community School</div>
-            <div class="role-item-desc">Meets once a week. Add your whole roster at once and share activity photos with parents &mdash; no logins for students.</div>
-          </div>
-          <div class="role-chev"><i class="fas fa-arrow-right"></i></div>
-        </div>
 
         <!-- The Teacher and Student & Family cards are gone on purpose.
              Neither population registers here any more: a school provisions a
