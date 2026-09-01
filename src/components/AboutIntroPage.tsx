@@ -109,12 +109,12 @@ ${Header()}
           <p class="text-muted">To combine curriculum, storytelling, activities, and interactive tools for engaging and meaningful education.</p>
         </div>
         <div class="obj-card bg-tan">
-          <div style="margin-bottom: 5px;"><img src="/kidba_assets/img/icon_conviction.png" class="about-3d-icon" /></div>
+          <div style="margin-bottom: 5px;"><img src="/kidba_assets/img/icon_conviction.webp" class="about-3d-icon" /></div>
           <h4>Faith Integration</h4>
           <p class="text-muted">To strengthen children's connection with Islamic teachings through prophetic stories and value-based narratives.</p>
         </div>
         <div class="obj-card bg-navy">
-          <div style="margin-bottom: 5px;"><img src="/kidba_assets/img/icon_purpose.png" class="about-3d-icon" /></div>
+          <div style="margin-bottom: 5px;"><img src="/kidba_assets/img/icon_purpose.webp" class="about-3d-icon" /></div>
           <h4>Behavior Transformation</h4>
           <p class="text-muted">To inspire children to practice courage, kindness, responsibility, and integrity in real-life situations.</p>
         </div>
@@ -129,7 +129,7 @@ ${Header()}
       </div>
       <div class="progression-flex" data-aos="fade-up" data-aos-delay="100">
         <div class="obj-card" style="text-align: center;">
-          <img src="/kidba_assets/img/prog_new_p1.png" style="width: 100%; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 10px 20px rgba(201,154,107,0.2);" />
+          <img src="/kidba_assets/img/prog_new_p1.webp" style="width: 100%; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 10px 20px rgba(201,154,107,0.2);" />
           <span class="prog-badge badge-t">Ages 5 - 8</span>
           <h4 style="color: #C99A6B;">Foundation Stage</h4>
           <p class="text-muted text-start">Foundational Character Building: Storytelling, Basic Activity Modules, and Introduction to Prophetic Narratives.</p>
@@ -138,7 +138,7 @@ ${Header()}
            <div class="prog-arrow-highlight"><i class="fas fa-arrow-right"></i></div>
         </div>
         <div class="obj-card" style="text-align: center;">
-          <img src="/kidba_assets/img/prog_new_p2.png" style="width: 100%; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 10px 20px rgba(30,45,90,0.2);" />
+          <img src="/kidba_assets/img/prog_new_p2.webp" style="width: 100%; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 10px 20px rgba(30,45,90,0.2);" />
           <span class="prog-badge badge-n">Ages 9 - 10</span>
           <h4 style="color: #1E2D5A;">Interactive Stage</h4>
           <p class="text-muted text-start">Interactive Development: Advanced Club Engagements, Responsibility Focus, and Group Tasks.</p>
@@ -147,7 +147,7 @@ ${Header()}
            <div class="prog-arrow-highlight"><i class="fas fa-arrow-right"></i></div>
         </div>
         <div class="obj-card" style="text-align: center;">
-          <img src="/kidba_assets/img/prog_new_p3.png" style="width: 100%; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 10px 20px rgba(224,128,32,0.2);" />
+          <img src="/kidba_assets/img/prog_new_p3.webp" style="width: 100%; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 10px 20px rgba(224,128,32,0.2);" />
           <span class="prog-badge badge-y">Ages 11 - 13</span>
           <h4 style="color: #E08020;">Ethical Maturation</h4>
           <p class="text-muted text-start">Ethical Maturation: Real-World Scenarios, Peer Mentoring, and Leadership through Prophetic Stories.</p>
@@ -156,7 +156,7 @@ ${Header()}
            <div class="prog-arrow-highlight"><i class="fas fa-arrow-right"></i></div>
         </div>
         <div class="obj-card" style="text-align: center;">
-          <img src="/kidba_assets/img/prog_new_p4.png" style="width: 100%; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 10px 20px rgba(214,54,120,0.2);" />
+          <img src="/kidba_assets/img/prog_new_p4.webp" style="width: 100%; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 10px 20px rgba(214,54,120,0.2);" />
           <span class="prog-badge badge-p">Ages 14+</span>
           <h4 style="color: #D63678;">Uswah e Hasana</h4>
           <p class="text-muted text-start">Uswah e Hasana Practice: Embodying Character, Leading Clubs, and Complex Behavioral Transformation.</p>
