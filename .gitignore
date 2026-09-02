@@ -45,6 +45,7 @@ _hostinger_zip_check/
 *.zip
 *.pdf
 *.apk
+*.aab
 
 # Build artifacts
 android/build/
@@ -61,7 +62,24 @@ student_screen*
 
 # ...but site images must ship with the build (CI deploys from source)
 !public/assets/**
+
+# ...and so must the Play Store artwork. The rules above are aimed at stray
+# debug captures in the repo root; they were also swallowing every new file in
+# play_store_assets/screenshots, which is why two of those shots went stale
+# without anyone noticing.
+!play_store_assets/**
 !public/kidba_assets/**
 
 # Emulator data exported by --export-on-exit
 .emulator-data/
+
+# Hero scroll source video and the frame sequence extracted from it.
+# scripts/extract-hero-frames.cjs regenerates demo/hero-frames/ from
+# demo/hero-source.mp4, so neither belongs in history. Scoped to demo/ on
+# purpose: public/assets/journey carries tracked .mp4 files, and a bare
+# *.mp4 rule would quietly hide the next one somebody adds there.
+demo/*.mp4
+demo/hero-frames/
+
+# Signed build output, staged for upload — never committed
+release_*/

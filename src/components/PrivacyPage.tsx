@@ -39,9 +39,7 @@ ${Header()}
             <p><strong>(a) Account information</strong> &mdash; when you register as a parent, student, teacher, school admin or super-admin we collect: full name, email address, phone number (optional), password (stored as a one-way hash by Firebase Authentication), assigned school, role, class / section, and profile picture (optional).</p>
             <p><strong>(b) Educational activity data</strong> &mdash; quiz scores, book reading progress, attendance, teacher notes, fee status, and parent feedback. This data is stored in Google Firebase (Firestore + Storage).</p>
             <p><strong>(c) Device information</strong> &mdash; device model, OS version, app version, language and crash logs, used solely for diagnostics and to improve stability.</p>
-            <p><strong>(d) Camera (Android only, optional)</strong> &mdash; the Qibla Finder feature can use your rear camera to overlay the Qibla direction on a live camera view, similar to Google&rsquo;s Qibla Finder. <strong>The camera feed is processed entirely on your device, is never recorded, never uploaded and never stored.</strong> You may deny or revoke this permission in Android Settings; the rest of the app continues to work.</p>
-            <p><strong>(e) Location (Android only, optional)</strong> &mdash; the Qibla feature uses your approximate or precise location <em>only on-device</em> to calculate the direction of the Kaaba and the distance to Makkah. <strong>Your location is never sent to our servers, never sold and never shared.</strong> You may deny or revoke this permission at any time.</p>
-            <p><strong>(f) Local storage</strong> &mdash; the Tasbeeh counter, theme preference and last-opened page are stored only in your device&rsquo;s local storage and are never transmitted.</p>
+            <p><strong>(d) Local storage</strong> &mdash; the Tasbeeh counter, theme preference and last-opened page are stored only in your device&rsquo;s local storage and are never transmitted.</p>
 
             <h3 class="fw-bold mt-5 mb-3">4. How We Use Your Information</h3>
             <ul>
@@ -98,9 +96,7 @@ ${Header()}
 
             <h3 class="fw-bold mt-5 mb-3">11. Permissions Summary (Android App)</h3>
             <ul>
-              <li><strong>INTERNET</strong> &mdash; required to load lessons and sync progress.</li>
-              <li><strong>CAMERA</strong> &mdash; optional, used <em>only</em> for the Qibla AR camera mode; feed never leaves the device.</li>
-              <li><strong>ACCESS_FINE_LOCATION / ACCESS_COARSE_LOCATION</strong> &mdash; optional, used <em>only on-device</em> to compute Qibla bearing and distance to Makkah.</li>
+              <li><strong>INTERNET</strong> &mdash; required to load lessons and sync progress. This is the only permission the app requests: it asks for no camera, no location and no microphone access.</li>
             </ul>
 
             <h3 class="fw-bold mt-5 mb-3">12. Changes to this Policy</h3>

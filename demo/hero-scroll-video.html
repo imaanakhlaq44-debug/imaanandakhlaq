@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Hero scroll-scrub — DEMO</title>
+<style>
+  :root {
+    --ink: #1E2D5A;
+    --pink: #D63678;
+    --orange: #E08020;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: 'Inter', system-ui, sans-serif; background: #0f172a; color: #fff; }
+
+  /* ── The scroll track ───────────────────────────────────────────────
+     Its HEIGHT is the scroll budget. The hero sticks to the top while
+     the page scrolls through it, and that travel drives the video. */
+  .scrollytell { position: relative; }
+
+  /* The camera. Everything below is a flat plane sitting in this space, so
+     rotating it reads as the ground tilting rather than a picture squashing.
+     perspective-origin sits low, as if the viewer is dropping beneath it. */
+  .stage {
+    position: sticky; top: 0; height: 100vh;
+    perspective: 1200px;
+    perspective-origin: 50% 85%;
+  }
+
+  .hero-sticky {
+    position: absolute; inset: 0;
+    height: 100%; width: 100%;
+    overflow: hidden;
+    display: grid; place-items: center;
+    background: #000;
+    transform-origin: 50% 0%;   /* hinge — swapped live by the control */
+    transform-style: preserve-3d;
+    will-change: transform, opacity, border-radius;
+    backface-visibility: hidden;
+  }
+
+  /* The underside you glimpse as the ground tips away. */
+  .hero-sticky::after {
+    content: ''; position: absolute; inset: 0; z-index: 6;
+    background: linear-gradient(to bottom, rgba(15,23,42,.9), rgba(15,23,42,.35));
+    opacity: 0; pointer-events: none; transition: none;
+  }
+
+  .hero-sticky video {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;          /* fills the screen; crops sides on phones */
+    pointer-events: none;
+  }
+
+  /* Loading veil until the video can actually be scrubbed */
+  .hero-loading {
+    position: absolute; inset: 0; z-index: 5;
+    display: grid; place-items: center;
+    background: #0f172a; transition: opacity .6s ease;
+    font-weight: 700; letter-spacing: .1em; text-transform: uppercase; font-size: .8rem;
+  }
+  .hero-loading.gone { opacity: 0; pointer-events: none; }
+
+  .scroll-cue {
+    position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
+    z-index: 4; font-size: .72rem; letter-spacing: .22em; text-transform: uppercase;
+    opacity: .85; transition: opacity .4s ease; text-shadow: 0 2px 8px rgba(0,0,0,.6);
+  }
+  .scroll-cue span { display: block; margin: 8px auto 0; width: 1px; height: 26px;
+    background: linear-gradient(#fff, transparent); animation: cue 1.6s ease-in-out infinite; }
+  @keyframes cue { 0%,100% { opacity:.2; transform: translateY(0) } 50% { opacity:1; transform: translateY(6px) } }
+
+  /* ── The section that follows, to show the hand-off ─────────────── */
+  .after {
+    position: relative; z-index: 2;
+    background: #FDF8F5; color: var(--ink);
+    border-radius: 40px 40px 0 0;
+    padding: 90px 24px 140px;
+    box-shadow: 0 -30px 60px rgba(0,0,0,.45);
+    text-align: center;
+  }
+  .after h2 { font-size: clamp(1.8rem, 4vw, 2.8rem); margin: 0 0 14px; color: var(--pink); }
+  .after p { max-width: 620px; margin: 0 auto; line-height: 1.7; opacity: .8; }
+
+  /* ── Tuning panel (demo only — never ships) ─────────────────────── */
+  .panel {
+    position: fixed; top: 12px; right: 12px; z-index: 999;
+    background: rgba(15,23,42,.92); backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,.16); border-radius: 14px;
+    padding: 14px 16px; width: 250px; font-size: 12px; line-height: 1.5;
+  }
+  .panel h4 { margin: 0 0 10px; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; opacity: .7; }
+  .panel label { display: block; margin: 10px 0 3px; opacity: .85; }
+  .panel input[type=range] { width: 100%; }
+  .panel .val { float: right; font-variant-numeric: tabular-nums; opacity: .95; }
+  .panel .row { display: flex; align-items: center; gap: 8px; margin-top: 10px; }
+  .readout { margin-top: 12px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,.14);
+    font-variant-numeric: tabular-nums; opacity: .85; }
+  .panel button { width: 100%; margin-top: 10px; padding: 7px; border-radius: 8px; cursor: pointer;
+    border: 1px solid rgba(255,255,255,.2); background: rgba(255,255,255,.1); color: #fff; font: inherit; }
+
+  @media (max-width: 700px) { .panel { display: none; } }
+
+  /* Anyone who asked the OS for less motion gets a still frame, no scrub. */
+  @media (prefers-reduced-motion: reduce) {
+    .scrollytell { height: auto !important; }
+    .hero-sticky { position: relative; }
+    .scroll-cue { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="panel">
+  <h4>Demo controls</h4>
+
+  <label>Scroll length <span class="val" id="vLen">500</span>vh</label>
+  <input type="range" id="len" min="200" max="900" step="50" value="500">
+
+  <label>Smoothing <span class="val" id="vSmooth">0.12</span></label>
+  <input type="range" id="smooth" min="0.03" max="1" step="0.01" value="0.12">
+
+  <label>Collapse starts at <span class="val" id="vExit">85</span>%</label>
+  <input type="range" id="exit" min="50" max="100" step="5" value="85">
+
+  <div class="row">
+    <input type="checkbox" id="useExit" checked>
+    <label for="useExit" style="margin:0">Ground-flip on</label>
+  </div>
+
+  <label>Tilt angle <span class="val" id="vAngle">70</span>&deg;</label>
+  <input type="range" id="angle" min="0" max="90" step="5" value="70">
+
+  <label>Camera depth <span class="val" id="vPersp">1200</span>px</label>
+  <input type="range" id="persp" min="400" max="2600" step="100" value="1200">
+
+  <label>Hinge</label>
+  <select id="hinge" style="width:100%;padding:5px;border-radius:7px;background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.2);font:inherit">
+    <option value="top">Top edge — far side lifts away</option>
+    <option value="bottom">Bottom edge — near side tips up</option>
+  </select>
+
+  <div class="readout">
+    scroll <span class="val" id="rProg">0%</span><br>
+    video <span class="val" id="rTime">0.00s</span><br>
+    fps <span class="val" id="rFps">–</span>
+  </div>
+
+  <button id="toTop">Back to top</button>
+</div>
+
+<div class="scrollytell" id="track">
+  <div class="stage" id="stage">
+    <div class="hero-sticky" id="hero">
+      <video id="vid" src="/demo/hero-source.mp4" muted playsinline preload="auto"></video>
+      <div class="hero-loading" id="loading">loading video…</div>
+      <div class="scroll-cue" id="cue">Scroll<span></span></div>
+    </div>
+  </div>
+</div>
+
+<section class="after">
+  <h2>The next section slides up over the hero</h2>
+  <p>As the animation finishes, the hero scales down and lifts toward the top while this
+     panel rides over it — so it reads as the hero being gathered away rather than simply
+     scrolling off. Keep scrolling and back up again to feel both directions.</p>
+</section>
+
+<script>
+(function () {
+  'use strict';
+
+  var track   = document.getElementById('track');
+  var stage   = document.getElementById('stage');
+  var hero    = document.getElementById('hero');
+  var vid     = document.getElementById('vid');
+  var loading = document.getElementById('loading');
+  var cue     = document.getElementById('cue');
+
+  var lenEl = document.getElementById('len'), smoothEl = document.getElementById('smooth');
+  var exitEl = document.getElementById('exit'), useExitEl = document.getElementById('useExit');
+  var vLen = document.getElementById('vLen'), vSmooth = document.getElementById('vSmooth'), vExit = document.getElementById('vExit');
+  var rProg = document.getElementById('rProg'), rTime = document.getElementById('rTime'), rFps = document.getElementById('rFps');
+
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var angleEl = document.getElementById('angle'), perspEl = document.getElementById('persp'), hingeEl = document.getElementById('hinge');
+  var vAngle = document.getElementById('vAngle'), vPersp = document.getElementById('vPersp');
+
+  var settings = { lenVh: 500, smooth: 0.12, exitAt: 0.85, exitOn: true, angle: 70, hinge: 'top' };
+
+  angleEl.addEventListener('input', function () { settings.angle = +angleEl.value; vAngle.textContent = angleEl.value; });
+  perspEl.addEventListener('input', function () { stage.style.perspective = perspEl.value + 'px'; vPersp.textContent = perspEl.value; });
+  hingeEl.addEventListener('change', function () { settings.hinge = hingeEl.value; });
+
+  function applyLength() {
+    track.style.height = settings.lenVh + 'vh';
+    vLen.textContent = settings.lenVh;
+  }
+  applyLength();
+
+  lenEl.addEventListener('input', function () { settings.lenVh = +lenEl.value; applyLength(); });
+  smoothEl.addEventListener('input', function () { settings.smooth = +smoothEl.value; vSmooth.textContent = (+smoothEl.value).toFixed(2); });
+  exitEl.addEventListener('input', function () { settings.exitAt = +exitEl.value / 100; vExit.textContent = exitEl.value; });
+  useExitEl.addEventListener('change', function () { settings.exitOn = useExitEl.checked; });
+  document.getElementById('toTop').addEventListener('click', function () { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+
+  // The video must be seekable before scrubbing means anything.
+  var ready = false;
+  function onReady() {
+    if (ready) return;
+    ready = true;
+    vid.pause();
+    loading.classList.add('gone');
+    tick();
+  }
+  vid.addEventListener('loadeddata', onReady);
+  vid.addEventListener('canplaythrough', onReady);
+  // Safari sometimes needs a nudge before it will decode a frame at all.
+  vid.load();
+
+  function progress() {
+    var rect = track.getBoundingClientRect();
+    var scrollable = track.offsetHeight - window.innerHeight;
+    if (scrollable <= 0) return 0;
+    var p = -rect.top / scrollable;
+    return p < 0 ? 0 : p > 1 ? 1 : p;
+  }
+
+  var current = 0;                 // eased video time we are moving toward
+  var lastFrame = performance.now(), frames = 0, fpsAcc = 0;
+
+  // ── Seek scheduling ────────────────────────────────────────────────
+  // Setting currentTime on every animation frame is the classic mistake:
+  // the browser cancels each in-flight seek to start the next, finishes
+  // almost none of them, and you get a slideshow of stray keyframes
+  // instead of motion. Issue ONE seek at a time and wait for 'seeked'
+  // before asking for the next, so every request actually renders.
+  var seeking = false;
+  var lastAsked = -1;
+  var MIN_STEP = 0.02;             // ~one frame at 50fps; smaller is wasted work
+  var seekTimer = null;
+
+  vid.addEventListener('seeked', function () {
+    seeking = false;
+    if (seekTimer) { clearTimeout(seekTimer); seekTimer = null; }
+  });
+
+  function requestSeek(t) {
+    if (seeking) return;                          // decoder is busy
+    if (Math.abs(t - lastAsked) < MIN_STEP) return;
+    seeking = true;
+    lastAsked = t;
+    try { vid.currentTime = t; } catch (e) { seeking = false; return; }
+    // If 'seeked' never arrives (it can be dropped mid-buffer), don't wedge.
+    if (seekTimer) clearTimeout(seekTimer);
+    seekTimer = setTimeout(function () { seeking = false; }, 300);
+  }
+
+  function tick() {
+    var now = performance.now();
+    frames++; fpsAcc += now - lastFrame; lastFrame = now;
+    if (fpsAcc > 500) { rFps.textContent = Math.round(frames / (fpsAcc / 1000)); frames = 0; fpsAcc = 0; }
+
+    var p = progress();
+    var dur = vid.duration || 0;
+
+    if (dur) {
+      var target = p * dur;
+      // Ease toward the target so a flick of the wheel glides instead of snapping.
+      current += (target - current) * settings.smooth;
+      if (Math.abs(target - current) < 0.002) current = target;
+      if (!reduced) requestSeek(current);
+      rTime.textContent = current.toFixed(2) + 's';
+    }
+
+    rProg.textContent = Math.round(p * 100) + '%';
+    cue.style.opacity = p > 0.03 ? 0 : 0.85;
+
+    // ── The ground tipping up as the camera drops below it ──────────
+    // The hero is treated as a flat slab of ground. Over the last stretch
+    // of scroll it hinges about one edge and swings up out of the way,
+    // while the camera (perspective-origin) sinks — so the section beneath
+    // is revealed the way a floor opening above you would reveal a room.
+    if (settings.exitOn && p > settings.exitAt) {
+      var e = (p - settings.exitAt) / (1 - settings.exitAt);   // 0 → 1
+      var ease = e * e;                                         // start gentle
+
+      // Hinge at the top means the far edge stays put and the slab lifts
+      // away from the viewer; hinge at the bottom tips the near edge up
+      // into the camera. Sign flips so both read as "upward".
+      var dir = settings.hinge === 'top' ? -1 : 1;
+      var deg = dir * ease * settings.angle;
+
+      hero.style.transformOrigin = settings.hinge === 'top' ? '50% 0%' : '50% 100%';
+      hero.style.transform =
+        'translateY(' + (-ease * 6) + 'vh) ' +
+        'rotateX(' + deg + 'deg) ' +
+        'scale(' + (1 - ease * 0.08) + ')';
+      hero.style.borderRadius = (ease * 36) + 'px';
+      // Dim as it turns edge-on, the way a surface loses light when it
+      // rotates away from you.
+      hero.style.opacity = String(1 - ease * 0.25);
+      hero.style.filter = 'brightness(' + (1 - ease * 0.45) + ')';
+
+      // Camera sinks below the plane as it opens.
+      stage.style.perspectiveOrigin = '50% ' + (85 + ease * 40) + '%';
+    } else {
+      hero.style.transform = '';
+      hero.style.transformOrigin = '';
+      hero.style.borderRadius = '';
+      hero.style.opacity = '';
+      hero.style.filter = '';
+      stage.style.perspectiveOrigin = '';
+    }
+
+    requestAnimationFrame(tick);
+  }
+
+  if (reduced) { loading.classList.add('gone'); }
+})();
+</script>
+
+</body>
+</html>

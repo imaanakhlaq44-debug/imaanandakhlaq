@@ -56,7 +56,7 @@ async function makeFeatureGraphic() {
       <text x="60" y="180" font-family="Arial Black, Arial, sans-serif" font-size="72" font-weight="900" fill="#1B2A6B">Imaan &amp;</text>
       <text x="60" y="260" font-family="Arial Black, Arial, sans-serif" font-size="72" font-weight="900" fill="#D8197A">Akhlaq</text>
       <text x="62" y="320" font-family="Arial, sans-serif" font-size="28" font-weight="600" fill="#1B2A6B">Islamic learning for kids</text>
-      <text x="62" y="360" font-family="Arial, sans-serif" font-size="22" font-weight="400" fill="#1B2A6B" opacity="0.85">Stories • Quran • Adab • Qibla • Tasbeeh</text>
+      <text x="62" y="360" font-family="Arial, sans-serif" font-size="22" font-weight="400" fill="#1B2A6B" opacity="0.85">Stories • Quran • Adab • Azkar • Tasbeeh</text>
     </svg>
   `);
 

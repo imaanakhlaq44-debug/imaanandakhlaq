@@ -1,7 +1,9 @@
 import { html, raw } from 'hono/html'
 import { FIREBASE_CONFIG, firebaseConfigJS } from '../lib/firebaseConfig'
+import { authErrorHelpersJS } from '../lib/errorHandler'
 import { familyLoginHelpersJS } from '../lib/familyLogin'
 import { emulatorConnectJS, emulatorRestBasesJS } from '../lib/devEmulators'
+import { roleHomeJS } from '../lib/appRoutes'
 
 export const AuthPage = () => html`
 <style>
@@ -105,7 +107,6 @@ export const AuthPage = () => html`
   .role-item-school     { --accent: #1E2D5A; --accent-soft: #eef1fa; }
   .role-item-community    { --accent: #E08020; --accent-soft: #fdf2e7; }
   .role-item-teacher    { --accent: #29416d; --accent-soft: #eaeff7; }
-  .role-item-student    { --accent: #D63678; --accent-soft: #fdeaf3; }
   .role-item-individual { --accent: #b8860b; --accent-soft: #fdf6dd; }
 
   .role-item:hover {
@@ -934,6 +935,60 @@ export const AuthPage = () => html`
   .auth-box-desc  { font-size: 0.93rem !important; margin-bottom: 22px !important; }
   .btn { border-radius: 10px !important; }
 }
+
+/* ── Welcome poster ─────────────────────────────────────────────────────── */
+.auth-banner {
+  position: fixed; inset: 0; z-index: 4000;
+  background: rgba(22, 30, 60, .78);
+  backdrop-filter: blur(6px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 22px 16px;
+  animation: authBannerIn .28s ease both;
+}
+.auth-banner.d-none { display: none; }
+
+@keyframes authBannerIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes authBannerPop {
+  from { opacity: 0; transform: translateY(14px) scale(.97); }
+  to   { opacity: 1; transform: none; }
+}
+
+.auth-banner-inner {
+  position: relative;
+  /* The poster is 9:16. Height is the binding constraint on a phone, so it is
+     capped first and the width follows from the aspect ratio — that way the
+     close button is always on screen instead of pushed past the top edge. */
+  max-height: 92vh;
+  max-width: min(460px, 100%);
+  animation: authBannerPop .34s cubic-bezier(.2,.8,.3,1) both;
+}
+.auth-banner-inner img {
+  display: block;
+  max-height: 92vh;
+  max-width: 100%;
+  width: auto; height: auto;
+  border-radius: 18px;
+  box-shadow: 0 24px 60px rgba(0,0,0,.45);
+}
+
+.auth-banner-close {
+  position: absolute; top: -12px; right: -12px; z-index: 2;
+  width: 42px; height: 42px; border-radius: 999px;
+  border: 2px solid #fff; background: #D63678; color: #fff;
+  font-size: 1rem; cursor: pointer; padding: 0;
+  display: grid; place-items: center;
+  box-shadow: 0 6px 18px rgba(0,0,0,.35);
+  transition: transform .15s ease, background .15s ease;
+}
+.auth-banner-close:hover { background: #B02460; transform: scale(1.06); }
+.auth-banner-close:focus-visible { outline: 3px solid #fff; outline-offset: 2px; }
+
+/* On a narrow screen a button hanging off the corner gets clipped by the
+   padding, so it tucks inside the poster instead. */
+@media (max-width: 420px) {
+  .auth-banner { padding: 16px 12px; }
+  .auth-banner-close { top: 10px; right: 10px; width: 38px; height: 38px; }
+}
 </style>
 
 
@@ -979,6 +1034,27 @@ export const AuthPage = () => html`
   <p style="position:absolute;bottom:24px;color:rgba(255,255,255,0.3);font-size:0.75rem;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;">
     © 2025 Imaan & Akhlaq
   </p>
+</div>
+
+<!--
+  Welcome poster.
+
+  Shown over the login page once it has loaded — after the splash, which is a
+  separate page. It is a greeting, not a gate: the close button is the first
+  thing in the tab order, the backdrop dismisses it, Escape dismisses it, and
+  so does the hardware back button. Nothing behind it is blocked for longer
+  than the tap it takes to close.
+
+  Hidden until the image has actually decoded (see authBannerShow below), so
+  the login form is never covered by an empty rectangle on a slow connection.
+-->
+<div class="auth-banner d-none" id="authBanner" role="dialog" aria-modal="true" aria-label="Welcome to Imaan &amp; Akhlaq">
+  <div class="auth-banner-inner">
+    <button class="auth-banner-close" type="button" id="authBannerClose" aria-label="Close and continue to login">
+      <i class="fas fa-times"></i>
+    </button>
+    <img id="authBannerImg" src="/kidba_assets/img/welcome-banner.webp" alt="Imaan &amp; Akhlaq — building imaan, strengthening akhlaq, inspiring generations">
+  </div>
 </div>
 
 <!-- Right panel wrapper -->
@@ -1160,28 +1236,11 @@ export const AuthPage = () => html`
         </div>
       </div>
 
-      <!-- Student Form -->
-      <div id="form-student" class="reg-form-wrapper">
-        <div class="auth-box">
-          <h3 class="auth-box-title">Student Registration</h3>
-          <p class="auth-box-desc">Enter the student code provided by the school.</p>
-          <div class="form-group"><label class="form-label">Student Code</label><input type="text" class="form-control code-input-lg" id="regStuCode" placeholder="STU-XXXXXXXXXX" maxlength="14"></div>
-          <div class="form-group"><label class="form-label">Student Full Name</label><input type="text" class="form-control" id="regStuName" placeholder="Ali Raza"></div>
-          <div class="form-grid">
-            <div class="form-group"><label class="form-label">Student/Parent Email</label><input type="email" class="form-control" id="regStuEmail" placeholder="email@example.com"></div>
-            <div class="form-group"><label class="form-label">Parent Phone</label><input type="text" class="form-control" id="regStuPhone" placeholder="03XXXXXXXXX"></div>
-          </div>
-          <div class="form-grid">
-            <div class="form-group"><label class="form-label">Password</label><div class="pw-wrapper"><input type="password" class="form-control" id="regStuPw"><button type="button" class="pw-toggle" onclick="togglePw('regStuPw')"><i class="fas fa-eye"></i></button></div></div>
-            <div class="form-group"><label class="form-label">Confirm Password</label><div class="pw-wrapper"><input type="password" class="form-control" id="regStuPw2"><button type="button" class="pw-toggle" onclick="togglePw('regStuPw2')"><i class="fas fa-eye"></i></button></div></div>
-          </div>
-          <button class="btn btn-primary" onclick="registerWithCode('student')">Create Student Profile</button>
-        </div>
-      </div>
+      <!-- No student form. Students no longer register themselves;
+           the school creates the account for them. -->
 
       <!-- No parent form. The separate parent account is gone: a family shares
-           the student account and opens Parent Area there behind a 4-digit PIN,
-           which the Student & Family card above already says. -->
+           the student account and opens Parent Area there behind a 4-digit PIN. -->
 
        <!-- Individual Form -->
       <div id="form-individual" class="reg-form-wrapper">
@@ -1223,8 +1282,12 @@ export const AuthPage = () => html`
         <p class="auth-box-desc">Log in to enter your portal.</p>
 
         <div class="form-group">
-          <label class="form-label">Email or Phone Number</label>
-          <input type="text" class="form-control" id="loginId" placeholder="name@school.com" onkeydown="if(event.key==='Enter'){event.preventDefault(); document.getElementById('loginPw').focus();}">
+          <!-- Three kinds of identifier arrive here, and the label used to
+               name only two. Parents and teachers are given a username by
+               their school and nothing on the form said it would be
+               accepted. -->
+          <label class="form-label">Email, phone or school username</label>
+          <input type="text" class="form-control" id="loginId" placeholder="name@school.com or TCH-7K4QM" onkeydown="if(event.key==='Enter'){event.preventDefault(); document.getElementById('loginPw').focus();}">
         </div>
         <div class="form-group">
           <label class="form-label">Password</label>
@@ -1350,6 +1413,15 @@ export const AuthPage = () => html`
   });
 </script>
 
+<!-- Sign-in errors are reported from two separate script blocks below: the
+     legacy one, which is wrapped in an IIFE, and the module one, which has its
+     own scope. Neither can see inside the other, so the wording lives here, in
+     plain global scope, and both call into it. -->
+<script>
+${raw(authErrorHelpersJS)}
+  window.friendlyAuthError = friendlyAuthError;
+</script>
+
 <script>
   (function () {
     if (window.__apkLegacyAuthInit) return;
@@ -1390,7 +1462,10 @@ export const AuthPage = () => html`
       return String(value || '').replace(/[^0-9+]/g, '');
     }
 
-    // isFamilyUsername / familyUsernameToEmail come from familyLogin.ts.
+    var ROLE_HOME_COMPAT = ${raw(roleHomeJS)};
+
+    // isFamilyUsername, isStaffUsername and usernameToEmail all come from
+    // familyLogin.ts, which carries the PAR- and TCH- domains together.
     ${raw(familyLoginHelpersJS)}
 
     function decodeFsValue(value) {
@@ -1494,12 +1569,12 @@ export const AuthPage = () => html`
 
       showToastCompat('Success! Redirecting...', 'success');
       setTimeout(function () {
-        if (userData.role === 'super_admin') window.location.replace('./super-admin-dashboard.html');
-        else if (userData.role === 'school_admin') window.location.replace('./admin-dashboard.html');
-        else if (userData.role === 'teacher') window.location.replace('./teacher-dashboard.html');
-        else if (userData.role === 'student' || userData.role === 'individual') window.location.replace('./student-activities.html');
-        // A school-provisioned family: one login, a card per child.
-        else if (userData.role === 'family') window.location.replace('./family.html');
+        // Same map as the module script and the APK splash, from
+        // src/lib/appRoutes.ts. This block is its own IIFE and cannot see
+        // dashboardFor(), so it takes the literal — but not a second opinion
+        // about where a role belongs.
+        var home = ROLE_HOME_COMPAT[userData.role];
+        if (home) window.location.replace('./' + home);
         // Accounts left over from when parents signed up separately. That
         // dashboard no longer exists, and sending them to a dead page would
         // just look broken, so say plainly where the Parent Area moved to.
@@ -1581,7 +1656,7 @@ export const AuthPage = () => html`
       function completeLogin(uid, idToken) {
         fetchUserDoc(uid, idToken, function (err, userData) {
           if (err) {
-            showToastCompat(err.message || 'User record not found in system.', 'error');
+            showToastCompat(window.friendlyAuthError(err, 'User record not found in system.'), 'error');
             return;
           }
           saveAuthAndRedirect(uid, userData || {});
@@ -1657,14 +1732,17 @@ export const AuthPage = () => html`
   ${raw(emulatorRestBasesJS)}
 
 
-  /** Where each role belongs, in one place — used by login and by resume. */
+  /**
+   * Where each role belongs. From src/lib/appRoutes.ts, which is also what
+   * the APK splash reads when it resumes a saved session — that copy used to
+   * be written out separately and was missing super_admin.
+   *
+   * The comment here used to say "in one place" while two login handlers a few
+   * hundred lines away spelled the same ladder out again. They call this now.
+   */
+  const ROLE_HOME = ${raw(roleHomeJS)};
   function dashboardFor(role) {
-    if (role === 'super_admin') return './super-admin-dashboard.html';
-    if (role === 'school_admin') return './admin-dashboard.html';
-    if (role === 'teacher') return './teacher-dashboard.html';
-    if (role === 'student' || role === 'individual') return './student-activities.html';
-    if (role === 'family') return './family.html';
-    return '';
+    return ROLE_HOME[role] ? './' + ROLE_HOME[role] : '';
   }
 
   /**
@@ -1825,6 +1903,105 @@ export const AuthPage = () => html`
       if (wanted && document.getElementById('form-' + wanted)) window.selectRole(wanted);
     } catch (_) {}
   });
+
+  // Back on the auth page.
+  //
+  // The APK build strips this page's copy of the Head.tsx script, so the
+  // bottom bar answers back here — and all it knew how to do was leave the
+  // app. Someone halfway through "Create your account" pressed back expecting
+  // the login form and the app closed instead. An open role form steps back
+  // to the role list, the role list steps back to the login panel, and only
+  // then does back mean leave.
+  // ── Welcome poster ───────────────────────────────────────────────────
+  // Revealed only once the image has decoded. Showing the overlay first and
+  // filling it in later would put an empty dark rectangle over the login form
+  // on a slow connection, which reads as the app having hung.
+  (function () {
+    const banner = document.getElementById('authBanner');
+    const image = document.getElementById('authBannerImg');
+    if (!banner || !image) return;
+
+    // Once a day, not once a session. The auth page is reached on every app
+    // open and after every logout, so showing it each time would put a poster
+    // in front of a parent who signs in twice an afternoon.
+    //
+    // The date is stored as a plain local YYYY-MM-DD string rather than a
+    // timestamp: "once a day" should mean "once per calendar day where the
+    // family lives", and a 24-hour window would drift later every day until
+    // the poster started appearing at bedtime.
+    const SEEN_KEY = 'imaan_welcome_banner_seen';
+
+    function today() {
+      const d = new Date();
+      const pad = (n) => (n < 10 ? '0' + n : String(n));
+      return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+    }
+
+    function alreadySeenToday() {
+      try { return localStorage.getItem(SEEN_KEY) === today(); }
+      catch (e) { return false; }   // private mode: show it, do not break the page
+    }
+
+    function rememberSeen() {
+      try { localStorage.setItem(SEEN_KEY, today()); } catch (e) {}
+    }
+
+    if (alreadySeenToday()) return;
+
+    function hide() {
+      if (banner.classList.contains('d-none')) return;
+      banner.classList.add('d-none');
+      document.body.style.overflow = '';
+    }
+    // Exposed so the back-button intercept below can reach it.
+    window.__authBannerHide = hide;
+    window.__authBannerOpen = () => !banner.classList.contains('d-none');
+
+    function show() {
+      banner.classList.remove('d-none');
+      document.body.style.overflow = 'hidden';
+      // Stamped on show, not on close: a parent who backs out of the app with
+      // the poster still up has seen it, and should not meet it again on the
+      // way back in.
+      rememberSeen();
+      const close = document.getElementById('authBannerClose');
+      if (close) close.focus();
+    }
+
+    document.getElementById('authBannerClose').addEventListener('click', hide);
+    // Tapping the dark area around the poster closes it too — a parent should
+    // not have to hunt for the cross to get to the login form.
+    banner.addEventListener('click', (e) => { if (e.target === banner) hide(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') hide(); });
+
+    if (image.complete && image.naturalWidth) show();
+    else {
+      image.addEventListener('load', show);
+      // If the poster cannot be fetched the page simply carries on without it.
+      image.addEventListener('error', hide);
+    }
+  })();
+
+  window.__iaBackIntercept = function () {
+    // The poster is the topmost thing on the page, so back closes it first.
+    if (window.__authBannerOpen && window.__authBannerOpen()) {
+      window.__authBannerHide();
+      return true;
+    }
+
+    const wrapper = document.querySelector('.auth-wrapper');
+    if (!wrapper || !wrapper.classList.contains('mode-register')) return false;
+
+    const openForm = document.querySelector('.reg-form-wrapper.open');
+    if (openForm) {
+      openForm.classList.remove('open');
+      document.querySelectorAll('.role-item').forEach((card) => card.classList.remove('active'));
+      return true;
+    }
+
+    window.setAuthPanel('login');
+    return true;
+  };
 
   window.selectRole = (role) => {
     if (typeof window.setAuthPanel === 'function') window.setAuthPanel('register');
@@ -2004,7 +2181,7 @@ export const AuthPage = () => html`
       await fn();
     } catch (err) {
       console.error('verifyOtp -> register error:', err);
-      showToast(err.message || 'Registration failed', 'error');
+      showToast(window.friendlyAuthError(err, 'Registration failed. Please try again.'), 'error');
     } finally {
       verifyBtn.disabled = false;
       verifyBtn.innerHTML = 'Verify &amp; Continue';
@@ -2095,8 +2272,17 @@ export const AuthPage = () => html`
   };
 
   window.registerWithCode = async (role) => {
-    let pre = role==='teacher'?'TCH':role==='student'?'STU':'PAR';
-    let p = role === 'teacher' ? 'Tch' : role === 'student' ? 'Stu' : 'Par';
+    // Teachers are provisioned by their school now — createTeacherAccount
+    // makes the login and the admin hands over a TCH- username. The form and
+    // the role card are both gone, so nothing here should reach this with
+    // 'teacher'; refused rather than left as a second, unwatched way to
+    // create a member of staff.
+    if (role === 'teacher') {
+      return showToast('Your school creates teacher logins. Ask your school admin for your TCH- username.', 'error');
+    }
+
+    let pre = role==='student'?'STU':'PAR';
+    let p = role === 'student' ? 'Stu' : 'Par';
 
     const rawCode = (document.getElementById('reg'+p+'Code').value || '').trim().toUpperCase();
     const name    = document.getElementById('reg'+p+'Name').value.trim();
@@ -2280,12 +2466,11 @@ export const AuthPage = () => html`
 
         showToast('Success! Redirecting...', 'success');
         setTimeout(() => {
-          if (userData.role === 'super_admin') window.location.replace('./super-admin-dashboard.html');
-        else if (userData.role === 'school_admin') window.location.replace('./admin-dashboard.html');
-          else if (userData.role === 'teacher') window.location.replace('./teacher-dashboard.html');
-          else if (userData.role === 'student' || userData.role === 'individual') window.location.replace('./student-activities.html');
-          else if (userData.role === 'family') window.location.replace('./family.html');
-          // See the note on the other redirect block: legacy parent accounts.
+          const home = dashboardFor(userData.role);
+          if (home) window.location.replace(home);
+          // Legacy parent accounts have no destination — that dashboard is
+          // gone, so say where the Parent Area moved to instead of sending
+          // them to a dead page.
           else if (userData.role === 'parent') showToast('Parent accounts have moved. Sign in with your child\\'s Student & Family account and open Parent Area.', 'error');
         }, 1000);
       } else {
@@ -2294,7 +2479,7 @@ export const AuthPage = () => html`
         try { await signOut(auth); } catch(_) {}
       }
     } catch (error) {
-      showToast(error.message, 'error');
+      showToast(window.friendlyAuthError(error, 'Could not sign you in. Please try again.'), 'error');
     }
   };
 
@@ -2316,10 +2501,7 @@ export const AuthPage = () => html`
       showToast('Reset email sent! Check your inbox.', 'success');
       setTimeout(() => window.closeReset(), 2000);
     } catch (error) {
-      let msg = error.message;
-      if (error.code === 'auth/user-not-found') msg = 'No account found with this email.';
-      if (error.code === 'auth/invalid-email') msg = 'Please enter a valid email address.';
-      showToast(msg, 'error');
+      showToast(window.friendlyAuthError(error, 'Could not send the reset email. Please try again.'), 'error');
     } finally {
       btn.disabled = false;
       btn.textContent = 'Find Account';

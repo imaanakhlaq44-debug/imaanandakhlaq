@@ -2,6 +2,9 @@ import { Hono } from 'hono'
 import activitiesData from './data/activities.json'
 import { html } from 'hono/html'
 import { pullToRefreshJS } from './lib/pullToRefresh'
+import { apkAllowedRoutesJS } from './lib/appRoutes'
+import { appUpdateJS } from './lib/appUpdate'
+import { backButtonJS } from './lib/backButton'
 import { firebaseConfigJS } from './lib/firebaseConfig'
 import { emulatorConnectJS } from './lib/devEmulators'
 import { Head } from './components/Head'
@@ -47,6 +50,7 @@ import { TeacherDashboard } from './components/TeacherDashboard'
 import { SchoolAdminDashboard } from './components/SchoolAdminDashboard'
 import { AuthPage } from './components/AuthPage'
 import { FamilyDashboard } from './components/FamilyDashboard'
+import { ReadingPlanPage } from './components/ReadingPlanPage'
 import { SuperAdminDashboard } from './components/SuperAdminDashboard'
 import { SchoolWall } from './components/SchoolWall'
 import { generateOrgJoinHTML } from './components/OrgJoinPage'
@@ -148,6 +152,7 @@ app.get('/family', (c) => {
   return c.html(generateFamilyDashboardHTML())
 })
 
+
 // The school wall. Web only — the page itself redirects out of the APK,
 // because the SSG build renders every route into dist/ and Capacitor copies
 // dist/ wholesale, so the file ships in the app whatever links to it.
@@ -186,6 +191,13 @@ app.get('/s', (c) => {
 
 app.get('/orgs', (c) => {
   return c.html(generateOrgsDashboardHTML())
+})
+
+// The parent's side of the books: what to read next with a child, and the
+// question to ask afterwards. Read-only like /family, and it follows the
+// child's progress rather than a calendar — see ReadingPlanPage.tsx.
+app.get('/reading-plan', (c) => {
+  return c.html(generateReadingPlanHTML())
 })
 
 app.get('/teacher-dashboard', (c) => {
@@ -255,6 +267,7 @@ app.get('/admin-dashboard', async (c) => {
   }
   source = source.replace(PTR_MARKER, pullToRefreshJS)
 
+
   // Same substitution for the local emulator connector. The marker is a
   // comment in the static file, so a production build simply leaves the
   // already-dead USE_EMULATORS block in place.
@@ -267,6 +280,35 @@ app.get('/admin-dashboard', async (c) => {
         '\n    connectAuthEmulator, connectFirestoreEmulator,' +
         '\n    connectFunctionsEmulator, connectStorageEmulator });'
     )
+  }
+
+  // Three more things this page used to keep its own copy of. Each one had
+  // already drifted from the version every rendered page gets:
+  //
+  //   - the APK page allowlist was four entries short, so it named a set of
+  //     pages that stopped being the real set some releases ago;
+  //   - the back button handler never set __iaBackHandler, which is the flag
+  //     that tells the bottom bar to stand down — so on this page, and only
+  //     this page, two handlers still answered the same press;
+  //   - and there was nowhere for the new-version check to run at all, which
+  //     left school admins as the one role never asked to update.
+  //
+  // A missing marker fails the build rather than quietly shipping the page
+  // without the piece, which is how the drift went unnoticed the first time.
+  const SUBSTITUTIONS: Array<[string, RegExp, string]> = [
+    ['IA_APK_ALLOWED', /\/\* IA_APK_ALLOWED \*\//, 'var allowed = [' + apkAllowedRoutesJS + '];'],
+    ['IA_APP_UPDATE', /\/\* IA_APP_UPDATE \*\//, appUpdateJS],
+    ['IA_BACK_BUTTON', /\/\* IA_BACK_BUTTON \*\//, backButtonJS],
+  ]
+
+  for (const [name, marker, replacement] of SUBSTITUTIONS) {
+    if (!marker.test(source)) {
+      throw new Error(
+        'admin-dashboard.html: the ' + name + ' marker is gone. Put it back, or ' +
+        'this page silently ships without that piece.'
+      )
+    }
+    source = source.replace(marker, replacement)
   }
 
   return c.html(source)
@@ -310,6 +352,11 @@ ${TeacherDashboard()}`
 function generateFamilyDashboardHTML() {
   return html`${Head()}
 ${FamilyDashboard()}`
+}
+
+function generateReadingPlanHTML() {
+  return html`${Head()}
+${ReadingPlanPage()}`
 }
 
 function generateAuthPageHTML() {
