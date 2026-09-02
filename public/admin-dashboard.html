@@ -3221,7 +3221,7 @@
     </div>
     <div class="modal-footer-actions">
       <button class="btn-outline-light" onclick="closeModal('teacherModal')">Cancel</button>
-      <button class="btn-solid" onclick="addTeacherInvite(this)"><i class="fas fa-check"></i> Confirm Teacher</button>
+      <button class="btn-solid" onclick="addTeacher(this)"><i class="fas fa-check"></i> Confirm Teacher</button>
     </div>
   </div>
 </div>
@@ -3232,7 +3232,7 @@
       <div>
         <span class="modal-kicker"><i class="fas fa-user-graduate"></i> Enrollment access</span>
         <h3 class="modal-title">Add New Student</h3>
-        <p class="modal-subtitle">Create the student invite and generate both student and parent access codes from one place.</p>
+        <p class="modal-subtitle">Creates the family login and puts the student on it. You get a username and password to hand over &mdash; shown once.</p>
       </div>
       <button class="modal-close" type="button" onclick="closeModal('studentModal')"><i class="fas fa-times"></i></button>
     </div>
@@ -3251,16 +3251,31 @@
       <label><i class="far fa-address-card text-muted me-1"></i> Student Name</label>
       <input type="text" id="newStuName" class="form-input" placeholder="e.g. Abdullah">
     </div>
-    <div class="form-group mb-4">
+    <div class="form-group mb-3">
       <label><i class="fas fa-chalkboard text-muted me-1"></i> Assign Class</label>
       <select id="newStuClass" class="form-input" style="cursor: pointer;">
         <option value="" disabled selected>-- Select class --</option>
         <!-- Options are filled from the school's class list. -->
       </select>
     </div>
+
+    <!-- The login belongs to the family, not the child, so the account is
+         created in the parent's name and the student is added onto it. That
+         is why the parent's name is required here: an account nobody can put
+         a name to is one the school cannot ring up later. -->
+    <div class="form-group mb-3">
+      <label><i class="fas fa-user-shield text-muted me-1"></i> Parent / Guardian Name</label>
+      <input type="text" id="newStuParent" class="form-input" placeholder="e.g. Muhammad Yusuf">
+    </div>
+    <div class="form-group mb-4">
+      <label><i class="fas fa-phone text-muted me-1"></i> Parent Phone <span style="font-weight:400; color:#94a3b8;">(optional)</span></label>
+      <input type="tel" id="newStuParentPhone" class="form-input" placeholder="e.g. 0300 1234567">
+      <small style="color:#64748b; font-size:0.78rem;">Lets the parent find their account by phone on the login screen.</small>
+    </div>
+
     <div class="modal-footer-actions">
       <button class="btn-outline-light" onclick="closeModal('studentModal')">Cancel</button>
-      <button class="btn-solid" onclick="addStudentInvite(this)"><i class="fas fa-check"></i> Confirm Student</button>
+      <button class="btn-solid" onclick="addStudent(this)"><i class="fas fa-check"></i> Confirm Student</button>
     </div>
   </div>
 </div>
@@ -6006,7 +6021,7 @@
     document.getElementById('nav-' + tab).classList.add('active');
   };
 
-  window.addTeacherInvite = async (trigger) => {
+  window.addTeacher = async (trigger) => {
     const name = document.getElementById('newTchName').value.trim();
     const classes = getSelectedClasses('newTchClasses');
     const cls = classes.join(', ');
@@ -6063,17 +6078,29 @@
     }
   };
 
-  window.addStudentInvite = async (trigger) => {
+  /**
+   * Add a student, and the family login that reaches them.
+   *
+   * This used to write an STU- invite the family redeemed on the auth page.
+   * Nobody registers themselves any more: the school creates the account and
+   * hands over the username and password, the same way teachers work above.
+   * So the one action creates both — the parent's login, then the child on it
+   * — because a family account with no child in it is a login that shows an
+   * empty page, and a child with no family is one nobody can sign in to see.
+   */
+  window.addStudent = async (trigger) => {
     const name = document.getElementById('newStuName').value.trim();
     const cls = document.getElementById('newStuClass').value;
+    const parentName = document.getElementById('newStuParent').value.trim();
+    const parentPhone = document.getElementById('newStuParentPhone').value.trim();
     if(!name) return;
-    
-    const stuTaken = existingCodes();
-    const stuCode = genCode('STU', stuTaken);
+    if(!cls) return alert('Choose a class — it is what connects the student to their teacher.');
+    if(!parentName) return alert('Enter the parent or guardian name. The login is created in their name, not the child\'s.');
+
     const btn = trigger || document.querySelector('#studentModal .btn-solid');
     if (btn) {
       btn.disabled = true;
-      btn.textContent = 'Generating...';
+      btn.textContent = 'Creating...';
     }
 
     let photoURL = null;
@@ -6085,39 +6112,42 @@
         photoURL = await prepareProfilePhoto(file);
       }
 
-      await setDoc(doc(db, "invites", stuCode), {
-        code: stuCode,
-        role: 'student',
-        school_id: currentAdminSession.school_id,
-        class_id: cls,
+      if (btn) btn.textContent = 'Creating family login...';
+      const family = await callCreateFamilyAccount({ name: parentName, phone: parentPhone });
+
+      if (btn) btn.textContent = 'Adding student...';
+      const child = await callCreateChild({
+        family_uid: family.data.family_uid,
         name: name,
-        photoURL: photoURL,
-        status: 'pending',
-        created_at: new Date().toISOString()
+        class_id: cls
       });
 
-      // No companion PAR- invite: one code covers the whole family now.
+      // createChild takes no photograph. A school admin may set photoURL on a
+      // student of its own school (the staff branch on /users in
+      // firestore.rules), so the picture goes on straight afterwards rather
+      // than being dropped on the floor.
+      if (photoURL && child.data.child_uid) {
+        await updateDoc(doc(db, "users", child.data.child_uid), { photoURL: photoURL });
+      }
 
       closeModal('studentModal');
       document.getElementById('newStuName').value = '';
+      document.getElementById('newStuParent').value = '';
+      document.getElementById('newStuParentPhone').value = '';
       document.getElementById('newStuPic').value = '';
       document.getElementById('newStuPicWrap').innerHTML = '<div style="display: flex; flex-direction: column; align-items: center; color: inherit;"><i class="fas fa-camera mb-1" style="font-size: 1.8rem; color: #94a3b8; transition:color 0.2s;"></i><span style="font-size: 0.65rem; font-weight: 800; text-transform: uppercase; color: #64748b;">Photo</span></div>';
       document.getElementById('newStuPicWrap').style.border = '3px dashed #cbd5e1';
-      
-      document.getElementById('codeSuccessTitle').textContent = 'Student Code Generated';
-      document.getElementById('codeSuccessDesc').textContent = 'Share this one code with ' + name + '\'s family.';
-      document.getElementById('codeSuccessBody').innerHTML =
-        '<div style="background:#fef9c3; border:2px dashed #fde047; border-radius:15px; padding:15px; margin:10px 0;">' +
-        '<div style="font-size:0.8rem; color:#a16207; text-transform:uppercase; font-weight:800;">Student &amp; Family Code</div>' +
-        '<div style="font-family:monospace; font-size:1.8rem; font-weight:800; color:#ca8a04; letter-spacing:2px; margin:5px 0;">' + stuCode + '</div>' +
-        '<button class="btn-outline-light" onclick="navigator.clipboard.writeText(\'' + stuCode + '\');this.textContent=\'Copied!\'"><i class="fas fa-copy"></i> Copy</button></div>' +
-        '<div style="background:#f0fdf4; border:2px dashed #86efac; border-radius:15px; padding:15px; margin:10px 0; font-size:0.85rem; color:#166534; text-align:left;">' +
-        '<strong>No separate parent code.</strong> The parent signs in with this same code and opens <strong>Parent Area</strong> in the dashboard, protected by a 4-digit PIN they choose.</div>';
-      
-      openModal('codeSuccessModal');
+
+      // Shown before anything refreshes: the password exists nowhere but on
+      // this screen, so a refresh that failed must not take it down with it.
+      showHandover('Family account created', parentName + ' — for ' + name + ' (' + cls + ')', [
+        { label: 'Username', value: family.data.username },
+        { label: 'Password', value: family.data.password }
+      ]);
       await loadDashboardData();
     } catch(err) {
-      alert("Error generating codes: " + err.message);
+      alert("Could not add the student: " + (err.message || err) +
+        "\n\nIf the family login was created before this failed, it already exists — check the list before adding again, so the family does not end up with two.");
     } finally {
       if (btn) {
         btn.disabled = false;
