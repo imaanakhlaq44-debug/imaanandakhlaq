@@ -1585,6 +1585,27 @@ export const ActivityPage = () => html`
         }
       }
 
+      // A draft that fails to save used to write a console warning and nothing
+      // else, so a child kept working on a sheet that was not being kept. The
+      // banner is the only honest thing to do: it says the work is not saved
+      // while it is still on screen to be re-entered.
+      function showDraftTrouble() {
+        if (document.getElementById('draftTrouble')) return;
+        const bar = document.createElement('div');
+        bar.id = 'draftTrouble';
+        bar.style.cssText = 'position:fixed; left:12px; right:12px; bottom:78px; z-index:9998;' +
+          'background:#7f1d1d; color:#fff; border-radius:12px; padding:10px 14px;' +
+          'font-size:0.85rem; font-weight:600; text-align:center;' +
+          'box-shadow:0 6px 18px rgba(0,0,0,0.25);';
+        bar.textContent = 'Your work is not being saved. Check your connection, and keep this page open.';
+        document.body.appendChild(bar);
+      }
+
+      function clearDraftTrouble() {
+        const bar = document.getElementById('draftTrouble');
+        if (bar) bar.remove();
+      }
+
       async function autosaveDraft(dayIdx) {
         if (!hasLearner()) return;
         const dayCells = document.querySelectorAll('.interactive-cell[data-day="' + dayIdx + '"]');
@@ -1602,7 +1623,11 @@ export const ActivityPage = () => html`
             parentNote: noteVal,
             savedAt: new Date().toISOString()
           }), { merge: true });
-        } catch(e) { console.warn('Draft save failed', e); }
+          clearDraftTrouble();
+        } catch(e) {
+          console.warn('Draft save failed', e);
+          showDraftTrouble();
+        }
       }
 
       async function autosaveMeta() {
@@ -1615,14 +1640,52 @@ export const ActivityPage = () => html`
             discussionAnswer: discAns,
             savedAt: new Date().toISOString()
           }), { merge: true });
-        } catch(e) { console.warn('Meta draft save failed', e); }
+          clearDraftTrouble();
+        } catch(e) {
+          console.warn('Meta draft save failed', e);
+          showDraftTrouble();
+        }
       }
+
+      // Everything with a pending debounce, so leaving the page can fire it
+      // rather than drop it. A tap saves immediately; only typing waits.
+      // Keyed by whatever is being edited, holding both the timer and the save
+      // it is waiting to run — the second half is what makes a flush possible.
+      const pendingSaves = new Map();
+
+      function queueSave(token, run, delay) {
+        const waiting = pendingSaves.get(token);
+        if (waiting) clearTimeout(waiting.timer);
+        pendingSaves.set(token, {
+          run: run,
+          timer: setTimeout(() => {
+            pendingSaves.delete(token);
+            run();
+          }, delay)
+        });
+      }
+
+      // The last thing a child types is the thing they are most likely to
+      // leave on: they finish the sentence and press Back. Without this, that
+      // sentence was still sitting in a setTimeout when the page went away.
+      function flushSaves() {
+        const waiting = Array.from(pendingSaves.values());
+        pendingSaves.clear();
+        waiting.forEach((entry) => {
+          clearTimeout(entry.timer);
+          entry.run();
+        });
+      }
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'hidden') flushSaves();
+      });
+      window.addEventListener('pagehide', flushSaves);
 
       const discInput = document.getElementById('discussionAnswer');
       if (discInput) {
          discInput.addEventListener('input', () => {
-            clearTimeout(discInput._saveTimer);
-            discInput._saveTimer = setTimeout(() => autosaveMeta(), 1500);
+            queueSave(autosaveMeta, autosaveMeta, 1500);
          });
       }
 
@@ -1663,9 +1726,11 @@ export const ActivityPage = () => html`
               setTimeout(() => this.style.transform = '', 200);
             }
             checkAllDaysFilled();
-            // Debounced autosave
-            clearTimeout(cell._saveTimer);
-            cell._saveTimer = setTimeout(() => autosaveDraft(cellDay), 1200);
+            // Saved on the tap, not 1.2 seconds after it. A tap is a whole
+            // answer and there is nothing to coalesce — the delay only ever
+            // decided whether the last thing a child did before pressing Back
+            // survived. One small write per tap is a price worth paying.
+            autosaveDraft(cellDay);
           });
         }
       });
@@ -1685,8 +1750,7 @@ export const ActivityPage = () => html`
           input.disabled = false;
           input.style.opacity = '1';
           input.addEventListener('input', () => {
-            clearTimeout(input._saveTimer);
-            input._saveTimer = setTimeout(() => autosaveDraft(idx), 1500);
+            queueSave(input, () => autosaveDraft(idx), 1500);
           });
         }
       });
@@ -1746,9 +1810,20 @@ export const ActivityPage = () => html`
         const iconListD = {
           0: '', 1: '<i class="fas fa-check-circle text-success"></i>', 2: '<i class="fas fa-times-circle text-danger"></i>'
         };
+        // Each day stands on its own. These seven reads used to share one try,
+        // so the first one that threw took the other six down with it — and
+        // six of the seven are documents that have never been written, which
+        // the rules denied rather than reporting as absent. A child who
+        // started on a Wednesday got a blank sheet every time.
         for (let d = 0; d < 7; d++) {
           const dKey = 'draft_' + learnerUid() + '_' + chapterId + '_d' + d;
-          const dSnap = await getDoc(doc(db, 'activity_drafts', dKey));
+          let dSnap = null;
+          try {
+            dSnap = await getDoc(doc(db, 'activity_drafts', dKey));
+          } catch (dayErr) {
+            console.warn('Could not read day ' + d + ' of this sheet', dayErr);
+            continue;
+          }
           if (dSnap.exists()) {
             const dData = dSnap.data();
             if (dData.cells) {
@@ -1767,15 +1842,20 @@ export const ActivityPage = () => html`
           }
         }
 
-        // Load meta draft (discussion answer)
-        const metaKey = 'draft_' + learnerUid() + '_' + chapterId + '_meta';
-        const metaSnap = await getDoc(doc(db, 'activity_drafts', metaKey));
-        if (metaSnap.exists()) {
-           const mData = metaSnap.data();
-           if (mData.discussionAnswer) {
-              const discEl = document.getElementById('discussionAnswer');
-              if (discEl && !discEl.value) discEl.value = mData.discussionAnswer;
-           }
+        // Load meta draft (discussion answer). Also on its own, so a chapter
+        // whose discussion has not been answered yet still restores its days.
+        try {
+          const metaKey = 'draft_' + learnerUid() + '_' + chapterId + '_meta';
+          const metaSnap = await getDoc(doc(db, 'activity_drafts', metaKey));
+          if (metaSnap.exists()) {
+             const mData = metaSnap.data();
+             if (mData.discussionAnswer) {
+                const discEl = document.getElementById('discussionAnswer');
+                if (discEl && !discEl.value) discEl.value = mData.discussionAnswer;
+             }
+          }
+        } catch (metaErr) {
+          console.warn('Could not read the discussion answer', metaErr);
         }
 
         // Re-check submit button after loading drafts

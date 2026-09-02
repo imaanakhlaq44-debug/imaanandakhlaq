@@ -224,6 +224,125 @@ describe.skipIf(!HAS_EMULATOR)('Firestore rules', () => {
   })
 
   // -------------------------------------------------------------------
+  // Activity drafts — the half-finished sheet
+  // -------------------------------------------------------------------
+  // A child fills one day of a seven-day sheet and cannot submit until all
+  // seven are done, so the draft is the only thing standing between them and
+  // losing a week's work. It had no coverage at all while submissions had
+  // plenty, and a draft write that the rules reject fails silently: the page
+  // catches it and writes a console warning nobody reads.
+  //
+  // Written exactly the way ActivityPage.tsx writes it — acOwnership() first,
+  // then the day's payload, with merge — so a rule that rejects the real shape
+  // fails here too.
+  describe('activity drafts survive being written and read back', () => {
+    const draft = (studentUid: string, familyUid: string | null, day: number) => {
+      const owner: Record<string, unknown> = { student_uid: studentUid }
+      if (familyUid) owner.family_uid = familyUid
+      return {
+        ...owner,
+        chapter_id: 'c1',
+        book_id: 'book1',
+        day_index: day,
+        cells: [1, 2, 0, 1],
+        parentNote: 'Did it after Maghrib',
+        savedAt: new Date().toISOString()
+      }
+    }
+
+    it('a family saves a day for its child and reads it back', async () => {
+      const db = asFamily()
+      const key = 'draft_' + CHILD + '_c1_d0'
+
+      await assertSucceeds(setDoc(doc(db, 'activity_drafts', key), draft(CHILD, FAMILY, 0), { merge: true }))
+      await assertSucceeds(getDoc(doc(db, 'activity_drafts', key)))
+    })
+
+    // The second tap of the day is an update, not a create, and the two have
+    // separate rules. A create-only permission would look fine on day one and
+    // lose everything from the second tap onwards.
+    it('a family overwrites the same day as the child keeps tapping', async () => {
+      const db = asFamily()
+      const key = 'draft_' + CHILD + '_c1_d0'
+
+      await assertSucceeds(setDoc(doc(db, 'activity_drafts', key), draft(CHILD, FAMILY, 0), { merge: true }))
+      await assertSucceeds(setDoc(doc(db, 'activity_drafts', key), draft(CHILD, FAMILY, 0), { merge: true }))
+    })
+
+    // A child signed in with their PIN is the learner themselves, and carries
+    // a family_uid as well. Both halves of the ownership stamp are present.
+    it('a child signed in with a PIN saves their own day', async () => {
+      const db = env.authenticatedContext(CHILD).firestore()
+      const key = 'draft_' + CHILD + '_c1_d1'
+
+      await assertSucceeds(setDoc(doc(db, 'activity_drafts', key), draft(CHILD, FAMILY, 1), { merge: true }))
+      await assertSucceeds(getDoc(doc(db, 'activity_drafts', key)))
+    })
+
+    it('a legacy student with no family saves their own day', async () => {
+      const db = asLegacy()
+      const key = 'draft_' + LEGACY_STUDENT + '_c1_d0'
+
+      await assertSucceeds(setDoc(doc(db, 'activity_drafts', key), draft(LEGACY_STUDENT, null, 0), { merge: true }))
+      await assertSucceeds(getDoc(doc(db, 'activity_drafts', key)))
+    })
+
+    it('the meta draft holding the discussion answer saves too', async () => {
+      const db = asFamily()
+      const key = 'draft_' + CHILD + '_c1_meta'
+
+      await assertSucceeds(setDoc(doc(db, 'activity_drafts', key), {
+        student_uid: CHILD,
+        family_uid: FAMILY,
+        chapter_id: 'c1',
+        discussionAnswer: 'Because Allah sees us',
+        savedAt: new Date().toISOString()
+      }, { merge: true }))
+      await assertSucceeds(getDoc(doc(db, 'activity_drafts', key)))
+    })
+
+    it('another family cannot read or write this child\'s draft', async () => {
+      const key = 'draft_' + CHILD + '_c1_d0'
+      await env.withSecurityRulesDisabled(async (ctx) => {
+        await setDoc(doc(ctx.firestore(), 'activity_drafts', key), draft(CHILD, FAMILY, 0))
+      })
+
+      await assertFails(getDoc(doc(asOtherFamily(), 'activity_drafts', key)))
+      await assertFails(setDoc(doc(asOtherFamily(), 'activity_drafts', key), draft(CHILD, FAMILY, 0), { merge: true }))
+    })
+
+    // The sheet restores itself by reading all seven days in a loop, and on any
+    // day but the first most of those documents do not exist yet. A rule that
+    // dereferences resource.data denies a missing document rather than
+    // returning an empty snapshot, which turns a normal read into a thrown
+    // permission error and abandons the whole restore.
+    it('reading a day that has not been filled yet is allowed, not denied', async () => {
+      await assertSucceeds(getDoc(doc(asFamily(), 'activity_drafts', 'draft_' + CHILD + '_c1_d5')))
+    })
+
+    it('the same for a child on their own PIN', async () => {
+      const db = env.authenticatedContext(CHILD).firestore()
+      await assertSucceeds(getDoc(doc(db, 'activity_drafts', 'draft_' + CHILD + '_c1_d5')))
+    })
+
+    // Same shape, same page: the sheet asks whether a final submission exists
+    // before it restores anything, and until the seventh day it never does.
+    it('asking whether a chapter has been submitted yet is allowed', async () => {
+      await assertSucceeds(getDoc(doc(asFamily(), 'activity_submissions', CHILD + '_c9')))
+      const asChild = env.authenticatedContext(CHILD).firestore()
+      await assertSucceeds(getDoc(doc(asChild, 'activity_submissions', CHILD + '_c9')))
+    })
+
+    it('a family cannot stamp a draft with somebody else\'s child', async () => {
+      await assertFails(setDoc(
+        doc(asFamily(), 'activity_drafts', 'draft_' + OUTSIDER_CHILD + '_c1_d0'),
+        draft(OUTSIDER_CHILD, OTHER_FAMILY, 0),
+        { merge: true }
+      ))
+    })
+  })
+
+  // -------------------------------------------------------------------
   // Club habit logs
   // -------------------------------------------------------------------
   // The club is only worth something if a student cannot pay themselves.

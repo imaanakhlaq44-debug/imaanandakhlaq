@@ -89,6 +89,21 @@ service cloud.firestore {
       return signedIn() && data.get('family_uid', '') == request.auth.uid;
     }
 
+    // A get on a document that is not there has no resource to check an owner
+    // against, and Firestore does not hand back an empty snapshot in that case:
+    // the rule dereferences a null resource, the evaluation errors, and the
+    // read comes back PERMISSION_DENIED.
+    //
+    // That is a denial for asking a perfectly ordinary question. The activity
+    // sheet restores itself by reading all seven days of a chapter in a loop,
+    // and on any day but Monday most of those documents do not exist yet — so
+    // the first missing day threw, the loop was abandoned, and a child who had
+    // filled in a day came back to a blank sheet. Only ever paired with an
+    // ownership check on the documents that DO exist.
+    function notThere() {
+      return resource == null;
+    }
+
     // ---------------------------------------------------------------
     // 1. Invites
     // ---------------------------------------------------------------
@@ -286,7 +301,20 @@ service cloud.firestore {
     match /activity_submissions/{subId} {
       // The owning student reads their own sheets — that is also what feeds
       // the Parent Area's chapter list, since the family shares that account.
-      allow get, list: if signedIn() && (
+      //
+      // get and list are split because only get can be asked about a document
+      // that is not there: the sheet checks for a final submission before it
+      // restores a draft, and before the seventh day there is none. See
+      // notThere().
+      allow get: if signedIn() && (
+        notThere() ||
+        resource.data.student_uid == request.auth.uid ||
+        isMyFamily(resource.data) ||
+        isSuper() ||
+        (isStaff() && sameSchool(resource.data))
+      );
+
+      allow list: if signedIn() && (
         resource.data.student_uid == request.auth.uid ||
         isMyFamily(resource.data) ||
         isSuper() ||
@@ -339,7 +367,16 @@ service cloud.firestore {
     // the owner ever reads or writes them. This collection previously had NO
     // rule at all, so every draft save was denied by default.
     match /activity_drafts/{draftId} {
-      allow get, list: if signedIn() && (
+      // Split for the reason in notThere(): six of the seven days a sheet asks
+      // about have never been written, and a denial on those is what wiped the
+      // restore. A list still has to own every document it matches.
+      allow get: if signedIn() && (
+        notThere() ||
+        resource.data.student_uid == request.auth.uid ||
+        isMyFamily(resource.data)
+      );
+
+      allow list: if signedIn() && (
         resource.data.student_uid == request.auth.uid ||
         isMyFamily(resource.data)
       );
