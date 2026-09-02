@@ -41,7 +41,18 @@ const PRUNE = [
   { rel: 'assets/brand', why: 'no page anywhere links to these' },
   // Apache config for the website; meaningless inside an APK, and Gradle
   // chokes on it when OneDrive keeps it as a cloud-only placeholder.
-  { rel: '.htaccess', why: 'Apache config, the APK never serves over Apache' }
+  { rel: '.htaccess', why: 'Apache config, the APK never serves over Apache' },
+  // Web-only doors. None of these five is in APK_PAGES, so the route guard
+  // in Head.tsx bounces the app straight to auth.html if anything ever links
+  // to one — but the SSG build renders every route into dist/ and Capacitor
+  // copies dist/ wholesale, so they shipped anyway. Each is reached by a
+  // link carrying a token, which is a thing that happens in a browser and
+  // not in the app.
+  { rel: 'school-wall.html', why: 'web only, the page redirects itself out of the APK' },
+  { rel: 'wall', why: "a parent's link-and-token view, opened in a browser" },
+  { rel: 'join.html', why: 'organisation join link, opened in a browser' },
+  { rel: 's.html', why: 'student PIN link, opened in a browser' },
+  { rel: 'orgs.html', why: 'organisation dashboard, web only' }
 ];
 
 /**
