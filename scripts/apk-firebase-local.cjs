@@ -4,6 +4,7 @@
 
 const esbuild = require('esbuild');
 const path = require('path');
+const { insertBeforeBodyEnd, insertBeforeHeadEnd } = require('./lib/html-inject.cjs');
 const fs = require('fs');
 
 const assetsDir = path.join(__dirname, '..', 'android', 'app', 'src', 'main', 'assets', 'public');
@@ -87,7 +88,7 @@ function patchHtmlFile(filePath) {
 
   // ── Always inject the bundle <script> into <head> if not already there ──
   if (!html.includes(localBundlePath)) {
-    html = html.replace('</head>', `<script src="${localBundlePath}"></script>\n</head>`);
+    html = insertBeforeHeadEnd(html, `<script src="${localBundlePath}"></script>\n`);
     changed = true;
   }
 

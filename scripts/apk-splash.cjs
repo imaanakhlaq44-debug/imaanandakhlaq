@@ -1,6 +1,7 @@
 // Post-build: overwrite dist/index.html with APK splash + auth redirect
 const fs = require('fs');
 const path = require('path');
+const { insertBeforeBodyEnd, insertBeforeHeadEnd } = require('./lib/html-inject.cjs');
 
 /**
  * Where each role lands after signing in.
@@ -892,7 +893,7 @@ function patchApkDashboardCompact(fileName, marker, pageSelector, extraBodyScrip
   html = html.replace('</style>', `${css}\n</style>`);
   if (extraBodyScript) {
     if (html.includes('</body>')) {
-      html = html.replace('</body>', `${extraBodyScript}\n</body>`);
+      html = insertBeforeBodyEnd(html, `${extraBodyScript}\n`);
     } else {
       html = html + extraBodyScript;
     }
@@ -1245,7 +1246,7 @@ function patchApkAdminDashboard() {
 
   html = html.replace('</style>', `${css}\n</style>`);
   if (html.includes('</body>')) {
-    html = html.replace('</body>', `${ADMIN_MISSING_ID_SHIM}\n</body>`);
+    html = insertBeforeBodyEnd(html, `${ADMIN_MISSING_ID_SHIM}\n`);
   } else {
     html = html + ADMIN_MISSING_ID_SHIM;
   }
@@ -1285,7 +1286,7 @@ function patchApkAuthSuperAdminRedirect() {
     console.warn('APK auth super_admin redirect: pattern not matched, skipping.');
     return;
   }
-  html = html.replace('</body>', '<!-- APK_AUTH_SUPER_ADMIN_REDIRECT --></body>');
+  html = insertBeforeBodyEnd(html, '<!-- APK_AUTH_SUPER_ADMIN_REDIRECT -->');
   fs.writeFileSync(filePath, html, 'utf8');
   console.log('APK auth.html patched for super_admin redirect (' + count + ' insertions).');
 }
@@ -1607,7 +1608,7 @@ function patchApkStudentDashboard() {
 
   html = html.replace('</style>', `${compactCss}\n${studentExtraCss}\n</style>`);
   if (html.includes('</body>')) {
-    html = html.replace('</body>', `${enhancerScript}\n</body>`);
+      html = insertBeforeBodyEnd(html, `${enhancerScript}\n`);
   } else {
     html = html + enhancerScript;
   }
@@ -1861,12 +1862,12 @@ function patchApkSuperAdminDashboard() {
   ].join('\n');
 
   if (html.includes('</head>')) {
-    html = html.replace('</head>', css + '\n</head>');
+    html = insertBeforeHeadEnd(html, css + '\n');
   } else {
     html = css + '\n' + html;
   }
   if (html.includes('</body>')) {
-    html = html.replace('</body>', script + '\n</body>');
+    html = insertBeforeBodyEnd(html, script + '\n');
   } else {
     html = html + '\n' + script;
   }

@@ -7,6 +7,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { insertBeforeBodyEnd, insertBeforeHeadEnd } = require('./lib/html-inject.cjs');
 
 const projectRoot = path.join(__dirname, '..');
 const srcRoot     = path.join(projectRoot, 'imaan_hostinger');
@@ -68,7 +69,7 @@ DASHBOARDS.forEach(file => {
       return html.replace(styleAnchor, styleAnchor + '\n  ' + DB_LINK);
     }
     // Fallback: before </head>
-    return html.replace('</head>', '  ' + DB_LINK + '\n</head>');
+    return insertBeforeHeadEnd(html, '  ' + DB_LINK + '\n');
   });
 });
 
@@ -96,7 +97,7 @@ if (DAILY_CHAPTER_TARGET) {
       if (fredokaTag) {
         out = out.replace(fredokaTag[0], fredokaTag[0] + '\n  ' + AMIRI_LINK);
       } else {
-        out = out.replace('</head>', '  ' + AMIRI_LINK + '\n</head>');
+        out = insertBeforeHeadEnd(out, '  ' + AMIRI_LINK + '\n');
       }
     }
 
@@ -106,7 +107,7 @@ if (DAILY_CHAPTER_TARGET) {
       if (out.includes(styleAnchor)) {
         out = out.replace(styleAnchor, styleAnchor + '\n  ' + DC_LINK + '\n  ' + DC_SCRIPT);
       } else {
-        out = out.replace('</head>', '  ' + DC_LINK + '\n  ' + DC_SCRIPT + '\n</head>');
+        out = insertBeforeHeadEnd(out, '  ' + DC_LINK + '\n  ' + DC_SCRIPT + '\n');
       }
     }
     return out;

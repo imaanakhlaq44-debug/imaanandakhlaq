@@ -13,6 +13,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { insertBeforeBodyEnd, insertBeforeHeadEnd } = require('./lib/html-inject.cjs');
 
 const projectRoot = path.join(__dirname, '..');
 const distDir = path.join(projectRoot, 'dist');
@@ -161,7 +162,7 @@ function run() {
     let src = path.relative(path.dirname(file), path.join(jsDir, JS_NAME)).split(path.sep).join('/');
     if (src.charAt(0) !== '.') src = './' + src;
     const tag = '\n  <script defer src="' + src + '"></script>\n';
-    html = html.indexOf('</body>') !== -1 ? html.replace('</body>', tag + '</body>') : html + tag;
+    html = insertBeforeBodyEnd(html, tag);
     fs.writeFileSync(file, html, 'utf8');
     injected++;
   });

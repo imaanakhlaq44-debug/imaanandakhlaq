@@ -6,6 +6,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { insertBeforeBodyEnd, insertBeforeHeadEnd } = require('./lib/html-inject.cjs');
 
 const projectRoot = path.join(__dirname, '..');
 const distDir = path.join(projectRoot, 'dist');
@@ -2142,7 +2143,7 @@ function injectIntoPage(htmlPath) {
   if (html.indexOf('apk-bottombar.js') !== -1) return false; // already injected
   const inject = `\n  <link rel="stylesheet" href="kidba_assets/css/apk-bottombar.css">\n  <script defer src="kidba_assets/js/apk-bottombar.js"></script>\n`;
   if (html.indexOf('</body>') !== -1) {
-    html = html.replace('</body>', inject + '</body>');
+    html = insertBeforeBodyEnd(html, inject);
   } else {
     html += inject;
   }
