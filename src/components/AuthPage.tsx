@@ -1168,8 +1168,8 @@ export const AuthPage = () => html`
           <div class="form-grid">
             <div class="form-group"><label class="form-label">School Name</label><input type="text" class="form-control" id="regSchoolName" placeholder="Imaan Academy"></div>
             <div class="form-group"><label class="form-label">Admin Name</label><input type="text" class="form-control" id="regSchoolAdmin" placeholder="M. Usman"></div>
-            <div class="form-group"><label class="form-label">Location/City</label><input type="text" class="form-control" id="regSchoolLoc" placeholder="Dubai"></div>
-            <div class="form-group"><label class="form-label">Phone Number</label><input type="text" class="form-control" id="regSchoolPhone" placeholder="+971 XX XXXX"></div>
+            <div class="form-group"><label class="form-label">Location/City</label><input type="text" class="form-control" id="regSchoolLoc" placeholder="Karachi"></div>
+            <div class="form-group"><label class="form-label">Phone Number</label><input type="text" class="form-control" id="regSchoolPhone" placeholder="03XXXXXXXXX"></div>
           </div>
           <div class="form-group"><label class="form-label">Work Email</label><input type="email" class="form-control" id="regSchoolEmail" placeholder="admin@school.com"></div>
           <div class="form-grid">
