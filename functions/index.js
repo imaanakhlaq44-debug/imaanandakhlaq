@@ -1804,6 +1804,170 @@ exports.createRosterStudents = onCall({ cors: true }, async (request) => {
   return { created: created, skipped: skipped };
 });
 
+/** Family logins per call. Each row is a Firebase Auth create plus two writes,
+ *  so the ceiling here is wall-clock time, not Firestore's batch limit. */
+const MAX_FAMILY_LOGINS_PER_CALL = 20;
+
+/**
+ * Bulk-create a family login and one child for each row.
+ *
+ * Import Roster used to queue an invites/{STU-XXXXX} document per student and
+ * leave the family to redeem it on /auth. Nobody registers that way any more —
+ * Add New Student stopped doing it (createFamilyAccount then createChild) and
+ * the login screen asks for a username and a password — so every code an
+ * import wrote was a slip that could not be redeemed and a row that sat
+ * Pending for good. This is the same two steps Add New Student does, per row.
+ *
+ * Deliberately NOT createFamilyAccount + createChild called in a loop from the
+ * browser: 200 students is 400 callable round-trips over a school's
+ * connection, and a tab closed halfway through leaves the admin no record of
+ * which rows already landed.
+ *
+ * NOT createRosterStudents either. That one creates students with no login at
+ * all, which is right for a community school and wrong for a full-time one
+ * whose parents sign in.
+ *
+ * from_code converts a student invite an older import already wrote: the
+ * pending row becomes a real family and the dead code goes in the same step,
+ * so the school is not left holding both.
+ */
+exports.createFamilyLogins = onCall({ cors: true, timeoutSeconds: 540 }, async (request) => {
+  const caller = await requireStaff(request, ['school_admin', 'super_admin']);
+  const data = request.data || {};
+  const schoolId = resolveSchoolId(caller, data.school_id);
+
+  const rows = Array.isArray(data.students) ? data.students : null;
+  if (!rows || rows.length === 0) {
+    throw new HttpsError('invalid-argument', 'Send at least one student.');
+  }
+  if (rows.length > MAX_FAMILY_LOGINS_PER_CALL) {
+    throw new HttpsError('invalid-argument',
+      'Send at most ' + MAX_FAMILY_LOGINS_PER_CALL + ' students per call.');
+  }
+
+  // The whole roster, read once. Re-importing last term's sheet is the normal
+  // case, and a duplicate costs more here than it does on a roster import: it
+  // is a second login for a family that already has one, and nobody can tell
+  // afterwards which of the two the parent actually uses.
+  const existing = new Set();
+  const rosterSnap = await db.collection('users')
+    .where('school_id', '==', schoolId)
+    .where('role', '==', 'student')
+    .get();
+  rosterSnap.forEach((d) => { existing.add(rosterKey(d.get('class_id'), d.get('name'))); });
+
+  const created = [];
+  const skipped = [];
+
+  for (const row of rows) {
+    const name = String((row && row.name) || '').trim().replace(/\s+/g, ' ');
+    const classId = String((row && row.class_id) || '').trim();
+    const fromCode = String((row && row.from_code) || '').trim().toUpperCase();
+
+    if (name.length < 2 || name.length > 80) {
+      skipped.push({ name: name, class_id: classId, reason: 'invalid_name' });
+      continue;
+    }
+
+    // A sheet with no guardian column is the ordinary case, and the family is
+    // still the one who signs in. Named after the child rather than skipped,
+    // so the import finishes and the admin renames it from the Parents tab.
+    const parentName = String((row && row.parent_name) || '').trim() ||
+      (name + ' — family').slice(0, 80);
+    const parentPhone = String((row && row.parent_phone) || '').trim();
+
+    const key = rosterKey(classId, name);
+    if (existing.has(key)) {
+      skipped.push({ name: name, class_id: classId, reason: 'duplicate' });
+      continue;
+    }
+
+    // Read before anything is created. Converting a code belonging to another
+    // school, or one a family has already redeemed, would either move a
+    // student across schools or issue a second login for an account in use.
+    let inviteRef = null;
+    if (fromCode) {
+      const snap = await db.collection('invites').doc(fromCode).get();
+      if (!snap.exists) {
+        skipped.push({ name: name, class_id: classId, reason: 'code_missing' });
+        continue;
+      }
+      const invite = snap.data();
+      if (invite.school_id !== schoolId && caller.role !== 'super_admin') {
+        skipped.push({ name: name, class_id: classId, reason: 'other_school' });
+        continue;
+      }
+      if (invite.status === 'used') {
+        skipped.push({ name: name, class_id: classId, reason: 'already_redeemed' });
+        continue;
+      }
+      inviteRef = snap.ref;
+    }
+
+    let family;
+    try {
+      family = await provisionFamilyAccount({
+        name: parentName,
+        phone: parentPhone,
+        schoolId: schoolId,
+        createdBy: caller.uid
+      });
+    } catch (err) {
+      // One bad row must not abandon the two hundred behind it. Reported
+      // instead, so the admin can fix those rows and import only them again.
+      skipped.push({ name: name, class_id: classId, reason: 'family_failed', detail: err.message });
+      continue;
+    }
+
+    const childRef = db.collection('users').doc();
+    try {
+      await childRef.set({
+        role: 'student',
+        name: name,
+        school_id: schoolId,
+        class_id: classId,
+        family_uid: family.family_uid,
+        created_at: nowIso(),
+        created_by: caller.uid
+        // No phone and no email on a child, for the reason spelled out in
+        // createChild: lookupEmailByPhone matches on phone across /users, and
+        // a child carrying the family's number could win that race.
+      });
+    } catch (err) {
+      // A family account with nobody on it signs in to an empty page, and no
+      // admin can tell it apart from a real one. Take it back out rather than
+      // leave that behind.
+      await getAuth().deleteUser(family.family_uid).catch(() => {});
+      await db.collection('users').doc(family.family_uid).delete().catch(() => {});
+      skipped.push({ name: name, class_id: classId, reason: 'student_failed', detail: err.message });
+      continue;
+    }
+
+    // Last, and only once both halves exist. A code deleted ahead of the
+    // account replacing it is a student who ends up with neither.
+    if (inviteRef) await inviteRef.delete().catch(() => {});
+
+    existing.add(key);
+    // No STU- code is minted here, unlike createChild. That code exists so an
+    // unattached child can be claimed later; this child already has the family
+    // it belongs to, so the code would only be litter.
+    created.push({
+      student_uid: childRef.id,
+      family_uid: family.family_uid,
+      name: name,
+      class_id: classId,
+      parent_name: parentName,
+      username: family.username,
+      password: family.password
+    });
+  }
+
+  // Passwords come back ONCE and are stored nowhere — see
+  // provisionFamilyAccount. The caller has to show or print them before the
+  // page goes anywhere else.
+  return { created: created, skipped: skipped };
+});
+
 /**
  * Unlock a new community school's wall.
  *
