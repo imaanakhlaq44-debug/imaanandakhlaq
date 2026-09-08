@@ -435,6 +435,73 @@ describe.skipIf(!HAS_EMULATOR)('Family provisioning and migration', () => {
     }, 60000)
   })
 
+  /**
+   * Removing a teacher.
+   *
+   * The property under test is the one the browser-side delete got wrong: the
+   * Firebase Auth account has to go with the profile, or the school is left
+   * with a working login it cannot see.
+   */
+  describe('deleting a teacher account', () => {
+    it('deletes the login as well as the profile', async () => {
+      await seedAdmin()
+      const teacher = await call('createTeacherAccount', { name: 'Ustadh Kamran', class_id: 'Class 4' })
+
+      // The login works before the delete — otherwise the assertion after it
+      // would pass for the wrong reason.
+      await signOut(auth)
+      await signInWithEmailAndPassword(
+        auth, teacher.username.toLowerCase() + '@' + STAFF_LOGIN_DOMAIN, teacher.password
+      )
+      expect(auth.currentUser!.uid).toBe(teacher.teacher_uid)
+
+      await signOut(auth)
+      await seedAdmin()
+      const res = await call('deleteTeacherAccounts', { teacher_uids: [teacher.teacher_uid] })
+      expect(res.deleted).toHaveLength(1)
+      expect(res.deleted[0].name).toBe('Ustadh Kamran')
+
+      expect((await db.collection('users').doc(teacher.teacher_uid).get()).exists).toBe(false)
+      await expect(adminAuth(adminApp).getUser(teacher.teacher_uid)).rejects.toThrow()
+    }, 60000)
+
+    it('leaves the students alone', async () => {
+      await seedAdmin()
+      const teacher = await call('createTeacherAccount', { name: 'Ustadh Kamran', class_id: 'Class 4' })
+      const roster = await call('createRosterStudents', {
+        students: [{ name: 'Abdullah', class_id: 'Class 4' }]
+      })
+
+      await call('deleteTeacherAccounts', { teacher_uids: [teacher.teacher_uid] })
+
+      // A teacher is joined to a class by a class_id string, not by uid, so
+      // there is nothing for the delete to cascade into.
+      const pupil = await db.collection('users').doc(roster.created[0].student_uid).get()
+      expect(pupil.exists).toBe(true)
+      expect(pupil.data()!.class_id).toBe('Class 4')
+    }, 60000)
+
+    it('refuses a teacher from another school, and a caller who is not staff', async () => {
+      await seedAdmin()
+      const mine = await call('createTeacherAccount', { name: 'Ours', class_id: 'Class 1' })
+      const theirs = await call('createTeacherAccount', { name: 'Theirs', class_id: 'Class 1' })
+      await db.collection('users').doc(theirs.teacher_uid).update({ school_id: 'other-school' })
+
+      const res = await call('deleteTeacherAccounts', {
+        teacher_uids: [mine.teacher_uid, theirs.teacher_uid]
+      })
+      expect(res.deleted).toHaveLength(1)
+      expect(res.failed).toHaveLength(1)
+      expect((await db.collection('users').doc(theirs.teacher_uid).get()).exists).toBe(true)
+
+      await db.collection('users').doc('pupil').set({ role: 'student', school_id: SCHOOL })
+      await signInAs('pupil')
+      await expect(call('deleteTeacherAccounts', {
+        teacher_uids: [theirs.teacher_uid]
+      })).rejects.toThrow()
+    }, 60000)
+  })
+
   describe('unlocking a community school wall', () => {
     async function seedPendingSchool() {
       await db.collection('schools').doc(SCHOOL).set({

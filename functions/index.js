@@ -1974,8 +1974,8 @@ exports.createFamilyLogins = onCall({ cors: true, timeoutSeconds: 540, maxInstan
   return { created: created, skipped: skipped };
 });
 
-/** Family accounts per call. Each one is an Auth delete plus a few writes. */
-const MAX_FAMILY_DELETES_PER_CALL = 20;
+/** Accounts per call, family or teacher. Each is an Auth delete plus writes. */
+const MAX_ACCOUNT_DELETES_PER_CALL = 20;
 
 /**
  * Delete a family login. The children stay.
@@ -2004,9 +2004,9 @@ exports.deleteFamilyAccounts = onCall({ cors: true, timeoutSeconds: 300, maxInst
   if (!uids || uids.length === 0) {
     throw new HttpsError('invalid-argument', 'Name at least one family to delete.');
   }
-  if (uids.length > MAX_FAMILY_DELETES_PER_CALL) {
+  if (uids.length > MAX_ACCOUNT_DELETES_PER_CALL) {
     throw new HttpsError('invalid-argument',
-      'Delete at most ' + MAX_FAMILY_DELETES_PER_CALL + ' families per call.');
+      'Delete at most ' + MAX_ACCOUNT_DELETES_PER_CALL + ' families per call.');
   }
 
   const deleted = [];
@@ -2081,6 +2081,80 @@ exports.deleteFamilyAccounts = onCall({ cors: true, timeoutSeconds: 300, maxInst
   // it, and attachChildToFamily rewrites the field across everything a child
   // owns the moment they join another family. Clearing them here would be
   // hundreds of writes to undo work the next attach redoes anyway.
+  return { deleted: deleted, failed: failed };
+});
+
+/**
+ * Delete a teacher login.
+ *
+ * The dashboard could already remove a teacher, but only by deleting the
+ * /users doc from the browser — which left the Firebase Auth account behind.
+ * That teacher could still sign in. They landed on "you cannot view this page
+ * with your current account" rather than a class, so nothing leaked, but the
+ * login stayed alive with no row anywhere for an admin to see it by, and the
+ * school had no way to take it back. Same defect the family list had, same
+ * fix: the account goes through the Admin SDK, here.
+ *
+ * Nothing else is touched. A teacher is joined to a class by a class_id
+ * string, not by uid, so no student is orphaned by this — unlike a family,
+ * where the children hang off the account being removed.
+ */
+exports.deleteTeacherAccounts = onCall({ cors: true, timeoutSeconds: 300, maxInstances: 10 }, async (request) => {
+  const caller = await requireStaff(request, ['school_admin', 'super_admin']);
+  const data = request.data || {};
+
+  const uids = Array.isArray(data.teacher_uids) ? data.teacher_uids : null;
+  if (!uids || uids.length === 0) {
+    throw new HttpsError('invalid-argument', 'Name at least one teacher to delete.');
+  }
+  if (uids.length > MAX_ACCOUNT_DELETES_PER_CALL) {
+    throw new HttpsError('invalid-argument',
+      'Delete at most ' + MAX_ACCOUNT_DELETES_PER_CALL + ' teachers per call.');
+  }
+
+  const deleted = [];
+  const failed = [];
+
+  for (const raw of uids) {
+    const teacherUid = String(raw || '').trim();
+    if (!teacherUid) continue;
+
+    const snap = await db.collection('users').doc(teacherUid).get();
+    if (!snap.exists || snap.data().role !== 'teacher') {
+      failed.push({ teacher_uid: teacherUid, reason: 'That teacher account does not exist.' });
+      continue;
+    }
+    const teacher = snap.data();
+    // A school admin removes their own school's teachers and nobody else's —
+    // the same boundary resetTeacherPassword draws.
+    if (caller.role !== 'super_admin' && teacher.school_id !== caller.school_id) {
+      failed.push({ teacher_uid: teacherUid, name: teacher.name || '', reason: 'That teacher belongs to another school.' });
+      continue;
+    }
+
+    try {
+      // Ahead of the profile delete, for the reason deleteFamilyAccounts
+      // spells out: a throw here leaves the teacher listed and retryable,
+      // which beats a working login nobody can find. A teacher who registered
+      // through an old TCH- invite owns a real email address rather than a
+      // username, and is deleted the same way — this is the school removing
+      // an account it created a place for, not a password reset.
+      await getAuth().deleteUser(teacherUid).catch((err) => {
+        if (err.code !== 'auth/user-not-found') throw err;
+      });
+
+      await db.collection('users').doc(teacherUid).delete();
+
+      deleted.push({
+        teacher_uid: teacherUid,
+        name: teacher.name || '',
+        username: teacher.username || ''
+      });
+    } catch (err) {
+      failed.push({ teacher_uid: teacherUid, name: teacher.name || '', reason: err.message || String(err) });
+    }
+  }
+
   return { deleted: deleted, failed: failed };
 });
 

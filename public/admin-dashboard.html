@@ -2985,6 +2985,7 @@
             </div>
           </div>
           <div class="section-actions">
+            <button class="btn-outline-light text-danger d-none" id="teacherBulkDeleteBtn" onclick="deleteSelectedTeachers()"><i class="fas fa-trash-alt me-2"></i> Delete Selected (<span id="teacherSelectedCount">0</span>)</button>
             <button class="btn-solid" onclick="openModal('teacherModal')"><i class="fas fa-plus me-2"></i> Invite Teacher</button>
             <button class="btn-outline-light" onclick="openModal('bulkImportModal')"><i class="fas fa-file-import me-2"></i> Import Roster</button>
             <button class="btn-outline-light" onclick="exportTeachersCsv()" title="Download this list as a CSV file you can open in Excel"><i class="fas fa-file-arrow-down me-2"></i> Export CSV</button>
@@ -2992,6 +2993,9 @@
         </div>
         
         <div class="table-header-row">
+          <div class="col-check" style="flex: 0 0 40px; display: flex; align-items: center; justify-content: center;">
+            <input type="checkbox" id="selectAllTeachers" onchange="toggleSelectAllTeachers(this)" style="cursor:pointer; width:16px; height:16px;">
+          </div>
           <div class="col-1">Full Name</div>
           <div class="col-3">Assigned Class</div>
           <div class="col-2">Invitation Code</div>
@@ -5287,6 +5291,7 @@
       const code = teacher.invitation_code || 'Accepted';
       const imgSrc = teacher.photoURL ? teacher.photoURL : ('https://ui-avatars.com/api/?name=' + teacher.name.replace(' ', '+') + '&background=fff&color=' + color.replace('#',''));
       tchHtml += '<div class="pill-row ' + motif + '">' +
+        '<div class="col-check"><input type="checkbox" class="teacher-select-cb" data-id="' + teacher.uid + '" data-type="teacher" onchange="updateTeacherBulkDeleteButton()" style="cursor:pointer; width:16px; height:16px;"></div>' +
         '<div class="col-1 d-flex align-items-center gap-3"><img src="' + imgSrc + '" style="border-radius:50%; width:40px; height:40px; object-fit:cover;">' + teacher.name + '</div>' +
         '<div class="col-3"><span style="background:rgba(255,255,255,0.7); padding:5px 12px; border-radius:20px; font-weight:800;">' + (teacher.class_id || teacher.assigned_class || 'All Classes') + '</span></div>' +
         '<div class="col-2"><code style="background:rgba(255,255,255,0.7); padding:4px 8px; border-radius:8px; font-size:0.8rem;">' + code + '</code></div>' +
@@ -5302,14 +5307,26 @@
 
     pendingTeacherInvites.forEach((invite) => {
       const pendingImage = invite.photoURL ? '<img src="' + invite.photoURL + '" style="border-radius:50%; width:40px; height:40px; object-fit:cover;">' : '<div style="width:40px;height:40px;border-radius:50%;background:#e2e8f0;display:flex;align-items:center;justify-content:center;color:#94a3b8;"><i class="fas fa-user-clock"></i></div>';
+      // A pending row had no actions at all, so a teacher invite typed wrong
+      // or imported twice could never be taken off the list. It is only an
+      // invites/{code} document — no login exists behind it yet — so it goes
+      // the same way a pending student invite does.
       tchHtml += '<div class="pill-row row-peach" style="opacity:0.6;">' +
+        '<div class="col-check"><input type="checkbox" class="teacher-select-cb" data-id="' + invite.code + '" data-type="invite" onchange="updateTeacherBulkDeleteButton()" style="cursor:pointer; width:16px; height:16px;"></div>' +
         '<div class="col-1 d-flex align-items-center gap-3">' + pendingImage + invite.name + '</div>' +
         '<div class="col-3"><span style="background:rgba(255,255,255,0.7); padding:5px 12px; border-radius:20px; font-weight:800;">' + (invite.class_id || 'Unassigned') + '</span></div>' +
         '<div class="col-2"><code style="background:rgba(255,255,255,0.7); padding:4px 8px; border-radius:8px; font-size:0.8rem;">' + invite.code + '</code></div>' +
         '<div class="col-2"><span style="color:#f59e0b;font-weight:800;"><i class="fas fa-clock"></i> Pending</span></div>' +
-        '<div class="col-actions"></div></div>';
+        '<div class="col-actions"><button class="action-btn text-danger" title="Remove this pending invite" onclick="deleteInvite(\'' + invite.code + '\', \'teacher\')"><i class="fas fa-trash"></i></button></div></div>';
     });
     document.getElementById('teacherTableBody').innerHTML = tchHtml || '<div style="text-align:center; padding:2rem; color:#94a3b8; font-weight:700;">No teachers added yet.</div>';
+
+    // The rows were just rebuilt, so nothing is ticked any more. Without this
+    // the button keeps its old count and offers to delete a selection that is
+    // no longer on screen.
+    const teacherMaster = document.getElementById('selectAllTeachers');
+    if (teacherMaster) teacherMaster.checked = false;
+    updateTeacherBulkDeleteButton();
 
     // Surface the cleanup button only while there is something to clean.
     const deadParentInvites = invitesList.filter((inv) => inv.role === 'parent' && inv.status !== 'used').length;
@@ -5534,6 +5551,7 @@
   const callCreateFamilyLogins = httpsCallable(functions, 'createFamilyLogins');
   const callCreateTeacherAccount = httpsCallable(functions, 'createTeacherAccount');
   const callResetTeacherPassword = httpsCallable(functions, 'resetTeacherPassword');
+  const callDeleteTeacherAccounts = httpsCallable(functions, 'deleteTeacherAccounts');
   const callIssueParentLink = httpsCallable(functions, 'issueParentLink');
   const callGetSchoolLink = httpsCallable(functions, 'getSchoolLink');
   const callRotateSchoolLink = httpsCallable(functions, 'rotateSchoolLink');
@@ -6666,17 +6684,105 @@
     }
   };
 
-  window.deleteTeacher = async (uid) => {
-    if (confirm("Are you sure you want to completely remove this Teacher? This action cannot be undone.")) {
-      try {
-        await deleteDoc(doc(db, "users", uid));
-        await loadDashboardData();
-        alert("Teacher deleted successfully.");
-      } catch(err) {
-        alert("Error deleting teacher: " + err.message);
-      }
-    }
+  window.toggleSelectAllTeachers = (masterCb) => {
+    document.querySelectorAll('.teacher-select-cb').forEach((cb) => { cb.checked = masterCb.checked; });
+    updateTeacherBulkDeleteButton();
   };
+
+  window.updateTeacherBulkDeleteButton = () => {
+    const picked = document.querySelectorAll('.teacher-select-cb:checked');
+    const btn = document.getElementById('teacherBulkDeleteBtn');
+    const count = document.getElementById('teacherSelectedCount');
+    if (count) count.textContent = String(picked.length);
+    if (btn) btn.classList.toggle('d-none', picked.length === 0);
+  };
+
+  window.deleteTeacher = (uid) => removeTeachers([{ id: uid, type: 'teacher' }]);
+
+  window.deleteSelectedTeachers = () => {
+    const picked = [...document.querySelectorAll('.teacher-select-cb:checked')]
+      .map((cb) => ({ id: cb.getAttribute('data-id'), type: cb.getAttribute('data-type') }));
+    if (!picked.length) return;
+    removeTeachers(picked);
+  };
+
+  /**
+   * Remove teachers, pending invites, or a mix of both.
+   *
+   * This used to be a deleteDoc on /users straight from the browser, which
+   * deleted the profile and left the Firebase Auth account alive. That teacher
+   * could still sign in — they landed on "you cannot view this page", so
+   * nothing leaked, but the login stayed with no row anywhere to see it by and
+   * the school had no way to take it back. deleteTeacherAccounts removes both.
+   *
+   * A pending row is different in kind: no login exists behind it yet, just an
+   * invites/{code} document, so it goes the same way a pending student invite
+   * does and needs no callable.
+   */
+  async function removeTeachers(picked) {
+    const accounts = picked.filter((row) => row.type === 'teacher');
+    const invites = picked.filter((row) => row.type === 'invite');
+
+    const named = accounts
+      .map((row) => (teachersList.find((t) => t.uid === row.id) || {}).name || 'Teacher')
+      .concat(invites.map((row) => {
+        const invite = invitesList.find((i) => i.code === row.id);
+        return (invite && invite.name ? invite.name : row.id) + ' (pending)';
+      }));
+
+    let message = picked.length === 1
+      ? 'Remove ' + named[0] + '?'
+      : 'Remove ' + picked.length + ' record(s)?\n\n' + named.slice(0, 8).join(', ') +
+        (named.length > 8 ? ' and ' + (named.length - 8) + ' more' : '');
+    if (accounts.length) {
+      message += '\n\n' + accounts.length + ' teacher login(s) will stop working immediately.';
+    }
+    // Said out loud because it is the question an admin actually has. A
+    // teacher is joined to a class by name, not by uid, so nothing of the
+    // students' goes with them.
+    message += '\n\nStudents, classes and their work are not affected.';
+    message += '\n\nThis cannot be undone.';
+    if (!confirm(message)) return;
+
+    const btn = document.getElementById('teacherBulkDeleteBtn');
+    const original = btn ? btn.innerHTML : '';
+    if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Deleting...'; }
+
+    const deleted = [];
+    const failed = [];
+    try {
+      // 20 per call is the callable's own ceiling — each one is an Auth delete
+      // plus a write, so a bigger call would meet its own timeout.
+      const CHUNK = 20;
+      for (let i = 0; i < accounts.length; i += CHUNK) {
+        const slice = accounts.slice(i, i + CHUNK).map((row) => row.id);
+        const res = await callDeleteTeacherAccounts({ teacher_uids: slice });
+        const payload = (res && res.data) || {};
+        (payload.deleted || []).forEach((row) => deleted.push(row));
+        (payload.failed || []).forEach((row) => failed.push(row));
+      }
+      for (const row of invites) {
+        await deleteDoc(doc(db, 'invites', row.id));
+        deleted.push({ name: row.id });
+      }
+    } catch (err) {
+      if (btn) { btn.disabled = false; btn.innerHTML = original; }
+      return alert('Could not delete: ' + (err.message || err) +
+        '\n\nAnything already removed is gone. Refresh the list before trying again.');
+    }
+
+    if (btn) { btn.disabled = false; btn.innerHTML = original; }
+    const master = document.getElementById('selectAllTeachers');
+    if (master) master.checked = false;
+
+    let report = deleted.length + ' record(s) removed.';
+    if (failed.length) {
+      report += '\n\nCould not remove ' + failed.length + ': ' +
+        failed.map((row) => (row.name || row.teacher_uid) + ' — ' + row.reason).slice(0, 5).join('; ');
+    }
+    alert(report);
+    await loadDashboardData();
+  }
 
   window.deleteStudent = async (uid) => {
     if (confirm("Are you sure you want to completely remove this Student? This action cannot be undone.")) {
