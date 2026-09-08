@@ -360,6 +360,81 @@ describe.skipIf(!HAS_EMULATOR)('Family provisioning and migration', () => {
     }, 60000)
   })
 
+  /**
+   * Removing a family a school does not want.
+   *
+   * The property that matters is what survives: a school clearing out a
+   * duplicate must not discover afterwards that it deleted three children and
+   * a year of their work.
+   */
+  describe('deleting a family account', () => {
+    it('deletes the login and detaches the children, keeping them on the roster', async () => {
+      await seedAdmin()
+      const family = await call('createFamilyAccount', { name: 'Raza Family', phone: '+92 300 1234567' })
+      const child = await call('createChild', {
+        family_uid: family.family_uid, name: 'Bilal', class_id: 'Class 4'
+      })
+
+      const res = await call('deleteFamilyAccounts', { family_uids: [family.family_uid] })
+      expect(res.deleted).toHaveLength(1)
+      expect(res.deleted[0].detached).toBe(1)
+      expect(res.failed).toHaveLength(0)
+
+      // The profile and the login are both gone — a profile-only delete would
+      // leave a working password nobody can see.
+      expect((await db.collection('users').doc(family.family_uid).get()).exists).toBe(false)
+      await expect(adminAuth(adminApp).getUser(family.family_uid)).rejects.toThrow()
+
+      // The child stays, and stays findable: family_uid is deleted, not
+      // nulled, because every "who has no family" screen tests for absence.
+      const kid = (await db.collection('users').doc(child.child_uid).get())
+      expect(kid.exists).toBe(true)
+      expect(kid.data()!.name).toBe('Bilal')
+      expect(kid.data()!.class_id).toBe('Class 4')
+      expect('family_uid' in kid.data()!).toBe(false)
+
+      // The claim code named a family that no longer exists, so it could never
+      // be redeemed again.
+      expect((await db.collection('invites').doc(child.code).get()).exists).toBe(false)
+    }, 60000)
+
+    it('deletes several at once and reports the ones it could not', async () => {
+      await seedAdmin()
+      const a = await call('createFamilyAccount', { name: 'One' })
+      const b = await call('createFamilyAccount', { name: 'Two' })
+
+      const res = await call('deleteFamilyAccounts', {
+        family_uids: [a.family_uid, b.family_uid, 'no-such-family']
+      })
+
+      expect(res.deleted.map((d: any) => d.name).sort()).toEqual(['One', 'Two'])
+      expect(res.failed).toHaveLength(1)
+      expect(res.failed[0].family_uid).toBe('no-such-family')
+      expect((await db.collection('users').where('role', '==', 'family').get()).size).toBe(0)
+    }, 60000)
+
+    it('refuses a family belonging to another school', async () => {
+      await seedAdmin()
+      const mine = await call('createFamilyAccount', { name: 'Mine' })
+      await db.collection('users').doc(mine.family_uid).update({ school_id: 'other-school' })
+
+      const res = await call('deleteFamilyAccounts', { family_uids: [mine.family_uid] })
+      expect(res.deleted).toHaveLength(0)
+      expect(res.failed).toHaveLength(1)
+      expect((await db.collection('users').doc(mine.family_uid).get()).exists).toBe(true)
+    }, 60000)
+
+    it('refuses a caller who is not school staff', async () => {
+      await seedAdmin()
+      const family = await call('createFamilyAccount', { name: 'Safe Family' })
+
+      await db.collection('users').doc('pupil').set({ role: 'student', school_id: SCHOOL })
+      await signInAs('pupil')
+      await expect(call('deleteFamilyAccounts', { family_uids: [family.family_uid] })).rejects.toThrow()
+      expect((await db.collection('users').doc(family.family_uid).get()).exists).toBe(true)
+    }, 60000)
+  })
+
   describe('unlocking a community school wall', () => {
     async function seedPendingSchool() {
       await db.collection('schools').doc(SCHOOL).set({

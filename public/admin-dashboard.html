@@ -2953,6 +2953,7 @@
             </div>
           </div>
           <div class="section-actions">
+            <button class="btn-outline-light text-danger d-none" id="familyBulkDeleteBtn" onclick="deleteSelectedFamilies()"><i class="fas fa-trash-alt me-2"></i> Delete Selected (<span id="familySelectedCount">0</span>)</button>
             <button class="btn-outline-light" onclick="openMigration()" title="Turn students you already enrolled into family accounts, keeping all their work"><i class="fas fa-wand-magic-sparkles me-2"></i> Migrate existing students</button>
             <button class="btn-outline-light" onclick="exportFamiliesCsv()" title="Download this list as a CSV file you can open in Excel"><i class="fas fa-file-arrow-down me-2"></i> Export CSV</button>
             <button class="btn-solid" onclick="openModal('parentModal')"><i class="fas fa-user-plus me-2"></i> Add Parent</button>
@@ -2960,6 +2961,9 @@
         </div>
 
         <div class="table-header-row mb-2">
+          <div class="col-check" style="flex: 0 0 40px; display: flex; align-items: center; justify-content: center;">
+            <input type="checkbox" id="selectAllFamilies" onchange="toggleSelectAllFamilies(this)" style="cursor:pointer; width:16px; height:16px;">
+          </div>
           <div class="col-1">Family</div>
           <div class="col-2">Username</div>
           <div class="col-2">Children</div>
@@ -5525,6 +5529,7 @@
   const callCreateFamilyAccount = httpsCallable(functions, 'createFamilyAccount');
   const callCreateChild = httpsCallable(functions, 'createChild');
   const callResetFamilyPassword = httpsCallable(functions, 'resetFamilyPassword');
+  const callDeleteFamilyAccounts = httpsCallable(functions, 'deleteFamilyAccounts');
   const callCreateRosterStudents = httpsCallable(functions, 'createRosterStudents');
   const callCreateFamilyLogins = httpsCallable(functions, 'createFamilyLogins');
   const callCreateTeacherAccount = httpsCallable(functions, 'createTeacherAccount');
@@ -5729,6 +5734,103 @@
     return invite ? invite.code : '';
   }
 
+  window.toggleSelectAllFamilies = (masterCb) => {
+    document.querySelectorAll('.family-select-cb').forEach((cb) => { cb.checked = masterCb.checked; });
+    updateFamilyBulkDeleteButton();
+  };
+
+  window.updateFamilyBulkDeleteButton = () => {
+    const picked = document.querySelectorAll('.family-select-cb:checked');
+    const btn = document.getElementById('familyBulkDeleteBtn');
+    const count = document.getElementById('familySelectedCount');
+    if (count) count.textContent = String(picked.length);
+    if (btn) btn.classList.toggle('d-none', picked.length === 0);
+  };
+
+  window.deleteFamily = (uid) => removeFamilies([uid]);
+
+  window.deleteSelectedFamilies = () => {
+    const picked = [...document.querySelectorAll('.family-select-cb:checked')]
+      .map((cb) => cb.getAttribute('data-id'));
+    if (!picked.length) return;
+    removeFamilies(picked);
+  };
+
+  /**
+   * Delete family logins, one or many, through the same path.
+   *
+   * A login cannot be removed from here: deleting the /users doc would leave
+   * the Firebase Auth account alive, so the parent could still sign in and the
+   * school would have no row left to see it by. deleteFamilyAccounts removes
+   * both, and detaches the children rather than deleting them.
+   *
+   * The children are what the confirmation has to say out loud. An admin
+   * clearing out duplicates is looking at the family name, not at who is
+   * attached to it, and "3 students will stay on your roster" is the
+   * difference between a tidy-up and a panic.
+   */
+  async function removeFamilies(uids) {
+    const chosen = uids
+      .map((uid) => familiesList.find((family) => family.uid === uid))
+      .filter(Boolean);
+    if (!chosen.length) return;
+
+    const affected = chosen.reduce((total, family) => total + childrenOf(family.uid).length, 0);
+    const names = chosen.map((family) => family.name || 'Family').slice(0, 8).join(', ') +
+      (chosen.length > 8 ? ' and ' + (chosen.length - 8) + ' more' : '');
+
+    let message = chosen.length === 1
+      ? 'Delete the family login for ' + names + '?'
+      : 'Delete ' + chosen.length + ' family logins?\n\n' + names;
+    message += '\n\nThe username and password stop working immediately.';
+    message += affected
+      ? '\n\n' + affected + ' student(s) will STAY on your roster with all their work — they simply have no family login until you attach them to another one.'
+      : '\n\nNo students are attached to ' + (chosen.length === 1 ? 'it' : 'them') + '.';
+    message += '\n\nThis cannot be undone.';
+    if (!confirm(message)) return;
+
+    const btn = document.getElementById('familyBulkDeleteBtn');
+    const original = btn ? btn.innerHTML : '';
+    if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Deleting...'; }
+
+    // 20 per call is the callable's own ceiling — each family is an Auth
+    // delete plus a batch, so a bigger call would meet its timeout.
+    const CHUNK = 20;
+    const deleted = [];
+    const failed = [];
+    try {
+      for (let i = 0; i < chosen.length; i += CHUNK) {
+        const slice = chosen.slice(i, i + CHUNK).map((family) => family.uid);
+        const res = await callDeleteFamilyAccounts({ family_uids: slice });
+        const payload = (res && res.data) || {};
+        (payload.deleted || []).forEach((row) => deleted.push(row));
+        (payload.failed || []).forEach((row) => failed.push(row));
+        if (btn && chosen.length > CHUNK) {
+          btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Deleting... ' +
+            Math.min(i + slice.length, chosen.length) + ' / ' + chosen.length;
+        }
+      }
+    } catch (err) {
+      if (btn) { btn.disabled = false; btn.innerHTML = original; }
+      return alert('Could not delete: ' + (err.message || err) +
+        '\n\nAnything already removed is gone. Refresh the list before trying again.');
+    }
+
+    if (btn) { btn.disabled = false; btn.innerHTML = original; }
+    const master = document.getElementById('selectAllFamilies');
+    if (master) master.checked = false;
+
+    const detached = deleted.reduce((total, row) => total + (row.detached || 0), 0);
+    let report = deleted.length + ' family login(s) deleted.';
+    if (detached) report += '\n\n' + detached + ' student(s) are still on your roster, now with no family. Use "Merge into families" or Add Parent to give them one.';
+    if (failed.length) {
+      report += '\n\nCould not delete ' + failed.length + ': ' +
+        failed.map((row) => (row.name || row.family_uid) + ' — ' + row.reason).slice(0, 5).join('; ');
+    }
+    alert(report);
+    await loadDashboardData();
+  }
+
   function renderParents() {
     const body = document.getElementById('parentDirectoryBody');
     if (!body) return;
@@ -5742,6 +5844,7 @@
       const username = family.username || '';
 
       html += '<div class="pill-row ' + motifs[index % 3] + '">' +
+        '<div class="col-check"><input type="checkbox" class="family-select-cb" data-id="' + family.uid + '" onchange="updateFamilyBulkDeleteButton()" style="cursor:pointer; width:16px; height:16px;"></div>' +
         '<div class="col-1 d-flex align-items-center gap-3">' +
           '<div style="width:40px; height:40px; border-radius:50%; background:rgba(255,255,255,0.7); display:flex; align-items:center; justify-content:center; color:#1f7d59;"><i class="fas fa-users"></i></div>' +
           escapeHtml(family.name || 'Family') +
@@ -5757,11 +5860,19 @@
           '<button class="action-btn" title="Add student" onclick="openAddChild(\'' + family.uid + '\')"><i class="fas fa-user-plus"></i></button>' +
           '<button class="action-btn ms-2" title="View children" onclick="openFamilyChildren(\'' + family.uid + '\')"><i class="fas fa-eye"></i></button>' +
           '<button class="action-btn ms-2" title="Reset password" onclick="resetFamilyPwd(\'' + family.uid + '\')"><i class="fas fa-key"></i></button>' +
+          '<button class="action-btn text-danger ms-2" title="Delete this family login" onclick="deleteFamily(\'' + family.uid + '\')"><i class="fas fa-trash"></i></button>' +
         '</div>' +
       '</div>';
     });
 
     body.innerHTML = html || '<div style="text-align:center; padding:2rem; color:#94a3b8; font-weight:700;">No family accounts yet. Use <b>Add Parent</b> to create the first one.</div>';
+
+    // The rows were just rebuilt, so every checkbox is unchecked again. Without
+    // this the button keeps the count from before the refresh and offers to
+    // delete a selection that is no longer on screen.
+    const master = document.getElementById('selectAllFamilies');
+    if (master) master.checked = false;
+    updateFamilyBulkDeleteButton();
   }
 
   /** Values here are generated codes — uppercase, digits and hyphens only. */

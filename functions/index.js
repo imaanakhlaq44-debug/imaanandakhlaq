@@ -1974,6 +1974,116 @@ exports.createFamilyLogins = onCall({ cors: true, timeoutSeconds: 540, maxInstan
   return { created: created, skipped: skipped };
 });
 
+/** Family accounts per call. Each one is an Auth delete plus a few writes. */
+const MAX_FAMILY_DELETES_PER_CALL = 20;
+
+/**
+ * Delete a family login. The children stay.
+ *
+ * A school ends up with families it does not want: a duplicate created twice,
+ * a test row, a parent who left. There was no way to remove one — the Parents
+ * tab could add, view and reset a password, and nothing else — so the list
+ * only ever grew, and a school could not tell a real family from a mistake.
+ *
+ * Deleting from the browser is not enough and would be worse than nothing.
+ * Firestore rules can let an admin delete the /users doc, but the Firebase
+ * Auth account behind it needs the Admin SDK. Removing only the profile leaves
+ * a login that still works and lands on an empty page, and no admin can see it
+ * to clean up. So the account goes first, here, and the profile after it.
+ *
+ * The children are DETACHED, never deleted. A student carries submissions,
+ * attendance, club points and a house; deleting the parent's login must not
+ * take a child's year with it. They return to the roster with no family, which
+ * is exactly the state "Merge into families" and Add student already handle.
+ */
+exports.deleteFamilyAccounts = onCall({ cors: true, timeoutSeconds: 300, maxInstances: 10 }, async (request) => {
+  const caller = await requireStaff(request, ['school_admin', 'super_admin']);
+  const data = request.data || {};
+
+  const uids = Array.isArray(data.family_uids) ? data.family_uids : null;
+  if (!uids || uids.length === 0) {
+    throw new HttpsError('invalid-argument', 'Name at least one family to delete.');
+  }
+  if (uids.length > MAX_FAMILY_DELETES_PER_CALL) {
+    throw new HttpsError('invalid-argument',
+      'Delete at most ' + MAX_FAMILY_DELETES_PER_CALL + ' families per call.');
+  }
+
+  const deleted = [];
+  const failed = [];
+
+  for (const raw of uids) {
+    const familyUid = String(raw || '').trim();
+    if (!familyUid) continue;
+
+    let family;
+    try {
+      // Checks the doc is a family and belongs to the caller's school. A
+      // school admin deleting another school's parent is the one thing this
+      // must never do.
+      family = await loadFamily(caller, familyUid);
+    } catch (err) {
+      failed.push({ family_uid: familyUid, reason: err.message || 'not found' });
+      continue;
+    }
+
+    try {
+      const childSnap = await db.collection('users').where('family_uid', '==', familyUid).get();
+      if (!childSnap.empty) {
+        const batch = db.batch();
+        childSnap.forEach((child) => {
+          // Deleting the field rather than nulling it: every query that finds
+          // unattached students tests for the field's absence, and a null
+          // would make them invisible to the very screens meant to fix this.
+          batch.update(child.ref, { family_uid: FieldValue.delete() });
+        });
+        await batch.commit();
+      }
+
+      // A claim code naming this family can never be redeemed once it is gone,
+      // and claimChild would refuse it anyway. Left behind it is a row that
+      // sits Pending for good — the same litter this dashboard just stopped
+      // creating for students.
+      const inviteSnap = await db.collection('invites').where('family_uid', '==', familyUid).get();
+      if (!inviteSnap.empty) {
+        const batch = db.batch();
+        inviteSnap.forEach((invite) => {
+          if (invite.get('status') !== 'used') batch.delete(invite.ref);
+        });
+        await batch.commit();
+      }
+
+      // The login stops working here. Ahead of the profile delete on purpose:
+      // if this throws, the family is still listed and the admin can try
+      // again, which is better than a live login nobody can see any more.
+      // A user already gone is not an error — that is a retry finishing.
+      await getAuth().deleteUser(familyUid).catch((err) => {
+        if (err.code !== 'auth/user-not-found') throw err;
+      });
+
+      await db.collection('users').doc(familyUid).delete();
+
+      deleted.push({
+        family_uid: familyUid,
+        name: family.name || '',
+        username: family.username || '',
+        detached: childSnap.size
+      });
+    } catch (err) {
+      // One family that will not delete must not abandon the rest of a
+      // selection. Reported by name, so the admin knows which to look at.
+      failed.push({ family_uid: familyUid, name: family.name || '', reason: err.message || String(err) });
+    }
+  }
+
+  // The children's own submissions and attendance keep the old family_uid.
+  // Nobody can sign in as a deleted account, so nothing can read them through
+  // it, and attachChildToFamily rewrites the field across everything a child
+  // owns the moment they join another family. Clearing them here would be
+  // hundreds of writes to undo work the next attach redoes anyway.
+  return { deleted: deleted, failed: failed };
+});
+
 /**
  * Unlock a new community school's wall.
  *
