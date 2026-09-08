@@ -1831,7 +1831,13 @@ const MAX_FAMILY_LOGINS_PER_CALL = 20;
  * pending row becomes a real family and the dead code goes in the same step,
  * so the school is not left holding both.
  */
-exports.createFamilyLogins = onCall({ cors: true, timeoutSeconds: 540 }, async (request) => {
+// maxInstances is not tuning, it is what lets this deploy at all. A v2
+// function claims maxInstances x cpu against the project's Cloud Run CPU
+// quota for the region, and the default of 100 puts this project over it —
+// the first deploy failed with "Quota exceeded for total allowable CPU per
+// project per region" before the container ever started. 10 is far more
+// than a school roster import needs: one admin, a few calls, minutes apart.
+exports.createFamilyLogins = onCall({ cors: true, timeoutSeconds: 540, maxInstances: 10 }, async (request) => {
   const caller = await requireStaff(request, ['school_admin', 'super_admin']);
   const data = request.data || {};
   const schoolId = resolveSchoolId(caller, data.school_id);
