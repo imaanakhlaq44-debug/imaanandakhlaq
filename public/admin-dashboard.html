@@ -3030,6 +3030,12 @@
             <button class="btn-outline-light" onclick="openClassesModal()" title="Name your classes the way your school does — every class picker uses this list"><i class="fas fa-chalkboard me-2"></i> Classes</button>
             <button class="btn-outline-light" onclick="exportStudentsCsv()" title="Download this list as a CSV file you can open in Excel"><i class="fas fa-file-arrow-down me-2"></i> Export CSV</button>
             <button class="btn-outline-light" id="mergeStudentsBtn" onclick="openMigration()" title="Turn students you already enrolled into family accounts, keeping all their work"><i class="fas fa-wand-magic-sparkles me-2"></i> Merge into families (<span id="unmergedCount">0</span>)</button>
+            <!-- Students an older Import Roster left as STU- codes. They are
+                 invites, not students — nothing in /users — so the scan behind
+                 "Merge into families" cannot see them, and the page their code
+                 was meant to be redeemed on no longer takes one. Without this
+                 they sit Pending for ever. See convertPendingStudents(). -->
+            <button class="btn-outline-light" id="convertPendingBtn" style="display:none;" onclick="convertPendingStudents()" title="These students were imported as claim codes nobody can redeem. This gives each one a family login instead."><i class="fas fa-key me-2"></i> Create logins for pending (<span id="pendingConvertCount">0</span>)</button>
             <button class="btn-outline-light" id="allocateHousesBtn" onclick="allocateHouses()" title="Sort students who have no club house yet into the four houses"><i class="fas fa-shield-halved me-2"></i> Allocate Houses (<span id="unhousedCount">0</span>)</button>
             <button class="btn-outline-light" onclick="openPinsModal()" title="Your school's link for students, and the roll number and PIN each one signs in with"><i class="fas fa-key me-2"></i> Student link &amp; PINs</button>
           </div>
@@ -3368,6 +3374,36 @@
   </div>
 </div>
 
+<!-- Every login a bulk action just created. Same rule as the slip above: the
+     passwords come back once and are stored nowhere, so this stays on screen
+     until the admin has printed or downloaded it. -->
+<div id="loginSheetModal" class="modal-overlay d-none">
+  <div class="modal-content modal-wide">
+    <div class="modal-topbar">
+      <div>
+        <span class="modal-kicker"><i class="fas fa-key"></i> Hand these to the parents</span>
+        <h3 class="modal-title" id="loginSheetTitle">Family logins created</h3>
+        <p class="modal-subtitle" id="loginSheetSubtitle">Print or download this now.</p>
+      </div>
+      <button class="modal-close" type="button" onclick="closeModal('loginSheetModal')"><i class="fas fa-times"></i></button>
+    </div>
+
+    <div id="loginSheetBody" style="max-height:340px; overflow:auto; border:1px solid #e2e8f0; border-radius:10px;"></div>
+    <div id="loginSheetSkipped"></div>
+
+    <div style="background:rgba(239,68,68,0.07); border:1px solid rgba(239,68,68,0.25); border-radius:14px; padding:12px 14px; margin-top:16px;">
+      <strong style="color:#b91c1c; font-size:0.85rem;"><i class="fas fa-triangle-exclamation me-1"></i> These passwords will not be shown again.</strong>
+      <p style="margin:4px 0 0; font-size:0.8rem; color:#7f1d1d;">Nothing stores them. If a line is lost, open the Parents tab and use <b>Reset password</b> for that family.</p>
+    </div>
+
+    <div class="modal-footer-actions">
+      <button class="btn-outline-light" onclick="downloadLoginSheet()"><i class="fas fa-file-arrow-down"></i> Download CSV</button>
+      <button class="btn-outline-light" onclick="printLoginSheet()"><i class="fas fa-print"></i> Print</button>
+      <button class="btn-solid" onclick="closeModal('loginSheetModal')">Done</button>
+    </div>
+  </div>
+</div>
+
 <!-- Read-only view of a family's children. Staff can already read their own
      school's students and submissions, so checking a child's work never needs
      the parent's password. -->
@@ -3564,11 +3600,20 @@
           </span>
         </label>
         <label style="display:flex; gap:10px; align-items:flex-start; cursor:pointer; font-weight:700;">
-          <input type="radio" name="bulkImportMode" value="invites" style="margin-top:4px;">
-          <span>Generate claim codes
-            <span style="display:block; font-weight:600; color:#64748b; font-size:0.85rem;">Each student gets a code a family redeems to create their own login.</span>
+          <input type="radio" name="bulkImportMode" value="logins" style="margin-top:4px;">
+          <span>Create students and family logins
+            <span style="display:block; font-weight:600; color:#64748b; font-size:0.85rem;">Every student is added with a parent account &mdash; a username and password you print and hand over. The same thing Add Student does.</span>
           </span>
         </label>
+      </div>
+    </div>
+    <!-- A community school reads this off the radios above. A full-time school
+         is given no choice, so it is told here what an import will do — the
+         sheet of passwords at the end should not be a surprise. -->
+    <div class="d-none" id="bulkImportLoginNote" style="display:flex; gap:10px; align-items:flex-start; background:#eff6ff; border:1px solid #bfdbfe; border-radius:10px; padding:12px 14px; margin-bottom:14px;">
+      <i class="fas fa-key" style="color:#2563eb; margin-top:3px;"></i>
+      <div style="font-size:0.85rem; color:#1e3a8a; font-weight:600;">
+        <b>Every student is added with a family login.</b> The parent gets a username and password — the same as adding a student one at a time. You will get a printable sheet of them when the import finishes.
       </div>
     </div>
     <div class="form-group">
@@ -4528,6 +4573,9 @@
     const modeRow = document.getElementById('bulkImportModeRow');
     if (modeRow) modeRow.classList.toggle('d-none', !community);
 
+    const loginNote = document.getElementById('bulkImportLoginNote');
+    if (loginNote) loginNote.classList.toggle('d-none', community);
+
     const banner = document.getElementById('wallPendingBanner');
     if (banner) banner.classList.toggle('d-none', !community || currentSchoolApproved);
 
@@ -4711,9 +4759,15 @@
     }
   };
 
-  /** Which import path the admin picked. Full-time schools never see the choice. */
+  /**
+   * Which import path the admin picked.
+   *
+   * A full-time school never sees the choice, and no longer gets claim codes:
+   * its parents sign in with a family account, so codes an import wrote were
+   * slips nobody could redeem and rows that sat Pending for good.
+   */
   function selectedImportMode() {
-    if (!isCommunitySchool()) return 'invites';
+    if (!isCommunitySchool()) return 'logins';
     const picked = document.querySelector('input[name="bulkImportMode"]:checked');
     return picked ? picked.value : 'roster';
   }
@@ -4750,6 +4804,53 @@
     return { created: created, skipped: skipped };
   }
 
+  /**
+   * Import students as family logins — a parent account and the child on it,
+   * the same pair Add New Student creates.
+   *
+   * Goes through createFamilyLogins rather than looping createFamilyAccount
+   * and createChild from here: creating a login needs the Admin SDK, and a
+   * 200-row sheet would otherwise be 400 round-trips over a school's
+   * connection with no record of where it stopped.
+   */
+  async function importFamilyLogins(records, countsEl) {
+    const rows = records.map((record) => ({
+      name: record.name,
+      class_id: normalizeClassName(record.className),
+      // The guardian column, when the sheet has one. Without it the callable
+      // names the family after the child rather than dropping the row.
+      parent_name: record.fatherName || '',
+      parent_phone: record.phone || ''
+    }));
+    return createLoginsInChunks(rows, countsEl, 'Creating family logins');
+  }
+
+  /**
+   * Feed rows to createFamilyLogins in the size it accepts.
+   *
+   * 20 is the callable's own ceiling: each row is a Firebase Auth account plus
+   * two writes, so a bigger call would run into its own timeout rather than
+   * finish sooner. Results accumulate across the chunks because the passwords
+   * are shown once, and a sheet missing its first hundred rows is no sheet.
+   */
+  async function createLoginsInChunks(rows, countsEl, label) {
+    const CHUNK = 20;
+    const created = [];
+    const skipped = [];
+    for (let i = 0; i < rows.length; i += CHUNK) {
+      const slice = rows.slice(i, i + CHUNK);
+      const res = await callCreateFamilyLogins({ students: slice });
+      const payload = (res && res.data) || {};
+      (payload.created || []).forEach((row) => created.push(row));
+      (payload.skipped || []).forEach((row) => skipped.push(row));
+      if (countsEl) {
+        countsEl.textContent = label + '... ' +
+          Math.min(i + slice.length, rows.length) + ' / ' + rows.length;
+      }
+    }
+    return { created: created, skipped: skipped };
+  }
+
   window.confirmBulkImport = async (trigger) => {
     const preview = window.bulkImportPreview;
     if(!preview) return alert('No data to import. Upload a file first.');
@@ -4775,27 +4876,14 @@
         } });
       });
 
-      // Every student also gets a parent invite linked to their code.
-      // One code per student. Each row used to queue a second PAR- invite as
-      // well, but parents no longer hold their own account: the family signs in
-      // with this code and unlocks Parent Area with a 4-digit PIN. The father's
-      // name and contact stay on the student record, they just no longer mint a
-      // login the rules would now reject.
-      // A community school importing in 'roster' mode queues no student invites
-      // at all — the students are created below, after the teacher batch.
-      const rosterMode = selectedImportMode() === 'roster';
-      if (!rosterMode) {
-        preview.students.forEach((record) => {
-          const code = genCode('STU', taken);
-          queue.push({ code: code, payload: {
-            code: code, role: 'student', school_id: schoolId, name: record.name,
-            class_id: normalizeClassName(record.className), section: record.section,
-            roll_number: record.roll, gender: record.gender,
-            parent_name: record.fatherName, parent_phone: record.phone, parent_email: record.email,
-            raw: record.raw, status: 'pending', created_at: createdAt
-          } });
-        });
-      }
+      // No student invites are queued here any more, in either mode. An STU-
+      // code is a slip a family redeems on /auth to build its own login, and
+      // nobody registers that way: the login screen asks for the username and
+      // password the school hands over. Every code this used to write was a
+      // row that sat Pending for good. Students are created below instead —
+      // as a roster record, or with the family login that reaches them. See
+      // selectedImportMode().
+      const mode = selectedImportMode();
 
       // Parent-only rows are reported, not imported. Turning them into students
       // would invent pupils who do not exist.
@@ -4812,12 +4900,16 @@
         if (countsEl) countsEl.textContent = 'Importing... ' + Math.min(i + chunk.length, queue.length) + ' / ' + queue.length + ' records';
       }
 
-      // Students, when the school asked for a roster rather than claim codes.
-      // After the invite batches, so a failure here leaves the teachers in
-      // rather than rolling everything back to nothing.
+      // Students, after the teacher batch, so a failure here leaves the
+      // teachers in rather than rolling everything back to nothing.
       let roster = null;
-      if (rosterMode && preview.students.length) {
-        roster = await importRosterStudents(preview.students, countsEl);
+      let logins = null;
+      if (preview.students.length) {
+        if (mode === 'roster') {
+          roster = await importRosterStudents(preview.students, countsEl);
+        } else {
+          logins = await importFamilyLogins(preview.students, countsEl);
+        }
       }
 
       // A sheet is where new class names come from. Folding them into the
@@ -4826,18 +4918,36 @@
       await absorbImportedClasses(preview);
 
       closeModal('bulkImportModal');
-      await loadDashboardData();
-      const studentLine = roster
-        ? roster.created + ' students added to your roster' +
-          (roster.skipped.length ? ', ' + roster.skipped.length + ' skipped (already on the roster)' : '')
-        : preview.students.length + ' students';
-      alert('Imported: ' + studentLine + ', ' + preview.teachers.length + ' teachers.' +
-        (skippedParents ? '\n\n' + skippedParents + ' parent row(s) were skipped — parents do not need their own account any more. They sign in with their child\'s code and open Parent Area.' : ''));
       window.bulkImportPreview = null;
       const fileInput = document.getElementById('bulkFileInput');
       if (fileInput) fileInput.value = '';
       if (countsEl) countsEl.textContent = '';
       document.getElementById('bulkPreviewBody').innerHTML = '';
+
+      const parentNote = skippedParents
+        ? '\n\n' + skippedParents + ' parent row(s) were skipped — parents do not need their own account any more. They sign in with the family login and open Parent Area.'
+        : '';
+
+      // The sheet goes up before anything refreshes. These passwords exist
+      // nowhere but on this screen, and a reload that failed must not take
+      // them down with it — the same reasoning as the slip in addStudent.
+      if (logins) {
+        showLoginSheet(
+          'Imported ' + logins.created.length + ' students',
+          preview.teachers.length + ' teachers imported. One family login per student — print or download this before closing.',
+          logins.created,
+          logins.skipped
+        );
+        if (parentNote) console.info('[Import]' + parentNote);
+      } else {
+        const studentLine = roster
+          ? roster.created + ' students added to your roster' +
+            (roster.skipped.length ? ', ' + roster.skipped.length + ' skipped (already on the roster)' : '')
+          : preview.students.length + ' students';
+        alert('Imported: ' + studentLine + ', ' + preview.teachers.length + ' teachers.' + parentNote);
+      }
+
+      await loadDashboardData();
     } catch(err) {
       alert('Import failed: ' + err.message);
     } finally {
@@ -5271,6 +5381,7 @@
 
     refreshUnhousedCount();
     refreshUnmergedCount();
+    refreshPendingConvertCount();
 
     // Families are not filtered by class: a household can have children in
     // several, and hiding a parent because one of their children sits outside
@@ -5415,6 +5526,7 @@
   const callCreateChild = httpsCallable(functions, 'createChild');
   const callResetFamilyPassword = httpsCallable(functions, 'resetFamilyPassword');
   const callCreateRosterStudents = httpsCallable(functions, 'createRosterStudents');
+  const callCreateFamilyLogins = httpsCallable(functions, 'createFamilyLogins');
   const callCreateTeacherAccount = httpsCallable(functions, 'createTeacherAccount');
   const callResetTeacherPassword = httpsCallable(functions, 'resetTeacherPassword');
   const callIssueParentLink = httpsCallable(functions, 'issueParentLink');
@@ -5681,6 +5793,208 @@
     slip.document.close();
     slip.focus();
     slip.print();
+  };
+
+  // What the last bulk action produced. Held in memory, and only until this
+  // page is left: Firebase keeps a hash of these passwords and nothing else,
+  // and a second copy anywhere is the leak the hash exists to prevent.
+  let loginSheetRows = [];
+
+  /** Why a row did not get a login, in words an admin can act on. */
+  const LOGIN_SKIP_REASONS = {
+    duplicate: 'already on your roster',
+    invalid_name: 'no usable name in that row',
+    code_missing: 'that code no longer exists',
+    other_school: 'that code belongs to another school',
+    already_redeemed: 'that code was already redeemed',
+    family_failed: 'the family account could not be created',
+    student_failed: 'the student could not be saved'
+  };
+
+  /**
+   * Show every login a bulk action just created.
+   *
+   * showHandover holds one account, which is right for Add New Student and
+   * useless for a 200-row import: the admin needs the whole list at once, and
+   * needs it in a form they can carry out of the room. Hence Print and
+   * Download, not only Copy.
+   */
+  function showLoginSheet(title, subtitle, rows, skipped) {
+    loginSheetRows = rows || [];
+    document.getElementById('loginSheetTitle').textContent = title;
+    document.getElementById('loginSheetSubtitle').textContent = subtitle;
+
+    const heads = ['Student', 'Class', 'Family', 'Username', 'Password'];
+    let html = '<table style="width:100%; border-collapse:collapse; font-size:0.85rem;"><tr>' +
+      heads.map((head) => '<th style="text-align:left; padding:8px 10px; position:sticky; top:0; background:#f8fafc; ' +
+        'color:#64748b; font-weight:800; font-size:0.68rem; letter-spacing:0.07em; text-transform:uppercase;">' +
+        head + '</th>').join('') + '</tr>';
+
+    // Username and password are generated codes — uppercase letters, digits
+    // and a hyphen — so they are safe to sit inside the onclick attribute,
+    // the same assumption showHandover makes.
+    loginSheetRows.forEach((row) => {
+      const cell = 'padding:8px 10px; border-top:1px solid #f1f5f9;';
+      html += '<tr>' +
+        '<td style="' + cell + ' font-weight:700;">' + escapeHtml(row.name) + '</td>' +
+        '<td style="' + cell + '">' + escapeHtml(row.class_id || '—') + '</td>' +
+        '<td style="' + cell + '">' + escapeHtml(row.parent_name || '—') + '</td>' +
+        '<td style="' + cell + '"><code class="copyable-code" onclick="copyCodeInteractive(this, \'' + row.username + '\')" title="Click to copy">' + escapeHtml(row.username) + '</code></td>' +
+        '<td style="' + cell + '"><code class="copyable-code" onclick="copyCodeInteractive(this, \'' + row.password + '\')" title="Click to copy">' + escapeHtml(row.password) + '</code></td>' +
+      '</tr>';
+    });
+
+    document.getElementById('loginSheetBody').innerHTML = loginSheetRows.length
+      ? html + '</table>'
+      : '<div style="padding:1.5rem; text-align:center; color:#94a3b8; font-weight:700;">No new logins were created.</div>';
+
+    // Skipped rows are reported, never silently dropped. Half of them are the
+    // ordinary case — re-importing a sheet the school already imported — and
+    // an admin who cannot see which half is left guessing at their own roster.
+    const skipEl = document.getElementById('loginSheetSkipped');
+    const list = skipped || [];
+    if (!list.length) {
+      skipEl.innerHTML = '';
+    } else {
+      const grouped = {};
+      list.forEach((row) => {
+        const label = LOGIN_SKIP_REASONS[row.reason] || row.reason || 'skipped';
+        (grouped[label] = grouped[label] || []).push(row.name || '(no name)');
+      });
+      skipEl.innerHTML = '<div style="margin-top:12px; background:rgba(245,158,11,0.08); border:1px solid rgba(245,158,11,0.3); border-radius:12px; padding:12px 14px;">' +
+        '<strong style="font-size:0.85rem; color:#b45309;"><i class="fas fa-info-circle me-1"></i> ' + list.length + ' row(s) did not need a login</strong>' +
+        Object.keys(grouped).map((label) =>
+          '<div style="font-size:0.8rem; color:#78350f; margin-top:6px;"><b>' + escapeHtml(label) + ':</b> ' +
+          escapeHtml(grouped[label].slice(0, 12).join(', ')) +
+          (grouped[label].length > 12 ? ' and ' + (grouped[label].length - 12) + ' more' : '') + '</div>').join('') +
+        '</div>';
+    }
+
+    openModal('loginSheetModal');
+  }
+
+  window.printLoginSheet = () => {
+    if (!loginSheetRows.length) return alert('There is nothing to print.');
+    const rows = loginSheetRows.map((row) =>
+      '<tr><td>' + escapeHtml(row.name) + '</td><td>' + escapeHtml(row.class_id || '') + '</td>' +
+      '<td>' + escapeHtml(row.parent_name || '') + '</td>' +
+      '<td><code>' + escapeHtml(row.username) + '</code></td>' +
+      '<td><code>' + escapeHtml(row.password) + '</code></td></tr>').join('');
+
+    const sheet = window.open('', '_blank', 'width=820,height=860');
+    if (!sheet) return alert('Allow pop-ups for this site to print the sheet.');
+    sheet.document.write('<!doctype html><meta charset="utf-8"><title>Family logins</title>' +
+      '<style>body{font-family:system-ui,-apple-system,sans-serif;padding:26px;color:#0f172a}' +
+      'h2{margin:0 0 4px;font-size:1.1rem}p{color:#64748b;font-size:.82rem;margin:0 0 18px}' +
+      'table{width:100%;border-collapse:collapse;font-size:.86rem}' +
+      'th,td{text-align:left;padding:9px 10px;border-bottom:1px solid #e2e8f0;vertical-align:top}' +
+      'th{font-size:.68rem;text-transform:uppercase;letter-spacing:.08em;color:#64748b}' +
+      'code{font-weight:700;letter-spacing:.04em}' +
+      'tr{page-break-inside:avoid}</style>' +
+      '<h2>Imaan &amp; Akhlaq — Family logins</h2>' +
+      '<p>One line per student. These passwords are stored nowhere and cannot be looked up again — if a line is lost, use Reset password on the Parents tab.</p>' +
+      '<table><tr><th>Student</th><th>Class</th><th>Family</th><th>Username</th><th>Password</th></tr>' + rows + '</table>');
+    sheet.document.close();
+    sheet.focus();
+    sheet.print();
+  };
+
+  window.downloadLoginSheet = () => {
+    if (!loginSheetRows.length) return alert('There is nothing to download.');
+    const rows = [['Student', 'Class', 'Family', 'Username', 'Password']];
+    loginSheetRows.forEach((row) => {
+      rows.push([row.name, row.class_id || '', row.parent_name || '', row.username, row.password]);
+    });
+    downloadCsv(exportFileName('family-logins'), rows);
+  };
+
+  /**
+   * The rows an older Import Roster left as pending STU- codes.
+   *
+   * A code carrying child_uid belongs to a student who already exists and is
+   * only waiting to be claimed — the same test the directory uses to draw a
+   * Pending row. These carry none, so there is no student behind them at all:
+   * nothing in /users, which is why planFamilyMigration cannot see them and
+   * "Merge into families" scans straight past.
+   */
+  function pendingConvertibleInvites() {
+    return invitesList.filter((invite) =>
+      invite.role === 'student' && invite.status === 'pending' && !invite.child_uid);
+  }
+
+  /**
+   * How many students are still waiting on a code nobody can redeem. The
+   * button carries the number and takes itself off the toolbar once there are
+   * none left, the same way Allocate Houses does.
+   */
+  function refreshPendingConvertCount() {
+    const el = document.getElementById('pendingConvertCount');
+    if (!el) return;
+    const pending = pendingConvertibleInvites().length;
+    el.textContent = String(pending);
+    const btn = document.getElementById('convertPendingBtn');
+    if (btn) btn.style.display = pending ? '' : 'none';
+  }
+
+  /**
+   * Turn those pending codes into real students with a family login.
+   *
+   * This is the migration that was missing. The codes cannot be redeemed —
+   * /auth asks for a username and password now, not a code — so without this
+   * an already-imported roster is stuck: the names are on screen, and there is
+   * no path from them to an account. Each row goes through the same callable
+   * the import uses, with from_code set, so the account is created first and
+   * the dead code is deleted only once it exists.
+   */
+  window.convertPendingStudents = async () => {
+    const pending = pendingConvertibleInvites();
+    if (!pending.length) return alert('There are no students waiting on a claim code.');
+
+    const message = 'Create a family login for ' + pending.length + ' student(s)?\n\n' +
+      'Each one becomes a real student on your roster with a parent account — a username and password you print and hand over. ' +
+      'The old claim code is removed, because it can no longer be redeemed anywhere.\n\n' +
+      'The passwords are shown once, on the sheet that opens next. Print or download it before closing.';
+    if (!confirm(message)) return;
+
+    const btn = document.getElementById('convertPendingBtn');
+    const original = btn ? btn.innerHTML : '';
+    if (btn) btn.disabled = true;
+
+    // createLoginsInChunks reports progress into an element's textContent.
+    // The button is the only thing on screen during this, so it plays that
+    // part rather than the modal's counter.
+    const progress = {
+      set textContent(text) {
+        if (btn) btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> ' + escapeHtml(text);
+      }
+    };
+
+    let result;
+    try {
+      result = await createLoginsInChunks(pending.map((invite) => ({
+        name: invite.name,
+        class_id: invite.class_id || '',
+        parent_name: invite.parent_name || '',
+        parent_phone: invite.parent_phone || '',
+        from_code: invite.code
+      })), progress, 'Creating logins');
+    } catch (err) {
+      if (btn) { btn.disabled = false; btn.innerHTML = original; }
+      return alert('Could not finish: ' + (err.message || err) +
+        '\n\nAny logins created before this point already exist. Run it again to finish the rest — students already added are skipped.');
+    }
+
+    if (btn) { btn.disabled = false; btn.innerHTML = original; }
+
+    // Before the refresh, for the same reason the import does it in that
+    // order: the passwords are on this screen and nowhere else.
+    showLoginSheet(
+      result.created.length + ' family logins created',
+      'These students were waiting on a claim code. Print or download this before closing.',
+      result.created,
+      result.skipped
+    );
+    await loadDashboardData();
   };
 
   window.createFamily = async (trigger) => {
