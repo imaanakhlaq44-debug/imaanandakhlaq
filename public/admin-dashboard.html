@@ -2186,7 +2186,14 @@
     .pill-row .col-4,
     .pill-row .col-5,
     .pill-row .col-6 {
-      flex: 0 0 auto;
+      flex: 0 1 auto;
+      /* Bootstrap ships a grid class of the same name, .col-2, with
+         width: 16.6667%. Above 900px the flex-basis of 0% hides it; here,
+         with flex-basis auto, that width became the cell — 51px on a phone —
+         and the username, the children and the phone number were painted on
+         top of each other. */
+      width: auto;
+      max-width: 100%;
       text-align: left;
       font-size: 0.8125rem;
       font-weight: 600;
@@ -6013,6 +6020,19 @@
     });
     document.getElementById('tab-' + tab).classList.remove('d-none');
     document.getElementById('nav-' + tab).classList.add('active');
+  };
+
+  // What one press of the hardware Back button means here, for the handler
+  // in src/lib/backButton.ts: any tab other than the overview goes back to
+  // the overview. On the overview the handler takes over — press twice to
+  // leave the app. Open menus and modals are closed before this is asked.
+  window.__iaBackIntercept = () => {
+    const overview = document.getElementById('tab-overview');
+    if (overview && overview.classList.contains('d-none')) {
+      window.switchAdminTab('overview');
+      return true;
+    }
+    return false;
   };
 
   window.addTeacher = async (trigger) => {
