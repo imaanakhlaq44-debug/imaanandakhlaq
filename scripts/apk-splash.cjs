@@ -58,6 +58,9 @@ const html = `<!DOCTYPE html>
     <p class="splash-tagline">Islamic Stories &amp; Education for Kids</p>
   </div>
   <script>
+    // Straight through. The native splash has already covered the launch, so
+    // holding this page for another 1.8 seconds only made the app feel slow;
+    // the artwork above is what shows for the few frames the redirect takes.
     setTimeout(function() {
       var dest = 'auth.html';
       try {
@@ -70,7 +73,7 @@ const html = `<!DOCTYPE html>
         }
       } catch(e) {}
       window.location.replace(dest);
-    }, 1800);
+    }, 0);
   </script>
 </body>
 </html>`;

@@ -2077,16 +2077,8 @@ export const ActivityPage = () => html`
 
   }
 
-  document.addEventListener('DOMContentLoaded', () => {
-    setTimeout(() => {
-      const isCap = window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform();
-      if (isCap && window.Capacitor.Plugins && window.Capacitor.Plugins.App) {
-        window.Capacitor.Plugins.App.removeAllListeners('backButton');
-        window.Capacitor.Plugins.App.addListener('backButton', () => {
-          window.location.href = 'student-activities.html';
-        });
-      }
-    }, 1000);
-  });
+  // The hardware Back button is handled by the APK shell
+  // (scripts/apk-shell.cjs): on this page it goes to the dashboard, the same
+  // place the arrow at the top of the reader goes.
 </script>
 `

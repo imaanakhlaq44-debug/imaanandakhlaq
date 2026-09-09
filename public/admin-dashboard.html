@@ -58,74 +58,14 @@
         }
         var path = window.location.pathname.replace(/\/index\.html$/, '/').replace(/\.html$/, '').replace(/\/$/, '') || '/';
         // Only allow these pages in app
-        var allowed = ['/auth', '/student-activities', '/teacher-dashboard', '/admin-dashboard', '/super-admin-dashboard', '/activity'];
+        var allowed = ['/auth', '/student-activities', '/family', '/teacher-dashboard', '/teacher-reader', '/admin-dashboard', '/super-admin-dashboard', '/activity', '/club'];
         if (!allowed.some(p => path === p)) {
           window.location.replace('auth.html');
         }
 
-        /* IA_PULL_TO_REFRESH — replaced at build time with the shared
-           implementation in src/lib/pullToRefresh.ts. This page is static, so
-           it cannot import it; the /admin-dashboard route substitutes it the
-           same way it substitutes the Firebase config. Its own copy used to
-           live here and drifted: a different threshold, different rules, and
-           none of the fixes the other dashboards got. */
-        // Hardware Back Button Handling for Android
-        document.addEventListener('DOMContentLoaded', function() {
-          if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.App) {
-            var lastBackPress = 0;
-
-            // Push a dummy history entry so system back doesn't pop the WebView
-            var isDashboard = ['/student-activities', '/teacher-dashboard', '/admin-dashboard', '/super-admin-dashboard'].some(function(p) {
-              return window.location.pathname.includes(p);
-            });
-            if (isDashboard) {
-              history.pushState(null, '', window.location.href);
-              window.addEventListener('popstate', function() {
-                history.pushState(null, '', window.location.href);
-              });
-            }
-
-            window.Capacitor.Plugins.App.addListener('backButton', function(data) {
-              var path = window.location.pathname;
-              
-              // Sub-pages: just go back in history
-              if (path.includes('activity.html') || path.includes('club.html') || path.includes('blog-article') || path.includes('blog.html') || path.includes('contact.html') || path.includes('about.html')) {
-                 window.history.back();
-                 return;
-              }
-
-              // Auth page: exit immediately
-              if (path.includes('auth.html')) {
-                 window.Capacitor.Plugins.App.exitApp();
-                 return;
-              }
-
-              // Dashboard pages (student, teacher, parent, admin): warn first, exit/minimize on 2nd press
-              var now = new Date().getTime();
-              if (now - lastBackPress < 2000) {
-                // Second press — minimize app (goes to background, does NOT logout)
-                if (window.Capacitor.Plugins.App.minimizeApp) {
-                  window.Capacitor.Plugins.App.minimizeApp();
-                } else {
-                  window.Capacitor.Plugins.App.exitApp();
-                }
-              } else {
-                lastBackPress = now;
-                var toast = document.createElement('div');
-                toast.innerText = 'Press back again to exit';
-                toast.style.cssText = 'position:fixed; bottom:90px; left:50%; transform:translateX(-50%); background:rgba(0,0,0,0.85); color:white; padding:12px 24px; border-radius:30px; z-index:999999; font-family:sans-serif; font-size:14px; font-weight:500; text-align:center; box-shadow:0 4px 15px rgba(0,0,0,0.3); transition:opacity 0.2s ease; opacity:0; pointer-events:none;';
-                document.body.appendChild(toast);
-                
-                setTimeout(function() { toast.style.opacity = '1'; }, 10);
-                
-                setTimeout(function() {
-                  toast.style.opacity = '0';
-                  setTimeout(function() { if(toast.parentNode) toast.remove(); }, 300);
-                }, 2000);
-              }
-            });
-          }
-        });
+        // Back button, keyboard and the bottom bar are the APK shell's job:
+        // scripts/apk-shell.cjs injects one handler into every page of the
+        // app at build time. Nothing else runs here.
       }
     })();
   </script>
@@ -3656,14 +3596,36 @@
   </button>
 </div>
 
-<!-- Load parsing libraries for browser (XLSX, mammoth for DOCX, pdf.js for PDF) -->
-<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
-<script src="https://unpkg.com/mammoth/mammoth.browser.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"></script>
+<!-- Roster-import parsers (XLSX, mammoth for DOCX, pdf.js for PDF), loaded
+     the first time a file is imported. Together they are ~1.8 MB, and they
+     used to load synchronously right here, on every visit, from three CDNs —
+     the single biggest reason this dashboard opened slowly, and in the app on
+     a weak signal sometimes not at all. Versions are pinned: the APK build
+     (scripts/apk-vendor.cjs) swaps these URLs for copies inside the package,
+     and it has to know exactly which files those are. -->
 <script>
-  if (window.pdfjsLib) {
-    window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js';
-  }
+  var IA_IMPORT_LIBS = {
+    xlsx: { src: 'https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js', ready: function () { return !!window.XLSX; } },
+    mammoth: { src: 'https://unpkg.com/mammoth@1.8.0/mammoth.browser.min.js', ready: function () { return !!window.mammoth; } },
+    pdfjs: { src: 'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js', ready: function () { return !!window.pdfjsLib; },
+             after: function () { window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js'; } }
+  };
+  var iaLibPromises = {};
+  window.iaEnsureImportLibs = function (name) {
+    var lib = IA_IMPORT_LIBS[name];
+    if (!lib) return Promise.reject(new Error('Unknown library: ' + name));
+    if (lib.ready()) return Promise.resolve();
+    if (!iaLibPromises[name]) {
+      iaLibPromises[name] = new Promise(function (resolve, reject) {
+        var el = document.createElement('script');
+        el.src = lib.src;
+        el.onload = function () { try { if (lib.after) lib.after(); } catch (e) {} resolve(); };
+        el.onerror = function () { delete iaLibPromises[name]; reject(new Error('Could not load ' + name)); };
+        document.head.appendChild(el);
+      });
+    }
+    return iaLibPromises[name];
+  };
 </script>
 <script>
   // Mobile sidebar toggle
@@ -4414,6 +4376,7 @@
   }
 
   async function parseSheetMatrices(file) {
+    try { await window.iaEnsureImportLibs('xlsx'); } catch (e) {}
     if (!window.XLSX) throw new Error('Spreadsheet reader could not load — check your internet connection and try again.');
     const buffer = await file.arrayBuffer();
     const workbook = window.XLSX.read(buffer, { type: 'array' });
@@ -4423,6 +4386,7 @@
 
   async function parseDOCXMatrix(file) {
     const buffer = await file.arrayBuffer();
+    try { await window.iaEnsureImportLibs('mammoth'); } catch (e) {}
     if (!window.mammoth) return parseDelimitedMatrix(new TextDecoder().decode(buffer));
     const result = await window.mammoth.convertToHtml({ arrayBuffer: buffer });
     const parsed = new DOMParser().parseFromString(result.value || '', 'text/html');
@@ -4438,6 +4402,7 @@
   }
 
   async function parsePDFMatrix(file) {
+    try { await window.iaEnsureImportLibs('pdfjs'); } catch (e) {}
     const lib = window.pdfjsLib;
     if (!lib) throw new Error('PDF reader could not load — check your internet connection, or export the list as Excel/CSV.');
     const buffer = await file.arrayBuffer();
@@ -4978,6 +4943,19 @@
     return 'student';
   }
 
+  // Which dashboard an account belongs on. Anyone who lands on the wrong
+  // page is sent there — never signed out, never shown a "login required"
+  // wall while their session is perfectly valid. A stale role cached on the
+  // phone (index.html routes a launch by it) is how people used to end up
+  // on the wrong page in the first place.
+  function iaDashboardFor(role) {
+    if (role === 'super_admin') return 'super-admin-dashboard.html';
+    if (role === 'school_admin') return 'admin-dashboard.html';
+    if (role === 'teacher') return 'teacher-dashboard.html';
+    if (role === 'student' || role === 'individual') return 'student-activities.html';
+    if (role === 'family') return 'family.html';
+    return '';
+  }
   onAuthStateChanged(auth, async (user) => {
     try {
       showDebug('onAuthStateChanged fired — user: ' + (user ? user.uid : 'null'));
@@ -5006,6 +4984,12 @@
           await loadDashboardData();
           showDebug('Dashboard data load complete');
         } else {
+           // Signed in as somebody who is not a school admin — a teacher, a
+           // family, the platform owner. Their session is fine; this page is
+           // wrong for it. Signing them out here was how "I pressed back and
+           // the app logged me out" happened. Send them to their own page.
+           const home = iaDashboardFor(data && data.role);
+           if (home) { showDebug('Not a school admin — going to ' + home); window.location.replace(home); return; }
            showDebug('Unauthorized or missing user doc — signing out');
            alert("Unauthorized. This portal is for School Admins only.");
            signOut(auth);
@@ -5020,7 +5004,10 @@
         })();
         const isCap = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
         const maxAttempts = isCap ? 12 : 6;
-        if (stored) {
+        // In the app there is no way onto this page without signing in, so a
+        // null here is the WebView still reading the saved session: wait for
+        // it whether or not the role cache survived.
+        if (stored || isCap) {
           document.body.insertAdjacentHTML('beforeend', `
             <div id="authWaitOverlay" style="position:fixed; inset:0; background:rgba(30, 45, 90, 0.95); display:flex; flex-direction:column; justify-content:center; align-items:center; z-index:99999;">
                <i class="fas fa-spinner fa-spin" style="font-size:3rem; color:#E08020; margin-bottom:20px;"></i>
@@ -5037,6 +5024,9 @@
           if (waitOverlay) waitOverlay.remove();
           if (restored) return;
         }
+        // Nobody is signed in. In the app that means the login page, which
+        // has every sign-in flow and resumes a session if one turns up.
+        if (isCap) { window.location.replace('auth.html'); return; }
 
         if (loginView) loginView.classList.remove('d-none');
         if (dashboardView) dashboardView.classList.add('d-none');
@@ -5071,6 +5061,10 @@
   window.logoutAdmin = () => {
         try { sessionStorage.setItem('ia_just_logged_out', '1'); } catch (e) {}
         signOut(auth).then(() => {
+      // Both stores. Only sessionStorage was cleared before, and the copy
+      // left in localStorage routed the next app launch straight back to
+      // this page for whoever signed in after.
+      localStorage.removeItem('auth_user');
       sessionStorage.removeItem('auth_user');
       window.location.replace('auth.html');
     });

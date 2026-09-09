@@ -396,8 +396,36 @@ export const FamilyDashboard = () => html`
     document.getElementById('famLoading').style.display = 'none';
   }
 
+  // Which dashboard an account belongs on. Anyone who lands on the wrong
+  // page is sent there — never signed out, never shown a "login required"
+  // wall while their session is perfectly valid. A stale role cached on the
+  // phone (index.html routes a launch by it) is how people used to end up
+  // on the wrong page in the first place.
+  function iaDashboardFor(role) {
+    if (role === 'super_admin') return 'super-admin-dashboard.html';
+    if (role === 'school_admin') return 'admin-dashboard.html';
+    if (role === 'teacher') return 'teacher-dashboard.html';
+    if (role === 'student' || role === 'individual') return 'student-activities.html';
+    if (role === 'family') return 'family.html';
+    return '';
+  }
+  let famRestoreTried = false;
   onAuthStateChanged(auth, async (user) => {
     if (!user) {
+      // In the app the first callback can be null while the WebView is still
+      // reading the saved session; the other dashboards wait, so this one
+      // does too. A null that outlasts the wait means nobody is signed in,
+      // and the login page is where that is dealt with.
+      const isCap = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
+      if (isCap && !famRestoreTried) {
+        famRestoreTried = true;
+        for (let attempt = 0; attempt < 12; attempt++) {
+          await new Promise((r) => setTimeout(r, 1000));
+          if (auth.currentUser) return; // the next callback carries the user
+        }
+        window.location.replace('auth.html');
+        return;
+      }
       return block('Sign in required', 'Please sign in with your family account to see your children.');
     }
 
@@ -413,6 +441,8 @@ export const FamilyDashboard = () => html`
       return block('Profile missing', 'Your login worked but no profile was found. Please contact your school.');
     }
     if (me.role !== 'family') {
+      const home = iaDashboardFor(me.role);
+      if (home) { window.location.replace(home); return; }
       return block('Family account required', 'This page is for the family account your school created. Sign in with the PAR- username.');
     }
 

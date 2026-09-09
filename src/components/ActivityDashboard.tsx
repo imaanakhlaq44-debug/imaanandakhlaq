@@ -4328,6 +4328,19 @@ ${HouseQuizModal()}
 
   let hasInitializedDashboard = false;
 
+  // Which dashboard an account belongs on. Anyone who lands on the wrong
+  // page is sent there — never signed out, never shown a "login required"
+  // wall while their session is perfectly valid. A stale role cached on the
+  // phone (index.html routes a launch by it) is how people used to end up
+  // on the wrong page in the first place.
+  function iaDashboardFor(role) {
+    if (role === 'super_admin') return 'super-admin-dashboard.html';
+    if (role === 'school_admin') return 'admin-dashboard.html';
+    if (role === 'teacher') return 'teacher-dashboard.html';
+    if (role === 'student' || role === 'individual') return 'student-activities.html';
+    if (role === 'family') return 'family.html';
+    return '';
+  }
   onAuthStateChanged(auth, async (user) => {
     // CRITICAL: never re-run on back-navigation. Firebase re-emits on every
     // WebView resume — we must ignore all calls after the first successful init.
@@ -4342,7 +4355,10 @@ ${HouseQuizModal()}
       })();
       const isCap = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
       const maxAttempts = isCap ? 12 : 6;
-      if (stored) {
+      // In the app there is no way onto this page without signing in, so a
+      // null here is the WebView still reading the saved session: wait for it
+      // whether or not the role cache survived.
+      if (stored || isCap) {
         document.body.insertAdjacentHTML('beforeend', \`
           <div id="authWaitOverlay" style="position:fixed; inset:0; background:rgba(30, 45, 90, 0.95); display:flex; flex-direction:column; justify-content:center; align-items:center; z-index:99999;">
              <i class="fas fa-spinner fa-spin" style="font-size:3rem; color:#E08020; margin-bottom:20px;"></i>
@@ -4359,6 +4375,9 @@ ${HouseQuizModal()}
         if (waitOverlay) waitOverlay.remove();
         if (restored) return; // a fresh onAuthStateChanged with the user will fire
       }
+      // Nobody is signed in. The login page, not a dead-end wall: it has
+      // every sign-in flow, and it resumes a session if one turns up.
+      if (isCap) { window.location.replace('auth.html'); return; }
       showAccessOverlay('Authentication Required', 'You must be logged in as a Student to view this page with real data.');
       return;
     }
@@ -4409,6 +4428,8 @@ ${HouseQuizModal()}
 
         userData = childSnap.data();
       } else if (userData.role !== 'student' && userData.role !== 'individual') {
+        const home = iaDashboardFor(userData.role);
+        if (home) { window.location.replace(home); return; }
         showAccessOverlay('Student Login Required', 'You cannot view this page with your current account. Please use a student or individual learner profile.');
         return;
       }
@@ -4547,49 +4568,25 @@ ${HouseQuizModal()}
     if (document.visibilityState === 'visible') refreshGameStateFromFirestore();
   });
 
-  // ── Back button handler (Capacitor) ──────────────────────────────────────────
-  document.addEventListener('DOMContentLoaded', () => {
-    setTimeout(() => {
-      const isCap = window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform();
-      if (isCap && window.Capacitor.Plugins && window.Capacitor.Plugins.App) {
-        var lastBackPressStudent = 0;
-        window.Capacitor.Plugins.App.removeAllListeners('backButton').then(() => {
-          window.Capacitor.Plugins.App.addListener('backButton', () => {
-            // If inside a book or sub-section — just navigate back
-            if (currentBookContext) {
-              currentBookContext = null;
-              renderBooks();
-              return;
-            }
-            if (currentStudentSection !== 'overview') {
-              window.switchStudentSection('overview', false);
-              return;
-            }
-            // On overview (main screen) — show warning toast first
-            var now = new Date().getTime();
-            if (now - lastBackPressStudent < 2000) {
-              if (window.Capacitor.Plugins.App.minimizeApp) {
-                window.Capacitor.Plugins.App.minimizeApp();
-              } else {
-                window.Capacitor.Plugins.App.exitApp();
-              }
-            } else {
-              lastBackPressStudent = now;
-              var toast = document.createElement('div');
-              toast.innerText = 'Press back again to exit';
-              toast.style.cssText = 'position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.85);color:white;padding:12px 24px;border-radius:30px;z-index:999999;font-family:sans-serif;font-size:14px;font-weight:500;text-align:center;box-shadow:0 4px 15px rgba(0,0,0,0.3);transition:opacity 0.2s ease;opacity:0;pointer-events:none;';
-              document.body.appendChild(toast);
-              setTimeout(function() { toast.style.opacity = '1'; }, 10);
-              setTimeout(function() {
-                toast.style.opacity = '0';
-                setTimeout(function() { if(toast.parentNode) toast.remove(); }, 300);
-              }, 2000);
-            }
-          });
-        });
-      }
-    }, 1200);
-  });
+  // ── Back button ─────────────────────────────────────────────────────────
+  // The hardware button is decided in one place, the APK shell
+  // (scripts/apk-shell.cjs). This page only says what one step back means
+  // here: out of an open book, then back to the overview. When neither
+  // applies the shell takes over — press twice to leave the app. This used
+  // to be a listener of its own that first removed every other listener,
+  // the shell's included.
+  window.iaCloseTopLayer = () => {
+    if (currentBookContext) {
+      currentBookContext = null;
+      renderBooks();
+      return true;
+    }
+    if (currentStudentSection !== 'overview') {
+      window.switchStudentSection('overview', false);
+      return true;
+    }
+    return false;
+  };
 
   // User's custom Book Accordion design
   (function(){
