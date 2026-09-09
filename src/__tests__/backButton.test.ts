@@ -79,7 +79,7 @@ describe('back button ownership', () => {
   it('substitutes the shared pieces into the static admin dashboard', () => {
     const page = read('public/admin-dashboard.html')
     const route = read('src/app.ts')
-    for (const marker of ['IA_APK_ALLOWED', 'IA_APP_UPDATE', 'IA_BACK_BUTTON', 'IA_PULL_TO_REFRESH']) {
+    for (const marker of ['IA_APK_ALLOWED', 'IA_APP_UPDATE', 'IA_BACK_BUTTON']) {
       expect(page, marker + ' marker missing from admin-dashboard.html').toContain(marker)
       expect(route, marker + ' is never substituted by the /admin-dashboard route').toContain(marker)
     }
@@ -100,36 +100,29 @@ describe('back button ownership', () => {
   })
 })
 
-describe('the bottom bar stands down', () => {
+describe('the APK shell stands down', () => {
+  // The bottom bar used to carry a back handler of its own for the pages it
+  // builds (Azkar, Tasbeeh, FAQs, About) and had to be told to stand down
+  // everywhere else. That handler now lives in scripts/apk-shell.cjs, which
+  // is injected into every page of the app, and it attaches only where the
+  // handler from src/lib/backButton.ts is absent.
+  const shell = code('scripts/apk-shell.cjs')
   const bar = code('scripts/apk-bottombar.cjs')
 
-  it('checks the page-owns-back flag before doing anything else', () => {
-    const listenerAt = bar.indexOf("addListener('backButton'")
-    expect(listenerAt, 'bottom bar backButton listener not found').toBeGreaterThan(-1)
+  it('leaves the bottom bar with no back handler at all', () => {
+    expect(bar).not.toContain("addListener('backButton'")
+  })
 
-    const body = bar.slice(listenerAt)
-    const guardAt = body.indexOf('window.__iaBackHandler')
-    const navigateAt = body.indexOf('window.location')
-    const historyAt = body.indexOf('window.history.back')
-
-    expect(guardAt, '__iaBackHandler guard missing from the bar listener').toBeGreaterThan(-1)
-    // The guard used to sit fourth, behind a branch that navigated to the
-    // student dashboard — so on a chapter page the bar acted before standing
-    // down, and Head.tsx acted too.
-    for (const [label, at] of [['a navigation', navigateAt], ['history.back', historyAt]] as const) {
-      if (at > -1) {
-        expect(
-          guardAt,
-          'The bar reaches ' + label + ' before checking __iaBackHandler.'
-        ).toBeLessThan(at)
-      }
-    }
+  it('checks the page-owns-back flag before attaching', () => {
+    const listenerAt = shell.indexOf("addListener('backButton'")
+    expect(listenerAt, 'shell backButton listener not found').toBeGreaterThan(-1)
+    const guardAt = shell.indexOf('window.__iaBackHandler')
+    expect(guardAt, '__iaBackHandler guard missing from the shell').toBeGreaterThan(-1)
+    expect(guardAt, 'The shell attaches before checking __iaBackHandler.').toBeLessThan(listenerAt)
   })
 
   it('offers the same intercept contract Head.tsx uses', () => {
-    // auth.html has no Head.tsx script — the APK build strips it — so the bar
-    // is the only handler there, and the auth page states its rule the same way.
-    expect(bar).toContain('__iaBackIntercept')
+    expect(shell).toContain('__iaBackIntercept')
   })
 })
 

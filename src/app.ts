@@ -1,7 +1,6 @@
 import { Hono } from 'hono'
 import activitiesData from './data/activities.json'
 import { html } from 'hono/html'
-import { pullToRefreshJS } from './lib/pullToRefresh'
 import { apkAllowedRoutesJS } from './lib/appRoutes'
 import { appUpdateJS } from './lib/appUpdate'
 import { backButtonJS } from './lib/backButton'
@@ -253,20 +252,6 @@ app.get('/admin-dashboard', async (c) => {
     )
   }
   source = source.replace(CONFIG_BLOCK, 'const firebaseConfig = ' + firebaseConfigJS + ';')
-
-  // Same reasoning for pull to refresh. This page carried its own copy, which
-  // drifted from every other dashboard's — a different threshold and none of
-  // the rules that tell a pull apart from a scroll. One implementation now,
-  // substituted here.
-  const PTR_MARKER = /\/\* IA_PULL_TO_REFRESH[\s\S]*?\*\//
-  if (!PTR_MARKER.test(source)) {
-    throw new Error(
-      'admin-dashboard.html: the IA_PULL_TO_REFRESH marker is gone. Put it back, ' +
-      'or this page silently ships without pull to refresh.'
-    )
-  }
-  source = source.replace(PTR_MARKER, pullToRefreshJS)
-
 
   // Same substitution for the local emulator connector. The marker is a
   // comment in the static file, so a production build simply leaves the

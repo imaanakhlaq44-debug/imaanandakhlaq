@@ -1804,6 +1804,360 @@ exports.createRosterStudents = onCall({ cors: true }, async (request) => {
   return { created: created, skipped: skipped };
 });
 
+/** Family logins per call. Each row is a Firebase Auth create plus two writes,
+ *  so the ceiling here is wall-clock time, not Firestore's batch limit. */
+const MAX_FAMILY_LOGINS_PER_CALL = 20;
+
+/**
+ * Bulk-create a family login and one child for each row.
+ *
+ * Import Roster used to queue an invites/{STU-XXXXX} document per student and
+ * leave the family to redeem it on /auth. Nobody registers that way any more —
+ * Add New Student stopped doing it (createFamilyAccount then createChild) and
+ * the login screen asks for a username and a password — so every code an
+ * import wrote was a slip that could not be redeemed and a row that sat
+ * Pending for good. This is the same two steps Add New Student does, per row.
+ *
+ * Deliberately NOT createFamilyAccount + createChild called in a loop from the
+ * browser: 200 students is 400 callable round-trips over a school's
+ * connection, and a tab closed halfway through leaves the admin no record of
+ * which rows already landed.
+ *
+ * NOT createRosterStudents either. That one creates students with no login at
+ * all, which is right for a community school and wrong for a full-time one
+ * whose parents sign in.
+ *
+ * from_code converts a student invite an older import already wrote: the
+ * pending row becomes a real family and the dead code goes in the same step,
+ * so the school is not left holding both.
+ */
+// maxInstances is not tuning, it is what lets this deploy at all. A v2
+// function claims maxInstances x cpu against the project's Cloud Run CPU
+// quota for the region, and the default of 100 puts this project over it —
+// the first deploy failed with "Quota exceeded for total allowable CPU per
+// project per region" before the container ever started. 10 is far more
+// than a school roster import needs: one admin, a few calls, minutes apart.
+exports.createFamilyLogins = onCall({ cors: true, timeoutSeconds: 540, maxInstances: 10 }, async (request) => {
+  const caller = await requireStaff(request, ['school_admin', 'super_admin']);
+  const data = request.data || {};
+  const schoolId = resolveSchoolId(caller, data.school_id);
+
+  const rows = Array.isArray(data.students) ? data.students : null;
+  if (!rows || rows.length === 0) {
+    throw new HttpsError('invalid-argument', 'Send at least one student.');
+  }
+  if (rows.length > MAX_FAMILY_LOGINS_PER_CALL) {
+    throw new HttpsError('invalid-argument',
+      'Send at most ' + MAX_FAMILY_LOGINS_PER_CALL + ' students per call.');
+  }
+
+  // The whole roster, read once. Re-importing last term's sheet is the normal
+  // case, and a duplicate costs more here than it does on a roster import: it
+  // is a second login for a family that already has one, and nobody can tell
+  // afterwards which of the two the parent actually uses.
+  const existing = new Set();
+  const rosterSnap = await db.collection('users')
+    .where('school_id', '==', schoolId)
+    .where('role', '==', 'student')
+    .get();
+  rosterSnap.forEach((d) => { existing.add(rosterKey(d.get('class_id'), d.get('name'))); });
+
+  const created = [];
+  const skipped = [];
+
+  for (const row of rows) {
+    const name = String((row && row.name) || '').trim().replace(/\s+/g, ' ');
+    const classId = String((row && row.class_id) || '').trim();
+    const fromCode = String((row && row.from_code) || '').trim().toUpperCase();
+
+    if (name.length < 2 || name.length > 80) {
+      skipped.push({ name: name, class_id: classId, reason: 'invalid_name' });
+      continue;
+    }
+
+    // A sheet with no guardian column is the ordinary case, and the family is
+    // still the one who signs in. Named after the child rather than skipped,
+    // so the import finishes and the admin renames it from the Parents tab.
+    const parentName = String((row && row.parent_name) || '').trim() ||
+      (name + ' — family').slice(0, 80);
+    const parentPhone = String((row && row.parent_phone) || '').trim();
+
+    const key = rosterKey(classId, name);
+    if (existing.has(key)) {
+      skipped.push({ name: name, class_id: classId, reason: 'duplicate' });
+      continue;
+    }
+
+    // Read before anything is created. Converting a code belonging to another
+    // school, or one a family has already redeemed, would either move a
+    // student across schools or issue a second login for an account in use.
+    let inviteRef = null;
+    if (fromCode) {
+      const snap = await db.collection('invites').doc(fromCode).get();
+      if (!snap.exists) {
+        skipped.push({ name: name, class_id: classId, reason: 'code_missing' });
+        continue;
+      }
+      const invite = snap.data();
+      if (invite.school_id !== schoolId && caller.role !== 'super_admin') {
+        skipped.push({ name: name, class_id: classId, reason: 'other_school' });
+        continue;
+      }
+      if (invite.status === 'used') {
+        skipped.push({ name: name, class_id: classId, reason: 'already_redeemed' });
+        continue;
+      }
+      inviteRef = snap.ref;
+    }
+
+    let family;
+    try {
+      family = await provisionFamilyAccount({
+        name: parentName,
+        phone: parentPhone,
+        schoolId: schoolId,
+        createdBy: caller.uid
+      });
+    } catch (err) {
+      // One bad row must not abandon the two hundred behind it. Reported
+      // instead, so the admin can fix those rows and import only them again.
+      skipped.push({ name: name, class_id: classId, reason: 'family_failed', detail: err.message });
+      continue;
+    }
+
+    const childRef = db.collection('users').doc();
+    try {
+      await childRef.set({
+        role: 'student',
+        name: name,
+        school_id: schoolId,
+        class_id: classId,
+        family_uid: family.family_uid,
+        created_at: nowIso(),
+        created_by: caller.uid
+        // No phone and no email on a child, for the reason spelled out in
+        // createChild: lookupEmailByPhone matches on phone across /users, and
+        // a child carrying the family's number could win that race.
+      });
+    } catch (err) {
+      // A family account with nobody on it signs in to an empty page, and no
+      // admin can tell it apart from a real one. Take it back out rather than
+      // leave that behind.
+      await getAuth().deleteUser(family.family_uid).catch(() => {});
+      await db.collection('users').doc(family.family_uid).delete().catch(() => {});
+      skipped.push({ name: name, class_id: classId, reason: 'student_failed', detail: err.message });
+      continue;
+    }
+
+    // Last, and only once both halves exist. A code deleted ahead of the
+    // account replacing it is a student who ends up with neither.
+    if (inviteRef) await inviteRef.delete().catch(() => {});
+
+    existing.add(key);
+    // No STU- code is minted here, unlike createChild. That code exists so an
+    // unattached child can be claimed later; this child already has the family
+    // it belongs to, so the code would only be litter.
+    created.push({
+      student_uid: childRef.id,
+      family_uid: family.family_uid,
+      name: name,
+      class_id: classId,
+      parent_name: parentName,
+      username: family.username,
+      password: family.password
+    });
+  }
+
+  // Passwords come back ONCE and are stored nowhere — see
+  // provisionFamilyAccount. The caller has to show or print them before the
+  // page goes anywhere else.
+  return { created: created, skipped: skipped };
+});
+
+/** Accounts per call, family or teacher. Each is an Auth delete plus writes. */
+const MAX_ACCOUNT_DELETES_PER_CALL = 20;
+
+/**
+ * Delete a family login. The children stay.
+ *
+ * A school ends up with families it does not want: a duplicate created twice,
+ * a test row, a parent who left. There was no way to remove one — the Parents
+ * tab could add, view and reset a password, and nothing else — so the list
+ * only ever grew, and a school could not tell a real family from a mistake.
+ *
+ * Deleting from the browser is not enough and would be worse than nothing.
+ * Firestore rules can let an admin delete the /users doc, but the Firebase
+ * Auth account behind it needs the Admin SDK. Removing only the profile leaves
+ * a login that still works and lands on an empty page, and no admin can see it
+ * to clean up. So the account goes first, here, and the profile after it.
+ *
+ * The children are DETACHED, never deleted. A student carries submissions,
+ * attendance, club points and a house; deleting the parent's login must not
+ * take a child's year with it. They return to the roster with no family, which
+ * is exactly the state "Merge into families" and Add student already handle.
+ */
+exports.deleteFamilyAccounts = onCall({ cors: true, timeoutSeconds: 300, maxInstances: 10 }, async (request) => {
+  const caller = await requireStaff(request, ['school_admin', 'super_admin']);
+  const data = request.data || {};
+
+  const uids = Array.isArray(data.family_uids) ? data.family_uids : null;
+  if (!uids || uids.length === 0) {
+    throw new HttpsError('invalid-argument', 'Name at least one family to delete.');
+  }
+  if (uids.length > MAX_ACCOUNT_DELETES_PER_CALL) {
+    throw new HttpsError('invalid-argument',
+      'Delete at most ' + MAX_ACCOUNT_DELETES_PER_CALL + ' families per call.');
+  }
+
+  const deleted = [];
+  const failed = [];
+
+  for (const raw of uids) {
+    const familyUid = String(raw || '').trim();
+    if (!familyUid) continue;
+
+    let family;
+    try {
+      // Checks the doc is a family and belongs to the caller's school. A
+      // school admin deleting another school's parent is the one thing this
+      // must never do.
+      family = await loadFamily(caller, familyUid);
+    } catch (err) {
+      failed.push({ family_uid: familyUid, reason: err.message || 'not found' });
+      continue;
+    }
+
+    try {
+      const childSnap = await db.collection('users').where('family_uid', '==', familyUid).get();
+      if (!childSnap.empty) {
+        const batch = db.batch();
+        childSnap.forEach((child) => {
+          // Deleting the field rather than nulling it: every query that finds
+          // unattached students tests for the field's absence, and a null
+          // would make them invisible to the very screens meant to fix this.
+          batch.update(child.ref, { family_uid: FieldValue.delete() });
+        });
+        await batch.commit();
+      }
+
+      // A claim code naming this family can never be redeemed once it is gone,
+      // and claimChild would refuse it anyway. Left behind it is a row that
+      // sits Pending for good — the same litter this dashboard just stopped
+      // creating for students.
+      const inviteSnap = await db.collection('invites').where('family_uid', '==', familyUid).get();
+      if (!inviteSnap.empty) {
+        const batch = db.batch();
+        inviteSnap.forEach((invite) => {
+          if (invite.get('status') !== 'used') batch.delete(invite.ref);
+        });
+        await batch.commit();
+      }
+
+      // The login stops working here. Ahead of the profile delete on purpose:
+      // if this throws, the family is still listed and the admin can try
+      // again, which is better than a live login nobody can see any more.
+      // A user already gone is not an error — that is a retry finishing.
+      await getAuth().deleteUser(familyUid).catch((err) => {
+        if (err.code !== 'auth/user-not-found') throw err;
+      });
+
+      await db.collection('users').doc(familyUid).delete();
+
+      deleted.push({
+        family_uid: familyUid,
+        name: family.name || '',
+        username: family.username || '',
+        detached: childSnap.size
+      });
+    } catch (err) {
+      // One family that will not delete must not abandon the rest of a
+      // selection. Reported by name, so the admin knows which to look at.
+      failed.push({ family_uid: familyUid, name: family.name || '', reason: err.message || String(err) });
+    }
+  }
+
+  // The children's own submissions and attendance keep the old family_uid.
+  // Nobody can sign in as a deleted account, so nothing can read them through
+  // it, and attachChildToFamily rewrites the field across everything a child
+  // owns the moment they join another family. Clearing them here would be
+  // hundreds of writes to undo work the next attach redoes anyway.
+  return { deleted: deleted, failed: failed };
+});
+
+/**
+ * Delete a teacher login.
+ *
+ * The dashboard could already remove a teacher, but only by deleting the
+ * /users doc from the browser — which left the Firebase Auth account behind.
+ * That teacher could still sign in. They landed on "you cannot view this page
+ * with your current account" rather than a class, so nothing leaked, but the
+ * login stayed alive with no row anywhere for an admin to see it by, and the
+ * school had no way to take it back. Same defect the family list had, same
+ * fix: the account goes through the Admin SDK, here.
+ *
+ * Nothing else is touched. A teacher is joined to a class by a class_id
+ * string, not by uid, so no student is orphaned by this — unlike a family,
+ * where the children hang off the account being removed.
+ */
+exports.deleteTeacherAccounts = onCall({ cors: true, timeoutSeconds: 300, maxInstances: 10 }, async (request) => {
+  const caller = await requireStaff(request, ['school_admin', 'super_admin']);
+  const data = request.data || {};
+
+  const uids = Array.isArray(data.teacher_uids) ? data.teacher_uids : null;
+  if (!uids || uids.length === 0) {
+    throw new HttpsError('invalid-argument', 'Name at least one teacher to delete.');
+  }
+  if (uids.length > MAX_ACCOUNT_DELETES_PER_CALL) {
+    throw new HttpsError('invalid-argument',
+      'Delete at most ' + MAX_ACCOUNT_DELETES_PER_CALL + ' teachers per call.');
+  }
+
+  const deleted = [];
+  const failed = [];
+
+  for (const raw of uids) {
+    const teacherUid = String(raw || '').trim();
+    if (!teacherUid) continue;
+
+    const snap = await db.collection('users').doc(teacherUid).get();
+    if (!snap.exists || snap.data().role !== 'teacher') {
+      failed.push({ teacher_uid: teacherUid, reason: 'That teacher account does not exist.' });
+      continue;
+    }
+    const teacher = snap.data();
+    // A school admin removes their own school's teachers and nobody else's —
+    // the same boundary resetTeacherPassword draws.
+    if (caller.role !== 'super_admin' && teacher.school_id !== caller.school_id) {
+      failed.push({ teacher_uid: teacherUid, name: teacher.name || '', reason: 'That teacher belongs to another school.' });
+      continue;
+    }
+
+    try {
+      // Ahead of the profile delete, for the reason deleteFamilyAccounts
+      // spells out: a throw here leaves the teacher listed and retryable,
+      // which beats a working login nobody can find. A teacher who registered
+      // through an old TCH- invite owns a real email address rather than a
+      // username, and is deleted the same way — this is the school removing
+      // an account it created a place for, not a password reset.
+      await getAuth().deleteUser(teacherUid).catch((err) => {
+        if (err.code !== 'auth/user-not-found') throw err;
+      });
+
+      await db.collection('users').doc(teacherUid).delete();
+
+      deleted.push({
+        teacher_uid: teacherUid,
+        name: teacher.name || '',
+        username: teacher.username || ''
+      });
+    } catch (err) {
+      failed.push({ teacher_uid: teacherUid, name: teacher.name || '', reason: err.message || String(err) });
+    }
+  }
+
+  return { deleted: deleted, failed: failed };
+});
+
 /**
  * Unlock a new community school's wall.
  *

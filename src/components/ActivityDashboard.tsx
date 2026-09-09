@@ -3985,6 +3985,19 @@ ${HouseQuizModal()}
 
   let hasInitializedDashboard = false;
 
+  // Which dashboard an account belongs on. Anyone who lands on the wrong
+  // page is sent there — never signed out, never shown a "login required"
+  // wall while their session is perfectly valid. A stale role cached on the
+  // phone (index.html routes a launch by it) is how people used to end up
+  // on the wrong page in the first place.
+  function iaDashboardFor(role) {
+    if (role === 'super_admin') return 'super-admin-dashboard.html';
+    if (role === 'school_admin') return 'admin-dashboard.html';
+    if (role === 'teacher') return 'teacher-dashboard.html';
+    if (role === 'student' || role === 'individual') return 'student-activities.html';
+    if (role === 'family') return 'family.html';
+    return '';
+  }
   onAuthStateChanged(auth, async (user) => {
     // CRITICAL: never re-run on back-navigation. Firebase re-emits on every
     // WebView resume — we must ignore all calls after the first successful init.
@@ -3999,7 +4012,10 @@ ${HouseQuizModal()}
       })();
       const isCap = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
       const maxAttempts = isCap ? 12 : 6;
-      if (stored) {
+      // In the app there is no way onto this page without signing in, so a
+      // null here is the WebView still reading the saved session: wait for it
+      // whether or not the role cache survived.
+      if (stored || isCap) {
         document.body.insertAdjacentHTML('beforeend', \`
           <div id="authWaitOverlay" style="position:fixed; inset:0; background:rgba(30, 45, 90, 0.95); display:flex; flex-direction:column; justify-content:center; align-items:center; z-index:99999;">
              <i class="fas fa-spinner fa-spin" style="font-size:3rem; color:#E08020; margin-bottom:20px;"></i>
@@ -4016,6 +4032,9 @@ ${HouseQuizModal()}
         if (waitOverlay) waitOverlay.remove();
         if (restored) return; // a fresh onAuthStateChanged with the user will fire
       }
+      // Nobody is signed in. The login page, not a dead-end wall: it has
+      // every sign-in flow, and it resumes a session if one turns up.
+      if (isCap) { window.location.replace('auth.html'); return; }
       showAccessOverlay('Authentication Required', 'You must be logged in as a Student to view this page with real data.');
       return;
     }
@@ -4066,6 +4085,8 @@ ${HouseQuizModal()}
 
         userData = childSnap.data();
       } else if (userData.role !== 'student' && userData.role !== 'individual') {
+        const home = iaDashboardFor(userData.role);
+        if (home) { window.location.replace(home); return; }
         showAccessOverlay('Student Login Required', 'You cannot view this page with your current account. Please use a student or individual learner profile.');
         return;
       }

@@ -1,5 +1,4 @@
 import { html, raw } from 'hono/html';
-import { pullToRefreshJS } from '../lib/pullToRefresh';
 import { apkAllowedRoutesJS } from '../lib/appRoutes';
 import { appUpdateJS } from '../lib/appUpdate';
 import { backButtonJS } from '../lib/backButton';
@@ -80,12 +79,6 @@ export const Head = () => html`\n<!DOCTYPE html>
         // A new version on Play, asked for on launch rather than left for
         // Android to notice in its own time. See src/lib/appUpdate.ts.
         ${raw(appUpdateJS)}
-
-        // Pull to refresh — rules and wiring both live in
-        // src/lib/pullToRefresh.ts, where the rules can be tested. They could
-        // not be before: this whole block only runs inside a Capacitor
-        // WebView, so nothing on a desktop or in CI ever exercised it.
-        ${raw(pullToRefreshJS)}
 
         ${raw(backButtonJS)}
       }

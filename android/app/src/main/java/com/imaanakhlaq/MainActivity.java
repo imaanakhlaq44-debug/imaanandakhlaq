@@ -3,7 +3,6 @@ package com.imaanakhlaq;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.webkit.WebView;
 
 import androidx.core.app.ActivityCompat;
@@ -22,26 +21,13 @@ public class MainActivity extends BridgeActivity {
         tweakWebViewSettings();
     }
 
-    /**
-     * Hardware/system BACK button:
-     *   - If WebView has navigation history → go back one page (like a browser)
-     *   - Otherwise → fall through to default (which finishes the activity / exits)
-     */
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            try {
-                WebView webView = this.bridge != null ? this.bridge.getWebView() : null;
-                if (webView != null && webView.canGoBack()) {
-                    webView.goBack();
-                    return true;
-                }
-            } catch (Throwable t) {
-                t.printStackTrace();
-            }
-        }
-        return super.onKeyDown(keyCode, event);
-    }
+    // The hardware BACK button is deliberately NOT handled here. It used to
+    // call webView.goBack() whenever the WebView had history, which ran
+    // before Capacitor's own dispatch and so before any JavaScript listener.
+    // The pages' handlers never saw those presses, and the WebView walked
+    // back through whatever history it had — including the login page.
+    // Capacitor's BridgeActivity forwards the press to the App plugin, and
+    // the one listener in kidba_assets/js/apk-shell.js decides what it means.
 
     private void requestNeededPermissions() {
         String[] perms = new String[] {

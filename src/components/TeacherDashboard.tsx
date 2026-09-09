@@ -2557,6 +2557,18 @@ export const TeacherDashboard = () => html`
   // re-reading every student doc.
   let studentsById = {};
   let currentTeacherSection = 'overview';
+
+  // What one press of the hardware Back button means here, for the one
+  // handler in src/lib/backButton.ts: a section other than the overview goes
+  // back to the overview. On the overview the handler takes over — press
+  // twice to leave the app.
+  window.__iaBackIntercept = () => {
+    if (currentTeacherSection !== 'overview') {
+      window.switchTeacherSection('overview');
+      return true;
+    }
+    return false;
+  };
   const teacherSectionTargets = {
     overview: 'teacherPanelOverview',
     students: 'teacherPanelStudents',
@@ -4199,6 +4211,19 @@ export const TeacherDashboard = () => html`
     rosterEl.innerHTML = rosterHtml;
   }
 
+  // Which dashboard an account belongs on. Anyone who lands on the wrong
+  // page is sent there — never signed out, never shown a "login required"
+  // wall while their session is perfectly valid. A stale role cached on the
+  // phone (index.html routes a launch by it) is how people used to end up
+  // on the wrong page in the first place.
+  function iaDashboardFor(role) {
+    if (role === 'super_admin') return 'super-admin-dashboard.html';
+    if (role === 'school_admin') return 'admin-dashboard.html';
+    if (role === 'teacher') return 'teacher-dashboard.html';
+    if (role === 'student' || role === 'individual') return 'student-activities.html';
+    if (role === 'family') return 'family.html';
+    return '';
+  }
   onAuthStateChanged(auth, async (user) => {
     if (user) {
       const waitOverlay = document.getElementById('authWaitOverlay');
@@ -4237,6 +4262,8 @@ export const TeacherDashboard = () => html`
           document.getElementById('teacherDashboardView').classList.remove('d-none');
           initDashboard();
         } else {
+          const home = iaDashboardFor(userDoc.exists() ? userDoc.data().role : '');
+          if (home) { window.location.replace(home); return; }
           document.body.insertAdjacentHTML('beforeend', \`
             <div id="demoOverlay" style="position:fixed; inset:0; background:rgba(30, 45, 90, 0.85); backdrop-filter:blur(8px); display:flex; justify-content:center; align-items:center; z-index:99999;">
               <div style="background:white; padding:40px; border-radius:24px; text-align:center; max-width:400px; box-shadow: 0 20px 40px rgba(0,0,0,0.3);">
@@ -4267,7 +4294,10 @@ export const TeacherDashboard = () => html`
       })();
       const isCap = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
       const maxAttempts = isCap ? 12 : 6;
-      if (stored) {
+      // In the app there is no way onto this page without signing in, so a
+      // null here is the WebView still reading the saved session: wait for it
+      // whether or not the role cache survived.
+      if (stored || isCap) {
         document.body.insertAdjacentHTML('beforeend', \`
           <div id="authWaitOverlay" style="position:fixed; inset:0; background:rgba(30, 45, 90, 0.95); display:flex; flex-direction:column; justify-content:center; align-items:center; z-index:99999;">
              <i class="fas fa-spinner fa-spin" style="font-size:3rem; color:#E08020; margin-bottom:20px;"></i>
@@ -4284,6 +4314,9 @@ export const TeacherDashboard = () => html`
         if (waitOverlay) waitOverlay.remove();
         if (restored) return;
       }
+      // Nobody is signed in. The login page, not a dead-end wall: it has
+      // every sign-in flow, and it resumes a session if one turns up.
+      if (isCap) { window.location.replace('auth.html'); return; }
 
       document.body.insertAdjacentHTML('beforeend', \`
         <div id="demoOverlay" style="position:fixed; inset:0; background:rgba(30, 45, 90, 0.85); backdrop-filter:blur(8px); display:flex; justify-content:center; align-items:center; z-index:99999;">
