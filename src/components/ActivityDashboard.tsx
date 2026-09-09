@@ -1264,6 +1264,13 @@ export const ActivityDashboard = () => html`
   @media (max-width: 1120px) {
     .dashboard-shell {
       grid-template-columns: 1fr;
+      /* The shell keeps its 100vh floor so a short page still fills the
+         screen, and a grid hands that spare height to its rows. With the
+         sidebar folded into a strip above the content, its share of that
+         was a slab of empty navy under the nav — about 110px of nothing.
+         Rows take their own height now; the spare space stays at the foot
+         of the page, where it cannot be mistaken for a panel. */
+      align-content: start;
     }
 
     .sidebar-panel {

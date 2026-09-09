@@ -265,6 +265,24 @@
     box-shadow: none;
   }
 
+  /* A count on a button belongs to the label it counts. Written as literal
+     parentheses it was free to break onto a line of its own, so a wrapped
+     button read "Clear Old Parent Codes" above a lonely "( 6 )". */
+  .btn-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.55em;
+    padding: 0.05em 0.45em;
+    border-radius: 999px;
+    background: rgba(15, 23, 42, 0.09);
+    font-size: 0.78em;
+    font-weight: 800;
+    font-style: normal;
+    white-space: nowrap;
+  }
+  .btn-solid .btn-count { background: rgba(255, 255, 255, 0.26); }
+
   .btn-primary-light {
     width: 100%;
   }
@@ -2174,32 +2192,142 @@
     .overview-lower-grid { grid-template-columns: 1fr !important; }
     .panel-stack { grid-template-columns: 1fr; }
 
-    /* Table */
+    /* ── A list row is a card on a phone ──────────────────────────────────
+       A table row does not survive being folded onto a 400px screen. Cells
+       that were columns were laid side by side with whatever width they
+       could get — Bootstrap's own .col-2 (width: 16.6667%) even lends its
+       name to these classes, so a cell could end up 51px wide — and the
+       username, the children and the phone number were drawn on top of one
+       another, each ellipsised to "Talha ...".
+
+       So below 900px a row stops being a row: the name is a heading, every
+       other cell is its own line captioned by data-label (the same word the
+       desktop header row uses), and the buttons sit together at the foot of
+       the card. Nothing is truncated, because there is a whole line for it. */
     .table-header-row { display: none; }
-    /* Without a header row each cell has to caption itself, so a student used
-       to occupy five stacked lines. Name on one line, everything else on one
-       meta line under it. */
-    .pill-row { flex-wrap: wrap; align-items: center; row-gap: 4px; }
-    .pill-row .col-1 { flex: 1 1 100%; text-align: left; font-size: 0.9375rem; }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0;
+      row-gap: 0;
+      padding: 0.8rem 0.9rem 0.55rem;
+      border-radius: 16px;
+    }
+    .pill-row > * { min-width: 0; }
+
+    /* Line one: the checkbox, if the list has one, beside the name. */
+    .pill-row .col-check { flex: 0 0 auto; margin-right: 0.65rem; }
+    .pill-row .col-1 {
+      flex: 1 1 60%;
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      font-family: 'Sora', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--admin-ink);
+      line-height: 1.3;
+      /* The desktop rule ellipsises this to keep the columns aligned. Here
+         there are no columns to align, and a name is worth two lines. */
+      white-space: normal;
+      overflow: visible;
+      text-overflow: clip;
+      padding-bottom: 0.15rem;
+    }
+
+    /* Every other cell: one line, its caption on the left, its value right. */
     .pill-row .col-2,
     .pill-row .col-3,
     .pill-row .col-4,
     .pill-row .col-5,
     .pill-row .col-6 {
-      flex: 0 1 auto;
-      /* Bootstrap ships a grid class of the same name, .col-2, with
-         width: 16.6667%. Above 900px the flex-basis of 0% hides it; here,
-         with flex-basis auto, that width became the cell — 51px on a phone —
-         and the username, the children and the phone number were painted on
-         top of each other. */
+      flex: 1 1 100%;
       width: auto;
       max-width: 100%;
-      text-align: left;
-      font-size: 0.8125rem;
-      font-weight: 600;
-      color: var(--ds-muted);
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      padding: 0.42rem 0;
+      border-top: 1px solid rgba(15, 23, 42, 0.07);
+      text-align: right;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #475569;
     }
-    .pill-row .col-actions { flex: 0 0 auto; margin-left: auto; text-align: right; }
+    .pill-row [data-label]::before {
+      content: attr(data-label);
+      margin-right: auto;
+      padding-right: 0.5rem;
+      font-family: 'Sora', sans-serif;
+      font-size: 0.63rem;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: #94a3b8;
+      white-space: nowrap;
+    }
+    /* Values wrap onto the next line rather than being cut short. */
+    .pill-row .col-1 > span,
+    .pill-row .col-2 > span,
+    .pill-row .col-3 > span,
+    .pill-row .col-4 > span {
+      white-space: normal;
+      overflow: visible;
+      text-overflow: clip;
+      display: inline;
+      max-width: none;
+    }
+    .pill-row code { white-space: normal; word-break: break-all; }
+
+    /* The buttons, together, at the foot of the card. */
+    .pill-row .col-actions {
+      flex: 1 1 100%;
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.45rem;
+      margin: 0.15rem 0 0;
+      padding-top: 0.5rem;
+      border-top: 1px solid rgba(15, 23, 42, 0.07);
+      text-align: right;
+    }
+    .pill-row .col-actions:empty { display: none; }
+    /* .ms-2 comes from Bootstrap and fought the gap above. */
+    .pill-row .col-actions .action-btn { margin: 0 !important; }
+    .pill-row .action-btn { width: 40px; height: 40px; }
+
+    /* ── One toolbar, not a staircase ──────────────────────────────────────
+       These buttons are inline-flex and the strip is right-aligned and
+       wrapping, so seven of them came out as seven lines of seven different
+       widths, each ending at the right edge. Two even columns instead, with
+       the primary action across the top. */
+    .section-header { flex-direction: column; align-items: stretch; }
+    .section-actions {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.5rem;
+      width: 100%;
+      padding: 0;
+      background: transparent;
+      border: 0;
+    }
+    .section-actions > .btn-solid,
+    .section-actions > .class-filter-wrap,
+    .section-actions > .status-pill { grid-column: 1 / -1; }
+    .section-actions > .btn-solid { order: -1; }
+    .section-actions > button {
+      width: 100%;
+      min-height: 48px;
+      padding: 0.6rem 0.7rem;
+      font-size: 0.8rem;
+      line-height: 1.25;
+      border-radius: 14px;
+      text-align: center;
+    }
+    .section-actions > button i { flex: 0 0 auto; margin: 0 !important; }
 
     .modal-content { padding: 18px; border-radius: 20px; max-height: calc(100vh - 1.5rem); }
     .modal-footer-actions { padding: 0 18px; margin: 0 -18px; bottom: -18px; }
@@ -2266,15 +2394,6 @@
       width: 100%;
     }
 
-    .col-1,
-    .col-2,
-    .col-3,
-    .col-4,
-    .col-5,
-    .col-6,
-    .col-actions {
-      flex: 1 1 100%;
-    }
 
     .login-card {
       padding: 1.8rem 1.35rem;
@@ -2957,16 +3076,16 @@
             </div>
           </div>
           <div class="section-actions">
-            <button class="btn-outline-light text-danger d-none" id="bulkDeleteBtn" onclick="deleteSelectedStudents()"><i class="fas fa-trash-alt me-2"></i> Delete Selected (<span id="selectedCount">0</span>)</button>
+            <button class="btn-outline-light text-danger d-none" id="bulkDeleteBtn" onclick="deleteSelectedStudents()"><i class="fas fa-trash-alt me-2"></i> Delete Selected <b class="btn-count"><span id="selectedCount">0</span></b></button>
             <!-- Community schools only. A roster of 300 children is 300 clicks
                  without this, which is the same as the school never recording
                  consent at all — and a child with no answer recorded is a
                  child left out of every photograph. -->
-            <button class="btn-outline-light d-none" id="bulkConsentYes" onclick="setSelectedConsent('granted')"><i class="fas fa-camera me-2"></i> Photos allowed (<span class="bulk-consent-count">0</span>)</button>
-            <button class="btn-outline-light d-none" id="bulkConsentNo" onclick="setSelectedConsent('denied')"><i class="fas fa-ban me-2"></i> No photos (<span class="bulk-consent-count">0</span>)</button>
+            <button class="btn-outline-light d-none" id="bulkConsentYes" onclick="setSelectedConsent('granted')"><i class="fas fa-camera me-2"></i> Photos allowed <b class="btn-count"><span class="bulk-consent-count">0</span></b></button>
+            <button class="btn-outline-light d-none" id="bulkConsentNo" onclick="setSelectedConsent('denied')"><i class="fas fa-ban me-2"></i> No photos <b class="btn-count"><span class="bulk-consent-count">0</span></b></button>
             <!-- Only appears while dead PAR- invites are still lying around, so
                  it disappears for good once the school is cleaned up. -->
-            <button class="btn-outline-light d-none" id="cleanupParentCodesBtn" onclick="cleanupParentCodes()" title="Parent codes are retired. This clears the unused ones."><i class="fas fa-broom me-2"></i> Clear Old Parent Codes (<span id="deadParentCount">0</span>)</button>
+            <button class="btn-outline-light d-none" id="cleanupParentCodesBtn" onclick="cleanupParentCodes()" title="Parent codes are retired. This clears the unused ones."><i class="fas fa-broom me-2"></i> Clear Old Parent Codes <b class="btn-count"><span id="deadParentCount">0</span></b></button>
             <button class="btn-solid" id="addStudentBtn" onclick="openModal('studentModal')"><i class="fas fa-user-plus me-2"></i> Add Student</button>
             <button class="btn-outline-light" onclick="openModal('bulkImportModal')"><i class="fas fa-file-import me-2"></i> Import Roster</button>
             <!-- The same scan the Parents tab offers. It was only there, which
@@ -2976,8 +3095,8 @@
                  family login is too. Both call openMigration(). -->
             <button class="btn-outline-light" onclick="openClassesModal()" title="Name your classes the way your school does — every class picker uses this list"><i class="fas fa-chalkboard me-2"></i> Classes</button>
             <button class="btn-outline-light" onclick="exportStudentsCsv()" title="Download this list as a CSV file you can open in Excel"><i class="fas fa-file-arrow-down me-2"></i> Export CSV</button>
-            <button class="btn-outline-light" id="mergeStudentsBtn" onclick="openMigration()" title="Turn students you already enrolled into family accounts, keeping all their work"><i class="fas fa-wand-magic-sparkles me-2"></i> Merge into families (<span id="unmergedCount">0</span>)</button>
-            <button class="btn-outline-light" id="allocateHousesBtn" onclick="allocateHouses()" title="Sort students who have no club house yet into the four houses"><i class="fas fa-shield-halved me-2"></i> Allocate Houses (<span id="unhousedCount">0</span>)</button>
+            <button class="btn-outline-light" id="mergeStudentsBtn" onclick="openMigration()" title="Turn students you already enrolled into family accounts, keeping all their work"><i class="fas fa-wand-magic-sparkles me-2"></i> Merge into families <b class="btn-count"><span id="unmergedCount">0</span></b></button>
+            <button class="btn-outline-light" id="allocateHousesBtn" onclick="allocateHouses()" title="Sort students who have no club house yet into the four houses"><i class="fas fa-shield-halved me-2"></i> Allocate Houses <b class="btn-count"><span id="unhousedCount">0</span></b></button>
             <button class="btn-outline-light" onclick="openPinsModal()" title="Your school's link for students, and the roll number and PIN each one signs in with"><i class="fas fa-key me-2"></i> Student link &amp; PINs</button>
           </div>
         </div>
@@ -3126,8 +3245,8 @@
         Issue them for every student who has none yet. A PIN is shown once, here &mdash; print or write it down before you close this.
       </p>
       <div style="display:flex; gap:8px; flex-wrap:wrap;">
-        <button class="btn-solid" type="button" id="pinsIssueBtn" onclick="issuePinsForAll()"><i class="fas fa-wand-magic-sparkles me-1"></i> Issue for students without a PIN (<span id="pinsMissingCount">0</span>)</button>
-        <button class="btn-outline-light" type="button" id="pinsReissueBtn" onclick="reissuePinsForAll()" title="Every student gets a fresh PIN. Their roll numbers do not change."><i class="fas fa-rotate me-1"></i> Reissue for everyone (<span id="pinsTotalCount">0</span>)</button>
+        <button class="btn-solid" type="button" id="pinsIssueBtn" onclick="issuePinsForAll()"><i class="fas fa-wand-magic-sparkles me-1"></i> Issue for students without a PIN <b class="btn-count"><span id="pinsMissingCount">0</span></b></button>
+        <button class="btn-outline-light" type="button" id="pinsReissueBtn" onclick="reissuePinsForAll()" title="Every student gets a fresh PIN. Their roll numbers do not change."><i class="fas fa-rotate me-1"></i> Reissue for everyone <b class="btn-count"><span id="pinsTotalCount">0</span></b></button>
       </div>
     </div>
 
@@ -5175,9 +5294,9 @@
       const imgSrc = teacher.photoURL ? teacher.photoURL : ('https://ui-avatars.com/api/?name=' + teacher.name.replace(' ', '+') + '&background=fff&color=' + color.replace('#',''));
       tchHtml += '<div class="pill-row ' + motif + '">' +
         '<div class="col-1 d-flex align-items-center gap-3"><img src="' + imgSrc + '" style="border-radius:50%; width:40px; height:40px; object-fit:cover;">' + teacher.name + '</div>' +
-        '<div class="col-3"><span style="background:rgba(255,255,255,0.7); padding:5px 12px; border-radius:20px; font-weight:800;">' + (teacher.class_id || teacher.assigned_class || 'All Classes') + '</span></div>' +
-        '<div class="col-2"><code style="background:rgba(255,255,255,0.7); padding:4px 8px; border-radius:8px; font-size:0.8rem;">' + code + '</code></div>' +
-        '<div class="col-2"><span style="color:#22c55e;font-weight:800;"><i class="fas fa-check-circle"></i> Active</span></div>' +
+        '<div class="col-3" data-label="Class"><span style="background:rgba(255,255,255,0.7); padding:5px 12px; border-radius:20px; font-weight:800;">' + (teacher.class_id || teacher.assigned_class || 'All Classes') + '</span></div>' +
+        '<div class="col-2" data-label="Invite code"><code style="background:rgba(255,255,255,0.7); padding:4px 8px; border-radius:8px; font-size:0.8rem;">' + code + '</code></div>' +
+        '<div class="col-2" data-label="Status"><span style="color:#22c55e;font-weight:800;"><i class="fas fa-check-circle"></i> Active</span></div>' +
         '<div class="col-actions"><button class="action-btn" onclick="editTeacher(\'' + teacher.uid + '\')"><i class="fas fa-edit"></i></button>' +
         // Only a school-provisioned teacher has a username, and only they can
         // be reset from here. A teacher who registered with an old TCH- invite
@@ -5191,9 +5310,9 @@
       const pendingImage = invite.photoURL ? '<img src="' + invite.photoURL + '" style="border-radius:50%; width:40px; height:40px; object-fit:cover;">' : '<div style="width:40px;height:40px;border-radius:50%;background:#e2e8f0;display:flex;align-items:center;justify-content:center;color:#94a3b8;"><i class="fas fa-user-clock"></i></div>';
       tchHtml += '<div class="pill-row row-peach" style="opacity:0.6;">' +
         '<div class="col-1 d-flex align-items-center gap-3">' + pendingImage + invite.name + '</div>' +
-        '<div class="col-3"><span style="background:rgba(255,255,255,0.7); padding:5px 12px; border-radius:20px; font-weight:800;">' + (invite.class_id || 'Unassigned') + '</span></div>' +
-        '<div class="col-2"><code style="background:rgba(255,255,255,0.7); padding:4px 8px; border-radius:8px; font-size:0.8rem;">' + invite.code + '</code></div>' +
-        '<div class="col-2"><span style="color:#f59e0b;font-weight:800;"><i class="fas fa-clock"></i> Pending</span></div>' +
+        '<div class="col-3" data-label="Class"><span style="background:rgba(255,255,255,0.7); padding:5px 12px; border-radius:20px; font-weight:800;">' + (invite.class_id || 'Unassigned') + '</span></div>' +
+        '<div class="col-2" data-label="Invite code"><code style="background:rgba(255,255,255,0.7); padding:4px 8px; border-radius:8px; font-size:0.8rem;">' + invite.code + '</code></div>' +
+        '<div class="col-2" data-label="Status"><span style="color:#f59e0b;font-weight:800;"><i class="fas fa-clock"></i> Pending</span></div>' +
         '<div class="col-actions"></div></div>';
     });
     document.getElementById('teacherTableBody').innerHTML = tchHtml || '<div style="text-align:center; padding:2rem; color:#94a3b8; font-weight:700;">No teachers added yet.</div>';
@@ -5235,9 +5354,9 @@
       stuDirHtml += '<div class="pill-row ' + motif + '">' +
         '<div class="col-check"><input type="checkbox" class="student-select-cb" data-id="' + student.uid + '" data-type="student" onchange="updateBulkDeleteButton()" style="cursor:pointer; width:16px; height:16px;"></div>' +
         '<div class="col-1 d-flex align-items-center gap-3"><img src="' + imgSrc + '" style="border-radius:50%; width:40px; height:40px; object-fit:cover;">' + student.name + '</div>' +
-        '<div class="col-2"><span style="background:rgba(255,255,255,0.7); padding:5px 12px; border-radius:20px; font-weight:800;">' + (student.class_id || 'Not assigned') + '</span>' + houseBadge(student.house) + '</div>' +
-        '<div class="col-2">' + stuCell + '</div>' +
-        '<div class="col-2">' + (isCommunitySchool() ? consentCell(student) : '<span style="color:#22c55e;"><i class="fas fa-check-circle"></i> Active</span>') + '</div>' +
+        '<div class="col-2" data-label="Class"><span style="background:rgba(255,255,255,0.7); padding:5px 12px; border-radius:20px; font-weight:800;">' + (student.class_id || 'Not assigned') + '</span>' + houseBadge(student.house) + '</div>' +
+        '<div class="col-2" data-label="Student code">' + stuCell + '</div>' +
+        '<div class="col-2" data-label="Status">' + (isCommunitySchool() ? consentCell(student) : '<span style="color:#22c55e;"><i class="fas fa-check-circle"></i> Active</span>') + '</div>' +
         '<div class="col-actions"><button class="action-btn" onclick="editStudent(\'' + student.uid + '\')"><i class="fas fa-edit"></i></button>' +
         // Community schools only: a full-time school's parents reach the child
         // through the family login, and have no wall to be given a link to.
@@ -5258,9 +5377,9 @@
       stuDirHtml += '<div class="pill-row row-yellow" style="opacity:0.6;">' +
         '<div class="col-check"><input type="checkbox" class="student-select-cb" data-id="' + invite.code + '" data-type="invite" onchange="updateBulkDeleteButton()" style="cursor:pointer; width:16px; height:16px;"></div>' +
         '<div class="col-1 d-flex align-items-center gap-3">' + pendingImage + invite.name + '</div>' +
-        '<div class="col-2"><span style="background:rgba(255,255,255,0.7); padding:5px 12px; border-radius:20px; font-weight:800;">' + (invite.class_id || 'Not assigned') + '</span></div>' +
-        '<div class="col-2"><code class="copyable-code" onclick="copyCodeInteractive(this, \'' + invite.code + '\')" title="Click to copy">' + invite.code + ' <i class="far fa-copy text-muted"></i></code></div>' +
-        '<div class="col-2"><span style="color:#f59e0b; font-weight:800;"><i class="fas fa-clock"></i> Pending</span></div>' +
+        '<div class="col-2" data-label="Class"><span style="background:rgba(255,255,255,0.7); padding:5px 12px; border-radius:20px; font-weight:800;">' + (invite.class_id || 'Not assigned') + '</span></div>' +
+        '<div class="col-2" data-label="Student code"><code class="copyable-code" onclick="copyCodeInteractive(this, \'' + invite.code + '\')" title="Click to copy">' + invite.code + ' <i class="far fa-copy text-muted"></i></code></div>' +
+        '<div class="col-2" data-label="Status"><span style="color:#f59e0b; font-weight:800;"><i class="fas fa-clock"></i> Pending</span></div>' +
         '<div class="col-actions"><button class="action-btn text-danger" onclick="deleteInvite(\'' + invite.code + '\', \'student\')"><i class="fas fa-trash"></i></button></div></div>';
     });
     document.getElementById('studentDirectoryBody').innerHTML = stuDirHtml || '<div style="text-align:center; padding:2rem; color:#94a3b8; font-weight:700;">No students enrolled yet.</div>';
@@ -5296,10 +5415,10 @@
 
       analyticsHtml += '<div class="pill-row ' + motif + '">' +
         '<div class="col-1 d-flex align-items-center gap-3"><img src="' + imgSrc + '" style="border-radius:50%; width:40px; height:40px; object-fit:cover;">' + student.name + '</div>' +
-        '<div class="col-3"><span style="background:rgba(255,255,255,0.7); padding:5px 12px; border-radius:20px; font-weight:800;">' + (student.class_id || 'Not assigned') + '</span></div>' +
-        '<div class="col-2"><span class="ds-chip"><i class="fas fa-book-open"></i> ' + completed + '</span></div>' +
-        '<div class="col-2"><span class="ds-chip is-info">' + points + ' XP</span></div>' +
-        '<div class="col-2"><span style="font-weight:800;">' + statusRank + '</span></div>' +
+        '<div class="col-3" data-label="Class"><span style="background:rgba(255,255,255,0.7); padding:5px 12px; border-radius:20px; font-weight:800;">' + (student.class_id || 'Not assigned') + '</span></div>' +
+        '<div class="col-2" data-label="Chapters"><span class="ds-chip"><i class="fas fa-book-open"></i> ' + completed + '</span></div>' +
+        '<div class="col-2" data-label="Points"><span class="ds-chip is-info">' + points + ' XP</span></div>' +
+        '<div class="col-2" data-label="Rank"><span style="font-weight:800;">' + statusRank + '</span></div>' +
         '<div class="col-actions"></div></div>';
     });
 
@@ -5357,9 +5476,9 @@
 
       attHtml += '<div class="pill-row ' + motif + '">' +
         '<div class="col-1 d-flex align-items-center gap-3"><img src="' + imgSrc + '" style="border-radius:50%; width:40px; height:40px; object-fit:cover;">' + student.name + '</div>' +
-        '<div class="col-3"><span style="background:rgba(255,255,255,0.7); padding:5px 12px; border-radius:20px; font-weight:800;">' + (student.class_id || 'Not assigned') + '</span></div>' +
-        '<div class="col-2">' + loginStatus + '</div>' +
-        '<div class="col-2"><span style="color:#64748b; font-weight:800; font-size:0.9rem;">' + hoursAgo + '</span></div>' +
+        '<div class="col-3" data-label="Class"><span style="background:rgba(255,255,255,0.7); padding:5px 12px; border-radius:20px; font-weight:800;">' + (student.class_id || 'Not assigned') + '</span></div>' +
+        '<div class="col-2" data-label="Status">' + loginStatus + '</div>' +
+        '<div class="col-2" data-label="Last active"><span style="color:#64748b; font-weight:800; font-size:0.9rem;">' + hoursAgo + '</span></div>' +
         '<div class="col-actions"></div></div>';
     });
 
@@ -5503,7 +5622,7 @@
       alert(err.message || 'Could not issue PINs.');
     } finally {
       btn.disabled = false;
-      btn.innerHTML = '<i class="fas fa-wand-magic-sparkles me-1"></i> Issue for students without a PIN (<span id="pinsMissingCount">' + studentsWithoutPin().length + '</span>)';
+      btn.innerHTML = '<i class="fas fa-wand-magic-sparkles me-1"></i> Issue for students without a PIN <b class="btn-count"><span id="pinsMissingCount">' + studentsWithoutPin().length + '</span></b>';
     }
   };
 
@@ -5543,7 +5662,7 @@
       alert(err.message || 'Could not reissue PINs.');
     } finally {
       btn.disabled = false;
-      btn.innerHTML = '<i class="fas fa-rotate me-1"></i> Reissue for everyone (<span id="pinsTotalCount">' + (studentsList || []).length + '</span>)';
+      btn.innerHTML = '<i class="fas fa-rotate me-1"></i> Reissue for everyone <b class="btn-count"><span id="pinsTotalCount">' + (studentsList || []).length + '</span></b>';
     }
   };
 
@@ -5635,13 +5754,13 @@
           '<div style="width:40px; height:40px; border-radius:50%; background:rgba(255,255,255,0.7); display:flex; align-items:center; justify-content:center; color:#1f7d59;"><i class="fas fa-users"></i></div>' +
           escapeHtml(family.name || 'Family') +
         '</div>' +
-        '<div class="col-2">' + (username
+        '<div class="col-2" data-label="Username">' + (username
           ? '<code class="copyable-code" onclick="copyCodeInteractive(this, \'' + username + '\')" title="Click to copy">' + username + ' <i class="far fa-copy text-muted"></i></code>'
           : '<span style="color:#94a3b8;">&mdash;</span>') + '</div>' +
-        '<div class="col-2">' + (kids.length
+        '<div class="col-2" data-label="Children">' + (kids.length
           ? '<span style="font-weight:800;">' + kids.length + '</span> <span style="color:#475569; font-size:0.82rem;">' + names + '</span>'
           : '<span style="color:#94a3b8; font-weight:700;">None yet</span>') + '</div>' +
-        '<div class="col-2">' + escapeHtml(family.phone || '—') + '</div>' +
+        '<div class="col-2" data-label="Phone">' + escapeHtml(family.phone || '—') + '</div>' +
         '<div class="col-actions">' +
           '<button class="action-btn" title="Add student" onclick="openAddChild(\'' + family.uid + '\')"><i class="fas fa-user-plus"></i></button>' +
           '<button class="action-btn ms-2" title="View children" onclick="openFamilyChildren(\'' + family.uid + '\')"><i class="fas fa-eye"></i></button>' +
@@ -6538,7 +6657,7 @@
       }
     }
 
-    if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-shield-halved me-2"></i> Allocate Houses (<span id="unhousedCount">0</span>)'; }
+    if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-shield-halved me-2"></i> Allocate Houses <b class="btn-count"><span id="unhousedCount">0</span></b>'; }
 
     let msg = done + ' student(s) sorted into houses.';
     if (failed.length) msg += '\n\nCould not sort: ' + failed.slice(0, 5).join(', ') + (failed.length > 5 ? ' and ' + (failed.length - 5) + ' more.' : '');
@@ -6632,7 +6751,7 @@
         const btn = document.getElementById('bulkDeleteBtn');
         if (btn) {
           btn.disabled = false;
-          btn.innerHTML = '<i class="fas fa-trash-alt me-2"></i> Delete Selected (<span id=\"selectedCount\">0</span>)';
+          btn.innerHTML = '<i class="fas fa-trash-alt me-2"></i> Delete Selected <b class="btn-count"><span id=\"selectedCount\">0</span></b>';
         }
       }
     }
