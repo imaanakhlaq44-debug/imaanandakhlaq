@@ -45,7 +45,17 @@ export const SuperAdminDashboard = () => html`
 
   /* Header */
   .top-header { height: 70px; background-color: var(--header-bg); display: flex; align-items: center; justify-content: space-between; padding: 0 20px 0 30px; color: var(--white); box-shadow: 0 2px 10px rgba(0,0,0,0.1); gap: 12px; flex-wrap: nowrap; }
-  .header-title { font-size: 1.1rem; font-weight: 500; white-space: nowrap; flex: 0 0 auto; }
+  .header-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    white-space: nowrap;
+    /* Shrinkable, and elided rather than pushing the bell and the account
+       icon past the right edge of a phone. */
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
   .header-search { position: relative; display: flex; align-items: center; flex: 1 1 auto; max-width: 320px; margin: 0 auto; }
   .header-search input { background-color: rgba(255,255,255,0.12); border: none; border-radius: 20px; padding: 8px 15px 8px 35px; color: var(--white); font-size: 0.9rem; width: 100%; outline: none; }
   .header-search input::placeholder { color: rgba(255,255,255,0.6); }
@@ -130,36 +140,36 @@ export const SuperAdminDashboard = () => html`
   /* ── Mobile Sidebar: slide-in from left ── */
   .mobile-menu-btn {
     display: none;
-    position: fixed;
-    top: 14px;
-    left: 14px;
-    z-index: 1100;
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
-    border: none;
-    background: var(--brand-primary, #29416d);
+    flex: 0 0 auto;
+    width: 38px;
+    height: 38px;
+    padding: 0;
+    border-radius: 11px;
+    border: 1px solid rgba(255,255,255,0.22);
+    background: rgba(255,255,255,0.12);
     color: #fff;
-    font-size: 1.3rem;
     cursor: pointer;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.25);
-    transition: transform 0.2s, background 0.2s;
+    transition: background 0.2s;
+    /* Three stacked bars. Without a direction they laid themselves in a row
+       — three 22px bars across a 44px box — and the button reached the phone
+       as a blank navy rectangle with a stray line through it. */
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 4px;
   }
-  .mobile-menu-btn:hover { transform: scale(1.08); }
+  .mobile-menu-btn:active { background: rgba(255,255,255,0.22); }
   .mobile-menu-btn .bar {
     display: block;
-    width: 22px;
-    height: 2.5px;
+    width: 17px;
+    height: 2px;
     background: #fff;
     border-radius: 2px;
-    transition: all 0.3s ease;
-    margin: 4px auto;
+    transition: transform 0.25s ease, opacity 0.25s ease;
   }
-  .mobile-menu-btn.active .bar:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+  .mobile-menu-btn.active .bar:nth-child(1) { transform: translateY(6px) rotate(45deg); }
   .mobile-menu-btn.active .bar:nth-child(2) { opacity: 0; transform: scaleX(0); }
-  .mobile-menu-btn.active .bar:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+  .mobile-menu-btn.active .bar:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
 
   .sidebar-overlay {
     display: none;
@@ -191,9 +201,12 @@ export const SuperAdminDashboard = () => html`
       box-shadow: 8px 0 30px rgba(0,0,0,0.3);
     }
 
-    /* Header: smaller on mobile, shift right for hamburger */
-    .top-header { padding: 0 12px 0 68px; height: 56px; }
-    .header-title { font-size: 0.88rem; }
+    /* The menu button is in the bar now, so the bar needs no clearance
+       around it and no room reserved at the left. */
+    .mobile-menu-btn { display: flex; }
+    .top-header { padding: 0 12px; height: 56px; gap: 10px; }
+    .header-title { font-size: 0.95rem; }
+    .header-actions { gap: 14px; }
     .header-search { display: none; }
 
     /* Content */
@@ -212,6 +225,25 @@ export const SuperAdminDashboard = () => html`
 
     /* Reports */
     .reports-grid { grid-template-columns: 1fr !important; }
+  }
+
+  @media (max-width: 600px) {
+    .header-title-brand { display: none; }
+  }
+
+  /* ── A phone reads a card, not a page of prose ────────────────────────────
+     The chart card led with a 1.15rem title, a note beside it, and two lines
+     of explanation before the picture — most of a phone screen spent saying
+     what the picture below would have said. The explanation is for the wide
+     screen, where there is room beside it. */
+  @media (max-width: 768px) {
+    .card-header { margin-bottom: 12px; padding-bottom: 10px; }
+    .card-title { font-size: 1rem; gap: 8px; }
+    .chart-note { font-size: 0.7rem; }
+    .chart-caption { display: none; }
+    /* 320px of chart on a 900px screen is a third of it. Enough to read the
+       longest bars, and the rest is a scroll away rather than a void. */
+    .chart-frame { height: 240px; }
   }
 
   /* Mobile bottom navigation bar */
@@ -437,12 +469,6 @@ export const SuperAdminDashboard = () => html`
 </style>
 
 <div class="super-admin-layout">
-  <!-- Mobile Hamburger Button -->
-  <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">
-    <span class="bar"></span>
-    <span class="bar"></span>
-    <span class="bar"></span>
-  </button>
   <!-- Mobile Overlay -->
   <div class="sidebar-overlay" id="sidebarOverlay"></div>
   <!-- Sidebar -->
@@ -470,7 +496,17 @@ export const SuperAdminDashboard = () => html`
     <div id="loading" class="loading-overlay active">Loading Live Data from Database...</div>
     
     <header class="top-header">
-      <div class="header-title">Imaan & Akhlaq - Central Admin</div>
+      <!-- In the bar, first, so nothing can be printed underneath it. -->
+      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+      <!-- The full name on a wide screen; on a phone the half that says which
+           dashboard this is. Held on one line either way, and allowed to
+           shrink, so it can never push the bell and the account icon off the
+           edge of the screen. -->
+      <div class="header-title"><span class="header-title-brand">Imaan &amp; Akhlaq - </span>Central Admin</div>
       <div class="header-search">
         <i class="fas fa-search"></i>
         <input type="text" id="dashboard-search" placeholder="Search schools, locations, admins...">
@@ -1569,8 +1605,11 @@ export const SuperAdminDashboard = () => html`
       if (empty) empty.classList.add('d-none');
 
       // More than a dozen rows stops being readable on one screen, so the tail
-      // is summed into one row rather than silently dropped.
-      const TOP = 12;
+      // is summed into one row rather than silently dropped. A phone screen
+      // holds about half that before the chart is taller than the screen it
+      // is meant to be read on; the full list is the directory below.
+      const narrow = window.innerWidth <= 768;
+      const TOP = narrow ? 7 : 12;
       let rows = perSchool;
       if (perSchool.length > TOP) {
         const rest = perSchool.slice(TOP - 1);
@@ -1584,7 +1623,29 @@ export const SuperAdminDashboard = () => html`
 
       // One row is ~34px; the canvas grows with the data instead of squashing.
       const frame = canvas.parentElement;
-      if (frame) frame.style.height = Math.max(220, rows.length * 40 + 60) + 'px';
+      if (frame) frame.style.height = Math.max(narrow ? 180 : 220, rows.length * (narrow ? 40 : 40) + 60) + 'px';
+
+      // A phone gives the axis about a third of its width, so a long name cut
+      // to one line there is mostly ellipsis — four branches of one school all
+      // read "The Educators…" and the chart could not tell them apart. Chart.js
+      // draws an array of strings as stacked lines, so a phone gets two short
+      // ones and keeps the half that says which branch it is. The whole name
+      // is still in the tooltip and in the directory below.
+      function axisLabel(row) {
+        const name = row.name;
+        const max = narrow ? 15 : 18;
+        if (name.length <= max) return name;
+        if (!narrow) return name.slice(0, max) + '…';
+        const words = name.split(' ');
+        let first = '', rest = '';
+        words.forEach(function (word) {
+          if (!rest && (first ? first + ' ' + word : word).length <= max) first = first ? first + ' ' + word : word;
+          else rest = rest ? rest + ' ' + word : word;
+        });
+        if (!rest) return first.slice(0, max) + '…';
+        if (rest.length > max) rest = rest.slice(0, max - 1) + '…';
+        return [first, rest];
+      }
 
       const valueLabels = {
         id: 'valueLabels',
@@ -1612,7 +1673,7 @@ export const SuperAdminDashboard = () => html`
         data: {
           // Long enough to tell two schools apart, short enough that the axis
           // area never eats the first letter of the name.
-          labels: rows.map((r) => (r.name.length > 18 ? r.name.slice(0, 18) + '…' : r.name)),
+          labels: rows.map(axisLabel),
           datasets: [
             { label: 'Students', data: rows.map((r) => r.students), backgroundColor: '#16294d', borderRadius: 4, barPercentage: 0.72, categoryPercentage: 0.7 },
             { label: 'Teachers', data: rows.map((r) => r.teachers), backgroundColor: '#cf296d', borderRadius: 4, barPercentage: 0.72, categoryPercentage: 0.7 }

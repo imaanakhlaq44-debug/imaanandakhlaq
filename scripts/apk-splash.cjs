@@ -1799,8 +1799,11 @@ function patchApkSuperAdminDashboard() {
     '    .stat-info h3 { font-size: 1.3rem !important; }',
     '    .stat-info p { font-size: 0.72rem !important; }',
     '    .stat-icon { font-size: 1.6rem !important; }',
-    '    .top-header { padding: 0 14px !important; height: 60px !important; }',
-    '    .header-title { font-size: 1rem !important; }',
+    // The page sizes its own header on a phone, and the menu button sits
+    // inside it. Two rules used to live here — a padding and a font size,
+    // both !important — and the padding was the clearance the fixed button
+    // had been given, so the button was printed over the words "Imaan &
+    // Akhlaq - Central Admin".
     '    .header-search { display: none !important; }',
     '    .card { padding: 14px !important; border-radius: 14px !important; }',
     '    #per-school-breakdown .ps-grid { grid-template-columns: 1fr !important; }',
