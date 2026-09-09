@@ -1929,7 +1929,11 @@ ${raw(authErrorHelpersJS)}
     // timestamp: "once a day" should mean "once per calendar day where the
     // family lives", and a 24-hour window would drift later every day until
     // the poster started appearing at bedtime.
-    const SEEN_KEY = 'imaan_welcome_banner_seen';
+    // The version is part of the key so that changing the artwork shows the
+    // new poster once, rather than waiting for tomorrow because today's was
+    // already dismissed. Bump it whenever the image itself changes — see
+    // scripts/set-welcome-banner.cjs.
+    const SEEN_KEY = 'imaan_welcome_banner_seen_v2';
 
     function today() {
       const d = new Date();
