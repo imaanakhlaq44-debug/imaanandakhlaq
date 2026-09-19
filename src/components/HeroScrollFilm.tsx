@@ -1,54 +1,91 @@
 import { html } from 'hono/html'
 
 /*
-  DEMO — scroll-driven hero film.
+  Scroll-driven hero film.
 
-  The source is a 30s 1920x1080 mp4 (46.8 MB). Shipping that file as-is would
-  undo the whole page-weight fix, and seeking a <video> on scroll stutters
-  badly on mobile Safari, so the film is served as a WebP frame sequence and
-  painted to a canvas:
+  The source is "Hero Final.mp4": 42.4s at 30fps. Scroll position picks the
+  frame, exactly like the first film: nothing plays by itself. Seeking a
+  <video> on scroll stutters badly on mobile Safari, so the film is served as
+  a WebP frame sequence and painted to a canvas:
 
-    public/hero-film/f000..f119.webp   1024x576   3.38 MB   (desktop)
-    public/hero-film/sm/                780x439   2.55 MB   (<=991px wide)
+    public/hero-film-2/f000..f243.webp   1920x1080  q70  ~28 MB  (desktop)
+    public/hero-film-2/sm/               854x480    q62  ~10 MB  (<=991px wide)
 
-  Those sizes are below the pixels they get drawn at, on purpose. Side by side
-  at the real render size, 1024/q46 is indistinguishable from 1280/q58 — the
-  footage is soft, painterly and sits under a scrim — and it is a third
-  lighter. Dropping frames was tried first and rejected: near-duplicate
-  detection only recovered ~10% because the sparkle and lantern flicker keep
-  every frame genuinely different, and thinning the city descent is what makes
-  the scroll worth having in the first place.
+  The desktop frames are the source's full resolution, so a big monitor gets
+  every bit of detail the video has. 1600x900 would be ~23 MB and looks the
+  same on a 1080p screen (that is about the size the film is drawn at there),
+  but a touch softer at 1440p; this can be revisited if traffic grows. The
+  first film shipped 1024x576 frames with a 1.2x overscan, which on a big
+  monitor was a 3x upscale and looked smeared.
+
+  Which frames, and why not evenly spaced: inside each scene the camera moves
+  slowly, and 4 frames a second (what the first film used) scrubs well. But
+  the scenes are joined by fast right-to-left slides of about a second, and
+  at 4 a second a slide was four big jumps, like a page being swiped. So the
+  slides are taken at 15 frames a second. The frames are listed below from
+  the same numbers the files were cut with (source frame = t * 30).
 
   Only the frames the visitor actually scrolls past are fetched, and the first
   frame is drawn as soon as it lands so nothing is ever blank.
-
-  Frame map (30.35s of footage over 120 frames):
-    f000-f035  city at dawn, camera descends into the courtyard
-    f040-f058  wall 1 - Curriculum Books
-    f063-f078  wall 2 - Magic Coloring
-    f084-f104  wall 3 - Audio Stories
-    f110-f119  wall 4 - Live Puppet Show
-
-  The footage runs out just as the puppet frame centres, so scroll maps to
-  frames over the first 89% and the last 11% holds f119 — that gives the
-  fourth beat the same room to breathe as the other three.
 */
 
-const FRAME_COUNT = 120
+// Scenes, sampled at 4fps: [from s, to s)
+const SCENES: [number, number][] = [[0, 16.8], [18.1, 21.75], [23.1, 26.75], [28.13, 31.75], [33.13, 37.0], [37.9, 42.4]]
+// The slide out of each scene into the next, sampled at 15fps: [from s, to s)
+const SLIDES: [number, number][] = [[16.8, 18.1], [21.75, 23.1], [26.75, 28.13], [31.75, 33.13], [37.0, 37.9]]
 
-// [start, end] in scroll progress (0..1), title, body, link label, href
+// Source frame number of every file, and whether it is part of a slide.
+const FRAMES: [number, boolean][] = (() => {
+  const out: [number, boolean][] = []
+  SCENES.forEach(([a, b], i) => {
+    for (let t = a; t < b - 1e-6; t += 0.25) out.push([Math.round(t * 30), false])
+    const s = SLIDES[i]
+    if (s) for (let n = Math.round(s[0] * 30); n < Math.round(s[1] * 30); n += 2) out.push([n, true])
+  })
+  out.push([1271, false]) // the very last frame
+  const seen = new Set<number>()
+  return out.filter(([n]) => !seen.has(n) && !!seen.add(n)).sort((x, y) => x[0] - y[0])
+})()
+const FRAME_COUNT = FRAMES.length
+
+// Where each frame sits along the scroll (0..1). A scene frame gets a full
+// step, a slide frame 0.8 of one, so a slide takes about as much scroll as
+// four seconds of scene: slow enough to read as a movement.
+const FRAME_POS = (() => {
+  const w = FRAMES.map(([, slide]) => (slide ? 0.8 : 1))
+  const total = w.slice(1).reduce((s, x) => s + x, 0)
+  let at = 0
+  return w.map((x, i) => {
+    if (i) at += x
+    return +(at / total).toFixed(5)
+  })
+})()
+
+// Frames finish at HOLD of the scroll; the rest holds the last one.
+const HOLD = 0.92
+// Scroll progress at which the footage reaches t seconds.
+function timeP(t: number): number {
+  const i = FRAMES.findIndex(([n]) => n >= t * 30)
+  return (i < 0 ? 1 : FRAME_POS[i]) * HOLD
+}
+
+// [start, end] in scroll progress (0..1), title, body, link label, href.
+// Each beat sits on the still part of its scene, so it is never on screen
+// during a slide.
 const BEATS = [
   // starts below 0 so the very first screen already has the title on it
-  [-0.06, 0.24, 'Explore Our World', 'A journey through the world of Imaan &amp; Akhlaq — where faith meets character, and learning becomes living.', '', ''],
-  [0.29, 0.45, 'Curriculum Books', 'Stories that battle the whispers of Faasid — and plant seeds of faith at bedtime.', 'Open Library', '/products/books'],
-  [0.47, 0.615, 'Magic Coloring', 'Interactive line art starring our heroes. Every page brings akhlaq to life in colour.', 'Start Painting', '/products/coloring'],
-  [0.62, 0.79, 'Audio Stories', 'Narrated tales in English, Urdu and Arabic. Eyes closed, hearts wide open.', 'Listen Now', '/products/audio'],
-  [0.83, 1.02, 'Live Puppet Shows', 'Invite Imaan &amp; Akhlaq to your school for a live, immersive performance.', 'Invite Us', '/products/puppet'],
+  [-0.06, timeP(9), 'Explore Our World', 'A journey through the world of Imaan &amp; Akhlaq — where faith meets character, and learning becomes living.', '', ''],
+  [timeP(12.3), timeP(16.8), 'Curriculum Books', 'Stories that battle the whispers of Faasid — and plant seeds of faith at bedtime.', 'Open Library', '/products/books'],
+  [timeP(18.1), timeP(21.75), 'Magic Coloring', 'Interactive line art starring our heroes. Every page brings akhlaq to life in colour.', 'Start Painting', '/products/coloring'],
+  [timeP(23.1), timeP(26.75), 'Audio Stories', 'Narrated tales in English, Urdu and Arabic. Eyes closed, hearts wide open.', 'Listen Now', '/products/audio'],
+  [timeP(28.13), timeP(31.75), 'Live Puppet Shows', 'Invite Imaan &amp; Akhlaq to your school for a live, immersive performance.', 'Invite Us', '/products/puppet'],
+  [timeP(33.13), timeP(37.0), 'Gamification of Learning', 'Urdu, ABC and maths games where every right answer is a little win.', 'Play Now', '/products/games'],
+  [timeP(37.9), 1.02, 'Animated Series', 'Imaan, Akhlaq and their families on screen: character stories for the whole household.', 'Watch Now', '/media/videos'],
 ]
 
 export const HeroScrollFilm = () => html`
 <style>
-  .film { position: relative; height: 620vh; background: #0b1020; }
+  .film { position: relative; height: 1100vh; background: #0b1020; }
   .film-stage {
     position: sticky; top: 0; height: 100vh; overflow: hidden;
     background: #0b1020;
@@ -110,13 +147,13 @@ export const HeroScrollFilm = () => html`
   .film-hint span { display: block; width: 1px; height: 34px; background: linear-gradient(#fff9, #fff0); animation: hintDrop 1.9s ease-in-out infinite; }
   @keyframes hintDrop { 0%, 100% { transform: scaleY(0.35); transform-origin: top; opacity: 0.4; } 50% { transform: scaleY(1); transform-origin: top; opacity: 1; } }
 
-  /* Progress ticks — one per wall, so the visitor can see how far in they are. */
+  /* Progress ticks — one per chapter, so the visitor can see how far in they are. */
   .film-dots { position: absolute; right: 3vw; top: 50%; transform: translateY(-50%); z-index: 4; display: flex; flex-direction: column; gap: 12px; }
   .film-dots i { display: block; width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,0.28); transition: background 0.4s ease, transform 0.4s ease; }
   .film-dots i.on { background: #E08020; transform: scale(1.65); }
 
   @media (max-width: 991px) {
-    .film { height: 560vh; }
+    .film { height: 1000vh; }
     /* The film is a band across the top on phones, so the text sits below it
        rather than on top of it — and the scrim only needs to cover that half. */
     .beat { padding: 0 7vw 9vh; }
@@ -127,7 +164,7 @@ export const HeroScrollFilm = () => html`
     .film-dots { display: none; }
   }
 
-  /* Motion off: no scrub, no sticky. One still frame, all four beats readable. */
+  /* Motion off: no scrub, no sticky. One still frame, every beat readable. */
   @media (prefers-reduced-motion: reduce) {
     .film { height: auto; }
     .film-stage { position: relative; height: auto; }
@@ -168,8 +205,9 @@ export const HeroScrollFilm = () => html`
 <script>
 (function () {
   var COUNT = ${FRAME_COUNT};
-  var BEATS = ${JSON.stringify(BEATS.map(b => [b[0], b[1]]))};
-  var HOLD = 0.89; // frames finish here; the rest of the scroll holds the last one
+  var BEATS = ${JSON.stringify(BEATS.map(b => [+(+b[0]).toFixed(5), +(+b[1]).toFixed(5)]))};
+  var HOLD = ${HOLD}; // frames finish here; the rest of the scroll holds the last one
+  var POS = ${JSON.stringify(FRAME_POS)}; // each frame's place along the scroll, 0..1
 
   var section = document.querySelector('.film');
   var canvas = document.getElementById('filmCanvas');
@@ -178,7 +216,7 @@ export const HeroScrollFilm = () => html`
 
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var small = window.matchMedia('(max-width: 991px)').matches;
-  var dir = small ? '/hero-film/sm/' : '/hero-film/';
+  var dir = small ? '/hero-film-2/sm/' : '/hero-film-2/';
 
   var ctx = canvas.getContext('2d', { alpha: false });
   var frames = new Array(COUNT);
@@ -206,11 +244,45 @@ export const HeroScrollFilm = () => html`
     return -1;
   }
 
+  // The site header is sticky too, and it used to sit on top of the stage and
+  // hide the titles baked into the top of the film. So the stage sticks just
+  // below it instead. The header shrinks once the page scrolls (the top bar
+  // folds away), which is why this is re-measured on every update.
+  var stage = section.querySelector('.film-stage');
+  var header = document.getElementById('siteHeader');
+  var headH = -1;
+  function syncHeader() {
+    if (reduced || !stage) return false;
+    var hh = header ? header.offsetHeight : 0;
+    if (hh === headH) return false;
+    headH = hh;
+    stage.style.top = hh + 'px';
+    stage.style.height = 'calc(100vh - ' + hh + 'px)';
+    return true;
+  }
+
   function fit() {
-    var dpr = Math.min(window.devicePixelRatio || 1, small ? 2 : 1.5);
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
     canvas.width = Math.round(canvas.clientWidth * dpr);
     canvas.height = Math.round(canvas.clientHeight * dpr);
     lastDrawn = -1;
+  }
+
+  // A blur without ctx.filter, which is too slow to run on every scroll frame:
+  // shrink the frame to a thumbnail, then stretch that back over the whole
+  // canvas and let the smoothing do the blurring.
+  var thumb = document.createElement('canvas');
+  thumb.width = 48; thumb.height = 27;
+  var tctx = thumb.getContext('2d');
+  function paintBackdrop(im, cw, ch) {
+    tctx.drawImage(im, 0, 0, thumb.width, thumb.height);
+    var bs = Math.max(cw / thumb.width, ch / thumb.height);
+    var bw = thumb.width * bs, bh = thumb.height * bs;
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+    ctx.drawImage(thumb, (cw - bw) / 2, (ch - bh) / 2, bw, bh);
+    ctx.fillStyle = 'rgba(8,12,28,0.55)';
+    ctx.fillRect(0, 0, cw, ch);
   }
 
   function paint(i) {
@@ -225,7 +297,8 @@ export const HeroScrollFilm = () => html`
       // picture down to its middle and blow it up until it's mush, so the film
       // plays inside a band across the upper half and the text gets the space
       // underneath it.
-      var bandY = ch * 0.10, bandH = ch * 0.44;
+      // the stage already starts below the header, so the band starts at the top
+      var bandY = 0, bandH = ch * 0.48;
       var ms = Math.max(cw / im.naturalWidth, bandH / im.naturalHeight);
       w = im.naturalWidth * ms; h = im.naturalHeight * ms;
       x = (cw - w) / 2; y = bandY + (bandH - h) / 2;
@@ -240,14 +313,38 @@ export const HeroScrollFilm = () => html`
       lastDrawn = f;
       return;
     } else {
-      // Cover fit, then overscan and push the picture right, so the left third
-      // stays plain wall for the text to sit on instead of covering the framed
-      // artwork — which is the thing we want people to look at.
-      var s = Math.max(cw / im.naturalWidth, ch / im.naturalHeight) * 1.2;
-      w = im.naturalWidth * s; h = im.naturalHeight * s;
-      x = (cw - w) / 2 + cw * 0.11; y = (ch - h) / 2;
+      var iw = im.naturalWidth, ih = im.naturalHeight;
+      if (cw / ch > iw / ih) {
+        // Wider than 16:9, which is most desktops once the header is taken
+        // off the height. Cover would have to cut the top or the bottom of
+        // every scene, and both carry something (titles up top, the
+        // characters' feet and the book stack below). So the whole frame is
+        // shown, and the strips either side get the same frame blurred and
+        // dimmed rather than a flat bar.
+        var s = ch / ih;
+        w = iw * s; h = ch;
+        x = (cw - w) / 2; y = 0;
+        paintBackdrop(im, cw, ch);
+      } else {
+        // Narrower than 16:9: cover, trimming the sides equally. The titles
+        // sit in the middle of the frame, so nothing that matters is lost.
+        var s2 = ch / ih;
+        w = iw * s2; h = ch;
+        x = (cw - w) / 2; y = 0;
+      }
     }
+    ctx.imageSmoothingQuality = 'high';
     ctx.drawImage(im, x, y, w, h);
+    if (x > 0) {
+      // soften the seam between the frame and the blurred strips
+      var fw = Math.min(x, w * 0.06);
+      var gl = ctx.createLinearGradient(x, 0, x + fw, 0);
+      gl.addColorStop(0, 'rgba(8,12,28,0.6)'); gl.addColorStop(1, 'rgba(8,12,28,0)');
+      ctx.fillStyle = gl; ctx.fillRect(x, 0, fw, ch);
+      var gr = ctx.createLinearGradient(x + w, 0, x + w - fw, 0);
+      gr.addColorStop(0, 'rgba(8,12,28,0.6)'); gr.addColorStop(1, 'rgba(8,12,28,0)');
+      ctx.fillStyle = gr; ctx.fillRect(x + w - fw, 0, fw, ch);
+    }
     lastDrawn = f;
   }
 
@@ -301,15 +398,24 @@ export const HeroScrollFilm = () => html`
 
   // ---- scroll driver ----------------------------------------------------
   var ticking = false;
+  // Nearest frame to where the scroll is. FRAME_POS is sorted, so a binary
+  // search finds the pair either side of it.
   function frameFor(p) {
-    var i = Math.round((p / HOLD) * (COUNT - 1));
-    return i < 0 ? 0 : i > COUNT - 1 ? COUNT - 1 : i;
+    var q = p / HOLD;
+    if (q <= 0) return 0;
+    if (q >= 1) return COUNT - 1;
+    var lo = 0, hi = COUNT - 1;
+    while (hi - lo > 1) {
+      var mid = (lo + hi) >> 1;
+      if (POS[mid] <= q) lo = mid; else hi = mid;
+    }
+    return q - POS[lo] < POS[hi] - q ? lo : hi;
   }
 
   // Only fetch what is just ahead of where the visitor actually is. Pulling
   // the whole sequence up front means someone who lands and leaves without
-  // scrolling still pays for all 120 frames.
-  var AHEAD = 20, BEHIND = 4;
+  // scrolling still pays for all of the frames.
+  var AHEAD = 24, BEHIND = 4;
   function ensureWindow(i) {
     var from = Math.max(0, i - BEHIND), to = Math.min(COUNT - 1, i + AHEAD);
     for (var k = from; k <= to; k++) load(k);
@@ -317,9 +423,13 @@ export const HeroScrollFilm = () => html`
 
   function update() {
     ticking = false;
+    if (syncHeader()) fit();
+    // The stage is stuck from when the section's top reaches the header until
+    // its bottom reaches the bottom of the window.
+    var off = headH > 0 ? headH : 0;
     var rect = section.getBoundingClientRect();
-    var total = section.offsetHeight - window.innerHeight;
-    var p = total > 0 ? clamp01(-rect.top / total) : 0;
+    var total = section.offsetHeight - (window.innerHeight - off);
+    var p = total > 0 ? clamp01((off - rect.top) / total) : 0;
     var i = frameFor(p);
     ensureWindow(i);
     paint(i);
@@ -331,13 +441,14 @@ export const HeroScrollFilm = () => html`
   }
 
   // ---- boot -------------------------------------------------------------
+  syncHeader();
   fit();
   // first frame right away so the section is never an empty box
   load(0, function () { lastDrawn = -1; update(); });
 
   if (reduced) {
     // no scrubbing: one frame from inside the house, text is already visible
-    load(46, function () { lastDrawn = -1; paint(46); });
+    load(60, function () { lastDrawn = -1; paint(60); });
     return;
   }
 
