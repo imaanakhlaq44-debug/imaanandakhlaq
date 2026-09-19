@@ -33,7 +33,7 @@ export const ImpactStatsV2 = () => html`
         <div class="kstat-diamond c-orange">
           <div class="kstat-icon"><i class="fas fa-book-reader"></i></div>
         </div>
-        <h3 class="sc-number" data-target="2700">0</h3>
+        <h3 class="sc-number" data-target="7000">0</h3>
         <p>Curriculum Books</p>
       </div>
 
@@ -51,7 +51,7 @@ export const ImpactStatsV2 = () => html`
         <div class="kstat-diamond c-pink">
           <div class="kstat-icon"><i class="fas fa-users"></i></div>
         </div>
-        <h3 class="sc-number" data-target="6000">0</h3>
+        <h3 class="sc-number" data-target="12000">0</h3>
         <p>Club Engagements</p>
       </div>
 
