@@ -560,8 +560,9 @@ export const ActivityDashboard = () => html`
   .champions-board {
     background: linear-gradient(135deg, #1a1a2e 0%, #16213e 40%, #0f3460 100%);
     border-radius: 20px;
-    padding: 24px 20px 20px;
-    margin-bottom: 18px;
+    /* Chhota kar diya: yeh hosla-afzai ka card hai, screen ka maalik nahi. */
+    padding: 14px 14px 12px;
+    margin: 14px 0 18px;
     position: relative;
     overflow: hidden;
     box-shadow: 0 12px 32px rgba(15, 52, 96, 0.35);
@@ -575,17 +576,13 @@ export const ActivityDashboard = () => html`
     pointer-events: none;
   }
   .champions-header {
-    text-align: center; margin-bottom: 18px; position: relative; z-index: 1;
+    text-align: center; margin-bottom: 10px; position: relative; z-index: 1;
   }
   .champions-header h3 {
     font-family: 'Sora', sans-serif;
-    color: #FFD700; font-size: 1.15rem; font-weight: 800;
-    margin: 0 0 4px; letter-spacing: 0.5px;
+    color: #FFD700; font-size: 1rem; font-weight: 800;
+    margin: 0; letter-spacing: 0.5px;
     text-shadow: 0 0 20px rgba(255,215,0,0.4);
-  }
-  .champions-header p {
-    color: rgba(255,255,255,0.7); font-size: 0.8rem; margin: 0;
-    font-weight: 600;
   }
   .champions-podium {
     display: flex; justify-content: center; align-items: flex-end;
@@ -634,18 +631,18 @@ export const ActivityDashboard = () => html`
   .podium-bar {
     width: 80px; border-radius: 8px 8px 0 0; margin-top: 6px;
   }
-  .rank-1 .podium-bar { height: 64px; background: linear-gradient(180deg, #FFD700 0%, #cc8800 100%); }
-  .rank-2 .podium-bar { height: 46px; background: linear-gradient(180deg, #C0C0C0 0%, #7a7a7a 100%); }
-  .rank-3 .podium-bar { height: 32px; background: linear-gradient(180deg, #CD7F32 0%, #8B4513 100%); }
+  .rank-1 .podium-bar { height: 42px; background: linear-gradient(180deg, #FFD700 0%, #cc8800 100%); }
+  .rank-2 .podium-bar { height: 30px; background: linear-gradient(180deg, #C0C0C0 0%, #7a7a7a 100%); }
+  .rank-3 .podium-bar { height: 22px; background: linear-gradient(180deg, #CD7F32 0%, #8B4513 100%); }
   .champions-gift-banner {
-    margin-top: 14px; text-align: center; position: relative; z-index: 1;
+    margin-top: 10px; text-align: center; position: relative; z-index: 1;
     background: linear-gradient(90deg, rgba(255,215,0,0.12), rgba(214,54,120,0.12));
     border: 1px solid rgba(255,215,0,0.25); border-radius: 12px;
-    padding: 10px 14px;
+    padding: 7px 12px;
   }
   .champions-gift-banner p {
-    margin: 0; color: #FFD700; font-size: 0.82rem; font-weight: 700;
-    line-height: 1.4;
+    margin: 0; color: #FFD700; font-size: 0.75rem; font-weight: 700;
+    line-height: 1.35;
   }
   .champions-gift-banner .gift-icon {
     font-size: 1.1rem; margin-right: 4px;
@@ -656,10 +653,47 @@ export const ActivityDashboard = () => html`
   }
   @media (max-width: 480px) {
     .podium-slot { width: 85px; }
-    .podium-avatar { width: 48px; height: 48px; }
-    .rank-1 .podium-avatar { width: 58px; height: 58px; }
-    .podium-bar { width: 65px; }
+    .podium-avatar { width: 42px; height: 42px; }
+    .rank-1 .podium-avatar { width: 50px; height: 50px; }
+    .podium-bar { width: 60px; }
     .champions-podium { gap: 8px; }
+  }
+
+  /* Teen number, ek qatar.
+     Shared .ds-stats phone par do-per-row rakhta hai aur akhri taaq card ko
+     poori row de deta hai - yaani teesra card chaura aur aadha khali, aur
+     bachche ka apna sabaq neeche dhakel diya. */
+  /* Phone par avatar aur naam saath saath, upar-neeche nahi.
+     Stacked shakal 112px leti thi sirf ek tasveer aur ek naam ke liye -
+     poori pehli screen ka saatvan hissa, is se pehle ke bachche ko apna
+     sabaq dikhe. Desktop par sidebar ek tang column hai, wahan stacked hi
+     theek hai, isliye yeh sirf phone par. */
+  @media (max-width: 900px) {
+    .student-page .sidebar-profile-top {
+      flex-direction: row;
+      align-items: center;
+      gap: 0.7rem;
+      padding: 0.15rem 0 0.5rem;
+    }
+    .student-page .sidebar-profile-top .sidebar-brand-art {
+      width: 40px; height: 40px; flex: 0 0 40px;
+    }
+    .student-page .sidebar-profile-top .sidebar-title { text-align: left; }
+  }
+
+  .student-page .ds-stats-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .student-page .ds-stats-3 > .ds-stat:last-child:nth-child(odd) {
+    grid-column: auto;
+    flex-direction: column;
+  }
+  @media (max-width: 560px) {
+    .student-page .ds-stats-3 { gap: 8px; }
+    .student-page .ds-stats-3 .ds-stat {
+      flex-direction: column; align-items: center; text-align: center;
+      padding: 10px 6px; gap: 4px;
+    }
+    .student-page .ds-stats-3 .ds-stat-label { font-size: 0.58rem; }
+    .student-page .ds-stats-3 .ds-stat-value { font-size: 1.15rem; }
   }
 
   .student-grid {
@@ -2111,19 +2145,6 @@ export const ActivityDashboard = () => html`
 
     <div class="dashboard-main">
 
-      <div id="championsBoard" class="champions-board" style="display:none">
-        <div class="champions-header">
-          <h3>🏆 Champions Board</h3>
-          <p>Top 3 learners win exclusive gifts from Imaan & Akhlaq!</p>
-        </div>
-        <div id="championsPodium" class="champions-podium">
-          <div class="champions-loading"><i class="fas fa-spinner fa-spin"></i> Loading champions...</div>
-        </div>
-        <div class="champions-gift-banner">
-          <p><span class="gift-icon">🎁</span> Top 3 champions will receive <strong>exclusive gifts</strong> from Imaan & Akhlaq! Keep earning points to claim your spot!</p>
-        </div>
-      </div>
-
       <!-- The "School Dashboard" banner that used to sit here is gone. It
            spent a full-width card on the school name plus a Home button that
            duplicated the one in the bottom bar. The school name now sits under
@@ -2134,7 +2155,7 @@ export const ActivityDashboard = () => html`
            gradient tiles carrying a 3D thumbnail and a sentence explaining the
            number; the sentence said what the Journey Status card below already
            says, so it is gone rather than repeated. -->
-      <div class="ds-stats" id="studentOverviewSection">
+      <div class="ds-stats ds-stats-3" id="studentOverviewSection">
         <div class="ds-stat is-accent" data-section="books" role="button" tabindex="0">
           <span class="ds-stat-icon"><i class="fas fa-star"></i></span>
           <span class="ds-stat-body">
@@ -2308,6 +2329,24 @@ export const ActivityDashboard = () => html`
             <div style="text-align: center; color: #64748b; padding: 2rem;"><i class="fas fa-spinner fa-spin fa-2x"></i></div>
           </div>
         </section>
+      </div>
+
+      <!-- Champions ab bachche ke apne kaam ke NEECHE hai.
+           Pehle yeh Overview ke sar par tha aur phone par lagbhag aadhi
+           screen kha jata tha: dashboard khulte hi doosre bachchon ke naam,
+           ek podium aur tohfe ka ishtihaar - aur apna sabaq dekhne ke liye
+           scroll karna parta tha. Woh hosla-afzai hai, pehla kaam nahi.
+           Lamba subtitle bhi gaya: neeche ka banner wahi baat kehta hai. -->
+      <div id="championsBoard" class="champions-board" style="display:none">
+        <div class="champions-header">
+          <h3>🏆 Champions Board</h3>
+        </div>
+        <div id="championsPodium" class="champions-podium">
+          <div class="champions-loading"><i class="fas fa-spinner fa-spin"></i> Loading champions...</div>
+        </div>
+        <div class="champions-gift-banner">
+          <p><span class="gift-icon">🎁</span> Top 3 win exclusive gifts from Imaan &amp; Akhlaq.</p>
+        </div>
       </div>
 
       <div id="errorState" class="surface-card error-card d-none">
