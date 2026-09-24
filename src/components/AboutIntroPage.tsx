@@ -76,8 +76,8 @@ ${Header()}
         <p>To nurture a generation of confident, responsible, and virtuous Muslims by embedding Imaan (faith) and Akhlaq (character) at the heart of education, enabling young learners to live with courage, kindness, and integrity in every aspect of life.</p>
         
         <div class="intro-chars">
-          <img src="/kidba_assets/img/profile_imaan_hd.png" alt="Imaan" class="char-circle" />
-          <img src="/kidba_assets/img/profile_akhlaq_hd.png" alt="Akhlaq" class="char-circle" />
+          <img src="/kidba_assets/img/imaan-front.jpg" alt="Imaan" class="char-circle" />
+          <img src="/kidba_assets/img/akhlaq-front.jpg" alt="Akhlaq" class="char-circle" />
           <div>
             <h5 style="margin: 0; color: #1E2D5A; font-weight: 800;">Guided by Imaan & Akhlaq</h5>
             <small class="text-muted">Interactive character popups feature heavily in our educational experiences.</small>

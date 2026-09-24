@@ -2834,12 +2834,21 @@ export const TeacherDashboard = () => html`
 
       // Use range/stream loading: only the bytes for current page download upfront,
       // rest streams in background. disableAutoFetch=true => no full-PDF prefetch.
+      // disableAutoFetch sirf wahan theek hai jahan range requests
+      // chalti hain. Firebase Storage 206 to deta hai, lekin
+      // Access-Control-Expose-Headers mein Accept-Ranges/Content-Range nahi
+      // bhejta, to pdf.js ko range support nazar hi nahi aata. Us haalat mein
+      // "aage ka data mat lao" ka matlab hai har page turn data ka intezaar
+      // kare - yehi flip ko atka deta tha. Remote source par isliye poora
+      // document background mein aane dete hain: shuru mein progress bar,
+      // uske baad har flip fauran.
+      const sameOrigin = url.startsWith('/');
       const loadBook = async function(url) {
         const loadingTask = window.pdfjsLib.getDocument({
           url: url,
           disableStream: false,
           disableRange: false,
-          disableAutoFetch: true,
+          disableAutoFetch: url.startsWith('/'),
           rangeChunkSize: 131072
         });
         loadingTask.onProgress = function(p) {
