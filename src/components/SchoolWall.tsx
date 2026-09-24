@@ -451,10 +451,10 @@ export const SchoolWall = () => html`
     if (!user) {
       // No marker means nobody signed in here - send them to the front door
       // at once rather than making them watch a spinner for six seconds.
-      if (!storedSession()) { window.location.replace('/auth'); return; }
+      if (!storedSession()) { window.location.replace('./auth.html'); return; }
       showNotice('Restoring your session…');
       user = await waitForRestore();
-      if (!user) { window.location.replace('/auth'); return; }
+      if (!user) { window.location.replace('./auth.html'); return; }
       hideNotice();
     }
 
@@ -471,7 +471,7 @@ export const SchoolWall = () => html`
       showNotice('Could not open your account just now. Check your connection and reload the page.');
       return;
     }
-    if (!meSnap.exists()) { window.location.replace('/auth'); return; }
+    if (!meSnap.exists()) { window.location.replace('./auth.html'); return; }
     me = Object.assign({ uid: user.uid }, meSnap.data());
 
     // Back means "the desk I came from", not the public home page. The wall is

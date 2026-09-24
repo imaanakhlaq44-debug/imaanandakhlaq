@@ -2062,6 +2062,7 @@ export const ActivityDashboard = () => html`
     .mobile-action-btn[data-mobile-section="progress"] { --nav-c: #a35f0e; }
     .mobile-action-btn[data-mobile-section="club"]     { --nav-c: #c99a6b; --nav-glyph: #16294d; --nav-ink: #8a6234; }
     .mobile-action-btn[data-mobile-section="rankings"] { --nav-c: #1f7d59; }
+    .mobile-action-btn#studentMoreTab { --nav-c: #6f7fa8; }
 
     /* Logout is not a destination and never lights up. It was a solid red
        square next to five grey ones — the loudest thing on the bar was the
@@ -2335,19 +2336,30 @@ export const ActivityDashboard = () => html`
         <i class="fas fa-shield-halved"></i>
         <span>Club</span>
       </button>
-      <button class="mobile-action-btn" data-mobile-section="rankings" type="button" onclick="window.switchStudentSection('rankings', false)">
-        <i class="fas fa-medal"></i>
-        <span>Rankings</span>
-      </button>
-
-      <button class="mobile-action-btn logout" type="button" onclick="window.logoutStudent()">
-        <i class="fas fa-sign-out-alt"></i>
-        <span>Logout</span>
-      </button>
+      <button class="mobile-action-btn" id="studentMoreTab" type="button" onclick="openStudentMore()" aria-haspopup="dialog" aria-expanded="false">
+        <i class="fas fa-ellipsis"></i>
+        <span>More</span>
     </div>
   </div>
 </div>
 
+<!-- Rankings aur account ke kaam. Yeh bar mein chhe buttons the, jis mein
+     Logout ek poora tab kha raha tha. Parent Area yahan nahi hai: is line par
+     parent gate hat chuki hai, family dashboard ne uski jagah le li. -->
+<div class="ds-sheet-backdrop" id="studentMoreBackdrop" onclick="closeStudentMore()"></div>
+<div class="ds-sheet" id="studentMoreSheet" role="dialog" aria-modal="true" aria-label="More" tabindex="-1">
+  <div class="ds-sheet-grip"></div>
+  <button class="ds-sheet-item" type="button" onclick="window.switchStudentSection('rankings', false); closeStudentMore()">
+    <span class="ds-sheet-ic"><i class="fas fa-medal"></i></span> Rankings
+  </button>
+  <button class="ds-sheet-item" id="familySwitchMoreBtn" type="button" style="display:none;" onclick="closeStudentMore(); handleFamilySwitch()">
+    <span class="ds-sheet-ic"><i class="fas fa-users"></i></span> Switch child
+  </button>
+  <div class="ds-sheet-sep"></div>
+  <button class="ds-sheet-item is-danger" type="button" onclick="window.logoutStudent()">
+    <span class="ds-sheet-ic"><i class="fas fa-sign-out-alt"></i></span> Logout
+  </button>
+</div>
 ${HouseQuizModal()}
 
 <script type="module">
@@ -2655,9 +2667,36 @@ ${HouseQuizModal()}
    * the family password reaches every sibling through the login screen.
    */
   window.handleFamilySwitch = () => {
-    window.location.href = '/family';
+    // './family.html', '/family' nahi: Capacitor extensionless path par
+    // index.html deta hai, to APK mein yeh homepage khol deta tha.
+    window.location.href = './family.html';
   };
 
+  // ── More sheet ─────────────────────────────────────────────────────────
+  window.openStudentMore = () => {
+    const sheet = document.getElementById('studentMoreSheet');
+    const backdrop = document.getElementById('studentMoreBackdrop');
+    const tab = document.getElementById('studentMoreTab');
+    if (!sheet || !backdrop) return;
+    sheet.classList.add('open');
+    backdrop.classList.add('open');
+    if (tab) tab.setAttribute('aria-expanded', 'true');
+    sheet.focus();
+  };
+
+  window.closeStudentMore = () => {
+    const sheet = document.getElementById('studentMoreSheet');
+    const backdrop = document.getElementById('studentMoreBackdrop');
+    const tab = document.getElementById('studentMoreTab');
+    if (!sheet || !backdrop) return;
+    sheet.classList.remove('open');
+    backdrop.classList.remove('open');
+    if (tab) tab.setAttribute('aria-expanded', 'false');
+  };
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') window.closeStudentMore();
+  });
   window.switchStudentSection = (section, shouldScroll = true) => {
     const validSections = ['overview', 'books', 'progress', 'rankings', 'club'];
     const nextSection = validSections.includes(section) ? section : 'overview';
@@ -2666,6 +2705,7 @@ ${HouseQuizModal()}
     document.querySelectorAll('.sidebar-nav li[data-section]').forEach((item) => {
       item.classList.toggle('active', item.dataset.section === nextSection);
     });
+
 
     document.querySelectorAll('.ds-stat[data-section]').forEach((item) => {
       item.classList.toggle('is-active', item.dataset.section === nextSection);
@@ -2676,6 +2716,15 @@ ${HouseQuizModal()}
     document.querySelectorAll('.mobile-action-btn[data-mobile-section]').forEach((btn) => {
       btn.classList.toggle('is-active', btn.dataset.mobileSection === nextSection);
     });
+
+    // Rankings ab kisi tab ke neeche nahi - woh More sheet mein hai - to us
+    // haalat mein More jalta hai, warna bar khali dikhti.
+    const moreTab = document.getElementById('studentMoreTab');
+    if (moreTab) {
+      const onATab = [...document.querySelectorAll('.mobile-action-btn[data-mobile-section]')]
+        .some((btn) => btn.dataset.mobileSection === nextSection);
+      moreTab.classList.toggle('is-active', !onATab);
+    }
 
     // The club card is its own page, not a strip on the overview: showing it
     // only on demand keeps the daily habit list from competing with the
@@ -4072,7 +4121,7 @@ ${HouseQuizModal()}
       if (familyIdentity.isFamilyAccount) {
         if (!familyIdentity.studentUid) {
           // Signed in as the family but no child chosen on this device yet.
-          window.location.replace('/family');
+          window.location.replace('./family.html');
           return;
         }
 
@@ -4086,7 +4135,7 @@ ${HouseQuizModal()}
         // page rather than the wrong profile.
         if (!childSnap.exists() || childSnap.data().family_uid !== user.uid) {
           acForget(user.uid);
-          window.location.replace('/family');
+          window.location.replace('./family.html');
           return;
         }
 
@@ -4101,8 +4150,11 @@ ${HouseQuizModal()}
       currentStudent = { uid: userDocRef.id, ...userData };
 
       if (familyIdentity.isFamilyAccount) {
-        const switchBtn = document.getElementById('familySwitchSidebarBtn');
-        if (switchBtn) switchBtn.style.display = '';
+        // Sidebar (desktop) aur More sheet (phone) — dono par ek hi shart.
+        ['familySwitchSidebarBtn', 'familySwitchMoreBtn'].forEach((id) => {
+          const switchBtn = document.getElementById(id);
+          if (switchBtn) switchBtn.style.display = '';
+        });
       }
 
       if (currentStudent.school_id && !currentStudent.school_name) {

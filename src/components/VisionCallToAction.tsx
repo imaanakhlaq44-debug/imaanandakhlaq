@@ -135,7 +135,7 @@ export const VisionCallToAction = () => html`
       A vision that started with a concern close to home has now grown into a nationwide movement. See how the journey began and meet the team shaping the future.
     </p>
     
-    <a href="/about" class="btn-outline-gold"><i class="fas fa-book-open me-2"></i>Read Detailed Message & Vision</a>
+    <a href="/about/intro" class="btn-outline-gold"><i class="fas fa-book-open me-2"></i>Read Detailed Message & Vision</a>
 
     <hr class="divider-fancy" />
 

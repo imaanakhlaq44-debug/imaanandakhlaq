@@ -1054,7 +1054,7 @@ export const TeacherDashboard = () => html`
     border-color: var(--teacher-blue);
   }
 
-  @media (max-width: 1100px) {
+  @media (max-width: 900px) {
     .dashboard-shell {
       grid-template-columns: 1fr;
       /* The shell keeps its 100vh floor so a short page still fills the
@@ -1066,12 +1066,10 @@ export const TeacherDashboard = () => html`
       align-content: start;
     }
 
+    /* 900px se neeche navigation bottom bar hai. Sidebar ko yahan rakhna
+       matlab do nav ek saath, jo asal masla tha. */
     .sidebar-panel {
-      flex-direction: row;
-      flex-wrap: wrap;
-      align-items: center;
-      /* A strip above the content, not a full-height rail. */
-      min-height: 0;
+      display: none !important;
     }
 
     .sidebar-brand {
@@ -1738,8 +1736,36 @@ export const TeacherDashboard = () => html`
     box-shadow: 0 4px 12px rgba(16,185,129,0.3);
   }
 
+  /* Aaj ka haal: teen number, ek patti.
+     Shared .ds-stats auto-fit par chalta hai, aur 375px par minmax(190px)
+     ek hi column deta hai — teen lambe cards, poori screen kha jate.
+     Yahan teen columns tay hain aur phone par card ka andar ka layout
+     compact ho jata hai. Override page-scoped hai taake baqi dashboards
+     ka shared CSS na badle. */
+  .teacher-page .ds-stats-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  /* dashboard-ui.css phone par do-per-row rakhta hai aur akhri taaq card ko
+     poori row de deta hai. Teen ki patti mein woh teesre card ko chaura kar
+     ke wahi aadhi-khali row bana deta tha jo hum hata rahe the. */
+  .teacher-page .ds-stats-3 > .ds-stat:last-child:nth-child(odd) {
+    grid-column: auto;
+    flex-direction: column;
+  }
+  @media (max-width: 560px) {
+    .teacher-page .ds-stats-3 { gap: 8px; }
+    .teacher-page .ds-stats-3 .ds-stat {
+      flex-direction: column; align-items: center; text-align: center;
+      padding: 10px 6px; gap: 4px;
+    }
+    .teacher-page .ds-stats-3 .ds-stat-label { font-size: 0.58rem; }
+    .teacher-page .ds-stats-3 .ds-stat-value { font-size: 1.15rem; }
+  }
+
   .mobile-bottom-actions { display: none; }
-  @media (max-width: 760px) {
+
+  /* More sheet ka roop dashboard-ui.css mein .ds-sheet hai — chaaron
+     dashboards ek hi component istemal karte hain. */
+
+  @media (max-width: 900px) {
     .sidebar-chip-actions { display: none !important; }
     .teacher-page .dashboard-main { padding-bottom: 82px !important; }
     .mobile-bottom-actions {
@@ -1887,15 +1913,7 @@ export const TeacherDashboard = () => html`
            used to be two separate rows in two different styles — a 2-up of
            wide cards and a 3-up of centred mini cards — every rule written
            inline, so nothing here matched any other dashboard. -->
-      <div class="ds-stats ds-stats-4" style="padding:16px 16px 4px;">
-
-        <div class="ds-stat" role="button" tabindex="0" onclick="switchTeacherSection('students')">
-          <span class="ds-stat-icon"><i class="fas fa-user-graduate"></i></span>
-          <span class="ds-stat-body">
-            <span class="ds-stat-label">Students</span>
-            <strong class="ds-stat-value" id="teacherStudentCount">0</strong>
-          </span>
-        </div>
+      <div class="ds-stats ds-stats-3" style="padding:16px 16px 4px;">
 
         <div class="ds-stat is-accent" role="button" tabindex="0" onclick="switchTeacherSection('reviews')">
           <span class="ds-stat-icon"><i class="fas fa-clipboard-check"></i></span>
@@ -1905,18 +1923,10 @@ export const TeacherDashboard = () => html`
           </span>
         </div>
 
-        <div class="ds-stat is-info" role="button" tabindex="0" onclick="switchTeacherSection('rankings')">
-          <span class="ds-stat-icon"><i class="fas fa-medal"></i></span>
-          <span class="ds-stat-body">
-            <span class="ds-stat-label">Top Points</span>
-            <strong class="ds-stat-value" id="teacherTopPoints">0</strong>
-          </span>
-        </div>
-
         <div class="ds-stat is-positive" role="button" tabindex="0" onclick="switchTeacherSection('attendance')">
           <span class="ds-stat-icon"><i class="fas fa-check-circle"></i></span>
           <span class="ds-stat-body">
-            <span class="ds-stat-label">Active Today</span>
+            <span class="ds-stat-label">Present</span>
             <strong class="ds-stat-value" id="teacherAttendanceCount">0</strong>
           </span>
         </div>
@@ -1962,6 +1972,7 @@ export const TeacherDashboard = () => html`
                   <p id="teacherRosterSummary" class="ds-caption">Learners in your classes.</p>
                 </div>
               </div>
+              <span class="section-chip"><i class="fas fa-user-graduate"></i> <strong id="teacherStudentCount">0</strong>&nbsp;students</span>
               <span class="section-chip" id="teacherRosterClassChip"><i class="fas fa-user-group"></i> Loading classes</span>
             </div>
             <div id="teacherStudentRoster" class="student-roster">
@@ -2148,6 +2159,7 @@ export const TeacherDashboard = () => html`
                   <p id="teacherRankingCaption">Top-performing learners across your current school scope, with class labels for quick context.</p>
                 </div>
               </div>
+              <span class="section-chip"><i class="fas fa-medal"></i> Top&nbsp;<strong id="teacherTopPoints">0</strong>&nbsp;pts</span>
               <span class="section-chip" id="teacherRankingScopeChip"><i class="fas fa-trophy"></i> Loading scope</span>
             </div>
             <div id="leaderboardList">
@@ -2305,23 +2317,60 @@ export const TeacherDashboard = () => html`
     <div id="sheetPrintRoot"></div>
 
     <div class="mobile-bottom-actions" id="teacherMobileNav">
-      <button class="mobile-action-btn" id="tmb-books" type="button" onclick="switchTeacherSection('books'); setTeacherMobActive(this)">
-        <i class="fas fa-book-open"></i><span>Books</span>
+      <button class="mobile-action-btn active" data-section="overview" type="button" onclick="switchTeacherSection('overview')">
+        <i class="fas fa-house-chimney"></i><span>Today</span>
       </button>
-      <button class="mobile-action-btn" id="tmb-attendance" type="button" onclick="switchTeacherSection('attendance'); setTeacherMobActive(this)">
-        <i class="fas fa-user-clock"></i><span>Attendance</span>
+      <button class="mobile-action-btn" data-section="reviews" type="button" onclick="switchTeacherSection('reviews')">
+        <i class="fas fa-clipboard-check"></i><span>Review</span>
       </button>
-      <button class="mobile-action-btn active" id="tmb-students" type="button" onclick="switchTeacherSection('students'); setTeacherMobActive(this)">
+      <button class="mobile-action-btn" data-section="students" type="button" onclick="switchTeacherSection('students')">
         <i class="fas fa-user-graduate"></i><span>Students</span>
       </button>
-      <button class="mobile-action-btn" id="tmb-register" type="button" onclick="switchTeacherSection('register'); setTeacherMobActive(this)">
-        <i class="fas fa-calendar-alt"></i><span>Monthly Log</span>
+      <button class="mobile-action-btn" data-section="books" type="button" onclick="switchTeacherSection('books')">
+        <i class="fas fa-book-open"></i><span>Books</span>
       </button>
-      <button class="mobile-action-btn logout" type="button" onclick="window.logoutTeacher()">
-        <i class="fas fa-sign-out-alt"></i><span>Logout</span>
+      <button class="mobile-action-btn" id="teacherMoreTab" type="button" onclick="openTeacherMore()" aria-haspopup="dialog" aria-expanded="false">
+        <i class="fas fa-ellipsis"></i><span>More</span>
       </button>
     </div>
   </div>
+</div>
+
+<!-- Baqi sab: woh sections jo har roz nahi chahiye, aur account ke do kaam. -->
+<div class="ds-sheet-backdrop" id="teacherMoreBackdrop" onclick="closeTeacherMore()"></div>
+<div class="ds-sheet" id="teacherMoreSheet" role="dialog" aria-modal="true" aria-label="More" tabindex="-1">
+  <div class="ds-sheet-grip"></div>
+  <h4 class="ds-sheet-heading">Class</h4>
+  <button class="ds-sheet-item" type="button" onclick="switchTeacherSection('attendance'); closeTeacherMore()">
+    <span class="ds-sheet-ic"><i class="fas fa-user-clock"></i></span> Attendance
+  </button>
+  <button class="ds-sheet-item" type="button" onclick="switchTeacherSection('absent'); closeTeacherMore()">
+    <span class="ds-sheet-ic"><i class="fas fa-circle-xmark"></i></span> Absent today
+  </button>
+  <button class="ds-sheet-item" type="button" onclick="switchTeacherSection('club'); closeTeacherMore()">
+    <span class="ds-sheet-ic"><i class="fas fa-shield-halved"></i></span> Club Habits
+  </button>
+  <button class="ds-sheet-item" type="button" onclick="switchTeacherSection('rankings'); closeTeacherMore()">
+    <span class="ds-sheet-ic"><i class="fas fa-medal"></i></span> Rankings
+  </button>
+  <div class="ds-sheet-sep"></div>
+  <h4 class="ds-sheet-heading">Records</h4>
+  <button class="ds-sheet-item" type="button" onclick="switchTeacherSection('register'); closeTeacherMore()">
+    <span class="ds-sheet-ic"><i class="fas fa-calendar-alt"></i></span> Monthly Log
+  </button>
+  <button class="ds-sheet-item" type="button" onclick="switchTeacherSection('sheets'); closeTeacherMore()">
+    <span class="ds-sheet-ic"><i class="fas fa-print"></i></span> Activity Sheets
+  </button>
+  <button class="ds-sheet-item d-none" id="teacherMoreWall" type="button" onclick="window.location.href='/school-wall'">
+    <span class="ds-sheet-ic"><i class="fas fa-images"></i></span> School Wall
+  </button>
+  <div class="ds-sheet-sep"></div>
+  <button class="ds-sheet-item" type="button" onclick="window.location.href='auth.html'">
+    <span class="ds-sheet-ic"><i class="fas fa-house"></i></span> Home
+  </button>
+  <button class="ds-sheet-item is-danger" type="button" onclick="window.logoutTeacher()">
+    <span class="ds-sheet-ic"><i class="fas fa-sign-out-alt"></i></span> Logout
+  </button>
 </div>
 
 <!-- Book Reader Modal -->
@@ -2766,24 +2815,57 @@ export const TeacherDashboard = () => html`
       } catch(_) {
         window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
       }
+      // The bookN.pdf files live in the website root on Hostinger only — the
+      // deploy workflow excludes them from the build output, so they are not
+      // inside the APK either. In the Capacitor WebView the origin is the
+      // local bundle, so '/book1.pdf' there is a 404. Firebase Storage holds
+      // the same books (activities.json already reads them from there), so the
+      // app uses that copy and the web keeps the cheaper same-origin one.
+      const inApp = !!(window.Capacitor && typeof window.Capacitor.isNativePlatform === 'function' &&
+                       window.Capacitor.isNativePlatform());
+      const bookEntry = ACTIVITIES_DATA[bookKey] || {};
+      const remoteUrl = typeof bookEntry.pdfUrl === 'string' && /^https?:/.test(bookEntry.pdfUrl)
+        ? bookEntry.pdfUrl
+        : '';
+      const localUrl = '/' + bookKey + '.pdf';
+      const candidates = inApp
+        ? (remoteUrl ? [remoteUrl] : [localUrl])
+        : (remoteUrl ? [localUrl, remoteUrl] : [localUrl]);
+
       // Use range/stream loading: only the bytes for current page download upfront,
       // rest streams in background. disableAutoFetch=true => no full-PDF prefetch.
-      const loadingTask = window.pdfjsLib.getDocument({
-        url: '/' + bookKey + '.pdf',
-        disableStream: false,
-        disableRange: false,
-        disableAutoFetch: true,
-        rangeChunkSize: 131072
-      });
-      loadingTask.onProgress = function(p) {
-        if (!p || !p.total) return;
-        const pct = Math.min(100, Math.round((p.loaded / p.total) * 100));
-        const pctEl = document.getElementById('bookReaderProgressPct');
-        const barEl = document.getElementById('bookReaderProgressBar');
-        if (pctEl) pctEl.textContent = pct + '%';
-        if (barEl) barEl.style.width = pct + '%';
+      const loadBook = async function(url) {
+        const loadingTask = window.pdfjsLib.getDocument({
+          url: url,
+          disableStream: false,
+          disableRange: false,
+          disableAutoFetch: true,
+          rangeChunkSize: 131072
+        });
+        loadingTask.onProgress = function(p) {
+          if (!p || !p.total) return;
+          const pct = Math.min(100, Math.round((p.loaded / p.total) * 100));
+          const pctEl = document.getElementById('bookReaderProgressPct');
+          const barEl = document.getElementById('bookReaderProgressBar');
+          if (pctEl) pctEl.textContent = pct + '%';
+          if (barEl) barEl.style.width = pct + '%';
+        };
+        return loadingTask.promise;
       };
-      bookReaderPdf = await loadingTask.promise;
+
+      let loaded = null;
+      let lastError = null;
+      for (const url of candidates) {
+        try {
+          loaded = await loadBook(url);
+          break;
+        } catch(err) {
+          lastError = err;
+          console.warn('openBookReader: could not load ' + url, err);
+        }
+      }
+      if (!loaded) throw (lastError || new Error('no book source available'));
+      bookReaderPdf = loaded;
       bookReaderTotal = bookReaderPdf.numPages;
       renderBookReaderPage(0);
     } catch(e) {
@@ -2911,10 +2993,47 @@ export const TeacherDashboard = () => html`
     }, { passive: true });
   }
 
-  // Mobile bottom nav active state helper
-  window.setTeacherMobActive = (btn) => {
-    document.querySelectorAll('#teacherMobileNav .mobile-action-btn:not(.logout)').forEach(b => b.classList.remove('active'));
-    if (btn) btn.classList.add('active');
+  // ── More sheet ─────────────────────────────────────────────────────────
+  window.openTeacherMore = () => {
+    const sheet = document.getElementById('teacherMoreSheet');
+    const backdrop = document.getElementById('teacherMoreBackdrop');
+    const tab = document.getElementById('teacherMoreTab');
+    if (!sheet || !backdrop) return;
+    sheet.classList.add('open');
+    backdrop.classList.add('open');
+    if (tab) tab.setAttribute('aria-expanded', 'true');
+    sheet.focus();
+  };
+
+  window.closeTeacherMore = () => {
+    const sheet = document.getElementById('teacherMoreSheet');
+    const backdrop = document.getElementById('teacherMoreBackdrop');
+    const tab = document.getElementById('teacherMoreTab');
+    if (!sheet || !backdrop) return;
+    sheet.classList.remove('open');
+    backdrop.classList.remove('open');
+    if (tab) tab.setAttribute('aria-expanded', 'false');
+  };
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') window.closeTeacherMore();
+  });
+
+  /**
+   * Bottom bar ka active tab.
+   *
+   * Yeh switchTeacherSection se chalta hai, kisi button ke apne onclick se
+   * nahi. Pehle bar apna active khud rakhta tha, to stat card ya sidebar se
+   * section kholne par neeche ka highlight wahin ka wahin atka rehta tha.
+   * Jo section kisi tab ke neeche nahi aata, uske liye More jalta hai.
+   */
+  window.setTeacherMobActive = (section) => {
+    const bar = document.getElementById('teacherMobileNav');
+    if (!bar) return;
+    const tabs = [...bar.querySelectorAll('.mobile-action-btn')];
+    const match = tabs.find(b => b.dataset.section === section);
+    tabs.forEach(b => b.classList.remove('active'));
+    (match || document.getElementById('teacherMoreTab'))?.classList.add('active');
   };
 
   window.switchTeacherSection = (section, options = {}) => {
@@ -2925,6 +3044,8 @@ export const TeacherDashboard = () => html`
     document.querySelectorAll('.sidebar-nav li[data-section]').forEach((item) => {
       item.classList.toggle('active', item.dataset.section === nextSection);
     });
+
+    window.setTeacherMobActive(nextSection);
 
     document.querySelectorAll('.teacher-panel').forEach((panel) => {
       panel.classList.toggle('active', panel.id === teacherSectionTargets[nextSection]);
@@ -3664,11 +3785,14 @@ export const TeacherDashboard = () => html`
    * this keeps the app from advertising a link that would bounce.
    */
   function refreshWallNav() {
-    const link = document.getElementById('teacherNavWall');
-    if (!link) return;
     const inApp = !!(window.Capacitor && typeof window.Capacitor.isNativePlatform === 'function' &&
                      window.Capacitor.isNativePlatform());
-    link.classList.toggle('d-none', !teacherSchoolWall || inApp);
+    const hidden = !teacherSchoolWall || inApp;
+    // Sidebar (desktop) aur More sheet (phone) — dono par ek hi shart.
+    ['teacherNavWall', 'teacherMoreWall'].forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) el.classList.toggle('d-none', hidden);
+    });
   }
 
   /**

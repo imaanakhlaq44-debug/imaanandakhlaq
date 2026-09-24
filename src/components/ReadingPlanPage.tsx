@@ -530,7 +530,7 @@ export const ReadingPlanPage = () => html`
 
   document.getElementById('rpBack').addEventListener('click', () => {
     if (viewing !== cursor) return renderDay(cursor);
-    window.location.href = '/family';
+    window.location.href = './family.html';
   });
 
   onAuthStateChanged(auth, async (user) => {

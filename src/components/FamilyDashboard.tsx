@@ -300,7 +300,7 @@ export const FamilyDashboard = () => html`
     <i class="fas fa-lock" style="font-size:2.4rem; color:var(--fam-pink); margin-bottom:14px;"></i>
     <h3 id="famBlockTitle">Sign in required</h3>
     <p id="famBlockMessage">Please sign in with your family account.</p>
-    <button class="fam-btn solid" type="button" onclick="window.location.href='/auth'">Go to login</button>
+    <button class="fam-btn solid" type="button" onclick="window.location.href='./auth.html'">Go to login</button>
   </div>
 </div>
 
@@ -618,14 +618,14 @@ export const FamilyDashboard = () => html`
     // Remember the choice before leaving: the student dashboard reads it back
     // to decide whose work to load.
     acRemember(family.uid, childUid);
-    window.location.href = '/student-activities';
+    window.location.href = './student-activities.html';
   };
 
   window.famOpenReading = (childUid) => {
     // The reading plan reads the same remembered child, so the two buttons
     // never disagree about whose plan is on screen.
     acRemember(family.uid, childUid);
-    window.location.href = '/reading-plan?child=' + encodeURIComponent(childUid);
+    window.location.href = './reading-plan.html?child=' + encodeURIComponent(childUid);
   };
 
   window.famOpenClaim = () => {
@@ -682,7 +682,7 @@ export const FamilyDashboard = () => html`
       localStorage.removeItem('auth_user');
       sessionStorage.removeItem('auth_user');
     } catch (err) {}
-    window.location.replace('/auth');
+    window.location.replace('./auth.html');
   };
 </script>
 `

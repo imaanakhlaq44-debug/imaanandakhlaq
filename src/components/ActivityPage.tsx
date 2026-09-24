@@ -869,7 +869,7 @@ export const ActivityPage = () => html`
       if (!child) {
         // No child chosen, or the remembered one is not ours. Send them back
         // to pick, rather than leaving a page that silently refuses to save.
-        window.location.replace('/family');
+        window.location.replace('./family.html');
         return;
       }
 

@@ -643,3 +643,76 @@ a.ds-stat:hover { box-shadow: var(--ds-shadow-lift); transform: translateY(-1px)
 /* Anything that scrolls under the APK bottom bar gets this class so its last
    card clears the bar. */
 .ds-bottombar-safe { padding-bottom: var(--ds-bottombar-clear); }
+
+/* ===========================================================================
+   9. More sheet
+   A phone bottom bar holds five tabs. Past that the labels start clipping —
+   the school dashboard was already shipping "Attend." and the student one had
+   seven buttons at 54px each. The fifth tab is "More", and everything a user
+   reaches once a day rather than every hour lives in here: the rarely-used
+   sections, plus Logout, which used to spend a permanent tab on itself in
+   every dashboard.
+
+   Markup:
+     <div class="ds-sheet-backdrop" id="xBackdrop" onclick="closeX()"></div>
+     <div class="ds-sheet" id="xSheet" role="dialog" aria-modal="true" tabindex="-1">
+       <div class="ds-sheet-grip"></div>
+       <h4 class="ds-sheet-heading">Group</h4>
+       <button class="ds-sheet-item"><span class="ds-sheet-ic"><i …></i></span> Label</button>
+       <div class="ds-sheet-sep"></div>
+       <button class="ds-sheet-item is-danger">…</button>
+     </div>
+   =========================================================================== */
+
+.ds-sheet-backdrop {
+  position: fixed; inset: 0; background: rgba(15, 23, 42, 0.45);
+  opacity: 0; pointer-events: none; transition: opacity 0.2s ease; z-index: 1100;
+}
+.ds-sheet-backdrop.open { opacity: 1; pointer-events: auto; }
+
+.ds-sheet {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 1101;
+  background: var(--ds-surface);
+  border-radius: 20px 20px 0 0;
+  padding: 10px 14px calc(18px + env(safe-area-inset-bottom));
+  transform: translateY(100%);
+  transition: transform 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+  max-height: 82vh; overflow-y: auto;
+  box-shadow: 0 -10px 30px rgba(15, 23, 42, 0.18);
+}
+.ds-sheet.open { transform: translateY(0); }
+
+.ds-sheet-grip {
+  width: 40px; height: 4px; border-radius: 2px;
+  background: var(--ds-line-strong); margin: 4px auto 12px;
+}
+
+.ds-sheet-heading {
+  font-size: 0.8125rem; letter-spacing: 0.04em; text-transform: uppercase;
+  color: var(--ds-muted); margin: 6px 4px 6px; font-weight: 800;
+}
+
+.ds-sheet-item {
+  display: flex; align-items: center; gap: 12px; width: 100%;
+  background: transparent; border: none; border-radius: var(--ds-radius-sm);
+  padding: 11px 10px; font: inherit; font-size: 0.9375rem; font-weight: 700;
+  color: var(--ds-ink); text-align: left; cursor: pointer;
+}
+.ds-sheet-item:hover, .ds-sheet-item:focus-visible { background: var(--ds-surface-soft); }
+
+.ds-sheet-ic {
+  width: 34px; height: 34px; border-radius: 11px; flex: 0 0 auto;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--ds-surface-soft); color: var(--ds-navy); font-size: 0.875rem;
+}
+
+.ds-sheet-item.is-danger { color: var(--ds-danger); }
+.ds-sheet-item.is-danger .ds-sheet-ic { background: var(--ds-danger-soft); color: var(--ds-danger); }
+
+.ds-sheet-sep { height: 1px; background: var(--ds-line); margin: 8px 4px; }
+
+/* A sheet is phone furniture. On a wide screen every one of these
+   destinations is already standing in the sidebar. */
+@media (min-width: 901px) {
+  .ds-sheet, .ds-sheet-backdrop { display: none !important; }
+}
