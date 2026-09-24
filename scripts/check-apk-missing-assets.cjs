@@ -82,18 +82,63 @@ for (const file of files.filter(f => /\.(html|js|json)$/.test(f))) {
   }
 }
 
-const rows = [...missing.entries()].sort();
+/**
+ * Doosri class: app ke andar extensionless navigation.
+ *
+ * Capacitor ka WebViewLocalServer (WebViewLocalServer.java:399) jis path ke
+ * aakhri hisse mein nuqta nahi paata, uske liye index.html serve kar deta hai
+ * — html5mode default true hai aur capacitor.config.json use set nahi karta.
+ * Yaani APK mein `location.href = '/family'` family.html nahi kholta, chup-chaap
+ * marketing homepage khol deta hai. Web par yeh chalta hai kyunki wahan server
+ * route bana deta hai, isliye browser mein test karne se kabhi pakda nahi jata.
+ *
+ * School Wall jaan-boojh kar chhoda hai: woh web-only feature hai, app mein
+ * uski nav chhupi rehti hai aur page khud app se bahar bhej deta hai.
+ */
+const APP_NAV_OK = ['/school-wall'];
+const NAV_PATTERN = /location\.(?:href|replace)\s*(?:=\s*|\()['"](\/[^'"?#]*)/g;
+const badNav = new Map();
 
-if (!rows.length) {
-  console.log('OK - har same-origin path build output mein maujood hai.');
+for (const file of files.filter(f => /\.(html|js)$/.test(f))) {
+  const source = fs.readFileSync(file, 'utf8');
+  NAV_PATTERN.lastIndex = 0;
+  let match;
+  while ((match = NAV_PATTERN.exec(source))) {
+    const route = match[1];
+    if (route === '/') continue;
+    if (APP_NAV_OK.includes(route)) continue;
+    // Aakhri hisse mein nuqta = asli file, use Capacitor theek serve karta hai.
+    if (route.split('/').pop().includes('.')) continue;
+    if (!badNav.has(route)) badNav.set(route, new Set());
+    badNav.get(route).add(norm(path.relative(DIST, file)));
+  }
+}
+
+const rows = [...missing.entries()].sort();
+const navRows = [...badNav.entries()].sort();
+
+if (!rows.length && !navRows.length) {
+  console.log('OK - har same-origin path maujood hai, aur koi extensionless in-app navigation nahi.');
   process.exit(0);
 }
 
-console.error('Yeh same-origin paths build output mein nahi hain, to APK mein 404 denge:\n');
-for (const [url, sources] of rows) {
-  console.error('  ' + url);
-  console.error('      <- ' + [...sources].join(', '));
+if (rows.length) {
+  console.error('Yeh same-origin paths build output mein nahi hain, to APK mein 404 denge:\n');
+  for (const [url, sources] of rows) {
+    console.error('  ' + url);
+    console.error('      <- ' + [...sources].join(', '));
+  }
+  console.error('\nHar ek ke liye: file ship karein, ya path ko absolute remote URL banayein,');
+  console.error('ya wajah likh kar ALLOW list mein daalein.\n');
 }
-console.error('\nHar ek ke liye: file ship karein, ya path ko absolute remote URL banayein,');
-console.error('ya wajah likh kar ALLOW list mein daalein.');
+
+if (navRows.length) {
+  console.error('Yeh navigations APK mein index.html kholengi, apna page nahi:\n');
+  for (const [route, sources] of navRows) {
+    console.error('  ' + route + '   ->  ' + route + '.html likhein');
+    console.error('      <- ' + [...sources].join(', '));
+  }
+  console.error('');
+}
+
 process.exit(1);

@@ -2295,7 +2295,7 @@ export const ActivityDashboard = () => html`
   <button class="ds-sheet-item" id="parentGateMobileBtn" type="button" onclick="window.switchStudentSection('parent-gate', false); closeStudentMore()">
     <span class="ds-sheet-ic"><i class="fas fa-user-shield"></i></span> Parent Area
   </button>
-  <button class="ds-sheet-item" id="familySwitchMoreBtn" type="button" style="display:none;" onclick="handleFamilySwitch()">
+  <button class="ds-sheet-item" id="familySwitchMoreBtn" type="button" style="display:none;" onclick="closeStudentMore(); handleFamilySwitch()">
     <span class="ds-sheet-ic"><i class="fas fa-users"></i></span> Switch child
   </button>
   <div class="ds-sheet-sep"></div>
@@ -2671,7 +2671,7 @@ ${HouseQuizModal()}
    */
   window.handleFamilySwitch = () => {
     if (isParentUnlocked || !(pgConfig() && pgConfig().isConfigured)) {
-      window.location.href = '/family';
+      window.location.href = './family.html';
       return;
     }
     pgPendingAction = 'switch-family';
@@ -2745,7 +2745,7 @@ ${HouseQuizModal()}
 
     if (pgPendingAction === 'switch-family') {
       pgPendingAction = 'parent-area';
-      window.location.href = '/family';
+      window.location.href = './family.html';
       return;
     }
 
@@ -4445,7 +4445,7 @@ ${HouseQuizModal()}
       if (familyIdentity.isFamilyAccount) {
         if (!familyIdentity.studentUid) {
           // Signed in as the family but no child chosen on this device yet.
-          window.location.replace('/family');
+          window.location.replace('./family.html');
           return;
         }
 
@@ -4459,7 +4459,7 @@ ${HouseQuizModal()}
         // page rather than the wrong profile.
         if (!childSnap.exists() || childSnap.data().family_uid !== user.uid) {
           acForget(user.uid);
-          window.location.replace('/family');
+          window.location.replace('./family.html');
           return;
         }
 

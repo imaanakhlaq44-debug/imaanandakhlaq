@@ -1256,7 +1256,7 @@ export const SuperAdminDashboard = () => html`
             (user.email || 'another account') +
             ', which is not the platform administrator. Taking you to the sign-in form...';
         }
-        setTimeout(() => { window.location.replace('/auth?switch=1'); }, 2500);
+        setTimeout(() => { window.location.replace('./auth.html?switch=1'); }, 2500);
         return;
       }
       loadDashboardData();

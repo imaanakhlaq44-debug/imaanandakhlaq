@@ -210,7 +210,7 @@ export const StudentPinPage = () => html`
       // The wall, not the books dashboard. A child who signs in with a slip
       // from a community school comes for what their class did last week —
       // their own work is one link away, on the wall's bar.
-      location.href = '/school-wall';
+      location.href = './school-wall.html';
     } catch (err) {
       btn.disabled = false;
       btn.textContent = 'Open my dashboard';
