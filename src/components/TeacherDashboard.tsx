@@ -2832,8 +2832,6 @@ export const TeacherDashboard = () => html`
         ? (remoteUrl ? [remoteUrl] : [localUrl])
         : (remoteUrl ? [localUrl, remoteUrl] : [localUrl]);
 
-      // Use range/stream loading: only the bytes for current page download upfront,
-      // rest streams in background. disableAutoFetch=true => no full-PDF prefetch.
       // disableAutoFetch sirf wahan theek hai jahan range requests
       // chalti hain. Firebase Storage 206 to deta hai, lekin
       // Access-Control-Expose-Headers mein Accept-Ranges/Content-Range nahi
@@ -2842,7 +2840,6 @@ export const TeacherDashboard = () => html`
       // kare - yehi flip ko atka deta tha. Remote source par isliye poora
       // document background mein aane dete hain: shuru mein progress bar,
       // uske baad har flip fauran.
-      const sameOrigin = url.startsWith('/');
       const loadBook = async function(url) {
         const loadingTask = window.pdfjsLib.getDocument({
           url: url,
@@ -2891,27 +2888,40 @@ export const TeacherDashboard = () => html`
 
     try {
       const currentShell = getActiveBookReaderShell();
-      const page = await bookReaderPdf.getPage(bookReaderPage);
-      const pixelRatio = window.devicePixelRatio || 1;
-      const wrapWidth = canvasWrap.clientWidth - 24;
-      const unscaled = page.getViewport({ scale: 1 });
-      const baseScale = Math.min(wrapWidth / unscaled.width, 1.8);
-      const viewport = page.getViewport({ scale: baseScale * pixelRatio });
-      const canvas = document.createElement('canvas');
-      canvas.width = viewport.width;
-      canvas.height = viewport.height;
-      canvas.style.width = (viewport.width / pixelRatio) + 'px';
-      canvas.style.height = (viewport.height / pixelRatio) + 'px';
-      await page.render({ canvasContext: canvas.getContext('2d'), viewport }).promise;
-      const shell = document.createElement('div');
-      shell.className = 'book-reader-page-shell';
 
-      if (currentShell && direction) {
-        await animateBookReaderExit(currentShell, direction);
-      }
+      // Flip fauran shuru hota hai, naya page uske saath saath banta hai.
+      //
+      // Pehle tarteeb ulti thi: getPage aur render - jo akele hi 200-500ms
+      // lete hain, aur app mein data ka intezaar bhi kara sakte hain - poore
+      // hone ke BAAD animation chalti thi. Yaani tap par pehle kuch na hota,
+      // phir page achanak palat jata. Isi liye flip toota hua lagta tha,
+      // jabke animation khud theek thi.
+      const exiting = animateBookReaderExit(currentShell, direction);
+
+      const building = (async function() {
+        const page = await bookReaderPdf.getPage(bookReaderPage);
+        const pixelRatio = window.devicePixelRatio || 1;
+        const wrapWidth = canvasWrap.clientWidth - 24;
+        const unscaled = page.getViewport({ scale: 1 });
+        const baseScale = Math.min(wrapWidth / unscaled.width, 1.8);
+        const viewport = page.getViewport({ scale: baseScale * pixelRatio });
+        const canvas = document.createElement('canvas');
+        canvas.width = viewport.width;
+        canvas.height = viewport.height;
+        canvas.style.width = (viewport.width / pixelRatio) + 'px';
+        canvas.style.height = (viewport.height / pixelRatio) + 'px';
+        await page.render({ canvasContext: canvas.getContext('2d'), viewport }).promise;
+        const shell = document.createElement('div');
+        shell.className = 'book-reader-page-shell';
+        shell.appendChild(canvas);
+        return shell;
+      })();
+
+      // Dono ek saath, taake render ki nakami bhi yahin pakdi jaye aur koi
+      // promise be-sambhala na rahe.
+      const shell = (await Promise.all([exiting, building]))[1];
 
       canvasWrap.innerHTML = '';
-      shell.appendChild(canvas);
       canvasWrap.appendChild(shell);
       await animateBookReaderEntry(shell, direction || 0);
     } catch(e) {
