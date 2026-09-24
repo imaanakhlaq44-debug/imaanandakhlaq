@@ -2802,35 +2802,22 @@
           </div>
         </div>
 
-        <!-- The six numbers this page opens on. They used to be a purple
-             gradient banner and three full-bleed colour tiles, each with a 3D
-             thumbnail sitting on top of the number; the ids are unchanged, so
-             the JS that fills them is untouched. -->
+        <!-- Chaar numbers, chhe cards nahi.
+             "Current view" us dropdown ki naqal tha jo theek upar khara hai
+             aur wahi label pehle se dikha raha hai; uska "7 classes tracked"
+             ab filter ki apni summary line mein hai. "People in view" Teachers
+             aur Students ka jama tha, aur uska caption bhi wahi do number
+             ginwata tha - ek hi baat teen cards mein.
+             Teachers, Students aur Pending ke captions number ko lafzon mein
+             dohra rahe the ("17 learner records in scope" ek 17 ke neeche), to
+             woh gaye. Average XP par caption raha kyunki akela "0" nahi batata
+             ke students hi nahi hain ya kaam hi nahi hua. -->
         <div class="ds-stats ds-stats-4">
-          <div class="ds-stat">
-            <span class="ds-stat-icon"><i class="fas fa-layer-group"></i></span>
+          <div class="ds-stat is-accent">
+            <span class="ds-stat-icon"><i class="fas fa-user-graduate"></i></span>
             <span class="ds-stat-body">
-              <span class="ds-stat-label">Current view</span>
-              <strong class="ds-stat-value" id="heroScopeLabel" style="font-size:1.125rem;">All Classes</strong>
-              <span class="ds-stat-meta"><span id="statClassesInScope">0</span> classes tracked</span>
-            </span>
-          </div>
-
-          <div class="ds-stat is-info">
-            <span class="ds-stat-icon"><i class="fas fa-chart-line"></i></span>
-            <span class="ds-stat-body">
-              <span class="ds-stat-label">Average XP</span>
-              <strong class="ds-stat-value" id="statPoints">0 XP</strong>
-              <span class="ds-stat-meta" id="statPointsMeta">No student activity yet</span>
-            </span>
-          </div>
-
-          <div class="ds-stat">
-            <span class="ds-stat-icon"><i class="fas fa-users"></i></span>
-            <span class="ds-stat-body">
-              <span class="ds-stat-label">People in view</span>
-              <strong class="ds-stat-value" id="statTotalPop">0</strong>
-              <span class="ds-stat-meta" id="statPopulationMeta">0 teachers and students</span>
+              <span class="ds-stat-label">Students</span>
+              <strong class="ds-stat-value" id="statStudents">0</strong>
             </span>
           </div>
 
@@ -2839,16 +2826,14 @@
             <span class="ds-stat-body">
               <span class="ds-stat-label">Teachers</span>
               <strong class="ds-stat-value" id="statTeachers">0</strong>
-              <span class="ds-stat-meta" id="teachersMeta">No teachers in this view</span>
             </span>
           </div>
 
-          <div class="ds-stat is-accent">
-            <span class="ds-stat-icon"><i class="fas fa-user-graduate"></i></span>
+          <div class="ds-stat is-info">
+            <span class="ds-stat-icon"><i class="fas fa-chart-line"></i></span>
             <span class="ds-stat-body">
-              <span class="ds-stat-label">Students</span>
-              <strong class="ds-stat-value" id="statStudents">0</strong>
-              <span class="ds-stat-meta" id="studentsMeta">No students in this view</span>
+              <span class="ds-stat-label">Average XP</span>
+              <strong class="ds-stat-value" id="statPoints">—</strong>
             </span>
           </div>
 
@@ -2857,7 +2842,6 @@
             <span class="ds-stat-body">
               <span class="ds-stat-label">Pending Invites</span>
               <strong class="ds-stat-value" id="statPending">0</strong>
-              <span class="ds-stat-meta" id="pendingMeta">No pending invites</span>
             </span>
           </div>
         </div>
@@ -5312,24 +5296,20 @@
     const bgColors = ['#fb923c', '#fbbf24', '#4ade80'];
     const now = new Date();
 
-    document.getElementById('heroScopeLabel').textContent = currentLabel;
     var heroScopeMetaEl = document.getElementById('heroScopeMeta');
     if (heroScopeMetaEl) heroScopeMetaEl.textContent = currentClassFilter === 'all'
       ? 'Review live student, teacher and attendance figures across the whole school.'
       : 'Focused academic operations for ' + currentLabel + '.';
-    document.getElementById('classFilterSummary').textContent = currentClassFilter === 'all'
+    // Class ka ginti ab yahin, us "Current view" card ke bajaye jo sirf is
+    // dropdown ki baat dohrata tha.
+    document.getElementById('classFilterSummary').textContent = (currentClassFilter === 'all'
       ? 'Showing every active class'
-      : 'Showing records for ' + currentLabel;
+      : 'Showing records for ' + currentLabel)
+      + ' \u00b7 ' + classesInScope + (classesInScope === 1 ? ' class' : ' classes');
     document.getElementById('activeScopeBadge').textContent = currentLabel;
-    document.getElementById('statClassesInScope').textContent = String(classesInScope);
     document.getElementById('statTeachers').textContent = String(teachers.length);
     document.getElementById('statStudents').textContent = String(students.length);
     document.getElementById('statPending').textContent = String(pendingInvites);
-    document.getElementById('statTotalPop').textContent = String(viewPopulation);
-    document.getElementById('teachersMeta').textContent = teachers.length ? teachers.length + ' faculty records in scope' : 'No teachers in this view';
-    document.getElementById('studentsMeta').textContent = students.length ? students.length + ' learner records in scope' : 'No students in this view';
-    document.getElementById('pendingMeta').textContent = pendingInvites ? pendingInvites + ' invitations are still pending' : 'No pending invites';
-    document.getElementById('statPopulationMeta').textContent = viewPopulation ? teachers.length + ' teachers and ' + students.length + ' students' : '0 teachers and 0 students';
     document.getElementById('currentDateDisplay').textContent = now.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
 
     const masterCb = document.getElementById('selectAllStudents');
@@ -5491,8 +5471,11 @@
     document.getElementById('studentTableBody').innerHTML = analyticsHtml || '<div style="text-align:center; padding:2rem; color:#94a3b8; font-weight:700;">No student data available.</div>';
 
     const avgScore = students.length > 0 ? Math.round(totalSchoolScore / students.length) : 0;
-    document.getElementById('statPoints').textContent = avgScore + ' XP';
-    document.getElementById('statPointsMeta').textContent = students.length ? 'Average progress across ' + students.length + ' learners' : 'No student activity yet';
+    // Unit label mein hai, to value mein dobara nahi. Aur jab koi student
+    // hi nahi to "0" jhoot bolta hai - us haalat mein dash. Pehle yeh farq
+    // ek caption line batati thi, jo is akele card ko doosron se ooncha kar
+    // deti thi aur saath wale card mein khali jagah chhod jati thi.
+    document.getElementById('statPoints').textContent = students.length ? String(avgScore) : '—';
 
     const mixMax = Math.max(students.length, teachers.length, pendingInvites, 1);
     const setMixBar = (id, value) => {
