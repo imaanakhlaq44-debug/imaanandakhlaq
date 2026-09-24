@@ -2745,24 +2745,57 @@ export const TeacherDashboard = () => html`
       } catch(_) {
         window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
       }
+      // The bookN.pdf files live in the website root on Hostinger only — the
+      // deploy workflow excludes them from the build output, so they are not
+      // inside the APK either. In the Capacitor WebView the origin is the
+      // local bundle, so '/book1.pdf' there is a 404. Firebase Storage holds
+      // the same books (activities.json already reads them from there), so the
+      // app uses that copy and the web keeps the cheaper same-origin one.
+      const inApp = !!(window.Capacitor && typeof window.Capacitor.isNativePlatform === 'function' &&
+                       window.Capacitor.isNativePlatform());
+      const bookEntry = ACTIVITIES_DATA[bookKey] || {};
+      const remoteUrl = typeof bookEntry.pdfUrl === 'string' && /^https?:/.test(bookEntry.pdfUrl)
+        ? bookEntry.pdfUrl
+        : '';
+      const localUrl = '/' + bookKey + '.pdf';
+      const candidates = inApp
+        ? (remoteUrl ? [remoteUrl] : [localUrl])
+        : (remoteUrl ? [localUrl, remoteUrl] : [localUrl]);
+
       // Use range/stream loading: only the bytes for current page download upfront,
       // rest streams in background. disableAutoFetch=true => no full-PDF prefetch.
-      const loadingTask = window.pdfjsLib.getDocument({
-        url: '/' + bookKey + '.pdf',
-        disableStream: false,
-        disableRange: false,
-        disableAutoFetch: true,
-        rangeChunkSize: 131072
-      });
-      loadingTask.onProgress = function(p) {
-        if (!p || !p.total) return;
-        const pct = Math.min(100, Math.round((p.loaded / p.total) * 100));
-        const pctEl = document.getElementById('bookReaderProgressPct');
-        const barEl = document.getElementById('bookReaderProgressBar');
-        if (pctEl) pctEl.textContent = pct + '%';
-        if (barEl) barEl.style.width = pct + '%';
+      const loadBook = async function(url) {
+        const loadingTask = window.pdfjsLib.getDocument({
+          url: url,
+          disableStream: false,
+          disableRange: false,
+          disableAutoFetch: true,
+          rangeChunkSize: 131072
+        });
+        loadingTask.onProgress = function(p) {
+          if (!p || !p.total) return;
+          const pct = Math.min(100, Math.round((p.loaded / p.total) * 100));
+          const pctEl = document.getElementById('bookReaderProgressPct');
+          const barEl = document.getElementById('bookReaderProgressBar');
+          if (pctEl) pctEl.textContent = pct + '%';
+          if (barEl) barEl.style.width = pct + '%';
+        };
+        return loadingTask.promise;
       };
-      bookReaderPdf = await loadingTask.promise;
+
+      let loaded = null;
+      let lastError = null;
+      for (const url of candidates) {
+        try {
+          loaded = await loadBook(url);
+          break;
+        } catch(err) {
+          lastError = err;
+          console.warn('openBookReader: could not load ' + url, err);
+        }
+      }
+      if (!loaded) throw (lastError || new Error('no book source available'));
+      bookReaderPdf = loaded;
       bookReaderTotal = bookReaderPdf.numPages;
       renderBookReaderPage(0);
     } catch(e) {
