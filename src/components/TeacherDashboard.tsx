@@ -1054,15 +1054,15 @@ export const TeacherDashboard = () => html`
     border-color: var(--teacher-blue);
   }
 
-  @media (max-width: 1100px) {
+  @media (max-width: 900px) {
     .dashboard-shell {
       grid-template-columns: 1fr;
     }
 
+    /* 900px se neeche navigation bottom bar hai. Sidebar ko yahan rakhna
+       matlab do nav ek saath, jo asal masla tha. */
     .sidebar-panel {
-      flex-direction: row;
-      flex-wrap: wrap;
-      align-items: center;
+      display: none !important;
     }
 
     .sidebar-brand {
@@ -1729,8 +1729,76 @@ export const TeacherDashboard = () => html`
     box-shadow: 0 4px 12px rgba(16,185,129,0.3);
   }
 
+  /* Aaj ka haal: teen number, ek patti.
+     Shared .ds-stats auto-fit par chalta hai, aur 375px par minmax(190px)
+     ek hi column deta hai — teen lambe cards, poori screen kha jate.
+     Yahan teen columns tay hain aur phone par card ka andar ka layout
+     compact ho jata hai. Override page-scoped hai taake baqi dashboards
+     ka shared CSS na badle. */
+  .teacher-page .ds-stats-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  /* dashboard-ui.css phone par do-per-row rakhta hai aur akhri taaq card ko
+     poori row de deta hai. Teen ki patti mein woh teesre card ko chaura kar
+     ke wahi aadhi-khali row bana deta tha jo hum hata rahe the. */
+  .teacher-page .ds-stats-3 > .ds-stat:last-child:nth-child(odd) {
+    grid-column: auto;
+    flex-direction: column;
+  }
+  @media (max-width: 560px) {
+    .teacher-page .ds-stats-3 { gap: 8px; }
+    .teacher-page .ds-stats-3 .ds-stat {
+      flex-direction: column; align-items: center; text-align: center;
+      padding: 10px 6px; gap: 4px;
+    }
+    .teacher-page .ds-stats-3 .ds-stat-label { font-size: 0.58rem; }
+    .teacher-page .ds-stats-3 .ds-stat-value { font-size: 1.15rem; }
+  }
+
   .mobile-bottom-actions { display: none; }
-  @media (max-width: 760px) {
+
+  /* ── More sheet ────────────────────────────────────────────────────────
+     Paanch tabs neeche, baqi sab yahan. Jo cheezein teacher din mein ek
+     baar chhuta hai — rankings, monthly log, activity sheets — unhein
+     permanent button dene ka matlab har baar unki jagah ka kiraya dena
+     hai. Sheet sirf tab kholti hai jab zaroorat ho. */
+  .more-sheet-backdrop {
+    position: fixed; inset: 0; background: rgba(15,23,42,0.45);
+    opacity: 0; pointer-events: none; transition: opacity 0.2s ease; z-index: 1100;
+  }
+  .more-sheet-backdrop.open { opacity: 1; pointer-events: auto; }
+  .more-sheet {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 1101;
+    background: #fff; border-radius: 20px 20px 0 0;
+    padding: 10px 14px calc(18px + env(safe-area-inset-bottom));
+    transform: translateY(100%); transition: transform 0.24s cubic-bezier(0.16,1,0.3,1);
+    max-height: 82vh; overflow-y: auto;
+    box-shadow: 0 -10px 30px rgba(15,23,42,0.18);
+  }
+  .more-sheet.open { transform: translateY(0); }
+  .more-sheet-grip {
+    width: 40px; height: 4px; border-radius: 2px; background: #cbd5e1;
+    margin: 4px auto 12px;
+  }
+  .more-sheet h4 {
+    font-family: 'Sora', sans-serif; font-size: 0.95rem; margin: 0 0 10px;
+    color: var(--teacher-ink);
+  }
+  .more-sheet-item {
+    display: flex; align-items: center; gap: 12px; width: 100%;
+    background: transparent; border: none; border-radius: 12px;
+    padding: 11px 10px; font-family: inherit; font-size: 0.9rem;
+    font-weight: 700; color: var(--teacher-ink); text-align: left; cursor: pointer;
+  }
+  .more-sheet-item:hover, .more-sheet-item:focus-visible { background: var(--teacher-surface); }
+  .more-sheet-item .more-ic {
+    width: 34px; height: 34px; border-radius: 11px; flex: 0 0 auto;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--teacher-surface); color: var(--teacher-blue); font-size: 0.85rem;
+  }
+  .more-sheet-item.is-danger { color: #dc2626; }
+  .more-sheet-item.is-danger .more-ic { background: #fee2e2; color: #dc2626; }
+  .more-sheet-sep { height: 1px; background: var(--teacher-line); margin: 8px 4px; }
+
+  @media (max-width: 900px) {
     .sidebar-chip-actions { display: none !important; }
     .teacher-page .dashboard-main { padding-bottom: 82px !important; }
     .mobile-bottom-actions {
@@ -1878,15 +1946,7 @@ export const TeacherDashboard = () => html`
            used to be two separate rows in two different styles — a 2-up of
            wide cards and a 3-up of centred mini cards — every rule written
            inline, so nothing here matched any other dashboard. -->
-      <div class="ds-stats ds-stats-4" style="padding:16px 16px 4px;">
-
-        <div class="ds-stat" role="button" tabindex="0" onclick="switchTeacherSection('students')">
-          <span class="ds-stat-icon"><i class="fas fa-user-graduate"></i></span>
-          <span class="ds-stat-body">
-            <span class="ds-stat-label">Students</span>
-            <strong class="ds-stat-value" id="teacherStudentCount">0</strong>
-          </span>
-        </div>
+      <div class="ds-stats ds-stats-3" style="padding:16px 16px 4px;">
 
         <div class="ds-stat is-accent" role="button" tabindex="0" onclick="switchTeacherSection('reviews')">
           <span class="ds-stat-icon"><i class="fas fa-clipboard-check"></i></span>
@@ -1896,18 +1956,10 @@ export const TeacherDashboard = () => html`
           </span>
         </div>
 
-        <div class="ds-stat is-info" role="button" tabindex="0" onclick="switchTeacherSection('rankings')">
-          <span class="ds-stat-icon"><i class="fas fa-medal"></i></span>
-          <span class="ds-stat-body">
-            <span class="ds-stat-label">Top Points</span>
-            <strong class="ds-stat-value" id="teacherTopPoints">0</strong>
-          </span>
-        </div>
-
         <div class="ds-stat is-positive" role="button" tabindex="0" onclick="switchTeacherSection('attendance')">
           <span class="ds-stat-icon"><i class="fas fa-check-circle"></i></span>
           <span class="ds-stat-body">
-            <span class="ds-stat-label">Active Today</span>
+            <span class="ds-stat-label">Present</span>
             <strong class="ds-stat-value" id="teacherAttendanceCount">0</strong>
           </span>
         </div>
@@ -1953,6 +2005,7 @@ export const TeacherDashboard = () => html`
                   <p id="teacherRosterSummary" class="ds-caption">Learners in your classes.</p>
                 </div>
               </div>
+              <span class="section-chip"><i class="fas fa-user-graduate"></i> <strong id="teacherStudentCount">0</strong>&nbsp;students</span>
               <span class="section-chip" id="teacherRosterClassChip"><i class="fas fa-user-group"></i> Loading classes</span>
             </div>
             <div id="teacherStudentRoster" class="student-roster">
@@ -2139,6 +2192,7 @@ export const TeacherDashboard = () => html`
                   <p id="teacherRankingCaption">Top-performing learners across your current school scope, with class labels for quick context.</p>
                 </div>
               </div>
+              <span class="section-chip"><i class="fas fa-medal"></i> Top&nbsp;<strong id="teacherTopPoints">0</strong>&nbsp;pts</span>
               <span class="section-chip" id="teacherRankingScopeChip"><i class="fas fa-trophy"></i> Loading scope</span>
             </div>
             <div id="leaderboardList">
@@ -2296,23 +2350,60 @@ export const TeacherDashboard = () => html`
     <div id="sheetPrintRoot"></div>
 
     <div class="mobile-bottom-actions" id="teacherMobileNav">
-      <button class="mobile-action-btn" id="tmb-books" type="button" onclick="switchTeacherSection('books'); setTeacherMobActive(this)">
-        <i class="fas fa-book-open"></i><span>Books</span>
+      <button class="mobile-action-btn active" data-section="overview" type="button" onclick="switchTeacherSection('overview')">
+        <i class="fas fa-house-chimney"></i><span>Today</span>
       </button>
-      <button class="mobile-action-btn" id="tmb-attendance" type="button" onclick="switchTeacherSection('attendance'); setTeacherMobActive(this)">
-        <i class="fas fa-user-clock"></i><span>Attendance</span>
+      <button class="mobile-action-btn" data-section="reviews" type="button" onclick="switchTeacherSection('reviews')">
+        <i class="fas fa-clipboard-check"></i><span>Review</span>
       </button>
-      <button class="mobile-action-btn active" id="tmb-students" type="button" onclick="switchTeacherSection('students'); setTeacherMobActive(this)">
+      <button class="mobile-action-btn" data-section="students" type="button" onclick="switchTeacherSection('students')">
         <i class="fas fa-user-graduate"></i><span>Students</span>
       </button>
-      <button class="mobile-action-btn" id="tmb-register" type="button" onclick="switchTeacherSection('register'); setTeacherMobActive(this)">
-        <i class="fas fa-calendar-alt"></i><span>Monthly Log</span>
+      <button class="mobile-action-btn" data-section="books" type="button" onclick="switchTeacherSection('books')">
+        <i class="fas fa-book-open"></i><span>Books</span>
       </button>
-      <button class="mobile-action-btn logout" type="button" onclick="window.logoutTeacher()">
-        <i class="fas fa-sign-out-alt"></i><span>Logout</span>
+      <button class="mobile-action-btn" id="teacherMoreTab" type="button" onclick="openTeacherMore()" aria-haspopup="dialog" aria-expanded="false">
+        <i class="fas fa-ellipsis"></i><span>More</span>
       </button>
     </div>
   </div>
+</div>
+
+<!-- Baqi sab: woh sections jo har roz nahi chahiye, aur account ke do kaam. -->
+<div class="more-sheet-backdrop" id="teacherMoreBackdrop" onclick="closeTeacherMore()"></div>
+<div class="more-sheet" id="teacherMoreSheet" role="dialog" aria-modal="true" aria-label="More" tabindex="-1">
+  <div class="more-sheet-grip"></div>
+  <h4>Class</h4>
+  <button class="more-sheet-item" type="button" onclick="switchTeacherSection('attendance'); closeTeacherMore()">
+    <span class="more-ic"><i class="fas fa-user-clock"></i></span> Attendance
+  </button>
+  <button class="more-sheet-item" type="button" onclick="switchTeacherSection('absent'); closeTeacherMore()">
+    <span class="more-ic"><i class="fas fa-circle-xmark"></i></span> Absent today
+  </button>
+  <button class="more-sheet-item" type="button" onclick="switchTeacherSection('club'); closeTeacherMore()">
+    <span class="more-ic"><i class="fas fa-shield-halved"></i></span> Club Habits
+  </button>
+  <button class="more-sheet-item" type="button" onclick="switchTeacherSection('rankings'); closeTeacherMore()">
+    <span class="more-ic"><i class="fas fa-medal"></i></span> Rankings
+  </button>
+  <div class="more-sheet-sep"></div>
+  <h4>Records</h4>
+  <button class="more-sheet-item" type="button" onclick="switchTeacherSection('register'); closeTeacherMore()">
+    <span class="more-ic"><i class="fas fa-calendar-alt"></i></span> Monthly Log
+  </button>
+  <button class="more-sheet-item" type="button" onclick="switchTeacherSection('sheets'); closeTeacherMore()">
+    <span class="more-ic"><i class="fas fa-print"></i></span> Activity Sheets
+  </button>
+  <button class="more-sheet-item d-none" id="teacherMoreWall" type="button" onclick="window.location.href='/school-wall'">
+    <span class="more-ic"><i class="fas fa-images"></i></span> School Wall
+  </button>
+  <div class="more-sheet-sep"></div>
+  <button class="more-sheet-item" type="button" onclick="window.location.href='auth.html'">
+    <span class="more-ic"><i class="fas fa-house"></i></span> Home
+  </button>
+  <button class="more-sheet-item is-danger" type="button" onclick="window.logoutTeacher()">
+    <span class="more-ic"><i class="fas fa-sign-out-alt"></i></span> Logout
+  </button>
 </div>
 
 <!-- Book Reader Modal -->
@@ -2923,10 +3014,47 @@ export const TeacherDashboard = () => html`
     }, { passive: true });
   }
 
-  // Mobile bottom nav active state helper
-  window.setTeacherMobActive = (btn) => {
-    document.querySelectorAll('#teacherMobileNav .mobile-action-btn:not(.logout)').forEach(b => b.classList.remove('active'));
-    if (btn) btn.classList.add('active');
+  // ── More sheet ─────────────────────────────────────────────────────────
+  window.openTeacherMore = () => {
+    const sheet = document.getElementById('teacherMoreSheet');
+    const backdrop = document.getElementById('teacherMoreBackdrop');
+    const tab = document.getElementById('teacherMoreTab');
+    if (!sheet || !backdrop) return;
+    sheet.classList.add('open');
+    backdrop.classList.add('open');
+    if (tab) tab.setAttribute('aria-expanded', 'true');
+    sheet.focus();
+  };
+
+  window.closeTeacherMore = () => {
+    const sheet = document.getElementById('teacherMoreSheet');
+    const backdrop = document.getElementById('teacherMoreBackdrop');
+    const tab = document.getElementById('teacherMoreTab');
+    if (!sheet || !backdrop) return;
+    sheet.classList.remove('open');
+    backdrop.classList.remove('open');
+    if (tab) tab.setAttribute('aria-expanded', 'false');
+  };
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') window.closeTeacherMore();
+  });
+
+  /**
+   * Bottom bar ka active tab.
+   *
+   * Yeh switchTeacherSection se chalta hai, kisi button ke apne onclick se
+   * nahi. Pehle bar apna active khud rakhta tha, to stat card ya sidebar se
+   * section kholne par neeche ka highlight wahin ka wahin atka rehta tha.
+   * Jo section kisi tab ke neeche nahi aata, uske liye More jalta hai.
+   */
+  window.setTeacherMobActive = (section) => {
+    const bar = document.getElementById('teacherMobileNav');
+    if (!bar) return;
+    const tabs = [...bar.querySelectorAll('.mobile-action-btn')];
+    const match = tabs.find(b => b.dataset.section === section);
+    tabs.forEach(b => b.classList.remove('active'));
+    (match || document.getElementById('teacherMoreTab'))?.classList.add('active');
   };
 
   window.switchTeacherSection = (section, options = {}) => {
@@ -2937,6 +3065,8 @@ export const TeacherDashboard = () => html`
     document.querySelectorAll('.sidebar-nav li[data-section]').forEach((item) => {
       item.classList.toggle('active', item.dataset.section === nextSection);
     });
+
+    window.setTeacherMobActive(nextSection);
 
     document.querySelectorAll('.teacher-panel').forEach((panel) => {
       panel.classList.toggle('active', panel.id === teacherSectionTargets[nextSection]);
@@ -3676,11 +3806,14 @@ export const TeacherDashboard = () => html`
    * this keeps the app from advertising a link that would bounce.
    */
   function refreshWallNav() {
-    const link = document.getElementById('teacherNavWall');
-    if (!link) return;
     const inApp = !!(window.Capacitor && typeof window.Capacitor.isNativePlatform === 'function' &&
                      window.Capacitor.isNativePlatform());
-    link.classList.toggle('d-none', !teacherSchoolWall || inApp);
+    const hidden = !teacherSchoolWall || inApp;
+    // Sidebar (desktop) aur More sheet (phone) — dono par ek hi shart.
+    ['teacherNavWall', 'teacherMoreWall'].forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) el.classList.toggle('d-none', hidden);
+    });
   }
 
   /**
