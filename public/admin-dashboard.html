@@ -3639,20 +3639,42 @@
 
 <!-- Mobile bottom nav bar for School Admin -->
 <div class="admin-mobile-bottom" id="adminBottomBar">
-  <button class="adm-mob-btn active" id="admMobOverview" onclick="switchAdminTab('overview', this)">
+  <button class="adm-mob-btn active" id="admMobOverview" data-tab="overview" onclick="switchAdminTab('overview')">
     <i class="fas fa-th-large"></i><span>Overview</span>
   </button>
-  <button class="adm-mob-btn" id="admMobTeachers" onclick="switchAdminTab('teachers', this)">
+  <button class="adm-mob-btn" id="admMobTeachers" data-tab="teachers" onclick="switchAdminTab('teachers')">
     <i class="fas fa-chalkboard-teacher"></i><span>Teachers</span>
   </button>
-  <button class="adm-mob-btn" id="admMobStudents" onclick="switchAdminTab('students', this)">
+  <button class="adm-mob-btn" id="admMobStudents" data-tab="students" onclick="switchAdminTab('students')">
     <i class="fas fa-user-graduate"></i><span>Students</span>
   </button>
-  <button class="adm-mob-btn" id="admMobAttend" onclick="switchAdminTab('attendance', this)">
-    <i class="fas fa-calendar-check"></i><span>Attend.</span>
+  <button class="adm-mob-btn" id="admMobAttend" data-tab="attendance" onclick="switchAdminTab('attendance')">
+    <i class="fas fa-calendar-check"></i><span>Attendance</span>
   </button>
-  <button class="adm-mob-btn danger" onclick="logoutAdmin()">
-    <i class="fas fa-sign-out-alt"></i><span>Logout</span>
+  <button class="adm-mob-btn" id="admMobMore" onclick="openAdminMore()" aria-haspopup="dialog" aria-expanded="false">
+    <i class="fas fa-ellipsis"></i><span>More</span>
+  </button>
+</div>
+
+<!-- Parents, Settings aur School Wall pehle sirf us drawer mein the jise
+     kholne ke liye pehle menu dabana parta hai. Logout ne apna permanent
+     tab chhod diya - woh din mein ek baar ka kaam hai. Sheet ka roop
+     dashboard-ui.css ke .ds-sheet se aata hai. -->
+<div class="ds-sheet-backdrop" id="adminMoreBackdrop" onclick="closeAdminMore()"></div>
+<div class="ds-sheet" id="adminMoreSheet" role="dialog" aria-modal="true" aria-label="More" tabindex="-1">
+  <div class="ds-sheet-grip"></div>
+  <button class="ds-sheet-item" type="button" onclick="switchAdminTab('parents'); closeAdminMore()">
+    <span class="ds-sheet-ic"><i class="fas fa-user-group"></i></span> Parents
+  </button>
+  <button class="ds-sheet-item" type="button" onclick="switchAdminTab('settings'); closeAdminMore()">
+    <span class="ds-sheet-ic"><i class="fas fa-cog"></i></span> Settings
+  </button>
+  <button class="ds-sheet-item" id="adminMoreWall" type="button" onclick="window.location.href='/school-wall'">
+    <span class="ds-sheet-ic"><i class="fas fa-images"></i></span> School Wall
+  </button>
+  <div class="ds-sheet-sep"></div>
+  <button class="ds-sheet-item is-danger" type="button" onclick="logoutAdmin()">
+    <span class="ds-sheet-ic"><i class="fas fa-sign-out-alt"></i></span> Logout
   </button>
 </div>
 
@@ -3691,13 +3713,45 @@
   })();
 
   // Bottom nav tab switcher (delegates to existing switchTab function if present)
-  function switchAdminTab(tabName, btn) {
-    document.querySelectorAll('.adm-mob-btn').forEach(b => b.classList.remove('active'));
-    if (btn) btn.classList.add('active');
-    // Trigger the sidebar nav item
-    const navItem = document.getElementById('nav-' + tabName);
-    if (navItem) navItem.click();
+  /**
+   * Active tab us section se aata hai jo khula hai, us button se nahi jise
+   * dabaya gaya. Pehle bar ko 'this' pass hota tha, to nav se section
+   * badalne par neeche ka highlight wahin atka rehta tha. Jo section kisi
+   * tab ke neeche nahi (parents, settings) uske liye More jalta hai.
+   */
+  function setAdminMobActive(tabName) {
+    const tabs = Array.prototype.slice.call(document.querySelectorAll('.adm-mob-btn'));
+    const match = tabs.filter(function (b) { return b.dataset.tab === tabName; })[0];
+    tabs.forEach(function (b) { b.classList.remove('active'); });
+    const target = match || document.getElementById('admMobMore');
+    if (target) target.classList.add('active');
   }
+
+  function openAdminMore() {
+    const sheet = document.getElementById('adminMoreSheet');
+    const backdrop = document.getElementById('adminMoreBackdrop');
+    const tab = document.getElementById('admMobMore');
+    if (!sheet || !backdrop) return;
+    sheet.classList.add('open');
+    backdrop.classList.add('open');
+    if (tab) tab.setAttribute('aria-expanded', 'true');
+    sheet.focus();
+  }
+
+  function closeAdminMore() {
+    const sheet = document.getElementById('adminMoreSheet');
+    const backdrop = document.getElementById('adminMoreBackdrop');
+    const tab = document.getElementById('admMobMore');
+    if (!sheet || !backdrop) return;
+    sheet.classList.remove('open');
+    backdrop.classList.remove('open');
+    if (tab) tab.setAttribute('aria-expanded', 'false');
+  }
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeAdminMore();
+  });
+
 </script>
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
@@ -6462,6 +6516,10 @@
     });
     document.getElementById('tab-' + tab).classList.remove('d-none');
     document.getElementById('nav-' + tab).classList.add('active');
+    // Neeche ka bar bhi isi ek jagah se. Pehle iska apna switchAdminTab tha
+    // jo is definition se dhak jata tha - yaani bar ka active kabhi chalta
+    // hi nahi tha, chahe tap bar se aaye ya nav se.
+    setAdminMobActive(tab);
   };
 
   window.addTeacher = async (trigger) => {

@@ -1755,48 +1755,8 @@ export const TeacherDashboard = () => html`
 
   .mobile-bottom-actions { display: none; }
 
-  /* ── More sheet ────────────────────────────────────────────────────────
-     Paanch tabs neeche, baqi sab yahan. Jo cheezein teacher din mein ek
-     baar chhuta hai — rankings, monthly log, activity sheets — unhein
-     permanent button dene ka matlab har baar unki jagah ka kiraya dena
-     hai. Sheet sirf tab kholti hai jab zaroorat ho. */
-  .more-sheet-backdrop {
-    position: fixed; inset: 0; background: rgba(15,23,42,0.45);
-    opacity: 0; pointer-events: none; transition: opacity 0.2s ease; z-index: 1100;
-  }
-  .more-sheet-backdrop.open { opacity: 1; pointer-events: auto; }
-  .more-sheet {
-    position: fixed; left: 0; right: 0; bottom: 0; z-index: 1101;
-    background: #fff; border-radius: 20px 20px 0 0;
-    padding: 10px 14px calc(18px + env(safe-area-inset-bottom));
-    transform: translateY(100%); transition: transform 0.24s cubic-bezier(0.16,1,0.3,1);
-    max-height: 82vh; overflow-y: auto;
-    box-shadow: 0 -10px 30px rgba(15,23,42,0.18);
-  }
-  .more-sheet.open { transform: translateY(0); }
-  .more-sheet-grip {
-    width: 40px; height: 4px; border-radius: 2px; background: #cbd5e1;
-    margin: 4px auto 12px;
-  }
-  .more-sheet h4 {
-    font-family: 'Sora', sans-serif; font-size: 0.95rem; margin: 0 0 10px;
-    color: var(--teacher-ink);
-  }
-  .more-sheet-item {
-    display: flex; align-items: center; gap: 12px; width: 100%;
-    background: transparent; border: none; border-radius: 12px;
-    padding: 11px 10px; font-family: inherit; font-size: 0.9rem;
-    font-weight: 700; color: var(--teacher-ink); text-align: left; cursor: pointer;
-  }
-  .more-sheet-item:hover, .more-sheet-item:focus-visible { background: var(--teacher-surface); }
-  .more-sheet-item .more-ic {
-    width: 34px; height: 34px; border-radius: 11px; flex: 0 0 auto;
-    display: flex; align-items: center; justify-content: center;
-    background: var(--teacher-surface); color: var(--teacher-blue); font-size: 0.85rem;
-  }
-  .more-sheet-item.is-danger { color: #dc2626; }
-  .more-sheet-item.is-danger .more-ic { background: #fee2e2; color: #dc2626; }
-  .more-sheet-sep { height: 1px; background: var(--teacher-line); margin: 8px 4px; }
+  /* More sheet ka roop dashboard-ui.css mein .ds-sheet hai — chaaron
+     dashboards ek hi component istemal karte hain. */
 
   @media (max-width: 900px) {
     .sidebar-chip-actions { display: none !important; }
@@ -2370,39 +2330,39 @@ export const TeacherDashboard = () => html`
 </div>
 
 <!-- Baqi sab: woh sections jo har roz nahi chahiye, aur account ke do kaam. -->
-<div class="more-sheet-backdrop" id="teacherMoreBackdrop" onclick="closeTeacherMore()"></div>
-<div class="more-sheet" id="teacherMoreSheet" role="dialog" aria-modal="true" aria-label="More" tabindex="-1">
-  <div class="more-sheet-grip"></div>
-  <h4>Class</h4>
-  <button class="more-sheet-item" type="button" onclick="switchTeacherSection('attendance'); closeTeacherMore()">
-    <span class="more-ic"><i class="fas fa-user-clock"></i></span> Attendance
+<div class="ds-sheet-backdrop" id="teacherMoreBackdrop" onclick="closeTeacherMore()"></div>
+<div class="ds-sheet" id="teacherMoreSheet" role="dialog" aria-modal="true" aria-label="More" tabindex="-1">
+  <div class="ds-sheet-grip"></div>
+  <h4 class="ds-sheet-heading">Class</h4>
+  <button class="ds-sheet-item" type="button" onclick="switchTeacherSection('attendance'); closeTeacherMore()">
+    <span class="ds-sheet-ic"><i class="fas fa-user-clock"></i></span> Attendance
   </button>
-  <button class="more-sheet-item" type="button" onclick="switchTeacherSection('absent'); closeTeacherMore()">
-    <span class="more-ic"><i class="fas fa-circle-xmark"></i></span> Absent today
+  <button class="ds-sheet-item" type="button" onclick="switchTeacherSection('absent'); closeTeacherMore()">
+    <span class="ds-sheet-ic"><i class="fas fa-circle-xmark"></i></span> Absent today
   </button>
-  <button class="more-sheet-item" type="button" onclick="switchTeacherSection('club'); closeTeacherMore()">
-    <span class="more-ic"><i class="fas fa-shield-halved"></i></span> Club Habits
+  <button class="ds-sheet-item" type="button" onclick="switchTeacherSection('club'); closeTeacherMore()">
+    <span class="ds-sheet-ic"><i class="fas fa-shield-halved"></i></span> Club Habits
   </button>
-  <button class="more-sheet-item" type="button" onclick="switchTeacherSection('rankings'); closeTeacherMore()">
-    <span class="more-ic"><i class="fas fa-medal"></i></span> Rankings
+  <button class="ds-sheet-item" type="button" onclick="switchTeacherSection('rankings'); closeTeacherMore()">
+    <span class="ds-sheet-ic"><i class="fas fa-medal"></i></span> Rankings
   </button>
-  <div class="more-sheet-sep"></div>
-  <h4>Records</h4>
-  <button class="more-sheet-item" type="button" onclick="switchTeacherSection('register'); closeTeacherMore()">
-    <span class="more-ic"><i class="fas fa-calendar-alt"></i></span> Monthly Log
+  <div class="ds-sheet-sep"></div>
+  <h4 class="ds-sheet-heading">Records</h4>
+  <button class="ds-sheet-item" type="button" onclick="switchTeacherSection('register'); closeTeacherMore()">
+    <span class="ds-sheet-ic"><i class="fas fa-calendar-alt"></i></span> Monthly Log
   </button>
-  <button class="more-sheet-item" type="button" onclick="switchTeacherSection('sheets'); closeTeacherMore()">
-    <span class="more-ic"><i class="fas fa-print"></i></span> Activity Sheets
+  <button class="ds-sheet-item" type="button" onclick="switchTeacherSection('sheets'); closeTeacherMore()">
+    <span class="ds-sheet-ic"><i class="fas fa-print"></i></span> Activity Sheets
   </button>
-  <button class="more-sheet-item d-none" id="teacherMoreWall" type="button" onclick="window.location.href='/school-wall'">
-    <span class="more-ic"><i class="fas fa-images"></i></span> School Wall
+  <button class="ds-sheet-item d-none" id="teacherMoreWall" type="button" onclick="window.location.href='/school-wall'">
+    <span class="ds-sheet-ic"><i class="fas fa-images"></i></span> School Wall
   </button>
-  <div class="more-sheet-sep"></div>
-  <button class="more-sheet-item" type="button" onclick="window.location.href='auth.html'">
-    <span class="more-ic"><i class="fas fa-house"></i></span> Home
+  <div class="ds-sheet-sep"></div>
+  <button class="ds-sheet-item" type="button" onclick="window.location.href='auth.html'">
+    <span class="ds-sheet-ic"><i class="fas fa-house"></i></span> Home
   </button>
-  <button class="more-sheet-item is-danger" type="button" onclick="window.logoutTeacher()">
-    <span class="more-ic"><i class="fas fa-sign-out-alt"></i></span> Logout
+  <button class="ds-sheet-item is-danger" type="button" onclick="window.logoutTeacher()">
+    <span class="ds-sheet-ic"><i class="fas fa-sign-out-alt"></i></span> Logout
   </button>
 </div>
 

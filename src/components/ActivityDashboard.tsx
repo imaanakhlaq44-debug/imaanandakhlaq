@@ -2259,37 +2259,49 @@ export const ActivityDashboard = () => html`
     </div>
     
     <div class="mobile-bottom-actions">
-      <button class="mobile-action-btn" type="button" onclick="window.switchStudentSection('overview', false)">
+      <button class="mobile-action-btn" data-section="overview" type="button" onclick="window.switchStudentSection('overview', false)">
         <i class="fas fa-chart-pie"></i>
         <span>Overview</span>
       </button>
-      <button class="mobile-action-btn" type="button" onclick="window.switchStudentSection('books', false)">
+      <button class="mobile-action-btn" data-section="books" type="button" onclick="window.switchStudentSection('books', false)">
         <i class="fas fa-book-open"></i>
         <span>Books</span>
       </button>
-      <button class="mobile-action-btn" type="button" onclick="window.switchStudentSection('progress', false)">
+      <button class="mobile-action-btn" data-section="progress" type="button" onclick="window.switchStudentSection('progress', false)">
         <i class="fas fa-star"></i>
         <span>Progress</span>
       </button>
-      <button class="mobile-action-btn" type="button" onclick="window.switchStudentSection('club', false)">
+      <button class="mobile-action-btn" data-section="club" type="button" onclick="window.switchStudentSection('club', false)">
         <i class="fas fa-shield-halved"></i>
         <span>Club</span>
       </button>
-      <button class="mobile-action-btn" type="button" onclick="window.switchStudentSection('rankings', false)">
-        <i class="fas fa-medal"></i>
-        <span>Rankings</span>
-      </button>
-      <button class="mobile-action-btn parent-gate-mobile" id="parentGateMobileBtn" type="button" onclick="window.switchStudentSection('parent-gate', false)">
-        <i class="fas fa-user-shield" style="color: #ffffff; background: linear-gradient(135deg, #243d6b, #cf296d);"></i>
-        <span>Parent Area</span>
-      </button>
-
-      <button class="mobile-action-btn logout" type="button" onclick="window.logoutStudent()">
-        <i class="fas fa-sign-out-alt"></i>
-        <span>Logout</span>
+      <button class="mobile-action-btn" id="studentMoreTab" type="button" onclick="openStudentMore()" aria-haspopup="dialog" aria-expanded="false">
+        <i class="fas fa-ellipsis"></i>
+        <span>More</span>
       </button>
     </div>
   </div>
+</div>
+
+<!-- Rankings, parent area aur account ke kaam. Yeh saatveen button the — ek
+     375px bar par saat buttons 54px ke ban jate hain, jahan "Parent Area"
+     jaisa label sama hi nahi sakta. -->
+<div class="ds-sheet-backdrop" id="studentMoreBackdrop" onclick="closeStudentMore()"></div>
+<div class="ds-sheet" id="studentMoreSheet" role="dialog" aria-modal="true" aria-label="More" tabindex="-1">
+  <div class="ds-sheet-grip"></div>
+  <button class="ds-sheet-item" type="button" onclick="window.switchStudentSection('rankings', false); closeStudentMore()">
+    <span class="ds-sheet-ic"><i class="fas fa-medal"></i></span> Rankings
+  </button>
+  <button class="ds-sheet-item" id="parentGateMobileBtn" type="button" onclick="window.switchStudentSection('parent-gate', false); closeStudentMore()">
+    <span class="ds-sheet-ic"><i class="fas fa-user-shield"></i></span> Parent Area
+  </button>
+  <button class="ds-sheet-item" id="familySwitchMoreBtn" type="button" style="display:none;" onclick="handleFamilySwitch()">
+    <span class="ds-sheet-ic"><i class="fas fa-users"></i></span> Switch child
+  </button>
+  <div class="ds-sheet-sep"></div>
+  <button class="ds-sheet-item is-danger" type="button" onclick="window.logoutStudent()">
+    <span class="ds-sheet-ic"><i class="fas fa-sign-out-alt"></i></span> Logout
+  </button>
 </div>
 
 ${ParentGateModal()}
@@ -2892,6 +2904,48 @@ ${HouseQuizModal()}
     });
   }
 
+  // ── More sheet ─────────────────────────────────────────────────────────
+  window.openStudentMore = () => {
+    const sheet = document.getElementById('studentMoreSheet');
+    const backdrop = document.getElementById('studentMoreBackdrop');
+    const tab = document.getElementById('studentMoreTab');
+    if (!sheet || !backdrop) return;
+    sheet.classList.add('open');
+    backdrop.classList.add('open');
+    if (tab) tab.setAttribute('aria-expanded', 'true');
+    sheet.focus();
+  };
+
+  window.closeStudentMore = () => {
+    const sheet = document.getElementById('studentMoreSheet');
+    const backdrop = document.getElementById('studentMoreBackdrop');
+    const tab = document.getElementById('studentMoreTab');
+    if (!sheet || !backdrop) return;
+    sheet.classList.remove('open');
+    backdrop.classList.remove('open');
+    if (tab) tab.setAttribute('aria-expanded', 'false');
+  };
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') window.closeStudentMore();
+  });
+
+  /**
+   * Neeche ka active tab, section se.
+   *
+   * Pehle koi tab apna active rakhta hi nahi tha — bar sirf buttons ka
+   * qatar thi. Ab jo section khula hai uska tab jalta hai, aur jo section
+   * kisi tab ke neeche nahi (rankings, parent area) uske liye More.
+   */
+  function setStudentMobActive(section) {
+    const bar = document.querySelector('.mobile-bottom-actions');
+    if (!bar) return;
+    const tabs = [...bar.querySelectorAll('.mobile-action-btn')];
+    const match = tabs.find(b => b.dataset.section === section);
+    tabs.forEach(b => b.classList.remove('active'));
+    (match || document.getElementById('studentMoreTab'))?.classList.add('active');
+  }
+
   window.switchStudentSection = (section, shouldScroll = true) => {
     // Guarded here as well as by hiding the buttons: a stale onclick, a
     // bookmark or anything else that reaches the router directly must not walk
@@ -2910,6 +2964,8 @@ ${HouseQuizModal()}
     document.querySelectorAll('.sidebar-nav li[data-section]').forEach((item) => {
       item.classList.toggle('active', item.dataset.section === nextSection);
     });
+
+    setStudentMobActive(nextSection);
 
     document.querySelectorAll('.ds-stat[data-section]').forEach((item) => {
       item.classList.toggle('is-active', item.dataset.section === nextSection);
@@ -4416,8 +4472,11 @@ ${HouseQuizModal()}
       currentStudent = { uid: userDocRef.id, ...userData };
 
       if (familyIdentity.isFamilyAccount) {
-        const switchBtn = document.getElementById('familySwitchSidebarBtn');
-        if (switchBtn) switchBtn.style.display = '';
+        // Sidebar (desktop) aur More sheet (phone) — dono par ek hi shart.
+        ['familySwitchSidebarBtn', 'familySwitchMoreBtn'].forEach((id) => {
+          const switchBtn = document.getElementById(id);
+          if (switchBtn) switchBtn.style.display = '';
+        });
       }
 
       applyParentAreaVisibility();

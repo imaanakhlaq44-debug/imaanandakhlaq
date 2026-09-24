@@ -707,20 +707,88 @@ export const SuperAdminDashboard = () => html`
 
   <!-- Mobile bottom nav bar -->
   <div class="mobile-bottom-bar">
-    <button class="mob-nav-btn active" id="mobBtnDash" onclick="document.querySelector('[data-target=dashboard]').click(); document.querySelectorAll('.mob-nav-btn').forEach(b=>b.classList.remove('active')); this.classList.add('active')">
+    <button class="mob-nav-btn active" data-target="dashboard" onclick="goPlatformSection('dashboard')">
       <i class="fas fa-th-large"></i><span>Dashboard</span>
     </button>
-    <button class="mob-nav-btn" id="mobBtnSchools" onclick="document.querySelector('[data-target=schools]').click(); document.querySelectorAll('.mob-nav-btn').forEach(b=>b.classList.remove('active')); this.classList.add('active')">
+    <button class="mob-nav-btn" data-target="schools" onclick="goPlatformSection('schools')">
       <i class="fas fa-school"></i><span>Schools</span>
     </button>
-    <button class="mob-nav-btn" id="mobBtnReports" onclick="document.querySelector('[data-target=reports]').click(); document.querySelectorAll('.mob-nav-btn').forEach(b=>b.classList.remove('active')); this.classList.add('active')">
+    <button class="mob-nav-btn" data-target="reports" onclick="goPlatformSection('reports')">
       <i class="fas fa-chart-pie"></i><span>Reports</span>
     </button>
-    <button class="mob-nav-btn danger" onclick="document.getElementById('logout-btn').click()">
-      <i class="fas fa-sign-out-alt"></i><span>Logout</span>
+    <button class="mob-nav-btn" data-target="value-economy" onclick="goPlatformSection('value-economy')">
+      <i class="fas fa-coins"></i><span>Economy</span>
+    </button>
+    <button class="mob-nav-btn" id="platformMoreTab" onclick="openPlatformMore()" aria-haspopup="dialog" aria-expanded="false">
+      <i class="fas fa-ellipsis"></i><span>More</span>
     </button>
   </div>
 </div>
+
+<div class="ds-sheet-backdrop" id="platformMoreBackdrop" onclick="closePlatformMore()"></div>
+<div class="ds-sheet" id="platformMoreSheet" role="dialog" aria-modal="true" aria-label="More" tabindex="-1">
+  <div class="ds-sheet-grip"></div>
+  <button class="ds-sheet-item is-danger" type="button" onclick="document.getElementById('logout-btn').click()">
+    <span class="ds-sheet-ic"><i class="fas fa-sign-out-alt"></i></span> Logout
+  </button>
+</div>
+
+<script>
+  /**
+   * Platform nav, ek jagah.
+   *
+   * Har button apne onclick mein teen kaam ki poori naqal rakhta tha: chhupe
+   * hue sidebar link par click banana, sab buttons se active hatana, aur
+   * apne aap par lagana. Teen naqlein, teen mauqe galat hone ke — aur
+   * sidebar se section badalne par neeche ka highlight wahin atka rehta tha.
+   */
+  function goPlatformSection(target) {
+    const link = document.querySelector('.nav-item[data-target="' + target + '"]');
+    if (link) link.click();
+    setPlatformMobActive(target);
+  }
+
+  function setPlatformMobActive(target) {
+    const tabs = [...document.querySelectorAll('.mob-nav-btn')];
+    const match = tabs.find(b => b.dataset.target === target);
+    tabs.forEach(b => b.classList.remove('active'));
+    (match || document.getElementById('platformMoreTab'))?.classList.add('active');
+  }
+
+  function openPlatformMore() {
+    const sheet = document.getElementById('platformMoreSheet');
+    const backdrop = document.getElementById('platformMoreBackdrop');
+    const tab = document.getElementById('platformMoreTab');
+    if (!sheet || !backdrop) return;
+    sheet.classList.add('open');
+    backdrop.classList.add('open');
+    if (tab) tab.setAttribute('aria-expanded', 'true');
+    sheet.focus();
+  }
+
+  function closePlatformMore() {
+    const sheet = document.getElementById('platformMoreSheet');
+    const backdrop = document.getElementById('platformMoreBackdrop');
+    const tab = document.getElementById('platformMoreTab');
+    if (!sheet || !backdrop) return;
+    sheet.classList.remove('open');
+    backdrop.classList.remove('open');
+    if (tab) tab.setAttribute('aria-expanded', 'false');
+  }
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closePlatformMore();
+  });
+
+  // Sidebar se section badle to neeche ka tab bhi wahi dikhaye.
+  document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.nav-item[data-target]').forEach(function (link) {
+      link.addEventListener('click', function () {
+        setPlatformMobActive(link.dataset.target);
+      });
+    });
+  });
+</script>
 
 <!-- Chart.js as a plain local script, not an ES import from esm.sh.
      Two reasons. The APK build strips type="module" from these pages (it
