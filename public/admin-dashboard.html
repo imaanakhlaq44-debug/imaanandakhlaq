@@ -1620,47 +1620,6 @@
     margin-top: 0.36rem;
   }
 
-  .mix-bars {
-    display: grid;
-    gap: 0.65rem;
-  }
-
-  .mix-bar-row {
-    display: grid;
-    grid-template-columns: 72px minmax(0, 1fr) 42px;
-    gap: 0.55rem;
-    align-items: center;
-    font-size: 0.78rem;
-    font-weight: 800;
-    color: #4d5d72;
-  }
-
-  .mix-bar-track {
-    position: relative;
-    height: 12px;
-    border-radius: 999px;
-    background: #edf3f9;
-    overflow: hidden;
-  }
-
-  .mix-bar-fill {
-    position: absolute;
-    inset: 0 auto 0 0;
-    border-radius: inherit;
-  }
-
-  .mix-bar-fill.students {
-    background: linear-gradient(90deg, #ea5a8d 0%, var(--admin-accent) 100%);
-  }
-
-  .mix-bar-fill.teachers {
-    background: linear-gradient(90deg, #f0a43d 0%, var(--admin-accent-soft) 100%);
-  }
-
-  .mix-bar-fill.pending {
-    background: linear-gradient(90deg, #d6a16d 0%, var(--admin-accent-gold) 100%);
-  }
-
   .table-header-row {
     display: flex;
     padding: 0 0.68rem 0.5rem;
@@ -2888,31 +2847,6 @@
                   <div><span class="legend-swatch present"></span>Present <strong id="attendancePresentCount">0</strong></div>
                   <div><span class="legend-swatch absent"></span>Absent <strong id="attendanceAbsentCount">0</strong></div>
                   <div><span class="legend-swatch leave"></span>Pending <strong id="attendanceLeaveCount">0</strong></div>
-                </div>
-              </div>
-            </div>
-            <div class="widget-panel compact">
-              <div class="widget-heading">
-                <div class="widget-heading-main">
-                  <strong>Operations Mix</strong>
-                </div>
-                <span>Live</span>
-              </div>
-              <div class="mix-bars">
-                <div class="mix-bar-row">
-                  <span>Students</span>
-                  <div class="mix-bar-track"><span class="mix-bar-fill students" id="mixStudentsBar"></span></div>
-                  <strong id="mixStudentsValue">0</strong>
-                </div>
-                <div class="mix-bar-row">
-                  <span>Teachers</span>
-                  <div class="mix-bar-track"><span class="mix-bar-fill teachers" id="mixTeachersBar"></span></div>
-                  <strong id="mixTeachersValue">0</strong>
-                </div>
-                <div class="mix-bar-row">
-                  <span>Pending</span>
-                  <div class="mix-bar-track"><span class="mix-bar-fill pending" id="mixPendingBar"></span></div>
-                  <strong id="mixPendingValue">0</strong>
                 </div>
               </div>
             </div>
@@ -5476,21 +5410,6 @@
     // ek caption line batati thi, jo is akele card ko doosron se ooncha kar
     // deti thi aur saath wale card mein khali jagah chhod jati thi.
     document.getElementById('statPoints').textContent = students.length ? String(avgScore) : '—';
-
-    const mixMax = Math.max(students.length, teachers.length, pendingInvites, 1);
-    const setMixBar = (id, value) => {
-      const bar = document.getElementById(id);
-      if (!bar) return;
-      const width = value === 0 ? 0 : Math.max(12, Math.round((value / mixMax) * 100));
-      bar.style.width = width + '%';
-    };
-
-    document.getElementById('mixStudentsValue').textContent = String(students.length);
-    document.getElementById('mixTeachersValue').textContent = String(teachers.length);
-    document.getElementById('mixPendingValue').textContent = String(pendingInvites);
-    setMixBar('mixStudentsBar', students.length);
-    setMixBar('mixTeachersBar', teachers.length);
-    setMixBar('mixPendingBar', pendingInvites);
 
     // Attendance
     let attHtml = '';
