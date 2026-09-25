@@ -27,6 +27,24 @@ AddDefaultCharset UTF-8
 # Allow authorization headers
 SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
 
+# A path can be BOTH a page and a directory.
+#
+# The SSG writes app.get('/products') out as products.html, and also writes
+# products/books.html, products/audio.html and the rest into a products/
+# directory. Apache's mod_dir notices the directory first, 301s /products to
+# /products/, finds no index.html there, and — with Options -Indexes on — ends
+# at 403. The two rules below have to come BEFORE the trailing-slash rule,
+# because that one is guarded by !-d and so never fires on exactly this case.
+#
+# Both rewrites are internal. Redirecting /products/ back to /products would
+# instead build a loop for anyone whose browser has already cached mod_dir's
+# 301 in the other direction.
+RewriteCond %{REQUEST_FILENAME}\.html -f
+RewriteRule ^(.*[^/])$ $1.html [L]
+
+RewriteCond %{DOCUMENT_ROOT}/$1.html -f
+RewriteRule ^(.+)/$ /$1.html [L]
+
 # Remove trailing slash to prevent 404 and relative path breakage (e.g. /about/ -> /about)
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)/$ /$1 [L,R=301]
