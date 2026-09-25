@@ -2832,20 +2832,26 @@ export const TeacherDashboard = () => html`
         ? (remoteUrl ? [remoteUrl] : [localUrl])
         : (remoteUrl ? [localUrl, remoteUrl] : [localUrl]);
 
-      // disableAutoFetch sirf wahan theek hai jahan range requests
-      // chalti hain. Firebase Storage 206 to deta hai, lekin
+      // Firebase Storage 206 to deta hai, lekin
       // Access-Control-Expose-Headers mein Accept-Ranges/Content-Range nahi
-      // bhejta, to pdf.js ko range support nazar hi nahi aata. Us haalat mein
-      // "aage ka data mat lao" ka matlab hai har page turn data ka intezaar
-      // kare - yehi flip ko atka deta tha. Remote source par isliye poora
-      // document background mein aane dete hain: shuru mein progress bar,
-      // uske baad har flip fauran.
+      // bhejta, to pdf.js ko range support nazar hi nahi aata.
+      //
+      // Yahan dono raaste bure hain aur maine dono naape:
+      //   disableAutoFetch: false -> pdf.js poori file (14-26 MB) utaarta
+      //     hai aur us se pehle EK safha bhi nazar nahi aata; 45 second mein
+      //     bhi poora nahi hua.
+      //   disableAutoFetch: true  -> pehla safha fauran, lekin har naya
+      //     safha apne data ka intezaar karta hai.
+      //
+      // Doosra kam bura hai, isliye wahi. Asal ilaj bucket ki CORS config
+      // hai: responseHeader mein Accept-Ranges aur Content-Range daalne se
+      // per-page range loading wapas aa jayegi.
       const loadBook = async function(url) {
         const loadingTask = window.pdfjsLib.getDocument({
           url: url,
           disableStream: false,
           disableRange: false,
-          disableAutoFetch: url.startsWith('/'),
+          disableAutoFetch: true,
           rangeChunkSize: 131072
         });
         loadingTask.onProgress = function(p) {
