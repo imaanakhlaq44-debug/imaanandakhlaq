@@ -52,7 +52,14 @@ const PRUNE = [
   { rel: 'wall', why: "a parent's link-and-token view, opened in a browser" },
   { rel: 'join.html', why: 'organisation join link, opened in a browser' },
   { rel: 's.html', why: 'student PIN link, opened in a browser' },
-  { rel: 'orgs.html', why: 'organisation dashboard, web only' }
+  { rel: 'orgs.html', why: 'organisation dashboard, web only' },
+  // Website ke homepage ki scroll film. Payload ke kisi page mein inka zikr
+  // tak nahi - inhein sirf HeroScrollFilm.tsx istemal karta hai, jo website
+  // ka homepage hai. Merge ke saath aayi aur 45 MB le gayi, yaani har school
+  // ke download ka aadhe se zyada hissa, bilkul un hero-slide images ki
+  // tarah jo upar hat chuki hain.
+  { rel: 'hero-film', why: 'homepage scroll film, no packaged page references it' },
+  { rel: 'hero-film-2', why: 'homepage scroll film, no packaged page references it' }
 ];
 
 /**
