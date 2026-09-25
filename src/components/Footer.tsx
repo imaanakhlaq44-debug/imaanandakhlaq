@@ -48,9 +48,10 @@ export const Footer = () => html`
             <ul class="kfm-links">
               <li><a href="/#home">Home</a></li>
               <li><a href="/about/intro">About Us</a></li>
+              <li><a href="/products">Products &amp; Pricing</a></li>
               <li><a href="/#programs">Programs</a></li>
               <li><a href="/#stories">Stories</a></li>
-              <li><a href="/#team">Characters</a></li>
+              <li><a href="/contact">Contact Us</a></li>
             </ul>
           </div>
 
@@ -94,7 +95,9 @@ export const Footer = () => html`
       <span>&copy; 2026 Imaan & Akhlaq - An Ilm O Amal Initiative. All rights reserved.</span>
       <div class="legal-links mt-2 mt-md-0">
         <a href="/privacy" class="text-white-50 text-decoration-none mx-2 hover-white">Privacy Policy</a>
-        <a href="/terms" class="text-white-50 text-decoration-none mx-2 hover-white">Terms of Use</a>
+        <a href="/terms" class="text-white-50 text-decoration-none mx-2 hover-white">Terms &amp; Conditions</a>
+        <a href="/refund" class="text-white-50 text-decoration-none mx-2 hover-white">Return &amp; Refund</a>
+        <a href="/shipping" class="text-white-50 text-decoration-none mx-2 hover-white">Shipping &amp; Delivery</a>
         <a href="/contact" class="text-white-50 text-decoration-none mx-2 hover-white">Contact Us</a>
       </div>
     </div>
