@@ -91,10 +91,30 @@ describe('Hono Routes', () => {
   })
 
   // Products
-  it('should redirect /products to /products/books', async () => {
+  //
+  // /products used to 302 to /products/books. It is now the catalogue itself,
+  // and the price list on it is what a payment gateway's onboarding review
+  // reads — so this asserts the prices are actually served, not just a 200.
+  it('should serve the products catalogue at /products', async () => {
     const res = await app.request('/products')
-    expect(res.status).toBe(302)
-    expect(res.headers.get('location')).toBe('/products/books')
+    expect(res.status).toBe(200)
+    const body = await res.text()
+    expect(body).toContain('Products &amp; Services')
+    expect(body).toContain('Rs. 3,500')
+    expect(body).toContain('PKR (Pakistani Rupees)')
+  })
+
+  // Legal pages the gateway onboarding requires alongside privacy and terms.
+  it('should return 200 for the refund policy', async () => {
+    const res = await app.request('/refund')
+    expect(res.status).toBe(200)
+    expect(await res.text()).toContain('Return &amp; Refund Policy')
+  })
+
+  it('should return 200 for the shipping policy', async () => {
+    const res = await app.request('/shipping')
+    expect(res.status).toBe(200)
+    expect(await res.text()).toContain('Shipping &amp; Delivery Policy')
   })
 
   it('should return 200 for blog page', async () => {
