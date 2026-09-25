@@ -114,6 +114,8 @@ export const Header = () => html`
                 Products
               </a>
               <ul class="dropdown-menu" aria-labelledby="productsDropdown" style="border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-radius: 12px; padding: 10px;">
+                <li><a class="dropdown-item fw-bold" href="/products"><i class="fas fa-tags text-secondary"></i> All Products &amp; Pricing</a></li>
+                <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="/products/books">Curriculum Books</a></li>
                 <li><a class="dropdown-item" href="/products/coloring">Coloring Books</a></li>
                 <li><a class="dropdown-item" href="/products/audio">Audio Story Portal</a></li>

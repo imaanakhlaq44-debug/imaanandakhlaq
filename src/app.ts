@@ -36,6 +36,9 @@ import { ClubPortal } from './components/ClubPortal'
 // ADSENSE & LEGAL COMPONENTS
 import { PrivacyPage } from './components/PrivacyPage'
 import { TermsPage } from './components/TermsPage'
+import { RefundPage } from './components/RefundPage'
+import { ShippingPage } from './components/ShippingPage'
+import { ProductsIndexPage } from './components/ProductsIndexPage'
 import { ContactPage } from './components/ContactPage'
 import { DeleteAccountPage } from './components/DeleteAccountPage'
 import { BlogDirectoryPage } from './components/BlogDirectoryPage'
@@ -90,11 +93,16 @@ app.get('/products/puppet', (c) => c.html(html`${ProductComingSoonPage('Puppet S
 app.get('/products/games', (c) => c.html(html`${ProductComingSoonPage('Game Portal')}`))
 app.get('/club', (c) => c.html(generateClubPortalHTML()))
 
-app.get('/products', (c) => c.redirect('/products/books'))
+// /products is the catalogue now, not a 302 to /products/books. It is the one
+// page that lists every product and service with a price, which the payment
+// gateway's onboarding review needs and a buyer needs just as much.
+app.get('/products', (c) => c.html(ProductsIndexPage()))
 
 // Legal Pages
 app.get('/privacy', (c) => c.html(PrivacyPage()))
 app.get('/terms', (c) => c.html(TermsPage()))
+app.get('/refund', (c) => c.html(RefundPage()))
+app.get('/shipping', (c) => c.html(ShippingPage()))
 app.get('/contact', (c) => c.html(ContactPage()))
 app.get('/delete-account', (c) => c.html(DeleteAccountPage()))
 
