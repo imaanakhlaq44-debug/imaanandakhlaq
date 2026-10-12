@@ -2747,8 +2747,11 @@ export const TeacherDashboard = () => html`
       }
       // Use range/stream loading: only the bytes for current page download upfront,
       // rest streams in background. disableAutoFetch=true => no full-PDF prefetch.
+      // The APK does not ship the book PDFs (scripts/apk-prune.cjs), so in
+      // the app a relative /bookN.pdf finds nothing; ask the website instead.
+      const isNativeApp = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
       const loadingTask = window.pdfjsLib.getDocument({
-        url: '/' + bookKey + '.pdf',
+        url: (isNativeApp ? 'https://imaanakhlaq.org' : '') + '/' + bookKey + '.pdf',
         disableStream: false,
         disableRange: false,
         disableAutoFetch: true,

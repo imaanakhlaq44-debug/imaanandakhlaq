@@ -213,7 +213,9 @@
   document.title = bookInfo.title + ' - Reader';
 
   const loadScreen = document.getElementById('loadScreen');
-  const hostingerUrl = '/' + bookKey + '.pdf';
+  // The APK does not ship the book PDFs, so inside the app read them from the website.
+  const isNativeApp = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
+  const hostingerUrl = (isNativeApp ? 'https://imaanakhlaq.org' : '') + '/' + bookKey + '.pdf';
   const driveUrl = bookInfo.driveId ? 'https://drive.google.com/uc?export=download&id=' + bookInfo.driveId : '';
 
   // ── Setup PDF.js worker ──
