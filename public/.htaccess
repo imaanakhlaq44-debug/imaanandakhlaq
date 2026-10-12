@@ -145,6 +145,13 @@ Options -Indexes
   # Books: big and effectively immutable, so let repeat readers skip the download.
   <FilesMatch "\.pdf$">
     Header set Cache-Control "public, max-age=2592000, must-revalidate"
+    # The Android app runs on https://localhost and reads the books from
+    # here (the APK does not ship them), so pdf.js needs CORS, including the
+    # Range header it uses to fetch a page at a time.
+    Header always set Access-Control-Allow-Origin "*"
+    Header always set Access-Control-Allow-Methods "GET, HEAD, OPTIONS"
+    Header always set Access-Control-Allow-Headers "Range"
+    Header always set Access-Control-Expose-Headers "Accept-Ranges, Content-Range, Content-Length, Content-Encoding"
   </FilesMatch>
 
   # Images and fonts are content-addressed by filename in practice — safe to

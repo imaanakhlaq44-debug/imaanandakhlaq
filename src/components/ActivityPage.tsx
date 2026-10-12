@@ -948,10 +948,17 @@ export const ActivityPage = () => html`
        pageInstructions.innerHTML = \`<strong>Required Reading: Page \${chapData.pageStart} to \${chapData.pageEnd}.</strong><br> Flip through the pages below. When you're done, click the button to start your activities.\`;
     }
 
-    const pdfFileUrl = bookData.pdfUrl && bookData.pdfUrl.includes('firebasestorage') 
-                       ? bookData.pdfUrl 
-                       : '/' + currentBook + '.pdf';
-    const backupPdfUrl = bookData.pdfUrl || pdfFileUrl;
+    // The website hosts every book as /bookN.pdf. The APK does not ship them
+    // (scripts/apk-prune.cjs), so inside the app that path has to point at
+    // the website, not at the bundle.
+    const isNativeApp = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
+    const hostedPdfUrl = (isNativeApp ? 'https://imaanakhlaq.org' : '') + '/' + currentBook + '.pdf';
+    const pdfFileUrl = bookData.pdfUrl && bookData.pdfUrl.includes('firebasestorage')
+                       ? bookData.pdfUrl
+                       : hostedPdfUrl;
+    // Used when Firebase Storage refuses the book (e.g. its 402 while the
+    // project's billing was suspended), so the reader still opens.
+    const backupPdfUrl = hostedPdfUrl;
     const flipbookContainer = document.getElementById('flipbook-container');
     const flipbookNav = document.getElementById('flipbook-nav');
     const flipbookHint = document.getElementById('flipbook-hint');
@@ -1226,22 +1233,32 @@ export const ActivityPage = () => html`
       }
       
       try {
-        const loadingTask = window.pdfjsLib.getDocument({
-          url: pdfFileUrl,
-          disableStream: false,
-          disableRange: false,
-          disableAutoFetch: true,
-          rangeChunkSize: 131072
-        });
-        loadingTask.onProgress = function(p) {
-          if (!p || !p.total) return;
-          const pct = Math.min(100, Math.round((p.loaded / p.total) * 100));
-          const loadingEl = document.getElementById('flipbook-loading');
-          if (loadingEl) {
-            loadingEl.innerHTML = '<i class="fas fa-spinner fa-spin fa-2x"></i><br><br>Loading your chapter... ' + pct + '%<div style="width:240px;height:6px;background:rgba(0,0,0,0.08);border-radius:3px;margin:14px auto 0;overflow:hidden;"><div style="height:100%;width:' + pct + '%;background:linear-gradient(90deg,#cf296d,#ea8300);transition:width 0.2s;"></div></div>';
-          }
+        const openPdf = (url) => {
+          const loadingTask = window.pdfjsLib.getDocument({
+            url: url,
+            disableStream: false,
+            disableRange: false,
+            disableAutoFetch: true,
+            rangeChunkSize: 131072
+          });
+          loadingTask.onProgress = function(p) {
+            if (!p || !p.total) return;
+            const pct = Math.min(100, Math.round((p.loaded / p.total) * 100));
+            const loadingEl = document.getElementById('flipbook-loading');
+            if (loadingEl) {
+              loadingEl.innerHTML = '<i class="fas fa-spinner fa-spin fa-2x"></i><br><br>Loading your chapter... ' + pct + '%<div style="width:240px;height:6px;background:rgba(0,0,0,0.08);border-radius:3px;margin:14px auto 0;overflow:hidden;"><div style="height:100%;width:' + pct + '%;background:linear-gradient(90deg,#cf296d,#ea8300);transition:width 0.2s;"></div></div>';
+            }
+          };
+          return loadingTask.promise;
         };
-        const pdf = await loadingTask.promise;
+        let pdf;
+        try {
+          pdf = await openPdf(pdfFileUrl);
+        } catch(primaryErr) {
+          if (backupPdfUrl === pdfFileUrl) throw primaryErr;
+          console.warn('Book PDF failed, trying the website copy:', primaryErr);
+          pdf = await openPdf(backupPdfUrl);
+        }
         const start = parseInt(chapData.pageStart) || 1;
         const end = parseInt(chapData.pageEnd) || 1;
         // Remove loading spinner and mount the PDF reader
