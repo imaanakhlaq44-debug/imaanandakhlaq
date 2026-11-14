@@ -65,3 +65,10 @@ student_screen*
 
 # Emulator data exported by --export-on-exit
 .emulator-data/
+
+# Native Flutter app (flutter_app/): images it ships with are source, not
+# build output, so they are exempt from the *.png rule above.
+!flutter_app/assets/images/**
+!flutter_app/test/goldens/*.png
+!flutter_app/android/app/src/main/res/**/*.png
+!flutter_app/web/**/*.png

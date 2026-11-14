@@ -1,0 +1,60 @@
+name: imaan_akhlaq
+description: "Native Imaan & Akhlaq learning app."
+publish_to: 'none'
+version: 2.0.0+60
+
+environment:
+  sdk: ^3.12.2
+
+dependencies:
+  cloud_firestore: ^7.1.0
+  cloud_functions: ^7.0.1
+  firebase_auth: ^7.0.1
+  firebase_core: ^5.1.0
+  flutter:
+    sdk: flutter
+  pdfrx: ^2.4.8
+  shared_preferences: 2.5.6
+  url_launcher: ^6.3.3
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/data/activities.json
+    - assets/data/hadith-demo.json
+    - assets/fonts/noto-naskh-arabic-OFL.txt
+    - assets/fonts/fredoka-OFL.txt
+    - assets/images/course-atlas.png
+    - assets/images/original-imaan.jpg
+    - assets/images/original-akhlaq.jpg
+    - assets/images/amanpur-map.png
+    - assets/images/reading-hero-book1.png
+    - assets/images/launch-logo.jpg
+
+
+  fonts:
+    - family: AppSans
+      fonts:
+        - asset: assets/fonts/roboto-regular.ttf
+        - asset: assets/fonts/roboto-bold.ttf
+          weight: 700
+
+
+
+
+
+
+    - family: NotoNaskhArabic
+      fonts:
+        - asset: assets/fonts/noto-naskh-arabic.ttf
+
+    # Brand display face (headings, big numbers). Variable font: set the
+    # weight with FontVariation.weight, see displayStyle() in ui_kit.dart.
+    - family: Fredoka
+      fonts:
+        - asset: assets/fonts/fredoka.ttf

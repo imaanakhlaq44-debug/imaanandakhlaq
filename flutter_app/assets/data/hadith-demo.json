@@ -1,0 +1,176 @@
+{
+  "version": 1,
+  "sourceDocument": "Imaan_Akhlaq_50_Hadith_Curriculum_Interactive_Developer_Edition.docx",
+  "lessons": [
+    {
+      "id": "hadith-01",
+      "title": "Truth Lights the Way",
+      "arabic": "إِنَّ الصِّدْقَ يَهْدِي إِلَى الْبِرِّ",
+      "excerpt": true,
+      "meaning": "Being truthful leads us toward goodness.",
+      "explanation": "Your words are powerful! Telling the truth builds trust, even when admitting a mistake feels difficult. Allah loves the path of goodness.",
+      "action": "If you make a mistake today, tell a trusted adult the truth about it.",
+      "source": "Sahih al-Bukhari 6094",
+      "sourceUrl": "https://sunnah.com/bukhari:6094",
+      "story": "Imaan and Akhlaq are drawing a garden. Akhlaq reaches for a blue pencil and accidentally spills some water. Nobody else saw it. He takes a breath, tells Dadi Jaan what happened and asks how he can help clean up.",
+      "question": "You accidentally knock over a cup. What is the honest choice?",
+      "answers": [
+        {
+          "text": "Blame someone else.",
+          "feedback": "Think about how the other person would feel. Try a choice that tells the truth.",
+          "correct": false
+        },
+        {
+          "text": "Tell a trusted adult what happened and offer to help.",
+          "feedback": "That is an honest, helpful choice. A mistake can be a chance to build trust.",
+          "correct": true
+        },
+        {
+          "text": "Hide the cup and walk away.",
+          "feedback": "Hiding it does not put things right. Who could you tell and ask for help?",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "إِنَّ الصِّدْقَ",
+        "يَهْدِي إِلَى الْبِرِّ"
+      ]
+    },
+    {
+      "id": "hadith-02",
+      "title": "A Promise Matters",
+      "arabic": "إِذَا وَعَدَ أَخْلَفَ",
+      "excerpt": true,
+      "meaning": "Breaking a promise is a serious bad habit.",
+      "explanation": "Our Prophet ﷺ warned us about breaking promises as a sign of hypocrisy. We learn the opposite habit: make promises carefully and try our best to keep them.",
+      "action": "Keep one small promise you have made today.",
+      "source": "Sahih al-Bukhari 33",
+      "sourceUrl": "https://sunnah.com/bukhari:33",
+      "story": "Imaan promises to return Akhlaq’s storybook after lunch. Later, her friends invite her to play. She remembers her promise, returns the book first, and then joins the game. Akhlaq knows he can trust her words.",
+      "question": "You promised to return a book today, but a game is starting. What could you do?",
+      "answers": [
+        {
+          "text": "Keep the book and hope your friend forgets.",
+          "feedback": "A promise matters even when another activity looks exciting. Try again.",
+          "correct": false
+        },
+        {
+          "text": "Make another promise without thinking about it.",
+          "feedback": "It helps to be careful about what we promise. Think about the promise you already made.",
+          "correct": false
+        },
+        {
+          "text": "Return it as promised, or honestly explain if you need help.",
+          "feedback": "You are taking your promise seriously. Honest communication helps protect trust.",
+          "correct": true
+        }
+      ],
+      "chunks": [
+        "إِذَا وَعَدَ",
+        "أَخْلَفَ"
+      ]
+    },
+    {
+      "id": "hadith-03",
+      "title": "Choose Kind Words",
+      "arabic": "فَلْيَقُلْ خَيْرًا أَوْ لِيَصْمُتْ",
+      "excerpt": true,
+      "meaning": "Say what is good, or stay quiet.",
+      "explanation": "Before speaking, ask: Is it true? Is it kind? Is it useful? Sometimes a quiet pause can protect another person’s heart.",
+      "action": "Before replying in a difficult moment, pause and choose one kind sentence.",
+      "source": "Sahih al-Bukhari 6018",
+      "sourceUrl": "https://sunnah.com/bukhari:6018",
+      "story": "Akhlaq loses a turn in a game and feels upset. He is about to say something hurtful. Imaan gives him a moment. He pauses and says, “I’m disappointed. Can we try another round?” The game stays friendly.",
+      "question": "A friend makes a mistake during a game. Which response is kind?",
+      "answers": [
+        {
+          "text": "“It’s okay. Let’s try again together.”",
+          "feedback": "Your words give your friend a safe chance to try again. A pause can help you choose them.",
+          "correct": true
+        },
+        {
+          "text": "Call your friend an unkind name.",
+          "feedback": "Names can hurt. Choose words that help instead.",
+          "correct": false
+        },
+        {
+          "text": "Say something mean because you feel annoyed.",
+          "feedback": "Feeling annoyed is understandable. You can pause before choosing what to say.",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "فَلْيَقُلْ خَيْرًا",
+        "أَوْ لِيَصْمُتْ"
+      ]
+    },
+    {
+      "id": "hadith-04",
+      "title": "Safe Hands, Safe Words",
+      "arabic": "الْمُسْلِمُ مَنْ سَلِمَ الْمُسْلِمُونَ مِنْ لِسَانِهِ وَيَدِهِ",
+      "excerpt": false,
+      "meaning": "A Muslim should not harm others with words or hands.",
+      "explanation": "Being strong is not about pushing or teasing. It means making people feel safe around you.",
+      "action": "During play today, keep your hands gentle and your words respectful.",
+      "source": "Sahih al-Bukhari 10",
+      "sourceUrl": "https://sunnah.com/bukhari:10",
+      "story": "Two children both want the same ball. Akhlaq feels like grabbing it. He keeps his hands gentle and asks for a turn. Imaan suggests taking turns, so everyone can play without being pushed or teased.",
+      "question": "Someone is using the toy you want. What is a safe choice?",
+      "answers": [
+        {
+          "text": "Push them and take it.",
+          "feedback": "Pushing can hurt someone. Choose a way that keeps their body safe.",
+          "correct": false
+        },
+        {
+          "text": "Ask politely for a turn and keep your hands gentle.",
+          "feedback": "That protects the other person with both your hands and your words.",
+          "correct": true
+        },
+        {
+          "text": "Tease them until they give it to you.",
+          "feedback": "Teasing can make someone feel unsafe too. Try a respectful request.",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "الْمُسْلِمُ مَنْ سَلِمَ",
+        "الْمُسْلِمُونَ مِنْ لِسَانِهِ وَيَدِهِ"
+      ]
+    },
+    {
+      "id": "hadith-05",
+      "title": "Beautiful Character",
+      "arabic": "إِنَّ مِنْ خِيَارِكُمْ أَحْسَنَكُمْ أَخْلَاقًا",
+      "excerpt": true,
+      "meaning": "Among the best people are those with the best character.",
+      "explanation": "You do not need a medal to be wonderful. Your honesty, patience and kindness make a real difference!",
+      "action": "Choose one moment today to respond with extra politeness.",
+      "source": "Sahih al-Bukhari 3559",
+      "sourceUrl": "https://sunnah.com/bukhari:3559",
+      "story": "Imaan is busy making a paper flower when her little cousin asks for help. She puts it down for a moment and answers gently. Akhlaq notices that beautiful character can show itself in one small, ordinary choice.",
+      "question": "A younger child asks you for help while you are busy. What shows good character?",
+      "answers": [
+        {
+          "text": "Laugh at them for not knowing.",
+          "feedback": "We all need help sometimes. Look for a more caring choice.",
+          "correct": false
+        },
+        {
+          "text": "Shout at them to go away.",
+          "feedback": "You can set a limit kindly without shouting. Think about how you could speak politely.",
+          "correct": false
+        },
+        {
+          "text": "Answer politely and help, or kindly say when you can help.",
+          "feedback": "Kindness and politeness matter in everyday moments, even when you are busy.",
+          "correct": true
+        }
+      ],
+      "chunks": [
+        "إِنَّ مِنْ خِيَارِكُمْ",
+        "أَحْسَنَكُمْ أَخْلَاقًا"
+      ]
+    }
+  ]
+}

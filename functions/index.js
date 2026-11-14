@@ -3465,3 +3465,7 @@ exports.listOrgs = onCall({ cors: true }, async (request) => {
     }))
   };
 });
+
+// Native Flutter learner saves, authorized and committed on the server.
+const { makeSaveActivity } = require('./native-activities');
+exports.saveLearnerActivity = onCall({ cors: true }, makeSaveActivity({ db, HttpsError, catalog: require('./native-catalog.json') }));
