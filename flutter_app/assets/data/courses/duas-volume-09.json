@@ -1,0 +1,773 @@
+{
+ "volume": 9,
+ "title": "Gratitude, Faith and Good Character",
+ "intro": "Ten new Qur’anic and authentically reported supplications, child-friendly Imaan & Akhlaq stories, gradual memorization, one real-life action, and implementation guidance for engaging learning.",
+ "sourceDocument": "Zad_al_Qulub_Junior_Volume_09_Gratitude_Faith_and_Good_Character.docx",
+ "reviewStatus": "Working curriculum text copied verbatim from the supplied DOCX. Qualified scholarly, Arabic, Urdu and pronunciation review is required before release.",
+ "lessons": [
+  {
+   "id": "dua-081",
+   "number": 81,
+   "title": "I Believe, and I Ask for Mercy",
+   "tagline": "VOLUME 09 / QUR’ANIC DU’A / SUPPLICATION EXCERPT FROM VERSE",
+   "wordsHeading": "WORDS TO REMEMBER • AUTHENTIC ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "رَبَّنَا آمَنَّا فَاغْفِرْ لَنَا وَارْحَمْنَا وَأَنْتَ خَيْرُ الرَّاحِمِينَ"
+    },
+    {
+     "type": "translit",
+     "text": "Rabbanā āmannā faghfir lanā warḥamnā wa-Anta khayrur-rāḥimīn."
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "Our Lord, we have believed; so forgive us, have mercy on us, and You are the best of those who show mercy."
+    },
+    {
+     "type": "urdu",
+     "text": "اے ہمارے رب! ہم ایمان لائے، پس ہمیں بخش دے، ہم پر رحم فرما، اور تو سب سے بہتر رحم فرمانے والا ہے۔"
+    },
+    {
+     "type": "field",
+     "label": "Original source",
+     "text": "Al-Mu’minūn 23:109 — Supplication excerpt from verse"
+    },
+    {
+     "type": "link",
+     "text": "https://quran.com/23/109"
+    }
+   ],
+   "arabic": "رَبَّنَا آمَنَّا فَاغْفِرْ لَنَا وَارْحَمْنَا وَأَنْتَ خَيْرُ الرَّاحِمِينَ",
+   "transliteration": "Rabbanā āmannā faghfir lanā warḥamnā wa-Anta khayrur-rāḥimīn.",
+   "english": "Our Lord, we have believed; so forgive us, have mercy on us, and You are the best of those who show mercy.",
+   "urdu": "اے ہمارے رب! ہم ایمان لائے، پس ہمیں بخش دے، ہم پر رحم فرما، اور تو سب سے بہتر رحم فرمانے والا ہے۔",
+   "source": "Al-Mu’minūn 23:109 — Supplication excerpt from verse",
+   "sourceUrl": "https://quran.com/23/109",
+   "extras": [
+    {
+     "heading": "ORIGINAL REVELATION / HADITH CONTEXT",
+     "blocks": [
+      {
+       "type": "text",
+       "text": "In this verse Allah recalls a group of believing servants who prayed with faith and humility. The following verses contrast their patience with the way others mocked them. This is the speech of believers quoted by the Qur’an, not a narration of a specific Prophetic daily routine."
+      }
+     ]
+    }
+   ],
+   "story": [
+    "Akhlaq noticed that a younger child was struggling to say a difficult Arabic phrase in the learning circle. A few children giggled. Imaan moved closer and helped the child repeat the words slowly. Later, she told Dadi Jaan that people who are still learning need patience, not laughter. Dadi Jaan read the Qur’anic supplication of believers asking Allah for mercy. Imaan and Akhlaq repeated the words and talked about how asking for mercy should encourage them to show mercy to others too. The next day, Akhlaq offered to practise with the child before class began."
+   ],
+   "understand": [
+    "Belief should help make our hearts humble. We ask Allah to forgive us, but we must not mock another person’s efforts. These words are not presented in the Qur’an as a fixed before-class formula; the school story is only a modern illustration."
+   ],
+   "memorizeSteps": "Listen to the approved full Arabic, repeat one meaningful phrase, combine phrases in order and move gradually to partly hidden text. For a longer selection, save partial mastery and resume next time. A study loop is not a religiously prescribed repetition count.",
+   "chunks": [
+    "رَبَّنَا آمَنَّا",
+    "فَاغْفِرْ لَنَا وَارْحَمْنَا",
+    "وَأَنْتَ خَيْرُ الرَّاحِمِينَ"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "Offer patient help to someone who is learning something difficult.",
+   "mission": {
+    "text": "Choose how Akhlaq should respond when a learner mispronounces a word; join the three Arabic phrases in order.",
+    "title": "The kindness choice",
+    "feedback": "Gentle help is stronger than teasing."
+   },
+   "reflect": "How can someone feel safe when they are still learning?",
+   "guidance": {
+    "label": "Parent / teacher guidance",
+    "text": "Original context 23:109–111 includes mockery of believers and their final reward. Do not equate classmates with disbelievers or add a fixed recitation time."
+   }
+  },
+  {
+   "id": "dua-082",
+   "number": 82,
+   "title": "Faith Makes Me Responsible",
+   "tagline": "VOLUME 09 / QUR’ANIC DU’A / SUPPLICATION EXCERPT FROM VERSE",
+   "wordsHeading": "WORDS TO REMEMBER • AUTHENTIC ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "رَبَّنَا إِنَّنَا آمَنَّا فَاغْفِرْ لَنَا ذُنُوبَنَا وَقِنَا عَذَابَ النَّارِ"
+    },
+    {
+     "type": "translit",
+     "text": "Rabbanā innanā āmannā faghfir lanā dhunūbanā wa-qinā ʿadhāban-nār."
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "Our Lord, we have believed, so forgive us our sins and protect us from the punishment of the Fire."
+    },
+    {
+     "type": "urdu",
+     "text": "اے ہمارے رب! یقیناً ہم ایمان لائے ہیں، لہٰذا ہمارے گناہ معاف فرما اور ہمیں آگ کے عذاب سے بچا۔"
+    },
+    {
+     "type": "field",
+     "label": "Original source",
+     "text": "Āl ʿImrān 3:16 — Supplication excerpt from verse"
+    },
+    {
+     "type": "link",
+     "text": "https://quran.com/3/16"
+    }
+   ],
+   "arabic": "رَبَّنَا إِنَّنَا آمَنَّا فَاغْفِرْ لَنَا ذُنُوبَنَا وَقِنَا عَذَابَ النَّارِ",
+   "transliteration": "Rabbanā innanā āmannā faghfir lanā dhunūbanā wa-qinā ʿadhāban-nār.",
+   "english": "Our Lord, we have believed, so forgive us our sins and protect us from the punishment of the Fire.",
+   "urdu": "اے ہمارے رب! یقیناً ہم ایمان لائے ہیں، لہٰذا ہمارے گناہ معاف فرما اور ہمیں آگ کے عذاب سے بچا۔",
+   "source": "Āl ʿImrān 3:16 — Supplication excerpt from verse",
+   "sourceUrl": "https://quran.com/3/16",
+   "extras": [
+    {
+     "heading": "ORIGINAL REVELATION / HADITH CONTEXT",
+     "blocks": [
+      {
+       "type": "text",
+       "text": "Surah Āl ʿImrān describes people mindful of Allah who value His pleasure beyond worldly attractions. The next verse praises patience, sincerity, obedience, generosity and seeking forgiveness. The prayer asks for forgiveness and protection in the Hereafter."
+      }
+     ]
+    }
+   ],
+   "story": [
+    "Imaan borrowed some colored pens from her friend and forgot to put them back into the pencil case. When the friend asked about the missing colors, Imaan felt embarrassed. Salaam encouraged her to tell the truth, return what remained, and apologize. That evening, the family read a Qur’anic prayer of believers who asked Allah to forgive their sins. Imaan understood that asking for forgiveness is meaningful when she also tries to repair the harm she has caused. She packed the pens carefully and made a simple plan to return them the next day."
+   ],
+   "understand": [
+    "Faith is not an excuse to hide mistakes. A believer seeks Allah’s forgiveness and makes things right where possible. Explain the Hereafter truthfully and without frightening imagery for young learners. The verse is not a substitute for returning borrowed things."
+   ],
+   "memorizeSteps": "Listen to the approved full Arabic, repeat one meaningful phrase, combine phrases in order and move gradually to partly hidden text. For a longer selection, save partial mastery and resume next time. A study loop is not a religiously prescribed repetition count.",
+   "chunks": [
+    "رَبَّنَا إِنَّنَا آمَنَّا",
+    "فَاغْفِرْ لَنَا ذُنُوبَنَا",
+    "وَقِنَا عَذَابَ النَّارِ"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "Return one borrowed item carefully and thank its owner.",
+   "mission": {
+    "text": "Match “believed,” “forgive” and “protect” with phrases, then choose how to return a borrowed item respectfully.",
+    "title": "The honest return",
+    "feedback": "Responsibility means acting on what you believe."
+   },
+   "reflect": "What makes a sincere apology different from an empty excuse?",
+   "guidance": {
+    "label": "Parent / teacher guidance",
+    "text": "Refer to Āl ʿImrān 3:15–17. Keep punishment language respectful and age appropriate; no scare-based badges."
+   }
+  },
+  {
+   "id": "dua-083",
+   "number": 83,
+   "title": "Four Gifts for a Good Heart",
+   "tagline": "VOLUME 09 / AUTHENTIC PROPHETIC DU’A / COMPLETE SHORT PROPHETIC SUPPLICATION",
+   "wordsHeading": "WORDS TO REMEMBER • AUTHENTIC ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْهُدَى وَالتُّقَى وَالْعَفَافَ وَالْغِنَى"
+    },
+    {
+     "type": "translit",
+     "text": "Allāhumma innī asʾalukal-hudā wat-tuqā wal-ʿafāfa wal-ghinā."
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "O Allah, I ask You for guidance, mindfulness of You, purity and restraint, and contented self-sufficiency."
+    },
+    {
+     "type": "urdu",
+     "text": "اے اللہ! میں تجھ سے ہدایت، تقویٰ، پاک دامنی اور بے نیازی مانگتا ہوں۔"
+    },
+    {
+     "type": "field",
+     "label": "Original source",
+     "text": "Sahih Muslim 2721a — Complete short Prophetic supplication"
+    },
+    {
+     "type": "link",
+     "text": "https://sunnah.com/muslim:2721a"
+    }
+   ],
+   "arabic": "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْهُدَى وَالتُّقَى وَالْعَفَافَ وَالْغِنَى",
+   "transliteration": "Allāhumma innī asʾalukal-hudā wat-tuqā wal-ʿafāfa wal-ghinā.",
+   "english": "O Allah, I ask You for guidance, mindfulness of You, purity and restraint, and contented self-sufficiency.",
+   "urdu": "اے اللہ! میں تجھ سے ہدایت، تقویٰ، پاک دامنی اور بے نیازی مانگتا ہوں۔",
+   "source": "Sahih Muslim 2721a — Complete short Prophetic supplication",
+   "sourceUrl": "https://sunnah.com/muslim:2721a",
+   "extras": [
+    {
+     "heading": "ORIGINAL REVELATION / HADITH CONTEXT",
+     "blocks": [
+      {
+       "type": "text",
+       "text": "The Prophet Muhammad ﷺ used this concise supplication as reported in Sahih Muslim. The four requests belong together: right guidance, God-conscious conduct, dignified self-control and contentment with what Allah provides. The report does not establish a special child-specific repetition count."
+      }
+     ]
+    }
+   ],
+   "story": [
+    "At a school fair, Akhlaq saw an attractive toy at a stall. He already had something similar at home, but he kept asking Salamah to buy the new one. Imaan reminded him that wanting something and needing something are not always the same. Back at home, Sheikh Uncle taught the children this short Prophetic Du’a. He explained that the last word is about having a content heart, not collecting the most things. Akhlaq looked at the toy he already owned, cleaned it, and invited his cousin to enjoy it with him."
+   ],
+   "understand": [
+    "A rich heart is not measured by the number of toys. Ask Allah for good judgment and practise self-control. ʿAfāf is a broad term about upright restraint, explained to children through keeping boundaries and choosing what is right; age-appropriate explanations can grow deeper later."
+   ],
+   "memorizeSteps": "Listen to the approved full Arabic, repeat one meaningful phrase, combine phrases in order and move gradually to partly hidden text. For a longer selection, save partial mastery and resume next time. A study loop is not a religiously prescribed repetition count.",
+   "chunks": [
+    "اللَّهُمَّ إِنِّي أَسْأَلُكَ",
+    "الْهُدَى وَالتُّقَى",
+    "وَالْعَفَافَ وَالْغِنَى"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "Use and appreciate something you already own instead of asking for something new today.",
+   "mission": {
+    "text": "Sort harmless examples into needs and wants; replay the four key Arabic words with sound and meaning.",
+    "title": "Needs or wants?",
+    "feedback": "You noticed that a content heart is a treasure."
+   },
+   "reflect": "Can I enjoy what I have while still working toward good goals?",
+   "guidance": {
+    "label": "Parent / teacher guidance",
+    "text": "Sahih Muslim 2721a wording differs slightly from 2721b; keep the selected al-ʿafāf version consistent. Avoid shaming children for financial need."
+   }
+  },
+  {
+   "id": "dua-084",
+   "number": 84,
+   "title": "Teach Me Wisdom and Good Company",
+   "tagline": "VOLUME 09 / QUR’ANIC DU’A / COMPLETE VERSE; SUPPLICATION OF IBRĀHĪM (AS)",
+   "wordsHeading": "WORDS TO REMEMBER • AUTHENTIC ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "رَبِّ هَبْ لِي حُكْمًا وَأَلْحِقْنِي بِالصَّالِحِينَ"
+    },
+    {
+     "type": "translit",
+     "text": "Rabbi hab lī ḥukman wa-alḥiqnī biṣ-ṣāliḥīn."
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "My Lord, grant me sound judgment and join me with the righteous."
+    },
+    {
+     "type": "urdu",
+     "text": "اے میرے رب! مجھے حکمت اور درست فیصلہ کرنے کی صلاحیت عطا فرما اور مجھے نیک لوگوں کے ساتھ شامل فرما۔"
+    },
+    {
+     "type": "field",
+     "label": "Original source",
+     "text": "Ash-Shuʿarā 26:83 — Complete verse; supplication of Ibrāhīm (AS)"
+    },
+    {
+     "type": "link",
+     "text": "https://quran.com/26/83"
+    }
+   ],
+   "arabic": "رَبِّ هَبْ لِي حُكْمًا وَأَلْحِقْنِي بِالصَّالِحِينَ",
+   "transliteration": "Rabbi hab lī ḥukman wa-alḥiqnī biṣ-ṣāliḥīn.",
+   "english": "My Lord, grant me sound judgment and join me with the righteous.",
+   "urdu": "اے میرے رب! مجھے حکمت اور درست فیصلہ کرنے کی صلاحیت عطا فرما اور مجھے نیک لوگوں کے ساتھ شامل فرما۔",
+   "source": "Ash-Shuʿarā 26:83 — Complete verse; supplication of Ibrāhīm (AS)",
+   "sourceUrl": "https://quran.com/26/83",
+   "extras": [
+    {
+     "heading": "ORIGINAL REVELATION / HADITH CONTEXT",
+     "blocks": [
+      {
+       "type": "text",
+       "text": "This is a prayer of Prophet Ibrāhīm (AS) in the Qur’an. The wider passage affirms Allah alone as Lord, Guide and Healer. Classical Tafsir discusses ḥukm as knowledge, wisdom and sound judgment. No fictional speech may be added to this Prophetic account."
+      }
+     ]
+    }
+   ],
+   "story": [
+    "Two teams were choosing classmates for a science activity. One group wanted only the fastest students. Imaan suggested they should also include children who were careful and good at explaining ideas. Akhlaq then asked how to choose friends and teammates fairly. Dadi Jaan recited this supplication of Ibrāhīm (AS), showing that wise decisions and righteous company matter. The next day, Akhlaq listened to everyone’s ideas before making a choice, and the group completed its model together. He learned that good company helps us grow in both learning and character."
+   ],
+   "understand": [
+    "Wisdom is not simply giving quick answers. It includes listening, honesty and choosing what is right. The meaning of ḥukm is wider than a clever school decision; that example is a child-friendly application, not the historical context."
+   ],
+   "memorizeSteps": "Listen to the approved full Arabic, repeat one meaningful phrase, combine phrases in order and move gradually to partly hidden text. For a longer selection, save partial mastery and resume next time. A study loop is not a religiously prescribed repetition count.",
+   "chunks": [
+    "رَبِّ هَبْ لِي حُكْمًا",
+    "وَأَلْحِقْنِي بِالصَّالِحِينَ"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "Invite one quiet or overlooked child to take part in a shared activity.",
+   "mission": {
+    "text": "Make a fair group choice from several personalities, then order the two Arabic phrases.",
+    "title": "Wise team builder",
+    "feedback": "Good judgment makes room for fairness."
+   },
+   "reflect": "What qualities help someone become a good friend?",
+   "guidance": {
+    "label": "Parent / teacher guidance",
+    "text": "Teach 26:69–89 for older readers. Do not portray Prophet Ibrāhīm or invent his dialogue; no automatic “wisdom power” reward."
+   }
+  },
+  {
+   "id": "dua-085",
+   "number": 85,
+   "title": "Make My Heart Better",
+   "tagline": "VOLUME 09 / AUTHENTIC PROPHETIC DU’A / CONTIGUOUS EXCERPT FROM A LONGER PROPHETIC SUPPLICATION",
+   "wordsHeading": "WORDS TO REMEMBER • AUTHENTIC ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "اللَّهُمَّ آتِ نَفْسِي تَقْوَاهَا وَزَكِّهَا أَنْتَ خَيْرُ مَنْ زَكَّاهَا أَنْتَ وَلِيُّهَا وَمَوْلَاهَا"
+    },
+    {
+     "type": "translit",
+     "text": "Allāhumma āti nafsī taqwāhā wa-zakkihā, Anta khayru man zakkāhā, Anta waliyyuhā wa-mawlāhā."
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "O Allah, grant my soul its piety and purify it; You are the best to purify it. You are its Protector and Guardian."
+    },
+    {
+     "type": "urdu",
+     "text": "اے اللہ! میرے نفس کو اس کا تقویٰ عطا فرما اور اسے پاکیزہ بنا؛ تو ہی اسے سب سے بہتر پاک کرنے والا ہے، تو ہی اس کا سرپرست اور مددگار ہے۔"
+    },
+    {
+     "type": "field",
+     "label": "Original source",
+     "text": "Sahih Muslim 2722 — Contiguous excerpt from a longer Prophetic supplication"
+    },
+    {
+     "type": "link",
+     "text": "https://sunnah.com/muslim:2722"
+    }
+   ],
+   "arabic": "اللَّهُمَّ آتِ نَفْسِي تَقْوَاهَا وَزَكِّهَا أَنْتَ خَيْرُ مَنْ زَكَّاهَا أَنْتَ وَلِيُّهَا وَمَوْلَاهَا",
+   "transliteration": "Allāhumma āti nafsī taqwāhā wa-zakkihā, Anta khayru man zakkāhā, Anta waliyyuhā wa-mawlāhā.",
+   "english": "O Allah, grant my soul its piety and purify it; You are the best to purify it. You are its Protector and Guardian.",
+   "urdu": "اے اللہ! میرے نفس کو اس کا تقویٰ عطا فرما اور اسے پاکیزہ بنا؛ تو ہی اسے سب سے بہتر پاک کرنے والا ہے، تو ہی اس کا سرپرست اور مددگار ہے۔",
+   "source": "Sahih Muslim 2722 — Contiguous excerpt from a longer Prophetic supplication",
+   "sourceUrl": "https://sunnah.com/muslim:2722",
+   "extras": [
+    {
+     "heading": "ORIGINAL REVELATION / HADITH CONTEXT",
+     "blocks": [
+      {
+       "type": "text",
+       "text": "Zayd ibn Arqam (RA) narrated this as one section of a longer supplication of the Prophet ﷺ. The full report asks for protection from weakness and certain wrong traits, and seeks useful knowledge and a humble heart. Mark this exact text as an excerpt rather than the complete Hadith."
+      }
+     ]
+    }
+   ],
+   "story": [
+    "Akhlaq was annoyed when Mohsin won the class art competition. At first he wanted to say that the winning picture was not very good. Imaan noticed he looked upset, so she invited him to talk privately. Akhlaq admitted that he was jealous and disappointed. Salamah reminded him that feelings can arrive before we choose what to do with them. She taught a Prophetic Du’a asking Allah to purify our inner selves. Akhlaq practised the phrases slowly and decided to congratulate Mohsin sincerely. His feelings did not disappear at once, but he was proud of choosing kinder words."
+   ],
+   "understand": [
+    "We cannot always choose our first feelings, but we can choose how to respond. Tazkiyah means inner purification and growth. Du’a should be joined with effort and kindness; no app can measure how “pure” a child is."
+   ],
+   "memorizeSteps": "Listen to the approved full Arabic, repeat one meaningful phrase, combine phrases in order and move gradually to partly hidden text. For a longer selection, save partial mastery and resume next time. A study loop is not a religiously prescribed repetition count.",
+   "chunks": [
+    "اللَّهُمَّ آتِ نَفْسِي تَقْوَاهَا",
+    "وَزَكِّهَا أَنْتَ خَيْرُ مَنْ زَكَّاهَا",
+    "أَنْتَ وَلِيُّهَا وَمَوْلَاهَا"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "Congratulate someone sincerely on a success, even if you wanted to win.",
+   "mission": {
+    "text": "Identify jealousy as a feeling and choose a respectful action; build the longer Du’a with three phrase cards.",
+    "title": "From feeling to choice",
+    "feedback": "A good choice can begin even while a difficult feeling remains."
+   },
+   "reflect": "What helps me respond gently when someone else succeeds?",
+   "guidance": {
+    "label": "Parent / teacher guidance",
+    "text": "Teach as an excerpt of Muslim 2722, not as a separate standalone narrated Hadith. Never score a child’s inner spiritual state."
+   }
+  },
+  {
+   "id": "dua-086",
+   "number": 86,
+   "title": "The World Has a Purpose",
+   "tagline": "VOLUME 09 / QUR’ANIC DU’A / SUPPLICATION EXCERPT FROM A LONGER VERSE",
+   "wordsHeading": "WORDS TO REMEMBER • AUTHENTIC ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "رَبَّنَا مَا خَلَقْتَ هَٰذَا بَاطِلًا سُبْحَانَكَ فَقِنَا عَذَابَ النَّارِ"
+    },
+    {
+     "type": "translit",
+     "text": "Rabbanā mā khalaqta hādhā bāṭilan subḥānaka fa-qinā ʿadhāban-nār."
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "Our Lord, You did not create this without purpose. Glory be to You; protect us from the punishment of the Fire."
+    },
+    {
+     "type": "urdu",
+     "text": "اے ہمارے رب! تو نے یہ سب بے مقصد پیدا نہیں کیا۔ تو پاک ہے، پس ہمیں آگ کے عذاب سے بچا۔"
+    },
+    {
+     "type": "field",
+     "label": "Original source",
+     "text": "Āl ʿImrān 3:191 — Supplication excerpt from a longer verse"
+    },
+    {
+     "type": "link",
+     "text": "https://quran.com/3/191"
+    }
+   ],
+   "arabic": "رَبَّنَا مَا خَلَقْتَ هَٰذَا بَاطِلًا سُبْحَانَكَ فَقِنَا عَذَابَ النَّارِ",
+   "transliteration": "Rabbanā mā khalaqta hādhā bāṭilan subḥānaka fa-qinā ʿadhāban-nār.",
+   "english": "Our Lord, You did not create this without purpose. Glory be to You; protect us from the punishment of the Fire.",
+   "urdu": "اے ہمارے رب! تو نے یہ سب بے مقصد پیدا نہیں کیا۔ تو پاک ہے، پس ہمیں آگ کے عذاب سے بچا۔",
+   "source": "Āl ʿImrān 3:191 — Supplication excerpt from a longer verse",
+   "sourceUrl": "https://quran.com/3/191",
+   "extras": [
+    {
+     "heading": "ORIGINAL REVELATION / HADITH CONTEXT",
+     "blocks": [
+      {
+       "type": "text",
+       "text": "These words occur while the Qur’an praises people who remember Allah and reflect on the creation of the heavens and the earth. The verse connects thoughtful observation with humility before Allah and accountability in the Hereafter."
+      }
+     ]
+    }
+   ],
+   "story": [
+    "During an evening walk, Imaan noticed how the light changed on the hills while Akhlaq watched a line of ants find their way around a stone. The children asked many questions: Why do shadows move? How do ants find food? Salaam encouraged them to observe, learn and thank Allah for the world around them. He then read this Qur’anic prayer, reminding them that creation is not meaningless. The children went home and drew one thing they had observed. They called the picture their “wonder and gratitude page,” not because they understood everything, but because they wanted to keep learning."
+   ],
+   "understand": [
+    "The Qur’an encourages reflection and remembrance of Allah. Observing nature can build curiosity and gratitude while science explains how things work. This prayer is not a substitute for scientific investigation or a guarantee that every question will have a simple answer."
+   ],
+   "memorizeSteps": "Listen to the approved full Arabic, repeat one meaningful phrase, combine phrases in order and move gradually to partly hidden text. For a longer selection, save partial mastery and resume next time. A study loop is not a religiously prescribed repetition count.",
+   "chunks": [
+    "رَبَّنَا مَا خَلَقْتَ هَٰذَا بَاطِلًا",
+    "سُبْحَانَكَ",
+    "فَقِنَا عَذَابَ النَّارِ"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "Observe one natural thing today and tell a family member why you are thankful for it.",
+   "mission": {
+    "text": "Match a simple nature observation with a thoughtful question, then connect the three Arabic phrases.",
+    "title": "Observe and wonder",
+    "feedback": "Curiosity and gratitude can grow together."
+   },
+   "reflect": "What in the world makes me curious about Allah’s creation?",
+   "guidance": {
+    "label": "Parent / teacher guidance",
+    "text": "Show the complete 3:190–191 context. Do not make modern science claims that the verse does not state; treat the final request with age-appropriate theological care."
+   }
+  },
+  {
+   "id": "dua-087",
+   "number": 87,
+   "title": "A Light We Ask Allah to Complete",
+   "tagline": "VOLUME 09 / QUR’ANIC DU’A / SUPPLICATION EXCERPT FROM VERSE, IN THE HEREAFTER CONTEXT",
+   "wordsHeading": "WORDS TO REMEMBER • AUTHENTIC ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "رَبَّنَا أَتْمِمْ لَنَا نُورَنَا وَاغْفِرْ لَنَا إِنَّكَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ"
+    },
+    {
+     "type": "translit",
+     "text": "Rabbanā atmim lanā nūranā waghfir lanā innaka ʿalā kulli shayʾin qadīr."
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "Our Lord, complete our light for us and forgive us. Indeed, You are able to do all things."
+    },
+    {
+     "type": "urdu",
+     "text": "اے ہمارے رب! ہمارے لیے ہمارا نور مکمل فرما اور ہمیں بخش دے، بے شک تو ہر چیز پر قدرت رکھتا ہے۔"
+    },
+    {
+     "type": "field",
+     "label": "Original source",
+     "text": "At-Taḥrīm 66:8 — Supplication excerpt from verse, in the Hereafter context"
+    },
+    {
+     "type": "link",
+     "text": "https://quran.com/66/8"
+    }
+   ],
+   "arabic": "رَبَّنَا أَتْمِمْ لَنَا نُورَنَا وَاغْفِرْ لَنَا إِنَّكَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ",
+   "transliteration": "Rabbanā atmim lanā nūranā waghfir lanā innaka ʿalā kulli shayʾin qadīr.",
+   "english": "Our Lord, complete our light for us and forgive us. Indeed, You are able to do all things.",
+   "urdu": "اے ہمارے رب! ہمارے لیے ہمارا نور مکمل فرما اور ہمیں بخش دے، بے شک تو ہر چیز پر قدرت رکھتا ہے۔",
+   "source": "At-Taḥrīm 66:8 — Supplication excerpt from verse, in the Hereafter context",
+   "sourceUrl": "https://quran.com/66/8",
+   "extras": [
+    {
+     "heading": "ORIGINAL REVELATION / HADITH CONTEXT",
+     "blocks": [
+      {
+       "type": "text",
+       "text": "Surah At-Taḥrīm calls believers to sincere repentance and describes the Day of Judgment. The light in this supplication belongs to that revealed Hereafter scene; it must not be changed into a story about gaining magical powers or literal glowing app characters."
+      }
+     ]
+    }
+   ],
+   "story": [
+    "Akhlaq had spoken sharply to his cousin during a board game. Although everyone moved on, he kept remembering his words. Imaan suggested he should apologize properly. That evening, Dadi Jaan introduced the Qur’anic prayer of believers seeking forgiveness and asking Allah to complete their light in the Hereafter. She explained that children can begin sincere repentance with small, truthful steps: admit the mistake, ask forgiveness, and try not to repeat it. Akhlaq went to his cousin, apologized and asked if they could play again with kinder rules."
+   ],
+   "understand": [
+    "This Du’a points toward the Hereafter and Allah’s power to forgive. We can reflect on repentance in daily life without claiming a visible glow proves our goodness. No app animation should portray a child’s actual spiritual standing."
+   ],
+   "memorizeSteps": "Listen to the approved full Arabic, repeat one meaningful phrase, combine phrases in order and move gradually to partly hidden text. For a longer selection, save partial mastery and resume next time. A study loop is not a religiously prescribed repetition count.",
+   "chunks": [
+    "رَبَّنَا أَتْمِمْ لَنَا نُورَنَا",
+    "وَاغْفِرْ لَنَا",
+    "إِنَّكَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "Apologize clearly for one unkind word or action you remember.",
+   "mission": {
+    "text": "Order the steps admit, apologize and change behavior; build the three Arabic segments without “light power” animations.",
+    "title": "Make it right",
+    "feedback": "A sincere apology is a brave step."
+   },
+   "reflect": "What can I change after asking forgiveness?",
+   "guidance": {
+    "label": "Parent / teacher guidance",
+    "text": "The “light” is eschatological in this verse. Preserve context 66:8; avoid invented worldly reward promises."
+   }
+  },
+  {
+   "id": "dua-088",
+   "number": 88,
+   "title": "A Prayer for Honest Forgiveness",
+   "tagline": "VOLUME 09 / AUTHENTIC PROPHETIC DU’A / COMPLETE PROPHETIC SUPPLICATION TAUGHT TO ABŪ BAKR (RA) FOR SALAH",
+   "wordsHeading": "WORDS TO REMEMBER • AUTHENTIC ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "اللَّهُمَّ إِنِّي ظَلَمْتُ نَفْسِي ظُلْمًا كَثِيرًا وَلَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ فَاغْفِرْ لِي مَغْفِرَةً مِنْ عِنْدِكَ وَارْحَمْنِي إِنَّكَ أَنْتَ الْغَفُورُ الرَّحِيمُ"
+    },
+    {
+     "type": "translit",
+     "text": "Allāhumma innī ẓalamtu nafsī ẓulman kathīran, wa-lā yaghfirudh-dhunūba illā Anta; faghfir lī maghfiratan min ʿindika, warḥamnī, innaka Antal-Ghafūrur-Raḥīm."
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "O Allah, I have wronged myself greatly, and no one forgives sins except You. So forgive me with forgiveness from You and have mercy on me; You are the Most Forgiving, Most Merciful."
+    },
+    {
+     "type": "urdu",
+     "text": "اے اللہ! میں نے اپنے نفس پر بہت ظلم کیا ہے، اور تیرے سوا کوئی گناہ معاف نہیں کرتا۔ پس مجھے اپنی طرف سے بخش دے اور مجھ پر رحم فرما؛ یقیناً تو بہت بخشنے والا، نہایت رحم کرنے والا ہے۔"
+    },
+    {
+     "type": "field",
+     "label": "Original source",
+     "text": "Sahih al-Bukhari 834; Sahih Muslim 2705 — Complete Prophetic supplication taught to Abū Bakr (RA) for Salah"
+    },
+    {
+     "type": "link",
+     "text": "https://sunnah.com/bukhari:834"
+    }
+   ],
+   "arabic": "اللَّهُمَّ إِنِّي ظَلَمْتُ نَفْسِي ظُلْمًا كَثِيرًا وَلَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ فَاغْفِرْ لِي مَغْفِرَةً مِنْ عِنْدِكَ وَارْحَمْنِي إِنَّكَ أَنْتَ الْغَفُورُ الرَّحِيمُ",
+   "transliteration": "Allāhumma innī ẓalamtu nafsī ẓulman kathīran, wa-lā yaghfirudh-dhunūba illā Anta; faghfir lī maghfiratan min ʿindika, warḥamnī, innaka Antal-Ghafūrur-Raḥīm.",
+   "english": "O Allah, I have wronged myself greatly, and no one forgives sins except You. So forgive me with forgiveness from You and have mercy on me; You are the Most Forgiving, Most Merciful.",
+   "urdu": "اے اللہ! میں نے اپنے نفس پر بہت ظلم کیا ہے، اور تیرے سوا کوئی گناہ معاف نہیں کرتا۔ پس مجھے اپنی طرف سے بخش دے اور مجھ پر رحم فرما؛ یقیناً تو بہت بخشنے والا، نہایت رحم کرنے والا ہے۔",
+   "source": "Sahih al-Bukhari 834; Sahih Muslim 2705 — Complete Prophetic supplication taught to Abū Bakr (RA) for Salah",
+   "sourceUrl": "https://sunnah.com/bukhari:834",
+   "extras": [
+    {
+     "heading": "ORIGINAL REVELATION / HADITH CONTEXT",
+     "blocks": [
+      {
+       "type": "text",
+       "text": "Abū Bakr al-Ṣiddīq (RA) asked the Prophet ﷺ to teach him a supplication to use in Salah. The Prophet ﷺ taught this wording. Present its sourced prayer context; it can also be understood as an example of humility and repentance, not a formula invented for a classroom conflict."
+      }
+     ]
+    }
+   ],
+   "story": [
+    "Imaan and Akhlaq were putting books back on the shelves when Akhlaq saw that his drawing had smudged a library book. He was tempted to close it and say nothing. Imaan encouraged him to tell the librarian so they could find the best way to repair or replace the book. Later, Salaam explained that even the best people ask Allah for forgiveness, and he taught them the supplication the Prophet ﷺ taught Abū Bakr (RA). Akhlaq repeated its parts over several evenings. The next day, he told the librarian what had happened and offered to help restore the shelf."
+   ],
+   "understand": [
+    "The strongest people can admit a wrong. The Du’a is reported for use in Salah, where a parent or teacher can teach its proper placement. A young child should not interpret “I wronged myself greatly” as proof that they are a bad person; it is humble repentance before Allah."
+   ],
+   "memorizeSteps": "Listen to the approved full Arabic, repeat one meaningful phrase, combine phrases in order and move gradually to partly hidden text. For a longer selection, save partial mastery and resume next time. A study loop is not a religiously prescribed repetition count.",
+   "chunks": [
+    "اللَّهُمَّ إِنِّي ظَلَمْتُ نَفْسِي ظُلْمًا كَثِيرًا",
+    "وَلَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ",
+    "فَاغْفِرْ لِي مَغْفِرَةً مِنْ عِنْدِكَ",
+    "وَارْحَمْنِي إِنَّكَ أَنْتَ الْغَفُورُ الرَّحِيمُ"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "Tell the truth about one mistake and help put it right.",
+   "mission": {
+    "text": "Choose between hiding a damaged item or reporting and helping; combine four longer Arabic segments with spaced review.",
+    "title": "The repair decision",
+    "feedback": "Truthfulness and repair show courage."
+   },
+   "reflect": "Why is it important to correct a mistake when we can?",
+   "guidance": {
+    "label": "Parent / teacher guidance",
+    "text": "Bukhari 834 is in the pre-Taslim Salah supplication chapter; do not teach it as an obligatorily timed daily fixed count. No shaming language."
+   }
+  },
+  {
+   "id": "dua-089",
+   "number": 89,
+   "title": "Make My Life Better in Every Way",
+   "tagline": "VOLUME 09 / AUTHENTIC PROPHETIC DU’A / COMPLETE LONGER PROPHETIC SUPPLICATION; OLDER LEARNERS OR PARENT-LED",
+   "wordsHeading": "WORDS TO REMEMBER • AUTHENTIC ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "اللَّهُمَّ أَصْلِحْ لِي دِينِيَ الَّذِي هُوَ عِصْمَةُ أَمْرِي وَأَصْلِحْ لِي دُنْيَايَ الَّتِي فِيهَا مَعَاشِي وَأَصْلِحْ لِي آخِرَتِي الَّتِي فِيهَا مَعَادِي وَاجْعَلِ الْحَيَاةَ زِيَادَةً لِي فِي كُلِّ خَيْرٍ وَاجْعَلِ الْمَوْتَ رَاحَةً لِي مِنْ كُلِّ شَرٍّ"
+    },
+    {
+     "type": "translit",
+     "text": "Allāhumma aṣliḥ lī dīnī alladhī huwa ʿiṣmatu amrī, wa-aṣliḥ lī dunyāya allatī fīhā maʿāshī, wa-aṣliḥ lī ākhiratī allatī fīhā maʿādī, wajʿalil-ḥayāta ziyādatan lī fī kulli khayr, wajʿalil-mawta rāḥatan lī min kulli sharr."
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "O Allah, set right my religion, the protection of my affairs; set right my worldly life in which I live; set right my Hereafter to which I return. Make my life an increase in every good and my death a relief from every evil."
+    },
+    {
+     "type": "urdu",
+     "text": "اے اللہ! میرے دین کو درست فرما جو میرے معاملے کی حفاظت ہے، میری دنیا کو درست فرما جس میں میری زندگی بسر ہوتی ہے، اور میری آخرت کو درست فرما جہاں مجھے لوٹنا ہے۔ میری زندگی کو ہر بھلائی میں اضافے کا ذریعہ بنا، اور میری موت کو ہر برائی سے راحت بنا۔"
+    },
+    {
+     "type": "field",
+     "label": "Original source",
+     "text": "Sahih Muslim 2720 — Complete longer Prophetic supplication; older learners or parent-led"
+    },
+    {
+     "type": "link",
+     "text": "https://sunnah.com/muslim:2720"
+    }
+   ],
+   "arabic": "اللَّهُمَّ أَصْلِحْ لِي دِينِيَ الَّذِي هُوَ عِصْمَةُ أَمْرِي وَأَصْلِحْ لِي دُنْيَايَ الَّتِي فِيهَا مَعَاشِي وَأَصْلِحْ لِي آخِرَتِي الَّتِي فِيهَا مَعَادِي وَاجْعَلِ الْحَيَاةَ زِيَادَةً لِي فِي كُلِّ خَيْرٍ وَاجْعَلِ الْمَوْتَ رَاحَةً لِي مِنْ كُلِّ شَرٍّ",
+   "transliteration": "Allāhumma aṣliḥ lī dīnī alladhī huwa ʿiṣmatu amrī, wa-aṣliḥ lī dunyāya allatī fīhā maʿāshī, wa-aṣliḥ lī ākhiratī allatī fīhā maʿādī, wajʿalil-ḥayāta ziyādatan lī fī kulli khayr, wajʿalil-mawta rāḥatan lī min kulli sharr.",
+   "english": "O Allah, set right my religion, the protection of my affairs; set right my worldly life in which I live; set right my Hereafter to which I return. Make my life an increase in every good and my death a relief from every evil.",
+   "urdu": "اے اللہ! میرے دین کو درست فرما جو میرے معاملے کی حفاظت ہے، میری دنیا کو درست فرما جس میں میری زندگی بسر ہوتی ہے، اور میری آخرت کو درست فرما جہاں مجھے لوٹنا ہے۔ میری زندگی کو ہر بھلائی میں اضافے کا ذریعہ بنا، اور میری موت کو ہر برائی سے راحت بنا۔",
+   "source": "Sahih Muslim 2720 — Complete longer Prophetic supplication; older learners or parent-led",
+   "sourceUrl": "https://sunnah.com/muslim:2720",
+   "extras": [
+    {
+     "heading": "ORIGINAL REVELATION / HADITH CONTEXT",
+     "blocks": [
+      {
+       "type": "text",
+       "text": "Abū Hurayrah (RA) narrated this comprehensive supplication of the Prophet ﷺ. It seeks goodness in religion, worldly life and the Hereafter. The complete narration mentions death; young learners should approach the final clause with a caring adult, not through frightening imagery or independent quizzes."
+      }
+     ]
+    }
+   ],
+   "story": [
+    "At the end of the school week, Imaan felt proud of her reading progress but worried because she had neglected her responsibilities at home. Akhlaq was excited about his football practice but had forgotten his Qur’an revision. Salaam helped them draw a simple circle divided into worship, learning, family and play. He explained that a balanced Muslim life looks after responsibilities without ignoring rest and joy. Then he introduced a longer Prophetic supplication asking Allah to set right our religion, worldly affairs and Hereafter. The children chose one part to memorize with him each evening instead of rushing through every word at once."
+   ],
+   "understand": [
+    "The Prophet’s Du’a seeks goodness across life, not only grades or possessions. It teaches balance, effort, faith and preparation for the Hereafter. The last clause needs age-sensitive explanation: do not frame death as an escape children should seek when sad; children with worries need immediate trusted-adult support."
+   ],
+   "memorizeSteps": "Listen to the approved full Arabic, repeat one meaningful phrase, combine phrases in order and move gradually to partly hidden text. For a longer selection, save partial mastery and resume next time. A study loop is not a religiously prescribed repetition count.",
+   "chunks": [
+    "اللَّهُمَّ أَصْلِحْ لِي دِينِيَ الَّذِي هُوَ عِصْمَةُ أَمْرِي",
+    "وَأَصْلِحْ لِي دُنْيَايَ الَّتِي فِيهَا مَعَاشِي",
+    "وَأَصْلِحْ لِي آخِرَتِي الَّتِي فِيهَا مَعَادِي",
+    "وَاجْعَلِ الْحَيَاةَ زِيَادَةً لِي فِي كُلِّ خَيْرٍ",
+    "وَاجْعَلِ الْمَوْتَ رَاحَةً لِي مِنْ كُلِّ شَرٍّ"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "Make and follow one simple plan that includes worship, learning, a family responsibility and rest today.",
+   "mission": {
+    "text": "Place four practical activities on a simple day plan, then unlock each of the five Arabic memorization segments.",
+    "title": "Balance my day",
+    "feedback": "A balanced plan makes room for different kinds of good."
+   },
+   "reflect": "Which responsibility needs a little more care from me this week?",
+   "guidance": {
+    "label": "Parent / teacher guidance",
+    "text": "Age gate last clause; never depict self-harm or interpret this supplication as advice to seek death. Store full approved variant, support a multiweek pace."
+   }
+  },
+  {
+   "id": "dua-090",
+   "number": 90,
+   "title": "Forgive Our Mistakes and Give Us Strength",
+   "tagline": "VOLUME 09 / QUR’ANIC DU’A / COMPLETE SUPPLICATION SECTION OF VERSE; BEGINS AFTER OPENING STATEMENT",
+   "wordsHeading": "WORDS TO REMEMBER • AUTHENTIC ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "رَبَّنَا لَا تُؤَاخِذْنَا إِنْ نَسِينَا أَوْ أَخْطَأْنَا رَبَّنَا وَلَا تَحْمِلْ عَلَيْنَا إِصْرًا كَمَا حَمَلْتَهُ عَلَى الَّذِينَ مِنْ قَبْلِنَا رَبَّنَا وَلَا تُحَمِّلْنَا مَا لَا طَاقَةَ لَنَا بِهِ وَاعْفُ عَنَّا وَاغْفِرْ لَنَا وَارْحَمْنَا أَنْتَ مَوْلَانَا فَانْصُرْنَا عَلَى الْقَوْمِ الْكَافِرِينَ"
+    },
+    {
+     "type": "translit",
+     "text": "Rabbanā lā tuʾākhidhnā in nasīnā aw akhṭaʾnā; rabbanā wa-lā taḥmil ʿalaynā iṣran kamā ḥamaltahū ʿalalladhīna min qablinā; rabbanā wa-lā tuḥammilnā mā lā ṭāqata lanā bih; waʿfu ʿannā waghfir lanā warḥamnā; Anta mawlānā fanṣurnā ʿalal-qawmil-kāfirīn."
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "Our Lord, do not hold us accountable if we forget or make a mistake. Do not place on us a heavy burden like that placed on those before us, and do not burden us beyond our ability. Pardon us, forgive us and have mercy on us. You are our Protector, so grant us victory over the disbelieving people."
+    },
+    {
+     "type": "urdu",
+     "text": "اے ہمارے رب! اگر ہم بھول جائیں یا خطا کر بیٹھیں تو ہماری گرفت نہ فرما۔ ہم پر ایسا بھاری بوجھ نہ ڈال جیسے ہم سے پہلے لوگوں پر ڈالا گیا، اور ہم پر وہ بوجھ نہ ڈال جس کی ہم میں طاقت نہیں۔ ہمیں معاف فرما، ہمیں بخش دے اور ہم پر رحم فرما۔ تو ہی ہمارا کارساز ہے، پس کافروں کے مقابلے میں ہماری مدد فرما۔"
+    },
+    {
+     "type": "field",
+     "label": "Original source",
+     "text": "Al-Baqarah 2:286 — Complete supplication section of verse; begins after opening statement"
+    },
+    {
+     "type": "link",
+     "text": "https://quran.com/2/286"
+    }
+   ],
+   "arabic": "رَبَّنَا لَا تُؤَاخِذْنَا إِنْ نَسِينَا أَوْ أَخْطَأْنَا رَبَّنَا وَلَا تَحْمِلْ عَلَيْنَا إِصْرًا كَمَا حَمَلْتَهُ عَلَى الَّذِينَ مِنْ قَبْلِنَا رَبَّنَا وَلَا تُحَمِّلْنَا مَا لَا طَاقَةَ لَنَا بِهِ وَاعْفُ عَنَّا وَاغْفِرْ لَنَا وَارْحَمْنَا أَنْتَ مَوْلَانَا فَانْصُرْنَا عَلَى الْقَوْمِ الْكَافِرِينَ",
+   "transliteration": "Rabbanā lā tuʾākhidhnā in nasīnā aw akhṭaʾnā; rabbanā wa-lā taḥmil ʿalaynā iṣran kamā ḥamaltahū ʿalalladhīna min qablinā; rabbanā wa-lā tuḥammilnā mā lā ṭāqata lanā bih; waʿfu ʿannā waghfir lanā warḥamnā; Anta mawlānā fanṣurnā ʿalal-qawmil-kāfirīn.",
+   "english": "Our Lord, do not hold us accountable if we forget or make a mistake. Do not place on us a heavy burden like that placed on those before us, and do not burden us beyond our ability. Pardon us, forgive us and have mercy on us. You are our Protector, so grant us victory over the disbelieving people.",
+   "urdu": "اے ہمارے رب! اگر ہم بھول جائیں یا خطا کر بیٹھیں تو ہماری گرفت نہ فرما۔ ہم پر ایسا بھاری بوجھ نہ ڈال جیسے ہم سے پہلے لوگوں پر ڈالا گیا، اور ہم پر وہ بوجھ نہ ڈال جس کی ہم میں طاقت نہیں۔ ہمیں معاف فرما، ہمیں بخش دے اور ہم پر رحم فرما۔ تو ہی ہمارا کارساز ہے، پس کافروں کے مقابلے میں ہماری مدد فرما۔",
+   "source": "Al-Baqarah 2:286 — Complete supplication section of verse; begins after opening statement",
+   "sourceUrl": "https://quran.com/2/286",
+   "extras": [
+    {
+     "heading": "ORIGINAL REVELATION / HADITH CONTEXT",
+     "blocks": [
+      {
+       "type": "text",
+       "text": "This is the supplication at the end of Surah Al-Baqarah. The opening sentence of verse 2:286 teaches that Allah does not burden a soul beyond its capacity; the subsequent text contains these requests. The last clause is part of the revealed wording and must not be omitted while claiming to teach the complete supplication."
+      }
+     ]
+    }
+   ],
+   "story": [
+    "Imaan had several school assignments and felt overwhelmed when she saw them together on her desk. She and Akhlaq tried dividing them into smaller steps, but the plan still needed an adult’s help. Salaam listened, adjusted what could be completed that evening, and helped them ask their teacher for a fair extension on one task. Later, the family read the final Du’a of Surah Al-Baqarah. Imaan learned that seeking Allah’s help, admitting mistakes and asking trusted adults for support can go together. They began memorization in small sections over many days rather than trying to finish all the Arabic in one sitting."
+   ],
+   "understand": [
+    "This Du’a teaches dependence on Allah, accountability and hope. It does not mean children should be left alone with excessive pressure. Teach the final clause as a request for Allah’s support for believers in the context of faith and opposition; never turn it into hostility toward classmates or neighbors of other religions. Show the complete Qur’anic wording."
+   ],
+   "memorizeSteps": "Listen to the approved full Arabic, repeat one meaningful phrase, combine phrases in order and move gradually to partly hidden text. For a longer selection, save partial mastery and resume next time. A study loop is not a religiously prescribed repetition count.",
+   "chunks": [
+    "رَبَّنَا لَا تُؤَاخِذْنَا إِنْ نَسِينَا أَوْ أَخْطَأْنَا",
+    "رَبَّنَا وَلَا تَحْمِلْ عَلَيْنَا إِصْرًا كَمَا حَمَلْتَهُ عَلَى الَّذِينَ مِنْ قَبْلِنَا",
+    "رَبَّنَا وَلَا تُحَمِّلْنَا مَا لَا طَاقَةَ لَنَا بِهِ",
+    "وَاعْفُ عَنَّا وَاغْفِرْ لَنَا وَارْحَمْنَا",
+    "أَنْتَ مَوْلَانَا فَانْصُرْنَا عَلَى الْقَوْمِ الْكَافِرِينَ"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "Ask a trusted adult for help with one task that feels too difficult to manage alone.",
+   "mission": {
+    "text": "Break a large school task into small safe steps and ask a caregiver when necessary; build five Arabic segments across multiple sessions.",
+    "title": "One step at a time",
+    "feedback": "Asking for support is a wise action, not a weakness."
+   },
+   "reflect": "Which part of a big challenge can I do first, and who can help?",
+   "guidance": {
+    "label": "Parent / teacher guidance",
+    "text": "Full 2:286 supplication text is essential; the Qur’anic wording about disbelievers should be explained faithfully in its context, without directing hostility at individual children. Show the complete verse on tap; memorization may require multiple weeks."
+   }
+  }
+ ]
+}

@@ -1,0 +1,744 @@
+{
+ "volume": 4,
+ "title": "My Salah and Masjid",
+ "intro": "Ten evidence-grounded remembrances that help children move from hearing the Adhan to preparing for Salah, remembering Allah in its different positions, and praising Him afterward.",
+ "sourceDocument": "Zad_al_Qulub_Junior_Volume_04_My_Salah_and_Masjid.docx",
+ "reviewStatus": "Working curriculum text copied verbatim from the supplied DOCX. Qualified scholarly, Arabic, Urdu and pronunciation review is required before release.",
+ "lessons": [
+  {
+   "id": "dua-031",
+   "number": 31,
+   "title": "Answering the Call With Faith",
+   "tagline": "VOLUME 04 / PROPHETIC REMEMBRANCE CONNECTED TO THE ADHAN / BELONGING AND WILLINGNESS TO PRAY",
+   "wordsHeading": "WORDS TO REMEMBER • ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ وَأَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ رَضِيتُ بِاللَّهِ رَبًّا وَبِمُحَمَّدٍ رَسُولًا وَبِالْإِسْلَامِ دِينًا"
+    },
+    {
+     "type": "translit",
+     "text": "Ashhadu an lā ilāha illallāhu waḥdahu lā sharīka lah, wa anna Muḥammadan ʿabduhu wa rasūluh. Raḍītu billāhi rabban, wa bi-Muḥammadin rasūlan, wa bil-Islāmi dīnā."
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "I testify that none is worthy of worship except Allah alone, with no partner, and that Muhammad is His servant and Messenger. I am pleased with Allah as Lord, Muhammad as Messenger, and Islam as my religion."
+    },
+    {
+     "type": "urdu",
+     "text": "میں گواہی دیتا ہوں کہ اللہ کے سوا کوئی معبود نہیں، وہ اکیلا ہے، اس کا کوئی شریک نہیں؛ اور محمد ﷺ اس کے بندے اور رسول ہیں۔ میں اللہ کے رب ہونے، محمد ﷺ کے رسول ہونے اور اسلام کے دین ہونے پر راضی ہوں۔"
+    },
+    {
+     "type": "field",
+     "label": "When to use it",
+     "text": "When hearing the mu’adhdhin (the call to Salah); learn the response to the Adhan in addition to this phrase."
+    },
+    {
+     "type": "field",
+     "label": "Primary evidence",
+     "text": "Sahih Muslim 386  |  Sahih"
+    },
+    {
+     "type": "link",
+     "text": "https://sunnah.com/muslim:386"
+    }
+   ],
+   "arabic": "أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ وَأَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ رَضِيتُ بِاللَّهِ رَبًّا وَبِمُحَمَّدٍ رَسُولًا وَبِالْإِسْلَامِ دِينًا",
+   "transliteration": "Ashhadu an lā ilāha illallāhu waḥdahu lā sharīka lah, wa anna Muḥammadan ʿabduhu wa rasūluh. Raḍītu billāhi rabban, wa bi-Muḥammadin rasūlan, wa bil-Islāmi dīnā.",
+   "english": "I testify that none is worthy of worship except Allah alone, with no partner, and that Muhammad is His servant and Messenger. I am pleased with Allah as Lord, Muhammad as Messenger, and Islam as my religion.",
+   "urdu": "میں گواہی دیتا ہوں کہ اللہ کے سوا کوئی معبود نہیں، وہ اکیلا ہے، اس کا کوئی شریک نہیں؛ اور محمد ﷺ اس کے بندے اور رسول ہیں۔ میں اللہ کے رب ہونے، محمد ﷺ کے رسول ہونے اور اسلام کے دین ہونے پر راضی ہوں۔",
+   "occasion": "When hearing the mu’adhdhin (the call to Salah); learn the response to the Adhan in addition to this phrase.",
+   "source": "Sahih Muslim 386  |  Sahih",
+   "sourceUrl": "https://sunnah.com/muslim:386",
+   "extras": [],
+   "story": [
+    "The sound of the Adhan reached the family while Imaan was arranging her schoolbooks and Akhlaq was choosing a game. They both paused. “This is the call to remember Allah and prepare for Salah,” Salaam explained. Akhlaq was curious about what the words meant, so they listened quietly together. Dadi Jaan helped them practise a special testimony taught for hearing the Adhan. She also explained that we answer the call by repeating the mu’adhdhin’s words, with a different response at the invitation to prayer. Instead of treating the Adhan like background noise, the children decided to give it their attention."
+   ],
+   "understand": [
+    "The Adhan calls Muslims to prayer. In this authentic remembrance, we affirm Allah’s oneness, the message of Muhammad ﷺ, and our satisfaction with Islam. This is a longer lesson; begin with “Raḍītu billāhi rabban” if a child needs a gentle starting point, but show the full text as the learning target. Other responses to the Adhan are also part of the Sunnah and must be taught accurately. The app should guide a child without claiming that saying the phrase alone replaces getting ready for Salah."
+   ],
+   "memorizeSteps": "Hear the full exact source wording from a qualified reciter. Repeat the meaningful Arabic phrases below at a comfortable pace, join the sections, then try gentle text-hidden recall. Study-replay counts never create religious obligations.",
+   "chunks": [
+    "أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللَّهُ",
+    "وَحْدَهُ لَا شَرِيكَ لَهُ",
+    "وَأَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ",
+    "رَضِيتُ بِاللَّهِ رَبًّا",
+    "وَبِمُحَمَّدٍ رَسُولًا",
+    "وَبِالْإِسْلَامِ دِينًا"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "When you next hear the Adhan, pause your activity and listen respectfully.",
+   "mission": {
+    "text": "Listen to an Adhan practice clip, match call sections to their authentic responses, and assemble this separate testimony by audio chunks.",
+    "title": "The call-and-response garden",
+    "feedback": "You listened carefully and learned what the call means."
+   },
+   "reflect": "What can help you prepare for prayer when the Adhan begins?",
+   "guidance": {
+    "label": "Parent / teacher cue",
+    "text": "Teach the correct Adhan-response sequence with Muslim 385 and Bukhari 611. Let children learn gradually; never interrupt obligatory classroom or safety instructions."
+   }
+  },
+  {
+   "id": "dua-032",
+   "number": 32,
+   "title": "A Beautiful Du’a After the Adhan",
+   "tagline": "VOLUME 04 / PROPHETIC SUPPLICATION AFTER THE ADHAN / LOVE FOR THE PROPHET ﷺ AND ATTENTION TO WORSHIP",
+   "wordsHeading": "WORDS TO REMEMBER • ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "اللَّهُمَّ رَبَّ هَذِهِ الدَّعْوَةِ التَّامَّةِ وَالصَّلَاةِ الْقَائِمَةِ آتِ مُحَمَّدًا الْوَسِيلَةَ وَالْفَضِيلَةَ وَابْعَثْهُ مَقَامًا مَحْمُودًا الَّذِي وَعَدْتَهُ"
+    },
+    {
+     "type": "translit",
+     "text": "Allāhumma Rabba hādhihi-d-daʿwati-t-tāmmah waṣ-ṣalāti-l-qā’imah, āti Muḥammadan al-wasīlata wal-faḍīlah, wabʿathhu maqāman maḥmūdan alladhī waʿadtah."
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "O Allah, Lord of this perfect call and the prayer about to be established, grant Muhammad the Wasīlah and special honour, and raise him to the praised station You promised him."
+    },
+    {
+     "type": "urdu",
+     "text": "اے اللہ! اس کامل دعوت اور قائم ہونے والی نماز کے رب! محمد ﷺ کو وسیلہ اور فضیلت عطا فرما اور انہیں وہ مقامِ محمود عطا فرما جس کا تو نے ان سے وعدہ کیا ہے۔"
+    },
+    {
+     "type": "field",
+     "label": "When to use it",
+     "text": "After the Adhan ends; also teach sending blessings on the Prophet ﷺ in the appropriate sequence, as mentioned in Sahih Muslim 384."
+    },
+    {
+     "type": "field",
+     "label": "Primary evidence",
+     "text": "Sahih al-Bukhari 614  |  Sahih"
+    },
+    {
+     "type": "link",
+     "text": "https://sunnah.com/bukhari:614"
+    }
+   ],
+   "arabic": "اللَّهُمَّ رَبَّ هَذِهِ الدَّعْوَةِ التَّامَّةِ وَالصَّلَاةِ الْقَائِمَةِ آتِ مُحَمَّدًا الْوَسِيلَةَ وَالْفَضِيلَةَ وَابْعَثْهُ مَقَامًا مَحْمُودًا الَّذِي وَعَدْتَهُ",
+   "transliteration": "Allāhumma Rabba hādhihi-d-daʿwati-t-tāmmah waṣ-ṣalāti-l-qā’imah, āti Muḥammadan al-wasīlata wal-faḍīlah, wabʿathhu maqāman maḥmūdan alladhī waʿadtah.",
+   "english": "O Allah, Lord of this perfect call and the prayer about to be established, grant Muhammad the Wasīlah and special honour, and raise him to the praised station You promised him.",
+   "urdu": "اے اللہ! اس کامل دعوت اور قائم ہونے والی نماز کے رب! محمد ﷺ کو وسیلہ اور فضیلت عطا فرما اور انہیں وہ مقامِ محمود عطا فرما جس کا تو نے ان سے وعدہ کیا ہے۔",
+   "occasion": "After the Adhan ends; also teach sending blessings on the Prophet ﷺ in the appropriate sequence, as mentioned in Sahih Muslim 384.",
+   "source": "Sahih al-Bukhari 614  |  Sahih",
+   "sourceUrl": "https://sunnah.com/bukhari:614",
+   "extras": [],
+   "story": [
+    "One evening, Imaan heard the Adhan while she was helping Salamah tidy the table. She wanted to learn something more than simply recognising its sound. Dadi Jaan explained that after the call to prayer there is a beautiful supplication for Prophet Muhammad ﷺ. Akhlaq tried to remember the first part, but the sentence felt long. “We can learn one meaningful piece today,” Imaan said. Their father played a careful recitation, then waited while each child repeated a short section. The children were pleased that learning slowly still meant making progress. At the next Adhan, they recognised the opening words without needing a reminder."
+   ],
+   "understand": [
+    "This Du’a asks Allah to grant Prophet Muhammad ﷺ the Wasīlah, special virtue, and the praised station promised to him. It teaches love, respect, and the value of listening to the call for prayer. The narration reports a special virtue for saying it; the game must not convert that spiritual promise into a digital trophy. Use the precise selected source version. Unlike a short Dhikr, this lesson may be revisited many times before the child recalls it confidently."
+   ],
+   "memorizeSteps": "Hear the full exact source wording from a qualified reciter. Repeat the meaningful Arabic phrases below at a comfortable pace, join the sections, then try gentle text-hidden recall. Study-replay counts never create religious obligations.",
+   "chunks": [
+    "اللَّهُمَّ رَبَّ هَذِهِ الدَّعْوَةِ التَّامَّةِ",
+    "وَالصَّلَاةِ الْقَائِمَةِ",
+    "آتِ مُحَمَّدًا الْوَسِيلَةَ وَالْفَضِيلَةَ",
+    "وَابْعَثْهُ مَقَامًا مَحْمُودًا",
+    "الَّذِي وَعَدْتَهُ"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "After one Adhan today, practise the first complete phrase of this Du’a with an adult.",
+   "mission": {
+    "text": "Assemble five audio-supported phrase cards after a virtual Adhan ends, then play the full recitation without a timer.",
+    "title": "The listening lantern",
+    "feedback": "You learned one more piece of a beautiful Du’a."
+   },
+   "reflect": "Why do we speak respectfully when mentioning the Prophet ﷺ?",
+   "guidance": {
+    "label": "Parent / teacher cue",
+    "text": "Teach authentic Adhan response, then Salawat, then this Du’a. Do not add unverified endings to the displayed Arabic."
+   }
+  },
+  {
+   "id": "dua-033",
+   "number": 33,
+   "title": "The Words After Wudu",
+   "tagline": "VOLUME 04 / PROPHETIC REMEMBRANCE AFTER COMPLETING WUDU / CLEANLINESS, PREPARATION AND SINCERITY",
+   "wordsHeading": "WORDS TO REMEMBER • ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللَّهُ وَأَنَّ مُحَمَّدًا عَبْدُ اللَّهِ وَرَسُولُهُ"
+    },
+    {
+     "type": "translit",
+     "text": "Ashhadu an lā ilāha illallāh, wa anna Muḥammadan ʿabdullāhi wa rasūluh."
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "I testify that none is worthy of worship except Allah and that Muhammad is Allah’s servant and Messenger."
+    },
+    {
+     "type": "urdu",
+     "text": "میں گواہی دیتا ہوں کہ اللہ کے سوا کوئی معبود نہیں اور محمد ﷺ اللہ کے بندے اور اس کے رسول ہیں۔"
+    },
+    {
+     "type": "field",
+     "label": "When to use it",
+     "text": "After completing Wudu properly."
+    },
+    {
+     "type": "field",
+     "label": "Primary evidence",
+     "text": "Sahih Muslim 234a  |  Sahih"
+    },
+    {
+     "type": "link",
+     "text": "https://sunnah.com/muslim:234a"
+    }
+   ],
+   "arabic": "أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللَّهُ وَأَنَّ مُحَمَّدًا عَبْدُ اللَّهِ وَرَسُولُهُ",
+   "transliteration": "Ashhadu an lā ilāha illallāh, wa anna Muḥammadan ʿabdullāhi wa rasūluh.",
+   "english": "I testify that none is worthy of worship except Allah and that Muhammad is Allah’s servant and Messenger.",
+   "urdu": "میں گواہی دیتا ہوں کہ اللہ کے سوا کوئی معبود نہیں اور محمد ﷺ اللہ کے بندے اور اس کے رسول ہیں۔",
+   "occasion": "After completing Wudu properly.",
+   "source": "Sahih Muslim 234a  |  Sahih",
+   "sourceUrl": "https://sunnah.com/muslim:234a",
+   "extras": [],
+   "story": [
+    "Akhlaq returned from the playground and wanted to join the family for prayer. He hurried toward the wash area. Imaan reminded him that being ready for Salah includes taking care with Wudu, not just splashing water quickly. Salaam guided him through the necessary steps. When Akhlaq finished, his father taught him the testimony reported after Wudu. Imaan said it slowly so he could hear the words clearly. Akhlaq understood that the next step was not to celebrate how fast he had finished but to approach prayer calmly. He folded his towel and left the wash area tidy for the next person."
+   ],
+   "understand": [
+    "Wudu prepares us for Salah. After completing it, the Prophet ﷺ taught words affirming belief in Allah and His Messenger. We should learn both correct Wudu and the remembrance that follows. The spoken formula is not a replacement for washing properly. Children can memorise it by connecting the first testimony to the second, then saying them together. The app may show Wudu scenes, but exact legal steps and school-of-law details should be approved by a qualified teacher."
+   ],
+   "memorizeSteps": "Hear the full exact source wording from a qualified reciter. Repeat the meaningful Arabic phrases below at a comfortable pace, join the sections, then try gentle text-hidden recall. Study-replay counts never create religious obligations.",
+   "chunks": [
+    "أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللَّهُ",
+    "وَأَنَّ مُحَمَّدًا",
+    "عَبْدُ اللَّهِ وَرَسُولُهُ"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "After your next Wudu, say this testimony once and leave the wash area tidy.",
+   "mission": {
+    "text": "Put the two testimony phrases in order and practise them after a correctly sequenced, teacher-approved Wudu demonstration.",
+    "title": "Ready for prayer",
+    "feedback": "You prepared carefully for worship."
+   },
+   "reflect": "How can we save water and keep the wash area clean?",
+   "guidance": {
+    "label": "Parent / teacher cue",
+    "text": "Use a fiqh-reviewed Wudu tutorial; do not treat game completion as a legal ruling that a child’s Wudu was valid."
+   }
+  },
+  {
+   "id": "dua-034",
+   "number": 34,
+   "title": "Beginning Salah With a Clean Heart",
+   "tagline": "VOLUME 04 / PROPHETIC OPENING SUPPLICATION IN SALAH / HONEST REPENTANCE AND STARTING WELL",
+   "wordsHeading": "WORDS TO REMEMBER • ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "اللَّهُمَّ بَاعِدْ بَيْنِي وَبَيْنَ خَطَايَايَ كَمَا بَاعَدْتَ بَيْنَ الْمَشْرِقِ وَالْمَغْرِبِ اللَّهُمَّ نَقِّنِي مِنَ الْخَطَايَا كَمَا يُنَقَّى الثَّوْبُ الْأَبْيَضُ مِنَ الدَّنَسِ اللَّهُمَّ اغْسِلْ خَطَايَايَ بِالْمَاءِ وَالثَّلْجِ وَالْبَرَدِ"
+    },
+    {
+     "type": "translit",
+     "text": "Allāhumma bāʿid baynī wa bayna khaṭāyāya kamā bāʿadta bayna-l-mashriqi wa-l-maghrib; Allāhumma naqqinī mina-l-khaṭāyā kamā yunaqqa-th-thawbu-l-abyaḍu mina-d-danas; Allāhumma-ghsil khaṭāyāya bi-l-mā’i wa-th-thalji wa-l-barad."
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "O Allah, keep me far from my sins as You have separated the east and west. Purify me of sins as a white garment is cleaned of dirt. Wash away my sins with water, snow and hail."
+    },
+    {
+     "type": "urdu",
+     "text": "اے اللہ! میرے اور میری خطاؤں کے درمیان اتنا فاصلہ کر دے جتنا مشرق و مغرب میں ہے۔ مجھے گناہوں سے اس طرح پاک کر جیسے سفید کپڑا میل سے پاک کیا جاتا ہے۔ میری خطاؤں کو پانی، برف اور اولوں سے دھو دے۔"
+    },
+    {
+     "type": "field",
+     "label": "When to use it",
+     "text": "After the opening Takbir and before Qur’an recitation in Salah; an authentic opening-supplication option."
+    },
+    {
+     "type": "field",
+     "label": "Primary evidence",
+     "text": "Sahih al-Bukhari 744  |  Sahih"
+    },
+    {
+     "type": "link",
+     "text": "https://sunnah.com/bukhari:744"
+    }
+   ],
+   "arabic": "اللَّهُمَّ بَاعِدْ بَيْنِي وَبَيْنَ خَطَايَايَ كَمَا بَاعَدْتَ بَيْنَ الْمَشْرِقِ وَالْمَغْرِبِ اللَّهُمَّ نَقِّنِي مِنَ الْخَطَايَا كَمَا يُنَقَّى الثَّوْبُ الْأَبْيَضُ مِنَ الدَّنَسِ اللَّهُمَّ اغْسِلْ خَطَايَايَ بِالْمَاءِ وَالثَّلْجِ وَالْبَرَدِ",
+   "transliteration": "Allāhumma bāʿid baynī wa bayna khaṭāyāya kamā bāʿadta bayna-l-mashriqi wa-l-maghrib; Allāhumma naqqinī mina-l-khaṭāyā kamā yunaqqa-th-thawbu-l-abyaḍu mina-d-danas; Allāhumma-ghsil khaṭāyāya bi-l-mā’i wa-th-thalji wa-l-barad.",
+   "english": "O Allah, keep me far from my sins as You have separated the east and west. Purify me of sins as a white garment is cleaned of dirt. Wash away my sins with water, snow and hail.",
+   "urdu": "اے اللہ! میرے اور میری خطاؤں کے درمیان اتنا فاصلہ کر دے جتنا مشرق و مغرب میں ہے۔ مجھے گناہوں سے اس طرح پاک کر جیسے سفید کپڑا میل سے پاک کیا جاتا ہے۔ میری خطاؤں کو پانی، برف اور اولوں سے دھو دے۔",
+   "occasion": "After the opening Takbir and before Qur’an recitation in Salah; an authentic opening-supplication option.",
+   "source": "Sahih al-Bukhari 744  |  Sahih",
+   "sourceUrl": "https://sunnah.com/bukhari:744",
+   "extras": [],
+   "story": [
+    "Akhlaq had spoken impatiently to his sister before prayer. He felt uncomfortable even after he apologised. Imaan told him that a good beginning includes making things right with people and asking Allah for forgiveness. Salaam then introduced one authentic supplication the Prophet ﷺ said near the beginning of Salah. Its picture of cleaning a white cloth helped the children understand the idea of purification. They practised just the opening phrase and listened to the whole Du’a. Neither child was expected to learn it immediately. What mattered was approaching Allah with sincerity and a willingness to improve."
+   ],
+   "understand": [
+    "A believer asks Allah to remove wrong actions and purify the heart. This opening Du’a has a powerful image of a clean white garment. The Prophet ﷺ used it after the opening Takbir, before reciting Qur’an. Other authentic opening supplications also exist, so children should not criticise someone who uses a different established option. The words are long and should be taught in meaningful units. In practical life, seeking forgiveness goes with trying to repair a wrong and choosing better behaviour next time."
+   ],
+   "memorizeSteps": "Hear the full exact source wording from a qualified reciter. Repeat the meaningful Arabic phrases below at a comfortable pace, join the sections, then try gentle text-hidden recall. Study-replay counts never create religious obligations.",
+   "chunks": [
+    "اللَّهُمَّ بَاعِدْ بَيْنِي وَبَيْنَ خَطَايَايَ",
+    "كَمَا بَاعَدْتَ بَيْنَ الْمَشْرِقِ وَالْمَغْرِبِ",
+    "اللَّهُمَّ نَقِّنِي مِنَ الْخَطَايَا",
+    "كَمَا يُنَقَّى الثَّوْبُ الْأَبْيَضُ مِنَ الدَّنَسِ",
+    "اللَّهُمَّ اغْسِلْ خَطَايَايَ",
+    "بِالْمَاءِ وَالثَّلْجِ وَالْبَرَدِ"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "Before your next Salah, make peace over one small disagreement if you can do so kindly and safely.",
+   "mission": {
+    "text": "Place the imagery cards (east/west, clean garment, water) alongside the matching Arabic segments; avoid ranking other valid openings as wrong.",
+    "title": "The clean-heart path",
+    "feedback": "A sincere heart is more important than speed."
+   },
+   "reflect": "What can you do when you realise you have made a mistake?",
+   "guidance": {
+    "label": "Parent / teacher cue",
+    "text": "Clearly differentiate sourced wording from visual metaphor; the app is not a substitute for learning Salah’s essentials."
+   }
+  },
+  {
+   "id": "dua-035",
+   "number": 35,
+   "title": "Remembering Allah in Ruku",
+   "tagline": "VOLUME 04 / PROPHETIC REMEMBRANCE IN BOWING / HUMILITY AND RESPECT",
+   "wordsHeading": "WORDS TO REMEMBER • ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "سُبْحَانَ رَبِّيَ الْعَظِيمِ"
+    },
+    {
+     "type": "translit",
+     "text": "Subḥāna Rabbiyal-ʿAẓīm"
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "Glory be to my Lord, the Magnificent."
+    },
+    {
+     "type": "urdu",
+     "text": "پاک ہے میرا رب جو عظمت والا ہے۔"
+    },
+    {
+     "type": "field",
+     "label": "When to use it",
+     "text": "During Ruku (bowing) in Salah."
+    },
+    {
+     "type": "field",
+     "label": "Primary evidence",
+     "text": "Sunan Abi Dawud 871  |  Sahih (al-Albani)"
+    },
+    {
+     "type": "link",
+     "text": "https://sunnah.com/abudawud:871"
+    }
+   ],
+   "arabic": "سُبْحَانَ رَبِّيَ الْعَظِيمِ",
+   "transliteration": "Subḥāna Rabbiyal-ʿAẓīm",
+   "english": "Glory be to my Lord, the Magnificent.",
+   "urdu": "پاک ہے میرا رب جو عظمت والا ہے۔",
+   "occasion": "During Ruku (bowing) in Salah.",
+   "source": "Sunan Abi Dawud 871  |  Sahih (al-Albani)",
+   "sourceUrl": "https://sunnah.com/abudawud:871",
+   "extras": [],
+   "story": [
+    "During a family lesson on Salah, Imaan practised the words said in Ruku while an adult demonstrated the posture. Akhlaq wondered why the phrase was so short. Dadi Jaan explained that a small group of words can carry a very big meaning. We recognise the greatness of Allah and remember that we are His servants. Akhlaq repeated the phrase slowly, paying attention to each letter. Later, when he helped a younger cousin find a lost pencil, he remembered that real humility also means not looking down on other people. His words during prayer and his actions afterward could support each other."
+   ],
+   "understand": [
+    "Ruku is a moment of humility before Allah. The words “Subḥāna Rabbiyal-ʿAẓīm” glorify our magnificent Lord. This is a short, useful phrase for children learning Salah. A careful teacher should support correct pronunciation and the appropriate bowing posture. The app must not turn Ruku into a timed exercise or encourage hurried movements for points. Repetition can be practised in the memorization screen, but devotional counts should follow the approved Salah-teaching guidance."
+   ],
+   "memorizeSteps": "Hear the full exact source wording from a qualified reciter. Repeat the meaningful Arabic phrases below at a comfortable pace, join the sections, then try gentle text-hidden recall. Study-replay counts never create religious obligations.",
+   "chunks": [
+    "سُبْحَانَ",
+    "رَبِّيَ الْعَظِيمِ"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "During your next supervised prayer practice, say the Ruku remembrance calmly without rushing.",
+   "mission": {
+    "text": "Match the Ruku label and audio to the correct Arabic text; a posture guide shows respectful practice, not a speed contest.",
+    "title": "The quiet Ruku match",
+    "feedback": "You practised remembering Allah with care."
+   },
+   "reflect": "What is the difference between being proud of learning and looking down on others?",
+   "guidance": {
+    "label": "Parent / teacher cue",
+    "text": "Review Salah posture and possible school-of-law details; no camera or motion tracking is necessary."
+   }
+  },
+  {
+   "id": "dua-036",
+   "number": 36,
+   "title": "Praise After Rising From Ruku",
+   "tagline": "VOLUME 04 / COMPANION’S REMEMBRANCE APPROVED BY THE PROPHET ﷺ / GRATITUDE EXPRESSED BEAUTIFULLY",
+   "wordsHeading": "WORDS TO REMEMBER • ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "رَبَّنَا وَلَكَ الْحَمْدُ حَمْدًا كَثِيرًا طَيِّبًا مُبَارَكًا فِيهِ"
+    },
+    {
+     "type": "translit",
+     "text": "Rabbanā wa lakal-ḥamd, ḥamdan kathīran ṭayyiban mubārakan fīh."
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "Our Lord, to You belongs praise—abundant, good, and blessed praise."
+    },
+    {
+     "type": "urdu",
+     "text": "اے ہمارے رب! تمام تعریف تیرے ہی لیے ہے، بہت زیادہ، پاکیزہ اور بابرکت تعریف۔"
+    },
+    {
+     "type": "field",
+     "label": "When to use it",
+     "text": "Upon standing upright after Ruku in Salah, in its appropriate place."
+    },
+    {
+     "type": "field",
+     "label": "Primary evidence",
+     "text": "Sahih al-Bukhari 799  |  Sahih"
+    },
+    {
+     "type": "link",
+     "text": "https://sunnah.com/bukhari:799"
+    }
+   ],
+   "arabic": "رَبَّنَا وَلَكَ الْحَمْدُ حَمْدًا كَثِيرًا طَيِّبًا مُبَارَكًا فِيهِ",
+   "transliteration": "Rabbanā wa lakal-ḥamd, ḥamdan kathīran ṭayyiban mubārakan fīh.",
+   "english": "Our Lord, to You belongs praise—abundant, good, and blessed praise.",
+   "urdu": "اے ہمارے رب! تمام تعریف تیرے ہی لیے ہے، بہت زیادہ، پاکیزہ اور بابرکت تعریف۔",
+   "occasion": "Upon standing upright after Ruku in Salah, in its appropriate place.",
+   "source": "Sahih al-Bukhari 799  |  Sahih",
+   "sourceUrl": "https://sunnah.com/bukhari:799",
+   "extras": [],
+   "story": [
+    "Imaan noticed that some moments in Salah include praise while others include a request for help. Salaam showed the children an authentic report about a Companion who said wonderful words of praise after rising from Ruku. The Prophet ﷺ approved of those words. Akhlaq liked learning the history behind the phrase. “So we must be accurate about who said it,” he observed. Dadi Jaan agreed. They tried the shorter opening and gradually added the rest. That afternoon Imaan thanked Salamah for helping her organise her homework, realising that gratitude should also appear in everyday speech."
+   ],
+   "understand": [
+    "This remembrance offers abundant, good and blessed praise to Allah. In the report in Sahih al-Bukhari, the words came from a Companion and were approved by the Prophet ﷺ. That distinction matters: Islamic learning should tell the story faithfully. The child can begin with the first phrase, then extend it. As they learn, adults should explain where standing after Ruku fits within Salah, rather than presenting every remembered phrase as interchangeable during prayer."
+   ],
+   "memorizeSteps": "Hear the full exact source wording from a qualified reciter. Repeat the meaningful Arabic phrases below at a comfortable pace, join the sections, then try gentle text-hidden recall. Study-replay counts never create religious obligations.",
+   "chunks": [
+    "رَبَّنَا وَلَكَ الْحَمْدُ",
+    "حَمْدًا كَثِيرًا",
+    "طَيِّبًا مُبَارَكًا فِيهِ"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "Say one sincere thank-you to someone who helped you today.",
+   "mission": {
+    "text": "Drag three meaning cards into the correct order as the phrase is recited, then see the original Companion-approved source note.",
+    "title": "The gratitude steps",
+    "feedback": "You recognised beautiful praise and remembered to thank others."
+   },
+   "reflect": "What blessing did you notice today that you nearly overlooked?",
+   "guidance": {
+    "label": "Parent / teacher cue",
+    "text": "Do not attribute the phrase as direct speech of the Prophet ﷺ in this hadith. Teach placement with a qualified Salah instructor."
+   }
+  },
+  {
+   "id": "dua-037",
+   "number": 37,
+   "title": "Remembering Allah in Sujud",
+   "tagline": "VOLUME 04 / PROPHETIC REMEMBRANCE IN PROSTRATION / HUMILITY AND CLOSENESS TO ALLAH",
+   "wordsHeading": "WORDS TO REMEMBER • ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "سُبْحَانَ رَبِّيَ الْأَعْلَى"
+    },
+    {
+     "type": "translit",
+     "text": "Subḥāna Rabbiyal-Aʿlā"
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "Glory be to my Lord, the Most High."
+    },
+    {
+     "type": "urdu",
+     "text": "پاک ہے میرا رب جو سب سے بلند ہے۔"
+    },
+    {
+     "type": "field",
+     "label": "When to use it",
+     "text": "During Sujud (prostration) in Salah."
+    },
+    {
+     "type": "field",
+     "label": "Primary evidence",
+     "text": "Sunan Abi Dawud 871  |  Sahih (al-Albani)"
+    },
+    {
+     "type": "link",
+     "text": "https://sunnah.com/abudawud:871"
+    }
+   ],
+   "arabic": "سُبْحَانَ رَبِّيَ الْأَعْلَى",
+   "transliteration": "Subḥāna Rabbiyal-Aʿlā",
+   "english": "Glory be to my Lord, the Most High.",
+   "urdu": "پاک ہے میرا رب جو سب سے بلند ہے۔",
+   "occasion": "During Sujud (prostration) in Salah.",
+   "source": "Sunan Abi Dawud 871  |  Sahih (al-Albani)",
+   "sourceUrl": "https://sunnah.com/abudawud:871",
+   "extras": [],
+   "story": [
+    "Akhlaq learned that Sujud is a special part of prayer, and he asked why people put their foreheads on the ground. Salaam explained that worship teaches us humility before our Creator. With a calm adult demonstration, the children learnt the words “Subḥāna Rabbiyal-Aʿlā.” Imaan noticed how the words differed from the Ruku remembrance, though both glorified Allah. They practised saying each in its proper place. Later, Akhlaq was tempted to boast about finishing a puzzle first, but he chose to encourage his sister instead. He was learning that humility is shown beyond the prayer mat too."
+   ],
+   "understand": [
+    "During Sujud we say “Subḥāna Rabbiyal-Aʿlā,” glorifying our Lord, the Most High. It sounds similar to the Ruku remembrance but uses a different final word, so learners need careful audio practice. Sujud is not something to rush or imitate unsafely. Qualified adults should teach the physical movements and the rules of Salah. In the app, a young learner can memorise audio and meaning without being required to imitate the posture on camera."
+   ],
+   "memorizeSteps": "Hear the full exact source wording from a qualified reciter. Repeat the meaningful Arabic phrases below at a comfortable pace, join the sections, then try gentle text-hidden recall. Study-replay counts never create religious obligations.",
+   "chunks": [
+    "سُبْحَانَ",
+    "رَبِّيَ الْأَعْلَى"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "In your next Salah practice, recite the Sujud remembrance thoughtfully and do not rush.",
+   "mission": {
+    "text": "Listen to two closely related phrases, identify “al-ʿAẓīm” versus “al-Aʿlā,” and place each in its authentic prayer location.",
+    "title": "Ruku or Sujud?",
+    "feedback": "You remembered that each part of Salah has its own words."
+   },
+   "reflect": "How can we show humility when playing or learning with friends?",
+   "guidance": {
+    "label": "Parent / teacher cue",
+    "text": "Support movement safely and adapt to a child’s physical needs; never require performance videos."
+   }
+  },
+  {
+   "id": "dua-038",
+   "number": 38,
+   "title": "A Du’a Between Two Sujuds",
+   "tagline": "VOLUME 04 / PROPHETIC SUPPLICATION WHILE SITTING BETWEEN PROSTRATIONS / HUMILITY, FORGIVENESS AND MAKING THINGS RIGHT",
+   "wordsHeading": "WORDS TO REMEMBER • ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "رَبِّ اغْفِرْ لِي رَبِّ اغْفِرْ لِي"
+    },
+    {
+     "type": "translit",
+     "text": "Rabbi-ghfir lī, Rabbi-ghfir lī."
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "My Lord, forgive me. My Lord, forgive me."
+    },
+    {
+     "type": "urdu",
+     "text": "اے میرے رب! مجھے بخش دے۔ اے میرے رب! مجھے بخش دے۔"
+    },
+    {
+     "type": "field",
+     "label": "When to use it",
+     "text": "While seated between the two Sujuds in Salah."
+    },
+    {
+     "type": "field",
+     "label": "Primary evidence",
+     "text": "Sunan Abi Dawud 874  |  Sahih (al-Albani)"
+    },
+    {
+     "type": "link",
+     "text": "https://sunnah.com/abudawud:874"
+    }
+   ],
+   "arabic": "رَبِّ اغْفِرْ لِي رَبِّ اغْفِرْ لِي",
+   "transliteration": "Rabbi-ghfir lī, Rabbi-ghfir lī.",
+   "english": "My Lord, forgive me. My Lord, forgive me.",
+   "urdu": "اے میرے رب! مجھے بخش دے۔ اے میرے رب! مجھے بخش دے۔",
+   "occasion": "While seated between the two Sujuds in Salah.",
+   "source": "Sunan Abi Dawud 874  |  Sahih (al-Albani)",
+   "sourceUrl": "https://sunnah.com/abudawud:874",
+   "extras": [],
+   "story": [
+    "The children were revising the order of Salah with their teacher. Akhlaq remembered standing, bowing and prostrating, but he was uncertain about the sitting between the two Sujuds. The teacher showed him the sequence and taught a gentle, short supplication asking Allah for forgiveness. “These words are easy to hear but important to mean,” Imaan said. At home, Akhlaq remembered a time he had blamed another child unfairly. He spoke to his parents about apologising. Asking Allah for forgiveness became more than a sound to repeat; it reminded him to correct his behaviour whenever possible."
+   ],
+   "understand": [
+    "The Du’a “Rabbi-ghfir lī” is a direct request: “My Lord, forgive me.” The cited report repeats the phrase while sitting between the two prostrations. When learning this in Salah, children must know the correct place for it, not only the Arabic words. We can also explain that forgiveness includes turning away from a wrong and repairing harm where possible. The app should teach a gentle self-check, never shame children or require them to disclose private mistakes."
+   ],
+   "memorizeSteps": "Hear the full exact source wording from a qualified reciter. Repeat the meaningful Arabic phrases below at a comfortable pace, join the sections, then try gentle text-hidden recall. Study-replay counts never create religious obligations.",
+   "chunks": [
+    "رَبِّ اغْفِرْ لِي",
+    "رَبِّ اغْفِرْ لِي"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "If you have spoken unfairly to someone, apologise kindly today when it is safe and appropriate.",
+   "mission": {
+    "text": "Guide the virtual prayer sequence to the sitting moment, listen twice to the short Du’a, and practise its meaning without scoring personal mistakes.",
+    "title": "The forgiveness pause",
+    "feedback": "You are learning how to ask forgiveness and act better."
+   },
+   "reflect": "What is one kind way to make a mistake right?",
+   "guidance": {
+    "label": "Parent / teacher cue",
+    "text": "Avoid asking for confessions. Reinforce repentance with compassionate, developmentally suitable guidance."
+   }
+  },
+  {
+   "id": "dua-039",
+   "number": 39,
+   "title": "Sending Blessings on Our Beloved Prophet ﷺ",
+   "tagline": "VOLUME 04 / PROPHETIC TEACHING OF SALAWAT (IBRAHIMIYYAH) / LOVE, RESPECT AND PATIENT MEMORIZATION",
+   "wordsHeading": "WORDS TO REMEMBER • ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ وَعَلَى آلِ مُحَمَّدٍ كَمَا صَلَّيْتَ عَلَى إِبْرَاهِيمَ وَعَلَى آلِ إِبْرَاهِيمَ إِنَّكَ حَمِيدٌ مَجِيدٌ اللَّهُمَّ بَارِكْ عَلَى مُحَمَّدٍ وَعَلَى آلِ مُحَمَّدٍ كَمَا بَارَكْتَ عَلَى إِبْرَاهِيمَ وَعَلَى آلِ إِبْرَاهِيمَ إِنَّكَ حَمِيدٌ مَجِيدٌ"
+    },
+    {
+     "type": "translit",
+     "text": "Allāhumma ṣalli ʿalā Muḥammadin wa ʿalā āli Muḥammad, kamā ṣallayta ʿalā Ibrāhīma wa ʿalā āli Ibrāhīm, innaka Ḥamīdun Majīd. Allāhumma bārik ʿalā Muḥammadin wa ʿalā āli Muḥammad, kamā bārakta ʿalā Ibrāhīma wa ʿalā āli Ibrāhīm, innaka Ḥamīdun Majīd."
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "O Allah, send blessings upon Muhammad and the family of Muhammad, as You sent blessings upon Ibrahim and his family; You are Praiseworthy, Glorious. O Allah, bless Muhammad and his family as You blessed Ibrahim and his family; You are Praiseworthy, Glorious."
+    },
+    {
+     "type": "urdu",
+     "text": "اے اللہ! محمد ﷺ اور ان کی آل پر رحمتیں نازل فرما، جیسے تو نے ابراہیم اور ان کی آل پر رحمتیں نازل فرمائیں۔ بے شک تو قابلِ تعریف، بزرگی والا ہے۔ اے اللہ! محمد ﷺ اور ان کی آل پر برکت نازل فرما، جیسے تو نے ابراہیم اور ان کی آل پر برکت نازل فرمائی۔ بے شک تو قابلِ تعریف، بزرگی والا ہے۔"
+    },
+    {
+     "type": "field",
+     "label": "When to use it",
+     "text": "When sending blessings on the Prophet ﷺ; commonly taught in the sitting portion of Salah according to established school-specific instruction."
+    },
+    {
+     "type": "field",
+     "label": "Primary evidence",
+     "text": "Sahih al-Bukhari 3370  |  Sahih"
+    },
+    {
+     "type": "link",
+     "text": "https://sunnah.com/bukhari:3370"
+    }
+   ],
+   "arabic": "اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ وَعَلَى آلِ مُحَمَّدٍ كَمَا صَلَّيْتَ عَلَى إِبْرَاهِيمَ وَعَلَى آلِ إِبْرَاهِيمَ إِنَّكَ حَمِيدٌ مَجِيدٌ اللَّهُمَّ بَارِكْ عَلَى مُحَمَّدٍ وَعَلَى آلِ مُحَمَّدٍ كَمَا بَارَكْتَ عَلَى إِبْرَاهِيمَ وَعَلَى آلِ إِبْرَاهِيمَ إِنَّكَ حَمِيدٌ مَجِيدٌ",
+   "transliteration": "Allāhumma ṣalli ʿalā Muḥammadin wa ʿalā āli Muḥammad, kamā ṣallayta ʿalā Ibrāhīma wa ʿalā āli Ibrāhīm, innaka Ḥamīdun Majīd. Allāhumma bārik ʿalā Muḥammadin wa ʿalā āli Muḥammad, kamā bārakta ʿalā Ibrāhīma wa ʿalā āli Ibrāhīm, innaka Ḥamīdun Majīd.",
+   "english": "O Allah, send blessings upon Muhammad and the family of Muhammad, as You sent blessings upon Ibrahim and his family; You are Praiseworthy, Glorious. O Allah, bless Muhammad and his family as You blessed Ibrahim and his family; You are Praiseworthy, Glorious.",
+   "urdu": "اے اللہ! محمد ﷺ اور ان کی آل پر رحمتیں نازل فرما، جیسے تو نے ابراہیم اور ان کی آل پر رحمتیں نازل فرمائیں۔ بے شک تو قابلِ تعریف، بزرگی والا ہے۔ اے اللہ! محمد ﷺ اور ان کی آل پر برکت نازل فرما، جیسے تو نے ابراہیم اور ان کی آل پر برکت نازل فرمائی۔ بے شک تو قابلِ تعریف، بزرگی والا ہے۔",
+   "occasion": "When sending blessings on the Prophet ﷺ; commonly taught in the sitting portion of Salah according to established school-specific instruction.",
+   "source": "Sahih al-Bukhari 3370  |  Sahih",
+   "sourceUrl": "https://sunnah.com/bukhari:3370",
+   "extras": [],
+   "story": [
+    "Imaan heard Dadi Jaan sending blessings upon the Prophet Muhammad ﷺ and asked about the longer words taught in Salah. Their teacher explained that the Companions asked the Prophet ﷺ how to send blessings upon him. Akhlaq mixed up two similar sections, so Imaan arranged phrase cards: one started with “ṣalli,” the other with “bārik.” Salaam helped them listen for the difference. They decided to learn one short section at a time, with patience and love."
+   ],
+   "understand": [
+    "Salawat expresses love and blessings for the Prophet ﷺ and his family. This full wording follows one authentic narration in Bukhari. It has two similar halves and is best memorized gradually with carefully matched audio. Some families know a different authenticated version; the app should identify the chosen source rather than mark every valid variation as an error."
+   ],
+   "memorizeSteps": "Hear the full exact source wording from a qualified reciter. Repeat the meaningful Arabic phrases below at a comfortable pace, join the sections, then try gentle text-hidden recall. Study-replay counts never create religious obligations.",
+   "chunks": [
+    "اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ",
+    "وَعَلَى آلِ مُحَمَّدٍ",
+    "كَمَا صَلَّيْتَ عَلَى إِبْرَاهِيمَ",
+    "وَعَلَى آلِ إِبْرَاهِيمَ",
+    "إِنَّكَ حَمِيدٌ مَجِيدٌ",
+    "اللَّهُمَّ بَارِكْ عَلَى مُحَمَّدٍ",
+    "وَعَلَى آلِ مُحَمَّدٍ",
+    "كَمَا بَارَكْتَ عَلَى إِبْرَاهِيمَ",
+    "وَعَلَى آلِ إِبْرَاهِيمَ",
+    "إِنَّكَ حَمِيدٌ مَجِيدٌ"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "Practise the first complete Salawat section with a family member today.",
+   "mission": {
+    "text": "Build two parallel phrase bridges for “ṣalli” and “bārik,” with replayable audio, colour-coded sections and full-text listen mode.",
+    "title": "The two blessing bridges",
+    "feedback": "Patient learning helps beautiful words stay with you."
+   },
+   "reflect": "How do we show love and respect when speaking about the Prophet ﷺ?",
+   "guidance": {
+    "label": "Parent / teacher cue",
+    "text": "Accept other teacher-approved, authenticated variants without penalties."
+   }
+  },
+  {
+   "id": "dua-040",
+   "number": 40,
+   "title": "Remembering Allah After Salah",
+   "tagline": "VOLUME 04 / PROPHETIC REMEMBRANCE SEQUENCE AFTER SALAH / CONSISTENCY, THANKFULNESS AND FOCUS",
+   "wordsHeading": "WORDS TO REMEMBER • ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "سُبْحَانَ اللَّهِ   الْحَمْدُ لِلَّهِ   اللَّهُ أَكْبَرُ   لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ"
+    },
+    {
+     "type": "translit",
+     "text": "Subḥānallāh (33), al-ḥamdu lillāh (33), Allāhu akbar (33), then: lā ilāha illallāhu waḥdahu lā sharīka lah, lahu-l-mulku wa lahu-l-ḥamd, wa huwa ʿalā kulli shay’in qadīr."
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "Glory be to Allah (33 times); all praise belongs to Allah (33 times); Allah is greatest (33 times); then: none is worthy of worship except Allah alone, without partner. His is the kingdom and praise, and He has power over all things."
+    },
+    {
+     "type": "urdu",
+     "text": "سبحان اللہ تینتیس بار، الحمدللہ تینتیس بار، اللہ اکبر تینتیس بار؛ پھر: اللہ کے سوا کوئی معبود نہیں، وہ اکیلا ہے، اس کا کوئی شریک نہیں؛ اسی کی بادشاہی اور تعریف ہے اور وہ ہر چیز پر قادر ہے۔"
+    },
+    {
+     "type": "field",
+     "label": "When to use it",
+     "text": "After the prescribed Salah, as one authentic post-prayer remembrance sequence."
+    },
+    {
+     "type": "field",
+     "label": "Primary evidence",
+     "text": "Sahih Muslim 597a  |  Sahih"
+    },
+    {
+     "type": "link",
+     "text": "https://sunnah.com/muslim:597a"
+    }
+   ],
+   "arabic": "سُبْحَانَ اللَّهِ   الْحَمْدُ لِلَّهِ   اللَّهُ أَكْبَرُ   لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ",
+   "transliteration": "Subḥānallāh (33), al-ḥamdu lillāh (33), Allāhu akbar (33), then: lā ilāha illallāhu waḥdahu lā sharīka lah, lahu-l-mulku wa lahu-l-ḥamd, wa huwa ʿalā kulli shay’in qadīr.",
+   "english": "Glory be to Allah (33 times); all praise belongs to Allah (33 times); Allah is greatest (33 times); then: none is worthy of worship except Allah alone, without partner. His is the kingdom and praise, and He has power over all things.",
+   "urdu": "سبحان اللہ تینتیس بار، الحمدللہ تینتیس بار، اللہ اکبر تینتیس بار؛ پھر: اللہ کے سوا کوئی معبود نہیں، وہ اکیلا ہے، اس کا کوئی شریک نہیں؛ اسی کی بادشاہی اور تعریف ہے اور وہ ہر چیز پر قادر ہے۔",
+   "occasion": "After the prescribed Salah, as one authentic post-prayer remembrance sequence.",
+   "source": "Sahih Muslim 597a  |  Sahih",
+   "sourceUrl": "https://sunnah.com/muslim:597a",
+   "extras": [],
+   "story": [
+    "After prayer, Akhlaq was ready to dash off to his toys. Dadi Jaan asked whether he knew that there are remembrances we can say after Salah. Imaan already knew “Subḥānallāh” and “Al-ḥamdu lillāh,” but she did not know how they could be joined in one authentic sequence. Salaam showed them a small counter with no loud sounds or flashing rewards. They practised slowly, remembering that the counts belonged to this particular reported form. When Akhlaq lost count, he simply started his practice again without frustration. The children discovered that a few calm moments after prayer could become a pleasant habit."
+   ],
+   "understand": [
+    "The Prophet ﷺ taught specific remembrances following Salah. In this authentic report, each of three phrases is said thirty-three times, followed by the longer statement of Allah’s oneness to complete one hundred. Children may initially practise without attempting the whole sequence independently. Unlike normal study repetitions, these numbers belong to the sourced religious practice. The app must keep the actual devotional sequence distinct from optional learning replay, and support other authenticated post-Salah forms when approved."
+   ],
+   "memorizeSteps": "Hear the full exact source wording from a qualified reciter. Repeat the meaningful Arabic phrases below at a comfortable pace, join the sections, then try gentle text-hidden recall. Study-replay counts never create religious obligations.",
+   "chunks": [
+    "سُبْحَانَ اللَّهِ",
+    "الْحَمْدُ لِلَّهِ",
+    "اللَّهُ أَكْبَرُ",
+    "لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ",
+    "لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ",
+    "وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "After one Salah today, practise this complete sequence with an adult or slowly work toward it with their help.",
+   "mission": {
+    "text": "Offer an accessible optional counter for 33/33/33 + closing formula, with no streak penalties, confetti pressure or claim to measure spiritual reward.",
+    "title": "The calm tasbeeh counter",
+    "feedback": "You gave a quiet moment to remembering Allah."
+   },
+   "reflect": "How did you feel when you stayed calm after prayer?",
+   "guidance": {
+    "label": "Parent / teacher cue",
+    "text": "Counting should aid devotion, not turn Salah into a contest. Preserve alternate authentic count options for future release."
+   }
+  }
+ ]
+}

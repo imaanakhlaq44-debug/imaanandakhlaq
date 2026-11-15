@@ -1,0 +1,752 @@
+{
+ "volume": 10,
+ "title": "Treasures of the Sunnah",
+ "intro": "Ten new authentic Prophetic supplications: from forgiveness and beautiful character to reliance on Allah, travel, thoughtful decisions and comprehensive prayer.",
+ "sourceDocument": "Zad_al_Qulub_Junior_Volume_10_Treasures_of_the_Sunnah.docx",
+ "reviewStatus": "Working curriculum text copied verbatim from the supplied DOCX. Qualified scholarly, Arabic, Urdu and pronunciation review is required before release.",
+ "lessons": [
+  {
+   "id": "dua-091",
+   "number": 91,
+   "title": "The Night of Forgiveness",
+   "tagline": "VOLUME 10 / PROPHETIC DU’A • COMPLETE WORDING",
+   "wordsHeading": "WORDS TO REMEMBER • AUTHENTIC ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "اللَّهُمَّ إِنَّكَ عَفُوٌّ تُحِبُّ الْعَفْوَ فَاعْفُ عَنِّي"
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "O Allah, You are Pardoning, You love to pardon, so pardon me."
+    },
+    {
+     "type": "urdu",
+     "text": "اے اللہ! بے شک تو معاف فرمانے والا ہے، معافی کو پسند کرتا ہے، پس مجھے معاف فرما۔"
+    },
+    {
+     "type": "field",
+     "label": "Original source",
+     "text": "Sunan Ibn Majah 3850 — Sahih (Darussalam); Laylat al-Qadr"
+    },
+    {
+     "type": "link",
+     "text": "https://sunnah.com/ibnmajah:3850"
+    }
+   ],
+   "arabic": "اللَّهُمَّ إِنَّكَ عَفُوٌّ تُحِبُّ الْعَفْوَ فَاعْفُ عَنِّي",
+   "english": "O Allah, You are Pardoning, You love to pardon, so pardon me.",
+   "urdu": "اے اللہ! بے شک تو معاف فرمانے والا ہے، معافی کو پسند کرتا ہے، پس مجھے معاف فرما۔",
+   "source": "Sunan Ibn Majah 3850 — Sahih (Darussalam); Laylat al-Qadr",
+   "sourceUrl": "https://sunnah.com/ibnmajah:3850",
+   "extras": [
+    {
+     "heading": "ORIGINAL HADITH CONTEXT",
+     "blocks": [
+      {
+       "type": "text",
+       "text": "ʿĀʾishah (RA) asked the Prophet ﷺ what she should say if she encountered Laylat al-Qadr. He taught her these words. The present memorization text follows the wording in Ibn Majah 3850, without the additional word “Karīm” reported in a separate printed version of Tirmidhi 3513. Do not blend narrations."
+      }
+     ]
+    }
+   ],
+   "story": [
+    "Ramadan evenings were special in Salam and Salamah’s home. Imaan was trying to keep a small good-deeds diary, but she remembered teasing Akhlaq earlier that day. Her smile faded. Dadi Jaan listened and reminded her that seeking Allah’s pardon also means trying to repair the wrong. Imaan apologized to her brother. Then they listened carefully as Salamah taught a beautiful supplication that the Prophet ﷺ gave to ʿĀʾishah (RA). “Even a short Duʿa can carry a great meaning,” said Salamah. Imaan decided to learn its words and say them sincerely during the blessed nights of Ramadan."
+   ],
+   "understand": [
+    "Al-ʿAfūw is Allah, Who pardons. When we ask Allah to pardon us, we do not pretend that our mistake never mattered. We admit it, ask forgiveness, and try to improve. Laylat al-Qadr is the original special context of this reported Duʿa; children can learn it throughout the year without inventing a required daily count."
+   ],
+   "memorizeSteps": "Listen to the full approved Arabic once; learn one short segment at a time; repeat with a qualified reciter; combine the segments without changing a word; return on days 1, 3, 7, 14 and 30 (suggested study reminders, not Sunnah repetition counts).",
+   "chunks": [
+    "اللَّهُمَّ إِنَّكَ عَفُوٌّ",
+    "تُحِبُّ الْعَفْوَ",
+    "فَاعْفُ عَنِّي"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "Apologize sincerely for one mistake you have made, if there is someone you need to apologize to.",
+   "mission": {
+    "text": "The gentle repair: choose the kindest response after Imaan realizes she has hurt Akhlaq; then rebuild the three Arabic segments.",
+    "feedback": "Seeking pardon and repairing harm belong together."
+   },
+   "reflect": "What makes an apology sincere?",
+   "guidance": {
+    "label": "Parent / teacher guidance",
+    "text": "Discuss Laylat al-Qadr gently. The child must not be pressured to disclose a personal sin to the app or to other people. Recitation count: no fixed count in the selected narration."
+   }
+  },
+  {
+   "id": "dua-092",
+   "number": 92,
+   "title": "Choose Beautiful Character",
+   "tagline": "VOLUME 10 / PROPHETIC DU’A • CONTIGUOUS EXCERPT",
+   "wordsHeading": "WORDS TO REMEMBER • AUTHENTIC ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "وَاهْدِنِي لِأَحْسَنِ الْأَخْلَاقِ لَا يَهْدِي لِأَحْسَنِهَا إِلَّا أَنْتَ وَاصْرِفْ عَنِّي سَيِّئَهَا لَا يَصْرِفُ عَنِّي سَيِّئَهَا إِلَّا أَنْتَ"
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "Guide me to the best character; no one guides to the best character except You. Turn bad character away from me; no one turns it away except You."
+    },
+    {
+     "type": "urdu",
+     "text": "مجھے بہترین اخلاق کی ہدایت دے، کیونکہ تیرے سوا کوئی بہترین اخلاق کی راہ نہیں دکھا سکتا۔ اور برے اخلاق کو مجھ سے دور فرما، کیونکہ تیرے سوا کوئی اسے دور نہیں کر سکتا۔"
+    },
+    {
+     "type": "field",
+     "label": "Original source",
+     "text": "Sahih Muslim 771a — excerpt from a longer night-prayer opening supplication"
+    },
+    {
+     "type": "link",
+     "text": "https://sunnah.com/muslim:771a"
+    }
+   ],
+   "arabic": "وَاهْدِنِي لِأَحْسَنِ الْأَخْلَاقِ لَا يَهْدِي لِأَحْسَنِهَا إِلَّا أَنْتَ وَاصْرِفْ عَنِّي سَيِّئَهَا لَا يَصْرِفُ عَنِّي سَيِّئَهَا إِلَّا أَنْتَ",
+   "english": "Guide me to the best character; no one guides to the best character except You. Turn bad character away from me; no one turns it away except You.",
+   "urdu": "مجھے بہترین اخلاق کی ہدایت دے، کیونکہ تیرے سوا کوئی بہترین اخلاق کی راہ نہیں دکھا سکتا۔ اور برے اخلاق کو مجھ سے دور فرما، کیونکہ تیرے سوا کوئی اسے دور نہیں کر سکتا۔",
+   "source": "Sahih Muslim 771a — excerpt from a longer night-prayer opening supplication",
+   "sourceUrl": "https://sunnah.com/muslim:771a",
+   "extras": [
+    {
+     "heading": "ORIGINAL HADITH CONTEXT",
+     "blocks": [
+      {
+       "type": "text",
+       "text": "The words occur within a much longer opening supplication that the Prophet ﷺ recited when standing for night prayer, as reported by ʿAli (RA). Here we teach a continuous, accurately labelled excerpt, not a separately reported daily formula with its own time or count."
+      }
+     ]
+    }
+   ],
+   "story": [
+    "Akhlaq was leading a team game at school. When his friends disagreed, he wanted to insist on his own idea. Imaan noticed his impatient voice. Later, their father asked, “What makes a good leader?” Akhlaq said, “Someone who wins.” Salaam smiled: “Someone who knows how to listen and act fairly.” That evening they learned that the Prophet ﷺ asked Allah for the finest character. Akhlaq began to see that good character is not merely being polite when everything goes our way; it is choosing kindness even when we are frustrated."
+   ],
+   "understand": [
+    "Akhlaq includes truthfulness, gentleness, fairness, patience and control over our reactions. The supplication teaches that we need Allah’s guidance to strengthen these qualities. It is part of an established prayer narration; the app must not turn it into a fixed recitation before every class or game."
+   ],
+   "memorizeSteps": "Listen to the full approved Arabic once; learn one short segment at a time; repeat with a qualified reciter; combine the segments without changing a word; return on days 1, 3, 7, 14 and 30 (suggested study reminders, not Sunnah repetition counts).",
+   "chunks": [
+    "وَاهْدِنِي لِأَحْسَنِ الْأَخْلَاقِ",
+    "لَا يَهْدِي لِأَحْسَنِهَا إِلَّا أَنْتَ",
+    "وَاصْرِفْ عَنِّي سَيِّئَهَا",
+    "لَا يَصْرِفُ عَنِّي سَيِّئَهَا إِلَّا أَنْتَ"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "Let another person finish speaking before you respond during one conversation today.",
+   "mission": {
+    "text": "The teamwork crossroads: choose between interrupting, blaming, or listening; arrange the Arabic phrases after the story.",
+    "feedback": "Listening is a strong form of respect."
+   },
+   "reflect": "When is it hardest for me to be patient with others?",
+   "guidance": {
+    "label": "Parent / teacher guidance",
+    "text": "Keep Arabic labelled as an excerpt, with an Open Full Hadith button. For younger children use audio listening without requiring full recitation."
+   }
+  },
+  {
+   "id": "dua-093",
+   "number": 93,
+   "title": "Protect the Blessings We Have",
+   "tagline": "VOLUME 10 / PROPHETIC DU’A • COMPLETE WORDING",
+   "wordsHeading": "WORDS TO REMEMBER • AUTHENTIC ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ زَوَالِ نِعْمَتِكَ وَتَحَوُّلِ عَافِيَتِكَ وَفُجَاءَةِ نِقْمَتِكَ وَجَمِيعِ سَخَطِكَ"
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "O Allah, I seek Your protection from the disappearance of Your blessing, the loss of well-being You have given, Your sudden punishment, and everything that brings Your displeasure."
+    },
+    {
+     "type": "urdu",
+     "text": "اے اللہ! میں تیری پناہ مانگتا ہوں تیری نعمت کے زائل ہونے سے، تیری دی ہوئی عافیت کے بدل جانے سے، تیری اچانک گرفت سے، اور تیری ہر ناراضی سے۔"
+    },
+    {
+     "type": "field",
+     "label": "Original source",
+     "text": "Sahih Muslim 2739 — supplication seeking refuge from loss of blessings"
+    },
+    {
+     "type": "link",
+     "text": "https://sunnah.com/muslim:2739"
+    }
+   ],
+   "arabic": "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ زَوَالِ نِعْمَتِكَ وَتَحَوُّلِ عَافِيَتِكَ وَفُجَاءَةِ نِقْمَتِكَ وَجَمِيعِ سَخَطِكَ",
+   "english": "O Allah, I seek Your protection from the disappearance of Your blessing, the loss of well-being You have given, Your sudden punishment, and everything that brings Your displeasure.",
+   "urdu": "اے اللہ! میں تیری پناہ مانگتا ہوں تیری نعمت کے زائل ہونے سے، تیری دی ہوئی عافیت کے بدل جانے سے، تیری اچانک گرفت سے، اور تیری ہر ناراضی سے۔",
+   "source": "Sahih Muslim 2739 — supplication seeking refuge from loss of blessings",
+   "sourceUrl": "https://sunnah.com/muslim:2739",
+   "extras": [
+    {
+     "heading": "ORIGINAL HADITH CONTEXT",
+     "blocks": [
+      {
+       "type": "text",
+       "text": "ʿAbdullāh ibn ʿUmar (RA) reported this among the supplications of the Messenger of Allah ﷺ. It asks protection against the loss of blessings and well-being. It is not a promise that sickness or hardship will never occur."
+      }
+     ]
+    }
+   ],
+   "story": [
+    "On Saturday, Imaan helped Salamah water the small plants outside their home. Akhlaq was eager to run inside, but his grandmother asked him to notice the clean water, warm sunlight, and healthy leaves. “These are blessings too,” she said. Later they heard a supplication asking Allah to protect His blessings. Akhlaq thought about his habit of leaving the tap running. “If water is a gift, then I should not waste it,” he said. Dadi Jaan agreed: gratitude becomes stronger when our actions show care for what Allah has given."
+   ],
+   "understand": [
+    "A blessing may be health, safety, food, loving relationships, or opportunities to learn. We are grateful for these gifts, and we still support people when hardship occurs. This Duʿa is not a reason to blame someone who becomes sick or loses something valuable."
+   ],
+   "memorizeSteps": "Listen to the full approved Arabic once; learn one short segment at a time; repeat with a qualified reciter; combine the segments without changing a word; return on days 1, 3, 7, 14 and 30 (suggested study reminders, not Sunnah repetition counts).",
+   "chunks": [
+    "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ",
+    "مِنْ زَوَالِ نِعْمَتِكَ",
+    "وَتَحَوُّلِ عَافِيَتِكَ",
+    "وَفُجَاءَةِ نِقْمَتِكَ",
+    "وَجَمِيعِ سَخَطِكَ"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "Save water during one everyday activity, such as brushing your teeth or washing your hands.",
+   "mission": {
+    "text": "Blessing detective: find everyday gifts in a home illustration, then choose one responsible way to care for them.",
+    "feedback": "Taking care of a blessing is a practical way to show gratitude."
+   },
+   "reflect": "What blessing did I almost overlook today?",
+   "guidance": {
+    "label": "Parent / teacher guidance",
+    "text": "Do not link illness, disability, poverty or accidents to a child’s failure to say this Duʿa. Maintain a compassionate and non-superstitious tone."
+   }
+  },
+  {
+   "id": "dua-094",
+   "number": 94,
+   "title": "Ask Allah for Light",
+   "tagline": "VOLUME 10 / PROPHETIC DU’A • COMPLETE SELECTED WORDING",
+   "wordsHeading": "WORDS TO REMEMBER • AUTHENTIC ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "اللَّهُمَّ اجْعَلْ فِي قَلْبِي نُورًا وَفِي بَصَرِي نُورًا وَفِي سَمْعِي نُورًا وَعَنْ يَمِينِي نُورًا وَعَنْ يَسَارِي نُورًا وَفَوْقِي نُورًا وَتَحْتِي نُورًا وَأَمَامِي نُورًا وَخَلْفِي نُورًا وَعَظِّمْ لِي نُورًا"
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "O Allah, place light in my heart, my sight and my hearing; place light to my right and left, above and below, in front and behind me, and increase light for me."
+    },
+    {
+     "type": "urdu",
+     "text": "اے اللہ! میرے دل میں نور عطا فرما، میری نگاہ اور سماعت میں نور عطا فرما، میرے دائیں اور بائیں، اوپر اور نیچے، آگے اور پیچھے نور عطا فرما، اور میرے لیے نور کو بڑھا دے۔"
+    },
+    {
+     "type": "field",
+     "label": "Original source",
+     "text": "Sahih Muslim 763a — supplication within a night-prayer report"
+    },
+    {
+     "type": "link",
+     "text": "https://sunnah.com/muslim:763a"
+    }
+   ],
+   "arabic": "اللَّهُمَّ اجْعَلْ فِي قَلْبِي نُورًا وَفِي بَصَرِي نُورًا وَفِي سَمْعِي نُورًا وَعَنْ يَمِينِي نُورًا وَعَنْ يَسَارِي نُورًا وَفَوْقِي نُورًا وَتَحْتِي نُورًا وَأَمَامِي نُورًا وَخَلْفِي نُورًا وَعَظِّمْ لِي نُورًا",
+   "english": "O Allah, place light in my heart, my sight and my hearing; place light to my right and left, above and below, in front and behind me, and increase light for me.",
+   "urdu": "اے اللہ! میرے دل میں نور عطا فرما، میری نگاہ اور سماعت میں نور عطا فرما، میرے دائیں اور بائیں، اوپر اور نیچے، آگے اور پیچھے نور عطا فرما، اور میرے لیے نور کو بڑھا دے۔",
+   "source": "Sahih Muslim 763a — supplication within a night-prayer report",
+   "sourceUrl": "https://sunnah.com/muslim:763a",
+   "extras": [
+    {
+     "heading": "ORIGINAL HADITH CONTEXT",
+     "blocks": [
+      {
+       "type": "text",
+       "text": "Ibn ʿAbbās (RA) reported these words as part of a supplication connected with the Prophet’s ﷺ night prayer. The version presented here reproduces the selected wording in Muslim 763a, rather than combining additional phrases from other reports."
+      }
+     ]
+    }
+   ],
+   "story": [
+    "During an evening power cut in Amanpur, Imaan and Akhlaq sat with their father near the window. Akhlaq found the dark room uncomfortable, so Salaam lit a safe battery lamp. Imaan said, “Light helps us see where to go.” Their father explained that the Prophet ﷺ also asked Allah for light in a beautiful supplication. It was not about gathering magical lights, but a meaningful prayer connected to guidance and Allah’s help. The children listened to the words, and later Imaan chose to guide a younger cousin through a difficult reading activity."
+   ],
+   "understand": [
+    "The wording asks Allah for light around and within us. We should not invent a specific one-to-one meaning for every phrase. We can teach children that true guidance helps them think and behave responsibly, while explaining that this wording was narrated in the context of prayer."
+   ],
+   "memorizeSteps": "Listen to the full approved Arabic once; learn one short segment at a time; repeat with a qualified reciter; combine the segments without changing a word; return on days 1, 3, 7, 14 and 30 (suggested study reminders, not Sunnah repetition counts).",
+   "chunks": [
+    "اللَّهُمَّ اجْعَلْ فِي قَلْبِي نُورًا",
+    "وَفِي بَصَرِي نُورًا وَفِي سَمْعِي نُورًا",
+    "وَعَنْ يَمِينِي نُورًا وَعَنْ يَسَارِي نُورًا",
+    "وَفَوْقِي نُورًا وَتَحْتِي نُورًا",
+    "وَأَمَامِي نُورًا وَخَلْفِي نُورًا",
+    "وَعَظِّمْ لِي نُورًا"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "Help one person understand something they are finding difficult.",
+   "mission": {
+    "text": "The guiding path: choose compassionate ways to help a younger student; gather the six memorization segments in sequence.",
+    "feedback": "Knowledge becomes brighter when we share it kindly."
+   },
+   "reflect": "How can I use what I know to help others?",
+   "guidance": {
+    "label": "Parent / teacher guidance",
+    "text": "Avoid visual portrayal of supernatural rewards or promises. Maintain prayer-context note and a full-source view."
+   }
+  },
+  {
+   "id": "dua-095",
+   "number": 95,
+   "title": "Ask Forgiveness for Every Mistake",
+   "tagline": "VOLUME 10 / PROPHETIC DU’A • COMPLETE WORDING IN ONE REPORT",
+   "wordsHeading": "WORDS TO REMEMBER • AUTHENTIC ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "رَبِّ اغْفِرْ لِي خَطِيئَتِي وَجَهْلِي وَإِسْرَافِي فِي أَمْرِي كُلِّهِ وَمَا أَنْتَ أَعْلَمُ بِهِ مِنِّي اللَّهُمَّ اغْفِرْ لِي خَطَايَايَ وَعَمْدِي وَجَهْلِي وَهَزْلِي وَكُلُّ ذَلِكَ عِنْدِي اللَّهُمَّ اغْفِرْ لِي مَا قَدَّمْتُ وَمَا أَخَّرْتُ وَمَا أَسْرَرْتُ وَمَا أَعْلَنْتُ أَنْتَ الْمُقَدِّمُ وَأَنْتَ الْمُؤَخِّرُ وَأَنْتَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ"
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "My Lord, forgive my mistakes, my ignorance and my excesses in my affairs, including what You know better than I do. O Allah, forgive my errors, deliberate mistakes, ignorance and carelessness. Forgive what I did earlier or later, secretly or openly. You are the One Who brings forward and puts back, and You have power over everything."
+    },
+    {
+     "type": "urdu",
+     "text": "اے میرے رب! میری خطا، نادانی اور اپنے معاملات میں حد سے بڑھنے کو معاف فرما، اور ان باتوں کو بھی جنہیں تو مجھ سے بہتر جانتا ہے۔ اے اللہ! میری غلطیوں، جان بوجھ کر کی ہوئی کوتاہیوں، نادانی اور بے احتیاطی کو بخش دے۔ میری اگلی پچھلی، چھپی اور ظاہر غلطیوں کو معاف فرما۔ تو ہی آگے کرنے والا اور پیچھے رکھنے والا ہے، اور تو ہر چیز پر قادر ہے۔"
+    },
+    {
+     "type": "field",
+     "label": "Original source",
+     "text": "Sahih al-Bukhari 6398 — Prophetic supplication seeking forgiveness"
+    },
+    {
+     "type": "link",
+     "text": "https://sunnah.com/bukhari:6398"
+    }
+   ],
+   "arabic": "رَبِّ اغْفِرْ لِي خَطِيئَتِي وَجَهْلِي وَإِسْرَافِي فِي أَمْرِي كُلِّهِ وَمَا أَنْتَ أَعْلَمُ بِهِ مِنِّي اللَّهُمَّ اغْفِرْ لِي خَطَايَايَ وَعَمْدِي وَجَهْلِي وَهَزْلِي وَكُلُّ ذَلِكَ عِنْدِي اللَّهُمَّ اغْفِرْ لِي مَا قَدَّمْتُ وَمَا أَخَّرْتُ وَمَا أَسْرَرْتُ وَمَا أَعْلَنْتُ أَنْتَ الْمُقَدِّمُ وَأَنْتَ الْمُؤَخِّرُ وَأَنْتَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ",
+   "english": "My Lord, forgive my mistakes, my ignorance and my excesses in my affairs, including what You know better than I do. O Allah, forgive my errors, deliberate mistakes, ignorance and carelessness. Forgive what I did earlier or later, secretly or openly. You are the One Who brings forward and puts back, and You have power over everything.",
+   "urdu": "اے میرے رب! میری خطا، نادانی اور اپنے معاملات میں حد سے بڑھنے کو معاف فرما، اور ان باتوں کو بھی جنہیں تو مجھ سے بہتر جانتا ہے۔ اے اللہ! میری غلطیوں، جان بوجھ کر کی ہوئی کوتاہیوں، نادانی اور بے احتیاطی کو بخش دے۔ میری اگلی پچھلی، چھپی اور ظاہر غلطیوں کو معاف فرما۔ تو ہی آگے کرنے والا اور پیچھے رکھنے والا ہے، اور تو ہر چیز پر قادر ہے۔",
+   "source": "Sahih al-Bukhari 6398 — Prophetic supplication seeking forgiveness",
+   "sourceUrl": "https://sunnah.com/bukhari:6398",
+   "extras": [
+    {
+     "heading": "ORIGINAL HADITH CONTEXT",
+     "blocks": [
+      {
+       "type": "text",
+       "text": "Abū Mūsā (RA) reported this lengthy supplication of the Prophet ﷺ. This lesson uses the full wording of the chosen Bukhari 6398 report; related narrations contain variant ordering, which must not be silently merged."
+      }
+     ]
+    }
+   ],
+   "story": [
+    "Akhlaq accidentally tore a page in a borrowed picture book. He was worried the owner would be upset. At first he wanted to close the book and put it away quietly. Then he remembered how often he had learned to say sorry and make things right. He told his friend what happened and offered to help repair or replace the book. At home, Imaan listened as their mother explained that human beings make mistakes in different ways. She taught a longer Prophetic Duʿa for forgiveness. Akhlaq understood that honesty after a mistake matters as much as saying the right words."
+   ],
+   "understand": [
+    "The prayer asks forgiveness for mistakes we recognize and those we may not notice. It reminds children to be humble, honest and willing to repair harm. Avoid turning the prayer into a distressing audit of every tiny mistake. The full Arabic is longer; parents may divide it into short units over several weeks."
+   ],
+   "memorizeSteps": "Listen to the full approved Arabic once; learn one short segment at a time; repeat with a qualified reciter; combine the segments without changing a word; return on days 1, 3, 7, 14 and 30 (suggested study reminders, not Sunnah repetition counts).",
+   "chunks": [
+    "رَبِّ اغْفِرْ لِي خَطِيئَتِي وَجَهْلِي",
+    "وَإِسْرَافِي فِي أَمْرِي كُلِّهِ",
+    "وَمَا أَنْتَ أَعْلَمُ بِهِ مِنِّي",
+    "اللَّهُمَّ اغْفِرْ لِي خَطَايَايَ وَعَمْدِي",
+    "وَجَهْلِي وَهَزْلِي وَكُلُّ ذَلِكَ عِنْدِي",
+    "اللَّهُمَّ اغْفِرْ لِي مَا قَدَّمْتُ وَمَا أَخَّرْتُ",
+    "وَمَا أَسْرَرْتُ وَمَا أَعْلَنْتُ",
+    "أَنْتَ الْمُقَدِّمُ وَأَنْتَ الْمُؤَخِّرُ",
+    "وَأَنْتَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "Put right one small mistake today by telling the truth and making a reasonable repair.",
+   "mission": {
+    "text": "The borrowed book: decide how Akhlaq should respond, then arrange three groups of memorization segments.",
+    "feedback": "Courage means telling the truth and trying to repair what happened."
+   },
+   "reflect": "What can I do after a mistake besides saying “sorry”?",
+   "guidance": {
+    "label": "Parent / teacher guidance",
+    "text": "Use one Bukhari variant only. Avoid compulsory confession prompts; private mistakes are not collected by the app."
+   }
+  },
+  {
+   "id": "dua-096",
+   "number": 96,
+   "title": "Sayyid al-Istighfar — The Great Prayer for Forgiveness",
+   "tagline": "VOLUME 10 / PROPHETIC DU’A • COMPLETE WORDING",
+   "wordsHeading": "WORDS TO REMEMBER • AUTHENTIC ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَهَ إِلَّا أَنْتَ خَلَقْتَنِي وَأَنَا عَبْدُكَ وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ وَأَبُوءُ لَكَ بِذَنْبِي فَاغْفِرْ لِي فَإِنَّهُ لَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ"
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "O Allah, You are my Lord; none is worthy of worship but You. You created me and I am Your servant. I keep my pledge and promise to You as best I can. I seek Your protection from the wrong I have done. I acknowledge Your blessings upon me and admit my sin, so forgive me; no one forgives sins except You."
+    },
+    {
+     "type": "urdu",
+     "text": "اے اللہ! تو میرا رب ہے، تیرے سوا کوئی معبود برحق نہیں۔ تو نے مجھے پیدا کیا اور میں تیرا بندہ ہوں۔ میں اپنی استطاعت کے مطابق تیرے عہد اور وعدے پر قائم ہوں۔ میں اپنے کیے ہوئے برے عمل سے تیری پناہ مانگتا ہوں۔ میں اپنے اوپر تیری نعمتوں کا اقرار کرتا ہوں اور اپنی خطا کا اعتراف کرتا ہوں، پس مجھے بخش دے؛ تیرے سوا کوئی گناہوں کو نہیں بخشتا۔"
+    },
+    {
+     "type": "field",
+     "label": "Original source",
+     "text": "Sahih al-Bukhari 6306 — Sayyid al-Istighfar; reported morning/evening context"
+    },
+    {
+     "type": "link",
+     "text": "https://sunnah.com/bukhari:6306"
+    }
+   ],
+   "arabic": "اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَهَ إِلَّا أَنْتَ خَلَقْتَنِي وَأَنَا عَبْدُكَ وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ وَأَبُوءُ لَكَ بِذَنْبِي فَاغْفِرْ لِي فَإِنَّهُ لَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ",
+   "english": "O Allah, You are my Lord; none is worthy of worship but You. You created me and I am Your servant. I keep my pledge and promise to You as best I can. I seek Your protection from the wrong I have done. I acknowledge Your blessings upon me and admit my sin, so forgive me; no one forgives sins except You.",
+   "urdu": "اے اللہ! تو میرا رب ہے، تیرے سوا کوئی معبود برحق نہیں۔ تو نے مجھے پیدا کیا اور میں تیرا بندہ ہوں۔ میں اپنی استطاعت کے مطابق تیرے عہد اور وعدے پر قائم ہوں۔ میں اپنے کیے ہوئے برے عمل سے تیری پناہ مانگتا ہوں۔ میں اپنے اوپر تیری نعمتوں کا اقرار کرتا ہوں اور اپنی خطا کا اعتراف کرتا ہوں، پس مجھے بخش دے؛ تیرے سوا کوئی گناہوں کو نہیں بخشتا۔",
+   "source": "Sahih al-Bukhari 6306 — Sayyid al-Istighfar; reported morning/evening context",
+   "sourceUrl": "https://sunnah.com/bukhari:6306",
+   "extras": [
+    {
+     "heading": "ORIGINAL HADITH CONTEXT",
+     "blocks": [
+      {
+       "type": "text",
+       "text": "Shaddād ibn Aws (RA) reported this as Sayyid al-Istighfar, a foremost supplication for seeking forgiveness, with specific reported virtues for sincere recitation by day and by night. Present the complete text and its authentic context; never turn the reported reward into a game guarantee."
+      }
+     ]
+    }
+   ],
+   "story": [
+    "The family held a simple gratitude evening. Salaam invited everyone to name a blessing and a good habit they hoped to strengthen. Akhlaq thanked Allah for his family and admitted that he sometimes became impatient. Imaan remembered the many times her mother had encouraged her to tell the truth. Salaam introduced a beautiful supplication containing three ideas: Allah is our Lord, His blessings are real, and we seek His forgiveness when we fall short. The children listened to the whole Duʿa and chose small segments to learn. They discovered that sincere gratitude and sincere repentance can belong together."
+   ],
+   "understand": [
+    "This Duʿa joins Tawhid, commitment, gratitude, honesty and repentance. A child should not be rushed through it for a badge. Its original narration describes special virtues associated with certain times and sincere belief; those virtues belong to the Hadith, not the app’s rewards."
+   ],
+   "memorizeSteps": "Listen to the full approved Arabic once; learn one short segment at a time; repeat with a qualified reciter; combine the segments without changing a word; return on days 1, 3, 7, 14 and 30 (suggested study reminders, not Sunnah repetition counts).",
+   "chunks": [
+    "اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَهَ إِلَّا أَنْتَ",
+    "خَلَقْتَنِي وَأَنَا عَبْدُكَ",
+    "وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ",
+    "أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ",
+    "أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ",
+    "وَأَبُوءُ لَكَ بِذَنْبِي",
+    "فَاغْفِرْ لِي فَإِنَّهُ لَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "Thank Allah for one blessing, then take one practical step to use that blessing responsibly.",
+   "mission": {
+    "text": "The gratitude-and-growth garden: match seven segments with simple meanings; plant a virtual seed when the child completes a genuine listening practice.",
+    "feedback": "Gratitude and honest change make a beautiful pair."
+   },
+   "reflect": "How can I show that I value what Allah has given me?",
+   "guidance": {
+    "label": "Parent / teacher guidance",
+    "text": "Read authenticated reward wording in adult notes; do not frighten children with death or imply guarantees. Offer parent-guided morning/evening routine and no punitive streak."
+   }
+  },
+  {
+   "id": "dua-097",
+   "number": 97,
+   "title": "Before Sleep, I Place My Trust in Allah",
+   "tagline": "VOLUME 10 / PROPHETIC DU’A • COMPLETE WORDING",
+   "wordsHeading": "WORDS TO REMEMBER • AUTHENTIC ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "اللَّهُمَّ أَسْلَمْتُ وَجْهِي إِلَيْكَ وَفَوَّضْتُ أَمْرِي إِلَيْكَ وَأَلْجَأْتُ ظَهْرِي إِلَيْكَ رَغْبَةً وَرَهْبَةً إِلَيْكَ لَا مَلْجَأَ وَلَا مَنْجَا مِنْكَ إِلَّا إِلَيْكَ آمَنْتُ بِكِتَابِكَ الَّذِي أَنْزَلْتَ وَبِنَبِيِّكَ الَّذِي أَرْسَلْتَ"
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "O Allah, I submit myself to You, entrust my affairs to You and seek Your support, hoping in You and mindful of You. There is no refuge or safety from You except with You. I believe in Your Book that You revealed and in Your Prophet whom You sent."
+    },
+    {
+     "type": "urdu",
+     "text": "اے اللہ! میں نے اپنا آپ تیرے سپرد کیا، اپنے معاملات تیرے حوالے کیے اور امید و خوف کے ساتھ تجھ ہی پر بھروسا کیا۔ تیرے سوا کوئی پناہ اور نجات نہیں مگر تیری ہی طرف رجوع کرنے میں ہے۔ میں تیری نازل کردہ کتاب اور تیرے بھیجے ہوئے نبی پر ایمان لایا۔"
+    },
+    {
+     "type": "field",
+     "label": "Original source",
+     "text": "Sahih al-Bukhari 6311 — sleep, Wudu and precise final words"
+    },
+    {
+     "type": "link",
+     "text": "https://sunnah.com/bukhari:6311"
+    }
+   ],
+   "arabic": "اللَّهُمَّ أَسْلَمْتُ وَجْهِي إِلَيْكَ وَفَوَّضْتُ أَمْرِي إِلَيْكَ وَأَلْجَأْتُ ظَهْرِي إِلَيْكَ رَغْبَةً وَرَهْبَةً إِلَيْكَ لَا مَلْجَأَ وَلَا مَنْجَا مِنْكَ إِلَّا إِلَيْكَ آمَنْتُ بِكِتَابِكَ الَّذِي أَنْزَلْتَ وَبِنَبِيِّكَ الَّذِي أَرْسَلْتَ",
+   "english": "O Allah, I submit myself to You, entrust my affairs to You and seek Your support, hoping in You and mindful of You. There is no refuge or safety from You except with You. I believe in Your Book that You revealed and in Your Prophet whom You sent.",
+   "urdu": "اے اللہ! میں نے اپنا آپ تیرے سپرد کیا، اپنے معاملات تیرے حوالے کیے اور امید و خوف کے ساتھ تجھ ہی پر بھروسا کیا۔ تیرے سوا کوئی پناہ اور نجات نہیں مگر تیری ہی طرف رجوع کرنے میں ہے۔ میں تیری نازل کردہ کتاب اور تیرے بھیجے ہوئے نبی پر ایمان لایا۔",
+   "source": "Sahih al-Bukhari 6311 — sleep, Wudu and precise final words",
+   "sourceUrl": "https://sunnah.com/bukhari:6311",
+   "extras": [
+    {
+     "heading": "ORIGINAL HADITH CONTEXT",
+     "blocks": [
+      {
+       "type": "text",
+       "text": "Al-Barāʾ ibn ʿĀzib (RA) reported that the Prophet ﷺ taught this Duʿa with bedtime Wudu, lying on the right side and saying these words at the end of one’s speech. The Prophet ﷺ explicitly corrected a recitation from “rasūlika” to “nabiyyika”; preserve “نَبِيِّكَ” exactly."
+      }
+     ]
+    }
+   ],
+   "story": [
+    "It was bedtime, but Akhlaq was nervous about an important class presentation the next morning. He had practiced, prepared his bag, and asked his parents for help. Salaam told him that responsible preparation and trust in Allah work together. He taught Akhlaq a bedtime supplication that speaks of entrusting our affairs to Allah. Imaan joined them for listening practice, and the family agreed to learn it gradually. Akhlaq did not expect a magical dream or a perfect presentation. He simply wanted to sleep with a calm heart after doing his best."
+   ],
+   "understand": [
+    "The Duʿa teaches trust and reliance on Allah after taking appropriate steps. Its original practice includes Wudu and bedtime etiquette. The child may initially listen to the full supplication before memorizing it; never substitute a single word in the Prophetic wording just because it sounds more familiar."
+   ],
+   "memorizeSteps": "Listen to the full approved Arabic once; learn one short segment at a time; repeat with a qualified reciter; combine the segments without changing a word; return on days 1, 3, 7, 14 and 30 (suggested study reminders, not Sunnah repetition counts).",
+   "chunks": [
+    "اللَّهُمَّ أَسْلَمْتُ وَجْهِي إِلَيْكَ",
+    "وَفَوَّضْتُ أَمْرِي إِلَيْكَ",
+    "وَأَلْجَأْتُ ظَهْرِي إِلَيْكَ",
+    "رَغْبَةً وَرَهْبَةً إِلَيْكَ",
+    "لَا مَلْجَأَ وَلَا مَنْجَا مِنْكَ إِلَّا إِلَيْكَ",
+    "آمَنْتُ بِكِتَابِكَ الَّذِي أَنْزَلْتَ",
+    "وَبِنَبِيِّكَ الَّذِي أَرْسَلْتَ"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "Prepare one thing you need for tomorrow before going to sleep.",
+   "mission": {
+    "text": "The calm bedtime path: put preparation, Wudu and prayer steps in a gentle sequence; complete a “nabiyyika” accuracy choice.",
+    "feedback": "We prepare carefully, then trust Allah with the outcome."
+   },
+   "reflect": "What helps me feel ready for tomorrow?",
+   "guidance": {
+    "label": "Parent / teacher guidance",
+    "text": "This is a bedtime formula, not a fixed Dhikr after unrelated activities. Preserve wording “نَبِيِّكَ” and explain Wudu in an age-appropriate way."
+   }
+  },
+  {
+   "id": "dua-098",
+   "number": 98,
+   "title": "Travel with Gratitude and Good Manners",
+   "tagline": "VOLUME 10 / PROPHETIC DHIKR & DU’A • JOURNEY DEPARTURE WORDING",
+   "wordsHeading": "WORDS TO REMEMBER • AUTHENTIC ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَذَا وَمَا كُنَّا لَهُ مُقْرِنِينَ وَإِنَّا إِلَى رَبِّنَا لَمُنْقَلِبُونَ اللَّهُمَّ إِنَّا نَسْأَلُكَ فِي سَفَرِنَا هَذَا الْبِرَّ وَالتَّقْوَى وَمِنَ الْعَمَلِ مَا تَرْضَى اللَّهُمَّ هَوِّنْ عَلَيْنَا سَفَرَنَا هَذَا وَاطْوِ عَنَّا بُعْدَهُ اللَّهُمَّ أَنْتَ الصَّاحِبُ فِي السَّفَرِ وَالْخَلِيفَةُ فِي الْأَهْلِ اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ وَعْثَاءِ السَّفَرِ وَكَآبَةِ الْمَنْظَرِ وَسُوءِ الْمُنْقَلَبِ فِي الْمَالِ وَالْأَهْلِ"
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "Glory belongs to the One Who made this means of travel available to us; we could not have controlled it ourselves, and to our Lord we will return. O Allah, we ask You for goodness, God-consciousness and deeds You love on this journey. Make the journey easy and shorten its distance. You are our Companion in travel and Guardian of our family. Protect us from travel hardship, distressing sights and a troubling return to our family and possessions."
+    },
+    {
+     "type": "urdu",
+     "text": "پاک ہے وہ ذات جس نے اس سواری کو ہمارے قابو میں دیا، ورنہ ہم اسے قابو میں نہیں لا سکتے تھے، اور ہم اپنے رب ہی کی طرف لوٹنے والے ہیں۔ اے اللہ! ہم اس سفر میں نیکی، تقویٰ اور تیرے پسندیدہ اعمال مانگتے ہیں۔ ہمارے سفر کو آسان فرما اور اس کی دوری کو کم کر دے۔ تو سفر میں ہمارا ساتھی اور گھر والوں کا نگہبان ہے۔ ہمیں سفر کی دشواری، تکلیف دہ مناظر اور گھر و مال میں برے حالات کے ساتھ لوٹنے سے محفوظ فرما۔"
+    },
+    {
+     "type": "field",
+     "label": "Original source",
+     "text": "Sahih Muslim 1342 — journey departure supplication and return addition"
+    },
+    {
+     "type": "link",
+     "text": "https://sunnah.com/muslim:1342"
+    }
+   ],
+   "arabic": "سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَذَا وَمَا كُنَّا لَهُ مُقْرِنِينَ وَإِنَّا إِلَى رَبِّنَا لَمُنْقَلِبُونَ اللَّهُمَّ إِنَّا نَسْأَلُكَ فِي سَفَرِنَا هَذَا الْبِرَّ وَالتَّقْوَى وَمِنَ الْعَمَلِ مَا تَرْضَى اللَّهُمَّ هَوِّنْ عَلَيْنَا سَفَرَنَا هَذَا وَاطْوِ عَنَّا بُعْدَهُ اللَّهُمَّ أَنْتَ الصَّاحِبُ فِي السَّفَرِ وَالْخَلِيفَةُ فِي الْأَهْلِ اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ وَعْثَاءِ السَّفَرِ وَكَآبَةِ الْمَنْظَرِ وَسُوءِ الْمُنْقَلَبِ فِي الْمَالِ وَالْأَهْلِ",
+   "english": "Glory belongs to the One Who made this means of travel available to us; we could not have controlled it ourselves, and to our Lord we will return. O Allah, we ask You for goodness, God-consciousness and deeds You love on this journey. Make the journey easy and shorten its distance. You are our Companion in travel and Guardian of our family. Protect us from travel hardship, distressing sights and a troubling return to our family and possessions.",
+   "urdu": "پاک ہے وہ ذات جس نے اس سواری کو ہمارے قابو میں دیا، ورنہ ہم اسے قابو میں نہیں لا سکتے تھے، اور ہم اپنے رب ہی کی طرف لوٹنے والے ہیں۔ اے اللہ! ہم اس سفر میں نیکی، تقویٰ اور تیرے پسندیدہ اعمال مانگتے ہیں۔ ہمارے سفر کو آسان فرما اور اس کی دوری کو کم کر دے۔ تو سفر میں ہمارا ساتھی اور گھر والوں کا نگہبان ہے۔ ہمیں سفر کی دشواری، تکلیف دہ مناظر اور گھر و مال میں برے حالات کے ساتھ لوٹنے سے محفوظ فرما۔",
+   "source": "Sahih Muslim 1342 — journey departure supplication and return addition",
+   "sourceUrl": "https://sunnah.com/muslim:1342",
+   "extras": [
+    {
+     "heading": "ORIGINAL HADITH CONTEXT",
+     "blocks": [
+      {
+       "type": "text",
+       "text": "Ibn ʿUmar (RA) reported that when setting out for a journey the Prophet ﷺ said Allahu Akbar three times before this recitation, which begins with Qur’anic words from Az-Zukhruf 43:13–14. The report separately gives an additional phrase when returning: آيِبُونَ تَائِبُونَ عَابِدُونَ لِرَبِّنَا حَامِدُونَ. Keep the departure and return stages distinct."
+      }
+     ]
+    }
+   ],
+   "story": [
+    "The family was preparing for a trip to visit relatives. Imaan packed snacks neatly, while Akhlaq checked that his seat belt was fastened. Salaam reminded them not to disturb the driver and to be patient with delays. Before the journey, they learned the Prophetic remembrance for travel and talked about thanking Allah for the ability to travel safely. During the trip, the children practiced being considerate passengers. Their father explained that Duʿa does not replace safe driving, careful planning, or kindness toward the people sharing the journey."
+   ],
+   "understand": [
+    "This is a longer remembrance with separate stages for the start of travel and the return. It combines gratitude, requests for righteous actions, ease, and protection. In younger modes, a child may learn the opening and listen to the remaining words without being marked unsuccessful."
+   ],
+   "memorizeSteps": "Listen to the full approved Arabic once; learn one short segment at a time; repeat with a qualified reciter; combine the segments without changing a word; return on days 1, 3, 7, 14 and 30 (suggested study reminders, not Sunnah repetition counts).",
+   "chunks": [
+    "سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَذَا",
+    "وَمَا كُنَّا لَهُ مُقْرِنِينَ",
+    "وَإِنَّا إِلَى رَبِّنَا لَمُنْقَلِبُونَ",
+    "اللَّهُمَّ إِنَّا نَسْأَلُكَ فِي سَفَرِنَا هَذَا الْبِرَّ وَالتَّقْوَى",
+    "وَمِنَ الْعَمَلِ مَا تَرْضَى",
+    "اللَّهُمَّ هَوِّنْ عَلَيْنَا سَفَرَنَا هَذَا وَاطْوِ عَنَّا بُعْدَهُ",
+    "اللَّهُمَّ أَنْتَ الصَّاحِبُ فِي السَّفَرِ وَالْخَلِيفَةُ فِي الْأَهْلِ",
+    "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ وَعْثَاءِ السَّفَرِ",
+    "وَكَآبَةِ الْمَنْظَرِ وَسُوءِ الْمُنْقَلَبِ فِي الْمَالِ وَالْأَهْلِ"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "On your next family journey, follow one travel-safety rule without being reminded.",
+   "mission": {
+    "text": "Travel timeline: match “before departure” and “on return” words; place the safety rule before tapping “start journey.”",
+    "feedback": "Responsible travel combines remembrance and safe behaviour."
+   },
+   "reflect": "How can I make a journey more comfortable for others?",
+   "guidance": {
+    "label": "Parent / teacher guidance",
+    "text": "Do not conflate routine riding with a long journey or claim the full travel Duʿa must be said on every short car ride. Explain Qur’anic quotation and the three takbirs faithfully. Return wording is an adjunct, not an 11th new lesson."
+   }
+  },
+  {
+   "id": "dua-099",
+   "number": 99,
+   "title": "Istikharah — Asking Allah to Guide Decisions",
+   "tagline": "VOLUME 10 / PROPHETIC DU’A • COMPLETE MAIN WORDING",
+   "wordsHeading": "WORDS TO REMEMBER • AUTHENTIC ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "اللَّهُمَّ إِنِّي أَسْتَخِيرُكَ بِعِلْمِكَ وَأَسْتَقْدِرُكَ بِقُدْرَتِكَ وَأَسْأَلُكَ مِنْ فَضْلِكَ الْعَظِيمِ فَإِنَّكَ تَقْدِرُ وَلَا أَقْدِرُ وَتَعْلَمُ وَلَا أَعْلَمُ وَأَنْتَ عَلَّامُ الْغُيُوبِ اللَّهُمَّ إِنْ كُنْتَ تَعْلَمُ أَنَّ هَذَا الْأَمْرَ خَيْرٌ لِي فِي دِينِي وَمَعَاشِي وَعَاقِبَةِ أَمْرِي فَاقْدُرْهُ لِي وَيَسِّرْهُ لِي ثُمَّ بَارِكْ لِي فِيهِ وَإِنْ كُنْتَ تَعْلَمُ أَنَّ هَذَا الْأَمْرَ شَرٌّ لِي فِي دِينِي وَمَعَاشِي وَعَاقِبَةِ أَمْرِي فَاصْرِفْهُ عَنِّي وَاصْرِفْنِي عَنْهُ وَاقْدُرْ لِيَ الْخَيْرَ حَيْثُ كَانَ ثُمَّ أَرْضِنِي بِهِ"
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "O Allah, I seek Your guidance through Your knowledge and Your help through Your power, and I ask from Your great favor. You are able and I am not; You know and I do not, and You know all unseen things. If this matter is good for my religion, my life and my outcome, make it happen, ease it and bless it for me. If it is harmful for my religion, my life and my outcome, turn it away from me and turn me away from it. Decree what is good for me wherever it is, and help me be content with it."
+    },
+    {
+     "type": "urdu",
+     "text": "اے اللہ! میں تیرے علم کے ذریعے بھلائی کا انتخاب مانگتا ہوں، تیری قدرت کے ذریعے مدد چاہتا ہوں اور تیرے عظیم فضل کا سوال کرتا ہوں۔ تو قادر ہے اور میں نہیں، تو جانتا ہے اور میں نہیں جانتا، اور تو تمام پوشیدہ باتوں کو جاننے والا ہے۔ اگر یہ معاملہ میرے دین، زندگی اور انجام کے لیے بہتر ہے تو اسے میرے لیے مقدر اور آسان فرما اور اس میں برکت دے۔ اور اگر یہ میرے لیے نقصان دہ ہے تو اسے مجھ سے اور مجھے اس سے دور فرما۔ جہاں بھی بھلائی ہو میرے لیے مقدر فرما اور مجھے اس پر راضی کر دے۔"
+    },
+    {
+     "type": "field",
+     "label": "Original source",
+     "text": "Sahih al-Bukhari 1166 — two non-obligatory rakʿahs, Duʿa and naming the matter"
+    },
+    {
+     "type": "link",
+     "text": "https://sunnah.com/bukhari:1166"
+    }
+   ],
+   "arabic": "اللَّهُمَّ إِنِّي أَسْتَخِيرُكَ بِعِلْمِكَ وَأَسْتَقْدِرُكَ بِقُدْرَتِكَ وَأَسْأَلُكَ مِنْ فَضْلِكَ الْعَظِيمِ فَإِنَّكَ تَقْدِرُ وَلَا أَقْدِرُ وَتَعْلَمُ وَلَا أَعْلَمُ وَأَنْتَ عَلَّامُ الْغُيُوبِ اللَّهُمَّ إِنْ كُنْتَ تَعْلَمُ أَنَّ هَذَا الْأَمْرَ خَيْرٌ لِي فِي دِينِي وَمَعَاشِي وَعَاقِبَةِ أَمْرِي فَاقْدُرْهُ لِي وَيَسِّرْهُ لِي ثُمَّ بَارِكْ لِي فِيهِ وَإِنْ كُنْتَ تَعْلَمُ أَنَّ هَذَا الْأَمْرَ شَرٌّ لِي فِي دِينِي وَمَعَاشِي وَعَاقِبَةِ أَمْرِي فَاصْرِفْهُ عَنِّي وَاصْرِفْنِي عَنْهُ وَاقْدُرْ لِيَ الْخَيْرَ حَيْثُ كَانَ ثُمَّ أَرْضِنِي بِهِ",
+   "english": "O Allah, I seek Your guidance through Your knowledge and Your help through Your power, and I ask from Your great favor. You are able and I am not; You know and I do not, and You know all unseen things. If this matter is good for my religion, my life and my outcome, make it happen, ease it and bless it for me. If it is harmful for my religion, my life and my outcome, turn it away from me and turn me away from it. Decree what is good for me wherever it is, and help me be content with it.",
+   "urdu": "اے اللہ! میں تیرے علم کے ذریعے بھلائی کا انتخاب مانگتا ہوں، تیری قدرت کے ذریعے مدد چاہتا ہوں اور تیرے عظیم فضل کا سوال کرتا ہوں۔ تو قادر ہے اور میں نہیں، تو جانتا ہے اور میں نہیں جانتا، اور تو تمام پوشیدہ باتوں کو جاننے والا ہے۔ اگر یہ معاملہ میرے دین، زندگی اور انجام کے لیے بہتر ہے تو اسے میرے لیے مقدر اور آسان فرما اور اس میں برکت دے۔ اور اگر یہ میرے لیے نقصان دہ ہے تو اسے مجھ سے اور مجھے اس سے دور فرما۔ جہاں بھی بھلائی ہو میرے لیے مقدر فرما اور مجھے اس پر راضی کر دے۔",
+   "source": "Sahih al-Bukhari 1166 — two non-obligatory rakʿahs, Duʿa and naming the matter",
+   "sourceUrl": "https://sunnah.com/bukhari:1166",
+   "extras": [
+    {
+     "heading": "ORIGINAL HADITH CONTEXT",
+     "blocks": [
+      {
+       "type": "text",
+       "text": "Jābir (RA) reported that the Prophet ﷺ taught Istikharah for decisions: pray two rakʿahs other than the obligatory prayer, then recite the Duʿa and mention the particular matter. The source records a variant “in my religion, livelihood and end of my matter” / “its near and later outcome”; the memorization text follows the first printed alternative. The Arabic expression هَذَا الْأَمْرَ is a reference to the specific matter; do not replace sacred text silently in storage."
+      }
+     ]
+    }
+   ],
+   "story": [
+    "Imaan had to choose between two school clubs whose meeting times clashed. She felt excited about both and asked Salamah how to decide well. Her mother helped her learn about each club, consider her commitments and speak to the teachers. She also explained that the Prophet ﷺ taught Muslims Istikharah when making decisions. For now, Imaan would begin by listening to the longer supplication and learning what it means. When she became older, she could learn the complete Sunnah practice with a teacher. She discovered that seeking Allah’s guidance includes doing our homework and seeking good advice."
+   ],
+   "understand": [
+    "Istikharah means asking Allah to guide our choice toward what is good. It does not mean that every decision requires a dream or that the app can tell a child which option Allah has chosen. Younger children may simply learn the concept and seek help from parents; older learners can study its correct Salah context."
+   ],
+   "memorizeSteps": "Listen to the full approved Arabic once; learn one short segment at a time; repeat with a qualified reciter; combine the segments without changing a word; return on days 1, 3, 7, 14 and 30 (suggested study reminders, not Sunnah repetition counts).",
+   "chunks": [
+    "اللَّهُمَّ إِنِّي أَسْتَخِيرُكَ بِعِلْمِكَ",
+    "وَأَسْتَقْدِرُكَ بِقُدْرَتِكَ",
+    "وَأَسْأَلُكَ مِنْ فَضْلِكَ الْعَظِيمِ",
+    "فَإِنَّكَ تَقْدِرُ وَلَا أَقْدِرُ",
+    "وَتَعْلَمُ وَلَا أَعْلَمُ وَأَنْتَ عَلَّامُ الْغُيُوبِ",
+    "اللَّهُمَّ إِنْ كُنْتَ تَعْلَمُ أَنَّ هَذَا الْأَمْرَ خَيْرٌ لِي",
+    "فِي دِينِي وَمَعَاشِي وَعَاقِبَةِ أَمْرِي",
+    "فَاقْدُرْهُ لِي وَيَسِّرْهُ لِي ثُمَّ بَارِكْ لِي فِيهِ",
+    "وَإِنْ كُنْتَ تَعْلَمُ أَنَّ هَذَا الْأَمْرَ شَرٌّ لِي",
+    "فِي دِينِي وَمَعَاشِي وَعَاقِبَةِ أَمْرِي",
+    "فَاصْرِفْهُ عَنِّي وَاصْرِفْنِي عَنْهُ",
+    "وَاقْدُرْ لِيَ الْخَيْرَ حَيْثُ كَانَ ثُمَّ أَرْضِنِي بِهِ"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "Discuss one real choice with a parent or trusted teacher and listen carefully to their advice.",
+   "mission": {
+    "text": "The thoughtful decision map: compare two age-appropriate choices, identify useful information and who can help; do not simulate a divine answer.",
+    "feedback": "Good decisions combine information, sound advice and trust in Allah."
+   },
+   "reflect": "What should I learn before making an important choice?",
+   "guidance": {
+    "label": "Parent / teacher guidance",
+    "text": "Age gate 10+. Do not imply divine certainty, fortune telling or dream interpretation. Display Sunnah prerequisites and preserve narrational alternatives and the named-need instruction."
+   }
+  },
+  {
+   "id": "dua-100",
+   "number": 100,
+   "title": "The Comprehensive Du’a — Asking for Every Good",
+   "tagline": "VOLUME 10 / PROPHETIC DU’A • COMPLETE WORDING",
+   "wordsHeading": "WORDS TO REMEMBER • AUTHENTIC ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنَ الْخَيْرِ كُلِّهِ عَاجِلِهِ وَآجِلِهِ مَا عَلِمْتُ مِنْهُ وَمَا لَمْ أَعْلَمْ وَأَعُوذُ بِكَ مِنَ الشَّرِّ كُلِّهِ عَاجِلِهِ وَآجِلِهِ مَا عَلِمْتُ مِنْهُ وَمَا لَمْ أَعْلَمْ اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنْ خَيْرِ مَا سَأَلَكَ عَبْدُكَ وَنَبِيُّكَ وَأَعُوذُ بِكَ مِنْ شَرِّ مَا عَاذَ بِهِ عَبْدُكَ وَنَبِيُّكَ اللَّهُمَّ إِنِّي أَسْأَلُكَ الْجَنَّةَ وَمَا قَرَّبَ إِلَيْهَا مِنْ قَوْلٍ أَوْ عَمَلٍ وَأَعُوذُ بِكَ مِنَ النَّارِ وَمَا قَرَّبَ إِلَيْهَا مِنْ قَوْلٍ أَوْ عَمَلٍ وَأَسْأَلُكَ أَنْ تَجْعَلَ كُلَّ قَضَاءٍ قَضَيْتَهُ لِي خَيْرًا"
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "O Allah, I ask You for every kind of good, soon and later, that I know and that I do not know. I seek Your protection from every kind of evil, soon and later, known and unknown to me. I ask for the good Your servant and Prophet asked You for, and seek protection from the evil from which he sought refuge. I ask for Paradise and for words and deeds that bring me near it, and protection from the Fire and what brings one near it. Make everything You decree for me good."
+    },
+    {
+     "type": "urdu",
+     "text": "اے اللہ! میں تجھ سے ہر بھلائی مانگتا ہوں، جلد ملنے والی بھی اور بعد میں ملنے والی بھی، جسے میں جانتا ہوں اور جسے نہیں جانتا۔ میں ہر برائی سے تیری پناہ مانگتا ہوں، جلد آنے والی بھی اور بعد میں آنے والی بھی، معلوم بھی اور نامعلوم بھی۔ میں تجھ سے وہ بھلائی مانگتا ہوں جو تیرے بندے اور نبی نے مانگی، اور اس برائی سے پناہ مانگتا ہوں جس سے انہوں نے پناہ مانگی۔ میں جنت اور اس کے قریب کرنے والے قول و عمل کا سوال کرتا ہوں، اور آگ اور اس کے قریب کرنے والے قول و عمل سے پناہ مانگتا ہوں۔ میرے حق میں اپنا ہر فیصلہ بھلائی والا بنا دے۔"
+    },
+    {
+     "type": "field",
+     "label": "Original source",
+     "text": "Sunan Ibn Majah 3846 — Sahih (Darussalam), taught to ʿĀʾishah (RA)"
+    },
+    {
+     "type": "link",
+     "text": "https://sunnah.com/ibnmajah:3846"
+    }
+   ],
+   "arabic": "اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنَ الْخَيْرِ كُلِّهِ عَاجِلِهِ وَآجِلِهِ مَا عَلِمْتُ مِنْهُ وَمَا لَمْ أَعْلَمْ وَأَعُوذُ بِكَ مِنَ الشَّرِّ كُلِّهِ عَاجِلِهِ وَآجِلِهِ مَا عَلِمْتُ مِنْهُ وَمَا لَمْ أَعْلَمْ اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنْ خَيْرِ مَا سَأَلَكَ عَبْدُكَ وَنَبِيُّكَ وَأَعُوذُ بِكَ مِنْ شَرِّ مَا عَاذَ بِهِ عَبْدُكَ وَنَبِيُّكَ اللَّهُمَّ إِنِّي أَسْأَلُكَ الْجَنَّةَ وَمَا قَرَّبَ إِلَيْهَا مِنْ قَوْلٍ أَوْ عَمَلٍ وَأَعُوذُ بِكَ مِنَ النَّارِ وَمَا قَرَّبَ إِلَيْهَا مِنْ قَوْلٍ أَوْ عَمَلٍ وَأَسْأَلُكَ أَنْ تَجْعَلَ كُلَّ قَضَاءٍ قَضَيْتَهُ لِي خَيْرًا",
+   "english": "O Allah, I ask You for every kind of good, soon and later, that I know and that I do not know. I seek Your protection from every kind of evil, soon and later, known and unknown to me. I ask for the good Your servant and Prophet asked You for, and seek protection from the evil from which he sought refuge. I ask for Paradise and for words and deeds that bring me near it, and protection from the Fire and what brings one near it. Make everything You decree for me good.",
+   "urdu": "اے اللہ! میں تجھ سے ہر بھلائی مانگتا ہوں، جلد ملنے والی بھی اور بعد میں ملنے والی بھی، جسے میں جانتا ہوں اور جسے نہیں جانتا۔ میں ہر برائی سے تیری پناہ مانگتا ہوں، جلد آنے والی بھی اور بعد میں آنے والی بھی، معلوم بھی اور نامعلوم بھی۔ میں تجھ سے وہ بھلائی مانگتا ہوں جو تیرے بندے اور نبی نے مانگی، اور اس برائی سے پناہ مانگتا ہوں جس سے انہوں نے پناہ مانگی۔ میں جنت اور اس کے قریب کرنے والے قول و عمل کا سوال کرتا ہوں، اور آگ اور اس کے قریب کرنے والے قول و عمل سے پناہ مانگتا ہوں۔ میرے حق میں اپنا ہر فیصلہ بھلائی والا بنا دے۔",
+   "source": "Sunan Ibn Majah 3846 — Sahih (Darussalam), taught to ʿĀʾishah (RA)",
+   "sourceUrl": "https://sunnah.com/ibnmajah:3846",
+   "extras": [
+    {
+     "heading": "ORIGINAL HADITH CONTEXT",
+     "blocks": [
+      {
+       "type": "text",
+       "text": "ʿĀʾishah (RA) narrated that the Messenger of Allah ﷺ taught her this comprehensive supplication. The selected complete version appears in Ibn Majah 3846 with a Sahih grading published by Darussalam. Preserve the combined wording; do not split it into ten independent “Prophetic Du’as” to inflate the curriculum count."
+      }
+     ]
+    }
+   ],
+   "story": [
+    "For the final learning mission, Salaam and Salamah invited the children to remember what they had discovered in Zād al-Qulūb Junior. Imaan recalled gratitude, family care and speaking kindly. Akhlaq remembered learning to ask Allah for guidance and forgiveness. “What if we do not even know all the good things we should ask for?” he wondered. Dadi Jaan smiled and introduced a comprehensive Duʿa taught by the Prophet ﷺ. It asks Allah for every good, including what we cannot recognize yet. The children did not rush to memorize it in one sitting. They made a patient plan for many short lessons and one meaningful action each day."
+   ],
+   "understand": [
+    "This beautiful, extended prayer gathers many requests into one: good known and unknown, protection from evil, following the Prophet’s ﷺ guidance, Paradise, and beneficial outcomes. Younger learners should hear a warm explanation of the Hereafter without frightening imagery. The final goal is lifelong learning, not a single day’s perfect recitation."
+   ],
+   "memorizeSteps": "Listen to the full approved Arabic once; learn one short segment at a time; repeat with a qualified reciter; combine the segments without changing a word; return on days 1, 3, 7, 14 and 30 (suggested study reminders, not Sunnah repetition counts).",
+   "chunks": [
+    "اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنَ الْخَيْرِ كُلِّهِ",
+    "عَاجِلِهِ وَآجِلِهِ مَا عَلِمْتُ مِنْهُ وَمَا لَمْ أَعْلَمْ",
+    "وَأَعُوذُ بِكَ مِنَ الشَّرِّ كُلِّهِ",
+    "عَاجِلِهِ وَآجِلِهِ مَا عَلِمْتُ مِنْهُ وَمَا لَمْ أَعْلَمْ",
+    "اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنْ خَيْرِ مَا سَأَلَكَ عَبْدُكَ وَنَبِيُّكَ",
+    "وَأَعُوذُ بِكَ مِنْ شَرِّ مَا عَاذَ بِهِ عَبْدُكَ وَنَبِيُّكَ",
+    "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْجَنَّةَ",
+    "وَمَا قَرَّبَ إِلَيْهَا مِنْ قَوْلٍ أَوْ عَمَلٍ",
+    "وَأَعُوذُ بِكَ مِنَ النَّارِ",
+    "وَمَا قَرَّبَ إِلَيْهَا مِنْ قَوْلٍ أَوْ عَمَلٍ",
+    "وَأَسْأَلُكَ أَنْ تَجْعَلَ كُلَّ قَضَاءٍ قَضَيْتَهُ لِي خَيْرًا"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "Choose one good deed you learned from this 100-lesson journey and practise it today.",
+   "mission": {
+    "text": "The final pathway: review one authentic selection from each earlier volume, then unlock phrase-by-phrase practice of the comprehensive Duʿa.",
+    "feedback": "The journey continues whenever knowledge becomes a good action."
+   },
+   "reflect": "Which lesson from this journey do I most want to live by?",
+   "guidance": {
+    "label": "Parent / teacher guidance",
+    "text": "Keep the original single Duʿa intact. No supernatural game promises, fear-heavy scenes or high-pressure final exam. Younger children may earn completion by listening with understanding."
+   }
+  }
+ ]
+}

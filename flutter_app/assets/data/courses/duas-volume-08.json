@@ -1,0 +1,768 @@
+{
+ "volume": 8,
+ "title": "Du’as of the Prophets",
+ "intro": "Ten distinct Qur’anic supplications, with authentic prophetic contexts, warm Imaan-and-Akhlaq stories, gradual memorization, one meaningful daily action, and interactive activities for children.",
+ "sourceDocument": "Zad_al_Qulub_Junior_Volume_08_Duas_of_the_Prophets.docx",
+ "reviewStatus": "Working curriculum text copied verbatim from the supplied DOCX. Qualified scholarly, Arabic, Urdu and pronunciation review is required before release.",
+ "lessons": [
+  {
+   "id": "dua-071",
+   "number": 71,
+   "title": "Asking Allah to Keep My Family Safe",
+   "tagline": "VOLUME 08 / DU’A OF PROPHET LŪṬ (AS) / COMPLETE VERSE; DIRECT SUPPLICATION",
+   "wordsHeading": "WORDS TO REMEMBER • QUR’ANIC ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "رَبِّ نَجِّنِي وَأَهْلِي مِمَّا يَعْمَلُونَ"
+    },
+    {
+     "type": "translit",
+     "text": "Rabbi najjinī wa-ahlī mimmā yaʿmalūn."
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "My Lord, save me and my family from what they are doing."
+    },
+    {
+     "type": "urdu",
+     "text": "اے میرے رب! مجھے اور میرے گھر والوں کو ان لوگوں کے اعمال سے بچا لے۔"
+    },
+    {
+     "type": "field",
+     "label": "Qur’anic source",
+     "text": "Ash-Shuʿarā 26:169 — Complete verse; direct supplication"
+    },
+    {
+     "type": "link",
+     "text": "https://quran.com/26/169"
+    }
+   ],
+   "arabic": "رَبِّ نَجِّنِي وَأَهْلِي مِمَّا يَعْمَلُونَ",
+   "transliteration": "Rabbi najjinī wa-ahlī mimmā yaʿmalūn.",
+   "english": "My Lord, save me and my family from what they are doing.",
+   "urdu": "اے میرے رب! مجھے اور میرے گھر والوں کو ان لوگوں کے اعمال سے بچا لے۔",
+   "source": "Ash-Shuʿarā 26:169 — Complete verse; direct supplication",
+   "sourceUrl": "https://quran.com/26/169",
+   "extras": [
+    {
+     "heading": "THE ORIGINAL QUR’ANIC CONTEXT",
+     "blocks": [
+      {
+       "type": "text",
+       "text": "Prophet Lūṭ (AS) called his people away from grave wrongdoing, but they rejected his message. In this verse he asks Allah to save him and his family from their deeds and consequences. This is not a general playground dispute; an older learner can read the full surrounding passage with a knowledgeable adult."
+      }
+     ]
+    }
+   ],
+   "story": [
+    "At the playground, Akhlaq spotted a broken swing. Some children were still trying to climb onto it. Imaan asked everyone to move away while she informed the supervising adult. Later, she told Salaam that looking after one another means noticing real danger instead of pretending everything is fine. Salaam explained that the Qur’an preserves Prophet Lūṭ’s earnest prayer for safety in a far more serious historical situation. The children practised its short words, then talked about responsible ways to protect friends and family in their own lives."
+   ],
+   "understand": [
+    "We ask Allah for protection and also act wisely. The Qur’anic prayer belongs to Prophet Lūṭ’s original story; it is not a guarantee that a child can ignore unsafe situations. “My family” reminds us to care beyond ourselves. Never use this verse to accuse classmates of being the people of Lūṭ or to dramatize punishment for young children."
+   ],
+   "memorizeSteps": "Hear a qualified reciter pronounce the complete selected passage, repeat each segment, link phrases in order, and practise recall with words partly hidden. An audio-loop number is a study setting, not a prescribed religious count.",
+   "chunks": [
+    "رَبِّ نَجِّنِي وَأَهْلِي",
+    "مِمَّا يَعْمَلُونَ"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "Tell a trusted adult about one unsafe thing you notice, instead of trying to fix a dangerous situation alone.",
+   "mission": {
+    "text": "Choose whether Imaan should climb onto the damaged swing, ignore it, or tell the supervising adult. Then repeat the two Qur’anic phrases.",
+    "title": "Spot the safe choice",
+    "feedback": "You noticed a risk and chose a responsible way to help."
+   },
+   "reflect": "Who are the trusted adults I can ask for help?",
+   "guidance": {
+    "label": "Parent / teacher guidance",
+    "text": "The original passage concerns serious wrongdoing and divine rescue. Use an age-appropriate truthful summary, not invented prophetic dialogue; refer older learners to 26:160–175."
+   }
+  },
+  {
+   "id": "dua-072",
+   "number": 72,
+   "title": "When I Need Good from Allah",
+   "tagline": "VOLUME 08 / DU’A OF PROPHET MŪSĀ (AS) / SUPPLICATION PORTION OF VERSE",
+   "wordsHeading": "WORDS TO REMEMBER • QUR’ANIC ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "رَبِّ إِنِّي لِمَا أَنْزَلْتَ إِلَيَّ مِنْ خَيْرٍ فَقِيرٌ"
+    },
+    {
+     "type": "translit",
+     "text": "Rabbi innī limā anzalta ilayya min khayrin faqīr."
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "My Lord, I am truly in need of whatever good You send to me."
+    },
+    {
+     "type": "urdu",
+     "text": "اے میرے رب! جو بھی بھلائی تو میری طرف نازل فرمائے، میں اس کا محتاج ہوں۔"
+    },
+    {
+     "type": "field",
+     "label": "Qur’anic source",
+     "text": "Al-Qaṣaṣ 28:24 — Supplication portion of verse"
+    },
+    {
+     "type": "link",
+     "text": "https://quran.com/28/24"
+    }
+   ],
+   "arabic": "رَبِّ إِنِّي لِمَا أَنْزَلْتَ إِلَيَّ مِنْ خَيْرٍ فَقِيرٌ",
+   "transliteration": "Rabbi innī limā anzalta ilayya min khayrin faqīr.",
+   "english": "My Lord, I am truly in need of whatever good You send to me.",
+   "urdu": "اے میرے رب! جو بھی بھلائی تو میری طرف نازل فرمائے، میں اس کا محتاج ہوں۔",
+   "source": "Al-Qaṣaṣ 28:24 — Supplication portion of verse",
+   "sourceUrl": "https://quran.com/28/24",
+   "extras": [
+    {
+     "heading": "THE ORIGINAL QUR’ANIC CONTEXT",
+     "blocks": [
+      {
+       "type": "text",
+       "text": "After travelling to Madyan, Prophet Mūsā (AS) helped two women water their animals. He then sat in the shade and turned to Allah in need. The entire sequence in 28:22–28 shows the importance of helping others even during personal hardship."
+      }
+     ]
+    }
+   ],
+   "story": [
+    "Imaan had prepared her school project carefully, but her bag tore on the way to class. Akhlaq offered to help gather the papers. Imaan thanked him, yet she was still anxious about the presentation. At home, Dadi Jaan told the children how Prophet Mūsā (AS) helped others before making this humble Du’a. Imaan began to see the difference between demanding a perfect result and asking Allah for whatever good He knows is best. She checked her repaired folder, practised her presentation, and repeated the words with hope."
+   ],
+   "understand": [
+    "The word faqīr here expresses need before Allah, not a label to shame anyone. We can ask Him for good while working honestly and helping people. The Qur’an does not promise that this Du’a automatically produces money, grades or success on a particular schedule. The lesson is humble dependence on Allah alongside useful effort."
+   ],
+   "memorizeSteps": "Hear a qualified reciter pronounce the complete selected passage, repeat each segment, link phrases in order, and practise recall with words partly hidden. An audio-loop number is a study setting, not a prescribed religious count.",
+   "chunks": [
+    "رَبِّ إِنِّي",
+    "لِمَا أَنْزَلْتَ إِلَيَّ",
+    "مِنْ خَيْرٍ فَقِيرٌ"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "Offer one small, useful help to someone today without expecting a reward.",
+   "mission": {
+    "text": "Arrange a small sequence: Mūsā helps, rests, and makes Du’a; identify which parts come from Qur’anic context, then build the three Arabic chunks.",
+    "title": "The helping hand",
+    "feedback": "Helping others and asking Allah for good can belong together."
+   },
+   "reflect": "How can I help even on a day when I need help myself?",
+   "guidance": {
+    "label": "Parent / teacher guidance",
+    "text": "Do not invent companions, speeches, or extra miracles for Mūsā. Use 28:22–28 to anchor the story, keeping fictional scenes separate."
+   }
+  },
+  {
+   "id": "dua-073",
+   "number": 73,
+   "title": "Allah Is the Most Merciful",
+   "tagline": "VOLUME 08 / DU’A OF PROPHET AYYŪB (AS) / SUPPLICATION PORTION OF VERSE",
+   "wordsHeading": "WORDS TO REMEMBER • QUR’ANIC ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "أَنِّي مَسَّنِيَ الضُّرُّ وَأَنْتَ أَرْحَمُ الرَّاحِمِينَ"
+    },
+    {
+     "type": "translit",
+     "text": "Annī massaniyaḍ-ḍurru wa-Anta arḥamur-rāḥimīn."
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "I have been touched by hardship, and You are the Most Merciful of those who show mercy."
+    },
+    {
+     "type": "urdu",
+     "text": "مجھے تکلیف پہنچی ہے، اور تو سب رحم کرنے والوں سے بڑھ کر رحم فرمانے والا ہے۔"
+    },
+    {
+     "type": "field",
+     "label": "Qur’anic source",
+     "text": "Al-Anbiyā 21:83 — Supplication portion of verse"
+    },
+    {
+     "type": "link",
+     "text": "https://quran.com/21/83"
+    }
+   ],
+   "arabic": "أَنِّي مَسَّنِيَ الضُّرُّ وَأَنْتَ أَرْحَمُ الرَّاحِمِينَ",
+   "transliteration": "Annī massaniyaḍ-ḍurru wa-Anta arḥamur-rāḥimīn.",
+   "english": "I have been touched by hardship, and You are the Most Merciful of those who show mercy.",
+   "urdu": "مجھے تکلیف پہنچی ہے، اور تو سب رحم کرنے والوں سے بڑھ کر رحم فرمانے والا ہے۔",
+   "source": "Al-Anbiyā 21:83 — Supplication portion of verse",
+   "sourceUrl": "https://quran.com/21/83",
+   "extras": [
+    {
+     "heading": "THE ORIGINAL QUR’ANIC CONTEXT",
+     "blocks": [
+      {
+       "type": "text",
+       "text": "The Qur’an remembers Prophet Ayyūb (AS) when he called on Allah during serious suffering. The next verse records Allah’s response and mercy. We should not replace the Qur’anic account with unverified details about the nature, duration or cause of his illness."
+      }
+     ]
+    }
+   ],
+   "story": [
+    "Akhlaq was disappointed that his cousin could not join their picnic because he was unwell. Imaan suggested making a cheerful get-well card. Salamah reminded the children that illness can be exhausting and that a sick person needs kindness, rest and proper care. She introduced the words of Prophet Ayyūb (AS), who turned to Allah in hardship. The children practised listening to the Arabic, then chose gentle words for the card. They learned that remembering Allah and caring for a person are two parts of a compassionate response."
+   ],
+   "understand": [
+    "This is a humble call for Allah’s mercy, not an instruction to hide pain or refuse treatment. Children can tell a trusted adult when they hurt or feel distressed. The selected Arabic begins with “Annī” because the verse introduces the Prophet’s words in a preceding narrative clause. Show the complete verse in the app."
+   ],
+   "memorizeSteps": "Hear a qualified reciter pronounce the complete selected passage, repeat each segment, link phrases in order, and practise recall with words partly hidden. An audio-loop number is a study setting, not a prescribed religious count.",
+   "chunks": [
+    "أَنِّي مَسَّنِيَ الضُّرُّ",
+    "وَأَنْتَ أَرْحَمُ الرَّاحِمِينَ"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "Send one kind message or card to someone who is unwell, with an adult’s help.",
+   "mission": {
+    "text": "Select supportive responses to an unwell family member: offer help and tell a caregiver, rather than demand they join activities. Practise both phrases.",
+    "title": "Care with kindness",
+    "feedback": "Compassion means listening and caring gently."
+   },
+   "reflect": "What could help a person feel respected while they are sick?",
+   "guidance": {
+    "label": "Parent / teacher guidance",
+    "text": "Avoid medical promises and frightening imagery. Du’a accompanies medical care and comforting support; do not claim that sickness is punishment."
+   }
+  },
+  {
+   "id": "dua-074",
+   "number": 74,
+   "title": "May Allah Accept Our Effort",
+   "tagline": "VOLUME 08 / DU’A OF PROPHETS IBRĀHĪM AND ISMĀʿĪL (AS) / SUPPLICATION PORTION OF VERSE",
+   "wordsHeading": "WORDS TO REMEMBER • QUR’ANIC ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "رَبَّنَا تَقَبَّلْ مِنَّا إِنَّكَ أَنْتَ السَّمِيعُ الْعَلِيمُ"
+    },
+    {
+     "type": "translit",
+     "text": "Rabbanā taqabbal minnā, innaka Antas-Samīʿul-ʿAlīm."
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "Our Lord, accept this from us. You are indeed the All-Hearing, All-Knowing."
+    },
+    {
+     "type": "urdu",
+     "text": "اے ہمارے رب! ہم سے یہ عمل قبول فرما، بے شک تو ہی سب کچھ سننے والا اور جاننے والا ہے۔"
+    },
+    {
+     "type": "field",
+     "label": "Qur’anic source",
+     "text": "Al-Baqarah 2:127 — Supplication portion of verse"
+    },
+    {
+     "type": "link",
+     "text": "https://quran.com/2/127"
+    }
+   ],
+   "arabic": "رَبَّنَا تَقَبَّلْ مِنَّا إِنَّكَ أَنْتَ السَّمِيعُ الْعَلِيمُ",
+   "transliteration": "Rabbanā taqabbal minnā, innaka Antas-Samīʿul-ʿAlīm.",
+   "english": "Our Lord, accept this from us. You are indeed the All-Hearing, All-Knowing.",
+   "urdu": "اے ہمارے رب! ہم سے یہ عمل قبول فرما، بے شک تو ہی سب کچھ سننے والا اور جاننے والا ہے۔",
+   "source": "Al-Baqarah 2:127 — Supplication portion of verse",
+   "sourceUrl": "https://quran.com/2/127",
+   "extras": [
+    {
+     "heading": "THE ORIGINAL QUR’ANIC CONTEXT",
+     "blocks": [
+      {
+       "type": "text",
+       "text": "As Ibrāhīm and Ismāʿīl (AS) raised the foundations of the Sacred House, they asked Allah to accept their work. The verse first narrates their building activity and then records the supplication; only the latter is this lesson’s memorization selection."
+      }
+     ]
+    }
+   ],
+   "story": [
+    "For Environment Day, Imaan and Akhlaq helped plant seedlings with their classmates. Akhlaq wanted to count how many visitors had praised his work. Imaan pointed toward the small plants and asked whether they had been planted for applause or for a useful purpose. At home, Sheikh Uncle shared the Qur’anic example of Ibrāhīm and Ismāʿīl (AS), who asked Allah to accept an important act of obedience. The children repeated “Rabbanā taqabbal minnā” and realised that sincere effort is more valuable than being admired by everyone."
+   ],
+   "understand": [
+    "The Prophets did real work and turned to Allah with humility. Children can prepare carefully, complete a helpful task, and ask Allah to accept their effort without claiming that applause proves acceptance. Show the narrated verse and the highlighted Du’a separately; the present-day garden is an illustration, not a sacred historical event."
+   ],
+   "memorizeSteps": "Hear a qualified reciter pronounce the complete selected passage, repeat each segment, link phrases in order, and practise recall with words partly hidden. An audio-loop number is a study setting, not a prescribed religious count.",
+   "chunks": [
+    "رَبَّنَا تَقَبَّلْ مِنَّا",
+    "إِنَّكَ أَنْتَ السَّمِيعُ الْعَلِيمُ"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "Complete one helpful task today without asking anyone to praise you for it.",
+   "mission": {
+    "text": "Choose between helping quietly, boasting, or refusing a shared job; then match “accept,” “hearing,” and “knowing” to the Arabic phrases.",
+    "title": "Sincere builder",
+    "feedback": "A sincere deed is worth doing even when no one applauds."
+   },
+   "reflect": "Why is intention important when we do something good?",
+   "guidance": {
+    "label": "Parent / teacher guidance",
+    "text": "The Kaʿbah construction context is a revealed account; do not depict Prophets with invented faces or invented direct quotations."
+   }
+  },
+  {
+   "id": "dua-075",
+   "number": 75,
+   "title": "A Prayer for a Righteous Family",
+   "tagline": "VOLUME 08 / DU’A OF PROPHET ZAKARIYYĀ (AS) / SUPPLICATION PORTION OF VERSE",
+   "wordsHeading": "WORDS TO REMEMBER • QUR’ANIC ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "رَبِّ هَبْ لِي مِنْ لَدُنْكَ ذُرِّيَّةً طَيِّبَةً إِنَّكَ سَمِيعُ الدُّعَاءِ"
+    },
+    {
+     "type": "translit",
+     "text": "Rabbi hab lī min ladunka dhurriyyatan ṭayyibatan, innaka Samīʿud-duʿāʾ."
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "My Lord, grant me from Yourself righteous offspring. You are indeed the Hearer of prayer."
+    },
+    {
+     "type": "urdu",
+     "text": "اے میرے رب! مجھے اپنی طرف سے نیک اولاد عطا فرما، یقیناً تو دعا سننے والا ہے۔"
+    },
+    {
+     "type": "field",
+     "label": "Qur’anic source",
+     "text": "Āl ʿImrān 3:38 — Supplication portion of verse"
+    },
+    {
+     "type": "link",
+     "text": "https://quran.com/3/38"
+    }
+   ],
+   "arabic": "رَبِّ هَبْ لِي مِنْ لَدُنْكَ ذُرِّيَّةً طَيِّبَةً إِنَّكَ سَمِيعُ الدُّعَاءِ",
+   "transliteration": "Rabbi hab lī min ladunka dhurriyyatan ṭayyibatan, innaka Samīʿud-duʿāʾ.",
+   "english": "My Lord, grant me from Yourself righteous offspring. You are indeed the Hearer of prayer.",
+   "urdu": "اے میرے رب! مجھے اپنی طرف سے نیک اولاد عطا فرما، یقیناً تو دعا سننے والا ہے۔",
+   "source": "Āl ʿImrān 3:38 — Supplication portion of verse",
+   "sourceUrl": "https://quran.com/3/38",
+   "extras": [
+    {
+     "heading": "THE ORIGINAL QUR’ANIC CONTEXT",
+     "blocks": [
+      {
+       "type": "text",
+       "text": "Prophet Zakariyyā (AS) prayed for righteous offspring. The Qur’an places this request after his care for Maryam (AS) and records Allah’s glad tidings of Yaḥyā (AS). This is an adult Prophet’s request for a child; it must not be disguised as a prayer children are instructed to say for themselves daily."
+      }
+     ]
+    }
+   ],
+   "story": [
+    "Salamah was preparing a small gift for a family expecting a baby. Akhlaq offered to decorate a card and Imaan wanted to write a kind message. Dadi Jaan explained that welcoming a child is also an opportunity to ask Allah for goodness and good character. She introduced the Du’a of Prophet Zakariyyā (AS), showing how he prayed for righteous offspring. The children listened attentively and asked what “ṭayyibah” meant. Dadi Jaan explained that it refers to good, righteous character. They decided that caring words and practical help are lovely ways to welcome a new family member."
+   ],
+   "understand": [
+    "The text is a genuine supplication for righteous offspring, not a generic line meaning “make me good.” Young learners may learn its meaning and recite it with parents, while an adult can explain when it is especially appropriate. Do not portray having children as guaranteed after repetition or imply families without children are less valued."
+   ],
+   "memorizeSteps": "Hear a qualified reciter pronounce the complete selected passage, repeat each segment, link phrases in order, and practise recall with words partly hidden. An audio-loop number is a study setting, not a prescribed religious count.",
+   "chunks": [
+    "رَبِّ هَبْ لِي مِنْ لَدُنْكَ",
+    "ذُرِّيَّةً طَيِّبَةً",
+    "إِنَّكَ سَمِيعُ الدُّعَاءِ"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "Make or write one welcoming message for a younger child or family member.",
+   "mission": {
+    "text": "Help Imaan prepare a respectful welcome card; discover the words “offspring,” “good,” and “Hearer of prayer,” then sequence the Du’a.",
+    "title": "Welcome with care",
+    "feedback": "Kind families make room for care and good character."
+   },
+   "reflect": "What makes someone feel welcome in a family?",
+   "guidance": {
+    "label": "Parent / teacher guidance",
+    "text": "Handle fertility, pregnancy and loss sensitively; adults should guide application and not assign a fixed daily recitation."
+   }
+  },
+  {
+   "id": "dua-076",
+   "number": 76,
+   "title": "A Safe City and a Steady Faith",
+   "tagline": "VOLUME 08 / DU’A OF PROPHET IBRĀHĪM (AS) / SUPPLICATION PORTION OF VERSE",
+   "wordsHeading": "WORDS TO REMEMBER • QUR’ANIC ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "رَبِّ اجْعَلْ هَٰذَا الْبَلَدَ آمِنًا وَاجْنُبْنِي وَبَنِيَّ أَنْ نَعْبُدَ الْأَصْنَامَ"
+    },
+    {
+     "type": "translit",
+     "text": "Rabbijʿal hādhal-balada āminan waj-nubnī wa-baniyya an naʿbudal-aṣnām."
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "My Lord, make this city safe, and keep me and my children away from worshipping idols."
+    },
+    {
+     "type": "urdu",
+     "text": "اے میرے رب! اس شہر کو امن والا بنا، اور مجھے اور میری اولاد کو بتوں کی عبادت سے دور رکھ۔"
+    },
+    {
+     "type": "field",
+     "label": "Qur’anic source",
+     "text": "Ibrāhīm 14:35 — Supplication portion of verse"
+    },
+    {
+     "type": "link",
+     "text": "https://quran.com/14/35"
+    }
+   ],
+   "arabic": "رَبِّ اجْعَلْ هَٰذَا الْبَلَدَ آمِنًا وَاجْنُبْنِي وَبَنِيَّ أَنْ نَعْبُدَ الْأَصْنَامَ",
+   "transliteration": "Rabbijʿal hādhal-balada āminan waj-nubnī wa-baniyya an naʿbudal-aṣnām.",
+   "english": "My Lord, make this city safe, and keep me and my children away from worshipping idols.",
+   "urdu": "اے میرے رب! اس شہر کو امن والا بنا، اور مجھے اور میری اولاد کو بتوں کی عبادت سے دور رکھ۔",
+   "source": "Ibrāhīm 14:35 — Supplication portion of verse",
+   "sourceUrl": "https://quran.com/14/35",
+   "extras": [
+    {
+     "heading": "THE ORIGINAL QUR’ANIC CONTEXT",
+     "blocks": [
+      {
+       "type": "text",
+       "text": "Prophet Ibrāhīm (AS) made this prayer concerning the Sacred City, asking for safety and protection for himself and his descendants from idol worship. The second request teaches Tawḥīd directly; it must not be erased or reinterpreted as merely avoiding bad habits."
+      }
+     ]
+    }
+   ],
+   "story": [
+    "On a walk near Amanpur’s busy market, Imaan noticed a crossing sign and asked why communities need rules for roads. Salaam explained that safety requires caring neighbours, sensible actions and people who respect others. Later Sheikh Uncle taught the children a prayer of Prophet Ibrāhīm (AS), asking Allah for the security of the Sacred City and for protection from worshipping idols. Akhlaq learned that the Du’a joins concern for a safe place with loyalty to the worship of Allah alone. He followed the crossing rules as the family returned home."
+   ],
+   "understand": [
+    "The first request concerns safety for the city; the second concerns worshipping Allah alone and avoiding idols. Both halves are essential. Children can draw an application about acting responsibly in their neighbourhood, but the original reference is Makkah and the Prophet’s commitment to Tawḥīd. No fixed everyday timing is assigned by the verse."
+   ],
+   "memorizeSteps": "Hear a qualified reciter pronounce the complete selected passage, repeat each segment, link phrases in order, and practise recall with words partly hidden. An audio-loop number is a study setting, not a prescribed religious count.",
+   "chunks": [
+    "رَبِّ اجْعَلْ هَٰذَا الْبَلَدَ آمِنًا",
+    "وَاجْنُبْنِي وَبَنِيَّ",
+    "أَنْ نَعْبُدَ الْأَصْنَامَ"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "Follow one community-safety rule today and help a younger child understand it.",
+   "mission": {
+    "text": "Navigate a simple pedestrian-crossing choice and then connect two meaning cards: safety for the city and worshipping Allah alone.",
+    "title": "The safe neighbourhood",
+    "feedback": "Safe actions and faith both deserve our care."
+   },
+   "reflect": "How can we help keep the places around us safe?",
+   "guidance": {
+    "label": "Parent / teacher guidance",
+    "text": "Teach the actual doctrine of Tawḥīd; avoid treating “idols” as a metaphor for toys or phones. Source context is specifically Ibrāhīm’s prayer for Makkah."
+   }
+  },
+  {
+   "id": "dua-077",
+   "number": 77,
+   "title": "Humility When I Do Not Know",
+   "tagline": "VOLUME 08 / DU’A OF PROPHET NŪḤ (AS) / SUPPLICATION PORTION OF VERSE",
+   "wordsHeading": "WORDS TO REMEMBER • QUR’ANIC ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "رَبِّ إِنِّي أَعُوذُ بِكَ أَنْ أَسْأَلَكَ مَا لَيْسَ لِي بِهِ عِلْمٌ وَإِلَّا تَغْفِرْ لِي وَتَرْحَمْنِي أَكُنْ مِنَ الْخَاسِرِينَ"
+    },
+    {
+     "type": "translit",
+     "text": "Rabbi innī aʿūdhu bika an asʾalaka mā laysa lī bihi ʿilm, wa-illā taghfir lī wa-tarḥamnī akun minal-khāsirīn."
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "My Lord, I seek Your protection from asking about what I do not know. Unless You forgive me and have mercy on me, I will be among the losers."
+    },
+    {
+     "type": "urdu",
+     "text": "اے میرے رب! میں تیری پناہ مانگتا ہوں کہ تجھ سے وہ بات پوچھوں جس کا مجھے علم نہیں۔ اگر تو مجھے نہ بخشے اور مجھ پر رحم نہ فرمائے تو میں نقصان اٹھانے والوں میں ہو جاؤں گا۔"
+    },
+    {
+     "type": "field",
+     "label": "Qur’anic source",
+     "text": "Hūd 11:47 — Supplication portion of verse"
+    },
+    {
+     "type": "link",
+     "text": "https://quran.com/11/47"
+    }
+   ],
+   "arabic": "رَبِّ إِنِّي أَعُوذُ بِكَ أَنْ أَسْأَلَكَ مَا لَيْسَ لِي بِهِ عِلْمٌ وَإِلَّا تَغْفِرْ لِي وَتَرْحَمْنِي أَكُنْ مِنَ الْخَاسِرِينَ",
+   "transliteration": "Rabbi innī aʿūdhu bika an asʾalaka mā laysa lī bihi ʿilm, wa-illā taghfir lī wa-tarḥamnī akun minal-khāsirīn.",
+   "english": "My Lord, I seek Your protection from asking about what I do not know. Unless You forgive me and have mercy on me, I will be among the losers.",
+   "urdu": "اے میرے رب! میں تیری پناہ مانگتا ہوں کہ تجھ سے وہ بات پوچھوں جس کا مجھے علم نہیں۔ اگر تو مجھے نہ بخشے اور مجھ پر رحم نہ فرمائے تو میں نقصان اٹھانے والوں میں ہو جاؤں گا۔",
+   "source": "Hūd 11:47 — Supplication portion of verse",
+   "sourceUrl": "https://quran.com/11/47",
+   "extras": [
+    {
+     "heading": "THE ORIGINAL QUR’ANIC CONTEXT",
+     "blocks": [
+      {
+       "type": "text",
+       "text": "This comes after a deeply painful exchange about Nūḥ (AS) and his son in the flood account. Allah corrects Nūḥ’s earlier appeal, and the Prophet responds humbly with this supplication. It should not be reduced to a simple classroom mistake; the authentic historical setting is solemn and carries theological lessons."
+      }
+     ]
+    }
+   ],
+   "story": [
+    "During a class exhibition, Akhlaq heard that a science model had been built by one student. He repeated the claim without checking, but then found out that three classmates had worked on it together. Imaan gently pointed out that knowing the truth matters more than sounding certain. Akhlaq corrected his statement and thanked the students for explaining. Dadi Jaan later taught the children a much more serious Qur’anic example: Prophet Nūḥ (AS) turned back to Allah with humility when corrected. The children practised the Du’a and spoke about the courage required to say, “I do not know yet.”"
+   ],
+   "understand": [
+    "The central lesson is humility about knowledge and reliance on Allah’s forgiveness. Preserve the historical sorrow and divine correction as part of the original story. In the app, a small mistaken claim is only a safe modern illustration. Do not present the verse as proof that questions are forbidden; sincere learning questions are welcome, whereas the prayer concerns asking without knowledge in its specific context."
+   ],
+   "memorizeSteps": "Hear a qualified reciter pronounce the complete selected passage, repeat each segment, link phrases in order, and practise recall with words partly hidden. An audio-loop number is a study setting, not a prescribed religious count.",
+   "chunks": [
+    "رَبِّ إِنِّي أَعُوذُ بِكَ",
+    "أَنْ أَسْأَلَكَ مَا لَيْسَ لِي بِهِ عِلْمٌ",
+    "وَإِلَّا تَغْفِرْ لِي وَتَرْحَمْنِي",
+    "أَكُنْ مِنَ الْخَاسِرِينَ"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "When you are unsure about one fact today, say “I’m not sure” and check it with a reliable adult or book.",
+   "mission": {
+    "text": "Distinguish “I checked,” “I guessed,” and “I do not know yet,” then build four verse phrases in order.",
+    "title": "Truth detective",
+    "feedback": "Being willing to learn is stronger than pretending to know."
+   },
+   "reflect": "What should I do before repeating something I am unsure about?",
+   "guidance": {
+    "label": "Parent / teacher guidance",
+    "text": "Show the Nūḥ narrative from 11:42–47 in a sensitive caregiver-facing context card; never dramatize the son’s death for very young users."
+   }
+  },
+  {
+   "id": "dua-078",
+   "number": 78,
+   "title": "A Good Ending with the Righteous",
+   "tagline": "VOLUME 08 / DU’A OF PROPHET YŪSUF (AS) / FINAL SUPPLICATION PORTION OF VERSE",
+   "wordsHeading": "WORDS TO REMEMBER • QUR’ANIC ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "تَوَفَّنِي مُسْلِمًا وَأَلْحِقْنِي بِالصَّالِحِينَ"
+    },
+    {
+     "type": "translit",
+     "text": "Tawaffanī musliman wa-alḥiqnī biṣ-ṣāliḥīn."
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "Let me die in submission to You and join me with the righteous."
+    },
+    {
+     "type": "urdu",
+     "text": "مجھے اسلام کی حالت میں وفات دے اور نیک لوگوں کے ساتھ ملا دے۔"
+    },
+    {
+     "type": "field",
+     "label": "Qur’anic source",
+     "text": "Yūsuf 12:101 — Final supplication portion of verse"
+    },
+    {
+     "type": "link",
+     "text": "https://quran.com/12/101"
+    }
+   ],
+   "arabic": "تَوَفَّنِي مُسْلِمًا وَأَلْحِقْنِي بِالصَّالِحِينَ",
+   "transliteration": "Tawaffanī musliman wa-alḥiqnī biṣ-ṣāliḥīn.",
+   "english": "Let me die in submission to You and join me with the righteous.",
+   "urdu": "مجھے اسلام کی حالت میں وفات دے اور نیک لوگوں کے ساتھ ملا دے۔",
+   "source": "Yūsuf 12:101 — Final supplication portion of verse",
+   "sourceUrl": "https://quran.com/12/101",
+   "extras": [
+    {
+     "heading": "THE ORIGINAL QUR’ANIC CONTEXT",
+     "blocks": [
+      {
+       "type": "text",
+       "text": "Near the end of Surah Yūsuf, after speaking of Allah’s favour and guidance, Prophet Yūsuf (AS) asks for steadfast faith until death and companionship with the righteous. The selected words are only the ending of a longer verse (12:101), not the whole prayer."
+      }
+     ]
+    }
+   ],
+   "story": [
+    "After completing a year at school, Imaan opened a folder of old drawings. Some were messy, and others showed how she had improved. “I hope I always keep learning to do what pleases Allah,” she said. Dadi Jaan explained that Prophet Yūsuf (AS) received great blessings, yet his Qur’anic prayer looked beyond worldly success toward ending life in faith and being among the righteous. Akhlaq understood that good character is a lifelong journey. The family spoke gently about choosing good friends and learning from people whose actions are kind and trustworthy."
+   ],
+   "understand": [
+    "This Du’a concerns a faithful ending to life, so the complete meaning—including death—must be preserved, not disguised. Very young children may listen and discuss the value of good companionship with a parent; older children can memorize the excerpt. Never imply that memorizing a line guarantees a particular ending or that the Prophet was asking for immediate death."
+   ],
+   "memorizeSteps": "Hear a qualified reciter pronounce the complete selected passage, repeat each segment, link phrases in order, and practise recall with words partly hidden. An audio-loop number is a study setting, not a prescribed religious count.",
+   "chunks": [
+    "تَوَفَّنِي مُسْلِمًا",
+    "وَأَلْحِقْنِي بِالصَّالِحِينَ"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "Spend a little time today with someone who encourages you to do what is right.",
+   "mission": {
+    "text": "Choose a companion who encourages honesty and helpfulness, then practise the two Arabic phrases with an adult explanation of their full meaning.",
+    "title": "Good company",
+    "feedback": "Good company helps us keep choosing what is right."
+   },
+   "reflect": "What makes someone a good influence on me?",
+   "guidance": {
+    "label": "Parent / teacher guidance",
+    "text": "Preserve the death-related meaning without frightening children; make this optional or parent-guided for younger ages, and link to the full 12:101."
+   }
+  },
+  {
+   "id": "dua-079",
+   "number": 79,
+   "title": "Thankful for Allah’s Gifts",
+   "tagline": "VOLUME 08 / DU’A OF PROPHET SULAYMĀN (AS) / SUPPLICATION PORTION OF VERSE",
+   "wordsHeading": "WORDS TO REMEMBER • QUR’ANIC ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ الَّتِي أَنْعَمْتَ عَلَيَّ وَعَلَىٰ وَالِدَيَّ وَأَنْ أَعْمَلَ صَالِحًا تَرْضَاهُ وَأَدْخِلْنِي بِرَحْمَتِكَ فِي عِبَادِكَ الصَّالِحِينَ"
+    },
+    {
+     "type": "translit",
+     "text": "Rabbi awziʿnī an ashkura niʿmatakallatī anʿamta ʿalayya wa-ʿalā wālidayya, wa-an aʿmala ṣāliḥan tarḍāh, wa-adkhilnī biraḥmatika fī ʿibādikaṣ-ṣāliḥīn."
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "My Lord, inspire me to be grateful for the blessings You gave me and my parents, and to do good deeds that please You. Admit me, by Your mercy, among Your righteous servants."
+    },
+    {
+     "type": "urdu",
+     "text": "اے میرے رب! مجھے توفیق دے کہ میں تیری ان نعمتوں کا شکر ادا کروں جو تو نے مجھے اور میرے والدین کو عطا کی ہیں، اور ایسے نیک اعمال کروں جن سے تو راضی ہو، اور اپنی رحمت سے مجھے اپنے نیک بندوں میں شامل فرما۔"
+    },
+    {
+     "type": "field",
+     "label": "Qur’anic source",
+     "text": "An-Naml 27:19 — Supplication portion of verse"
+    },
+    {
+     "type": "link",
+     "text": "https://quran.com/27/19"
+    }
+   ],
+   "arabic": "رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ الَّتِي أَنْعَمْتَ عَلَيَّ وَعَلَىٰ وَالِدَيَّ وَأَنْ أَعْمَلَ صَالِحًا تَرْضَاهُ وَأَدْخِلْنِي بِرَحْمَتِكَ فِي عِبَادِكَ الصَّالِحِينَ",
+   "transliteration": "Rabbi awziʿnī an ashkura niʿmatakallatī anʿamta ʿalayya wa-ʿalā wālidayya, wa-an aʿmala ṣāliḥan tarḍāh, wa-adkhilnī biraḥmatika fī ʿibādikaṣ-ṣāliḥīn.",
+   "english": "My Lord, inspire me to be grateful for the blessings You gave me and my parents, and to do good deeds that please You. Admit me, by Your mercy, among Your righteous servants.",
+   "urdu": "اے میرے رب! مجھے توفیق دے کہ میں تیری ان نعمتوں کا شکر ادا کروں جو تو نے مجھے اور میرے والدین کو عطا کی ہیں، اور ایسے نیک اعمال کروں جن سے تو راضی ہو، اور اپنی رحمت سے مجھے اپنے نیک بندوں میں شامل فرما۔",
+   "source": "An-Naml 27:19 — Supplication portion of verse",
+   "sourceUrl": "https://quran.com/27/19",
+   "extras": [
+    {
+     "heading": "THE ORIGINAL QUR’ANIC CONTEXT",
+     "blocks": [
+      {
+       "type": "text",
+       "text": "The Qur’an relates Prophet Sulaymān (AS) understanding the warning of an ant and smiling before asking Allah for gratitude, righteous deeds, and inclusion among the righteous. Children should learn from the authentic Qur’anic account without creating new conversations with the ant."
+      }
+     ]
+    }
+   ],
+   "story": [
+    "Akhlaq won a prize for his drawing. He felt proud but forgot the teacher who had patiently helped him practise. Imaan suggested making a thank-you note. At home, Sheikh Uncle shared the Qur’anic moment when Prophet Sulaymān (AS), blessed with extraordinary knowledge and power, turned to Allah in gratitude rather than boasting. The children listened to the long supplication one portion at a time. They learned that gratitude becomes especially meaningful when it leads to good deeds, not merely words."
+   ],
+   "understand": [
+    "This is a longer Qur’anic supplication that combines gratitude for blessings, a request to do pleasing actions, and hope for Allah’s mercy. Parents’ blessings and the company of righteous servants are part of the actual text. Avoid presenting wealth or talent as proof that Allah is more pleased with one child than another."
+   ],
+   "memorizeSteps": "Hear a qualified reciter pronounce the complete selected passage, repeat each segment, link phrases in order, and practise recall with words partly hidden. An audio-loop number is a study setting, not a prescribed religious count.",
+   "chunks": [
+    "رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ",
+    "الَّتِي أَنْعَمْتَ عَلَيَّ وَعَلَىٰ وَالِدَيَّ",
+    "وَأَنْ أَعْمَلَ صَالِحًا تَرْضَاهُ",
+    "وَأَدْخِلْنِي بِرَحْمَتِكَ فِي عِبَادِكَ الصَّالِحِينَ"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "Thank one person today for helping you learn or grow.",
+   "mission": {
+    "text": "Match blessings to helpful uses (knowledge to teaching, talent to service), then unlock four audio sections; no timed competition.",
+    "title": "Gratitude garden",
+    "feedback": "A grateful heart uses its blessings to help."
+   },
+   "reflect": "What gift can I use to do a good deed?",
+   "guidance": {
+    "label": "Parent / teacher guidance",
+    "text": "Long-form Hifz should be flexible. Use approved Qur’anic recitation aligned to the full excerpt and preserve the ant’s actual Qur’anic words separately."
+   }
+  },
+  {
+   "id": "dua-080",
+   "number": 80,
+   "title": "Allah Is the Best Provider",
+   "tagline": "VOLUME 08 / DU’A OF PROPHET ʿĪSĀ (AS) / SUPPLICATION PORTION OF VERSE",
+   "wordsHeading": "WORDS TO REMEMBER • QUR’ANIC ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "اللَّهُمَّ رَبَّنَا أَنْزِلْ عَلَيْنَا مَائِدَةً مِنَ السَّمَاءِ تَكُونُ لَنَا عِيدًا لِأَوَّلِنَا وَآخِرِنَا وَآيَةً مِنْكَ وَارْزُقْنَا وَأَنْتَ خَيْرُ الرَّازِقِينَ"
+    },
+    {
+     "type": "translit",
+     "text": "Allāhumma Rabbanā anzil ʿalaynā māʾidatan minas-samāʾ, takūnu lanā ʿīdan li-awwalinā wa-ākhirinā wa-āyatan mink, warzuqnā wa-Anta khayrur-rāziqīn."
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "O Allah, our Lord, send us a table spread with food from heaven as a celebration for the first and last of us and a sign from You. Provide for us; You are the Best Provider."
+    },
+    {
+     "type": "urdu",
+     "text": "اے اللہ! ہمارے رب! ہم پر آسمان سے کھانے کا دسترخوان اتار، جو ہمارے اگلوں اور پچھلوں کے لیے خوشی کا دن اور تیری طرف سے نشانی ہو؛ اور ہمیں رزق دے، تو سب سے بہتر رزق دینے والا ہے۔"
+    },
+    {
+     "type": "field",
+     "label": "Qur’anic source",
+     "text": "Al-Māʾidah 5:114 — Supplication portion of verse"
+    },
+    {
+     "type": "link",
+     "text": "https://quran.com/5/114"
+    }
+   ],
+   "arabic": "اللَّهُمَّ رَبَّنَا أَنْزِلْ عَلَيْنَا مَائِدَةً مِنَ السَّمَاءِ تَكُونُ لَنَا عِيدًا لِأَوَّلِنَا وَآخِرِنَا وَآيَةً مِنْكَ وَارْزُقْنَا وَأَنْتَ خَيْرُ الرَّازِقِينَ",
+   "transliteration": "Allāhumma Rabbanā anzil ʿalaynā māʾidatan minas-samāʾ, takūnu lanā ʿīdan li-awwalinā wa-ākhirinā wa-āyatan mink, warzuqnā wa-Anta khayrur-rāziqīn.",
+   "english": "O Allah, our Lord, send us a table spread with food from heaven as a celebration for the first and last of us and a sign from You. Provide for us; You are the Best Provider.",
+   "urdu": "اے اللہ! ہمارے رب! ہم پر آسمان سے کھانے کا دسترخوان اتار، جو ہمارے اگلوں اور پچھلوں کے لیے خوشی کا دن اور تیری طرف سے نشانی ہو؛ اور ہمیں رزق دے، تو سب سے بہتر رزق دینے والا ہے۔",
+   "source": "Al-Māʾidah 5:114 — Supplication portion of verse",
+   "sourceUrl": "https://quran.com/5/114",
+   "extras": [
+    {
+     "heading": "THE ORIGINAL QUR’ANIC CONTEXT",
+     "blocks": [
+      {
+       "type": "text",
+       "text": "The disciples asked Prophet ʿĪsā (AS) concerning a table spread from heaven; he warned them to fear Allah and then made this supplication. The Qur’an reports a particular sign and response, not an instruction that every child should ask for food to descend miraculously. The verse begins with narration; memorize the supplication segment only."
+      }
+     ]
+    }
+   ],
+   "story": [
+    "At a family gathering, Imaan and Akhlaq helped place food on the table. Akhlaq noticed that some guests had arrived unexpectedly, and there were not enough chairs. Salamah calmly arranged an extra place and asked the children to help welcome everyone. Later, Dadi Jaan shared the Qur’anic story in which Prophet ʿĪsā (AS) asked Allah for a special sign and provision. The family learned the longer prayer gradually, while carefully distinguishing that extraordinary event from ordinary meals. Imaan decided that gratitude for food should make her more willing to share it."
+   ],
+   "understand": [
+    "The story is about a specific miraculous request and Allah’s provision. The lesson must include the “sign from You” wording and the prayer for provision; it cannot be reduced to a normal meal Du’a. No promise of a miraculous table, a specified celebration, or a new routine is assigned to children. They can learn reliance on Allah and responsible sharing through a separate practical example."
+   ],
+   "memorizeSteps": "Hear a qualified reciter pronounce the complete selected passage, repeat each segment, link phrases in order, and practise recall with words partly hidden. An audio-loop number is a study setting, not a prescribed religious count.",
+   "chunks": [
+    "اللَّهُمَّ رَبَّنَا أَنْزِلْ عَلَيْنَا مَائِدَةً مِنَ السَّمَاءِ",
+    "تَكُونُ لَنَا عِيدًا لِأَوَّلِنَا وَآخِرِنَا",
+    "وَآيَةً مِنْكَ وَارْزُقْنَا",
+    "وَأَنْتَ خَيْرُ الرَّازِقِينَ"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "Share a portion of food or help set a place for someone at a family meal.",
+   "mission": {
+    "text": "Help set places fairly and select a respectful way to serve guests; unlock four memorization phrases with explicit “Qur’anic miracle context” label.",
+    "title": "The welcome table",
+    "feedback": "Being thankful for provision includes sharing and hospitality."
+   },
+   "reflect": "How can I show gratitude when food is available?",
+   "guidance": {
+    "label": "Parent / teacher guidance",
+    "text": "Retain 5:112–115 as the full context, including ʿĪsā’s warning and the extraordinary sign. Do not invent a depiction of Prophet ʿĪsā or treat the prayer as an everyday meal formula."
+   }
+  }
+ ]
+}

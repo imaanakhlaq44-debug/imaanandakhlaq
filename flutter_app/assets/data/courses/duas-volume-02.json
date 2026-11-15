@@ -1,0 +1,745 @@
+{
+ "volume": 2,
+ "title": "My Everyday Sunnah",
+ "intro": "Ten authentic daily-life remembrances for meals, sleep, waking, the masjid and Salah—taught through stories, sound-by-sound memorization, and one gentle action each.",
+ "sourceDocument": "Zad_al_Qulub_Junior_Volume_02_My_Everyday_Sunnah.docx",
+ "reviewStatus": "Working curriculum text copied verbatim from the supplied DOCX. Qualified scholarly, Arabic, Urdu and pronunciation review is required before release.",
+ "lessons": [
+  {
+   "id": "dua-011",
+   "number": 11,
+   "title": "I Forgot Bismillah! What Now?",
+   "tagline": "VOLUME 02 / PROPHETIC SUPPLICATION DURING A MEAL / MINDFULNESS WITHOUT EMBARRASSMENT",
+   "wordsHeading": "WORDS TO REMEMBER • ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "بِسْمِ اللَّهِ فِي أَوَّلِهِ وَآخِرِهِ"
+    },
+    {
+     "type": "translit",
+     "text": "Bismillāhi fī awwalihi wa ākhirih"
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "In the name of Allah, at its beginning and its end."
+    },
+    {
+     "type": "urdu",
+     "text": "اللہ کے نام سے، اس کے شروع اور آخر میں۔"
+    },
+    {
+     "type": "field",
+     "label": "When to say it",
+     "text": "When you have already started eating and remember that you forgot to say Bismillah at the beginning."
+    },
+    {
+     "type": "field",
+     "label": "Primary evidence",
+     "text": "Jami‘ at-Tirmidhi 1858  |  Sahih (Darussalam)"
+    },
+    {
+     "type": "link",
+     "text": "https://sunnah.com/tirmidhi:1858"
+    }
+   ],
+   "arabic": "بِسْمِ اللَّهِ فِي أَوَّلِهِ وَآخِرِهِ",
+   "transliteration": "Bismillāhi fī awwalihi wa ākhirih",
+   "english": "In the name of Allah, at its beginning and its end.",
+   "urdu": "اللہ کے نام سے، اس کے شروع اور آخر میں۔",
+   "occasion": "When you have already started eating and remember that you forgot to say Bismillah at the beginning.",
+   "source": "Jami‘ at-Tirmidhi 1858  |  Sahih (Darussalam)",
+   "sourceUrl": "https://sunnah.com/tirmidhi:1858",
+   "extras": [],
+   "story": [
+    "Akhlaq was hungry after school. He sat beside Imaan, picked up some rice, and began eating. Halfway through, he suddenly stopped: “Oh! I forgot to say Bismillah!” He looked worried, thinking he had ruined his chance to remember Allah. Dadi Jaan smiled and said, “Remembering now is a good thing. Our Prophet ﷺ taught us what to say if we forget at the beginning.” She carefully pronounced the words, and Akhlaq repeated them. Imaan gave him time to finish without making the table into a classroom test. They continued their meal, thanked Salamah for preparing it, and talked about their day. Akhlaq learned that when we forget a good habit, we can return to it gently and keep trying."
+   ],
+   "understand": [
+    "We all forget things sometimes. The Sunnah teaches us a simple way to remember Allah when we have begun eating without saying Bismillah. The important lesson is not to panic or feel bad. We notice, remember, and continue. This supplication belongs to the situation of forgetting the opening remembrance while eating. It is not a general formula for correcting every mistake. The app should let a learner practise the full phrase after a simple meal scene, with no teasing for selecting the wrong option."
+   ],
+   "memorizeSteps": "Listen to the complete Du‘a. Practise the phrase cards in the Arabic order shown below; then rejoin the parts, listen again, and recall without looking. These are educational practice steps, not prescribed religious repetition counts.",
+   "chunks": [
+    "بِسْمِ اللَّهِ",
+    "فِي أَوَّلِهِ",
+    "وَآخِرِهِ"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "At your next meal, if you realize you forgot Bismillah, say the taught phrase and continue eating calmly.",
+   "mission": {
+    "text": "A lunch scene shows the first bite has already happened. The child selects the recovery Du’a, arranges its three audio chunks, then sees the meal continue peacefully.",
+    "title": "The forgotten beginning",
+    "feedback": "You remembered and returned to a beautiful habit."
+   },
+   "reflect": "When you forget something good, how can you try again kindly?",
+   "guidance": {
+    "label": "Parent / teacher cue",
+    "text": "Do not interrupt or shame the child at the table; model the words in a normal voice."
+   },
+   "editorialNote": "Use exactly the wording of the Tirmidhi narration with فِي; another authentic wording without فِي appears in Abi Dawud 3767. Teach one verified version consistently. Do not make a child start the meal again."
+  },
+  {
+   "id": "dua-012",
+   "number": 12,
+   "title": "Before I Enter the Bathroom",
+   "tagline": "VOLUME 02 / PROPHETIC PROTECTION SUPPLICATION / DIGNITY, PRIVACY, AND SEEKING PROTECTION",
+   "wordsHeading": "WORDS TO REMEMBER • ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْخُبُثِ وَالْخَبَائِثِ"
+    },
+    {
+     "type": "translit",
+     "text": "Allāhumma innī a‘ūdhu bika minal-khubuthi wal-khabā’ith"
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "O Allah, I seek refuge with You from male and female evil beings."
+    },
+    {
+     "type": "urdu",
+     "text": "اے اللہ! میں ناپاک و شریر جنّات سے تیری پناہ مانگتا/مانگتی ہوں۔"
+    },
+    {
+     "type": "field",
+     "label": "When to say it",
+     "text": "Immediately before entering the toilet; teach the setting discreetly and respectfully."
+    },
+    {
+     "type": "field",
+     "label": "Primary evidence",
+     "text": "Sahih al-Bukhari 142  |  Sahih"
+    },
+    {
+     "type": "link",
+     "text": "https://sunnah.com/bukhari:142"
+    }
+   ],
+   "arabic": "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْخُبُثِ وَالْخَبَائِثِ",
+   "transliteration": "Allāhumma innī a‘ūdhu bika minal-khubuthi wal-khabā’ith",
+   "english": "O Allah, I seek refuge with You from male and female evil beings.",
+   "urdu": "اے اللہ! میں ناپاک و شریر جنّات سے تیری پناہ مانگتا/مانگتی ہوں۔",
+   "occasion": "Immediately before entering the toilet; teach the setting discreetly and respectfully.",
+   "source": "Sahih al-Bukhari 142  |  Sahih",
+   "sourceUrl": "https://sunnah.com/bukhari:142",
+   "extras": [],
+   "story": [
+    "Imaan and Akhlaq were getting ready for an outing. Before leaving, Akhlaq needed to use the bathroom. As he reached the door, he heard Salamah say a short Du’a quietly. “Is that the same one as Ghufranak?” he asked after returning. Salamah explained that one supplication is taught before entering and the other after leaving. She showed two simple doorway pictures and helped him listen to each phrase. Imaan helped create a private memory cue that nobody else could see. The children learned that bathrooms are ordinary private places and that respectful routines can include remembering Allah. No one had to announce their bathroom visits to earn a reward."
+   ],
+   "understand": [
+    "This supplication asks Allah for protection before entering the toilet. It is not an invitation to frighten children or tell scary stories. The Prophet ﷺ taught remembrance in many parts of daily life, including moments that are private. We also practise cleanliness and wash our hands properly. The app must avoid intrusive reminders, bathroom interiors, frightening depictions, or public tracking of a child’s personal habits."
+   ],
+   "memorizeSteps": "Listen to the complete Du‘a. Practise the phrase cards in the Arabic order shown below; then rejoin the parts, listen again, and recall without looking. These are educational practice steps, not prescribed religious repetition counts.",
+   "chunks": [
+    "اللَّهُمَّ إِنِّي",
+    "أَعُوذُ بِكَ",
+    "مِنَ الْخُبُثِ",
+    "وَالْخَبَائِثِ"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "Before your next bathroom visit, quietly recite this Du’a before entering.",
+   "mission": {
+    "text": "Present two respectful doorway cards: “before entering” and “after leaving.” The learner matches today’s Du’a with “before,” then reviews Ghufranak for “after.”",
+    "title": "Before or after?",
+    "feedback": "You matched the Du’a to the right moment."
+   },
+   "reflect": "How can we keep private routines both clean and respectful?",
+   "guidance": {
+    "label": "Parent / teacher cue",
+    "text": "Practise the words at a convenient time; never require proof of bathroom use."
+   },
+   "editorialNote": "This is a complete narrated wording from Bukhari 142. Alternative explanatory renderings of الخبث والخبائث exist; use one scholarly reviewed translation. This is distinct from Ghufranak after leaving (Volume 01)."
+  },
+  {
+   "id": "dua-013",
+   "number": 13,
+   "title": "A Gentle Word Before Sleep",
+   "tagline": "VOLUME 02 / PROPHETIC BEDTIME REMEMBRANCE / TRUST AND A CALM BEDTIME ROUTINE",
+   "wordsHeading": "WORDS TO REMEMBER • ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا"
+    },
+    {
+     "type": "translit",
+     "text": "Bismika Allāhumma amūtu wa aḥyā"
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "In Your name, O Allah, I die and I live."
+    },
+    {
+     "type": "urdu",
+     "text": "اے اللہ! تیرے ہی نام سے میں مرتا اور جیتا ہوں۔"
+    },
+    {
+     "type": "field",
+     "label": "When to say it",
+     "text": "When preparing to go to sleep."
+    },
+    {
+     "type": "field",
+     "label": "Primary evidence",
+     "text": "Sahih al-Bukhari 6324  |  Sahih"
+    },
+    {
+     "type": "link",
+     "text": "https://sunnah.com/bukhari:6324"
+    }
+   ],
+   "arabic": "بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا",
+   "transliteration": "Bismika Allāhumma amūtu wa aḥyā",
+   "english": "In Your name, O Allah, I die and I live.",
+   "urdu": "اے اللہ! تیرے ہی نام سے میں مرتا اور جیتا ہوں۔",
+   "occasion": "When preparing to go to sleep.",
+   "source": "Sahih al-Bukhari 6324  |  Sahih",
+   "sourceUrl": "https://sunnah.com/bukhari:6324",
+   "extras": [],
+   "story": [
+    "The lights were dim in Salaam and Salamah’s home. Akhlaq had put away his toys and laid his school clothes ready for the morning. But his mind still felt busy. “What if I forget tomorrow’s homework?” he asked. Salaam reminded him that he had already packed his bag, and they could check it again in the morning. Then he taught him a short bedtime remembrance. Imaan listened from her own bed and repeated the words quietly. Their father explained that sleep reminds us of rest and that waking is a fresh gift from Allah. They did not turn the Du’a into a race. After saying it, the children rested, feeling cared for and ready for another day."
+   ],
+   "understand": [
+    "The Prophet ﷺ remembered Allah when going to sleep. This wording teaches that our lives are in Allah’s care. The words about dying and living are part of the authentic Arabic and should not be changed, but young children need a calm explanation: sleep is sometimes described in the tradition as resembling a small death, and waking reminds us that life is Allah’s gift. We should still follow sensible bedtime habits—cleaning up, sleeping on time, and asking an adult for help when worried."
+   ],
+   "memorizeSteps": "Listen to the complete Du‘a. Practise the phrase cards in the Arabic order shown below; then rejoin the parts, listen again, and recall without looking. These are educational practice steps, not prescribed religious repetition counts.",
+   "chunks": [
+    "بِاسْمِكَ اللَّهُمَّ",
+    "أَمُوتُ",
+    "وَأَحْيَا"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "At bedtime tonight, recite this Du’a once calmly as you settle down.",
+   "mission": {
+    "text": "Place three evening cards in order: put things away, say the bedtime Du’a, settle down. Tap each Arabic segment to hear the pronunciation.",
+    "title": "Bedtime order",
+    "feedback": "You ended the day remembering Allah."
+   },
+   "reflect": "What helps you feel peaceful before going to sleep?",
+   "guidance": {
+    "label": "Parent / teacher cue",
+    "text": "Do not use this Du’a to intensify fear of death; keep the explanation reassuring and age appropriate."
+   },
+   "editorialNote": "Exact bedtime wording in Bukhari 6324. Source also supplies the waking remembrance in Lesson 14; “die and live” is taught gently with the sleep/waking analogy, not to scare children."
+  },
+  {
+   "id": "dua-014",
+   "number": 14,
+   "title": "A New Morning, A New Thank You",
+   "tagline": "VOLUME 02 / PROPHETIC WAKING REMEMBRANCE / THANKFULNESS FOR A NEW DAY",
+   "wordsHeading": "WORDS TO REMEMBER • ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ"
+    },
+    {
+     "type": "translit",
+     "text": "Al-ḥamdu lillāhi-lladhī aḥyānā ba‘da mā amātanā wa ilayhin-nushūr"
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "All praise is for Allah, Who gave us life after causing us to die (in sleep), and to Him is the resurrection."
+    },
+    {
+     "type": "urdu",
+     "text": "تمام تعریف اللہ کے لیے ہے جس نے ہمیں نیند کی موت کے بعد زندگی دی، اور اسی کی طرف دوبارہ اٹھنا ہے۔"
+    },
+    {
+     "type": "field",
+     "label": "When to say it",
+     "text": "When waking up from sleep."
+    },
+    {
+     "type": "field",
+     "label": "Primary evidence",
+     "text": "Sahih al-Bukhari 6324  |  Sahih"
+    },
+    {
+     "type": "link",
+     "text": "https://sunnah.com/bukhari:6324"
+    }
+   ],
+   "arabic": "الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ",
+   "transliteration": "Al-ḥamdu lillāhi-lladhī aḥyānā ba‘da mā amātanā wa ilayhin-nushūr",
+   "english": "All praise is for Allah, Who gave us life after causing us to die (in sleep), and to Him is the resurrection.",
+   "urdu": "تمام تعریف اللہ کے لیے ہے جس نے ہمیں نیند کی موت کے بعد زندگی دی، اور اسی کی طرف دوبارہ اٹھنا ہے۔",
+   "occasion": "When waking up from sleep.",
+   "source": "Sahih al-Bukhari 6324  |  Sahih",
+   "sourceUrl": "https://sunnah.com/bukhari:6324",
+   "extras": [],
+   "story": [
+    "Sunlight appeared between the curtains in Amanpur. Imaan woke up and heard birds outside her window. She wanted to run downstairs to see what Salamah was making for breakfast, but remembered that she was learning a morning Du’a. She said the first words slowly and listened to the remaining phrases on the family’s learning device. When Akhlaq joined her, they practised together, each at their own pace. At breakfast, Dadi Jaan asked them to name one good thing about having another day: seeing family, learning something, or helping someone. Imaan said she was thankful for the chance to be kind today. Her morning felt more thoughtful, even though it was just an ordinary school day."
+   ],
+   "understand": [
+    "Waking from sleep is an everyday blessing. This authentic remembrance praises Allah for granting us another day and reminds us of the Hereafter. Children should first connect it with a thankful morning, then gradually learn the deeper meaning as they grow. This Du’a is longer than the first volume’s phrases, so give it four short audio segments and practise the complete text only when the child is comfortable."
+   ],
+   "memorizeSteps": "Listen to the complete Du‘a. Practise the phrase cards in the Arabic order shown below; then rejoin the parts, listen again, and recall without looking. These are educational practice steps, not prescribed religious repetition counts.",
+   "chunks": [
+    "الْحَمْدُ لِلَّهِ",
+    "الَّذِي أَحْيَانَا",
+    "بَعْدَ مَا أَمَاتَنَا",
+    "وَإِلَيْهِ النُّشُورُ"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "When you wake up tomorrow, say the Du’a and name one blessing you are thankful for.",
+   "mission": {
+    "text": "After listening to the four audio segments, a child reveals a sunrise scene and chooses a blessing card; no timed competition or morning streak penalty.",
+    "title": "Wake-up gratitude garden",
+    "feedback": "A new day is a new chance to do good."
+   },
+   "reflect": "What is one blessing you noticed this morning?",
+   "guidance": {
+    "label": "Parent / teacher cue",
+    "text": "Offer gentle audio prompts, not a compulsory test immediately after waking."
+   },
+   "editorialNote": "The full remembrance narrated alongside Lesson 13 in Bukhari 6324. Provide child-friendly explanation of the sleep analogy; do not edit the sacred Arabic to avoid the word أماتنا."
+  },
+  {
+   "id": "dua-015",
+   "number": 15,
+   "title": "Entering the Masjid with Hope",
+   "tagline": "VOLUME 02 / PROPHETIC MASJID-ENTRY SUPPLICATION / RESPECT, HOPE, AND QUIET CONDUCT",
+   "wordsHeading": "WORDS TO REMEMBER • ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "اللَّهُمَّ افْتَحْ لِي أَبْوَابَ رَحْمَتِكَ"
+    },
+    {
+     "type": "translit",
+     "text": "Allāhumma-ftaḥ lī abwāba raḥmatik"
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "O Allah, open for me the doors of Your mercy."
+    },
+    {
+     "type": "urdu",
+     "text": "اے اللہ! میرے لیے اپنی رحمت کے دروازے کھول دے۔"
+    },
+    {
+     "type": "field",
+     "label": "When to say it",
+     "text": "When entering a mosque. The paired leaving supplication is taught in Lesson 16."
+    },
+    {
+     "type": "field",
+     "label": "Primary evidence",
+     "text": "Sahih Muslim 713a  |  Sahih"
+    },
+    {
+     "type": "link",
+     "text": "https://sunnah.com/muslim:713a"
+    }
+   ],
+   "arabic": "اللَّهُمَّ افْتَحْ لِي أَبْوَابَ رَحْمَتِكَ",
+   "transliteration": "Allāhumma-ftaḥ lī abwāba raḥmatik",
+   "english": "O Allah, open for me the doors of Your mercy.",
+   "urdu": "اے اللہ! میرے لیے اپنی رحمت کے دروازے کھول دے۔",
+   "occasion": "When entering a mosque. The paired leaving supplication is taught in Lesson 16.",
+   "source": "Sahih Muslim 713a  |  Sahih",
+   "sourceUrl": "https://sunnah.com/muslim:713a",
+   "extras": [],
+   "story": [
+    "The family arrived at the mosque for a community programme. Akhlaq noticed that voices became softer as people entered. He wanted to rush ahead to find his friend, but Salaam gently reminded him that others might be praying. Before going inside, Imaan recited a short Du’a asking Allah to open the doors of mercy. Akhlaq listened, tried the words, and then carefully walked alongside his father. Inside, they greeted people appropriately and avoided running between those who were praying. After the programme, Salamah praised the children for both their remembrance and their respectful behaviour. They realised that good manners are an important part of visiting a place of worship."
+   ],
+   "understand": [
+    "The Prophet ﷺ taught a Du’a for entering the masjid. The words ask Allah for mercy. Children should learn the correct time to say it and pair it with calm, considerate conduct: keeping voices appropriate, respecting those who are praying, and caring for mosque facilities. When a child cannot visit a mosque frequently, the app may use a fictional visit for learning but should not claim that reciting the Du’a at home replaces its specific occasion."
+   ],
+   "memorizeSteps": "Listen to the complete Du‘a. Practise the phrase cards in the Arabic order shown below; then rejoin the parts, listen again, and recall without looking. These are educational practice steps, not prescribed religious repetition counts.",
+   "chunks": [
+    "اللَّهُمَّ افْتَحْ لِي",
+    "أَبْوَابَ",
+    "رَحْمَتِكَ"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "On your next mosque visit, recite this Du’a before entering and keep your voice gentle.",
+   "mission": {
+    "text": "Help Imaan select the entrance Du’a, then choose a considerate action from a small set of mosque-manners pictures.",
+    "title": "The welcoming doorway",
+    "feedback": "You entered with remembrance and respect."
+   },
+   "reflect": "How can we help other people feel comfortable in the masjid?",
+   "guidance": {
+    "label": "Parent / teacher cue",
+    "text": "Children who rarely visit a mosque can practise through an illustrated rehearsal; never invent completion evidence."
+   },
+   "editorialNote": "Memorization text follows the exact Muslim 713a wording. Some other narrations add blessings on the Prophet ﷺ or Bismillah; these should not be silently inserted into this sourced wording."
+  },
+  {
+   "id": "dua-016",
+   "number": 16,
+   "title": "Leaving the Masjid Gratefully",
+   "tagline": "VOLUME 02 / PROPHETIC MASJID-EXIT SUPPLICATION / HOPE AND LOOKING FOR ALLAH’S BLESSINGS",
+   "wordsHeading": "WORDS TO REMEMBER • ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنْ فَضْلِكَ"
+    },
+    {
+     "type": "translit",
+     "text": "Allāhumma innī as’aluka min faḍlik"
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "O Allah, I ask You for Your bounty."
+    },
+    {
+     "type": "urdu",
+     "text": "اے اللہ! میں تجھ سے تیرے فضل کا سوال کرتا/کرتی ہوں۔"
+    },
+    {
+     "type": "field",
+     "label": "When to say it",
+     "text": "When leaving a mosque."
+    },
+    {
+     "type": "field",
+     "label": "Primary evidence",
+     "text": "Sahih Muslim 713a  |  Sahih"
+    },
+    {
+     "type": "link",
+     "text": "https://sunnah.com/muslim:713a"
+    }
+   ],
+   "arabic": "اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنْ فَضْلِكَ",
+   "transliteration": "Allāhumma innī as’aluka min faḍlik",
+   "english": "O Allah, I ask You for Your bounty.",
+   "urdu": "اے اللہ! میں تجھ سے تیرے فضل کا سوال کرتا/کرتی ہوں۔",
+   "occasion": "When leaving a mosque.",
+   "source": "Sahih Muslim 713a  |  Sahih",
+   "sourceUrl": "https://sunnah.com/muslim:713a",
+   "extras": [],
+   "story": [
+    "At the end of the community lesson, Imaan and Akhlaq helped place the books back on the shelf. They moved toward the exit with Salamah, but Akhlaq stopped beside the doorway. “Yesterday we asked for Allah’s mercy when we entered,” he remembered. “Is there another Du’a for leaving?” Salamah shared the words that ask Allah for His bounty. The children repeated the phrase before stepping outside. On the way home, Akhlaq talked about the people who had helped organise the programme. Imaan said she hoped to use what she had learned to make their home kinder. The Du’a became part of their journey from learning to doing good."
+   ],
+   "understand": [
+    "For entering the masjid we ask Allah to open the doors of His mercy; for leaving we ask Him for His bounty and grace. Both wordings appear together in an authentic narration. The app should make the contrast easy to remember without implying that one Du’a is more important because it is harder. A meaningful memorization clue is simply: entering—mercy; leaving—bounty."
+   ],
+   "memorizeSteps": "Listen to the complete Du‘a. Practise the phrase cards in the Arabic order shown below; then rejoin the parts, listen again, and recall without looking. These are educational practice steps, not prescribed religious repetition counts.",
+   "chunks": [
+    "اللَّهُمَّ إِنِّي",
+    "أَسْأَلُكَ",
+    "مِنْ فَضْلِكَ"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "On your next mosque visit, remember this Du’a as you leave.",
+   "mission": {
+    "text": "Display mosque-entry and mosque-exit cards. Match “mercy” with entering and “bounty” with leaving, then replay both Arabic audios.",
+    "title": "Two doors, two meanings",
+    "feedback": "You remembered the right words at the right time."
+   },
+   "reflect": "What good thing can you carry into daily life after visiting a mosque?",
+   "guidance": {
+    "label": "Parent / teacher cue",
+    "text": "Use a natural visit when possible; do not encourage extra trips solely to collect app rewards."
+   },
+   "editorialNote": "This is the exact leaving phrase in Muslim 713a. It must not be swapped with the entering Du’a or used as an invented fixed rule for every building exit."
+  },
+  {
+   "id": "dua-017",
+   "number": 17,
+   "title": "Help Me Worship You Well",
+   "tagline": "VOLUME 02 / PROPHETIC SUPPLICATION ASSOCIATED WITH SALAH / HUMILITY AND REGULAR WORSHIP",
+   "wordsHeading": "WORDS TO REMEMBER • ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "اللَّهُمَّ أَعِنِّي عَلَى ذِكْرِكَ وَشُكْرِكَ وَحُسْنِ عِبَادَتِكَ"
+    },
+    {
+     "type": "translit",
+     "text": "Allāhumma a‘innī ‘alā dhikrika wa shukrika wa ḥusni ‘ibādatik"
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "O Allah, help me remember You, thank You, and worship You well."
+    },
+    {
+     "type": "urdu",
+     "text": "اے اللہ! اپنا ذکر کرنے، تیرا شکر ادا کرنے اور اچھی طرح تیری عبادت کرنے میں میری مدد فرما۔"
+    },
+    {
+     "type": "field",
+     "label": "When to say it",
+     "text": "Associated with the conclusion of obligatory Salah. The term “dubr al-salah” has scholarly discussion on placement; do not hard-code a single disputed placement as the only valid way."
+    },
+    {
+     "type": "field",
+     "label": "Primary evidence",
+     "text": "Sunan Abi Dawud 1522  |  Sahih (al-Albani)"
+    },
+    {
+     "type": "link",
+     "text": "https://sunnah.com/abudawud:1522"
+    }
+   ],
+   "arabic": "اللَّهُمَّ أَعِنِّي عَلَى ذِكْرِكَ وَشُكْرِكَ وَحُسْنِ عِبَادَتِكَ",
+   "transliteration": "Allāhumma a‘innī ‘alā dhikrika wa shukrika wa ḥusni ‘ibādatik",
+   "english": "O Allah, help me remember You, thank You, and worship You well.",
+   "urdu": "اے اللہ! اپنا ذکر کرنے، تیرا شکر ادا کرنے اور اچھی طرح تیری عبادت کرنے میں میری مدد فرما۔",
+   "occasion": "Associated with the conclusion of obligatory Salah. The term “dubr al-salah” has scholarly discussion on placement; do not hard-code a single disputed placement as the only valid way.",
+   "source": "Sunan Abi Dawud 1522  |  Sahih (al-Albani)",
+   "sourceUrl": "https://sunnah.com/abudawud:1522",
+   "extras": [],
+   "story": [
+    "Akhlaq wanted to pray carefully, but sometimes his thoughts wandered. He told Salaam that he wished concentration happened all at once. His father explained that good habits often grow through patient practice. After they prayed together, Salaam taught him a Du’a asking Allah for help in remembering, thanking, and worshipping Him well. Imaan liked how the Du’a contained three important ideas rather than a complicated list of rules. They practised the words in short parts and discussed one small improvement: putting away distractions before prayer. Akhlaq discovered that asking Allah for help and making an effort are things we can do together."
+   ],
+   "understand": [
+    "This authentic Du’a was taught by the Prophet ﷺ to Mu‘adh ibn Jabal. It is a beautiful request for help with Dhikr, gratitude, and excellent worship. Children should understand that worship involves sincerity and practice, not perfect performance from day one. The original narration connects the words to the end of prescribed Salah; jurists have discussed precisely when to recite them. Our curriculum should preserve the source and offer a parent/teacher note rather than presenting one interpretation as the only valid option."
+   ],
+   "memorizeSteps": "Listen to the complete Du‘a. Practise the phrase cards in the Arabic order shown below; then rejoin the parts, listen again, and recall without looking. These are educational practice steps, not prescribed religious repetition counts.",
+   "chunks": [
+    "اللَّهُمَّ أَعِنِّي",
+    "عَلَى ذِكْرِكَ",
+    "وَشُكْرِكَ",
+    "وَحُسْنِ عِبَادَتِكَ"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "Today, learn the Du’a and choose one small way to prepare more attentively for Salah.",
+   "mission": {
+    "text": "Listen and arrange “remember,” “thank,” and “worship well” in order; then choose a simple preparation habit before prayer.",
+    "title": "Three shining meanings",
+    "feedback": "Asking for help and trying your best go together."
+   },
+   "reflect": "What helps you pay attention when you pray?",
+   "guidance": {
+    "label": "Parent / teacher cue",
+    "text": "Discuss practice kindly and respect family scholarly practice on the Du’a’s precise placement."
+   },
+   "editorialNote": "Exact supplication from Abi Dawud 1522. Scholarly differences about whether to say it before the salām or after Salah should be explained in adult guidance, not turned into a child-facing error trap."
+  },
+  {
+   "id": "dua-018",
+   "number": 18,
+   "title": "Allah Is the Source of Peace",
+   "tagline": "VOLUME 02 / PROPHETIC REMEMBRANCE AFTER SALAH / PEACEFULNESS AFTER PRAYER",
+   "wordsHeading": "WORDS TO REMEMBER • ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "اللَّهُمَّ أَنْتَ السَّلَامُ وَمِنْكَ السَّلَامُ تَبَارَكْتَ ذَا الْجَلَالِ وَالْإِكْرَامِ"
+    },
+    {
+     "type": "translit",
+     "text": "Allāhumma anta-s-salāmu wa minka-s-salām, tabārakta dhal-jalāli wal-ikrām"
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "O Allah, You are Peace, and peace comes from You. Blessed are You, Possessor of majesty and honor."
+    },
+    {
+     "type": "urdu",
+     "text": "اے اللہ! تو ہی سلامتی والا ہے اور سلامتی تیری ہی طرف سے ہے۔ تو بابرکت ہے، اے عظمت و عزت والے۔"
+    },
+    {
+     "type": "field",
+     "label": "When to say it",
+     "text": "After finishing Salah. The narration also includes seeking forgiveness three times first; that phrase was taught in Volume 01."
+    },
+    {
+     "type": "field",
+     "label": "Primary evidence",
+     "text": "Sahih Muslim 591  |  Sahih"
+    },
+    {
+     "type": "link",
+     "text": "https://sunnah.com/muslim:591"
+    }
+   ],
+   "arabic": "اللَّهُمَّ أَنْتَ السَّلَامُ وَمِنْكَ السَّلَامُ تَبَارَكْتَ ذَا الْجَلَالِ وَالْإِكْرَامِ",
+   "transliteration": "Allāhumma anta-s-salāmu wa minka-s-salām, tabārakta dhal-jalāli wal-ikrām",
+   "english": "O Allah, You are Peace, and peace comes from You. Blessed are You, Possessor of majesty and honor.",
+   "urdu": "اے اللہ! تو ہی سلامتی والا ہے اور سلامتی تیری ہی طرف سے ہے۔ تو بابرکت ہے، اے عظمت و عزت والے۔",
+   "occasion": "After finishing Salah. The narration also includes seeking forgiveness three times first; that phrase was taught in Volume 01.",
+   "source": "Sahih Muslim 591  |  Sahih",
+   "sourceUrl": "https://sunnah.com/muslim:591",
+   "extras": [],
+   "story": [
+    "At home, the family finished Salah together. Imaan saw that Salaam remained seated for a little while instead of immediately getting up. He quietly sought Allah’s forgiveness and recited another remembrance. Later, he explained that these words praise Allah as the source of peace and safety. Akhlaq asked whether saying the words meant he would never feel upset again. Salaam answered that people still face difficult feelings, but remembrance helps us turn toward Allah and practise peaceful behaviour. After the prayer, the children waited patiently while their younger cousin gathered her things. It was a small moment, but their remembrance had helped them think about making space for others."
+   ],
+   "understand": [
+    "The Prophet ﷺ used this remembrance after Salah. “As-Salām” is among Allah’s beautiful names, and the words teach that true peace and safety are from Him. The authentic account also mentions asking forgiveness three times before saying this Dhikr. Since children already learned Astaghfirullah in Volume 01, the app can connect the two lessons without relabeling the combined sequence as a brand-new narration. The meaningful action is to become more peaceful and considerate, not to claim instant emotional change."
+   ],
+   "memorizeSteps": "Listen to the complete Du‘a. Practise the phrase cards in the Arabic order shown below; then rejoin the parts, listen again, and recall without looking. These are educational practice steps, not prescribed religious repetition counts.",
+   "chunks": [
+    "اللَّهُمَّ أَنْتَ السَّلَامُ",
+    "وَمِنْكَ السَّلَامُ",
+    "تَبَارَكْتَ",
+    "ذَا الْجَلَالِ وَالْإِكْرَامِ"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "After a Salah today, recite this remembrance and practise one calm, considerate response.",
+   "mission": {
+    "text": "An after-Salah scene plays a short sequence: forgiveness, then As-Salam remembrance. Learner arranges the steps and chooses a patient response to a sibling.",
+    "title": "Peace after prayer",
+    "feedback": "You remembered Allah and chose a peaceful action."
+   },
+   "reflect": "What is one way to show peace to someone at home?",
+   "guidance": {
+    "label": "Parent / teacher cue",
+    "text": "Explain Allah’s name As-Salam simply; do not use the app to police children’s feelings."
+   },
+   "editorialNote": "Hadith wording in Muslim 591 uses تَبَارَكْتَ ذَا الْجَلَالِ وَالْإِكْرَامِ; alternative vocalization and related versions must be handled by source audit. The larger Sunnah sequence includes Astaghfirullah three times before this Dhikr."
+  },
+  {
+   "id": "dua-019",
+   "number": 19,
+   "title": "A Second Du’a for Bedtime",
+   "tagline": "VOLUME 02 / PROPHETIC SUPPLICATION BEFORE SLEEP / SEEKING ALLAH’S PROTECTION AND MERCY",
+   "wordsHeading": "WORDS TO REMEMBER • ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "اللَّهُمَّ قِنِي عَذَابَكَ يَوْمَ تَبْعَثُ عِبَادَكَ"
+    },
+    {
+     "type": "translit",
+     "text": "Allāhumma qinī ‘adhābaka yawma tab‘athu ‘ibādak"
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "O Allah, protect me from Your punishment on the Day You raise Your servants."
+    },
+    {
+     "type": "urdu",
+     "text": "اے اللہ! جس دن تو اپنے بندوں کو اٹھائے، اس دن مجھے اپنے عذاب سے بچا۔"
+    },
+    {
+     "type": "field",
+     "label": "When to say it",
+     "text": "When settling down for sleep; an additional authentic Du’a distinct from Lesson 13."
+    },
+    {
+     "type": "field",
+     "label": "Primary evidence",
+     "text": "Sunan Abi Dawud 5045  |  Al-Albani: Sahih excluding the phrase “three times”"
+    },
+    {
+     "type": "link",
+     "text": "https://sunnah.com/abudawud:5045"
+    }
+   ],
+   "arabic": "اللَّهُمَّ قِنِي عَذَابَكَ يَوْمَ تَبْعَثُ عِبَادَكَ",
+   "transliteration": "Allāhumma qinī ‘adhābaka yawma tab‘athu ‘ibādak",
+   "english": "O Allah, protect me from Your punishment on the Day You raise Your servants.",
+   "urdu": "اے اللہ! جس دن تو اپنے بندوں کو اٹھائے، اس دن مجھے اپنے عذاب سے بچا۔",
+   "occasion": "When settling down for sleep; an additional authentic Du’a distinct from Lesson 13.",
+   "source": "Sunan Abi Dawud 5045  |  Al-Albani: Sahih excluding the phrase “three times”",
+   "sourceUrl": "https://sunnah.com/abudawud:5045",
+   "extras": [],
+   "story": [
+    "One evening, Akhlaq saw Imaan practising a bedtime Du’a that was different from the one they learned earlier. “Are there two?” he asked. Dadi Jaan explained that the Prophet ﷺ taught more than one beautiful remembrance for sleep. She helped them pronounce the new words and explained their meaning with care: we ask Allah for protection and mercy. She did not describe frightening scenes or ask the children to imagine punishments. Imaan learnt the first part, while Akhlaq listened to all the words. At bedtime, each child recited what they had learned comfortably. Their family valued sincere learning, not completing a checklist faster than someone else."
+   ],
+   "understand": [
+    "The words ask Allah to protect us on the Day of Resurrection. This is a real element of Islamic belief, but a child needs a measured explanation focused on Allah’s mercy and our hope in Him. The reported wording is found in Sunan Abi Dawud. A grading note on this report accepts the supplication but not its stated threefold repetition clause; therefore the developer must not mark “repeat three times” as an established Sunnah instruction from this source. Practice repetition for memorization remains fine when labeled as learning practice."
+   ],
+   "memorizeSteps": "Listen to the complete Du‘a. Practise the phrase cards in the Arabic order shown below; then rejoin the parts, listen again, and recall without looking. These are educational practice steps, not prescribed religious repetition counts.",
+   "chunks": [
+    "اللَّهُمَّ قِنِي عَذَابَكَ",
+    "يَوْمَ تَبْعَثُ",
+    "عِبَادَكَ"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "Learn this Du’a at bedtime with a parent or trusted adult, remembering Allah’s mercy and protection.",
+   "mission": {
+    "text": "A gentle moonlit scene offers the two authentic bedtime Du’as from Lessons 13 and 19. Hear each phrase, choose which to practise, and revisit the new three-part wording.",
+    "title": "Choose the bedtime Du’a",
+    "feedback": "You learned a new way to ask Allah for protection."
+   },
+   "reflect": "Who can you talk to if an unfamiliar religious word worries you?",
+   "guidance": {
+    "label": "Parent / teacher cue",
+    "text": "Use reassuring language; never require a child to imagine punishment to learn the words."
+   },
+   "editorialNote": "Critical verification: page grading specifically reads صحيح دون قوله ثلاث مرات: the Du’a is authentic by that grading, but the threefold repetition clause is excluded. Do not program a mandatory Sunnah three-times counter for this source. Explanations must be age sensitive."
+  },
+  {
+   "id": "dua-020",
+   "number": 20,
+   "title": "A Longer Thank You After Eating",
+   "tagline": "VOLUME 02 / PROPHETIC AFTER-MEAL PRAISE / GRATITUDE AND HUMILITY",
+   "wordsHeading": "WORDS TO REMEMBER • ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنِي هَذَا وَرَزَقَنِيهِ مِنْ غَيْرِ حَوْلٍ مِنِّي وَلَا قُوَّةٍ"
+    },
+    {
+     "type": "translit",
+     "text": "Al-ḥamdu lillāhi-lladhī aṭ‘amanī hādhā wa razaqanīhi min ghayri ḥawlin minnī wa lā quwwah"
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "All praise is for Allah, Who fed me this food and provided it for me without any power or strength of my own."
+    },
+    {
+     "type": "urdu",
+     "text": "تمام تعریف اللہ کے لیے ہے جس نے مجھے یہ کھانا کھلایا اور میری کسی طاقت یا قوت کے بغیر مجھے عطا فرمایا۔"
+    },
+    {
+     "type": "field",
+     "label": "When to say it",
+     "text": "After completing a meal. This is a longer authentic form of gratitude than the beginner Alhamdulillah in Volume 01."
+    },
+    {
+     "type": "field",
+     "label": "Primary evidence",
+     "text": "Jami‘ at-Tirmidhi 3458  |  Hasan (Darussalam); Tirmidhi: hasan gharib"
+    },
+    {
+     "type": "link",
+     "text": "https://sunnah.com/tirmidhi:3458"
+    }
+   ],
+   "arabic": "الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنِي هَذَا وَرَزَقَنِيهِ مِنْ غَيْرِ حَوْلٍ مِنِّي وَلَا قُوَّةٍ",
+   "transliteration": "Al-ḥamdu lillāhi-lladhī aṭ‘amanī hādhā wa razaqanīhi min ghayri ḥawlin minnī wa lā quwwah",
+   "english": "All praise is for Allah, Who fed me this food and provided it for me without any power or strength of my own.",
+   "urdu": "تمام تعریف اللہ کے لیے ہے جس نے مجھے یہ کھانا کھلایا اور میری کسی طاقت یا قوت کے بغیر مجھے عطا فرمایا۔",
+   "occasion": "After completing a meal. This is a longer authentic form of gratitude than the beginner Alhamdulillah in Volume 01.",
+   "source": "Jami‘ at-Tirmidhi 3458  |  Hasan (Darussalam); Tirmidhi: hasan gharib",
+   "sourceUrl": "https://sunnah.com/tirmidhi:3458",
+   "extras": [],
+   "story": [
+    "Salamah served dinner after a busy day. Imaan remembered the short Alhamdulillah she had already learned, while Akhlaq wondered whether there was a longer way to thank Allah for food. Salaam showed them a Du’a taught in the Sunnah, explaining it in small, manageable parts. They repeated one phrase together, then kept eating and talking rather than turning the meal into a test. Over the next several evenings, Imaan learned the complete wording. She also noticed how much effort people put into growing, carrying, cooking, and serving food. After dinner, she thanked Salamah and helped clear the table. Remembering Allah made her more appreciative of the people around her, too."
+   ],
+   "understand": [
+    "This Du’a praises Allah for giving us food and provision, while recognising that our own strength is not enough without Allah’s generosity. It is longer than Stage 1 expressions and should be memorized step by step. A source report gives it a spiritual virtue, but the app should not present forgiveness as a digital reward. The daily-life connection is gratitude, respect for the person who prepared food, and avoiding waste. Children may continue using the shorter authentic praise they know while learning the longer text."
+   ],
+   "memorizeSteps": "Listen to the complete Du‘a. Practise the phrase cards in the Arabic order shown below; then rejoin the parts, listen again, and recall without looking. These are educational practice steps, not prescribed religious repetition counts.",
+   "chunks": [
+    "الْحَمْدُ لِلَّهِ",
+    "الَّذِي أَطْعَمَنِي هَذَا",
+    "وَرَزَقَنِيهِ",
+    "مِنْ غَيْرِ حَوْلٍ مِنِّي",
+    "وَلَا قُوَّةٍ"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "After a meal this week, recite as much of this Du’a as you have memorized, then thank someone who helped provide the food.",
+   "mission": {
+    "text": "Five segments play one by one, with audio replay and gradual hide-and-recall. A picture sequence from food preparation to sharing reminds the child about gratitude.",
+    "title": "Build the gratitude chain",
+    "feedback": "You took time to learn and appreciate a blessing."
+   },
+   "reflect": "Who helped bring your meal to the table today?",
+   "guidance": {
+    "label": "Parent / teacher cue",
+    "text": "Allow a week or longer for the full wording; a slow learner is not failing."
+   },
+   "editorialNote": "The full quoted supplication is taken from Tirmidhi 3458. Its stated spiritual reward comes from a Hasan report; the child lesson focuses on gratitude and does not gamify forgiveness or guarantee divine acceptance via scores."
+  }
+ ]
+}

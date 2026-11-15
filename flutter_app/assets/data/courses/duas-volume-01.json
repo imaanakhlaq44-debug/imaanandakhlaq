@@ -1,0 +1,750 @@
+{
+ "volume": 1,
+ "title": "My First Remembrances",
+ "intro": "Ten authentic, short expressions of remembrance and supplication, taught through meaningful stories, gentle memorization, and one real-life action per lesson.",
+ "sourceDocument": "Zad_al_Qulub_Junior_Volume_01_First_Remembrances.docx",
+ "reviewStatus": "Working curriculum text copied verbatim from the supplied DOCX. Qualified scholarly, Arabic, Urdu and pronunciation review is required before release.",
+ "lessons": [
+  {
+   "id": "dua-001",
+   "number": 1,
+   "title": "Begin with Allah’s Name",
+   "tagline": "VOLUME 01 / PROPHETIC-GUIDED REMEMBRANCE / MINDFULNESS AND GRATITUDE",
+   "wordsHeading": "WORDS TO REMEMBER • ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "بِسْمِ اللَّهِ"
+    },
+    {
+     "type": "translit",
+     "text": "Bismillāh"
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "In the name of Allah."
+    },
+    {
+     "type": "urdu",
+     "text": "اللہ کے نام سے۔"
+    },
+    {
+     "type": "field",
+     "label": "When to say it",
+     "text": "Before beginning to eat; the wider habit of remembering Allah at suitable good beginnings is encouraged without attaching an unsupported special report to every activity."
+    },
+    {
+     "type": "field",
+     "label": "Primary evidence",
+     "text": "Sahih al-Bukhari 5376  |  Sahih"
+    },
+    {
+     "type": "link",
+     "text": "https://sunnah.com/bukhari:5376"
+    }
+   ],
+   "arabic": "بِسْمِ اللَّهِ",
+   "transliteration": "Bismillāh",
+   "english": "In the name of Allah.",
+   "urdu": "اللہ کے نام سے۔",
+   "occasion": "Before beginning to eat; the wider habit of remembering Allah at suitable good beginnings is encouraged without attaching an unsupported special report to every activity.",
+   "source": "Sahih al-Bukhari 5376  |  Sahih",
+   "sourceUrl": "https://sunnah.com/bukhari:5376",
+   "extras": [],
+   "story": [
+    "The family sat together for lunch. Akhlaq could hardly wait to taste the warm food. He stretched his hand toward the plate, but Imaan noticed that he had forgotten something important. Instead of teasing him, she smiled and said, ‘What do we say before we start?’ Akhlaq looked at his mother Salamah, remembered the words, and quietly said, ‘Bismillah.’ He did not need to shout or make a performance of it. He simply began his meal with the remembrance of Allah. When their father Salaam saw them eating thoughtfully, he was pleased that they were turning a simple family moment into a good habit."
+   ],
+   "understand": [
+    "When we say ‘Bismillah,’ we remember that our food is a gift from Allah. The Prophet ﷺ taught a young boy to mention Allah’s name, eat with his right hand, and eat from what was nearest to him. Saying these two short words is an easy first step toward thoughtful, thankful eating. We are not trying to finish before anyone else; we are learning to begin with awareness and good manners."
+   ],
+   "memorizeSteps": "Listen to the full phrase twice. Practise each chunk: بِسْمِ  /  اللَّهِ. Repeat slowly, combine the chunks, listen again, then try saying the whole phrase without looking. The numbers here are learning prompts, not Sunnah repetition counts.",
+   "chunks": [
+    "بِسْمِ",
+    "اللَّهِ"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "At your next meal, say “Bismillah” before your first bite.",
+   "mission": {
+    "text": "Show three images: sitting down, saying Bismillah, taking the first bite. Ask the child to place the “Bismillah” card in the right position.",
+    "title": "Dinner-table sequence",
+    "feedback": "You remembered Allah before eating. That is a beautiful beginning."
+   },
+   "reflect": "What helped you remember before your first bite?",
+   "guidance": {
+    "label": "Parent / teacher cue",
+    "text": "Say it naturally once with the child; avoid embarrassing them if they forget."
+   },
+   "editorialNote": "The Hadith instructs a child to mention Allah’s name before eating; the short phrase is the memorization text, not the entire Hadith."
+  },
+  {
+   "id": "dua-002",
+   "number": 2,
+   "title": "Thank Allah for Food and Drink",
+   "tagline": "VOLUME 01 / PROPHETIC-GUIDED PRAISE (DHIKR) / GRATITUDE AND AVOIDING WASTE",
+   "wordsHeading": "WORDS TO REMEMBER • ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "الْحَمْدُ لِلَّهِ"
+    },
+    {
+     "type": "translit",
+     "text": "Al-ḥamdu lillāh"
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "All praise belongs to Allah."
+    },
+    {
+     "type": "urdu",
+     "text": "تمام تعریف اللہ ہی کے لیے ہے۔"
+    },
+    {
+     "type": "field",
+     "label": "When to say it",
+     "text": "When praising Allah for food or drink, especially after eating or drinking."
+    },
+    {
+     "type": "field",
+     "label": "Primary evidence",
+     "text": "Sahih Muslim 2734a  |  Sahih"
+    },
+    {
+     "type": "link",
+     "text": "https://sunnah.com/muslim:2734"
+    }
+   ],
+   "arabic": "الْحَمْدُ لِلَّهِ",
+   "transliteration": "Al-ḥamdu lillāh",
+   "english": "All praise belongs to Allah.",
+   "urdu": "تمام تعریف اللہ ہی کے لیے ہے۔",
+   "occasion": "When praising Allah for food or drink, especially after eating or drinking.",
+   "source": "Sahih Muslim 2734a  |  Sahih",
+   "sourceUrl": "https://sunnah.com/muslim:2734",
+   "extras": [],
+   "story": [
+    "It had been a hot afternoon in Amanpur. Imaan came indoors after playing and drank a cool glass of water. ‘That was refreshing!’ she said. Dadi Jaan gently asked, ‘Who gave us water and the ability to enjoy it?’ Imaan looked at the glass and answered, ‘Allah.’ Then she said, ‘Alhamdulillah.’ Later, when the family finished eating, Akhlaq repeated the same words. Salamah encouraged them to appreciate not only the food but also the people who prepared and shared it. Their small words of praise helped them notice blessings they might otherwise overlook."
+   ],
+   "understand": [
+    "‘Alhamdulillah’ means that we praise and thank Allah. The Prophet ﷺ taught that Allah is pleased when His servant praises Him for food and drink. Even a glass of water is a blessing. Gratitude does not mean we must pretend to enjoy every taste; it means we acknowledge the gift respectfully. Children can start with these simple words and learn the longer authentic meal remembrances in later stages."
+   ],
+   "memorizeSteps": "Listen to the full phrase twice. Practise each chunk: الْحَمْدُ  /  لِلَّهِ. Repeat slowly, combine the chunks, listen again, then try saying the whole phrase without looking. The numbers here are learning prompts, not Sunnah repetition counts.",
+   "chunks": [
+    "الْحَمْدُ",
+    "لِلَّهِ"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "After your next meal or drink, say “Alhamdulillah” attentively.",
+   "mission": {
+    "text": "Tap an everyday blessing (water, bread, fruit). The app pauses and invites the child to choose the phrase of praise before revealing a short meaning.",
+    "title": "Gratitude reveal",
+    "feedback": "Alhamdulillah! You noticed a blessing and remembered Allah."
+   },
+   "reflect": "Which blessing did you notice today?",
+   "guidance": {
+    "label": "Parent / teacher cue",
+    "text": "Model the phrase without using rewards to pressure children to finish their food."
+   },
+   "editorialNote": "The source encourages praising Allah for eating and drinking; this short phrase is a fitting expression of praise, not a claim that it is the only complete after-meal wording."
+  },
+  {
+   "id": "dua-003",
+   "number": 3,
+   "title": "I Can Ask Forgiveness",
+   "tagline": "VOLUME 01 / PROPHETIC REMEMBRANCE (ISTIGHFAR) / ACCOUNTABILITY, REPAIR, AND HOPE",
+   "wordsHeading": "WORDS TO REMEMBER • ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "أَسْتَغْفِرُ اللَّهَ"
+    },
+    {
+     "type": "translit",
+     "text": "Astaghfirullāh"
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "I ask Allah for forgiveness."
+    },
+    {
+     "type": "urdu",
+     "text": "میں اللہ سے معافی مانگتا/مانگتی ہوں۔"
+    },
+    {
+     "type": "field",
+     "label": "When to say it",
+     "text": "When seeking forgiveness; an established specific practice also includes seeking forgiveness three times after Salah."
+    },
+    {
+     "type": "field",
+     "label": "Primary evidence",
+     "text": "Sahih Muslim 591; Sahih Muslim 2702a  |  Sahih"
+    },
+    {
+     "type": "link",
+     "text": "https://sunnah.com/muslim:591"
+    }
+   ],
+   "arabic": "أَسْتَغْفِرُ اللَّهَ",
+   "transliteration": "Astaghfirullāh",
+   "english": "I ask Allah for forgiveness.",
+   "urdu": "میں اللہ سے معافی مانگتا/مانگتی ہوں۔",
+   "occasion": "When seeking forgiveness; an established specific practice also includes seeking forgiveness three times after Salah.",
+   "source": "Sahih Muslim 591; Sahih Muslim 2702a  |  Sahih",
+   "sourceUrl": "https://sunnah.com/muslim:591",
+   "extras": [],
+   "story": [
+    "Akhlaq was building a tower with his blocks when he became upset. He knocked over Imaan’s carefully arranged pieces and immediately wished he had stopped himself. Imaan looked disappointed. Their father Salaam helped Akhlaq understand that feeling sorry was the beginning, not the end, of making things right. Akhlaq said, ‘Astaghfirullah,’ and then offered to help rebuild the tower. Imaan accepted his help. The two children discovered that seeking forgiveness from Allah and putting things right with people belong together. They were still learning, and that was okay."
+   ],
+   "understand": [
+    "Everyone makes mistakes. Allah teaches us to seek His forgiveness, and the Prophet ﷺ frequently sought forgiveness. ‘Astaghfirullah’ gives a child a gentle way to acknowledge wrong and return to what is good. Saying it is not a magic eraser for hurting someone; we should also apologize, restore what we can, and try not to repeat the mistake. Hope and responsibility should grow together, not fear or shame."
+   ],
+   "memorizeSteps": "Listen to the full phrase twice. Practise each chunk: أَسْتَغْفِرُ  /  اللَّهَ. Repeat slowly, combine the chunks, listen again, then try saying the whole phrase without looking. The numbers here are learning prompts, not Sunnah repetition counts.",
+   "chunks": [
+    "أَسْتَغْفِرُ",
+    "اللَّهَ"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "If you make a mistake today, say “Astaghfirullah” and make one sincere effort to put it right.",
+   "mission": {
+    "text": "Present a dropped toy, an unfair remark, and a spilled drink. After the child hears the Dhikr, ask them to select a helpful next step rather than assuming words alone repair harm.",
+    "title": "Repair the moment",
+    "feedback": "You asked Allah for forgiveness and chose a better action."
+   },
+   "reflect": "What can we do after saying sorry to make things right?",
+   "guidance": {
+    "label": "Parent / teacher cue",
+    "text": "Treat ordinary childhood mistakes as chances for repair, never as reasons to shame the child."
+   },
+   "editorialNote": "The short phrase is given in Muslim 591 for post-prayer istighfar. This beginner lesson does not prescribe a fixed repetition count for mistakes throughout the day."
+  },
+  {
+   "id": "dua-004",
+   "number": 4,
+   "title": "A Small Du’a After the Bathroom",
+   "tagline": "VOLUME 01 / PROPHETIC SUPPLICATION / CLEANLINESS, PRIVACY, REMEMBRANCE",
+   "wordsHeading": "WORDS TO REMEMBER • ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "غُفْرَانَكَ"
+    },
+    {
+     "type": "translit",
+     "text": "Ghufrānak"
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "I ask You for forgiveness."
+    },
+    {
+     "type": "urdu",
+     "text": "اے اللہ! میں تجھ سے معافی چاہتا/چاہتی ہوں۔"
+    },
+    {
+     "type": "field",
+     "label": "When to say it",
+     "text": "After leaving the toilet/bathroom."
+    },
+    {
+     "type": "field",
+     "label": "Primary evidence",
+     "text": "Sunan Abi Dawud 30  |  Sahih (grading reported by al-Albani)"
+    },
+    {
+     "type": "link",
+     "text": "https://sunnah.com/abudawud:30"
+    }
+   ],
+   "arabic": "غُفْرَانَكَ",
+   "transliteration": "Ghufrānak",
+   "english": "I ask You for forgiveness.",
+   "urdu": "اے اللہ! میں تجھ سے معافی چاہتا/چاہتی ہوں۔",
+   "occasion": "After leaving the toilet/bathroom.",
+   "source": "Sunan Abi Dawud 30  |  Sahih (grading reported by al-Albani)",
+   "sourceUrl": "https://sunnah.com/abudawud:30",
+   "extras": [],
+   "story": [
+    "After washing his hands, Akhlaq stepped out of the bathroom and walked toward the sitting room. Imaan was practising a short Du’a with their mother, Salamah. Akhlaq asked why it was so short. Salamah explained that not every supplication is long and difficult to memorize. Some are just one meaningful word. She pronounced ‘Ghufranak’ clearly, and Akhlaq repeated it with care. Soon he could remember it himself. He was pleased to discover that learning a good habit did not always require a long lesson or a complicated game."
+   ],
+   "understand": [
+    "The Prophet ﷺ used the word ‘Ghufranak’ when leaving the place of relieving oneself. It means asking Allah for forgiveness. The app should teach the time correctly: after leaving, not while inside. Our bodies, cleanliness, and private routines are normal parts of life, and children deserve clear guidance without embarrassment. This short Du’a is memorable because it belongs to a particular moment."
+   ],
+   "memorizeSteps": "Listen to the full phrase twice. Practise each chunk: غُفْرَانَكَ. Repeat slowly, combine the chunks, listen again, then try saying the whole phrase without looking. The numbers here are learning prompts, not Sunnah repetition counts.",
+   "chunks": [
+    "غُفْرَانَكَ"
+   ],
+   "chunksRebuildArabic": false,
+   "action": "Say “Ghufranak” after leaving the bathroom once today.",
+   "mission": {
+    "text": "Use respectful exterior doorway icons only. Ask whether the Du’a is said before entering or after leaving; celebrate the accurate choice without showing bathroom interiors.",
+    "title": "The correct doorway",
+    "feedback": "Correct! This Du’a belongs after leaving the bathroom."
+   },
+   "reflect": "When do we say Ghufranak?",
+   "guidance": {
+    "label": "Parent / teacher cue",
+    "text": "Support the routine discreetly; do not require children to announce private bathroom use."
+   },
+   "editorialNote": "A complete one-word supplication as narrated; do not mix it with the separate Du’a said before entering the bathroom."
+  },
+  {
+   "id": "dua-005",
+   "number": 5,
+   "title": "Ask Allah to Increase Your Knowledge",
+   "tagline": "VOLUME 01 / QUR’ANIC SUPPLICATION (PHRASE FROM AN AYAH) / CURIOSITY AND HUMILITY",
+   "wordsHeading": "WORDS TO REMEMBER • ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "رَبِّ زِدْنِي عِلْمًا"
+    },
+    {
+     "type": "translit",
+     "text": "Rabbi zidnī ‘ilmā"
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "My Lord, increase me in knowledge."
+    },
+    {
+     "type": "urdu",
+     "text": "اے میرے رب! میرے علم میں اضافہ فرما۔"
+    },
+    {
+     "type": "field",
+     "label": "When to say it",
+     "text": "A meaningful general supplication when seeking beneficial knowledge; the verse does not prescribe a fixed pre-study ritual or count."
+    },
+    {
+     "type": "field",
+     "label": "Primary evidence",
+     "text": "Surah Ta-Ha 20:114  |  Qur’an"
+    },
+    {
+     "type": "link",
+     "text": "https://quran.com/20/114"
+    }
+   ],
+   "arabic": "رَبِّ زِدْنِي عِلْمًا",
+   "transliteration": "Rabbi zidnī ‘ilmā",
+   "english": "My Lord, increase me in knowledge.",
+   "urdu": "اے میرے رب! میرے علم میں اضافہ فرما۔",
+   "occasion": "A meaningful general supplication when seeking beneficial knowledge; the verse does not prescribe a fixed pre-study ritual or count.",
+   "source": "Surah Ta-Ha 20:114  |  Qur’an",
+   "sourceUrl": "https://quran.com/20/114",
+   "extras": [],
+   "story": [
+    "Imaan was reading about the stars while Akhlaq tried to solve a small number puzzle. Both felt stuck. ‘I wish I already knew all the answers,’ Akhlaq said. Dadi Jaan smiled and told them that learning begins with admitting there is more to discover. She showed them the Qur’anic words ‘Rabbi zidni ilma.’ Imaan repeated them and returned to her book with curiosity. Akhlaq asked for a hint rather than giving up. By the end of the afternoon, they had not learned everything, but they had learned how to keep trying. That was a happy kind of progress."
+   ],
+   "understand": [
+    "Allah instructs the Prophet ﷺ in the Qur’an to say, ‘My Lord, increase me in knowledge.’ Knowledge is a gift, and learning takes effort. This supplication encourages a child to stay curious and humble. Understanding, asking questions respectfully, listening carefully, and practising are part of taking learning seriously. We should not claim that a particular number of repetitions before exams is prescribed by this verse."
+   ],
+   "memorizeSteps": "Listen to the full phrase twice. Practise each chunk: رَبِّ  /  زِدْنِي  /  عِلْمًا. Repeat slowly, combine the chunks, listen again, then try saying the whole phrase without looking. The numbers here are learning prompts, not Sunnah repetition counts.",
+   "chunks": [
+    "رَبِّ",
+    "زِدْنِي",
+    "عِلْمًا"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "Before one learning activity today, ask Allah to increase your knowledge, then give the activity your best effort.",
+   "mission": {
+    "text": "A book, puzzle, and microscope appear. The child listens to three phrase segments, orders them, and selects a task to attempt after saying the supplication.",
+    "title": "The curious learner",
+    "feedback": "Wonderful. Asking Allah for knowledge goes together with trying to learn."
+   },
+   "reflect": "What is one new thing you would like to understand?",
+   "guidance": {
+    "label": "Parent / teacher cue",
+    "text": "Praise effort and questions, not only correct answers."
+   },
+   "editorialNote": "This is a complete supplicatory phrase from within a longer Qur’anic verse, not the complete text of 20:114. Display the full ayah in the source detail view."
+  },
+  {
+   "id": "dua-006",
+   "number": 6,
+   "title": "A Beautiful Du’a When It Rains",
+   "tagline": "VOLUME 01 / PROPHETIC SUPPLICATION / HOPE AND CARE FOR CREATION",
+   "wordsHeading": "WORDS TO REMEMBER • ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "صَيِّبًا نَافِعًا"
+    },
+    {
+     "type": "translit",
+     "text": "Ṣayyiban nāfi‘ā"
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "(O Allah, make it) beneficial rain."
+    },
+    {
+     "type": "urdu",
+     "text": "اے اللہ! اسے فائدہ مند بارش بنا۔"
+    },
+    {
+     "type": "field",
+     "label": "When to say it",
+     "text": "On seeing rain."
+    },
+    {
+     "type": "field",
+     "label": "Primary evidence",
+     "text": "Sahih al-Bukhari 1032  |  Sahih"
+    },
+    {
+     "type": "link",
+     "text": "https://sunnah.com/bukhari:1032"
+    }
+   ],
+   "arabic": "صَيِّبًا نَافِعًا",
+   "transliteration": "Ṣayyiban nāfi‘ā",
+   "english": "(O Allah, make it) beneficial rain.",
+   "urdu": "اے اللہ! اسے فائدہ مند بارش بنا۔",
+   "occasion": "On seeing rain.",
+   "source": "Sahih al-Bukhari 1032  |  Sahih",
+   "sourceUrl": "https://sunnah.com/bukhari:1032",
+   "extras": [],
+   "story": [
+    "Dark clouds gathered above Amanpur, and soon drops began to patter against the window. Akhlaq rushed to watch the rain. He wanted to run outside immediately, but Salamah reminded him to look carefully first and stay safe while the rain was heavy. Imaan noticed that the dry garden was beginning to drink in the water. Dadi Jaan taught them the brief Prophetic supplication: ‘Sayyiban nafi‘an.’ Both children repeated it as they watched the rain falling on the plants. They hoped the rain would bring goodness to the gardens, the farmers, and the whole neighbourhood."
+   ],
+   "understand": [
+    "Rain helps plants grow, fills waterways, and supports life. In an authentic report, the Prophet ﷺ said ‘Sayyiban nafi‘an’ when he saw rain, asking that it be beneficial. This is not a weather-control spell. It is a way to remember Allah and ask for goodness when we see His creation. Children can also learn sensible rain safety: staying inside during dangerous weather and following adult guidance."
+   ],
+   "memorizeSteps": "Listen to the full phrase twice. Practise each chunk: صَيِّبًا  /  نَافِعًا. Repeat slowly, combine the chunks, listen again, then try saying the whole phrase without looking. The numbers here are learning prompts, not Sunnah repetition counts.",
+   "chunks": [
+    "صَيِّبًا",
+    "نَافِعًا"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "The next time you see rain, say “Sayyiban nafi‘an.”",
+   "mission": {
+    "text": "As rain clouds pass over a dry garden, the child assembles the two Arabic words in the right order; then plants visibly recover. Do not imply that the child’s input causes real rainfall.",
+    "title": "Rain and growth",
+    "feedback": "You learned to ask for beneficial rain."
+   },
+   "reflect": "How does rain help the world around us?",
+   "guidance": {
+    "label": "Parent / teacher cue",
+    "text": "If it is not raining, keep this lesson in revision rather than asking the child to invent a rain event."
+   },
+   "editorialNote": "The narration reports exactly these two Arabic words; words such as “O Allah” in the English translation are explanatory rather than an addition to the narrated Arabic."
+  },
+  {
+   "id": "dua-007",
+   "number": 7,
+   "title": "When Anger Starts to Grow",
+   "tagline": "VOLUME 01 / PROPHETIC-GUIDED SEEKING REFUGE / SELF-CONTROL AND RESPECTFUL CONFLICT",
+   "wordsHeading": "WORDS TO REMEMBER • ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ"
+    },
+    {
+     "type": "translit",
+     "text": "A‘ūdhu billāhi minash-shayṭānir-rajīm"
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "I seek refuge in Allah from Satan, the accursed."
+    },
+    {
+     "type": "urdu",
+     "text": "میں شیطانِ مردود سے اللہ کی پناہ مانگتا/مانگتی ہوں۔"
+    },
+    {
+     "type": "field",
+     "label": "When to say it",
+     "text": "When feeling angry; seeking refuge in Allah is part of the Prophetic guidance on controlling anger."
+    },
+    {
+     "type": "field",
+     "label": "Primary evidence",
+     "text": "Sahih Muslim 2610a  |  Sahih"
+    },
+    {
+     "type": "link",
+     "text": "https://sunnah.com/muslim:2610"
+    }
+   ],
+   "arabic": "أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ",
+   "transliteration": "A‘ūdhu billāhi minash-shayṭānir-rajīm",
+   "english": "I seek refuge in Allah from Satan, the accursed.",
+   "urdu": "میں شیطانِ مردود سے اللہ کی پناہ مانگتا/مانگتی ہوں۔",
+   "occasion": "When feeling angry; seeking refuge in Allah is part of the Prophetic guidance on controlling anger.",
+   "source": "Sahih Muslim 2610a  |  Sahih",
+   "sourceUrl": "https://sunnah.com/muslim:2610",
+   "extras": [],
+   "story": [
+    "Akhlaq and his friend Mohsin both wanted the same football. They began speaking loudly, and Akhlaq could feel his face getting hot. He nearly shouted something unkind. Then he remembered a lesson about seeking Allah’s protection when anger rises. He took a small step back, quietly said the words he had learned, and asked Mohsin if they could take turns. Mohsin agreed. The problem did not disappear by magic; the boys solved it by making a calmer choice. Later, Imaan told Akhlaq she appreciated how he had handled a difficult moment."
+   ],
+   "understand": [
+    "Feeling angry sometimes is normal. What matters is what we do with that feeling. In an authentic narration, the Prophet ﷺ recommended seeking refuge in Allah from Shaytan when anger was rising. Learning these words helps children remember that they can pause before acting. It is also wise to breathe slowly, speak respectfully, step away from an argument, or ask a trusted adult for help when needed. We never ask children to tolerate harm in silence."
+   ],
+   "memorizeSteps": "Listen to the full phrase twice. Practise each chunk: أَعُوذُ بِاللَّهِ  /  مِنَ الشَّيْطَانِ  /  الرَّجِيمِ. Repeat slowly, combine the chunks, listen again, then try saying the whole phrase without looking. The numbers here are learning prompts, not Sunnah repetition counts.",
+   "chunks": [
+    "أَعُوذُ بِاللَّهِ",
+    "مِنَ الشَّيْطَانِ",
+    "الرَّجِيمِ"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "When you first notice anger today, pause and recite this Ta‘awwudh before responding.",
+   "mission": {
+    "text": "A disagreement starts. The child taps a pause icon, hears the Arabic in three segments, and chooses a calm next sentence instead of a hurtful one.",
+    "title": "Pause and choose",
+    "feedback": "You made room for a calmer choice. That is real strength."
+   },
+   "reflect": "How can we tell when our anger is getting bigger?",
+   "guidance": {
+    "label": "Parent / teacher cue",
+    "text": "Make space for feelings; guide behaviour gently without judging the child for having emotions."
+   },
+   "editorialNote": "The wording appears within the authentic anger-related narration. Teach self-regulation and safe help-seeking alongside recitation."
+  },
+  {
+   "id": "dua-008",
+   "number": 8,
+   "title": "A Kind Reply to a Sneeze",
+   "tagline": "VOLUME 01 / PROPHETIC ETIQUETTE / CARE AND KINDNESS",
+   "wordsHeading": "WORDS TO REMEMBER • ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "يَرْحَمُكَ اللَّهُ"
+    },
+    {
+     "type": "translit",
+     "text": "Yarḥamukallāh"
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "May Allah have mercy on you."
+    },
+    {
+     "type": "urdu",
+     "text": "اللہ تم پر رحم فرمائے۔"
+    },
+    {
+     "type": "field",
+     "label": "When to say it",
+     "text": "Say this to a Muslim who sneezes and then says “Alhamdulillah.”"
+    },
+    {
+     "type": "field",
+     "label": "Primary evidence",
+     "text": "Sahih al-Bukhari 6224  |  Sahih"
+    },
+    {
+     "type": "link",
+     "text": "https://sunnah.com/bukhari:6224"
+    }
+   ],
+   "arabic": "يَرْحَمُكَ اللَّهُ",
+   "transliteration": "Yarḥamukallāh",
+   "english": "May Allah have mercy on you.",
+   "urdu": "اللہ تم پر رحم فرمائے۔",
+   "occasion": "Say this to a Muslim who sneezes and then says “Alhamdulillah.”",
+   "source": "Sahih al-Bukhari 6224  |  Sahih",
+   "sourceUrl": "https://sunnah.com/bukhari:6224",
+   "extras": [
+    {
+     "heading": "COMPLETE CONTEXT • LEARN WHO SAYS WHAT",
+     "blocks": [
+      {
+       "type": "field",
+       "label": "1. Sneezer",
+       "text": "الْحَمْدُ لِلَّهِ"
+      },
+      {
+       "type": "field",
+       "label": "2. Listener",
+       "text": "يَرْحَمُكَ اللَّهُ"
+      },
+      {
+       "type": "field",
+       "label": "3. Sneezer",
+       "text": "يَهْدِيكُمُ اللَّهُ وَيُصْلِحُ بَالَكُمْ"
+      }
+     ]
+    }
+   ],
+   "story": [
+    "Akhlaq sneezed while sorting books. He said, ‘Alhamdulillah,’ and Imaan replied, ‘Yarhamukallah.’ Dadi Jaan then taught Akhlaq the answer: ‘Yahdikumullahu wa yuslihu balakum.’ They practised the three lines, switching roles until each child knew when to speak."
+   ],
+   "understand": [
+    "The Prophet ﷺ taught three connected phrases. The sneezer praises Allah, another person asks for mercy, and the sneezer then prays for guidance. Children memorize ‘Yarhamukallah’ first and learn the complete exchange below; each phrase belongs to a different turn."
+   ],
+   "memorizeSteps": "Listen twice. Repeat each part slowly, then the complete phrase. Practise again without looking. This repetition is for learning, not a prescribed religious count.",
+   "chunks": [],
+   "chunksRebuildArabic": false,
+   "action": "When a Muslim near you sneezes and says “Alhamdulillah,” reply “Yarhamukallah.”",
+   "mission": {
+    "text": "Use a three-turn conversation with sneezer and listener roles. The player chooses the listener’s phrase; the complete exchange is an optional extension.",
+    "title": "Who says which line?",
+    "feedback": "You listened and replied with a prayer for mercy."
+   },
+   "reflect": "Why is it kind to notice someone else and pray for them?",
+   "guidance": {
+    "label": "Parent / teacher cue",
+    "text": "Practise using pretend sneezes if needed; do not force real sneezing or make children self-conscious."
+   },
+   "editorialNote": "This is one response in a three-part exchange; the complete exchange is reproduced in the lesson so the developer does not teach it out of context."
+  },
+  {
+   "id": "dua-009",
+   "number": 9,
+   "title": "Thank Someone with a Du’a",
+   "tagline": "VOLUME 01 / PROPHETIC-GUIDED SUPPLICATION FOR ANOTHER PERSON / GRATITUDE AND RESPECT FOR HELPERS",
+   "wordsHeading": "WORDS TO REMEMBER • ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "جَزَاكَ اللَّهُ خَيْرًا"
+    },
+    {
+     "type": "translit",
+     "text": "Jazākallāhu khayrā"
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "May Allah reward you with goodness."
+    },
+    {
+     "type": "urdu",
+     "text": "اللہ آپ کو بہترین جزا عطا فرمائے۔"
+    },
+    {
+     "type": "field",
+     "label": "When to say it",
+     "text": "When thanking a person who has done you a kindness."
+    },
+    {
+     "type": "field",
+     "label": "Primary evidence",
+     "text": "Jami‘ at-Tirmidhi 2035  |  Hasan (Tirmidhi describes it as hasan jayyid gharib; Darussalam: Hasan)"
+    },
+    {
+     "type": "link",
+     "text": "https://sunnah.com/tirmidhi:2035"
+    }
+   ],
+   "arabic": "جَزَاكَ اللَّهُ خَيْرًا",
+   "transliteration": "Jazākallāhu khayrā",
+   "english": "May Allah reward you with goodness.",
+   "urdu": "اللہ آپ کو بہترین جزا عطا فرمائے۔",
+   "occasion": "When thanking a person who has done you a kindness.",
+   "source": "Jami‘ at-Tirmidhi 2035  |  Hasan (Tirmidhi describes it as hasan jayyid gharib; Darussalam: Hasan)",
+   "sourceUrl": "https://sunnah.com/tirmidhi:2035",
+   "extras": [],
+   "story": [
+    "Mohsina lent Imaan a coloured pencil when hers broke during art class. Imaan said, ‘Thank you,’ then remembered a lovely Du’a she had learned at home: ‘Jazakallahu khayran.’ She explained that she was asking Allah to reward Mohsina with goodness. After class, Imaan helped return the pencils neatly. At home, Akhlaq learned the same phrase by thanking their father for repairing his bicycle bell. The family discovered that a simple act of appreciation could strengthen friendships and make everyday kindness feel noticed."
+   ],
+   "understand": [
+    "Gratitude is more than polite manners. The Prophet ﷺ taught a beautiful expression for thanking someone who has helped us: ‘Jazakallahu khayran.’ It asks Allah to reward the person with goodness. Children should still say ‘thank you’ naturally when appropriate; this Du’a enriches their appreciation. If speaking to a girl or woman, the Arabic ending changes to ‘jazāki’—the core meaning remains the same. Our app should show both forms only in the usage note, not as two separate lessons."
+   ],
+   "memorizeSteps": "Listen to the full phrase twice. Practise each chunk: جَزَاكَ  /  اللَّهُ  /  خَيْرًا. Repeat slowly, combine the chunks, listen again, then try saying the whole phrase without looking. The numbers here are learning prompts, not Sunnah repetition counts.",
+   "chunks": [
+    "جَزَاكَ",
+    "اللَّهُ",
+    "خَيْرًا"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "Today, thank one person who helps you and make this Du’a for them.",
+   "mission": {
+    "text": "A character helps another child. The player chooses a thank-you Du’a from three options, then hears the correct pronunciation with a friendly response.",
+    "title": "Kindness postbox",
+    "feedback": "You showed someone that their kindness matters."
+   },
+   "reflect": "Who helped you today, and how did it make you feel?",
+   "guidance": {
+    "label": "Parent / teacher cue",
+    "text": "Encourage authentic appreciation rather than asking the child to perform gratitude for a score."
+   },
+   "editorialNote": "The Arabic shown uses the masculine addressee (jazāka); for a female addressee, jazāki is a normal grammatical adjustment. Do not invent a mandatory fixed form beyond the narrated wording."
+  },
+  {
+   "id": "dua-010",
+   "number": 10,
+   "title": "Guide Me and Keep Me Steady",
+   "tagline": "VOLUME 01 / PROPHETIC SUPPLICATION / WISDOM AND ACTING RIGHTLY",
+   "wordsHeading": "WORDS TO REMEMBER • ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "اللَّهُمَّ اهْدِنِي وَسَدِّدْنِي"
+    },
+    {
+     "type": "translit",
+     "text": "Allāhumma ihdinī wa saddidnī"
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "O Allah, guide me and make me steadfast and correct."
+    },
+    {
+     "type": "urdu",
+     "text": "اے اللہ! مجھے ہدایت دے اور درست راستے پر ثابت قدم رکھ۔"
+    },
+    {
+     "type": "field",
+     "label": "When to say it",
+     "text": "A general supplication for guidance and making sound choices; no fixed occasion or count is imposed in this volume."
+    },
+    {
+     "type": "field",
+     "label": "Primary evidence",
+     "text": "Sahih Muslim 2725a  |  Sahih"
+    },
+    {
+     "type": "link",
+     "text": "https://sunnah.com/muslim:2725"
+    }
+   ],
+   "arabic": "اللَّهُمَّ اهْدِنِي وَسَدِّدْنِي",
+   "transliteration": "Allāhumma ihdinī wa saddidnī",
+   "english": "O Allah, guide me and make me steadfast and correct.",
+   "urdu": "اے اللہ! مجھے ہدایت دے اور درست راستے پر ثابت قدم رکھ۔",
+   "occasion": "A general supplication for guidance and making sound choices; no fixed occasion or count is imposed in this volume.",
+   "source": "Sahih Muslim 2725a  |  Sahih",
+   "sourceUrl": "https://sunnah.com/muslim:2725",
+   "extras": [],
+   "story": [
+    "Akhlaq was looking after a classmate’s storybook when friends invited him to take it outside, where it might get damaged. He wanted to join them but also to keep his promise. Imaan reminded him of the Du’a they were learning: ‘Allahumma ihdini wa saddidni.’ Akhlaq asked Allah to guide him, then explained that he should keep the book safe. His friends chose another game. The decision was not easy, but it helped Akhlaq become more trustworthy."
+   ],
+   "understand": [
+    "Guidance is knowing the good way, and being ‘saddid’ means being directed toward what is right and sound. In Sahih Muslim, the Prophet ﷺ taught this concise supplication to ‘Ali (may Allah be pleased with him). Children can learn it when facing everyday decisions, such as telling the truth, keeping promises, and choosing between helpful and harmful behaviour. The Du’a accompanies careful thinking, good advice and responsible action."
+   ],
+   "memorizeSteps": "Listen to the full phrase twice. Practise each chunk: اللَّهُمَّ  /  اهْدِنِي  /  وَسَدِّدْنِي. Repeat slowly, combine the chunks, listen again, then try saying the whole phrase without looking. The numbers here are learning prompts, not Sunnah repetition counts.",
+   "chunks": [
+    "اللَّهُمَّ",
+    "اهْدِنِي",
+    "وَسَدِّدْنِي"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "When you face a choice today, recite this Du’a and choose the more responsible option.",
+   "mission": {
+    "text": "Present a short choice about keeping a borrowed item safe. The child pieces together the three chunks of the Du’a before selecting the choice that protects the trust.",
+    "title": "Two paths, one promise",
+    "feedback": "You asked for guidance and protected someone else’s trust."
+   },
+   "reflect": "What makes a choice responsible, even when it is difficult?",
+   "guidance": {
+    "label": "Parent / teacher cue",
+    "text": "Ask the child how they reached their choice; allow thoughtful discussion rather than insisting on speed."
+   },
+   "editorialNote": "This is the complete supplicatory wording taught in the narration. The rest of the Hadith explains its meaning using the path and a straight arrow."
+  }
+ ]
+}

@@ -1,0 +1,738 @@
+{
+ "volume": 3,
+ "title": "My Home and Family",
+ "intro": "Ten source-grounded remembrances and prayers for coming home, greeting others, leaving safely, clothing, caring for family and thanking those who serve us.",
+ "sourceDocument": "Zad_al_Qulub_Junior_Volume_03_My_Home_and_Family.docx",
+ "reviewStatus": "Working curriculum text copied verbatim from the supplied DOCX. Qualified scholarly, Arabic, Urdu and pronunciation review is required before release.",
+ "lessons": [
+  {
+   "id": "dua-021",
+   "number": 21,
+   "title": "A Blessed Place to Settle",
+   "tagline": "VOLUME 03 / QUR’ANIC SUPPLICATION FOR A BLESSED PLACE / HOPE AND GRATITUDE FOR A PEACEFUL PLACE",
+   "wordsHeading": "WORDS TO REMEMBER • ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "رَبِّ أَنْزِلْنِي مُنْزَلًا مُبَارَكًا وَأَنْتَ خَيْرُ الْمُنْزِلِينَ"
+    },
+    {
+     "type": "translit",
+     "text": "Rabbi anzilnī munzalan mubārakan wa anta khayrul-munzilīn"
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "My Lord, grant me a blessed place to settle, for You are the best of those who provide a place."
+    },
+    {
+     "type": "urdu",
+     "text": "اے میرے رب! مجھے بابرکت جگہ اتار، اور تو سب سے بہتر ٹھکانا عطا کرنے والا ہے۔"
+    },
+    {
+     "type": "field",
+     "label": "When to use it",
+     "text": "When asking Allah for goodness and blessing in a place where you settle or stay. This is not presented as a fixed Sunnah formula for crossing a home doorway."
+    },
+    {
+     "type": "field",
+     "label": "Primary evidence",
+     "text": "Surah Al-Mu’minun 23:29  |  Qur’an; supplication part of the verse"
+    },
+    {
+     "type": "link",
+     "text": "https://quran.com/23/29"
+    }
+   ],
+   "arabic": "رَبِّ أَنْزِلْنِي مُنْزَلًا مُبَارَكًا وَأَنْتَ خَيْرُ الْمُنْزِلِينَ",
+   "transliteration": "Rabbi anzilnī munzalan mubārakan wa anta khayrul-munzilīn",
+   "english": "My Lord, grant me a blessed place to settle, for You are the best of those who provide a place.",
+   "urdu": "اے میرے رب! مجھے بابرکت جگہ اتار، اور تو سب سے بہتر ٹھکانا عطا کرنے والا ہے۔",
+   "occasion": "When asking Allah for goodness and blessing in a place where you settle or stay. This is not presented as a fixed Sunnah formula for crossing a home doorway.",
+   "source": "Surah Al-Mu’minun 23:29  |  Qur’an; supplication part of the verse",
+   "sourceUrl": "https://quran.com/23/29",
+   "extras": [],
+   "story": [
+    "Imaan and Akhlaq helped Salaam unpack a small box of books after their family settled into a different room at home. Akhlaq wanted the space to look perfect immediately, but Imaan said, “A place becomes special when people care for it.” Dadi Jaan reminded them of a Qur’anic prayer asking Allah for a blessed place to settle. She explained that Allah taught these words in the story of Prophet Nuh. The children listened, repeated the short sections and agreed to take care of their shared space. They understood that blessing matters more than decoration."
+   ],
+   "understand": [
+    "Surah Al-Mu’minun teaches a beautiful supplication in the account of Prophet Nuh: asking Allah for a blessed landing or place to settle. We can learn the Qur’anic wording and ask Allah for goodness wherever we live or stay. The Qur’an does not identify it as a fixed formula to say every time we cross our home doorway. For that moment, we can remember Allah with familiar Dhikr such as Bismillah, which is a revision of Volume 01 rather than a new numbered Du’a."
+   ],
+   "memorizeSteps": "Hear the complete text from a qualified reciter. Replay the meaningful Arabic chunks below, join them in order, then try a gentle hidden-text recall. Repetition is an educational aid, not a religiously fixed count.",
+   "chunks": [
+    "رَبِّ أَنْزِلْنِي",
+    "مُنْزَلًا مُبَارَكًا",
+    "وَأَنْتَ خَيْرُ الْمُنْزِلِينَ"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "Recite this Qur’anic Du’a and make one shared space at home a little more peaceful or tidy.",
+   "mission": {
+    "text": "Hear three audio segments, place them in order, and help Imaan and Akhlaq arrange a reading corner with care.",
+    "title": "Blessed place puzzle",
+    "feedback": "You asked Allah for blessing and cared for your space."
+   },
+   "reflect": "What makes a place peaceful and welcoming?",
+   "guidance": {
+    "label": "Parent / teacher cue",
+    "text": "Explain the original story context, and do not claim this is the prescribed formula for entering a house."
+   }
+  },
+  {
+   "id": "dua-022",
+   "number": 22,
+   "title": "A Greeting That Brings Peace",
+   "tagline": "VOLUME 03 / GREETING AND PRAYER FOR PEACE / RESPECT, WARMTH AND BELONGING",
+   "wordsHeading": "WORDS TO REMEMBER • ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "السَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللَّهِ وَبَرَكَاتُهُ"
+    },
+    {
+     "type": "translit",
+     "text": "As-salāmu ʿalaykum wa raḥmatullāhi wa barakātuh"
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "Peace be upon you, and Allah’s mercy and His blessings."
+    },
+    {
+     "type": "urdu",
+     "text": "آپ پر سلامتی، اللہ کی رحمت اور اس کی برکتیں ہوں۔"
+    },
+    {
+     "type": "field",
+     "label": "When to use it",
+     "text": "When greeting people in the home, school or community, as appropriate."
+    },
+    {
+     "type": "field",
+     "label": "Primary evidence",
+     "text": "Surah An-Nur 24:61; Sunan Abi Dawud 5195  |  Qur’anic instruction; Abi Dawud 5195: Sahih (al-Albani)"
+    },
+    {
+     "type": "link",
+     "text": "https://quran.com/24/61"
+    }
+   ],
+   "arabic": "السَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللَّهِ وَبَرَكَاتُهُ",
+   "transliteration": "As-salāmu ʿalaykum wa raḥmatullāhi wa barakātuh",
+   "english": "Peace be upon you, and Allah’s mercy and His blessings.",
+   "urdu": "آپ پر سلامتی، اللہ کی رحمت اور اس کی برکتیں ہوں۔",
+   "occasion": "When greeting people in the home, school or community, as appropriate.",
+   "source": "Surah An-Nur 24:61; Sunan Abi Dawud 5195  |  Qur’anic instruction; Abi Dawud 5195: Sahih (al-Albani)",
+   "sourceUrl": "https://quran.com/24/61",
+   "extras": [],
+   "story": [
+    "Akhlaq pushed open the living room door and found Dadi Jaan reading. He was about to ask for a snack, but Imaan whispered, “Before asking, how do we greet someone?” He smiled and offered salām. Dadi Jaan answered warmly and asked how school had gone. A neighbour later stopped by with a book for their mother. Imaan offered the same beautiful greeting, and the visitor smiled. The children discovered that a simple greeting can help another person feel noticed and welcome."
+   ],
+   "understand": [
+    "The Qur’an teaches greeting people with peace when entering homes. The beautiful salām asks for peace, mercy and blessings. It is not a magic phrase: we also show peace with kind voices, respectful listening and good manners. The child can begin with As-salāmu ʿalaykum and gradually learn the complete greeting. They should learn its appropriate reply with a parent."
+   ],
+   "memorizeSteps": "Hear the complete text from a qualified reciter. Replay the meaningful Arabic chunks below, join them in order, then try a gentle hidden-text recall. Repetition is an educational aid, not a religiously fixed count.",
+   "chunks": [
+    "السَّلَامُ عَلَيْكُمْ",
+    "وَرَحْمَةُ اللَّهِ",
+    "وَبَرَكَاتُهُ"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "Offer a sincere salām to someone at home today and listen warmly to their reply.",
+   "mission": {
+    "text": "Choose the friendly greeting at the doorway, build the three Arabic phrases in order, then hear a respectful response.",
+    "title": "Greeting paths",
+    "feedback": "Your words made someone feel welcome."
+   },
+   "reflect": "How do we feel when someone greets us kindly?",
+   "guidance": {
+    "label": "Parent / teacher cue",
+    "text": "Teach the reply to salām naturally; support children who are shy or speech-delayed."
+   }
+  },
+  {
+   "id": "dua-023",
+   "number": 23,
+   "title": "Stepping Out With Trust in Allah",
+   "tagline": "VOLUME 03 / PROPHETIC SUPPLICATION WHEN LEAVING HOME / TRUST JOINED WITH RESPONSIBILITY",
+   "wordsHeading": "WORDS TO REMEMBER • ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "بِسْمِ اللَّهِ تَوَكَّلْتُ عَلَى اللَّهِ لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ"
+    },
+    {
+     "type": "translit",
+     "text": "Bismillāhi tawakkaltu ʿalallāh, lā ḥawla wa lā quwwata illā billāh"
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "In the name of Allah; I rely upon Allah. There is no might and no power except through Allah."
+    },
+    {
+     "type": "urdu",
+     "text": "اللہ کے نام سے، میں اللہ پر بھروسہ کرتا ہوں؛ نیکی کی توفیق اور برائی سے بچنے کی طاقت صرف اللہ کی مدد سے ہے۔"
+    },
+    {
+     "type": "field",
+     "label": "When to use it",
+     "text": "When leaving your home for school, visiting family or other appropriate journeys."
+    },
+    {
+     "type": "field",
+     "label": "Primary evidence",
+     "text": "Sunan Abi Dawud 5095  |  Sahih (al-Albani)"
+    },
+    {
+     "type": "link",
+     "text": "https://sunnah.com/abudawud:5095"
+    }
+   ],
+   "arabic": "بِسْمِ اللَّهِ تَوَكَّلْتُ عَلَى اللَّهِ لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ",
+   "transliteration": "Bismillāhi tawakkaltu ʿalallāh, lā ḥawla wa lā quwwata illā billāh",
+   "english": "In the name of Allah; I rely upon Allah. There is no might and no power except through Allah.",
+   "urdu": "اللہ کے نام سے، میں اللہ پر بھروسہ کرتا ہوں؛ نیکی کی توفیق اور برائی سے بچنے کی طاقت صرف اللہ کی مدد سے ہے۔",
+   "occasion": "When leaving your home for school, visiting family or other appropriate journeys.",
+   "source": "Sunan Abi Dawud 5095  |  Sahih (al-Albani)",
+   "sourceUrl": "https://sunnah.com/abudawud:5095",
+   "extras": [],
+   "story": [
+    "The children were ready to leave for school. Akhlaq checked for his homework, water bottle and cap, while Imaan searched for her pencil case. Their father Salaam told them that trusting Allah does not mean forgetting to prepare. He listened while Imaan practised the first part of the leaving-home Du’a. Akhlaq then tried the next part, slowly and carefully. Once everything was packed, they said the complete words together near the door. They walked out calmly, ready to learn, help and make good choices."
+   ],
+   "understand": [
+    "Tawakkul means relying upon Allah while doing what is in our ability. We ask Allah for help whenever we leave home, and we still follow safety rules, carry what we need and stay with trusted adults. This authentic supplication is longer than Stage 1 phrases, so it can be memorized over several days. Learning slowly is a success."
+   ],
+   "memorizeSteps": "Hear the complete text from a qualified reciter. Replay the meaningful Arabic chunks below, join them in order, then try a gentle hidden-text recall. Repetition is an educational aid, not a religiously fixed count.",
+   "chunks": [
+    "بِسْمِ اللَّهِ",
+    "تَوَكَّلْتُ عَلَى اللَّهِ",
+    "لَا حَوْلَ",
+    "وَلَا قُوَّةَ إِلَّا بِاللَّهِ"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "Before leaving home next time, recite the Du’a and check that you have what you need.",
+   "mission": {
+    "text": "Pack three safe school items in a scene, then join four audio chunks of the Du’a before the character exits.",
+    "title": "Ready for school",
+    "feedback": "You prepared carefully and remembered Allah."
+   },
+   "reflect": "What is one thing you can do while also trusting Allah?",
+   "guidance": {
+    "label": "Parent / teacher cue",
+    "text": "Connect trust in Allah with road safety and ordinary responsible preparation."
+   }
+  },
+  {
+   "id": "dua-024",
+   "number": 24,
+   "title": "Thankful for My Clothes",
+   "tagline": "VOLUME 03 / PROPHETIC PRAISE CONNECTED TO CLOTHING / GRATITUDE WITHOUT SHOWING OFF",
+   "wordsHeading": "WORDS TO REMEMBER • ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "الْحَمْدُ لِلَّهِ الَّذِي كَسَانِي هَذَا الثَّوْبَ وَرَزَقَنِيهِ مِنْ غَيْرِ حَوْلٍ مِنِّي وَلَا قُوَّةٍ"
+    },
+    {
+     "type": "translit",
+     "text": "Al-ḥamdu lillāhi-lladhī kasānī hādhath-thawba wa razaqanīhi min ghayri ḥawlin minnī wa lā quwwah"
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "Praise belongs to Allah, Who clothed me with this garment and provided it without any power or strength of my own."
+    },
+    {
+     "type": "urdu",
+     "text": "تمام تعریف اللہ کے لیے ہے جس نے مجھے یہ لباس پہنایا اور میری کسی طاقت یا قوت کے بغیر اسے مجھے عطا کیا۔"
+    },
+    {
+     "type": "field",
+     "label": "When to use it",
+     "text": "When putting on clothing, especially as an opportunity to express gratitude."
+    },
+    {
+     "type": "field",
+     "label": "Primary evidence",
+     "text": "Sunan Abi Dawud 4023  |  Hasan for the base report; later-sins addition excluded in cited grading"
+    },
+    {
+     "type": "link",
+     "text": "https://sunnah.com/abudawud:4023"
+    }
+   ],
+   "arabic": "الْحَمْدُ لِلَّهِ الَّذِي كَسَانِي هَذَا الثَّوْبَ وَرَزَقَنِيهِ مِنْ غَيْرِ حَوْلٍ مِنِّي وَلَا قُوَّةٍ",
+   "transliteration": "Al-ḥamdu lillāhi-lladhī kasānī hādhath-thawba wa razaqanīhi min ghayri ḥawlin minnī wa lā quwwah",
+   "english": "Praise belongs to Allah, Who clothed me with this garment and provided it without any power or strength of my own.",
+   "urdu": "تمام تعریف اللہ کے لیے ہے جس نے مجھے یہ لباس پہنایا اور میری کسی طاقت یا قوت کے بغیر اسے مجھے عطا کیا۔",
+   "occasion": "When putting on clothing, especially as an opportunity to express gratitude.",
+   "source": "Sunan Abi Dawud 4023  |  Hasan for the base report; later-sins addition excluded in cited grading",
+   "sourceUrl": "https://sunnah.com/abudawud:4023",
+   "extras": [],
+   "story": [
+    "Akhlaq could not decide which shirt to wear. One was bright and new, while the other was comfortable and clean. Imaan reminded him that clothes keep us covered, warm and ready for the day. Salamah asked them whether someone who owns a simple outfit has less value than someone wearing expensive clothes. They both answered no. She taught them a longer phrase praising Allah for the clothing we receive. Akhlaq repeated it with patience, then folded the clothes he had not chosen. He realised he could appreciate a gift without boasting about it."
+   ],
+   "understand": [
+    "Clothing is a blessing, whatever its colour or price. This authentic expression thanks Allah for providing a garment. It can help us avoid comparison and arrogance. The text is fairly long; allow learners to practise one phrase at a time. The narration has a grading note about an added reward, which the app must not use in reward messages."
+   ],
+   "memorizeSteps": "Hear the complete text from a qualified reciter. Replay the meaningful Arabic chunks below, join them in order, then try a gentle hidden-text recall. Repetition is an educational aid, not a religiously fixed count.",
+   "chunks": [
+    "الْحَمْدُ لِلَّهِ",
+    "الَّذِي كَسَانِي هَذَا الثَّوْبَ",
+    "وَرَزَقَنِيهِ",
+    "مِنْ غَيْرِ حَوْلٍ مِنِّي",
+    "وَلَا قُوَّةٍ"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "When getting dressed tomorrow, thank Allah for your clothing and fold one item carefully.",
+   "mission": {
+    "text": "Select an appropriate clean outfit, build the Du’a from five audio phrases, and place folded clothes back on a shelf.",
+    "title": "Wardrobe gratitude",
+    "feedback": "You appreciated what you have."
+   },
+   "reflect": "Why should we respect people whatever they wear?",
+   "guidance": {
+    "label": "Parent / teacher cue",
+    "text": "Avoid clothing comparisons; never pressure children about financial circumstances."
+   }
+  },
+  {
+   "id": "dua-025",
+   "number": 25,
+   "title": "When I Receive New Clothes",
+   "tagline": "VOLUME 03 / PROPHETIC SUPPLICATION FOR A NEW GARMENT / THANKFULNESS AND MODESTY",
+   "wordsHeading": "WORDS TO REMEMBER • ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "اللَّهُمَّ لَكَ الْحَمْدُ أَنْتَ كَسَوْتَنِيهِ أَسْأَلُكَ مِنْ خَيْرِهِ وَخَيْرِ مَا صُنِعَ لَهُ وَأَعُوذُ بِكَ مِنْ شَرِّهِ وَشَرِّ مَا صُنِعَ لَهُ"
+    },
+    {
+     "type": "translit",
+     "text": "Allāhumma lakal-ḥamd, anta kasawtanīh; as’aluka min khayrihi wa khayri mā ṣuniʿa lah, wa aʿūdhu bika min sharrihi wa sharri mā ṣuniʿa lah"
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "O Allah, praise is Yours. You have clothed me with it. I ask You for its good and the good for which it was made, and seek refuge in You from its evil and the evil for which it was made."
+    },
+    {
+     "type": "urdu",
+     "text": "اے اللہ! سب تعریف تیرے لیے ہے، تو نے مجھے یہ لباس پہنایا۔ میں اس کی بھلائی اور اس مقصد کی بھلائی مانگتا ہوں جس کے لیے یہ بنایا گیا، اور اس کے شر اور اس مقصد کے شر سے تیری پناہ چاہتا ہوں۔"
+    },
+    {
+     "type": "field",
+     "label": "When to use it",
+     "text": "When wearing a new garment. This is distinct from the clothing gratitude in Lesson 24."
+    },
+    {
+     "type": "field",
+     "label": "Primary evidence",
+     "text": "Sunan Abi Dawud 4020  |  Sahih (al-Albani)"
+    },
+    {
+     "type": "link",
+     "text": "https://sunnah.com/abudawud:4020"
+    }
+   ],
+   "arabic": "اللَّهُمَّ لَكَ الْحَمْدُ أَنْتَ كَسَوْتَنِيهِ أَسْأَلُكَ مِنْ خَيْرِهِ وَخَيْرِ مَا صُنِعَ لَهُ وَأَعُوذُ بِكَ مِنْ شَرِّهِ وَشَرِّ مَا صُنِعَ لَهُ",
+   "transliteration": "Allāhumma lakal-ḥamd, anta kasawtanīh; as’aluka min khayrihi wa khayri mā ṣuniʿa lah, wa aʿūdhu bika min sharrihi wa sharri mā ṣuniʿa lah",
+   "english": "O Allah, praise is Yours. You have clothed me with it. I ask You for its good and the good for which it was made, and seek refuge in You from its evil and the evil for which it was made.",
+   "urdu": "اے اللہ! سب تعریف تیرے لیے ہے، تو نے مجھے یہ لباس پہنایا۔ میں اس کی بھلائی اور اس مقصد کی بھلائی مانگتا ہوں جس کے لیے یہ بنایا گیا، اور اس کے شر اور اس مقصد کے شر سے تیری پناہ چاہتا ہوں۔",
+   "occasion": "When wearing a new garment. This is distinct from the clothing gratitude in Lesson 24.",
+   "source": "Sunan Abi Dawud 4020  |  Sahih (al-Albani)",
+   "sourceUrl": "https://sunnah.com/abudawud:4020",
+   "extras": [],
+   "story": [
+    "Imaan received a new sweater from a relative. She liked it, but noticed that Akhlaq was looking at his older jacket. He was not upset; he simply wondered when he would get something new. Salaam explained that receiving a gift is a reason to be thankful, not to compare ourselves with others. He showed the children the longer Prophetic supplication for new clothing. They listened to its sections together. Imaan offered to show Akhlaq how she kept clothes clean and neatly folded. He smiled, proud of his own jacket too."
+   ],
+   "understand": [
+    "There is a special authentic supplication narrated for a new garment. It thanks Allah and asks that the garment be a source of good. The words are long and are best taught through six meaning-based segments. Families who do not purchase new clothes regularly should never be penalized by an app: this lesson may first be learned using a fictional demonstration, then practised whenever the occasion arises."
+   ],
+   "memorizeSteps": "Hear the complete text from a qualified reciter. Replay the meaningful Arabic chunks below, join them in order, then try a gentle hidden-text recall. Repetition is an educational aid, not a religiously fixed count.",
+   "chunks": [
+    "اللَّهُمَّ لَكَ الْحَمْدُ",
+    "أَنْتَ كَسَوْتَنِيهِ",
+    "أَسْأَلُكَ مِنْ خَيْرِهِ",
+    "وَخَيْرِ مَا صُنِعَ لَهُ",
+    "وَأَعُوذُ بِكَ مِنْ شَرِّهِ",
+    "وَشَرِّ مَا صُنِعَ لَهُ"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "If you wear a new garment, recite this Du’a; otherwise, practise it while caring well for clothes you already own.",
+   "mission": {
+    "text": "A fictional gift scene demonstrates the authentic occasion, then the learner matches “everyday clothing” to Lesson 24 and “new clothing” to Lesson 25.",
+    "title": "New clothes, kind heart",
+    "feedback": "You learned to be thankful without comparing."
+   },
+   "reflect": "Can we celebrate someone else’s new gift without wanting the same thing?",
+   "guidance": {
+    "label": "Parent / teacher cue",
+    "text": "Never require shopping, photos or proof of new purchases for completion."
+   }
+  },
+  {
+   "id": "dua-026",
+   "number": 26,
+   "title": "A Gentle Du’a for My Parents",
+   "tagline": "VOLUME 03 / QUR’ANIC SUPPLICATION FOR PARENTS / MERCY, APPRECIATION AND RESPECT",
+   "wordsHeading": "WORDS TO REMEMBER • ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "رَبِّ ارْحَمْهُمَا كَمَا رَبَّيَانِي صَغِيرًا"
+    },
+    {
+     "type": "translit",
+     "text": "Rabbi-rḥamhumā kamā rabbayānī ṣaghīrā"
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "My Lord, have mercy on them, as they raised me when I was small."
+    },
+    {
+     "type": "urdu",
+     "text": "اے میرے رب! میرے والدین پر رحم فرما، جیسے انہوں نے بچپن میں میری پرورش کی۔"
+    },
+    {
+     "type": "field",
+     "label": "When to use it",
+     "text": "Any suitable time when making Du’a for one’s parents; not tied to a prescribed clock time."
+    },
+    {
+     "type": "field",
+     "label": "Primary evidence",
+     "text": "Surah Al-Isra 17:24  |  Qur’an; Du’a portion of the verse"
+    },
+    {
+     "type": "link",
+     "text": "https://quran.com/17/24"
+    }
+   ],
+   "arabic": "رَبِّ ارْحَمْهُمَا كَمَا رَبَّيَانِي صَغِيرًا",
+   "transliteration": "Rabbi-rḥamhumā kamā rabbayānī ṣaghīrā",
+   "english": "My Lord, have mercy on them, as they raised me when I was small.",
+   "urdu": "اے میرے رب! میرے والدین پر رحم فرما، جیسے انہوں نے بچپن میں میری پرورش کی۔",
+   "occasion": "Any suitable time when making Du’a for one’s parents; not tied to a prescribed clock time.",
+   "source": "Surah Al-Isra 17:24  |  Qur’an; Du’a portion of the verse",
+   "sourceUrl": "https://quran.com/17/24",
+   "extras": [],
+   "story": [
+    "After dinner, Imaan saw Salamah rubbing her tired hands. She and Salaam had worked all day, yet they still took time to listen to the children. Akhlaq wanted to show appreciation but did not know what to say. Dadi Jaan taught them a beautiful Qur’anic supplication asking Allah to show mercy to parents. The children practised the short Arabic phrases and learned their meaning. Imaan offered to help tidy the table, while Akhlaq put his books away. They understood that making Du’a and showing care belong together."
+   ],
+   "understand": [
+    "Allah teaches us a prayer asking mercy for our parents. This phrase is part of a longer Qur’anic verse about treating parents with humility and kindness. The app should gently acknowledge that family circumstances are different: some children live with grandparents, guardians or other carers. No child should be excluded or forced to share personal information. The teaching focus is sincere prayer and respectful behaviour."
+   ],
+   "memorizeSteps": "Hear the complete text from a qualified reciter. Replay the meaningful Arabic chunks below, join them in order, then try a gentle hidden-text recall. Repetition is an educational aid, not a religiously fixed count.",
+   "chunks": [
+    "رَبِّ ارْحَمْهُمَا",
+    "كَمَا رَبَّيَانِي",
+    "صَغِيرًا"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "Recite this Qur’anic Du’a for your parents today, then offer one small kindness at home.",
+   "mission": {
+    "text": "Arrange the three portions of the Du’a; after completion a family tree illustration gains a leaf labelled “kindness,” not a claim of Allah’s reward.",
+    "title": "Mercy tree",
+    "feedback": "You remembered your parents with mercy."
+   },
+   "reflect": "What is one kind thing someone at home does for you?",
+   "guidance": {
+    "label": "Parent / teacher cue",
+    "text": "Offer inclusive, non-invasive wording for bereaved, fostered or separated-family learners."
+   }
+  },
+  {
+   "id": "dua-027",
+   "number": 27,
+   "title": "May Our Family Grow in Goodness",
+   "tagline": "VOLUME 03 / QUR’ANIC SUPPLICATION FOR RIGHTEOUS FAMILY / CARING FOR FAMILY AND BEING A GOOD EXAMPLE",
+   "wordsHeading": "WORDS TO REMEMBER • ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ وَاجْعَلْنَا لِلْمُتَّقِينَ إِمَامًا"
+    },
+    {
+     "type": "translit",
+     "text": "Rabbanā hab lanā min azwājinā wa dhurriyyātinā qurrata aʿyunin wajʿalnā lil-muttaqīna imāmā"
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "Our Lord, grant us from our spouses and descendants comfort to our eyes, and make us examples for those mindful of You."
+    },
+    {
+     "type": "urdu",
+     "text": "اے ہمارے رب! ہمیں ہمارے گھر والوں اور اولاد کی طرف سے آنکھوں کی ٹھنڈک عطا فرما اور ہمیں پرہیزگاروں کے لیے اچھا نمونہ بنا۔"
+    },
+    {
+     "type": "field",
+     "label": "When to use it",
+     "text": "When asking Allah for a family characterised by goodness and righteousness; no fixed daily time specified."
+    },
+    {
+     "type": "field",
+     "label": "Primary evidence",
+     "text": "Surah Al-Furqan 25:74  |  Qur’an; complete Du’a segment of the verse"
+    },
+    {
+     "type": "link",
+     "text": "https://quran.com/25/74"
+    }
+   ],
+   "arabic": "رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ وَاجْعَلْنَا لِلْمُتَّقِينَ إِمَامًا",
+   "transliteration": "Rabbanā hab lanā min azwājinā wa dhurriyyātinā qurrata aʿyunin wajʿalnā lil-muttaqīna imāmā",
+   "english": "Our Lord, grant us from our spouses and descendants comfort to our eyes, and make us examples for those mindful of You.",
+   "urdu": "اے ہمارے رب! ہمیں ہمارے گھر والوں اور اولاد کی طرف سے آنکھوں کی ٹھنڈک عطا فرما اور ہمیں پرہیزگاروں کے لیے اچھا نمونہ بنا۔",
+   "occasion": "When asking Allah for a family characterised by goodness and righteousness; no fixed daily time specified.",
+   "source": "Surah Al-Furqan 25:74  |  Qur’an; complete Du’a segment of the verse",
+   "sourceUrl": "https://quran.com/25/74",
+   "extras": [],
+   "story": [
+    "Imaan and Akhlaq were asked to build a model home for a school project. Akhlaq wanted the tallest walls, while Imaan wanted a garden full of colour. Dadi Jaan asked, “What makes a family truly beautiful?” They suggested patience, sharing, kindness and prayer. She then read a Qur’anic supplication about family becoming a source of joy and goodness. The children placed small paper hearts beside the model house, each representing a helpful habit. Their model was not the biggest in the class, but it reminded them what they hoped to practise at home."
+   ],
+   "understand": [
+    "In this verse, Allah describes righteous servants who ask for family members to be a source of joy in faith and good conduct, and to be examples of righteousness. Some words refer to adult relationships and children in the future. We should explain their meanings clearly but avoid making young learners feel they must already marry or have children. The lesson’s child-level goal is to bring kindness into present family relationships."
+   ],
+   "memorizeSteps": "Hear the complete text from a qualified reciter. Replay the meaningful Arabic chunks below, join them in order, then try a gentle hidden-text recall. Repetition is an educational aid, not a religiously fixed count.",
+   "chunks": [
+    "رَبَّنَا هَبْ لَنَا",
+    "مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا",
+    "قُرَّةَ أَعْيُنٍ",
+    "وَاجْعَلْنَا لِلْمُتَّقِينَ إِمَامًا"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "Do one peaceful, helpful thing today that makes family life easier for someone.",
+   "mission": {
+    "text": "Hear four Arabic segments, then pick three helpful home behaviours; correct choices beautify an Amanpur model home.",
+    "title": "The home of good habits",
+    "feedback": "A good example begins with small actions."
+   },
+   "reflect": "Which family habit would you like to improve?",
+   "guidance": {
+    "label": "Parent / teacher cue",
+    "text": "Teach the full meaning, including God-consciousness, without pushing adult responsibilities onto children."
+   }
+  },
+  {
+   "id": "dua-028",
+   "number": 28,
+   "title": "A Prayer for Little Ones",
+   "tagline": "VOLUME 03 / PROPHETIC PROTECTION SUPPLICATION FOR CHILDREN / TRUST AND CARING FOR YOUNGER FAMILY",
+   "wordsHeading": "WORDS TO REMEMBER • ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّةِ مِنْ كُلِّ شَيْطَانٍ وَهَامَّةٍ وَمِنْ كُلِّ عَيْنٍ لَامَّةٍ"
+    },
+    {
+     "type": "translit",
+     "text": "Aʿūdhu bi-kalimāti-llāhit-tāmmati min kulli shayṭānin wa hāmmah, wa min kulli ʿaynin lāmmah"
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "I seek refuge in Allah’s perfect words from every devil, harmful creature, and every harmful eye."
+    },
+    {
+     "type": "urdu",
+     "text": "میں اللہ کے کامل کلمات کی پناہ چاہتا ہوں، ہر شیطان، نقصان پہنچانے والی مخلوق اور ہر بری نظر سے۔"
+    },
+    {
+     "type": "field",
+     "label": "When to use it",
+     "text": "Parents or carers may recite to seek Allah’s protection for children; older children may learn its words and meaning."
+    },
+    {
+     "type": "field",
+     "label": "Primary evidence",
+     "text": "Sahih al-Bukhari 3371  |  Sahih"
+    },
+    {
+     "type": "link",
+     "text": "https://sunnah.com/bukhari:3371"
+    }
+   ],
+   "arabic": "أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّةِ مِنْ كُلِّ شَيْطَانٍ وَهَامَّةٍ وَمِنْ كُلِّ عَيْنٍ لَامَّةٍ",
+   "transliteration": "Aʿūdhu bi-kalimāti-llāhit-tāmmati min kulli shayṭānin wa hāmmah, wa min kulli ʿaynin lāmmah",
+   "english": "I seek refuge in Allah’s perfect words from every devil, harmful creature, and every harmful eye.",
+   "urdu": "میں اللہ کے کامل کلمات کی پناہ چاہتا ہوں، ہر شیطان، نقصان پہنچانے والی مخلوق اور ہر بری نظر سے۔",
+   "occasion": "Parents or carers may recite to seek Allah’s protection for children; older children may learn its words and meaning.",
+   "source": "Sahih al-Bukhari 3371  |  Sahih",
+   "sourceUrl": "https://sunnah.com/bukhari:3371",
+   "extras": [],
+   "story": [
+    "Mohsina’s little brother was visiting Imaan and Akhlaq with their family. He was shy in the busy room, so Imaan offered him a comfortable chair and Akhlaq brought his favourite picture book. Salamah recited a Prophetic supplication for protection, explaining calmly that families ask Allah to keep their loved ones safe. She did not frighten the children with stories of dangers. Instead, she reminded them to watch the steps, avoid sharp objects and keep small toys away from the baby. The children saw that prayer and responsible care go hand in hand."
+   ],
+   "understand": [
+    "The Prophet ﷺ recited words seeking Allah’s protection for al-Hasan and al-Husayn. In the Hadith, the prayer is part of care for children. The app must avoid treating this as a frightening lesson or a promise of invincibility. It can be taught first as a listening and parent-led practice, with independent memorization for older children. Everyday safety precautions remain important."
+   ],
+   "memorizeSteps": "Hear the complete text from a qualified reciter. Replay the meaningful Arabic chunks below, join them in order, then try a gentle hidden-text recall. Repetition is an educational aid, not a religiously fixed count.",
+   "chunks": [
+    "أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّةِ",
+    "مِنْ كُلِّ شَيْطَانٍ وَهَامَّةٍ",
+    "وَمِنْ كُلِّ عَيْنٍ لَامَّةٍ"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "Ask a parent or caregiver to recite this supplication with you for younger family members, and help keep a shared space safe.",
+   "mission": {
+    "text": "A family scene teaches the three audio segments and a safe-choice picture puzzle (move a small object away from a toddler).",
+    "title": "Gentle protection",
+    "feedback": "You cared for someone with prayer and kindness."
+   },
+   "reflect": "How can we help a younger child feel safe?",
+   "guidance": {
+    "label": "Parent / teacher cue",
+    "text": "Parent-led optional recitation; avoid fear appeals, magical safety guarantees or personal recordings."
+   }
+  },
+  {
+   "id": "dua-029",
+   "number": 29,
+   "title": "A Du’a for a Generous Host",
+   "tagline": "VOLUME 03 / PROPHETIC SUPPLICATION FOR THE HOUSEHOLD PROVIDING HOSPITALITY / APPRECIATION AND HOSPITALITY",
+   "wordsHeading": "WORDS TO REMEMBER • ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "اللَّهُمَّ بَارِكْ لَهُمْ فِيمَا رَزَقْتَهُمْ وَاغْفِرْ لَهُمْ وَارْحَمْهُمْ"
+    },
+    {
+     "type": "translit",
+     "text": "Allāhumma bārik lahum fīmā razaqtahum waghfir lahum warḥamhum"
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "O Allah, bless them in what You have provided them, forgive them, and have mercy on them."
+    },
+    {
+     "type": "urdu",
+     "text": "اے اللہ! ان کو ان کے دیے ہوئے رزق میں برکت عطا فرما، ان کی مغفرت فرما اور ان پر رحم فرما۔"
+    },
+    {
+     "type": "field",
+     "label": "When to use it",
+     "text": "When praying for people who hosted and served you, as in the narrated visit."
+    },
+    {
+     "type": "field",
+     "label": "Primary evidence",
+     "text": "Sahih Muslim 2042a  |  Sahih"
+    },
+    {
+     "type": "link",
+     "text": "https://sunnah.com/muslim:2042a"
+    }
+   ],
+   "arabic": "اللَّهُمَّ بَارِكْ لَهُمْ فِيمَا رَزَقْتَهُمْ وَاغْفِرْ لَهُمْ وَارْحَمْهُمْ",
+   "transliteration": "Allāhumma bārik lahum fīmā razaqtahum waghfir lahum warḥamhum",
+   "english": "O Allah, bless them in what You have provided them, forgive them, and have mercy on them.",
+   "urdu": "اے اللہ! ان کو ان کے دیے ہوئے رزق میں برکت عطا فرما، ان کی مغفرت فرما اور ان پر رحم فرما۔",
+   "occasion": "When praying for people who hosted and served you, as in the narrated visit.",
+   "source": "Sahih Muslim 2042a  |  Sahih",
+   "sourceUrl": "https://sunnah.com/muslim:2042a",
+   "extras": [],
+   "story": [
+    "Salaam and Salamah took Imaan and Akhlaq to visit their neighbours. The hosts welcomed them and offered fruit and water. Akhlaq was ready to leave quickly because he wanted to play outside. Imaan thanked the family first, and Salaam gently taught them a supplication asking Allah to bless the hosts, forgive them and show them mercy. The children listened to its four short sections. Before leaving, Akhlaq carried his cup to the kitchen with permission and said thank you. He learned that hospitality deserves warm and thoughtful appreciation."
+   ],
+   "understand": [
+    "This authentic Prophetic prayer asks Allah to bless a household’s provision, forgive them and show them mercy. In the narration it was said in the context of being hosted and requested to make Du’a. The app must preserve this setting rather than falsely declaring the wording required after every meal. Children can practise it when visiting others, in addition to ordinary polite thanks."
+   ],
+   "memorizeSteps": "Hear the complete text from a qualified reciter. Replay the meaningful Arabic chunks below, join them in order, then try a gentle hidden-text recall. Repetition is an educational aid, not a religiously fixed count.",
+   "chunks": [
+    "اللَّهُمَّ بَارِكْ لَهُمْ",
+    "فِيمَا رَزَقْتَهُمْ",
+    "وَاغْفِرْ لَهُمْ",
+    "وَارْحَمْهُمْ"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "When someone welcomes or serves you, thank them and make this Du’a for their household.",
+   "mission": {
+    "text": "Reconstruct four meaningful parts of the Arabic, then select a polite way to leave after being hosted.",
+    "title": "Guest of kindness",
+    "feedback": "You appreciated the people who welcomed you."
+   },
+   "reflect": "How do we show gratitude to someone who makes us comfortable?",
+   "guidance": {
+    "label": "Parent / teacher cue",
+    "text": "Use a fictional dinner visit for practice; no pressure on children to disclose who hosts them."
+   }
+  },
+  {
+   "id": "dua-030",
+   "number": 30,
+   "title": "May Allah Care for Those Who Feed Us",
+   "tagline": "VOLUME 03 / PROPHETIC SUPPLICATION OF RECIPROCAL GENEROSITY / PRAYING FOR THE PEOPLE WHO CARE FOR US",
+   "wordsHeading": "WORDS TO REMEMBER • ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "اللَّهُمَّ أَطْعِمْ مَنْ أَطْعَمَنِي وَأَسْقِ مَنْ أَسْقَانِي"
+    },
+    {
+     "type": "translit",
+     "text": "Allāhumma aṭʿim man aṭʿamanī wa asqi man asqānī"
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "O Allah, feed the one who fed me, and give drink to the one who gave me drink."
+    },
+    {
+     "type": "urdu",
+     "text": "اے اللہ! جس نے مجھے کھانا کھلایا اسے کھانا عطا فرما، اور جس نے مجھے پانی پلایا اسے مشروب عطا فرما۔"
+    },
+    {
+     "type": "field",
+     "label": "When to use it",
+     "text": "When asking Allah to provide for people who have provided food or drink for you."
+    },
+    {
+     "type": "field",
+     "label": "Primary evidence",
+     "text": "Sahih Muslim 2055a  |  Sahih"
+    },
+    {
+     "type": "link",
+     "text": "https://sunnah.com/muslim:2055a"
+    }
+   ],
+   "arabic": "اللَّهُمَّ أَطْعِمْ مَنْ أَطْعَمَنِي وَأَسْقِ مَنْ أَسْقَانِي",
+   "transliteration": "Allāhumma aṭʿim man aṭʿamanī wa asqi man asqānī",
+   "english": "O Allah, feed the one who fed me, and give drink to the one who gave me drink.",
+   "urdu": "اے اللہ! جس نے مجھے کھانا کھلایا اسے کھانا عطا فرما، اور جس نے مجھے پانی پلایا اسے مشروب عطا فرما۔",
+   "occasion": "When asking Allah to provide for people who have provided food or drink for you.",
+   "source": "Sahih Muslim 2055a  |  Sahih",
+   "sourceUrl": "https://sunnah.com/muslim:2055a",
+   "extras": [],
+   "story": [
+    "After a busy day, Salamah gave the children water and a plate of food. Imaan thanked her, and Akhlaq asked how to make a Du’a for someone who gives us food. Salaam shared a short, authentic Prophetic supplication asking Allah to feed the person who fed us and give drink to the person who gave us drink. The children repeated it in four parts. Later they noticed that the school helper who filled their water bottle worked hard too. Akhlaq thanked him and remembered the Du’a. His gratitude had grown beyond his own dinner table."
+   ],
+   "understand": [
+    "This prayer is a warm way to ask Allah to care for the person who cared for us. It teaches a child that people who prepare, serve or share food deserve appreciation, whatever their role. Although it appears in a longer Hadith narrative, this selected supplication is a complete quoted phrase. It is distinct from Lesson 29: that Du’a asks for blessing, forgiveness and mercy for hosts; this one asks that providers of food and drink also receive provision."
+   ],
+   "memorizeSteps": "Hear the complete text from a qualified reciter. Replay the meaningful Arabic chunks below, join them in order, then try a gentle hidden-text recall. Repetition is an educational aid, not a religiously fixed count.",
+   "chunks": [
+    "اللَّهُمَّ أَطْعِمْ",
+    "مَنْ أَطْعَمَنِي",
+    "وَأَسْقِ",
+    "مَنْ أَسْقَانِي"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "Today, make this Du’a for someone who helped provide your food or drink.",
+   "mission": {
+    "text": "Listen to four audio segments, then choose the person helped by the Du’a in a simple family and school picture scenario.",
+    "title": "The gratitude circle",
+    "feedback": "You remembered someone who cared for you."
+   },
+   "reflect": "Who helps you have food and clean water?",
+   "guidance": {
+    "label": "Parent / teacher cue",
+    "text": "Model gratitude toward household helpers and workers without ranking people by status."
+   }
+  }
+ ]
+}
