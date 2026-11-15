@@ -4,6 +4,7 @@ import '../app_theme.dart';
 import '../data/catalog.dart';
 import '../domain.dart';
 import 'hadith_screen.dart';
+import '../courses/registry.dart';
 import 'ui_kit.dart';
 
 const courseNames = [
@@ -774,6 +775,12 @@ Future<void> showCourseDetails(
       MaterialPageRoute(builder: (_) => HadithCourseScreen(scope: hadithScope)),
     );
   }
+  final entry = courseEntry(index);
+  if (entry != null && hadithScope != null) {
+    return Navigator.of(context).push<void>(
+      MaterialPageRoute(builder: (_) => entry.open(hadithScope)),
+    );
+  }
   return showModalBottomSheet<void>(
     context: context,
     showDragHandle: true,
@@ -856,7 +863,8 @@ class CourseLibrary extends StatelessWidget {
             subtitle: Text(
               i == 1 && hadithScope != null
                   ? '5 lessons • Ready to explore'
-                  : 'In preparation',
+                  : (hadithScope == null ? null : courseEntry(i)?.subtitle) ??
+                        'In preparation',
             ),
             trailing: const Icon(Icons.chevron_right),
             onTap: () =>
