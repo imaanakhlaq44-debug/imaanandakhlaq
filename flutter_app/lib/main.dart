@@ -8,6 +8,8 @@ import 'app.dart';
 import 'screens/entry_screens.dart' show launchLogo;
 import 'app_theme.dart';
 import 'data/app_repository.dart';
+import 'dev/emulator_storage_stub.dart'
+    if (dart.library.js_interop) 'dev/emulator_storage_web.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -44,6 +46,12 @@ Future<void> main() async {
         'Firebase configuration is missing. See the Flutter README for setup.',
       );
     }
+    const emulatorHost = String.fromEnvironment('FIREBASE_EMULATOR_HOST');
+    if (emulatorHost.isNotEmpty && !kReleaseMode) {
+      // Must run before Firebase starts: a restored session would call the
+      // live Auth server and stop the emulator from attaching.
+      await clearSavedFirebaseSession();
+    }
     await Firebase.initializeApp(
       options: const FirebaseOptions(
         apiKey: apiKey,
@@ -66,6 +74,9 @@ Future<void> main() async {
         );
       }
       await FirebaseAuth.instance.useAuthEmulator(host, 9099);
+      // Emulator sessions are not saved in the browser, so the next load
+      // never has one to restore (see clearSavedFirebaseSession).
+      if (kIsWeb) await FirebaseAuth.instance.setPersistence(Persistence.NONE);
       FirebaseFirestore.instance.useFirestoreEmulator(host, 8080);
       FirebaseFunctions.instance.useFunctionsEmulator(host, 5001);
     }
