@@ -1,0 +1,830 @@
+{
+ "volume": 6,
+ "title": "Allah Helps Me Through Difficulties",
+ "intro": "Ten authentic remembrances and supplications for reliance, fear, emotional burdens, illness, pain, grief and the choice to do what is right. Children learn to ask Allah for help while taking safe, practical steps.",
+ "sourceDocument": "Zad_al_Qulub_Junior_Volume_06_Allah_Helps_Me_Through_Difficulties.docx",
+ "reviewStatus": "Working curriculum text copied verbatim from the supplied DOCX. Qualified scholarly, Arabic, Urdu and pronunciation review is required before release.",
+ "lessons": [
+  {
+   "id": "dua-051",
+   "number": 51,
+   "title": "A Treasure When I Feel I Cannot Manage",
+   "tagline": "VOLUME 06 / PROPHETIC DHIKR / HUMILITY AND PERSEVERING EFFORT",
+   "wordsHeading": "WORDS TO REMEMBER • AUTHENTIC ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ"
+    },
+    {
+     "type": "translit",
+     "text": "Lā ḥawla wa lā quwwata illā billāh."
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "There is no power and no strength except through Allah."
+    },
+    {
+     "type": "urdu",
+     "text": "اللہ کی مدد کے بغیر نہ کسی برائی سے بچنے کی طاقت ہے اور نہ کسی نیکی کی قوت۔"
+    },
+    {
+     "type": "field",
+     "label": "When to recite",
+     "text": "A general Dhikr reminding us that strength and ability come through Allah; no special number is assigned here."
+    },
+    {
+     "type": "field",
+     "label": "Primary evidence",
+     "text": "Sahih al-Bukhari 6409"
+    },
+    {
+     "type": "link",
+     "text": "https://sunnah.com/bukhari:6409"
+    }
+   ],
+   "arabic": "لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ",
+   "transliteration": "Lā ḥawla wa lā quwwata illā billāh.",
+   "english": "There is no power and no strength except through Allah.",
+   "urdu": "اللہ کی مدد کے بغیر نہ کسی برائی سے بچنے کی طاقت ہے اور نہ کسی نیکی کی قوت۔",
+   "occasion": "A general Dhikr reminding us that strength and ability come through Allah; no special number is assigned here.",
+   "source": "Sahih al-Bukhari 6409",
+   "sourceUrl": "https://sunnah.com/bukhari:6409",
+   "extras": [
+    {
+     "heading": "AUTHENTIC SOURCE CONTEXT",
+     "blocks": [
+      {
+       "type": "text",
+       "text": "The Prophet ﷺ taught Abū Mūsā al-Ashʿarī (RA) this expression and described it as a treasure from the treasures of Paradise."
+      }
+     ]
+    }
+   ],
+   "story": [
+    "Akhlaq struggled to tie his shoelaces before school. He tried twice, sighed, and dropped both laces. “I can never do this!” he said. Imaan sat beside him. “We can ask Allah for help and still keep trying,” she reminded him. Salaam taught them the short Dhikr, “Lā ḥawla wa lā quwwata illā billāh.” Akhlaq listened, said the words slowly, and asked his father to show him the first loop again. His next attempt was not perfect, but it was better. He grinned because he had not given up."
+   ],
+   "understand": [
+    "These words remind us that our abilities and strength are granted by Allah. They do not mean we should sit without effort. The Prophet ﷺ taught this remembrance and called it a treasure of Paradise. Children can learn to ask Allah for help while practising, resting when necessary and accepting support. The shoelace scene is a fictional daily-life example, not the historical setting of the Hadith."
+   ],
+   "memorizeSteps": "Listen to qualified recitation. Practise the phrases slowly, combine in sequence and then try a gentle text-hidden recall. Audio-loop counts are freely adjustable and are NOT religiously prescribed unless the specific Hadith says so.",
+   "chunks": [
+    "لَا حَوْلَ",
+    "وَلَا قُوَّةَ",
+    "إِلَّا بِاللَّهِ"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "Try one difficult but safe task again today, asking a trusted adult for help if you need it.",
+   "mission": {
+    "text": "Help Akhlaq pick a good response to a hard task, put three Arabic audio tiles in order, and press “try again” without a losing timer.",
+    "title": "The patient practice path",
+    "feedback": "Trying again with help is a brave step."
+   },
+   "reflect": "What can I do when something seems difficult at first?",
+   "guidance": {
+    "label": "Parent / teacher cue",
+    "text": "Never turn perseverance into pressure to endure pain, bullying or unsafe tasks. Praise effort and seeking help."
+   }
+  },
+  {
+   "id": "dua-052",
+   "number": 52,
+   "title": "Allah Is Enough for Me",
+   "tagline": "VOLUME 06 / QUR’ANIC WORDS OF RELIANCE / TRUST AND SENSIBLE COURAGE",
+   "wordsHeading": "WORDS TO REMEMBER • AUTHENTIC ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "حَسْبُنَا اللَّهُ وَنِعْمَ الْوَكِيلُ"
+    },
+    {
+     "type": "translit",
+     "text": "Ḥasbunallāhu wa niʿmal-wakīl."
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "Allah is sufficient for us, and He is the best One to rely upon."
+    },
+    {
+     "type": "urdu",
+     "text": "ہمارے لیے اللہ کافی ہے، اور وہ بہترین کارساز ہے۔"
+    },
+    {
+     "type": "field",
+     "label": "When to recite",
+     "text": "A remembrance of trust in Allah; the Qur’anic verse does not establish an exclusive bedtime or fear-time count."
+    },
+    {
+     "type": "field",
+     "label": "Primary evidence",
+     "text": "Surah Āl ʿImrān 3:173 (words spoken by believers within the verse)"
+    },
+    {
+     "type": "link",
+     "text": "https://quran.com/3/173"
+    }
+   ],
+   "arabic": "حَسْبُنَا اللَّهُ وَنِعْمَ الْوَكِيلُ",
+   "transliteration": "Ḥasbunallāhu wa niʿmal-wakīl.",
+   "english": "Allah is sufficient for us, and He is the best One to rely upon.",
+   "urdu": "ہمارے لیے اللہ کافی ہے، اور وہ بہترین کارساز ہے۔",
+   "occasion": "A remembrance of trust in Allah; the Qur’anic verse does not establish an exclusive bedtime or fear-time count.",
+   "source": "Surah Āl ʿImrān 3:173 (words spoken by believers within the verse)",
+   "sourceUrl": "https://quran.com/3/173",
+   "extras": [
+    {
+     "heading": "AUTHENTIC SOURCE CONTEXT",
+     "blocks": [
+      {
+       "type": "text",
+       "text": "The Qur’an recounts believers being warned of an enemy threat; instead of surrendering to fear, they trusted Allah. Their original situation is much more serious than the fictional child example."
+      }
+     ]
+    }
+   ],
+   "story": [
+    "The school’s storytelling day was near. Imaan had practised, yet she worried that she might forget her opening line. Akhlaq offered to listen to one more rehearsal. Dadi Jaan shared the Qur’anic words “Ḥasbunallāhu wa niʿmal-wakīl,” and explained that trusting Allah does not mean forgetting to prepare. Imaan practised once more, took a slow breath and asked her teacher if she could keep a cue card nearby. The next day she still felt nervous, but she stepped forward and began."
+   ],
+   "understand": [
+    "In Surah Āl ʿImrān, these are words of believers who trusted Allah despite a threatening warning. They affirm that Allah is sufficient and the best One in whom to place trust. A child can apply the lesson to ordinary worries without pretending their classroom problem is equal to the original historical danger. Trust should go together with preparation and getting help, not reckless risk."
+   ],
+   "memorizeSteps": "Listen to qualified recitation. Practise the phrases slowly, combine in sequence and then try a gentle text-hidden recall. Audio-loop counts are freely adjustable and are NOT religiously prescribed unless the specific Hadith says so.",
+   "chunks": [
+    "حَسْبُنَا اللَّهُ",
+    "وَنِعْمَ الْوَكِيلُ"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "Prepare for one small challenge today and ask Allah to help you face it calmly.",
+   "mission": {
+    "text": "Choose the helpful combination—prepare, ask for support and trust Allah—then match two phrase cards to their meanings.",
+    "title": "Courage with preparation",
+    "feedback": "Trust and thoughtful preparation can work together."
+   },
+   "reflect": "What can I prepare before something that makes me nervous?",
+   "guidance": {
+    "label": "Parent / teacher cue",
+    "text": "Do not tell a fearful child that faith means they must never feel afraid; provide reassurance and practical support."
+   }
+  },
+  {
+   "id": "dua-053",
+   "number": 53,
+   "title": "Words of Protection When We Stop Somewhere",
+   "tagline": "VOLUME 06 / PROPHETIC SUPPLICATION / AWARENESS AND RESPONSIBLE SAFETY",
+   "wordsHeading": "WORDS TO REMEMBER • AUTHENTIC ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ"
+    },
+    {
+     "type": "translit",
+     "text": "Aʿūdhu bikalimātillāhit-tāmmāti min sharri mā khalaq."
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "I seek protection in Allah’s perfect words from the evil of what He has created."
+    },
+    {
+     "type": "urdu",
+     "text": "میں اللہ کے کامل کلمات کی پناہ مانگتا/مانگتی ہوں، اس کی مخلوق کے شر سے۔"
+    },
+    {
+     "type": "field",
+     "label": "When to recite",
+     "text": "The Hadith specifically describes saying it upon stopping or settling at a place."
+    },
+    {
+     "type": "field",
+     "label": "Primary evidence",
+     "text": "Sahih Muslim 2708a"
+    },
+    {
+     "type": "link",
+     "text": "https://sunnah.com/muslim:2708a"
+    }
+   ],
+   "arabic": "أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ",
+   "transliteration": "Aʿūdhu bikalimātillāhit-tāmmāti min sharri mā khalaq.",
+   "english": "I seek protection in Allah’s perfect words from the evil of what He has created.",
+   "urdu": "میں اللہ کے کامل کلمات کی پناہ مانگتا/مانگتی ہوں، اس کی مخلوق کے شر سے۔",
+   "occasion": "The Hadith specifically describes saying it upon stopping or settling at a place.",
+   "source": "Sahih Muslim 2708a",
+   "sourceUrl": "https://sunnah.com/muslim:2708a",
+   "extras": [
+    {
+     "heading": "AUTHENTIC SOURCE CONTEXT",
+     "blocks": [
+      {
+       "type": "text",
+       "text": "Khawlah bint Ḥakīm (RA) narrated the Prophet’s ﷺ teaching concerning someone who comes to rest at a place and seeks protection through these words."
+      }
+     ]
+    }
+   ],
+   "story": [
+    "Salaam took the family to a picnic area near a garden. Before everyone unpacked, Salamah asked the children to stand beside her while she checked the ground for broken glass and sharp objects. Dadi Jaan then taught a Du’a for seeking Allah’s protection when stopping at a place. Akhlaq listened to the two parts. Imaan repeated them softly. Afterward they chose a safe spot, washed their hands and helped spread the picnic cloth. They learnt that remembering Allah and paying attention to safety belong together."
+   ],
+   "understand": [
+    "The authentic report ties this particular supplication to arriving and staying at a place. The phrase asks Allah for protection through His perfect words. We should preserve that setting instead of advertising it as an all-purpose guarantee that replaces safety precautions. Children should still follow adult guidance, avoid unsafe places and tell an adult when something seems dangerous."
+   ],
+   "memorizeSteps": "Listen to qualified recitation. Practise the phrases slowly, combine in sequence and then try a gentle text-hidden recall. Audio-loop counts are freely adjustable and are NOT religiously prescribed unless the specific Hadith says so.",
+   "chunks": [
+    "أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ",
+    "مِنْ شَرِّ مَا خَلَقَ"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "When you arrive somewhere new today, stay with your caregiver and help check that the place is safe.",
+   "mission": {
+    "text": "Sort “safe / ask an adult” picture cards; listen to two Arabic segments and join them into the complete Du’a.",
+    "title": "Picnic protection",
+    "feedback": "Remember Allah and follow wise safety steps."
+   },
+   "reflect": "Why do we ask Allah for protection and also take care around us?",
+   "guidance": {
+    "label": "Parent / teacher cue",
+    "text": "No supernatural fear animations, guaranteed physical-safety claims or encouragement to enter unsafe places."
+   }
+  },
+  {
+   "id": "dua-054",
+   "number": 54,
+   "title": "Help My Heart Choose What Is Right",
+   "tagline": "VOLUME 06 / PROPHETIC SUPPLICATION / SELF-CONTROL AND CHOOSING RIGHT",
+   "wordsHeading": "WORDS TO REMEMBER • AUTHENTIC ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "اللَّهُمَّ مُصَرِّفَ الْقُلُوبِ صَرِّفْ قُلُوبَنَا عَلَى طَاعَتِكَ"
+    },
+    {
+     "type": "translit",
+     "text": "Allāhumma muṣarrifal-qulūb, ṣarrif qulūbanā ʿalā ṭāʿatik."
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "O Allah, Director of hearts, direct our hearts toward obeying You."
+    },
+    {
+     "type": "urdu",
+     "text": "اے اللہ! دلوں کو پھیرنے والے، ہمارے دلوں کو اپنی اطاعت کی طرف پھیر دے۔"
+    },
+    {
+     "type": "field",
+     "label": "When to recite",
+     "text": "A general Du’a seeking steadfastness in Allah’s obedience; no new fixed repetition count is established here."
+    },
+    {
+     "type": "field",
+     "label": "Primary evidence",
+     "text": "Sahih Muslim 2654, report of ʿAbdullāh ibn ʿAmr (RA)"
+    },
+    {
+     "type": "link",
+     "text": "https://dorar.net/h/Rn2mbG5p"
+    }
+   ],
+   "arabic": "اللَّهُمَّ مُصَرِّفَ الْقُلُوبِ صَرِّفْ قُلُوبَنَا عَلَى طَاعَتِكَ",
+   "transliteration": "Allāhumma muṣarrifal-qulūb, ṣarrif qulūbanā ʿalā ṭāʿatik.",
+   "english": "O Allah, Director of hearts, direct our hearts toward obeying You.",
+   "urdu": "اے اللہ! دلوں کو پھیرنے والے، ہمارے دلوں کو اپنی اطاعت کی طرف پھیر دے۔",
+   "occasion": "A general Du’a seeking steadfastness in Allah’s obedience; no new fixed repetition count is established here.",
+   "source": "Sahih Muslim 2654, report of ʿAbdullāh ibn ʿAmr (RA)",
+   "sourceUrl": "https://dorar.net/h/Rn2mbG5p",
+   "extras": [
+    {
+     "heading": "AUTHENTIC SOURCE CONTEXT",
+     "blocks": [
+      {
+       "type": "text",
+       "text": "The Prophet ﷺ taught that Allah turns hearts as He wills, and he supplicated that hearts be directed toward obedience to Him."
+      }
+     ]
+    }
+   ],
+   "story": [
+    "Akhlaq was tempted to copy the answer from a classmate during a quiz. The paper looked difficult. He paused and remembered the family had been learning a Du’a asking Allah to direct our hearts toward obedience. He did not know every answer, but he wrote only what he knew. On the way home he told Imaan, “I am glad I tried honestly.” Imaan said, “That was a choice you made even when it was hard.” At home, they listened to the Du’a slowly and talked about how small honest decisions shape good habits."
+   ],
+   "understand": [
+    "This Du’a asks Allah to turn our hearts toward what pleases Him. Children can learn that they may feel tempted, worried or uncertain, but they can ask for Allah’s help and choose a better action. The narration’s theology should be preserved accurately in adult/source notes. For the child’s immediate lesson, focus on seeking guidance and practising honest choices rather than using labels about “good children” or “bad children.”"
+   ],
+   "memorizeSteps": "Listen to qualified recitation. Practise the phrases slowly, combine in sequence and then try a gentle text-hidden recall. Audio-loop counts are freely adjustable and are NOT religiously prescribed unless the specific Hadith says so.",
+   "chunks": [
+    "اللَّهُمَّ مُصَرِّفَ الْقُلُوبِ",
+    "صَرِّفْ قُلُوبَنَا",
+    "عَلَى طَاعَتِكَ"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "Choose honesty in one small situation today, even if the honest answer is “I do not know.”",
+   "mission": {
+    "text": "Choose between copying, asking for clarification, or answering truthfully; join three audio phrases to make the Du’a.",
+    "title": "The honest answer",
+    "feedback": "Honest choices help build a steady heart."
+   },
+   "reflect": "What helps me choose the right thing when nobody is watching?",
+   "guidance": {
+    "label": "Parent / teacher cue",
+    "text": "Support mistakes and learning without shame. The application story is fictional, not part of the original Hadith."
+   }
+  },
+  {
+   "id": "dua-055",
+   "number": 55,
+   "title": "Protect Me from Wrong Choices",
+   "tagline": "VOLUME 06 / PROPHETIC SUPPLICATION / RESPONSIBILITY AND FORESIGHT",
+   "wordsHeading": "WORDS TO REMEMBER • AUTHENTIC ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ شَرِّ مَا عَمِلْتُ وَمِنْ شَرِّ مَا لَمْ أَعْمَلْ"
+    },
+    {
+     "type": "translit",
+     "text": "Allāhumma innī aʿūdhu bika min sharri mā ʿamiltu wa min sharri mā lam aʿmal."
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "O Allah, I seek Your protection from the evil of what I have done and the evil of what I have not done."
+    },
+    {
+     "type": "urdu",
+     "text": "اے اللہ! میں اپنے کیے ہوئے اعمال کے شر سے، اور ان برائیوں کے شر سے جو میں نے ابھی نہیں کیں، تیری پناہ مانگتا/مانگتی ہوں۔"
+    },
+    {
+     "type": "field",
+     "label": "When to recite",
+     "text": "A general Prophetic Du’a seeking protection from wrongdoing and its harmful effects."
+    },
+    {
+     "type": "field",
+     "label": "Primary evidence",
+     "text": "Sahih Muslim 2716a"
+    },
+    {
+     "type": "link",
+     "text": "https://sunnah.com/muslim:2716a"
+    }
+   ],
+   "arabic": "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ شَرِّ مَا عَمِلْتُ وَمِنْ شَرِّ مَا لَمْ أَعْمَلْ",
+   "transliteration": "Allāhumma innī aʿūdhu bika min sharri mā ʿamiltu wa min sharri mā lam aʿmal.",
+   "english": "O Allah, I seek Your protection from the evil of what I have done and the evil of what I have not done.",
+   "urdu": "اے اللہ! میں اپنے کیے ہوئے اعمال کے شر سے، اور ان برائیوں کے شر سے جو میں نے ابھی نہیں کیں، تیری پناہ مانگتا/مانگتی ہوں۔",
+   "occasion": "A general Prophetic Du’a seeking protection from wrongdoing and its harmful effects.",
+   "source": "Sahih Muslim 2716a",
+   "sourceUrl": "https://sunnah.com/muslim:2716a",
+   "extras": [
+    {
+     "heading": "AUTHENTIC SOURCE CONTEXT",
+     "blocks": [
+      {
+       "type": "text",
+       "text": "ʿĀ’ishah (RA) reported this supplication among the words the Prophet ﷺ used. We use one complete wording from Muslim 2716a; related variants differ slightly."
+      }
+     ]
+    }
+   ],
+   "story": [
+    "Imaan was upset after speaking sharply to her brother. She wanted to apologize, but Akhlaq had already walked away. Salamah listened without scolding and said, “A mistake can teach us to choose better next time.” She showed Imaan a Du’a in which we ask Allah for protection from wrongdoing already done and wrong we might do. Imaan practised the words in three pieces. When Akhlaq came back, she apologized and asked how she could repair the hurt. They agreed to speak more gently when frustrated."
+   ],
+   "understand": [
+    "The supplication asks Allah’s protection from the evil connected to past actions and from future wrongdoing. It encourages humility and attention to consequences, not endless worry about mistakes. Children need to know they can apologize, repair harm and learn. The Hadith comes in more than one wording; audio, Arabic and the printed source must correspond to the exact selected version."
+   ],
+   "memorizeSteps": "Listen to qualified recitation. Practise the phrases slowly, combine in sequence and then try a gentle text-hidden recall. Audio-loop counts are freely adjustable and are NOT religiously prescribed unless the specific Hadith says so.",
+   "chunks": [
+    "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ",
+    "مِنْ شَرِّ مَا عَمِلْتُ",
+    "وَمِنْ شَرِّ مَا لَمْ أَعْمَلْ"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "If you speak unkindly today, apologize and try a kinder sentence instead.",
+   "mission": {
+    "text": "Choose words that repair a disagreement, then match “what I did” and “what I have not done” to the Arabic phrases.",
+    "title": "A kinder next sentence",
+    "feedback": "A sincere apology is a strong new beginning."
+   },
+   "reflect": "How can I make things right after saying something hurtful?",
+   "guidance": {
+    "label": "Parent / teacher cue",
+    "text": "Never ask children to confess their wrongdoing into the app, audio recorder or public dashboard."
+   }
+  },
+  {
+   "id": "dua-056",
+   "number": 56,
+   "title": "When Something Truly Sad Happens",
+   "tagline": "VOLUME 06 / PROPHETIC SUPPLICATION AT A CALAMITY / PATIENCE, GRIEF AND HOPE",
+   "wordsHeading": "WORDS TO REMEMBER • AUTHENTIC ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "إِنَّا لِلَّهِ وَإِنَّا إِلَيْهِ رَاجِعُونَ، اللَّهُمَّ أْجُرْنِي فِي مُصِيبَتِي وَأَخْلِفْ لِي خَيْرًا مِنْهَا"
+    },
+    {
+     "type": "translit",
+     "text": "Innā lillāhi wa innā ilayhi rājiʿūn; Allāhumma’jurnī fī muṣībatī wa akhlif lī khayran minhā."
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "Indeed, we belong to Allah and to Him we return. O Allah, reward me in my hardship and grant me something better in its place."
+    },
+    {
+     "type": "urdu",
+     "text": "بے شک ہم اللہ ہی کے ہیں اور اسی کی طرف لوٹ کر جانا ہے۔ اے اللہ! مجھے میری مصیبت پر اجر عطا فرما اور مجھے اس کے بدلے بہتر عطا فرما۔"
+    },
+    {
+     "type": "field",
+     "label": "When to recite",
+     "text": "When a genuine misfortune or serious loss occurs; do not trivialize the Hadith by presenting every minor inconvenience as a calamity."
+    },
+    {
+     "type": "field",
+     "label": "Primary evidence",
+     "text": "Sahih Muslim 918b"
+    },
+    {
+     "type": "link",
+     "text": "https://sunnah.com/muslim:918b"
+    }
+   ],
+   "arabic": "إِنَّا لِلَّهِ وَإِنَّا إِلَيْهِ رَاجِعُونَ، اللَّهُمَّ أْجُرْنِي فِي مُصِيبَتِي وَأَخْلِفْ لِي خَيْرًا مِنْهَا",
+   "transliteration": "Innā lillāhi wa innā ilayhi rājiʿūn; Allāhumma’jurnī fī muṣībatī wa akhlif lī khayran minhā.",
+   "english": "Indeed, we belong to Allah and to Him we return. O Allah, reward me in my hardship and grant me something better in its place.",
+   "urdu": "بے شک ہم اللہ ہی کے ہیں اور اسی کی طرف لوٹ کر جانا ہے۔ اے اللہ! مجھے میری مصیبت پر اجر عطا فرما اور مجھے اس کے بدلے بہتر عطا فرما۔",
+   "occasion": "When a genuine misfortune or serious loss occurs; do not trivialize the Hadith by presenting every minor inconvenience as a calamity.",
+   "source": "Sahih Muslim 918b",
+   "sourceUrl": "https://sunnah.com/muslim:918b",
+   "extras": [
+    {
+     "heading": "AUTHENTIC SOURCE CONTEXT",
+     "blocks": [
+      {
+       "type": "text",
+       "text": "Umm Salamah (RA) narrated this teaching in relation to real bereavement and later described using it after the death of Abū Salamah (RA). The original report must be handled sensitively."
+      }
+     ]
+    }
+   ],
+   "story": [
+    "One evening, Imaan learned that a beloved elderly relative was seriously ill and had been admitted to hospital. She was worried and quiet. Salamah sat beside her and listened. “It is all right to feel sad and to ask questions,” she said. Dadi Jaan explained that when difficult losses happen, Muslims may turn to Allah with special words of patience and hope. They listened to the Du’a together without rushing. Imaan also asked to call the relative’s family and share a kind message. Her sadness did not vanish instantly, but she knew she could speak to her family and ask Allah for help."
+   ],
+   "understand": [
+    "In the authentic Hadith, these words relate to calamity and grief. The expression “Innā lillāh” recognises that we belong to Allah; the rest asks for reward through hardship and better from Allah. Do not say that grief disappears if the child says the words, or that a loved one will be replaced. If the child has lost someone, let them grieve and connect with caring adults. The story is fictional and does not recreate Umm Salamah’s historical life."
+   ],
+   "memorizeSteps": "Listen to qualified recitation. Practise the phrases slowly, combine in sequence and then try a gentle text-hidden recall. Audio-loop counts are freely adjustable and are NOT religiously prescribed unless the specific Hadith says so.",
+   "chunks": [
+    "إِنَّا لِلَّهِ وَإِنَّا إِلَيْهِ رَاجِعُونَ",
+    "اللَّهُمَّ أْجُرْنِي فِي مُصِيبَتِي",
+    "وَأَخْلِفْ لِي خَيْرًا مِنْهَا"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "Offer one thoughtful message or gentle act of support to someone facing a difficult time.",
+   "mission": {
+    "text": "Choose a supportive message instead of dismissive words; memorize the longer Du’a in three chunks with optional pause and review.",
+    "title": "A caring message",
+    "feedback": "Being present and kind can comfort someone."
+   },
+   "reflect": "What can I say when someone is sad and I do not know how to fix things?",
+   "guidance": {
+    "label": "Parent / teacher cue",
+    "text": "Sensitive grief content: allow skip, adult-led mode and no animated bereavement scenes. Do not promise a specific worldly replacement."
+   }
+  },
+  {
+   "id": "dua-057",
+   "number": 57,
+   "title": "Asking Allah to Heal Someone",
+   "tagline": "VOLUME 06 / PROPHETIC SUPPLICATION FOR THE ILL / COMPASSION AND CARING FOR HEALTH",
+   "wordsHeading": "WORDS TO REMEMBER • AUTHENTIC ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "أَذْهِبِ الْبَاسَ رَبَّ النَّاسِ، اشْفِ وَأَنْتَ الشَّافِي، لَا شِفَاءَ إِلَّا شِفَاؤُكَ، شِفَاءً لَا يُغَادِرُ سَقَمًا"
+    },
+    {
+     "type": "translit",
+     "text": "Adhhib il-ba’sa Rabban-nās, ishfi wa Antash-Shāfī, lā shifā’a illā shifā’uk, shifā’an lā yughādiru saqamā."
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "Remove the illness, Lord of people. Heal, for You are the Healer. There is no healing except Your healing, a healing that leaves no sickness."
+    },
+    {
+     "type": "urdu",
+     "text": "اے لوگوں کے رب! بیماری دور فرما، شفا دے، تو ہی شفا دینے والا ہے؛ تیری شفا کے سوا کوئی شفا نہیں، ایسی شفا جو بیماری باقی نہ چھوڑے۔"
+    },
+    {
+     "type": "field",
+     "label": "When to recite",
+     "text": "When making Du’a for a sick person; the Prophet ﷺ said this when visiting or being brought a patient."
+    },
+    {
+     "type": "field",
+     "label": "Primary evidence",
+     "text": "Sahih al-Bukhari 5675"
+    },
+    {
+     "type": "link",
+     "text": "https://sunnah.com/bukhari:5675"
+    }
+   ],
+   "arabic": "أَذْهِبِ الْبَاسَ رَبَّ النَّاسِ، اشْفِ وَأَنْتَ الشَّافِي، لَا شِفَاءَ إِلَّا شِفَاؤُكَ، شِفَاءً لَا يُغَادِرُ سَقَمًا",
+   "transliteration": "Adhhib il-ba’sa Rabban-nās, ishfi wa Antash-Shāfī, lā shifā’a illā shifā’uk, shifā’an lā yughādiru saqamā.",
+   "english": "Remove the illness, Lord of people. Heal, for You are the Healer. There is no healing except Your healing, a healing that leaves no sickness.",
+   "urdu": "اے لوگوں کے رب! بیماری دور فرما، شفا دے، تو ہی شفا دینے والا ہے؛ تیری شفا کے سوا کوئی شفا نہیں، ایسی شفا جو بیماری باقی نہ چھوڑے۔",
+   "occasion": "When making Du’a for a sick person; the Prophet ﷺ said this when visiting or being brought a patient.",
+   "source": "Sahih al-Bukhari 5675",
+   "sourceUrl": "https://sunnah.com/bukhari:5675",
+   "extras": [
+    {
+     "heading": "AUTHENTIC SOURCE CONTEXT",
+     "blocks": [
+      {
+       "type": "text",
+       "text": "ʿĀ’ishah (RA) described the Prophet ﷺ using this supplication when visiting someone unwell. This entry adopts the exact Bukhari 5675 wording."
+      }
+     ]
+    }
+   ],
+   "story": [
+    "Akhlaq heard that Mohsin was unwell and resting at home. He wanted to visit immediately with toys and a loud game. Salamah explained that people who are sick need quiet and care. Instead, Imaan and Akhlaq recorded a brief cheerful greeting for Mohsin’s family to play whenever he felt rested. Then Dadi Jaan taught them the authentic Du’a seeking healing from Allah. They learned it slowly in four parts. Akhlaq added, “We can pray for him and let him rest.”"
+   ],
+   "understand": [
+    "The Prophet ﷺ used this Du’a to ask Allah to remove illness and grant healing. It is a prayer of compassion, not a replacement for medicines, medical professionals or rest. Children should never be encouraged to diagnose others or assume that illness means weak faith. Source variants use slightly different wording; this lesson follows Bukhari 5675 consistently."
+   ],
+   "memorizeSteps": "Listen to qualified recitation. Practise the phrases slowly, combine in sequence and then try a gentle text-hidden recall. Audio-loop counts are freely adjustable and are NOT religiously prescribed unless the specific Hadith says so.",
+   "chunks": [
+    "أَذْهِبِ الْبَاسَ رَبَّ النَّاسِ",
+    "اشْفِ وَأَنْتَ الشَّافِي",
+    "لَا شِفَاءَ إِلَّا شِفَاؤُكَ",
+    "شِفَاءً لَا يُغَادِرُ سَقَمًا"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "Ask after one sick person kindly, or help them rest without disturbing them.",
+   "mission": {
+    "text": "Choose what a sick friend needs (quiet, care, appropriate help) and assemble the four healing Du’a segments.",
+    "title": "The gentle visitor",
+    "feedback": "A gentle friend notices what others need."
+   },
+   "reflect": "Why might a sick person need quiet more than an exciting game?",
+   "guidance": {
+    "label": "Parent / teacher cue",
+    "text": "Medical care and adult decisions take priority. Never promise healing if a set number of repeats is completed."
+   }
+  },
+  {
+   "id": "dua-058",
+   "number": 58,
+   "title": "A Du’a When My Body Hurts",
+   "tagline": "VOLUME 06 / PROPHETIC SUPPLICATION FOR PAIN / SEEKING CARE AND MINDFUL COPING",
+   "wordsHeading": "WORDS TO REMEMBER • AUTHENTIC ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "بِاسْمِ اللَّهِ، أَعُوذُ بِاللَّهِ وَقُدْرَتِهِ مِنْ شَرِّ مَا أَجِدُ وَأُحَاذِرُ"
+    },
+    {
+     "type": "translit",
+     "text": "Bismillāh; aʿūdhu billāhi wa qudratihi min sharri mā ajidu wa uḥādhir."
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "In the name of Allah. I seek refuge with Allah and His power from the harm of what I feel and what I fear."
+    },
+    {
+     "type": "urdu",
+     "text": "اللہ کے نام سے۔ میں اللہ اور اس کی قدرت کی پناہ مانگتا/مانگتی ہوں، اس تکلیف کے شر سے جو مجھے محسوس ہو رہی ہے اور جس کا مجھے اندیشہ ہے۔"
+    },
+    {
+     "type": "field",
+     "label": "When to recite",
+     "text": "When someone experiences pain: the report teaches putting a hand on the painful area, saying Bismillah three times, and the remaining supplication seven times."
+    },
+    {
+     "type": "field",
+     "label": "Primary evidence",
+     "text": "Sahih Muslim 2202"
+    },
+    {
+     "type": "link",
+     "text": "https://sunnah.com/muslim:2202"
+    }
+   ],
+   "arabic": "بِاسْمِ اللَّهِ، أَعُوذُ بِاللَّهِ وَقُدْرَتِهِ مِنْ شَرِّ مَا أَجِدُ وَأُحَاذِرُ",
+   "transliteration": "Bismillāh; aʿūdhu billāhi wa qudratihi min sharri mā ajidu wa uḥādhir.",
+   "english": "In the name of Allah. I seek refuge with Allah and His power from the harm of what I feel and what I fear.",
+   "urdu": "اللہ کے نام سے۔ میں اللہ اور اس کی قدرت کی پناہ مانگتا/مانگتی ہوں، اس تکلیف کے شر سے جو مجھے محسوس ہو رہی ہے اور جس کا مجھے اندیشہ ہے۔",
+   "occasion": "When someone experiences pain: the report teaches putting a hand on the painful area, saying Bismillah three times, and the remaining supplication seven times.",
+   "source": "Sahih Muslim 2202",
+   "sourceUrl": "https://sunnah.com/muslim:2202",
+   "extras": [
+    {
+     "heading": "AUTHENTIC SOURCE CONTEXT",
+     "blocks": [
+      {
+       "type": "text",
+       "text": "ʿUthmān ibn Abī al-ʿĀṣ (RA) complained of bodily pain, and the Prophet ﷺ taught the words and their counts. These are reported counts, unlike ordinary flexible audio practice loops."
+      }
+     ]
+    }
+   ],
+   "story": [
+    "Imaan came in from the playground rubbing her ankle. She was not sure whether she had twisted it. Salaam asked her to sit and gently checked what had happened. “Thank you for telling us,” he said. He explained that an adult should help when pain is new or concerning. Later, when she was comfortable, Dadi Jaan taught the Du’a the Prophet ﷺ taught to a Companion experiencing pain. They practised the Arabic slowly, and Imaan felt reassured that seeking Allah’s help and asking for medical attention can go together."
+   ],
+   "understand": [
+    "This authentic narration gives a specific way to use the words for bodily pain, including the reported counts of three and seven. The app must separate these prescribed counts from optional memorization-loop settings. Never ask a child to press on an injured area or delay treatment to complete the Du’a. If the child is in pain, the first instruction should be to tell a responsible adult."
+   ],
+   "memorizeSteps": "Listen to qualified recitation. Practise the phrases slowly, combine in sequence and then try a gentle text-hidden recall. Audio-loop counts are freely adjustable and are NOT religiously prescribed unless the specific Hadith says so.",
+   "chunks": [
+    "بِاسْمِ اللَّهِ",
+    "أَعُوذُ بِاللَّهِ وَقُدْرَتِهِ",
+    "مِنْ شَرِّ مَا أَجِدُ وَأُحَاذِرُ"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "If you feel unwell or have pain today, tell a trusted adult clearly instead of hiding it.",
+   "mission": {
+    "text": "A scenario asks whom to tell about pain before opening a gentle audio-learning studio; a separate information card displays the reported Sunnah counts.",
+    "title": "Safe help first",
+    "feedback": "Asking for help is wise and strong."
+   },
+   "reflect": "Why is it important to tell a grown-up when something hurts?",
+   "guidance": {
+    "label": "Parent / teacher cue",
+    "text": "Accessible opt-out for children with health anxieties; no symptom checker, diagnosis, or rewards based on pain reports."
+   }
+  },
+  {
+   "id": "dua-059",
+   "number": 59,
+   "title": "When Worries Feel Heavy",
+   "tagline": "VOLUME 06 / PROPHETIC SUPPLICATION / HOPE, ASKING FOR SUPPORT AND DILIGENCE",
+   "wordsHeading": "WORDS TO REMEMBER • AUTHENTIC ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ، وَالْعَجْزِ وَالْكَسَلِ، وَالْجُبْنِ وَالْبُخْلِ، وَضَلَعِ الدَّيْنِ، وَغَلَبَةِ الرِّجَالِ"
+    },
+    {
+     "type": "translit",
+     "text": "Allāhumma innī aʿūdhu bika minal-hammi wal-ḥazan, wal-ʿajzi wal-kasal, wal-jubni wal-bukhl, wa ḍalaʿid-dayn, wa ghalabatir-rijāl."
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "O Allah, I seek refuge with You from worry and sadness, inability and laziness, cowardice and miserliness, the burden of debt and being overpowered by people."
+    },
+    {
+     "type": "urdu",
+     "text": "اے اللہ! میں فکر و غم، بے بسی و سستی، بزدلی و بخل، قرض کے بوجھ اور لوگوں کے مغلوب کر دینے سے تیری پناہ مانگتا/مانگتی ہوں۔"
+    },
+    {
+     "type": "field",
+     "label": "When to recite",
+     "text": "A comprehensive supplication seeking refuge from several burdens; children need age-appropriate explanation of adult terms such as debt."
+    },
+    {
+     "type": "field",
+     "label": "Primary evidence",
+     "text": "Sahih al-Bukhari 6369"
+    },
+    {
+     "type": "link",
+     "text": "https://sunnah.com/bukhari:6369"
+    }
+   ],
+   "arabic": "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ، وَالْعَجْزِ وَالْكَسَلِ، وَالْجُبْنِ وَالْبُخْلِ، وَضَلَعِ الدَّيْنِ، وَغَلَبَةِ الرِّجَالِ",
+   "transliteration": "Allāhumma innī aʿūdhu bika minal-hammi wal-ḥazan, wal-ʿajzi wal-kasal, wal-jubni wal-bukhl, wa ḍalaʿid-dayn, wa ghalabatir-rijāl.",
+   "english": "O Allah, I seek refuge with You from worry and sadness, inability and laziness, cowardice and miserliness, the burden of debt and being overpowered by people.",
+   "urdu": "اے اللہ! میں فکر و غم، بے بسی و سستی، بزدلی و بخل، قرض کے بوجھ اور لوگوں کے مغلوب کر دینے سے تیری پناہ مانگتا/مانگتی ہوں۔",
+   "occasion": "A comprehensive supplication seeking refuge from several burdens; children need age-appropriate explanation of adult terms such as debt.",
+   "source": "Sahih al-Bukhari 6369",
+   "sourceUrl": "https://sunnah.com/bukhari:6369",
+   "extras": [
+    {
+     "heading": "AUTHENTIC SOURCE CONTEXT",
+     "blocks": [
+      {
+       "type": "text",
+       "text": "Anas ibn Mālik (RA) reported that the Prophet ﷺ used to say this Du’a. It includes adult-life concerns and should be taught intact rather than silently omitting the final phrases."
+      }
+     ]
+    }
+   ],
+   "story": [
+    "Akhlaq had a school assignment, a room to tidy and a promise to help Mohsin. Thinking about everything at once made him feel stuck. He pushed the notebook away. Imaan sat beside him and suggested writing the tasks on three small cards. Their father said that worry and sadness are real feelings, and it is good to ask for help. After making a simple plan, the family listened to the longer Du’a that seeks Allah’s protection from worry and other burdens. Akhlaq chose one small task to begin, without expecting the Du’a to make the work disappear."
+   ],
+   "understand": [
+    "The supplication asks Allah for protection from worry, sadness, helplessness, laziness, fear, miserliness, heavy debt and being overcome by people. A child may not understand financial debt or oppression; explain those as serious adult difficulties without dramatising them. Teach the complete Arabic accurately. Children should not feel guilty for being sad or afraid; Du’a, supportive conversation, rest and professional help when needed can all be appropriate."
+   ],
+   "memorizeSteps": "Listen to qualified recitation. Practise the phrases slowly, combine in sequence and then try a gentle text-hidden recall. Audio-loop counts are freely adjustable and are NOT religiously prescribed unless the specific Hadith says so.",
+   "chunks": [
+    "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ",
+    "وَالْعَجْزِ وَالْكَسَلِ",
+    "وَالْجُبْنِ وَالْبُخْلِ",
+    "وَضَلَعِ الدَّيْنِ وَغَلَبَةِ الرِّجَالِ"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "If a worry feels too big today, tell a trusted adult and choose one manageable next step together.",
+   "mission": {
+    "text": "Put three small tasks into a realistic order, then practise four audio chunks without a clock or streak penalty.",
+    "title": "One step at a time",
+    "feedback": "You can seek help and take things one step at a time."
+   },
+   "reflect": "Who can I speak to when my worries feel heavy?",
+   "guidance": {
+    "label": "Parent / teacher cue",
+    "text": "A child expressing persistent distress needs human support, not solely another app lesson. Do not show debt or oppression as a child’s personal responsibility."
+   }
+  },
+  {
+   "id": "dua-060",
+   "number": 60,
+   "title": "Remembering Allah in Deep Difficulty",
+   "tagline": "VOLUME 06 / PROPHETIC REMEMBRANCE IN DISTRESS / FAITH, REVERENCE AND SEEKING HELP",
+   "wordsHeading": "WORDS TO REMEMBER • AUTHENTIC ARABIC",
+   "words": [
+    {
+     "type": "arabic",
+     "text": "لَا إِلَهَ إِلَّا اللَّهُ الْعَظِيمُ الْحَلِيمُ، لَا إِلَهَ إِلَّا اللَّهُ رَبُّ الْعَرْشِ الْعَظِيمِ، لَا إِلَهَ إِلَّا اللَّهُ رَبُّ السَّمَاوَاتِ وَرَبُّ الْأَرْضِ وَرَبُّ الْعَرْشِ الْكَرِيمِ"
+    },
+    {
+     "type": "translit",
+     "text": "Lā ilāha illallāhul-ʿAẓīmul-Ḥalīm; lā ilāha illallāhu Rabbul-ʿArshil-ʿAẓīm; lā ilāha illallāhu Rabbus-samāwāti wa Rabbul-arḍi wa Rabbul-ʿArshil-Karīm."
+    },
+    {
+     "type": "field",
+     "label": "English meaning",
+     "text": "There is no god except Allah, the Magnificent, the Forbearing. There is no god except Allah, Lord of the mighty Throne. There is no god except Allah, Lord of the heavens, Lord of the earth and Lord of the noble Throne."
+    },
+    {
+     "type": "urdu",
+     "text": "اللہ کے سوا کوئی معبود نہیں، وہ عظمت والا اور بردبار ہے۔ اللہ کے سوا کوئی معبود نہیں، وہ عظیم عرش کا رب ہے۔ اللہ کے سوا کوئی معبود نہیں، وہ آسمانوں، زمین اور عزت والے عرش کا رب ہے۔"
+    },
+    {
+     "type": "field",
+     "label": "When to recite",
+     "text": "The Prophet ﷺ used these words during severe distress. No new required daily repetition count is added in this lesson."
+    },
+    {
+     "type": "field",
+     "label": "Primary evidence",
+     "text": "Sahih Muslim 2730a"
+    },
+    {
+     "type": "link",
+     "text": "https://sunnah.com/muslim:2730a"
+    }
+   ],
+   "arabic": "لَا إِلَهَ إِلَّا اللَّهُ الْعَظِيمُ الْحَلِيمُ، لَا إِلَهَ إِلَّا اللَّهُ رَبُّ الْعَرْشِ الْعَظِيمِ، لَا إِلَهَ إِلَّا اللَّهُ رَبُّ السَّمَاوَاتِ وَرَبُّ الْأَرْضِ وَرَبُّ الْعَرْشِ الْكَرِيمِ",
+   "transliteration": "Lā ilāha illallāhul-ʿAẓīmul-Ḥalīm; lā ilāha illallāhu Rabbul-ʿArshil-ʿAẓīm; lā ilāha illallāhu Rabbus-samāwāti wa Rabbul-arḍi wa Rabbul-ʿArshil-Karīm.",
+   "english": "There is no god except Allah, the Magnificent, the Forbearing. There is no god except Allah, Lord of the mighty Throne. There is no god except Allah, Lord of the heavens, Lord of the earth and Lord of the noble Throne.",
+   "urdu": "اللہ کے سوا کوئی معبود نہیں، وہ عظمت والا اور بردبار ہے۔ اللہ کے سوا کوئی معبود نہیں، وہ عظیم عرش کا رب ہے۔ اللہ کے سوا کوئی معبود نہیں، وہ آسمانوں، زمین اور عزت والے عرش کا رب ہے۔",
+   "occasion": "The Prophet ﷺ used these words during severe distress. No new required daily repetition count is added in this lesson.",
+   "source": "Sahih Muslim 2730a",
+   "sourceUrl": "https://sunnah.com/muslim:2730a",
+   "extras": [
+    {
+     "heading": "AUTHENTIC SOURCE CONTEXT",
+     "blocks": [
+      {
+       "type": "text",
+       "text": "Ibn ʿAbbās (RA) narrated that the Prophet ﷺ would recite these words in difficulty. The exact three-part text here follows Muslim 2730a; Bukhari 6345 has a shorter variant."
+      }
+     ]
+    }
+   ],
+   "story": [
+    "The lights went out during a heavy storm. Akhlaq was startled by the thunder, and Imaan felt uneasy too. Salaam checked that everyone was indoors and safe, then brought a flashlight. Salamah invited the children to sit beside her while they waited. Dadi Jaan reminded them that Allah is the Lord of the heavens and earth, and shared a beautiful remembrance the Prophet ﷺ used in times of distress. They listened to the long Arabic gently, one phrase after another. The rain continued, but the family stayed together and took sensible precautions."
+   ],
+   "understand": [
+    "These words affirm Allah’s oneness and His greatness, forbearance and lordship. They are recorded as a Prophetic remembrance at times of distress. Unlike a short rhyme, this is a longer and meaningful formula. Let the child learn it over many sessions, and do not suggest that reciting it guarantees a storm, illness or problem will end immediately. The story is a fictional everyday application, separate from the original Hadith."
+   ],
+   "memorizeSteps": "Listen to qualified recitation. Practise the phrases slowly, combine in sequence and then try a gentle text-hidden recall. Audio-loop counts are freely adjustable and are NOT religiously prescribed unless the specific Hadith says so.",
+   "chunks": [
+    "لَا إِلَهَ إِلَّا اللَّهُ الْعَظِيمُ الْحَلِيمُ",
+    "لَا إِلَهَ إِلَّا اللَّهُ رَبُّ الْعَرْشِ الْعَظِيمِ",
+    "لَا إِلَهَ إِلَّا اللَّهُ رَبُّ السَّمَاوَاتِ",
+    "وَرَبُّ الْأَرْضِ وَرَبُّ الْعَرْشِ الْكَرِيمِ"
+   ],
+   "chunksRebuildArabic": true,
+   "action": "If you feel frightened by a difficult situation, move to safety and stay near a trusted adult.",
+   "mission": {
+    "text": "First select safe steps (go indoors, find an adult); then reveal and join four Arabic segments with optional slow recitation.",
+    "title": "A calm place in the storm",
+    "feedback": "Staying safe and remembering Allah can both help us through difficulty."
+   },
+   "reflect": "Who helps me feel safe when something unexpected happens?",
+   "guidance": {
+    "label": "Parent / teacher cue",
+    "text": "Avoid dramatic storm audio and frightening imagery. Audio chunks must reproduce the selected Muslim 2730a wording in exact order."
+   }
+  }
+ ]
+}
