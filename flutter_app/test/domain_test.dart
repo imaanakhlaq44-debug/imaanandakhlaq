@@ -14,6 +14,14 @@ void main() {
     role: AccountRole.student,
     familyUid: 'family-a',
   );
+  test('class label comes from class_name or the school class_id', () {
+    expect(Profile.fromMap('a', {'class_id': '3'}).className, 'Class 3');
+    expect(
+      Profile.fromMap('b', {'class_name': 'Grade 2', 'class_id': '3'}).className,
+      'Grade 2',
+    );
+    expect(Profile.fromMap('c', {}).className, '');
+  });
   test('legacy usernames resolve to the same existing Firebase identities', () {
     expect(loginEmail(' PAR-7K4QM '), 'par-7k4qm@family.imaanakhlaq.invalid');
     expect(loginEmail('tch-7k4qm'), 'tch-7k4qm@teacher.imaanakhlaq.invalid');

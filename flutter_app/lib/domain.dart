@@ -54,9 +54,15 @@ class Profile {
       familyUid: data['family_uid'] is String
           ? data['family_uid'] as String
           : '',
-      className: data['class_name'] is String
-          ? data['class_name'] as String
-          : '',
+      // Schools store the class as class_id ("3"); older profiles may carry
+      // a ready label in class_name.
+      className: data['class_name'] is String &&
+              (data['class_name'] as String).trim().isNotEmpty
+          ? (data['class_name'] as String).trim()
+          : (data['class_id'] is String &&
+                    (data['class_id'] as String).trim().isNotEmpty
+                ? 'Class ${(data['class_id'] as String).trim()}'
+                : ''),
       schoolName: data['school_name'] is String
           ? data['school_name'] as String
           : '',
