@@ -9,9 +9,33 @@ class HadithAnswer {
   final bool correct;
 }
 
+/// One character world of the curriculum (five lessons each).
+class HadithWorld {
+  const HadithWorld({
+    required this.number,
+    required this.title,
+    required this.first,
+    required this.last,
+  });
+  final int number, first, last;
+  final String title;
+  factory HadithWorld.fromMap(Map<String, dynamic> m) => HadithWorld(
+    number: m['number'] as int,
+    title: m['title'] as String,
+    first: m['first'] as int,
+    last: m['last'] as int,
+  );
+  bool contains(HadithLesson lesson) =>
+      lesson.number >= first && lesson.number <= last;
+}
+
 class HadithLesson {
   const HadithLesson({
     required this.id,
+    this.number = 0,
+    this.world = 0,
+    this.label = '',
+    this.sourceDocument = '',
     required this.title,
     required this.arabic,
     required this.meaning,
@@ -35,11 +59,23 @@ class HadithLesson {
       sourceUrl,
       story,
       question;
+
+  /// Position in the curriculum (1–100) and its world number (1–20).
+  final int number, world;
+
+  /// The source document's memorization label, verbatim (excerpt, narrator's
+  /// report, grading notes).
+  final String label;
+  final String sourceDocument;
   final List<HadithAnswer> answers;
   final List<String> chunks;
   final bool excerpt;
   factory HadithLesson.fromMap(Map<String, dynamic> m) => HadithLesson(
     id: m['id'] as String,
+    number: m['number'] as int? ?? 0,
+    world: m['world'] as int? ?? 0,
+    label: m['label'] as String? ?? '',
+    sourceDocument: m['sourceDocument'] as String? ?? '',
     title: m['title'] as String,
     arabic: m['arabic'] as String,
     meaning: m['meaning'] as String,
@@ -62,19 +98,32 @@ class HadithLesson {
         .toList(),
   );
   static List<HadithLesson>? _loaded;
-  static Future<List<HadithLesson>>? _catalog;
+  static List<HadithWorld>? _worlds;
+  static Future<void>? _catalog;
+
+  /// All lessons in curriculum order. The bundled JSON is parsed once.
   static Future<List<HadithLesson>> load() {
     if (_loaded != null) return SynchronousFuture(_loaded!);
-    return _catalog ??= rootBundle
-        .loadString('assets/data/hadith-demo.json')
-        .then((text) {
-          final lessons = (jsonDecode(text)['lessons'] as List)
-              .map((m) => HadithLesson.fromMap(Map<String, dynamic>.from(m)))
-              .toList();
-          _loaded = lessons;
-          return lessons;
-        });
+    return _parse().then((_) => _loaded!);
   }
+
+  /// The curriculum's character worlds, in order.
+  static Future<List<HadithWorld>> loadWorlds() {
+    if (_worlds != null) return SynchronousFuture(_worlds!);
+    return _parse().then((_) => _worlds!);
+  }
+
+  static Future<void> _parse() => _catalog ??= rootBundle
+      .loadString('assets/data/hadith-demo.json')
+      .then((text) {
+        final data = jsonDecode(text) as Map<String, dynamic>;
+        _worlds = ((data['worlds'] as List?) ?? const [])
+            .map((m) => HadithWorld.fromMap(Map<String, dynamic>.from(m)))
+            .toList();
+        _loaded = (data['lessons'] as List)
+            .map((m) => HadithLesson.fromMap(Map<String, dynamic>.from(m)))
+            .toList();
+      });
 }
 
 class HadithProgress {

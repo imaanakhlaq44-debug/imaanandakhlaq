@@ -30,6 +30,9 @@ void main() {
           ..addFont(rootBundle.load('assets/fonts/roboto-bold.ttf')))
         .load();
     await (FontLoader(
+      'Fredoka',
+    )..addFont(rootBundle.load('assets/fonts/fredoka.ttf'))).load();
+    await (FontLoader(
       'NotoNaskhArabic',
     )..addFont(rootBundle.load('assets/fonts/noto-naskh-arabic.ttf'))).load();
     await (FontLoader(
@@ -37,22 +40,64 @@ void main() {
     )..addFont(rootBundle.load('fonts/MaterialIcons-Regular.otf'))).load();
   });
 
-  test('five lessons preserve the source registry and Arabic chunks', () {
-    expect(lessons.length, 5);
-    expect(lessons.map((l) => l.id).toSet().length, 5);
-    expect(lessons.map((l) => l.sourceUrl), [
+  test('100 lessons preserve the source registry and Arabic chunks', () {
+    expect(lessons.length, 100);
+    expect(lessons.map((l) => l.id).toSet().length, 100);
+    expect(lessons.map((l) => l.number), List.generate(100, (i) => i + 1));
+    expect(lessons.take(5).map((l) => l.sourceUrl), [
       'https://sunnah.com/bukhari:6094',
       'https://sunnah.com/bukhari:33',
       'https://sunnah.com/bukhari:6018',
       'https://sunnah.com/bukhari:10',
       'https://sunnah.com/bukhari:3559',
     ]);
+    final refs = <String>{};
     for (final l in lessons) {
-      expect(l.chunks.join(' '), l.arabic);
-      expect(l.answers.length, 3);
-      expect(l.answers.where((a) => a.correct).length, 1);
+      expect(l.chunks.join(' '), l.arabic, reason: l.id);
+      expect(l.chunks.length, inInclusiveRange(2, 4), reason: l.id);
+      expect(l.answers.length, 3, reason: l.id);
+      expect(l.answers.where((a) => a.correct).length, 1, reason: l.id);
+      expect(l.answers.every((a) => a.feedback.isNotEmpty), isTrue);
       expect(l.action, isNotEmpty);
+      expect(l.story, isNotEmpty);
+      expect(l.label, isNotEmpty, reason: l.id);
+      expect(l.excerpt, l.label.contains('EXCERPT'), reason: l.id);
+      expect(l.world, (l.number - 1) ~/ 5 + 1, reason: l.id);
+      expect(
+        l.sourceDocument,
+        l.number <= 50
+            ? 'Imaan_Akhlaq_50_Hadith_Curriculum_Interactive_Developer_Edition.docx'
+            : 'Imaan_Akhlaq_Hadith_51_to_100_New_Authentic_Actions.docx',
+      );
+      // Every reference is a distinct primary narration and the URL matches.
+      final ref = l.sourceUrl.replaceFirst('https://sunnah.com/', '');
+      expect(refs.add(ref), isTrue, reason: '${l.id} repeats $ref');
+      expect(l.source.endsWith(' ${ref.split(':').last}'), isTrue);
     }
+    // Spot checks against the supplied documents.
+    final byNo = {for (final l in lessons) l.number: l};
+    expect(byNo[51]!.title, 'Be the First to Make Peace');
+    expect(byNo[51]!.source, 'Sahih al-Bukhari 6077');
+    expect(byNo[73]!.source, 'Jamiʿ at-Tirmidhi 2910');
+    expect(byNo[73]!.label, contains('HASAN'));
+    expect(byNo[100]!.source, 'Sahih Muslim 2328a');
+    expect(byNo[14]!.explanation, contains('Aishah'));
+    for (final n in [77, 79, 80, 82, 94, 97, 100]) {
+      expect(byNo[n]!.label, contains('NARRATOR'), reason: '$n');
+    }
+  });
+
+  test('20 worlds of five lessons each cover the curriculum', () async {
+    final worlds = await HadithLesson.loadWorlds();
+    expect(worlds.length, 20);
+    for (var i = 0; i < 20; i++) {
+      expect(worlds[i].number, i + 1);
+      expect(worlds[i].first, i * 5 + 1);
+      expect(worlds[i].last, i * 5 + 5);
+      expect(lessons.where(worlds[i].contains).length, 5);
+    }
+    expect(worlds.first.title, 'My Words and Honesty');
+    expect(worlds.last.title, 'Little Sunnahs, Big Character');
   });
 
   test(
@@ -116,6 +161,18 @@ void main() {
 
   Future<void> tap(WidgetTester tester, String key) async {
     final finder = find.byKey(Key(key));
+    final list = find.byKey(const Key('hadith-lesson-list'));
+    if (finder.evaluate().isEmpty && list.evaluate().isNotEmpty) {
+      // The lesson list builds lazily; scroll until the row exists.
+      await tester.scrollUntilVisible(
+        finder,
+        300,
+        scrollable: find.descendant(
+          of: list,
+          matching: find.byType(Scrollable),
+        ),
+      );
+    }
     await tester.ensureVisible(finder);
     await tester.pumpAndSettle();
     await tester.tap(finder);
@@ -168,10 +225,15 @@ void main() {
       await tap(tester, 'hadith-save-reflection');
       expect(store.data['hadith-01']?.reflection, 'notYet');
       await tap(tester, 'hadith-next');
-      expect(find.text('1 of 5 lessons explored'), findsOneWidget);
+      await tester.drag(
+        find.byKey(const Key('hadith-lesson-list')),
+        const Offset(0, 2000),
+      );
+      await tester.pumpAndSettle();
+      expect(find.text('1 of 100 lessons explored'), findsOneWidget);
       await tester.pumpWidget(const SizedBox());
       await boot(tester, store);
-      expect(find.text('1 of 5 lessons explored'), findsOneWidget);
+      expect(find.text('1 of 100 lessons explored'), findsOneWidget);
       await tap(tester, 'hadith-lesson-1');
       expect(find.text('A small step to try'), findsOneWidget);
     },
@@ -196,7 +258,7 @@ void main() {
   );
 
   testWidgets(
-    'all five lessons open with their own questions and source-linked text',
+    'all 100 lessons open by world with their own questions and actions',
     (tester) async {
       viewport(tester);
       final store = MemoryHadithStore();
@@ -204,17 +266,57 @@ void main() {
         for (final l in lessons) l.id: const HadithProgress(step: 3),
       };
       await boot(tester, store);
-      for (var i = 0; i < 5; i++) {
+      // Only the world holding the next lesson starts open.
+      expect(find.byKey(const Key('hadith-lesson-1')), findsOneWidget);
+      expect(find.byKey(const Key('hadith-lesson-6')), findsNothing);
+      for (var i = 0; i < lessons.length; i++) {
+        if (i % 5 == 0 && i > 0) {
+          await tap(tester, 'hadith-world-${i ~/ 5 + 1}');
+        }
         await tap(tester, 'hadith-lesson-${i + 1}');
         expect(find.text(lessons[i].question), findsOneWidget);
         final correct = lessons[i].answers.indexWhere((a) => a.correct);
+        final wrong = (correct + 1) % 3;
+        await tap(tester, 'hadith-answer-$wrong');
+        expect(find.text(lessons[i].answers[wrong].feedback), findsOneWidget);
         await tap(tester, 'hadith-answer-$correct');
         await tap(tester, 'hadith-next');
         expect(find.text(lessons[i].action), findsOneWidget);
         await tap(tester, 'hadith-next');
         await tap(tester, 'hadith-next');
+        expect(store.data[lessons[i].id]?.explored, isTrue);
       }
-      expect(find.text('5 of 5 lessons explored'), findsOneWidget);
+      await tester.pumpWidget(const SizedBox());
+      await boot(tester, store);
+      expect(find.text('100 of 100 lessons explored'), findsOneWidget);
+      expect(find.byKey(const Key('hadith-continue')), findsNothing);
+    },
+    timeout: const Timeout(Duration(minutes: 5)),
+  );
+
+  testWidgets(
+    'continue opens the next lesson and narrator reports are labelled',
+    (tester) async {
+      viewport(tester);
+      final store = MemoryHadithStore();
+      store.data = {
+        for (final l in lessons.take(76))
+          l.id: HadithProgress(
+            step: 4,
+            completedAt: DateTime.utc(2026, 11, 15),
+          ),
+      };
+      await boot(tester, store);
+      expect(find.text('76 of 100 lessons explored'), findsOneWidget);
+      expect(find.text('Next: lesson 77'), findsOneWidget);
+      await tap(tester, 'hadith-continue');
+      expect(find.text(lessons[76].title), findsOneWidget);
+      await tap(tester, 'hadith-next');
+      expect(find.byKey(const Key('hadith-narrator-note')), findsOneWidget);
+      expect(
+        find.text('Curriculum note: ${lessons[76].label}'),
+        findsOneWidget,
+      );
     },
   );
 
@@ -229,6 +331,23 @@ void main() {
     for (var step = 0; step < 5; step++) {
       expect(tester.takeException(), isNull);
       if (step == 3) await tap(tester, 'hadith-answer-1');
+      await tap(tester, 'hadith-next');
+    }
+    expect(find.text('A small step to try'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+    // The longest Arabic passage and every world header also fit.
+    await tap(tester, 'hadith-next');
+    for (var w = 2; w <= 19; w++) {
+      await tap(tester, 'hadith-world-$w');
+      expect(tester.takeException(), isNull);
+    }
+    await tap(tester, 'hadith-lesson-94');
+    for (var step = 0; step < 5; step++) {
+      expect(tester.takeException(), isNull);
+      if (step == 3) {
+        final correct = lessons[93].answers.indexWhere((a) => a.correct);
+        await tap(tester, 'hadith-answer-$correct');
+      }
       await tap(tester, 'hadith-next');
     }
     expect(find.text('A small step to try'), findsOneWidget);

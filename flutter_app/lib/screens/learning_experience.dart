@@ -862,7 +862,7 @@ class CourseLibrary extends StatelessWidget {
             ),
             subtitle: Text(
               i == 1 && hadithScope != null
-                  ? '5 lessons • Ready to explore'
+                  ? '100 lessons • Ready to explore'
                   : (hadithScope == null ? null : courseEntry(i)?.subtitle) ??
                         'In preparation',
             ),
