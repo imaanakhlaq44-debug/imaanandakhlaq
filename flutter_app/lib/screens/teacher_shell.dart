@@ -984,11 +984,12 @@ class _StudentsTabState extends State<_StudentsTab> {
           ),
         for (final (i, s) in shown.indexed)
           RowCard(
+            accent: brandPink,
             index: i,
             key: Key('teacher-student-${s.uid}'),
             child: Row(
               children: [
-                NameAvatar(s.name, size: 44),
+                RingAvatar(s.name, size: 44),
                 const SizedBox(width: 12),
                 Expanded(
                   child: Column(

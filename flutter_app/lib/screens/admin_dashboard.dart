@@ -652,30 +652,47 @@ class _AttentionCard extends StatelessWidget {
   final VoidCallback? onAction;
   @override
   Widget build(BuildContext context) => Container(
-    margin: const EdgeInsets.only(bottom: 10),
+    margin: const EdgeInsets.only(bottom: 12),
     padding: const EdgeInsets.fromLTRB(14, 14, 12, 14),
     decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(20),
-      border: Border(left: BorderSide(color: color, width: 5)),
+      // Tinted in the card's own colour, fading to white.
+      gradient: LinearGradient(
+        colors: [color.withValues(alpha: .10), Colors.white],
+        begin: Alignment.centerLeft,
+        end: Alignment.centerRight,
+        stops: const [0, .7],
+      ),
+      borderRadius: BorderRadius.circular(22),
+      border: Border.all(color: color.withValues(alpha: .22)),
       boxShadow: [
         BoxShadow(
-          color: brandNavy.withValues(alpha: .05),
-          blurRadius: 16,
-          offset: const Offset(0, 6),
+          color: color.withValues(alpha: .14),
+          blurRadius: 20,
+          offset: const Offset(0, 8),
         ),
       ],
     ),
     child: Row(
       children: [
         Container(
-          width: 44,
-          height: 44,
+          width: 48,
+          height: 48,
           decoration: BoxDecoration(
-            color: color.withValues(alpha: .12),
-            borderRadius: BorderRadius.circular(14),
+            gradient: LinearGradient(
+              colors: [color, color.withValues(alpha: .7)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: [
+              BoxShadow(
+                color: color.withValues(alpha: .3),
+                blurRadius: 10,
+                offset: const Offset(0, 4),
+              ),
+            ],
           ),
-          child: Icon(icon, color: color),
+          child: Icon(icon, color: Colors.white),
         ),
         const SizedBox(width: 12),
         Expanded(
@@ -1398,12 +1415,13 @@ class _StudentsTabState extends State<_StudentsTab> {
           ),
         for (final (i, s) in shown.indexed)
           RowCard(
+            accent: brandPink,
             index: i,
             key: Key('student-${s.uid}'),
             onTap: () => widget.actions.studentDetails(s),
             child: Row(
               children: [
-                NameAvatar(s.name, size: 46),
+                RingAvatar(s.name, size: 46),
                 const SizedBox(width: 12),
                 Expanded(
                   child: Column(
@@ -1488,11 +1506,12 @@ class _TeachersTab extends StatelessWidget {
           ),
         for (final (i, t) in teachers.indexed)
           RowCard(
+            accent: brandIndigo,
             index: i,
             key: Key('teacher-${t.uid}'),
             child: Row(
               children: [
-                NameAvatar(
+                RingAvatar(
                   t.name,
                   size: 48,
                   colors: const [brandNavy, brandIndigo],
@@ -1603,6 +1622,7 @@ class _FamiliesTabState extends State<_FamiliesTab> {
             builder: (context) {
               final kids = summary.childrenOf(f.uid);
               return RowCard(
+                accent: brandOrange,
                 index: i,
                 key: Key('family-${f.uid}'),
                 child: Column(
@@ -1610,7 +1630,7 @@ class _FamiliesTabState extends State<_FamiliesTab> {
                   children: [
                     Row(
                       children: [
-                        NameAvatar(
+                        RingAvatar(
                           f.name,
                           size: 48,
                           colors: const [brandOrange, Color(0xFFF2B05A)],

@@ -722,31 +722,138 @@ class PageHeader extends StatelessWidget {
   );
 }
 
+/// The list card used across the school workspaces: white, with a colour
+/// stripe and a soft glow in its [accent] so each list has its own identity.
 class RowCard extends StatelessWidget {
-  const RowCard({super.key, required this.child, this.onTap, this.index = 0});
+  const RowCard({
+    super.key,
+    required this.child,
+    this.onTap,
+    this.index = 0,
+    this.accent = brandPink,
+  });
   final Widget child;
   final VoidCallback? onTap;
   final int index;
+  final Color accent;
   @override
   Widget build(BuildContext context) => Reveal(
     index: index,
     child: Padding(
-      padding: const EdgeInsets.fromLTRB(16, 0, 16, 10),
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          boxShadow: cardDecoration().boxShadow,
-        ),
-        child: Material(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(20),
-          clipBehavior: Clip.antiAlias,
-          child: InkWell(
-            onTap: onTap,
-            child: Padding(padding: const EdgeInsets.all(14), child: child),
+      padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+      child: Pressable(
+        scale: onTap == null ? 1 : .985,
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(22),
+            boxShadow: [
+              BoxShadow(
+                color: accent.withValues(alpha: .13),
+                blurRadius: 22,
+                offset: const Offset(0, 8),
+              ),
+            ],
+          ),
+          foregroundDecoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(22),
+            border: Border.all(color: accent.withValues(alpha: .16)),
+          ),
+          child: Material(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(22),
+            clipBehavior: Clip.antiAlias,
+            child: InkWell(
+              onTap: onTap,
+              splashColor: accent.withValues(alpha: .1),
+              child: Stack(
+                children: [
+                  // Soft glow in the corner.
+                  Positioned(
+                    right: -34,
+                    top: -34,
+                    child: Container(
+                      width: 104,
+                      height: 104,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        gradient: RadialGradient(
+                          colors: [
+                            accent.withValues(alpha: .10),
+                            accent.withValues(alpha: 0),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  // Colour stripe on the leading edge.
+                  Positioned(
+                    left: 0,
+                    top: 0,
+                    bottom: 0,
+                    width: 5,
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [accent, accent.withValues(alpha: .45)],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(18, 14, 14, 14),
+                    child: child,
+                  ),
+                ],
+              ),
+            ),
           ),
         ),
       ),
+    ),
+  );
+}
+
+/// [NameAvatar] inside a white ring and a thin coloured halo.
+class RingAvatar extends StatelessWidget {
+  const RingAvatar(
+    this.name, {
+    super.key,
+    this.size = 46,
+    this.colors = const [brandPink, brandOrange],
+  });
+  final String name;
+  final double size;
+  final List<Color> colors;
+  @override
+  Widget build(BuildContext context) => Container(
+    padding: const EdgeInsets.all(2),
+    decoration: BoxDecoration(
+      shape: BoxShape.circle,
+      gradient: LinearGradient(
+        colors: [
+          colors.first.withValues(alpha: .55),
+          colors.last.withValues(alpha: .25),
+        ],
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+      ),
+      boxShadow: [
+        BoxShadow(
+          color: colors.first.withValues(alpha: .25),
+          blurRadius: 10,
+          offset: const Offset(0, 4),
+        ),
+      ],
+    ),
+    child: Container(
+      padding: const EdgeInsets.all(2),
+      decoration: const BoxDecoration(
+        shape: BoxShape.circle,
+        color: Colors.white,
+      ),
+      child: NameAvatar(name, size: size - 8, colors: colors),
     ),
   );
 }
