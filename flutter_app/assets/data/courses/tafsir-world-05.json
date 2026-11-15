@@ -1,0 +1,543 @@
+{
+  "_source": {
+    "document": "Imaan_Akhlaq_Tafsir_Stories_Volume_05_The_World_of_Honesty.docx",
+    "thread": "imaa and Akhlaq individual section additions (3–10 Nov 2026)",
+    "extracted": "imaan-email-content-2026-11-14/extracted/05-Tafsir",
+    "review": "Working edition. Arabic, meanings and Tafsir need qualified scholarly review before release."
+  },
+  "world": 5,
+  "title": "The World of Honesty",
+  "missions": [
+    {
+      "id": "05-01",
+      "number": 1,
+      "title": "A Sentence That Builds Trust",
+      "ayahs": [
+        {
+          "ref": "33:70",
+          "arabic": "يَٰٓأَيُّهَا ٱلَّذِينَ ءَامَنُواْ ٱتَّقُواْ ٱللَّهَ وَقُولُواْ قَوۡلٗا سَدِيدٗا",
+          "meaning": "Believers are told to be mindful of Allah and speak truthful, upright words."
+        }
+      ],
+      "options": [
+        "Someone else probably did it.",
+        "I damaged it. Can you help me make it right?",
+        "Hide it until no one remembers."
+      ],
+      "anchor": "FOCUS AYAHS: 33:70   |   CORE VALUES: Truthful speech • Taqwa",
+      "aim": "Choose accurate, respectful speech even when telling the truth feels difficult.",
+      "tafsir": "Surah Al-Ahzab addresses believers with two closely linked commands: be conscious of Allah, and speak qawlan sadidan—words that are straight, sound and appropriate. In its context, the Qur'an also warns against hurtful speech about a Prophet. Tafsir scholars explain that speaking correctly is part of worship, not merely good manners. Honesty does not require harshness. We may say, 'I broke the pencil,' without insulting ourselves or blaming another child. Nor should we use a truthful fact simply to embarrass someone. The verse is about truthful, upright words spoken with responsibility before Allah. Our thoughts and our tongues do not always agree, but we can practise making our speech more reliable. When children learn to speak honestly and kindly, families and classrooms become places where people can trust each other.",
+      "story": "Akhlaq's model bridge snapped moments before the school exhibition. He wanted to tell Salaam that the bridge had broken by itself. Imaan had watched him pull the string too hard. Instead of saying, 'You always ruin things,' she asked, 'What really happened?' Akhlaq hesitated. He then explained that he had pulled the string and damaged the model. Salaam listened carefully, thanked him for explaining, and helped him think of a repair. The bridge was smaller at the exhibition, but Akhlaq discovered that telling the truth had made it easier to fix the problem together.",
+      "question": "You accidentally damage an item at home. What will you say?",
+      "correct": 1,
+      "feedback": "Honest words make repair and forgiveness possible; hiding the truth makes trust harder.",
+      "action": "Tell the truth about one small mistake and help put it right.",
+      "reflection": "Why does being truthful sometimes take courage?",
+      "vocabulary": "Sidq — truthfulness; Qawl sadid — sound, upright speech",
+      "careNote": "Do not demand a confession or shame children. Safety concerns and disclosures need a trusted adult.",
+      "review": "Explain the difference between a truthful intention, a reliable action and a misleading claim in this mission.",
+      "next": "A new way to practise honesty in everyday life.",
+      "sourceUrl": null,
+      "sourceDocument": "Imaan_Akhlaq_Tafsir_Stories_Volume_05_The_World_of_Honesty.docx"
+    },
+    {
+      "id": "05-02",
+      "number": 2,
+      "title": "The Friends Who Help Me Be Truthful",
+      "ayahs": [
+        {
+          "ref": "9:119",
+          "arabic": "يَٰٓأَيُّهَا ٱلَّذِينَ ءَامَنُواْ ٱتَّقُواْ ٱللَّهَ وَكُونُواْ مَعَ ٱلصَّٰدِقِينَ",
+          "meaning": "Believers are commanded to be mindful of Allah and keep company with truthful people."
+        }
+      ],
+      "options": [
+        "Encourage them to take it to lost property.",
+        "Say it is fine because nobody saw.",
+        "Tell everyone your friend is dishonest."
+      ],
+      "anchor": "FOCUS AYAHS: 9:119   |   CORE VALUES: Friendship • Honesty",
+      "aim": "Recognize how trustworthy friends encourage us to tell the truth and do good.",
+      "tafsir": "Surah At-Tawbah commands believers to fear Allah and be among the truthful. The wider passage follows the account of believers who faced a difficult test and whose truthful admission mattered. The instruction is not that we must never speak to someone who has lied; rather, our close company should strengthen our obedience and honesty. Ibn Kathir discusses the importance of sincerity in connection with this verse. Good friends help us improve, gently remind us when we are drifting into a lie, and do not pressure us to hide wrong actions. A child can also be such a friend by refusing to make a lie appear normal. Truthful companionship needs mercy: someone who makes a mistake should be given a path to correct it. Loyalty to friends is not an excuse for deception.",
+      "story": "At recess, Mohsin found a shiny badge on the ground. A group of children suggested that he keep it, because nobody had seen him pick it up. Akhlaq quietly agreed at first. Imaan pointed toward the lost-property box. Mohsin looked at the badge again and said, 'Let's hand it in.' The next afternoon, the badge was returned to a grateful younger student. Akhlaq realized that the best friends were not always those who agreed with him—they were the friends who helped him choose the right thing.",
+      "question": "Your friend finds a lost badge and asks you to keep it secret. What helps both of you?",
+      "correct": 0,
+      "feedback": "A good friend guides with kindness and helps the right owner recover what was lost.",
+      "action": "Encourage a friend or sibling to do one truthful thing today.",
+      "reflection": "Who helps me make good decisions, and how can I help them?",
+      "vocabulary": "Sadiqin — truthful people; Suhbah — companionship",
+      "careNote": "Do not label peers as permanently bad, or punish children for reporting a concern.",
+      "review": "Explain the difference between a truthful intention, a reliable action and a misleading claim in this mission.",
+      "next": "A new way to practise honesty in everyday life.",
+      "sourceUrl": null,
+      "sourceDocument": "Imaan_Akhlaq_Tafsir_Stories_Volume_05_The_World_of_Honesty.docx"
+    },
+    {
+      "id": "05-03",
+      "number": 3,
+      "title": "Promises Should Match Our Words",
+      "ayahs": [
+        {
+          "ref": "61:2",
+          "arabic": "يَٰٓأَيُّهَا ٱلَّذِينَ ءَامَنُواْ لِمَ تَقُولُونَ مَا لَا تَفۡعَلُونَ",
+          "meaning": "Why do believers say what they do not do?"
+        },
+        {
+          "ref": "61:3",
+          "arabic": "كَبُرَ مَقۡتًا عِندَ ٱللَّهِ أَن تَقُولُواْ مَا لَا تَفۡعَلُونَ",
+          "meaning": "Allah strongly condemns declaring good intentions without fulfilling them."
+        }
+      ],
+      "options": [
+        "Disappear and hope no one asks.",
+        "Pretend you already helped.",
+        "Explain honestly and do the part you reasonably can."
+      ],
+      "anchor": "FOCUS AYAHS: 61:2, 61:3   |   CORE VALUES: Integrity • Follow-through",
+      "aim": "Avoid boasting about good deeds we do not intend to do; make realistic commitments.",
+      "tafsir": "The opening of Surah As-Saff rebukes a serious gap between what people claim and what they actually do. The verses should not make a child afraid to express a sincere intention that later becomes difficult. Instead, they teach that words have responsibility. Ibn Kathir explains these verses in relation to carrying out what one says, especially important obligations. A person who promises to help and then deliberately abandons the duty should correct that behavior. A child can begin with promises that are small and achievable, such as putting books away after reading. If circumstances change, it is better to explain respectfully rather than pretend the promise was kept. Allah loves sincerity: our speech, intentions and deeds should move toward agreement.",
+      "story": "Akhlaq proudly announced that he would clean the entire classroom after the art festival. The next day, he wanted to go straight home. He saw Mohsina collecting paper scraps alone. Imaan asked, 'What did you say you would do?' Akhlaq admitted his promise had been too big. He apologized, helped pick up the scattered papers, and asked the teacher for a smaller task that he could complete properly next time. He discovered that a quiet deed could mean more than a grand announcement.",
+      "question": "You promised to help tidy up but now feel tired. What is the honest response?",
+      "correct": 2,
+      "feedback": "Good character means doing what you can and communicating honestly when something changes.",
+      "action": "Complete one small commitment you have already made.",
+      "reflection": "How can I choose promises that I am able to keep?",
+      "vocabulary": "Wafa — fulfilling a commitment; Ikhlas — sincerity",
+      "careNote": "This is not a requirement to fulfil unsafe demands or unreasonable promises; adults must listen.",
+      "review": "Explain the difference between a truthful intention, a reliable action and a misleading claim in this mission.",
+      "next": "A new way to practise honesty in everyday life.",
+      "sourceUrl": null,
+      "sourceDocument": "Imaan_Akhlaq_Tafsir_Stories_Volume_05_The_World_of_Honesty.docx"
+    },
+    {
+      "id": "05-04",
+      "number": 4,
+      "title": "The Wisdom of Saying “I Don’t Know”",
+      "ayahs": [
+        {
+          "ref": "17:36",
+          "arabic": "وَلَا تَقۡفُ مَا لَيۡسَ لَكَ بِهِۦ عِلۡمٌۚ إِنَّ ٱلسَّمۡعَ وَٱلۡبَصَرَ وَٱلۡفُؤَادَ كُلُّ أُوْلَٰٓئِكَ كَانَ عَنۡهُ مَسۡـُٔولٗا",
+          "meaning": "Do not follow or assert what you do not know; hearing, sight and the heart will be called to account."
+        }
+      ],
+      "options": [
+        "Say “I’m not sure” and check with a reliable adult or source.",
+        "Repeat it loudly so everyone believes it.",
+        "Invent missing details to sound clever."
+      ],
+      "anchor": "FOCUS AYAHS: 17:36   |   CORE VALUES: Careful knowledge • Humility",
+      "aim": "Separate facts from guesses and ask questions when uncertain.",
+      "tafsir": "Surah Al-Isra teaches that we must not follow or speak about matters without knowledge. It specifically mentions hearing, sight and the heart because the ways we gather information carry responsibility. In Tafsir explanations, this warning includes unsupported claims, false accusations and false testimony. Sometimes a child sees only part of an event and fills the gaps with imagination. The verse does not discourage investigation; rather, it encourages careful learning. 'I am not sure' can be a wise sentence. A curious student checks the source, asks someone who knows and updates an earlier belief when new evidence appears. Respecting knowledge is an act of honesty, while inventing certainty to win a game or argument can hurt others.",
+      "story": "A new plant appeared in Amanpur's school garden. Akhlaq announced that it was certainly poisonous because its leaves had spots. Some children grew frightened. Imaan suggested asking the science teacher rather than touching or tasting it. The teacher explained that spots alone did not prove what the plant was. Akhlaq corrected his claim and wrote 'Unknown plant—do not touch; ask an adult' on the garden note. The class learned that careful curiosity was safer and more truthful than confident guessing.",
+      "question": "You are not sure whether a surprising claim is true. What do you do?",
+      "correct": 0,
+      "feedback": "Being willing to check is a sign of careful learning, not weakness.",
+      "action": "Use the sentence “I’m not sure; let me check” once when appropriate.",
+      "reflection": "When is asking a question better than giving a quick answer?",
+      "vocabulary": "Ilm — knowledge; Mas’uliyyah — responsibility",
+      "careNote": "No collecting real personal data. Teach that unsafe objects and illnesses need adult help.",
+      "review": "Explain the difference between a truthful intention, a reliable action and a misleading claim in this mission.",
+      "next": "A new way to practise honesty in everyday life.",
+      "sourceUrl": null,
+      "sourceDocument": "Imaan_Akhlaq_Tafsir_Stories_Volume_05_The_World_of_Honesty.docx"
+    },
+    {
+      "id": "05-05",
+      "number": 5,
+      "title": "The Rumor That Could Hurt",
+      "ayahs": [
+        {
+          "ref": "24:15",
+          "arabic": "إِذۡ تَلَقَّوۡنَهُۥ بِأَلۡسِنَتِكُمۡ وَتَقُولُونَ بِأَفۡوَاهِكُم مَّا لَيۡسَ لَكُم بِهِۦ عِلۡمٞ وَتَحۡسَبُونَهُۥ هَيِّنٗا وَهُوَ عِندَ ٱللَّهِ عَظِيمٞ",
+          "meaning": "Passing unsupported accusations from person to person may seem small, but can be terribly serious."
+        },
+        {
+          "ref": "24:16",
+          "arabic": "وَلَوۡلَآ إِذۡ سَمِعۡتُمُوهُ قُلۡتُم مَّا يَكُونُ لَنَآ أَن نَّتَكَلَّمَ بِهَٰذَا سُبۡحَٰنَكَ هَٰذَا بُهۡتَٰنٌ عَظِيمٞ",
+          "meaning": "The faithful should reject slander rather than spread it."
+        }
+      ],
+      "options": [
+        "Forward it with laughing emojis.",
+        "Do not share it; speak with a trusted adult if needed.",
+        "Change the story to make it more interesting."
+      ],
+      "anchor": "FOCUS AYAHS: 24:15, 24:16   |   CORE VALUES: Protecting dignity • Truthfulness",
+      "aim": "Refuse to pass on hurtful, unverified stories about another person.",
+      "tafsir": "Surah An-Nur describes the serious harm of a false accusation that spread among people. The verses warn against passing words from tongue to tongue without knowledge, while dismissing the damage as something small. In the original historical context, the slander involved the household of the Prophet ﷺ. Children should learn the moral lesson without dramatizing the accusation itself. The Qur'an teaches that not every exciting piece of news deserves an audience. If a claim may harm another person's reputation, a responsible believer does not forward it for fun. The proper response is to avoid spreading allegations, protect dignity and seek qualified adult help when there is a genuine safety issue. Truthfulness includes knowing when not to repeat words that we cannot verify.",
+      "story": "A message appeared in a class group saying that Mohsina had cheated at the spelling competition. Akhlaq had not seen anything, but several children were forwarding the message. Imaan asked, 'Do we know this is true?' They stopped the forwarding and told their teacher. The teacher checked calmly: a name had been mixed up in the results sheet, and there had been no cheating. Akhlaq apologized to Mohsina for nearly joining in. One careful pause had protected a classmate from unnecessary hurt.",
+      "question": "An unverified message accuses a classmate of cheating. What should you do?",
+      "correct": 1,
+      "feedback": "Protecting someone from an unverified accusation is a strong act of honesty.",
+      "action": "Refuse to repeat one unverified or hurtful rumor today.",
+      "reflection": "How would I feel if people shared an untrue story about me?",
+      "vocabulary": "Buhtan — slander; Hifz al-‘ird — protecting dignity",
+      "careNote": "Do not teach silence about abuse or danger; explain safe reporting to a trusted adult.",
+      "review": "Explain the difference between a truthful intention, a reliable action and a misleading claim in this mission.",
+      "next": "A new way to practise honesty in everyday life.",
+      "sourceUrl": null,
+      "sourceDocument": "Imaan_Akhlaq_Tafsir_Stories_Volume_05_The_World_of_Honesty.docx"
+    },
+    {
+      "id": "05-06",
+      "number": 6,
+      "title": "The Borrowed Book Belongs to Someone",
+      "ayahs": [
+        {
+          "ref": "4:58",
+          "arabic": "إِنَّ ٱللَّهَ يَأۡمُرُكُمۡ أَن تُؤَدُّواْ ٱلۡأَمَٰنَٰتِ إِلَىٰٓ أَهۡلِهَا وَإِذَا حَكَمۡتُم بَيۡنَ ٱلنَّاسِ أَن تَحۡكُمُواْ بِٱلۡعَدۡلِۚ إِنَّ ٱللَّهَ نِعِمَّا يَعِظُكُم بِهِۦٓۗ إِنَّ ٱللَّهَ كَانَ سَمِيعَۢا بَصِيرٗا",
+          "meaning": "Allah commands that entrusted things be returned to those entitled to them and that judgments be fair."
+        }
+      ],
+      "options": [
+        "Hide it so you can enjoy it longer.",
+        "Say it was already returned.",
+        "Return it and ask before borrowing it again."
+      ],
+      "anchor": "FOCUS AYAHS: 4:58   |   CORE VALUES: Amanah • Fairness",
+      "aim": "Return borrowed property in good condition and show fairness when choosing between people.",
+      "tafsir": "Surah An-Nisa contains a broad command to give trusts back to their rightful owners, followed by a command to judge justly. Tafsir authorities emphasize that trusts include rights and duties, not just money or objects. A child experiences this principle when borrowing a book, caring for a sibling's toy or being asked to hold a team item. Fairness means we do not claim something simply because it is in our hands. If we damage what was entrusted to us, the honest response is to tell the owner and try to repair or replace it appropriately. The verse also reminds adults not to favour a child unfairly in disputes. Returning a trust helps people feel safe and respected.",
+      "story": "Mohsin lent Akhlaq a colorful book about stars. Akhlaq enjoyed it so much that he wanted to keep it another week without asking. When he noticed the owner's name on the inside cover, he remembered his promise to return it on Thursday. Imaan helped him place the book in a clean bag. Akhlaq returned it on time and asked whether he could borrow it again. Mohsin gladly agreed. Trust grew not through a grand speech but through a simple, reliable return.",
+      "question": "You borrowed a book and the return day has arrived. What is best?",
+      "correct": 2,
+      "feedback": "A borrowed thing remains someone else’s property, even when we love it.",
+      "action": "Return one borrowed item or check with its owner about the return date.",
+      "reflection": "What makes a person comfortable lending something to me?",
+      "vocabulary": "Amanah — trust; Adl — justice",
+      "careNote": "Do not make children responsible for costly adult property or demand compensation from them.",
+      "review": "Explain the difference between a truthful intention, a reliable action and a misleading claim in this mission.",
+      "next": "A new way to practise honesty in everyday life.",
+      "sourceUrl": null,
+      "sourceDocument": "Imaan_Akhlaq_Tafsir_Stories_Volume_05_The_World_of_Honesty.docx"
+    },
+    {
+      "id": "05-07",
+      "number": 7,
+      "title": "The Responsibility Nobody Can See",
+      "ayahs": [
+        {
+          "ref": "8:27",
+          "arabic": "يَٰٓأَيُّهَا ٱلَّذِينَ ءَامَنُواْ لَا تَخُونُواْ ٱللَّهَ وَٱلرَّسُولَ وَتَخُونُوٓاْ أَمَٰنَٰتِكُمۡ وَأَنتُمۡ تَعۡلَمُونَ",
+          "meaning": "Believers must not knowingly betray Allah, His Messenger, or the responsibilities entrusted to them."
+        }
+      ],
+      "options": [
+        "Complete it responsibly or ask for help if unable.",
+        "Ignore it because it brings no reward.",
+        "Tell people it is finished even though it is not."
+      ],
+      "anchor": "FOCUS AYAHS: 8:27   |   CORE VALUES: Trustworthiness • Accountability",
+      "aim": "Respect an assigned duty even without an audience or reward.",
+      "tafsir": "Surah Al-Anfal warns believers not to betray Allah, His Messenger or the trusts they knowingly hold. Its original setting concerns serious responsibilities in the believing community; a child's example is a practical application rather than the historical meaning of the ayah. Trustworthiness begins in private. When a child is asked to care for a plant or keep learning materials safe, that task still matters even if no adult is watching. Honesty is not merely avoiding an obvious lie; it also includes treating responsibilities as real. If someone cannot carry out a duty, they should ask for help or explain promptly. Hidden faithfulness strengthens the heart, and a family or class becomes more dependable when everyone respects their commitments.",
+      "story": "The school gardener gave Imaan a small watering schedule while he was away. The plants looked healthy on the first day, and nobody was checking the schedule. Akhlaq suggested skipping the next visit. Imaan replied that the gardener had trusted them. Together they watered only the plants marked on the chart and told the teacher when a tap leaked. They did not receive a prize, but the healthy garden was a beautiful result of keeping a responsibility when no one was watching.",
+      "question": "A task was entrusted to you, but nobody is checking. What matters most?",
+      "correct": 0,
+      "feedback": "Trust is shown by doing the right thing whether or not someone is watching.",
+      "action": "Complete one small assigned duty without needing a reminder.",
+      "reflection": "Can I be trustworthy when nobody praises me?",
+      "vocabulary": "Khiyanah — betrayal; Amanah — responsibility entrusted to you",
+      "careNote": "Avoid assigning tasks beyond children’s abilities and never use surveillance or shame mechanics.",
+      "review": "Explain the difference between a truthful intention, a reliable action and a misleading claim in this mission.",
+      "next": "A new way to practise honesty in everyday life.",
+      "sourceUrl": null,
+      "sourceDocument": "Imaan_Akhlaq_Tafsir_Stories_Volume_05_The_World_of_Honesty.docx"
+    },
+    {
+      "id": "05-08",
+      "number": 8,
+      "title": "A Believer Takes Care of Promises",
+      "ayahs": [
+        {
+          "ref": "23:8",
+          "arabic": "وَٱلَّذِينَ هُمۡ لِأَمَٰنَٰتِهِمۡ وَعَهۡدِهِمۡ رَٰعُونَ",
+          "meaning": "Among the qualities of successful believers is being faithful to trusts and commitments."
+        }
+      ],
+      "options": [
+        "Hope someone else remembers.",
+        "Put a reminder in place and prepare the supplies.",
+        "Tell everyone you did it without checking."
+      ],
+      "anchor": "FOCUS AYAHS: 23:8   |   CORE VALUES: Keeping agreements • Respect",
+      "aim": "Understand why honest agreements make families and friendships dependable.",
+      "tafsir": "Surah Al-Mu'minun begins by describing successful believers and the qualities of their worship and character. Among these qualities is care for trusts and covenants. This verse joins inner faith with public conduct: a believer's commitments to other people are important. Our promises should not become casual words said merely to win approval. Children can learn to clarify a task, remember a deadline and explain difficulties. It is also possible to apologize and make amends after falling short. This does not mean that every informal suggestion is a binding oath. Adults should model sensible, compassionate commitments. The child learns that reliability grows little by little as people experience the consistency between words and actions.",
+      "story": "Before the class nature walk, Akhlaq agreed to bring a spare water bottle for the group. In the morning, he remembered the bottle just as the family was leaving. Salaam suggested checking whether there was still time to fill it. Akhlaq filled the bottle, then told his friends why it mattered to him to remember. At the picnic he also helped carry the litter bag, discovering that promises are easier to keep when we plan ahead and help one another.",
+      "question": "You agree to bring supplies for a group project. What can help you keep your word?",
+      "correct": 1,
+      "feedback": "A simple reminder can turn a good intention into a reliable action.",
+      "action": "Use a reminder to fulfil one agreed responsibility today.",
+      "reflection": "What is the difference between wanting to help and following through?",
+      "vocabulary": "‘Ahd — covenant or agreement; Ri‘ayah — careful guardianship",
+      "careNote": "Differentiate serious agreements from playful talk; do not encourage unsafe or coercive promises.",
+      "review": "Explain the difference between a truthful intention, a reliable action and a misleading claim in this mission.",
+      "next": "A new way to practise honesty in everyday life.",
+      "sourceUrl": null,
+      "sourceDocument": "Imaan_Akhlaq_Tafsir_Stories_Volume_05_The_World_of_Honesty.docx"
+    },
+    {
+      "id": "05-09",
+      "number": 9,
+      "title": "A Promise Is Not a Trick",
+      "ayahs": [
+        {
+          "ref": "16:91",
+          "arabic": "وَأَوۡفُواْ بِعَهۡدِ ٱللَّهِ إِذَا عَٰهَدتُّمۡ وَلَا تَنقُضُواْ ٱلۡأَيۡمَٰنَ بَعۡدَ تَوۡكِيدِهَا وَقَدۡ جَعَلۡتُمُ ٱللَّهَ عَلَيۡكُمۡ كَفِيلًاۚ إِنَّ ٱللَّهَ يَعۡلَمُ مَا تَفۡعَلُونَ",
+          "meaning": "Honour solemn commitments and do not use oaths dishonestly; Allah knows what people do."
+        }
+      ],
+      "options": [
+        "Keep your word, or discuss a fair change together.",
+        "Change the rule secretly.",
+        "Use a dramatic oath to win the argument."
+      ],
+      "anchor": "FOCUS AYAHS: 16:91   |   CORE VALUES: Faithfulness • Sincerity",
+      "aim": "Recognize that using promises to deceive is wrong and that oaths are serious.",
+      "tafsir": "Surah An-Nahl instructs people to fulfil commitments and not break confirmed oaths after making Allah witness to them. The verse concerns solemn agreements and invokes knowledge that Allah sees our actions. The child's application is to learn that a promise is not a trick used to obtain toys, friendship or advantage. Children should not be encouraged to swear oaths casually; a plain truthful statement is enough. Parents should model a distinction between a change in circumstances and a deliberate attempt to deceive. The Qur'an teaches that honesty grows when our words are meaningful. If a child has made a mistaken promise, truthful explanation and adult guidance are better than hiding it behind a new excuse.",
+      "story": "Akhlaq promised his sister that they would take turns with the school tablet. When his turn ended, he wanted to make a new rule so he could keep playing. Imaan asked him whether he would think the change was fair if their roles were reversed. Akhlaq returned the tablet and suggested a written schedule for next time. The two children found that fair agreements kept games enjoyable instead of turning them into arguments.",
+      "question": "You promised to share a game equally, then wish to change the rule just for yourself. What is fair?",
+      "correct": 0,
+      "feedback": "Fair agreements work when everyone can rely on the rules.",
+      "action": "Honor one agreed turn-taking rule without changing it for your own advantage.",
+      "reflection": "How do promises build trust between brothers and sisters?",
+      "vocabulary": "Wafa bil-‘ahd — fulfilling a pledge; Yamin — oath",
+      "careNote": "Never tell children to make religious oaths in the app; avoid contractual or sectarian rulings.",
+      "review": "Explain the difference between a truthful intention, a reliable action and a misleading claim in this mission.",
+      "next": "A new way to practise honesty in everyday life.",
+      "sourceUrl": null,
+      "sourceDocument": "Imaan_Akhlaq_Tafsir_Stories_Volume_05_The_World_of_Honesty.docx"
+    },
+    {
+      "id": "05-10",
+      "number": 10,
+      "title": "The Market Scale of Fairness",
+      "ayahs": [
+        {
+          "ref": "83:1",
+          "arabic": "وَيۡلٞ لِّلۡمُطَفِّفِينَ",
+          "meaning": "A stern warning is given to those who cheat people in measure."
+        },
+        {
+          "ref": "83:2",
+          "arabic": "ٱلَّذِينَ إِذَا ٱكۡتَالُواْ عَلَى ٱلنَّاسِ يَسۡتَوۡفُونَ",
+          "meaning": "They demand full measure when taking from others."
+        },
+        {
+          "ref": "83:3",
+          "arabic": "وَإِذَا كَالُوهُمۡ أَو وَّزَنُوهُمۡ يُخۡسِرُونَ",
+          "meaning": "But they give less when measuring or weighing for others."
+        }
+      ],
+      "options": [
+        "Say that no one will notice.",
+        "Correct the count and give the full amount.",
+        "Blame another shopper."
+      ],
+      "anchor": "FOCUS AYAHS: 83:1, 83:2, 83:3   |   CORE VALUES: Commercial honesty • Empathy",
+      "aim": "Understand that cheating in weights or amounts harms other people.",
+      "tafsir": "At the start of Surah Al-Mutaffifin, the Qur'an condemns those who insist on receiving a full measure from others but secretly give less when they sell. Ibn Kathir explains that this is deception in measurement and an offence against people's rights. For children, an everyday classroom market provides a simple example. It is wrong to take more than our share while giving others less. This is not only a lesson for shopkeepers; it also teaches fairness in exchanging toys, dividing craft materials and counting game tokens. The warning should encourage children to practise justice, not frighten them with images of punishment. Even when we could gain by being unfair, taqwa asks us to treat others as we want to be treated.",
+      "story": "Amanpur held a pretend marketplace where students exchanged paper fruit for wooden tokens. Akhlaq accidentally placed four apples in a bag marked five. A friend offered to keep the extra token because it would help their team win. Imaan encouraged him to count again. Akhlaq placed the missing paper apple in the bag and corrected the label. Their stall received fewer tokens that round, but customers kept returning because its measurements could be trusted.",
+      "question": "Your stall gives four items but charges for five. What must you do?",
+      "correct": 1,
+      "feedback": "Fairness means giving others what you would honestly expect to receive.",
+      "action": "Check that one shared quantity or portion is fairly counted today.",
+      "reflection": "Why does unfair measuring damage trust even if the difference seems small?",
+      "vocabulary": "Tatfif — short-changing; Mizan — scale or balance",
+      "careNote": "Use pretend tokens only, no purchases, competitive money prizes or shame about poverty.",
+      "review": "Explain the difference between a truthful intention, a reliable action and a misleading claim in this mission.",
+      "next": "A new way to practise honesty in everyday life.",
+      "sourceUrl": null,
+      "sourceDocument": "Imaan_Akhlaq_Tafsir_Stories_Volume_05_The_World_of_Honesty.docx"
+    },
+    {
+      "id": "05-11",
+      "number": 11,
+      "title": "The Honest Shopkeeper’s Measure",
+      "ayahs": [
+        {
+          "ref": "17:35",
+          "arabic": "وَأَوۡفُواْ ٱلۡكَيۡلَ إِذَا كِلۡتُمۡ وَزِنُواْ بِٱلۡقِسۡطَاسِ ٱلۡمُسۡتَقِيمِۚ ذَٰلِكَ خَيۡرٞ وَأَحۡسَنُ تَأۡوِيلٗا",
+          "meaning": "Give full measure and use accurate weights: fairness leads to the best outcome."
+        }
+      ],
+      "options": [
+        "Ignore it because the difference is small.",
+        "Record a full cup anyway.",
+        "Measure again and correct the amount."
+      ],
+      "anchor": "FOCUS AYAHS: 17:35   |   CORE VALUES: Accuracy • Fair trade",
+      "aim": "Use careful measurements and take responsibility for mistakes.",
+      "tafsir": "Surah Al-Isra commands that measurements be completed and weights be used accurately. This complements the stern warning against cheating in Surah Al-Mutaffifin. The Qur'an connects precise dealings with justice and a good outcome. A child does not need to run a real shop to understand this. We measure water for a science experiment, divide snack portions, and record game scores. Accuracy is not only about technical skill; it is about making sure no person is unfairly deprived. Sometimes our hands make an honest error. The right response is to recheck and correct the record, not to conceal the mistake. Careful work can become an expression of worship when it protects the rights of others.",
+      "story": "Salamah asked the children to help measure rice for a family cooking activity. Akhlaq rushed and spilled some into a bowl that was supposed to hold a full cup. Imaan suggested checking the measurement again. Together they used the same level cup for each portion and cleaned up what had spilled. Salamah thanked them for being careful and reminded them that accuracy matters especially when someone else is depending on our work.",
+      "question": "You notice your measuring cup was not full. What do you do?",
+      "correct": 2,
+      "feedback": "Correcting a small error is part of being trustworthy.",
+      "action": "Measure or count one task carefully and correct any mistake you notice.",
+      "reflection": "What is the difference between making a mistake and hiding one?",
+      "vocabulary": "Qistas — fair measure; Kyl — measurement",
+      "careNote": "Food tasks must respect allergies and adult supervision; use accessible non-food counters too.",
+      "review": "Explain the difference between a truthful intention, a reliable action and a misleading claim in this mission.",
+      "next": "A new way to practise honesty in everyday life.",
+      "sourceUrl": null,
+      "sourceDocument": "Imaan_Akhlaq_Tafsir_Stories_Volume_05_The_World_of_Honesty.docx"
+    },
+    {
+      "id": "05-12",
+      "number": 12,
+      "title": "Fair Even When We Are Upset",
+      "ayahs": [
+        {
+          "ref": "5:8",
+          "arabic": "يَٰٓأَيُّهَا ٱلَّذِينَ ءَامَنُواْ كُونُواْ قَوَّٰمِينَ لِلَّهِ شُهَدَآءَ بِٱلۡقِسۡطِۖ وَلَا يَجۡرِمَنَّكُمۡ شَنَـَٔانُ قَوۡمٍ عَلَىٰٓ أَلَّا تَعۡدِلُواْۚ ٱعۡدِلُواْ هُوَ أَقۡرَبُ لِلتَّقۡوَىٰۖ وَٱتَّقُواْ ٱللَّهَۚ إِنَّ ٱللَّهَ خَبِيرُۢ بِمَا تَعۡمَلُونَ",
+          "meaning": "Believers must give just testimony even toward people they dislike; justice is nearer to Taqwa."
+        }
+      ],
+      "options": [
+        "Describe the helpful deed truthfully.",
+        "Pretend it never happened.",
+        "Make up a different story because you are still upset."
+      ],
+      "anchor": "FOCUS AYAHS: 5:8   |   CORE VALUES: Justice • Self-control",
+      "aim": "Give someone a fair chance even if we do not like their behavior.",
+      "tafsir": "In Surah Al-Ma'idah, believers are instructed to stand firmly for Allah as witnesses to justice, and not to let hatred toward others pull them away from fairness. Ibn Kathir highlights that even dislike must not distort a person's judgment. This is a powerful lesson for disagreements. If a classmate has annoyed us, we should not invent an accusation or deny something good they have done. Justice does not require us to approve of harmful behavior; boundaries and protection still matter. Children can learn to describe what happened, listen respectfully and ask for help from a responsible adult. A calm, truthful answer is worth more than a victory gained by twisting the facts.",
+      "story": "Akhlaq argued with another student over a football goal. Later that student found a lost pencil case and gave it to the teacher. When classmates asked Akhlaq what had happened, he was tempted to leave out the helpful deed. Imaan said, 'We can disagree about the match and still tell the truth.' Akhlaq described the return honestly. The class discovered that fairness is not a prize we give only to people we already like.",
+      "question": "A classmate you argued with does something helpful. How do you describe it?",
+      "correct": 0,
+      "feedback": "Justice remains important even when feelings are difficult.",
+      "action": "Say one fair and accurate thing about someone you recently disagreed with.",
+      "reflection": "How can I prevent anger from changing my account of events?",
+      "vocabulary": "Adl — justice; Taqwa — God-consciousness",
+      "careNote": "Do not force reconciliation with a person who is unsafe; allow adult-mediated support.",
+      "review": "Explain the difference between a truthful intention, a reliable action and a misleading claim in this mission.",
+      "next": "A new way to practise honesty in everyday life.",
+      "sourceUrl": null,
+      "sourceDocument": "Imaan_Akhlaq_Tafsir_Stories_Volume_05_The_World_of_Honesty.docx"
+    },
+    {
+      "id": "05-13",
+      "number": 13,
+      "title": "Admitting My Own Mistake",
+      "ayahs": [
+        {
+          "ref": "4:135",
+          "arabic": "يَٰٓأَيُّهَا ٱلَّذِينَ ءَامَنُواْ كُونُواْ قَوَّٰمِينَ بِٱلۡقِسۡطِ شُهَدَآءَ لِلَّهِ وَلَوۡ عَلَىٰٓ أَنفُسِكُمۡ أَوِ ٱلۡوَٰلِدَيۡنِ وَٱلۡأَقۡرَبِينَۚ إِن يَكُنۡ غَنِيًّا أَوۡ فَقِيرٗا فَٱللَّهُ أَوۡلَىٰ بِهِمَاۖ فَلَا تَتَّبِعُواْ ٱلۡهَوَىٰٓ أَن تَعۡدِلُواْۚ وَإِن تَلۡوُۥٓاْ أَوۡ تُعۡرِضُواْ فَإِنَّ ٱللَّهَ كَانَ بِمَا تَعۡمَلُونَ خَبِيرٗا",
+          "meaning": "Justice and truthful witness remain obligations even when they affect ourselves or those close to us."
+        }
+      ],
+      "options": [
+        "Stay silent so the blame stays with them.",
+        "Tell a trusted adult what happened and help repair it.",
+        "Create a new story to make the blame disappear."
+      ],
+      "anchor": "FOCUS AYAHS: 4:135   |   CORE VALUES: Truthful witness • Accountability",
+      "aim": "Learn to admit responsibility while seeking fair and supportive guidance.",
+      "tafsir": "Surah An-Nisa commands firm justice and truthful testimony even when personal interests or family ties are affected. The verse speaks about serious rights and impartial witness; children are not expected to take adult legal roles. Its moral application is that family affection should not lead us to invent excuses, and embarrassment should not make us accuse someone innocent. Allah knows what is hidden. Owning a mistake is an act of courage, especially when an adult responds with fairness. A child's honesty also deserves protection: trusted adults should listen, ask gentle questions and make room for repair. Truthfulness never means that children must reveal private or dangerous matters to classmates or strangers; sensitive concerns belong with safe adults who can help.",
+      "story": "A paint pot tipped over during an art lesson, leaving a blue stain on the classroom carpet. A group of students began blaming Mohsin because he stood nearest the table. Akhlaq remembered that his own elbow had knocked the pot. His stomach felt tight, but he told the teacher what had happened. The teacher thanked him for being honest and asked him to help clean the stain. Mohsin smiled with relief. Akhlaq learned that admitting a mistake could protect another person from blame.",
+      "question": "Someone else is blamed for an accident you caused. What should you do?",
+      "correct": 1,
+      "feedback": "Truth can be difficult, but it protects innocent people and makes repair possible.",
+      "action": "Correct one inaccurate statement about your own action today.",
+      "reflection": "What kind of adult response makes it easier for a child to be honest?",
+      "vocabulary": "Shahadah — testimony; Qist — fairness",
+      "careNote": "Do not ask children to disclose abuse publicly or take responsibility for another person’s wrongdoing.",
+      "review": "Explain the difference between a truthful intention, a reliable action and a misleading claim in this mission.",
+      "next": "A new way to practise honesty in everyday life.",
+      "sourceUrl": null,
+      "sourceDocument": "Imaan_Akhlaq_Tafsir_Stories_Volume_05_The_World_of_Honesty.docx"
+    },
+    {
+      "id": "05-14",
+      "number": 14,
+      "title": "Nobody’s Money Is Free for Taking",
+      "ayahs": [
+        {
+          "ref": "2:188",
+          "arabic": "وَلَا تَأۡكُلُوٓاْ أَمۡوَٰلَكُم بَيۡنَكُم بِٱلۡبَٰطِلِ وَتُدۡلُواْ بِهَآ إِلَى ٱلۡحُكَّامِ لِتَأۡكُلُواْ فَرِيقٗا مِّنۡ أَمۡوَٰلِ ٱلنَّاسِ بِٱلۡإِثۡمِ وَأَنتُمۡ تَعۡلَمُونَ",
+          "meaning": "Do not take one another’s property unjustly or use corrupt influence to seize what belongs to others."
+        }
+      ],
+      "options": [
+        "Spend it quickly before anyone asks.",
+        "Keep it as a reward for finding it.",
+        "Give it to an appropriate trusted adult or lost-property desk."
+      ],
+      "anchor": "FOCUS AYAHS: 2:188   |   CORE VALUES: Property rights • Justice",
+      "aim": "Recognize that another person’s belongings and money must be respected.",
+      "tafsir": "Surah Al-Baqarah forbids taking one another's wealth unjustly and using corrupt influence to wrongfully obtain other people's property. The original warning addresses serious financial and legal wrongdoing. In a child's world, the lesson begins with smaller boundaries: school coins, a friend's stationery, or supplies shared for a project do not become ours merely because we can reach them. Something taken without permission should be returned. If an exchange is unfair, children should seek guidance rather than secretly taking compensation. The Qur'an teaches respect for ownership and honesty even when desire makes an item seem irresistible. Adults should make ownership and shared-property expectations clear, while avoiding humiliation if a child admits a mistake and wants to repair it.",
+      "story": "Akhlaq found several coins beside the school canteen. He imagined buying extra snacks. Imaan reminded him that the coins belonged to somebody, even though the owner was not there. They gave the coins to the canteen supervisor and described where they had found them. Later, a worried student came to ask about the missing money. The supervisor returned it safely, and Akhlaq was glad he had not spent something that was not his.",
+      "question": "You find money at school and do not know who owns it. What should you do?",
+      "correct": 2,
+      "feedback": "Finding something is not the same as owning it. Honest handling protects its owner.",
+      "action": "Place one misplaced item in the proper lost-property place or return it to its owner.",
+      "reflection": "Why should we respect another person’s belongings when they are not nearby?",
+      "vocabulary": "Mal — property; Batil — wrongful or false",
+      "careNote": "Avoid pressure to discuss family finances or personal assets. Any money handling should be supervised.",
+      "review": "Explain the difference between a truthful intention, a reliable action and a misleading claim in this mission.",
+      "next": "A new way to practise honesty in everyday life.",
+      "sourceUrl": null,
+      "sourceDocument": "Imaan_Akhlaq_Tafsir_Stories_Volume_05_The_World_of_Honesty.docx"
+    },
+    {
+      "id": "05-15",
+      "number": 15,
+      "title": "The Witness Who Would Not Pretend",
+      "ayahs": [
+        {
+          "ref": "25:72",
+          "arabic": "وَٱلَّذِينَ لَا يَشۡهَدُونَ ٱلزُّورَ وَإِذَا مَرُّواْ بِٱللَّغۡوِ مَرُّواْ كِرَامٗا",
+          "meaning": "The servants of the Most Merciful avoid false testimony and pass useless or false talk with dignity."
+        }
+      ],
+      "options": [
+        "Say “I didn’t see it,” and let the adults or players resolve it fairly.",
+        "Agree with the loudest friend.",
+        "Invent details to end the argument faster."
+      ],
+      "anchor": "FOCUS AYAHS: 25:72   |   CORE VALUES: Truthful witness • Dignity",
+      "aim": "Refuse to support a false story or join pointless hurtful talk.",
+      "tafsir": "Surah Al-Furqan describes the servants of the Most Merciful and includes their refusal to give false witness and their dignified response to frivolous or false speech. Tafsir writers describe false testimony as a serious moral wrong, and link the second part to avoiding corrupting talk while maintaining dignity. For children, honesty sometimes means declining to say that a thing happened when it did not. It also means refusing to join a circle that is mocking another student. This is not about becoming cold or silent: a child may say kindly, 'I did not see that,' and offer to ask a responsible adult. Dignity makes it possible to disagree without insulting others. The verse invites faithful character in speech and in the company we keep.",
+      "story": "During a school game, two classmates argued that Mohsina had crossed the boundary line. They asked Akhlaq to confirm their version. He had been looking elsewhere and had not seen the play. Imaan watched him think. 'I didn't see it,' Akhlaq answered. He suggested a replay with the teacher supervising. The argument settled, and the group began again. Akhlaq had protected his honesty by refusing to pretend he knew more than he did.",
+      "question": "Friends ask you to confirm an event you did not see. What is truthful?",
+      "correct": 0,
+      "feedback": "You do not have to claim knowledge you do not have. That is honest and dignified.",
+      "action": "Avoid giving an opinion as a fact when you did not witness the event.",
+      "reflection": "How can I refuse false talk without being unkind?",
+      "vocabulary": "Zur — falsehood; Kiram — with dignity",
+      "careNote": "No simulated court testimony or pressure to confront intimidating adults.",
+      "review": "Explain the difference between a truthful intention, a reliable action and a misleading claim in this mission.",
+      "next": "A new way to practise honesty in everyday life.",
+      "sourceUrl": null,
+      "sourceDocument": "Imaan_Akhlaq_Tafsir_Stories_Volume_05_The_World_of_Honesty.docx"
+    },
+    {
+      "id": "05-16",
+      "number": 16,
+      "title": "Keep the Truth Clear",
+      "ayahs": [
+        {
+          "ref": "2:42",
+          "arabic": "وَلَا تَلۡبِسُواْ ٱلۡحَقَّ بِٱلۡبَٰطِلِ وَتَكۡتُمُواْ ٱلۡحَقَّ وَأَنتُمۡ تَعۡلَمُونَ",
+          "meaning": "Do not disguise the truth with falsehood or knowingly conceal it."
+        }
+      ],
+      "options": [
+        "The whole room is completely clean.",
+        "I cleaned the table; the floor still needs work.",
+        "I did nothing, even though the table is clean."
+      ],
+      "anchor": "FOCUS AYAHS: 2:42   |   CORE VALUES: Integrity • Responsibility",
+      "aim": "Avoid hiding known facts or mixing true details with misleading ones.",
+      "tafsir": "Surah Al-Baqarah addresses the Children of Israel in a particular historical and religious context, calling them not to mix truth with falsehood or deliberately conceal what they know. The Qur'an also invites all learners to value truthful presentation. Teachers must not erase the original addressee or turn the verse into a stereotype about any community. In a child's daily activities, mixing truth with falsehood may mean telling one true fact while leaving out a crucial piece to mislead people. For example, a student might claim, 'I put all the materials away,' after only moving the boxes but leaving supplies on the floor. The lesson is to tell the whole relevant truth, correct errors and avoid misleading impressions. Honest speech is clear, fair and dependable.",
+      "story": "After an art project, Akhlaq told Salamah that the room was clean. The tables were tidy, but scraps of colored paper still covered the floor. Imaan asked whether the sentence described the whole situation. Akhlaq corrected himself: 'I cleaned the tables, but the floor still needs work.' Together the children swept the room. It felt better to describe their progress accurately than to make themselves sound finished before the job was done.",
+      "question": "You cleaned the table but not the floor. Which report is honest?",
+      "correct": 1,
+      "feedback": "An accurate description helps everyone know what is done and what still needs attention.",
+      "action": "Give one accurate progress update without exaggerating or leaving out a key fact.",
+      "reflection": "How can a sentence be technically true but still misleading?",
+      "vocabulary": "Haqq — truth or right; Batil — falsehood",
+      "careNote": "Retain the historical Qur’anic addressee; prohibit religious stereotyping or public confessions.",
+      "review": "Explain the difference between a truthful intention, a reliable action and a misleading claim in this mission.",
+      "sourceUrl": null,
+      "sourceDocument": "Imaan_Akhlaq_Tafsir_Stories_Volume_05_The_World_of_Honesty.docx"
+    }
+  ]
+}
