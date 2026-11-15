@@ -4,6 +4,7 @@ import '../app_theme.dart';
 import '../data/catalog.dart';
 import '../domain.dart';
 import 'hadith_screen.dart';
+import 'ui_kit.dart';
 
 const courseNames = [
   'Quran',
@@ -57,6 +58,18 @@ class CourseArtwork extends StatelessWidget {
   );
 }
 
+/// Strong colour per subject, paired with [courseTints] for the card fill.
+const courseAccents = [
+  Color(0xFFD63678), // Quran
+  Color(0xFF1C8FC2), // Hadith
+  Color(0xFFE08020), // Duas
+  Color(0xFF7B4FD6), // Salah
+  Color(0xFF2F7FD0), // Tafsir
+  Color(0xFFC2416E), // Prophet Stories
+  Color(0xFF1F8A5B), // Hajj & Umrah
+  Color(0xFFD9822B), // Taleem-ul-Islam
+];
+
 class LearningDashboard extends StatelessWidget {
   const LearningDashboard({
     super.key,
@@ -77,6 +90,7 @@ class LearningDashboard extends StatelessWidget {
     final columns = scale > 1.2 || MediaQuery.sizeOf(context).width < 350
         ? 2
         : 3;
+    final count = courseNames.length + (onMap == null ? 0 : 1);
     return CustomScrollView(
       key: const PageStorageKey('smart-home'),
       slivers: [
@@ -88,76 +102,134 @@ class LearningDashboard extends StatelessWidget {
           ),
         ),
         SliverPadding(
-          padding: const EdgeInsets.fromLTRB(18, 20, 18, 8),
-          sliver: SliverList.list(
-            children: [
-              Row(
+          padding: const EdgeInsets.fromLTRB(20, 22, 20, 12),
+          sliver: SliverToBoxAdapter(
+            child: Reveal(
+              index: 0,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Expanded(
-                    child: Text(
-                      'Explore learning',
-                      style: Theme.of(
-                        context,
-                      ).textTheme.titleLarge?.copyWith(fontSize: 21),
-                    ),
+                  Text('Explore learning', style: displayStyle(23)),
+                  const SizedBox(height: 2),
+                  const Text(
+                    'Pick a subject and start a little adventure.',
+                    style: TextStyle(color: mutedInk, fontSize: 13.5),
                   ),
                 ],
               ),
-              const SizedBox(height: 12),
-            ],
+            ),
           ),
         ),
         SliverPadding(
-          padding: const EdgeInsets.symmetric(horizontal: 18),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
           sliver: SliverGrid.builder(
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: columns,
-              mainAxisExtent: scale > 1.2 ? 118 + (scale - 1) * 60 : 110,
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10,
+              mainAxisExtent: scale > 1.2 ? 132 + (scale - 1) * 64 : 124,
+              crossAxisSpacing: 12,
+              mainAxisSpacing: 12,
             ),
-            itemCount: courseNames.length + (onMap == null ? 0 : 1),
-            itemBuilder: (context, i) => Material(
-              color: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-                side: const BorderSide(color: Color(0xFFCBD3E1), width: 1.2),
-              ),
-              clipBehavior: Clip.antiAlias,
-              child: InkWell(
-                key: Key(i == 8 ? 'home-map' : 'course-$i'),
-                onTap: i == 8 ? onMap : () => onCourse(i),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 8,
+            itemCount: count,
+            itemBuilder: (context, i) => Reveal(
+              index: 1 + i,
+              child: i == 8
+                  ? _MapTile(onTap: onMap)
+                  : _SubjectTile(index: i, onTap: () => onCourse(i)),
+            ),
+          ),
+        ),
+        SliverPadding(
+          padding: const EdgeInsets.fromLTRB(16, 18, 16, 24),
+          sliver: SliverToBoxAdapter(
+            child: Reveal(index: count + 1, child: const _SmallActionCard()),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+/// One subject: tinted card, artwork on a white disc, rounded label.
+class _SubjectTile extends StatelessWidget {
+  const _SubjectTile({required this.index, required this.onTap});
+  final int index;
+  final VoidCallback onTap;
+  @override
+  Widget build(BuildContext context) {
+    final accent = courseAccents[index];
+    final tint = courseTints[index];
+    return Pressable(
+      scale: .95,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(22),
+          boxShadow: [
+            BoxShadow(
+              color: accent.withValues(alpha: .16),
+              blurRadius: 14,
+              offset: const Offset(0, 6),
+            ),
+          ],
+        ),
+        child: Material(
+          color: tint,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(22),
+            side: BorderSide(color: accent.withValues(alpha: .28), width: 1.4),
+          ),
+          clipBehavior: Clip.antiAlias,
+          child: InkWell(
+            key: Key('course-$index'),
+            onTap: onTap,
+            splashColor: accent.withValues(alpha: .15),
+            child: Stack(
+              children: [
+                // A soft bubble in the corner gives each card some depth.
+                Positioned(
+                  right: -18,
+                  top: -18,
+                  child: Container(
+                    width: 58,
+                    height: 58,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.white.withValues(alpha: .55),
+                    ),
                   ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(8, 12, 8, 10),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      if (i == 8)
-                        const SizedBox(
-                          width: 46,
-                          height: 46,
-                          child: Icon(
-                            Icons.explore_rounded,
-                            color: brandPink,
-                            size: 38,
-                          ),
-                        )
-                      else
-                        CourseArtwork(index: i, size: 46),
-                      const SizedBox(height: 7),
+                      Container(
+                        width: 60,
+                        height: 60,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                          boxShadow: [
+                            BoxShadow(
+                              color: accent.withValues(alpha: .22),
+                              blurRadius: 10,
+                              offset: const Offset(0, 4),
+                            ),
+                          ],
+                        ),
+                        child: CourseArtwork(index: index, size: 44),
+                      ),
+                      const SizedBox(height: 8),
                       Expanded(
                         child: Center(
                           child: Text(
-                            i == 8 ? 'Adventure map' : courseNames[i],
+                            courseNames[index],
                             textAlign: TextAlign.center,
-                            style: const TextStyle(
-                              color: ink,
-                              fontSize: 13,
-                              height: 1.15,
-                              fontWeight: FontWeight.w700,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: displayStyle(
+                              14.5,
+                              color: Color.lerp(accent, brandNavy, .35)!,
+                              height: 1.1,
                             ),
                           ),
                         ),
@@ -165,56 +237,167 @@ class LearningDashboard extends StatelessWidget {
                     ],
                   ),
                 ),
-              ),
+              ],
             ),
           ),
         ),
-        SliverPadding(
-          padding: const EdgeInsets.fromLTRB(18, 16, 18, 22),
-          sliver: SliverToBoxAdapter(
-            child: Container(
-              padding: const EdgeInsets.all(14),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: const Color(0xFFCBD3E1), width: 1.2),
-              ),
-              child: const Row(
-                children: [
-                  Icon(
-                    Icons.event_available_outlined,
-                    color: brandOrange,
-                    size: 30,
+      ),
+    );
+  }
+}
+
+/// The ninth tile: the story map, drawn as the "special" card.
+class _MapTile extends StatelessWidget {
+  const _MapTile({required this.onTap});
+  final VoidCallback? onTap;
+  @override
+  Widget build(BuildContext context) => Pressable(
+    scale: .95,
+    child: Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(22),
+        boxShadow: [
+          BoxShadow(
+            color: brandNavy.withValues(alpha: .28),
+            blurRadius: 14,
+            offset: const Offset(0, 6),
+          ),
+        ],
+      ),
+      child: Material(
+        borderRadius: BorderRadius.circular(22),
+        clipBehavior: Clip.antiAlias,
+        child: Ink(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [brandNavy, brandIndigo],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+          child: InkWell(
+            key: const Key('home-map'),
+            onTap: onTap,
+            child: Stack(
+              children: [
+                Positioned(
+                  right: -22,
+                  bottom: -22,
+                  child: Icon(
+                    Icons.map_rounded,
+                    size: 84,
+                    color: Colors.white.withValues(alpha: .1),
                   ),
-                  SizedBox(width: 12),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Today’s small action',
-                          style: TextStyle(
-                            color: ink,
-                            fontWeight: FontWeight.w800,
-                            fontSize: 15,
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(8, 12, 8, 10),
+                  child: Column(
+                    children: [
+                      Container(
+                        width: 60,
+                        height: 60,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.white.withValues(alpha: .16),
+                          border: Border.all(
+                            color: Colors.white.withValues(alpha: .5),
+                            width: 1.5,
                           ),
                         ),
-                        SizedBox(height: 3),
-                        Text(
-                          'Say one kind thing to someone.',
-                          style: TextStyle(color: ink, fontSize: 14),
+                        child: const Icon(
+                          Icons.explore_rounded,
+                          color: Colors.white,
+                          size: 34,
                         ),
-                      ],
-                    ),
+                      ),
+                      const SizedBox(height: 8),
+                      Expanded(
+                        child: Center(
+                          child: Text(
+                            'Adventure map',
+                            textAlign: TextAlign.center,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: displayStyle(
+                              14.5,
+                              color: Colors.white,
+                              height: 1.1,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
+class _SmallActionCard extends StatelessWidget {
+  const _SmallActionCard();
+  @override
+  Widget build(BuildContext context) => Container(
+    padding: const EdgeInsets.all(16),
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(22),
+      gradient: const LinearGradient(
+        colors: [Color(0xFFFFF1DE), Color(0xFFFFE4EE)],
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+      ),
+      border: Border.all(color: brandOrange.withValues(alpha: .25)),
+    ),
+    child: Row(
+      children: [
+        Container(
+          width: 52,
+          height: 52,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            shape: BoxShape.circle,
+            boxShadow: [
+              BoxShadow(
+                color: brandOrange.withValues(alpha: .25),
+                blurRadius: 10,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
+          child: const Icon(
+            Icons.wb_sunny_rounded,
+            color: brandOrange,
+            size: 28,
+          ),
+        ),
+        const SizedBox(width: 14),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Today’s small action',
+                style: displayStyle(17, color: const Color(0xFFB45F0A)),
+              ),
+              const SizedBox(height: 3),
+              const Text(
+                'Say one kind thing to someone.',
+                style: TextStyle(
+                  color: brandNavy,
+                  fontSize: 14.5,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
           ),
         ),
       ],
-    );
-  }
+    ),
+  );
 }
 
 class _ContinueCard extends StatelessWidget {
@@ -230,12 +413,12 @@ class _ContinueCard extends StatelessWidget {
   Widget build(BuildContext context) => Container(
     key: const Key('reading-hero'),
     clipBehavior: Clip.antiAlias,
-    decoration: BoxDecoration(
-      borderRadius: const BorderRadius.vertical(bottom: Radius.circular(24)),
-      gradient: const LinearGradient(
+    decoration: const BoxDecoration(
+      borderRadius: BorderRadius.vertical(bottom: Radius.circular(30)),
+      gradient: LinearGradient(
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
-        colors: [Color(0xFF294573), Color(0xFF1E2D5A)],
+        colors: [Color(0xFF2C4A7C), brandNavy],
       ),
     ),
     child: LayoutBuilder(
@@ -253,6 +436,22 @@ class _ContinueCard extends StatelessWidget {
           cacheWidth: 640,
           excludeFromSemantics: true,
         );
+        Widget label() => Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+          decoration: BoxDecoration(
+            color: brandOrange.withValues(alpha: .9),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Text(
+            learner == null ? 'Story time' : 'Up next',
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 12,
+              fontWeight: FontWeight.w800,
+              letterSpacing: .3,
+            ),
+          ),
+        );
         Widget title() => FutureBuilder<List<Book>>(
           future: books,
           builder: (context, snapshot) {
@@ -263,64 +462,108 @@ class _ContinueCard extends StatelessWidget {
                 .firstOrNull;
             return Text(
               learner == null
-                  ? 'Story time'
+                  ? 'Read a story together'
                   : next?.title ?? 'Continue reading',
               maxLines: stacked ? null : 3,
               overflow: stacked ? null : TextOverflow.ellipsis,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 24,
-                height: 1.15,
-                fontWeight: FontWeight.w800,
-              ),
+              style: displayStyle(23, color: Colors.white, height: 1.15),
             );
           },
         );
-        Widget button() => TextButton.icon(
+        Widget button() => FilledButton.icon(
           key: const Key('continue-learning'),
-          style: TextButton.styleFrom(
-            foregroundColor: Colors.white,
-            padding: const EdgeInsets.only(right: 10),
-            minimumSize: const Size(48, 48),
+          style: FilledButton.styleFrom(
+            backgroundColor: Colors.white,
+            foregroundColor: brandPink,
+            minimumSize: const Size(48, 46),
+            padding: const EdgeInsets.fromLTRB(10, 0, 16, 0),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            elevation: 2,
+            shadowColor: Colors.black26,
           ),
-          icon: const Icon(Icons.play_circle_fill_rounded, size: 32),
+          icon: const Icon(Icons.play_circle_fill_rounded, size: 26),
           onPressed: onContinue,
           label: Text(
             learner == null ? 'Read a story' : 'Continue',
-            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
+            style: const TextStyle(fontSize: 14.5, fontWeight: FontWeight.w800),
           ),
         );
-        if (stacked) {
-          return Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                title(),
-                const SizedBox(height: 8),
-                Center(child: artwork(220, 145)),
-                const SizedBox(height: 12),
-                SizedBox(width: double.infinity, child: button()),
-              ],
+        final rings = [
+          Positioned(
+            left: -60,
+            top: -60,
+            child: Container(
+              width: 170,
+              height: 170,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: Colors.white.withValues(alpha: .06),
+                  width: 16,
+                ),
+              ),
             ),
+          ),
+          Positioned(
+            right: 24,
+            top: 22 + MediaQuery.paddingOf(context).top,
+            child: Container(
+              width: 9,
+              height: 9,
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                color: brandOrange,
+              ),
+            ),
+          ),
+        ];
+        if (stacked) {
+          return Stack(
+            children: [
+              ...rings,
+              Padding(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    label(),
+                    const SizedBox(height: 8),
+                    title(),
+                    const SizedBox(height: 8),
+                    Center(child: artwork(220, 145)),
+                    const SizedBox(height: 12),
+                    SizedBox(width: double.infinity, child: button()),
+                  ],
+                ),
+              ),
+            ],
           );
         }
         return ConstrainedBox(
-          constraints: const BoxConstraints(minHeight: 168),
+          constraints: const BoxConstraints(minHeight: 188),
           child: Stack(
             children: [
+              ...rings,
               Positioned(
                 right: -8,
                 bottom: 0,
-                child: artwork(constraints.maxWidth * .60, 166),
+                child: artwork(constraints.maxWidth * .58, 176),
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(18, 28, 0, 22),
+                padding: const EdgeInsets.fromLTRB(20, 26, 0, 22),
                 child: SizedBox(
-                  width: constraints.maxWidth * .44,
+                  width: constraints.maxWidth * .46,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [title(), const SizedBox(height: 20), button()],
+                    children: [
+                      label(),
+                      const SizedBox(height: 10),
+                      title(),
+                      const SizedBox(height: 16),
+                      button(),
+                    ],
                   ),
                 ),
               ),

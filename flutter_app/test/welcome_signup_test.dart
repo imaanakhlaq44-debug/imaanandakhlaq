@@ -13,6 +13,9 @@ void main() {
           ..addFont(rootBundle.load('assets/fonts/roboto-regular.ttf'))
           ..addFont(rootBundle.load('assets/fonts/roboto-bold.ttf')))
         .load();
+    await (FontLoader('Fredoka')
+          ..addFont(rootBundle.load('assets/fonts/fredoka.ttf')))
+        .load();
     await (FontLoader(
       'MaterialIcons',
     )..addFont(rootBundle.load('fonts/MaterialIcons-Regular.otf'))).load();
