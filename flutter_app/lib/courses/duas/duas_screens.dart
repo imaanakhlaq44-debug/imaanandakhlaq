@@ -1,3 +1,4 @@
+import 'package:imaan_akhlaq/rewards/reward_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -112,8 +113,7 @@ class _DuasCourseScreenState extends State<DuasCourseScreen> {
             ? const Center(child: CircularProgressIndicator())
             : ValueListenableBuilder<Map<String, DuaProgress>>(
                 valueListenable: _progress,
-                builder: (context, progress, _) =>
-                    _list(_volumes!, progress),
+                builder: (context, progress, _) => _list(_volumes!, progress),
               ),
       ),
     ),
@@ -212,10 +212,7 @@ class _Hero extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 10),
-        Text(
-          title,
-          style: displayStyle(28, color: Colors.white, height: 1.12),
-        ),
+        Text(title, style: displayStyle(28, color: Colors.white, height: 1.12)),
         const SizedBox(height: 16),
         Text(
           detail,
@@ -250,7 +247,8 @@ class _VolumeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final n = volume.lessons.length;
-    final first = volume.lessons.first.number, last = volume.lessons.last.number;
+    final first = volume.lessons.first.number,
+        last = volume.lessons.last.number;
     return Pressable(
       child: Material(
         color: Colors.white,
@@ -520,6 +518,16 @@ class DuaLessonScreen extends StatefulWidget {
 }
 
 class _DuaLessonScreenState extends State<DuaLessonScreen> {
+  /// Stars for this dua; the volume's badge once all ten are finished.
+  void _reward() => celebrateFinish(
+    context,
+    course: 'duas',
+    item: _l.id,
+    group: 'volume-${widget.volume.number}',
+    groupTitle: widget.volume.title,
+    groupItems: widget.volume.lessons.map((l) => l.id),
+  );
+
   late DuaProgress _progress = widget.progress;
   late bool _summary = _progress.explored;
   late String? _reflection = _progress.reflection;
@@ -591,12 +599,14 @@ class _DuaLessonScreenState extends State<DuaLessonScreen> {
 
   Future<void> _next() async {
     if (_progress.step < _last) return _step(_progress.step + 1);
+    final first = _progress.completedAt == null;
     final saved = await _persist(
       _progress.copyWith(
         completedAt: _progress.completedAt ?? DateTime.now().toUtc(),
       ),
     );
     if (saved && mounted) {
+      if (first) _reward();
       setState(() => _summary = true);
       _top();
     }
@@ -696,8 +706,7 @@ class _DuaLessonScreenState extends State<DuaLessonScreen> {
                       minimumSize: const Size(48, 52),
                     ),
                     onPressed:
-                        _busy ||
-                            (!_summary && _progress.step == 3 && !_correct)
+                        _busy || (!_summary && _progress.step == 3 && !_correct)
                         ? null
                         : _summary
                         ? () => Navigator.pop(context)
@@ -1112,9 +1121,7 @@ class _DuaLessonScreenState extends State<DuaLessonScreen> {
           style: OutlinedButton.styleFrom(
             alignment: Alignment.centerLeft,
             minimumSize: const Size(double.infinity, 48),
-            backgroundColor: _reflection == entry.key
-                ? duasTint
-                : Colors.white,
+            backgroundColor: _reflection == entry.key ? duasTint : Colors.white,
           ),
           onPressed: _busy
               ? null
@@ -1342,8 +1349,7 @@ class DuaSourceSheet extends StatelessWidget {
   );
 
   static bool _rtl(String s) =>
-      RegExp(r'[؀-ۿ]').hasMatch(s) &&
-      !RegExp(r'[A-Za-z]').hasMatch(s);
+      RegExp(r'[؀-ۿ]').hasMatch(s) && !RegExp(r'[A-Za-z]').hasMatch(s);
 
   Widget _label(String text) => Padding(
     padding: const EdgeInsets.only(bottom: 6),

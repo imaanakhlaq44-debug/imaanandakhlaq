@@ -1,3 +1,4 @@
+import 'package:imaan_akhlaq/rewards/reward_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -357,6 +358,7 @@ class _TafsirWorldScreenState extends State<TafsirWorldScreen> {
     await Navigator.of(context).push<void>(
       MaterialPageRoute(
         builder: (_) => TafsirMissionScreen(
+          world: widget.world,
           mission: mission,
           progress: state.progress[mission.id] ?? const TafsirProgress(),
           onSave: (value) async {
@@ -516,7 +518,11 @@ class TafsirMissionScreen extends StatefulWidget {
     required this.mission,
     required this.progress,
     required this.onSave,
+    this.world,
   });
+
+  /// The world this mission belongs to, for its badge.
+  final TafsirWorld? world;
   final TafsirMission mission;
   final TafsirProgress progress;
   final Future<void> Function(TafsirProgress) onSave;
@@ -525,6 +531,19 @@ class TafsirMissionScreen extends StatefulWidget {
 }
 
 class _TafsirMissionScreenState extends State<TafsirMissionScreen> {
+  /// Stars for this mission; the world's badge once its missions are done.
+  void _reward() {
+    final w = widget.world;
+    celebrateFinish(
+      context,
+      course: 'tafsir',
+      item: widget.mission.id,
+      group: w == null ? null : 'world-${w.number}',
+      groupTitle: w?.title,
+      groupItems: w?.missions.map((m) => m.id),
+    );
+  }
+
   late TafsirProgress _progress = widget.progress;
   late bool _summary = _progress.explored;
   late String? _reflection = _progress.reflection;
@@ -583,12 +602,14 @@ class _TafsirMissionScreenState extends State<TafsirMissionScreen> {
       await _step(_progress.step + 1);
       return;
     }
+    final first = _progress.completedAt == null;
     final saved = await _persist(
       _progress.copyWith(
         completedAt: _progress.completedAt ?? DateTime.now().toUtc(),
       ),
     );
     if (saved && mounted) {
+      if (first) _reward();
       setState(() => _summary = true);
       _top();
     }

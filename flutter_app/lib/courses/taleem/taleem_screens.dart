@@ -1,3 +1,4 @@
+import 'package:imaan_akhlaq/rewards/reward_widgets.dart';
 import 'package:flutter/material.dart';
 import '../../app_theme.dart';
 import '../../screens/ui_kit.dart';
@@ -602,6 +603,22 @@ class TaleemLessonScreen extends StatefulWidget {
 }
 
 class _TaleemLessonScreenState extends State<TaleemLessonScreen> {
+  /// Stars for this lesson; the journey's badge once its lessons are done.
+  void _reward() {
+    final e = widget.edition;
+    final journey = e.journeys
+        .where((j) => j.lessons.any((l) => l.id == _l.id))
+        .firstOrNull;
+    celebrateFinish(
+      context,
+      course: 'taleem',
+      item: '${e.id}/${_l.id}',
+      group: journey == null ? null : '${e.id}/journey-${journey.number}',
+      groupTitle: journey?.title,
+      groupItems: journey?.lessons.map((l) => '${e.id}/${l.id}'),
+    );
+  }
+
   late TaleemProgress _progress = widget.progress;
   late bool _summary = _progress.explored;
   late String? _reflection = _progress.reflection;
@@ -664,12 +681,14 @@ class _TaleemLessonScreenState extends State<TaleemLessonScreen> {
       await _step(_progress.step + 1);
       return;
     }
+    final first = _progress.completedAt == null;
     final saved = await _persist(
       _progress.copyWith(
         completedAt: _progress.completedAt ?? DateTime.now().toUtc(),
       ),
     );
     if (saved && mounted) {
+      if (first) _reward();
       setState(() => _summary = true);
       if (_scroll.hasClients) _scroll.jumpTo(0);
     }

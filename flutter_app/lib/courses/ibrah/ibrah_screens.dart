@@ -1,3 +1,4 @@
+import 'package:imaan_akhlaq/rewards/reward_widgets.dart';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import '../../app_theme.dart';
@@ -881,6 +882,9 @@ class IbrahMissionScreen extends StatefulWidget {
 }
 
 class _IbrahMissionScreenState extends State<IbrahMissionScreen> {
+  /// Wrong picks in the Decide step this visit; fewer mistakes, more stars.
+  int _mistakes = 0;
+
   static const _steps = ['Discover', 'Decide', 'Daily action', 'Remember'];
   late IbrahMissionProgress _p = widget.progress.progress.mission(
     widget.volume.id,
@@ -932,6 +936,7 @@ class _IbrahMissionScreenState extends State<IbrahMissionScreen> {
       if (await _persist(_p.copyWith(step: _p.step + 1))) _top();
       return;
     }
+    final first = _p.completedAt == null;
     final ok = await _persist(
       IbrahMissionProgress(
         step: 3,
@@ -941,6 +946,19 @@ class _IbrahMissionScreenState extends State<IbrahMissionScreen> {
       ),
     );
     if (ok && mounted) {
+      if (first) {
+        celebrateFinish(
+          context,
+          course: 'ibrah',
+          item: '${widget.volume.id}/${m.id}',
+          mistakes: _mistakes,
+          group: widget.volume.id,
+          groupTitle: widget.volume.title,
+          groupItems: widget.volume.missions.map(
+            (x) => '${widget.volume.id}/${x.id}',
+          ),
+        );
+      }
       setState(() => _summary = true);
       _top();
     }
@@ -1074,7 +1092,12 @@ class _IbrahMissionScreenState extends State<IbrahMissionScreen> {
           padding: const EdgeInsets.only(bottom: 12),
           child: OutlinedButton(
             key: Key('ibrah-choice-$i'),
-            onPressed: _busy ? null : () => _persist(_p.copyWith(choice: i)),
+            onPressed: _busy
+                ? null
+                : () {
+                    if (!m.choices[i].correct) _mistakes++;
+                    _persist(_p.copyWith(choice: i));
+                  },
             style: OutlinedButton.styleFrom(
               alignment: Alignment.centerLeft,
               padding: const EdgeInsets.all(16),

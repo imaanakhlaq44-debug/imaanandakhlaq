@@ -1,3 +1,4 @@
+import 'package:imaan_akhlaq/rewards/reward_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../app_theme.dart';
@@ -396,6 +397,30 @@ class HadithLessonScreen extends StatefulWidget {
 }
 
 class _HadithLessonScreenState extends State<HadithLessonScreen> {
+  /// Stars for this Hadith; the world's badge once its lessons are done.
+  Future<void> _reward() async {
+    final lesson = widget.lesson;
+    HadithWorld? world;
+    Iterable<String>? items;
+    try {
+      final worlds = await HadithLesson.loadWorlds();
+      world = worlds.where((w) => w.contains(lesson)).firstOrNull;
+      if (world != null) {
+        final all = await HadithLesson.load();
+        items = all.where(world.contains).map((l) => l.id);
+      }
+    } catch (_) {}
+    if (!mounted) return;
+    await celebrateFinish(
+      context,
+      course: 'hadith',
+      item: lesson.id,
+      group: world == null ? null : 'world-${world.number}',
+      groupTitle: world?.title,
+      groupItems: items,
+    );
+  }
+
   late HadithProgress _progress = widget.progress;
   late bool _summary = _progress.explored;
   late String? _reflection = _progress.reflection;
@@ -453,12 +478,14 @@ class _HadithLessonScreenState extends State<HadithLessonScreen> {
       await _step(_progress.step + 1);
       return;
     }
+    final first = _progress.completedAt == null;
     final saved = await _persist(
       _progress.copyWith(
         completedAt: _progress.completedAt ?? DateTime.now().toUtc(),
       ),
     );
     if (saved && mounted) {
+      if (first) _reward();
       setState(() => _summary = true);
       if (_scroll.hasClients) _scroll.jumpTo(0);
     }

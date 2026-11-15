@@ -38,4 +38,10 @@ follow the Hadith lesson flow in `hadith_screen.dart` as the pattern.
   does, and note that scholarly review is still required before release.
 * Progress stays on the device per `scope` (see DeviceHadithProgressStore),
   no points and no Firebase writes.
+* Rewards: when a lesson or mission is first finished, call
+  `celebrateFinish` (`lib/rewards/reward_widgets.dart`) with the course key,
+  item id and its world/volume (`group`, `groupItems`). It gives 1–3 stars,
+  a badge when the whole group is done, and grows the daily streak shown on
+  the Individual home. Stars reward learning steps only, never the act of
+  worship; there is no leaderboard.
 * Mobile first: 375 px wide and large text must not overflow.

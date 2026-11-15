@@ -4,6 +4,7 @@ import '../../screens/ui_kit.dart';
 import 'quran_data.dart';
 import 'quran_progress.dart';
 import 'quran_screens.dart';
+import '../../rewards/reward_widgets.dart';
 
 const _soft = Color(0xFFF7F8FB);
 
@@ -13,7 +14,11 @@ const _soft = Color(0xFFF7F8FB);
 /// a pending state and the child practises with an adult and a printed
 /// muṣḥaf. Nothing is recorded; review works without a microphone.
 class QuranPassageScreen extends StatefulWidget {
-  const QuranPassageScreen({super.key, required this.c, required this.passageId});
+  const QuranPassageScreen({
+    super.key,
+    required this.c,
+    required this.passageId,
+  });
   final QuranController c;
   final String passageId;
   @override
@@ -56,10 +61,16 @@ class _QuranPassageScreenState extends State<QuranPassageScreen> {
     if (_step == 4 && step == 5 && _recall != null) {
       next = c.engine.recall(next, _recall!, c.now());
     }
+    final finishing = _step == 4 && step == 5 && _p.step < 5;
     if (_p.mastery == null && step > 0) {
       next = next.copyWith(mastery: next.mastery ?? Mastery.practicing);
     }
     if (await _save(next) && mounted) {
+      // Finishing the lesson earns the same stars whatever the recall:
+      // the effort of learning is rewarded, never the recitation itself.
+      if (finishing) {
+        celebrateFinish(context, course: 'quran', item: passage.id);
+      }
       setState(() {
         _step = step;
         _count = 0;
@@ -114,7 +125,10 @@ class _QuranPassageScreenState extends State<QuranPassageScreen> {
                           child: Text(
                             steps[_step].name,
                             key: const Key('quran-step-title'),
-                            style: const TextStyle(color: ink, fontWeight: FontWeight.w700),
+                            style: const TextStyle(
+                              color: ink,
+                              fontWeight: FontWeight.w700,
+                            ),
                           ),
                         ),
                       ],
@@ -169,7 +183,9 @@ class _QuranPassageScreenState extends State<QuranPassageScreen> {
                             ? const SizedBox(
                                 width: 22,
                                 height: 22,
-                                child: CircularProgressIndicator(strokeWidth: 2),
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                ),
                               )
                             : Text(
                                 _step == 5
@@ -285,7 +301,10 @@ class _QuranPassageScreenState extends State<QuranPassageScreen> {
           style: const TextStyle(color: ink, height: 1.5),
         ),
       if (passage.chunkNote != null)
-        Text(passage.chunkNote!, style: const TextStyle(color: mutedInk, height: 1.45)),
+        Text(
+          passage.chunkNote!,
+          style: const TextStyle(color: mutedInk, height: 1.45),
+        ),
       if (passage.range.surah == 2)
         const Text(
           'Phrase boundaries are pending editorial approval.',
@@ -298,7 +317,10 @@ class _QuranPassageScreenState extends State<QuranPassageScreen> {
     title: m.name,
     children: [
       Text(m.action, style: const TextStyle(color: ink, height: 1.4)),
-      Text('Use: ${m.use}', style: const TextStyle(color: mutedInk, height: 1.4)),
+      Text(
+        'Use: ${m.use}',
+        style: const TextStyle(color: mutedInk, height: 1.4),
+      ),
     ],
   );
 
@@ -311,7 +333,10 @@ class _QuranPassageScreenState extends State<QuranPassageScreen> {
       _Box(
         title: modes[2].name,
         children: [
-          Text(modes[2].action, style: const TextStyle(color: mutedInk, height: 1.4)),
+          Text(
+            modes[2].action,
+            style: const TextStyle(color: mutedInk, height: 1.4),
+          ),
           const SizedBox(height: 4),
           SegmentedButton<int>(
             segments: const [
@@ -344,9 +369,13 @@ class _QuranPassageScreenState extends State<QuranPassageScreen> {
             width: double.infinity,
             child: OutlinedButton.icon(
               key: const Key('quran-said-it'),
-              onPressed: _count >= _loop ? null : () => setState(() => _count++),
+              onPressed: _count >= _loop
+                  ? null
+                  : () => setState(() => _count++),
               icon: const Icon(Icons.record_voice_over_outlined),
-              label: Text(_count >= _loop ? 'Loop finished, well done' : 'I said it'),
+              label: Text(
+                _count >= _loop ? 'Loop finished, well done' : 'I said it',
+              ),
             ),
           ),
           Text(
@@ -407,7 +436,10 @@ class _QuranPassageScreenState extends State<QuranPassageScreen> {
           title: 'Sunnah context • ${m.id}',
           children: [
             Text(m.context, style: const TextStyle(color: ink, height: 1.45)),
-            Text('Source: ${m.source}', style: const TextStyle(color: mutedInk)),
+            Text(
+              'Source: ${m.source}',
+              style: const TextStyle(color: mutedInk),
+            ),
             Align(
               alignment: AlignmentDirectional.centerStart,
               child: TextButton.icon(
@@ -430,8 +462,14 @@ class _QuranPassageScreenState extends State<QuranPassageScreen> {
           child: _Box(
             title: '$l • ${d.label(l).name}',
             children: [
-              Text(d.label(l).meaning, style: const TextStyle(color: ink, height: 1.4)),
-              Text(d.label(l).rule, style: const TextStyle(color: mutedInk, height: 1.4)),
+              Text(
+                d.label(l).meaning,
+                style: const TextStyle(color: ink, height: 1.4),
+              ),
+              Text(
+                d.label(l).rule,
+                style: const TextStyle(color: mutedInk, height: 1.4),
+              ),
             ],
           ),
         ),
@@ -439,7 +477,10 @@ class _QuranPassageScreenState extends State<QuranPassageScreen> {
         _Box(
           title: 'How we talk about this passage',
           children: [
-            Text(passage.publicationRule!, style: const TextStyle(color: ink, height: 1.4)),
+            Text(
+              passage.publicationRule!,
+              style: const TextStyle(color: ink, height: 1.4),
+            ),
           ],
         ),
         const SizedBox(height: 12),
@@ -448,9 +489,13 @@ class _QuranPassageScreenState extends State<QuranPassageScreen> {
         _Box(
           title: 'Learning focus',
           children: [
-            for (final f in focus) Text(f, style: const TextStyle(color: ink, height: 1.4)),
+            for (final f in focus)
+              Text(f, style: const TextStyle(color: ink, height: 1.4)),
             if (passage.storyboardTheme != null)
-              Text(passage.storyboardTheme!, style: const TextStyle(color: ink, height: 1.4)),
+              Text(
+                passage.storyboardTheme!,
+                style: const TextStyle(color: ink, height: 1.4),
+              ),
           ],
         ),
         const SizedBox(height: 12),
@@ -468,10 +513,17 @@ class _QuranPassageScreenState extends State<QuranPassageScreen> {
     const options = [
       (RecallResult.onMyOwn, 'I recited it on my own', Icons.star_rounded),
       (RecallResult.withHelp, 'I needed some help', Icons.handshake_outlined),
-      (RecallResult.stillPractising, 'I am still practising', Icons.spa_outlined),
+      (
+        RecallResult.stillPractising,
+        'I am still practising',
+        Icons.spa_outlined,
+      ),
     ];
     return [
-      for (final m in modes.sublist(3, 6)) ...[_mode(m), const SizedBox(height: 10)],
+      for (final m in modes.sublist(3, 6)) ...[
+        _mode(m),
+        const SizedBox(height: 10),
+      ],
       const SizedBox(height: 6),
       Text('With a parent or teacher listening', style: displayStyle(19)),
       const SizedBox(height: 4),
@@ -498,7 +550,10 @@ class _QuranPassageScreenState extends State<QuranPassageScreen> {
                     Expanded(
                       child: Text(
                         text,
-                        style: const TextStyle(fontWeight: FontWeight.w700, color: ink),
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w700,
+                          color: ink,
+                        ),
                       ),
                     ),
                     if (_recall == value)
@@ -531,9 +586,16 @@ class _QuranPassageScreenState extends State<QuranPassageScreen> {
                 ? 'Keep practising with Hear it and Say it. There is no rush.'
                 : 'Next review: ${friendlyDate(_p.nextReview!, now)}.',
             key: const Key('quran-next-review'),
-            style: const TextStyle(color: ink, fontWeight: FontWeight.w700, height: 1.4),
+            style: const TextStyle(
+              color: ink,
+              fontWeight: FontWeight.w700,
+              height: 1.4,
+            ),
           ),
-          Text(d.revision.note, style: const TextStyle(color: mutedInk, height: 1.4, fontSize: 13)),
+          Text(
+            d.revision.note,
+            style: const TextStyle(color: mutedInk, height: 1.4, fontSize: 13),
+          ),
         ],
       ),
       const SizedBox(height: 14),
@@ -579,56 +641,66 @@ class _Box extends StatelessWidget {
   );
 }
 
-Future<ReviewResult?> _askOutcome(BuildContext context, QuranController c, String title) =>
-    showModalBottomSheet<ReviewResult>(
-      context: context,
-      showDragHandle: true,
-      isScrollControlled: true,
-      builder: (context) => SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(title, style: displayStyle(20)),
-              const SizedBox(height: 4),
-              const Text(
-                'Recite from memory with an adult listening, then choose:',
-                style: TextStyle(color: mutedInk),
-              ),
-              const SizedBox(height: 12),
-              for (final o in c.data!.revision.outcomes) ...[
-                Material(
-                  color: _soft,
-                  borderRadius: BorderRadius.circular(16),
-                  child: InkWell(
-                    key: Key('quran-outcome-${o.id}'),
-                    borderRadius: BorderRadius.circular(16),
-                    onTap: () => Navigator.pop(
-                      context,
-                      ReviewResult.values.byName(o.id),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(14),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(o.after, style: const TextStyle(fontWeight: FontWeight.w800, color: ink)),
-                          const SizedBox(height: 2),
-                          Text(o.next, style: const TextStyle(color: mutedInk, height: 1.35)),
-                        ],
+Future<ReviewResult?> _askOutcome(
+  BuildContext context,
+  QuranController c,
+  String title,
+) => showModalBottomSheet<ReviewResult>(
+  context: context,
+  showDragHandle: true,
+  isScrollControlled: true,
+  builder: (context) => SafeArea(
+    child: SingleChildScrollView(
+      padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(title, style: displayStyle(20)),
+          const SizedBox(height: 4),
+          const Text(
+            'Recite from memory with an adult listening, then choose:',
+            style: TextStyle(color: mutedInk),
+          ),
+          const SizedBox(height: 12),
+          for (final o in c.data!.revision.outcomes) ...[
+            Material(
+              color: _soft,
+              borderRadius: BorderRadius.circular(16),
+              child: InkWell(
+                key: Key('quran-outcome-${o.id}'),
+                borderRadius: BorderRadius.circular(16),
+                onTap: () =>
+                    Navigator.pop(context, ReviewResult.values.byName(o.id)),
+                child: Padding(
+                  padding: const EdgeInsets.all(14),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        o.after,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w800,
+                          color: ink,
+                        ),
                       ),
-                    ),
+                      const SizedBox(height: 2),
+                      Text(
+                        o.next,
+                        style: const TextStyle(color: mutedInk, height: 1.35),
+                      ),
+                    ],
                   ),
                 ),
-                const SizedBox(height: 8),
-              ],
-            ],
-          ),
-        ),
+              ),
+            ),
+            const SizedBox(height: 8),
+          ],
+        ],
       ),
-    );
+    ),
+  ),
+);
 
 /// Revision Garden: reviews due today, what is coming, and what is kept.
 class QuranRevisionScreen extends StatelessWidget {
@@ -639,10 +711,15 @@ class QuranRevisionScreen extends StatelessWidget {
     final passage = c.data!.passage(id);
     final r = await _askOutcome(context, c, passage.displayTitle);
     if (r == null) return;
-    final ok = await c.updatePassage(id, c.engine.review(c.progress.of(id), r, c.now()));
+    final ok = await c.updatePassage(
+      id,
+      c.engine.review(c.progress.of(id), r, c.now()),
+    );
     if (!ok && context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Your review was not saved. Please try again.')),
+        const SnackBar(
+          content: Text('Your review was not saved. Please try again.'),
+        ),
       );
     }
   }
@@ -675,7 +752,8 @@ class QuranRevisionScreen extends StatelessWidget {
                 if (p.paused)
                   const PendingPanel(
                     title: 'Reviews are paused',
-                    body: 'A parent or teacher paused the review plan. You can still open any lesson.',
+                    body:
+                        'A parent or teacher paused the review plan. You can still open any lesson.',
                   )
                 else if (due.isEmpty)
                   const Text(
@@ -690,7 +768,10 @@ class QuranRevisionScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(d.passage(id).displayTitle, style: displayStyle(18)),
+                        Text(
+                          d.passage(id).displayTitle,
+                          style: displayStyle(18),
+                        ),
                         Text(
                           '${d.passage(id).range.label} • ${d.revision.mastery[(p.of(id).mastery ?? Mastery.practicing).index]}',
                           style: const TextStyle(color: mutedInk),
@@ -700,7 +781,9 @@ class QuranRevisionScreen extends StatelessWidget {
                           width: double.infinity,
                           child: FilledButton(
                             key: Key('quran-review-$id'),
-                            onPressed: c.saving ? null : () => _review(context, id),
+                            onPressed: c.saving
+                                ? null
+                                : () => _review(context, id),
                             child: const Text('Review now'),
                           ),
                         ),
@@ -716,7 +799,10 @@ class QuranRevisionScreen extends StatelessWidget {
                   for (final id in upcoming)
                     ListTile(
                       contentPadding: EdgeInsets.zero,
-                      leading: const Icon(Icons.event_outlined, color: quranAccent),
+                      leading: const Icon(
+                        Icons.event_outlined,
+                        color: quranAccent,
+                      ),
                       title: Text(d.passage(id).displayTitle),
                       subtitle: Text(
                         '${friendlyDate(p.of(id).nextReview!, now)} • ${d.revision.mastery[(p.of(id).mastery ?? Mastery.practicing).index]}',
@@ -731,14 +817,19 @@ class QuranRevisionScreen extends StatelessWidget {
                     spacing: 6,
                     runSpacing: 6,
                     children: [
-                      for (final id in kept) TagChip(d.passage(id).displayTitle, color: quranAccent),
+                      for (final id in kept)
+                        TagChip(d.passage(id).displayTitle, color: quranAccent),
                     ],
                   ),
                 ],
                 const SizedBox(height: 18),
                 Text(
                   d.revision.note,
-                  style: const TextStyle(color: mutedInk, fontSize: 12, height: 1.5),
+                  style: const TextStyle(
+                    color: mutedInk,
+                    fontSize: 12,
+                    height: 1.5,
+                  ),
                 ),
               ],
             ),
@@ -755,10 +846,16 @@ class QuranAdultScreen extends StatelessWidget {
   const QuranAdultScreen({super.key, required this.c});
   final QuranController c;
 
-  Future<void> _apply(BuildContext context, String id, PassageProgress next) async {
+  Future<void> _apply(
+    BuildContext context,
+    String id,
+    PassageProgress next,
+  ) async {
     if (!await c.updatePassage(id, next) && context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('That change was not saved. Please try again.')),
+        const SnackBar(
+          content: Text('That change was not saved. Please try again.'),
+        ),
       );
     }
   }
@@ -774,7 +871,9 @@ class QuranAdultScreen extends StatelessWidget {
           final d = c.data!;
           final p = c.progress;
           final now = c.now();
-          final started = d.passages.values.where((x) => p.of(x.id).started).toList();
+          final started = d.passages.values
+              .where((x) => p.of(x.id).started)
+              .toList();
           return ConstrainedBody(
             maxWidth: 640,
             child: ListView(
@@ -789,9 +888,13 @@ class QuranAdultScreen extends StatelessWidget {
                   key: const Key('quran-pause'),
                   contentPadding: EdgeInsets.zero,
                   title: const Text('Pause the review plan'),
-                  subtitle: const Text('Nothing shows as due while paused. No streaks are lost.'),
+                  subtitle: const Text(
+                    'Nothing shows as due while paused. No streaks are lost.',
+                  ),
                   value: p.paused,
-                  onChanged: c.saving ? null : (v) => c.update(p.copyWith(paused: v)),
+                  onChanged: c.saving
+                      ? null
+                      : (v) => c.update(p.copyWith(paused: v)),
                 ),
                 const SizedBox(height: 8),
                 if (started.isEmpty)
@@ -801,7 +904,12 @@ class QuranAdultScreen extends StatelessWidget {
                     style: TextStyle(color: mutedInk),
                   ),
                 for (final x in started) ...[
-                  _AdultCard(c: c, passage: x, now: now, apply: (n) => _apply(context, x.id, n)),
+                  _AdultCard(
+                    c: c,
+                    passage: x,
+                    now: now,
+                    apply: (n) => _apply(context, x.id, n),
+                  ),
                   const SizedBox(height: 10),
                 ],
                 const SizedBox(height: 8),
@@ -819,7 +927,12 @@ class QuranAdultScreen extends StatelessWidget {
 }
 
 class _AdultCard extends StatelessWidget {
-  const _AdultCard({required this.c, required this.passage, required this.now, required this.apply});
+  const _AdultCard({
+    required this.c,
+    required this.passage,
+    required this.now,
+    required this.apply,
+  });
   final QuranController c;
   final QuranPassage passage;
   final DateTime now;
@@ -845,7 +958,8 @@ class _AdultCard extends StatelessWidget {
               c.status(passage.id),
               'Repetitions: ${p.repetitions}',
               'Reviews: ${p.reviews.length}${last == null ? '' : ' (last: ${d.revision.outcomes.firstWhere((o) => o.id == last.result.name).after})'}',
-              if (p.nextReview != null) 'Next review: ${friendlyDate(p.nextReview!, now)}',
+              if (p.nextReview != null)
+                'Next review: ${friendlyDate(p.nextReview!, now)}',
               if (p.reassigned) 'Reassigned to learn again',
             ].join('\n'),
             style: const TextStyle(color: ink, height: 1.5),
@@ -860,9 +974,15 @@ class _AdultCard extends StatelessWidget {
                 onPressed: c.saving
                     ? null
                     : () async {
-                        final r = await _askOutcome(context, c, 'I listened to ${passage.displayTitle}');
+                        final r = await _askOutcome(
+                          context,
+                          c,
+                          'I listened to ${passage.displayTitle}',
+                        );
                         if (r != null) {
-                          await apply(c.engine.review(p, r, c.now(), byAdult: true));
+                          await apply(
+                            c.engine.review(p, r, c.now(), byAdult: true),
+                          );
                         }
                       },
                 child: const Text('I listened'),
@@ -878,12 +998,16 @@ class _AdultCard extends StatelessWidget {
               else
                 OutlinedButton(
                   key: Key('quran-adult-unapprove-${passage.id}'),
-                  onPressed: c.saving ? null : () => apply(p.copyWith(clearApproval: true)),
+                  onPressed: c.saving
+                      ? null
+                      : () => apply(p.copyWith(clearApproval: true)),
                   child: const Text('Remove approval'),
                 ),
               TextButton(
                 key: Key('quran-adult-reassign-${passage.id}'),
-                onPressed: c.saving ? null : () => apply(c.engine.reassign(p, c.now())),
+                onPressed: c.saving
+                    ? null
+                    : () => apply(c.engine.reassign(p, c.now())),
                 child: const Text('Reassign'),
               ),
             ],

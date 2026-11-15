@@ -3,6 +3,7 @@ import '../../app_theme.dart';
 import '../../screens/ui_kit.dart';
 import 'hajj_data.dart';
 import 'hajj_widgets.dart';
+import '../../rewards/reward_widgets.dart';
 
 /// One mission, following the Hadith lesson flow: steps are saved as the
 /// learner moves on, and finishing marks "learning completed". A grown-up can
@@ -67,6 +68,22 @@ class _HajjMissionScreenState extends State<HajjMissionScreen> {
     }
   }
 
+  /// Stars for learning this mission; the world's badge once all of its
+  /// missions are learned. Nothing here rewards the real-life worship.
+  void _reward() {
+    final world = course.worlds
+        .where((w) => w.missionIds.contains(m.id))
+        .firstOrNull;
+    celebrateFinish(
+      context,
+      course: 'hajj',
+      item: m.id,
+      group: world?.id,
+      groupTitle: world?.title,
+      groupItems: world?.missionIds,
+    );
+  }
+
   void _top() {
     if (_scroll.hasClients) _scroll.jumpTo(0);
   }
@@ -84,10 +101,12 @@ class _HajjMissionScreenState extends State<HajjMissionScreen> {
   Future<void> _next() async {
     if (_summary) return Navigator.pop(context);
     if (_step < m.steps.length - 1) return _go(_step + 1);
+    final first = _p.learnedAt == null;
     final saved = await _persist(
       _p.copyWith(learnedAt: _p.learnedAt ?? DateTime.now().toUtc()),
     );
     if (saved && mounted) {
+      if (first) _reward();
       setState(() => _summary = true);
       _top();
     }

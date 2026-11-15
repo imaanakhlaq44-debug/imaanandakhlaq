@@ -7,6 +7,8 @@ import 'hadith_screen.dart';
 import '../courses/registry.dart';
 import 'ui_kit.dart';
 import 'entry_screens.dart' show brandCream;
+import '../rewards/rewards.dart';
+import '../rewards/reward_widgets.dart';
 
 const courseNames = [
   'Quran',
@@ -80,8 +82,13 @@ class LearningDashboard extends StatelessWidget {
     required this.onContinue,
     required this.onCourse,
     this.onMap,
+    this.rewardScope,
   });
   final VoidCallback? onMap;
+
+  /// The Individual learner whose stars, badges and streak are shown, or
+  /// null (school learners) to hide the rewards strip.
+  final String? rewardScope;
   final Profile? learner;
   final Future<List<Book>> books;
   final VoidCallback onContinue;
@@ -93,6 +100,7 @@ class LearningDashboard extends StatelessWidget {
         ? 2
         : 3;
     final count = courseNames.length + (onMap == null ? 0 : 1);
+    if (rewardScope != null) Rewards.instance.use(rewardScope!);
     return CustomScrollView(
       key: const PageStorageKey('smart-home'),
       slivers: [
@@ -103,8 +111,20 @@ class LearningDashboard extends StatelessWidget {
             onContinue: onContinue,
           ),
         ),
+        if (rewardScope != null)
+          const SliverPadding(
+            padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
+            sliver: SliverToBoxAdapter(
+              child: Reveal(index: 0, child: RewardStrip()),
+            ),
+          ),
         SliverPadding(
-          padding: const EdgeInsets.fromLTRB(20, 22, 20, 12),
+          padding: EdgeInsets.fromLTRB(
+            20,
+            rewardScope == null ? 22 : 18,
+            20,
+            12,
+          ),
           sliver: SliverToBoxAdapter(
             child: Reveal(
               index: 0,
@@ -174,72 +194,113 @@ class _SubjectTile extends StatelessWidget {
           ],
         ),
         child: Material(
-          color: tint,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(22),
-            side: BorderSide(color: accent.withValues(alpha: .28), width: 1.4),
+            side: BorderSide(color: accent.withValues(alpha: .22), width: 1.2),
           ),
           clipBehavior: Clip.antiAlias,
-          child: InkWell(
-            key: Key('course-$index'),
-            onTap: onTap,
-            splashColor: accent.withValues(alpha: .15),
-            child: Stack(
-              children: [
-                // A soft bubble in the corner gives each card some depth.
-                Positioned(
-                  right: -18,
-                  top: -18,
-                  child: Container(
-                    width: 58,
-                    height: 58,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.white.withValues(alpha: .55),
+          child: Ink(
+            // Light at the top, the subject colour deepening toward the base.
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Color.lerp(tint, Colors.white, .55)!,
+                  tint,
+                  Color.lerp(tint, accent, .16)!,
+                ],
+                stops: const [0, .55, 1],
+              ),
+            ),
+            child: InkWell(
+              key: Key('course-$index'),
+              onTap: onTap,
+              splashColor: accent.withValues(alpha: .15),
+              child: Stack(
+                children: [
+                  // Soft accent wave across the bottom of the card.
+                  Positioned(
+                    left: -30,
+                    right: -30,
+                    bottom: -44,
+                    child: Container(
+                      height: 70,
+                      decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.all(
+                          Radius.elliptical(120, 40),
+                        ),
+                        color: accent.withValues(alpha: .1),
+                      ),
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(8, 12, 8, 10),
-                  child: Column(
-                    children: [
-                      Container(
-                        width: 60,
-                        height: 60,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          shape: BoxShape.circle,
-                          boxShadow: [
-                            BoxShadow(
-                              color: accent.withValues(alpha: .22),
-                              blurRadius: 10,
-                              offset: const Offset(0, 4),
+                  // Sparkle in the corner.
+                  Positioned(
+                    right: 9,
+                    top: 8,
+                    child: Icon(
+                      Icons.auto_awesome,
+                      size: 13,
+                      color: accent.withValues(alpha: .45),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(8, 11, 8, 10),
+                    child: Column(
+                      children: [
+                        // Icon on a white disc inside a soft accent halo.
+                        Container(
+                          width: 66,
+                          height: 66,
+                          padding: const EdgeInsets.all(3),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            gradient: LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              colors: [
+                                accent.withValues(alpha: .55),
+                                accent.withValues(alpha: .12),
+                              ],
                             ),
-                          ],
+                            boxShadow: [
+                              BoxShadow(
+                                color: accent.withValues(alpha: .28),
+                                blurRadius: 12,
+                                offset: const Offset(0, 5),
+                              ),
+                            ],
+                          ),
+                          child: Container(
+                            alignment: Alignment.center,
+                            decoration: const BoxDecoration(
+                              color: Colors.white,
+                              shape: BoxShape.circle,
+                            ),
+                            child: CourseArtwork(index: index, size: 44),
+                          ),
                         ),
-                        child: CourseArtwork(index: index, size: 44),
-                      ),
-                      const SizedBox(height: 8),
-                      Expanded(
-                        child: Center(
-                          child: Text(
-                            courseNames[index],
-                            textAlign: TextAlign.center,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: displayStyle(
-                              14.5,
-                              color: Color.lerp(accent, brandNavy, .35)!,
-                              height: 1.1,
+                        const SizedBox(height: 7),
+                        Expanded(
+                          child: Center(
+                            child: Text(
+                              courseNames[index],
+                              textAlign: TextAlign.center,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: displayStyle(
+                                14.5,
+                                color: Color.lerp(accent, brandNavy, .4)!,
+                                height: 1.1,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -270,9 +331,11 @@ class _MapTile extends StatelessWidget {
         borderRadius: BorderRadius.circular(22),
         clipBehavior: Clip.antiAlias,
         child: Ink(
+          // Same evening sky as the story hero, so the "special" tile belongs.
           decoration: const BoxDecoration(
             gradient: LinearGradient(
-              colors: [brandNavy, brandIndigo],
+              colors: [brandNavy, Color(0xFF3B3485), Color(0xFF8A3F8C)],
+              stops: [0, .55, 1],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
@@ -291,6 +354,24 @@ class _MapTile extends StatelessWidget {
                     color: Colors.white.withValues(alpha: .1),
                   ),
                 ),
+                const Positioned(
+                  left: 10,
+                  top: 10,
+                  child: Icon(
+                    Icons.auto_awesome,
+                    size: 12,
+                    color: Color(0xCCFFE7A8),
+                  ),
+                ),
+                const Positioned(
+                  right: 12,
+                  top: 30,
+                  child: Icon(
+                    Icons.auto_awesome,
+                    size: 9,
+                    color: Color(0x99FFE7A8),
+                  ),
+                ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(8, 12, 8, 10),
                   child: Column(
@@ -300,11 +381,23 @@ class _MapTile extends StatelessWidget {
                         height: 60,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: Colors.white.withValues(alpha: .16),
-                          border: Border.all(
-                            color: Colors.white.withValues(alpha: .5),
-                            width: 1.5,
+                          gradient: const LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [Color(0xFFFFC56B), brandOrange],
                           ),
+                          border: Border.all(
+                            color: Colors.white.withValues(alpha: .7),
+                            width: 2,
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: const Color(
+                                0xFFFFB45C,
+                              ).withValues(alpha: .55),
+                              blurRadius: 16,
+                            ),
+                          ],
                         ),
                         child: const Icon(
                           Icons.explore_rounded,
@@ -340,58 +433,150 @@ class _MapTile extends StatelessWidget {
   );
 }
 
-class _SmallActionCard extends StatelessWidget {
+/// Today's small good deed. Tapping "I did it" celebrates on the spot; the
+/// tick is only for this visit and is not saved anywhere.
+class _SmallActionCard extends StatefulWidget {
   const _SmallActionCard();
   @override
-  Widget build(BuildContext context) => Container(
-    padding: const EdgeInsets.all(16),
+  State<_SmallActionCard> createState() => _SmallActionCardState();
+}
+
+class _SmallActionCardState extends State<_SmallActionCard> {
+  bool _done = false;
+
+  @override
+  Widget build(BuildContext context) => AnimatedContainer(
+    duration: const Duration(milliseconds: 350),
+    curve: Curves.easeOutCubic,
+    clipBehavior: Clip.antiAlias,
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(22),
-      gradient: const LinearGradient(
-        colors: [Color(0xFFFFF1DE), Color(0xFFFFE4EE)],
+      gradient: LinearGradient(
+        colors: _done
+            ? const [Color(0xFFE3F6EA), Color(0xFFFFF4D6)]
+            : const [Color(0xFFFFF1DE), Color(0xFFFFE4EE)],
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
       ),
-      border: Border.all(color: brandOrange.withValues(alpha: .25)),
+      border: Border.all(
+        color: (_done ? const Color(0xFF1F8A5B) : brandOrange).withValues(
+          alpha: .28,
+        ),
+      ),
+      boxShadow: [
+        BoxShadow(
+          color: brandOrange.withValues(alpha: .12),
+          blurRadius: 16,
+          offset: const Offset(0, 6),
+        ),
+      ],
     ),
-    child: Row(
+    child: Stack(
       children: [
-        Container(
-          width: 52,
-          height: 52,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            shape: BoxShape.circle,
-            boxShadow: [
-              BoxShadow(
-                color: brandOrange.withValues(alpha: .25),
-                blurRadius: 10,
-                offset: const Offset(0, 4),
+        // Sun rays peeking from the corner.
+        Positioned(
+          left: -34,
+          top: -34,
+          child: Container(
+            width: 120,
+            height: 120,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              gradient: RadialGradient(
+                colors: [
+                  const Color(0xFFFFD27A).withValues(alpha: .55),
+                  const Color(0x00FFD27A),
+                ],
               ),
-            ],
-          ),
-          child: const Icon(
-            Icons.wb_sunny_rounded,
-            color: brandOrange,
-            size: 28,
+            ),
           ),
         ),
-        const SizedBox(width: 14),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 16, 12, 16),
+          child: Row(
             children: [
-              Text(
-                'Today’s small action',
-                style: displayStyle(17, color: const Color(0xFFB45F0A)),
+              Container(
+                width: 52,
+                height: 52,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: brandOrange.withValues(alpha: .25),
+                      blurRadius: 10,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 300),
+                  transitionBuilder: (child, anim) =>
+                      ScaleTransition(scale: anim, child: child),
+                  child: Icon(
+                    _done ? Icons.favorite_rounded : Icons.wb_sunny_rounded,
+                    key: ValueKey(_done),
+                    color: _done ? brandPink : brandOrange,
+                    size: 28,
+                  ),
+                ),
               ),
-              const SizedBox(height: 3),
-              const Text(
-                'Say one kind thing to someone.',
-                style: TextStyle(
-                  color: brandNavy,
-                  fontSize: 14.5,
-                  fontWeight: FontWeight.w600,
+              const SizedBox(width: 14),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      _done ? 'MashaAllah!' : 'Today’s small action',
+                      style: displayStyle(
+                        17,
+                        color: _done
+                            ? const Color(0xFF1F8A5B)
+                            : const Color(0xFFB45F0A),
+                      ),
+                    ),
+                    const SizedBox(height: 3),
+                    Text(
+                      _done
+                          ? 'You made someone smile today.'
+                          : 'Say one kind thing to someone.',
+                      style: const TextStyle(
+                        color: brandNavy,
+                        fontSize: 14.5,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 8),
+              Semantics(
+                button: true,
+                label: _done ? 'Done' : 'I did it',
+                child: Pressable(
+                  scale: .9,
+                  child: Material(
+                    color: _done ? const Color(0xFF1F8A5B) : Colors.white,
+                    shape: const StadiumBorder(),
+                    elevation: _done ? 0 : 2,
+                    shadowColor: brandOrange.withValues(alpha: .3),
+                    child: InkWell(
+                      key: const Key('small-action-done'),
+                      customBorder: const StadiumBorder(),
+                      onTap: () => setState(() => _done = !_done),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 10,
+                        ),
+                        child: Icon(
+                          Icons.check_rounded,
+                          size: 22,
+                          color: _done ? Colors.white : brandOrange,
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ],
@@ -417,10 +602,18 @@ class _ContinueCard extends StatelessWidget {
     clipBehavior: Clip.antiAlias,
     decoration: const BoxDecoration(
       borderRadius: BorderRadius.vertical(bottom: Radius.circular(30)),
+      // Storybook evening sky: deep navy at the top-left where the text sits,
+      // warming through violet into a soft sunset pink behind the artwork.
       gradient: LinearGradient(
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
-        colors: [Color(0xFF2C4A7C), brandNavy],
+        colors: [
+          brandNavy,
+          Color(0xFF3B3485),
+          Color(0xFF7A3E8E),
+          Color(0xFFC4507E),
+        ],
+        stops: [0, .42, .75, 1],
       ),
     ),
     child: LayoutBuilder(
@@ -492,7 +685,70 @@ class _ContinueCard extends StatelessWidget {
             style: const TextStyle(fontSize: 14.5, fontWeight: FontWeight.w800),
           ),
         );
+        final w = constraints.maxWidth;
+        final topInset = MediaQuery.paddingOf(context).top;
+        Widget star(double left, double top, double size, double alpha) =>
+            Positioned(
+              left: left,
+              top: top + topInset,
+              child: Icon(
+                Icons.auto_awesome,
+                size: size,
+                color: const Color(0xFFFFE7A8).withValues(alpha: alpha),
+              ),
+            );
+        Widget dot(double left, double top, double size, double alpha) =>
+            Positioned(
+              left: left,
+              top: top + topInset,
+              child: Container(
+                width: size,
+                height: size,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.white.withValues(alpha: alpha),
+                ),
+              ),
+            );
         final rings = [
+          // Warm lamp-light glow behind the reading children.
+          Positioned(
+            right: stacked ? null : -w * .12,
+            left: stacked ? w * .5 - 160 : null,
+            bottom: stacked ? 30 : -90,
+            child: IgnorePointer(
+              child: Container(
+                width: 320,
+                height: 320,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  gradient: RadialGradient(
+                    colors: [
+                      const Color(0xFFFFB45C).withValues(alpha: .55),
+                      const Color(0xFFFF8A5C).withValues(alpha: .18),
+                      const Color(0x00FF8A5C),
+                    ],
+                    stops: const [0, .5, 1],
+                  ),
+                ),
+              ),
+            ),
+          ),
+          // Soft rolling hill along the bottom edge.
+          Positioned(
+            left: -w * .2,
+            right: -w * .2,
+            bottom: -150,
+            child: Container(
+              height: 200,
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.all(
+                  Radius.elliptical(400, 120),
+                ),
+                color: Colors.white.withValues(alpha: .07),
+              ),
+            ),
+          ),
           Positioned(
             left: -60,
             top: -60,
@@ -508,18 +764,32 @@ class _ContinueCard extends StatelessWidget {
               ),
             ),
           ),
+          // Crescent moon.
           Positioned(
-            right: 24,
-            top: 22 + MediaQuery.paddingOf(context).top,
-            child: Container(
-              width: 9,
-              height: 9,
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                color: brandOrange,
+            right: 18,
+            top: 14 + topInset,
+            child: Transform.rotate(
+              angle: -.5,
+              child: Icon(
+                Icons.nightlight_round,
+                size: 26,
+                color: const Color(0xFFFFE7A8),
+                shadows: [
+                  Shadow(
+                    color: const Color(0xFFFFD27A).withValues(alpha: .8),
+                    blurRadius: 14,
+                  ),
+                ],
               ),
             ),
           ),
+          star(w * .38, 18, 14, .85),
+          star(w * .55, 46, 10, .6),
+          star(w * .8, 64, 12, .7),
+          dot(w * .3, 40, 3, .5),
+          dot(w * .66, 22, 3, .7),
+          dot(w * .52, 84, 2.5, .45),
+          dot(w * .9, 40, 2.5, .55),
         ];
         if (stacked) {
           return Stack(
@@ -776,6 +1046,7 @@ Future<void> showCourseDetails(
       MaterialPageRoute(builder: (_) => HadithCourseScreen(scope: hadithScope)),
     );
   }
+  if (hadithScope != null) Rewards.instance.use(hadithScope);
   final entry = courseEntry(index);
   if (entry != null && hadithScope != null) {
     return Navigator.of(

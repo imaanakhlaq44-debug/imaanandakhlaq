@@ -120,6 +120,7 @@ class _LearnerShellState extends State<LearnerShell> {
           maxWidth: _tab < 2 ? double.infinity : 900,
           child: switch (_tab) {
             0 => LearningDashboard(
+              rewardScope: _hadithScope,
               onMap: () => _select(1),
               learner: widget.learner,
               books: _books,

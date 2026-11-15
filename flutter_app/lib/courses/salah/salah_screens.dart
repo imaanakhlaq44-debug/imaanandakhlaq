@@ -1,3 +1,4 @@
+import 'package:imaan_akhlaq/rewards/reward_widgets.dart';
 import 'package:flutter/material.dart';
 import '../../app_theme.dart';
 import '../../screens/ui_kit.dart';
@@ -553,6 +554,22 @@ class SalahMissionScreen extends StatefulWidget {
 }
 
 class _SalahMissionScreenState extends State<SalahMissionScreen> {
+  /// Stars for this mission; the world's badge once its missions are done.
+  void _reward() {
+    final m = widget.mission;
+    final world = widget.data.worlds.where((w) => w.id == m.world).firstOrNull;
+    celebrateFinish(
+      context,
+      course: 'salah',
+      item: m.id,
+      group: m.world,
+      groupTitle: world?.title,
+      groupItems: widget.data.missions
+          .where((x) => x.world == m.world)
+          .map((x) => x.id),
+    );
+  }
+
   late SalahProgress _progress = _clamped(widget.progress);
   late bool _summary = _progress.explored;
   late String? _reflection = _progress.reflection;
@@ -612,12 +629,14 @@ class _SalahMissionScreenState extends State<SalahMissionScreen> {
 
   Future<void> _next() async {
     if (_progress.step < _last) return _step(_progress.step + 1);
+    final first = _progress.completedAt == null;
     final saved = await _persist(
       _progress.copyWith(
         completedAt: _progress.completedAt ?? DateTime.now().toUtc(),
       ),
     );
     if (saved && mounted) {
+      if (first) _reward();
       setState(() => _summary = true);
       _top();
     }

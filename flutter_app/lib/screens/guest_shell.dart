@@ -50,6 +50,7 @@ class _GuestShellState extends State<GuestShell> {
           maxWidth: _tab < 2 ? double.infinity : 900,
           child: switch (_tab) {
             0 => LearningDashboard(
+              rewardScope: 'guest',
               onMap: () => _select(1),
               books: _books,
               onContinue: () => _select(3),
