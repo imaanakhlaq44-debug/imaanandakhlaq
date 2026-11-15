@@ -1,0 +1,689 @@
+{
+  "_source": {
+    "document": "Imaan_Akhlaq_Tafsir_Stories_Volume_04_The_World_of_Gratitude.docx",
+    "thread": "imaa and Akhlaq individual section additions (3–10 Nov 2026)",
+    "extracted": "imaan-email-content-2026-11-14/extracted/05-Tafsir",
+    "review": "Working edition. Arabic, meanings and Tafsir need qualified scholarly review before release."
+  },
+  "world": 4,
+  "title": "The World of Gratitude",
+  "missions": [
+    {
+      "id": "04-01",
+      "number": 1,
+      "title": "The Rain That Woke the Garden",
+      "ayahs": [
+        {
+          "ref": "16:10",
+          "arabic": "هُوَ ٱلَّذِىٓ أَنزَلَ مِنَ ٱلسَّمَآءِ مَآءً ۖ لَّكُم مِّنْهُ شَرَابٌ وَمِنْهُ شَجَرٌ فِيهِ تُسِيمُونَ  ﴿10﴾",
+          "meaning": "Allah sends water from the sky, providing drink and vegetation for grazing animals."
+        },
+        {
+          "ref": "16:11",
+          "arabic": "يُنۢبِتُ لَكُم بِهِ ٱلزَّرْعَ وَٱلزَّيْتُونَ وَٱلنَّخِيلَ وَٱلْأَعْنَـٰبَ وَمِن كُلِّ ٱلثَّمَرَٰتِ ۗ إِنَّ فِى ذَٰلِكَ لَـَٔايَةً لِّقَوْمٍ يَتَفَكَّرُونَ  ﴿11﴾",
+          "meaning": "By rain Allah brings crops, olives, dates, grapes and other fruits; these are signs for reflective people."
+        }
+      ],
+      "options": [
+        "Leave the tap running because water is easy to find.",
+        "Use the water needed and turn the tap off promptly.",
+        "Tell other children they are bad when it does not rain."
+      ],
+      "anchor": "FOCUS AYAHS: 16:10, 16:11  |  CORE VALUES: Gratitude • Reflection • Responsible water use",
+      "aim": "Recognize rain and plants as blessings from Allah and use clean water responsibly.",
+      "tafsir": "Surah An-Nahl calls attention to water sent down from the sky, the vegetation that grows because of it, and the many different crops and fruits that people enjoy. The Qur’an invites us to think rather than pass by these blessings without noticing them. In classical Tafsir, the passage displays Allah’s generosity and His power as Creator and Provider. Water does not simply appear because a shop sells bottles; people plant, gather, purify and distribute it, but Allah is the ultimate Provider of the natural world. The verse also mentions grazing animals, reminding us that rain benefits creatures beyond ourselves. Gratitude can begin with saying al-hamdu lillah, but it should also influence choices such as not wasting water. Being thankful does not mean every place always receives abundant rainfall; drought calls for mercy, practical help and careful stewardship.",
+      "story": "The first rain in weeks fell over Amanpur. Akhlaq watched little puddles form near the family garden, where the tomato plants had looked tired. Imaan fetched a small notebook. “Let’s see what happens to the soil after rain,” she suggested. The next afternoon they noticed new green leaves. Akhlaq hurried to wash the garden tools, leaving the tap running while he talked. Salaam gently closed it and reminded him that the same water was needed by neighbors, animals and farmers. At bedtime Sheikh Uncle showed them An-Nahl 16:10–11. Imaan told Akhlaq that her favorite discovery was not only that rain helped plants grow: a blessing deserved to be treated with care. Akhlaq decided to be more attentive to the water he used.",
+      "question": "While cleaning after gardening, what best shows gratitude for water?",
+      "correct": 1,
+      "feedback": "Correct. Thankfulness can be shown through careful use of a blessing.",
+      "action": "Turn off a running tap when you no longer need the water.",
+      "reflection": "What would happen if our community stopped protecting clean water?",
+      "vocabulary": "Rizq — provision; Tafakkur — thoughtful reflection",
+      "careNote": "Do not claim natural disasters or drought prove individuals are ungrateful. Include water-access equity and adult supervision.",
+      "next": "From the garden, we discover another remarkable provision: animals and bees.",
+      "review": "Identify two ways rain helps living things besides people.",
+      "sourceUrl": null,
+      "sourceDocument": "Imaan_Akhlaq_Tafsir_Stories_Volume_04_The_World_of_Gratitude.docx"
+    },
+    {
+      "id": "04-02",
+      "number": 2,
+      "title": "Milk, Bees and a Little Jar of Honey",
+      "ayahs": [
+        {
+          "ref": "16:66",
+          "arabic": "وَإِنَّ لَكُمْ فِى ٱلْأَنْعَـٰمِ لَعِبْرَةً ۖ نُّسْقِيكُم مِّمَّا فِى بُطُونِهِۦ مِنۢ بَيْنِ فَرْثٍ وَدَمٍ لَّبَنًا خَالِصًا سَآئِغًا لِّلشَّـٰرِبِينَ  ﴿66﴾",
+          "meaning": "There is a lesson in livestock: Allah provides pure, pleasant milk in a remarkable way."
+        },
+        {
+          "ref": "16:68",
+          "arabic": "وَأَوْحَىٰ رَبُّكَ إِلَى ٱلنَّحْلِ أَنِ ٱتَّخِذِى مِنَ ٱلْجِبَالِ بُيُوتًا وَمِنَ ٱلشَّجَرِ وَمِمَّا يَعْرِشُونَ  ﴿68﴾",
+          "meaning": "Allah directed bees to make dwellings in mountains, trees and places people build."
+        },
+        {
+          "ref": "16:69",
+          "arabic": "ثُمَّ كُلِى مِن كُلِّ ٱلثَّمَرَٰتِ فَٱسْلُكِى سُبُلَ رَبِّكِ ذُلُلًا ۚ يَخْرُجُ مِنۢ بُطُونِهَا شَرَابٌ مُّخْتَلِفٌ أَلْوَٰنُهُۥ فِيهِ شِفَآءٌ لِّلنَّاسِ ۗ إِنَّ فِى ذَٰلِكَ لَـَٔايَةً لِّقَوْمٍ يَتَفَكَّرُونَ  ﴿69﴾",
+          "meaning": "Bees gather from plants and produce honey in different colors, containing healing benefit for people; this is a sign for reflection."
+        }
+      ],
+      "options": [
+        "Poke the hive to see what happens.",
+        "Observe from a safe distance and ask a trusted adult.",
+        "Take honey from the hive yourself."
+      ],
+      "anchor": "FOCUS AYAHS: 16:66, 16:68, 16:69  |  CORE VALUES: Wonder • Care • Useful knowledge",
+      "aim": "Value food sources and investigate nature without harming animals or taking unsafe risks.",
+      "tafsir": "The Qur’an directs attention to provision from livestock and to bees, their homes and the honey they produce. Ibn Kathir explains these passages as signs of Allah’s wisdom in creating useful nourishment and directing creatures. The expression about honey containing healing is part of the revealed wording; it is not permission to abandon ordinary treatment for illness. The child should learn that useful scientific observation and belief in Allah’s creation can accompany each other. The verse about bees also provides a model for curiosity: observe where they live and what they do, but do not disturb a hive or assume a bee must be touched to learn from it. Milk and honey are only examples of provision: some people have allergies, dietary restrictions or limited access, and these do not make a child less grateful. Gratitude means valuing what is available without waste or harm.",
+      "story": "Salamah brought home a small jar of honey. “Do you know where this came from?” she asked. Akhlaq guessed, “From a shop!” Imaan laughed gently. She drew a path from flowering plants to bees, beekeepers and the jar on their table. The family visited an educational garden, where a guide showed them a hive from a safe viewing point. Akhlaq was amazed at how carefully the bees moved. Later he wanted to taste honey directly from the hive, but the guide explained why that would be unsafe. Back home Sheikh Uncle read the selected verses of An-Nahl. Akhlaq thanked Allah, the people who worked to bring the food, and the guide who protected the bees. He realized that wonder should lead to careful behavior, not reckless curiosity.",
+      "question": "You see a beehive in a tree. What is the wise response?",
+      "correct": 1,
+      "feedback": "Well chosen. Knowledge grows through safe observation and respect for living creatures.",
+      "action": "Thank someone who helped bring food to your table today.",
+      "reflection": "Which hidden steps connect something we eat to Allah’s creation?",
+      "vocabulary": "Nahl — bee; Ibrah — lesson to reflect on",
+      "careNote": "No honey for infants younger than 12 months; do not use honey in place of medical care. Respect allergies, vegan diets and poverty.",
+      "next": "Our next blessing is not food: it is our capacity to learn.",
+      "review": "Name one animal-care rule and one way to thank a food worker.",
+      "sourceUrl": null,
+      "sourceDocument": "Imaan_Akhlaq_Tafsir_Stories_Volume_04_The_World_of_Gratitude.docx"
+    },
+    {
+      "id": "04-03",
+      "number": 3,
+      "title": "The Eyes, Ears and Heart That Learn",
+      "ayahs": [
+        {
+          "ref": "16:78",
+          "arabic": "وَٱللَّهُ أَخْرَجَكُم مِّنۢ بُطُونِ أُمَّهَـٰتِكُمْ لَا تَعْلَمُونَ شَيْـًٔا وَجَعَلَ لَكُمُ ٱلسَّمْعَ وَٱلْأَبْصَـٰرَ وَٱلْأَفْـِٔدَةَ ۙ لَعَلَّكُمْ تَشْكُرُونَ  ﴿78﴾",
+          "meaning": "Allah brought us into the world knowing nothing and gave us hearing, sight and hearts so we may be grateful."
+        }
+      ],
+      "options": [
+        "Laugh because learning takes them longer.",
+        "Help adapt the activity and appreciate what each person contributes.",
+        "Tell them only one kind of learning counts."
+      ],
+      "anchor": "FOCUS AYAHS: 16:78  |  CORE VALUES: Learning • Humility • Empathy",
+      "aim": "Appreciate the ability to learn and respect different ways people hear, see and communicate.",
+      "tafsir": "Allah reminds humanity that newborn children begin life without knowledge and receive capacities of hearing, seeing and inner understanding. The purpose named by the verse is gratitude. Classical commentators describe these gifts as ways to recognize truth, benefit from guidance and grow in understanding. This does not mean children who are blind, deaf or learn differently lack the capacity to be thankful or spiritually successful. Learning happens through many senses, language systems and supportive tools. The verse speaks to Allah’s provision for human learning and the responsibility to use what we can for good. A grateful learner asks questions, listens to correction and uses knowledge kindly. In our educational application, we can connect the verse to observation and classroom cooperation without pretending that an achievement badge is equal to the worship and thanks owed to Allah.",
+      "story": "Akhlaq was frustrated because a puzzle that looked simple took him longer than expected. Mohsina, who enjoyed explaining patterns, showed him another way to sort the pieces. Imaan noticed a classmate learning through a screen reader and asked whether they could offer the puzzle in a way everyone could use. The group began describing the shapes aloud and feeling their edges. The puzzle suddenly became a team adventure. That evening Salaam reminded them that nobody is born knowing everything. Their skills grow through Allah’s gifts, patient teachers and repeated effort. Akhlaq realized that being thankful for his learning abilities also meant respecting classmates whose abilities were different. He thanked Mohsina for her help instead of pretending he had solved everything alone.",
+      "question": "A classmate learns in a different way. What demonstrates gratitude and respect?",
+      "correct": 1,
+      "feedback": "Exactly. Learning is a blessing, and kindness makes learning more inclusive.",
+      "action": "Learn one new useful fact today and share it respectfully.",
+      "reflection": "What helps me learn when something is difficult?",
+      "vocabulary": "Sam‘ — hearing; Absar — sight; Af’idah — hearts / inner understanding",
+      "careNote": "No deficit framing of disability, no demand for hearing/vision demonstrations. Support captions and screen readers.",
+      "next": "Next, we notice the places that help families feel safe.",
+      "review": "Describe one way to include a friend with a different learning need.",
+      "sourceUrl": null,
+      "sourceDocument": "Imaan_Akhlaq_Tafsir_Stories_Volume_04_The_World_of_Gratitude.docx"
+    },
+    {
+      "id": "04-04",
+      "number": 4,
+      "title": "A Home, a Shade and a Place to Rest",
+      "ayahs": [
+        {
+          "ref": "16:80",
+          "arabic": "وَٱللَّهُ جَعَلَ لَكُم مِّنۢ بُيُوتِكُمْ سَكَنًا وَجَعَلَ لَكُم مِّن جُلُودِ ٱلْأَنْعَـٰمِ بُيُوتًا تَسْتَخِفُّونَهَا يَوْمَ ظَعْنِكُمْ وَيَوْمَ إِقَامَتِكُمْ ۙ وَمِنْ أَصْوَافِهَا وَأَوْبَارِهَا وَأَشْعَارِهَآ أَثَـٰثًا وَمَتَـٰعًا إِلَىٰ حِينٍ  ﴿80﴾",
+          "meaning": "Allah made homes a place of rest and provided materials from animals for movable shelters and useful furnishings."
+        },
+        {
+          "ref": "16:81",
+          "arabic": "وَٱللَّهُ جَعَلَ لَكُم مِّمَّا خَلَقَ ظِلَـٰلًا وَجَعَلَ لَكُم مِّنَ ٱلْجِبَالِ أَكْنَـٰنًا وَجَعَلَ لَكُمْ سَرَٰبِيلَ تَقِيكُمُ ٱلْحَرَّ وَسَرَٰبِيلَ تَقِيكُم بَأْسَكُمْ ۚ كَذَٰلِكَ يُتِمُّ نِعْمَتَهُۥ عَلَيْكُمْ لَعَلَّكُمْ تُسْلِمُونَ  ﴿81﴾",
+          "meaning": "Allah provided shade, places of refuge and clothing for protection, completing His favors so people may submit to Him."
+        }
+      ],
+      "options": [
+        "Keep playing even if the child feels faint.",
+        "Move to a safe shady place and tell an adult.",
+        "Ask the classmate to explain their home situation."
+      ],
+      "anchor": "FOCUS AYAHS: 16:80, 16:81  |  CORE VALUES: Shelter • Family care • Empathy",
+      "aim": "Recognize housing, shade and protective clothing as blessings and show care for others.",
+      "tafsir": "The Qur’an mentions homes as places of tranquility, portable dwellings, coverings made from animals, shelter in mountains, shade, and garments for protection. Ibn Kathir discusses these as favors that help people live, travel, and withstand heat and danger. The passage is not saying all homes look alike or that every family has the same resources. Some children live with extended relatives, in apartments, or in temporary housing. The spiritual point is that Allah has made the world contain means of safety and shelter, which people also have a duty to use justly. Gratitude is expressed through keeping shared places welcoming, appreciating caregivers and being concerned for people without secure shelter. In this app, children should not be invited to reveal addresses, describe family instability, or feel ashamed about the kind of home they live in.",
+      "story": "A sudden hot afternoon forced the children to stop their outdoor game. Imaan invited the group into a shaded school veranda. Akhlaq complained that the game had ended too early, but Mohsin said his younger brother had been getting dizzy in the heat. Their teacher praised the decision to rest. Later Salaam showed them how a family traveling long ago might have used a tent for shelter. Dadi Jaan described times when neighbors helped one another through difficult weather. Akhlaq compared the shade at school, the roof over their family, and a borrowed umbrella. They were different things, but each helped someone. He started to understand gratitude not as boasting about his own home but as recognizing Allah’s provisions and caring when someone else needed protection.",
+      "question": "A classmate feels unwell in the heat. What is the best choice?",
+      "correct": 1,
+      "feedback": "Yes. Respecting a blessing includes protecting people and seeking help.",
+      "action": "Help make one shared space at home or school more comfortable today.",
+      "reflection": "How can I be grateful for shelter without comparing families?",
+      "vocabulary": "Sakan — restful dwelling; Ni‘mah — blessing",
+      "careNote": "Do not collect home-address details or compare housing wealth; include a heat-safety adult-help step.",
+      "next": "Allah tells us that His blessings cannot be fully counted.",
+      "review": "Choose a safe shelter option during hot weather and explain why.",
+      "sourceUrl": null,
+      "sourceDocument": "Imaan_Akhlaq_Tafsir_Stories_Volume_04_The_World_of_Gratitude.docx"
+    },
+    {
+      "id": "04-05",
+      "number": 5,
+      "title": "More Blessings Than We Can Count",
+      "ayahs": [
+        {
+          "ref": "16:18",
+          "arabic": "وَإِن تَعُدُّوا۟ نِعْمَةَ ٱللَّهِ لَا تُحْصُوهَآ ۗ إِنَّ ٱللَّهَ لَغَفُورٌ رَّحِيمٌ  ﴿18﴾",
+          "meaning": "If people tried to count Allah’s favors, they could not encompass them; He is Forgiving and Merciful."
+        },
+        {
+          "ref": "16:53",
+          "arabic": "وَمَا بِكُم مِّن نِّعْمَةٍ فَمِنَ ٱللَّهِ ۖ ثُمَّ إِذَا مَسَّكُمُ ٱلضُّرُّ فَإِلَيْهِ تَجْـَٔرُونَ  ﴿53﴾",
+          "meaning": "Every blessing we have is from Allah; in hardship people turn to Him for help."
+        }
+      ],
+      "options": [
+        "Ignore it because small blessings do not matter.",
+        "Thank Allah and appreciate the people who helped.",
+        "Assume anyone facing hardship has been ungrateful."
+      ],
+      "anchor": "FOCUS AYAHS: 16:18, 16:53  |  CORE VALUES: Awareness • Humility • Reliance on Allah",
+      "aim": "Understand that gratitude includes noticing both obvious and overlooked blessings.",
+      "tafsir": "An-Nahl teaches that people cannot fully count Allah’s blessings and that every blessing originates ultimately from Him. It also observes that hardship often turns the human heart toward Allah for help. Classical Tafsir highlights how broad divine favors are and how dependent human beings remain on their Creator. An app can invite children to notice food, time, safety, friendship or chances to learn, but must not imply that a child who is ill, poor or distressed is less loved by Allah. Gratitude is not a contest to see whose life is easiest; it is honest recognition and worship. We should also teach the difference between thanking Allah as Provider and thanking human beings for helping us, since the two are compatible. The story mode can show how an ordinary moment contains several quiet acts of care that a child might miss.",
+      "story": "Akhlaq was preparing a school list titled “My Five Favorite Things.” He quickly wrote bicycle, cricket bat, books, headphones and mangoes. Imaan asked if they could create a second list called “Blessings I Almost Missed.” At first he could think of nothing. Then the electricity returned after a power cut, Dadi Jaan called to check on him, and his teacher sent a helpful note about homework. The list grew: clean water, useful advice, people who care, and another opportunity to try. Sheikh Uncle explained that they would never be able to list every gift from Allah. Akhlaq looked at his pages and smiled. The first list was not wrong; the second helped him notice a much bigger picture.",
+      "question": "You notice a helpful thing you usually overlook. What should you do?",
+      "correct": 1,
+      "feedback": "Good. A grateful heart sees everyday blessings without judging other people’s struggles.",
+      "action": "Write or say one sincere thank-you for an overlooked blessing today.",
+      "reflection": "Which ordinary blessing would I miss if it disappeared?",
+      "vocabulary": "Shukr — gratitude; Tawakkul — reliance on Allah",
+      "careNote": "Avoid prosperity theology and blaming victims. No wealth comparisons, forced disclosure or shame.",
+      "next": "But thanking Allah also changes how we treat others.",
+      "review": "Name one blessing and one responsible way to use it.",
+      "sourceUrl": null,
+      "sourceDocument": "Imaan_Akhlaq_Tafsir_Stories_Volume_04_The_World_of_Gratitude.docx"
+    },
+    {
+      "id": "04-06",
+      "number": 6,
+      "title": "Gratitude Looks Like Fairness",
+      "ayahs": [
+        {
+          "ref": "16:90",
+          "arabic": "إِنَّ ٱللَّهَ يَأْمُرُ بِٱلْعَدْلِ وَٱلْإِحْسَـٰنِ وَإِيتَآئِ ذِى ٱلْقُرْبَىٰ وَيَنْهَىٰ عَنِ ٱلْفَحْشَآءِ وَٱلْمُنكَرِ وَٱلْبَغْىِ ۚ يَعِظُكُمْ لَعَلَّكُمْ تَذَكَّرُونَ  ﴿90﴾",
+          "meaning": "Allah commands justice, excellence and generosity toward relatives and forbids indecency, wrongdoing and oppression."
+        }
+      ],
+      "options": [
+        "Give everything to the loudest child.",
+        "Agree on fair turns and help everyone contribute.",
+        "Exclude whoever cannot afford materials."
+      ],
+      "anchor": "FOCUS AYAHS: 16:90  |  CORE VALUES: Justice • Ihsan • Care for relatives",
+      "aim": "Connect sincere gratitude with fair, excellent and generous treatment of people.",
+      "tafsir": "This famous verse commands justice, ihsan—doing what is right with excellence—and generosity to relatives, while it forbids immorality, wrong and oppression. Classical Tafsir explains it as a broad statement of the conduct Allah requires. A child can learn that grateful worship is not limited to saying thanks before a meal; it should also influence taking turns, sharing responsibilities, avoiding unfair treatment and honoring family ties. The command to treat relatives well does not mean that children must accept mistreatment, keep unsafe secrets or give belongings under pressure. Justice requires attention to other people’s rights. Ihsan is also more than being praised for being “nice”: it means doing what is good sincerely and carefully. The game should reward choosing a fair process, not simply agreeing with the strongest character in a scene.",
+      "story": "The children planned a school art exhibition. Akhlaq wanted his own drawing to be displayed at the front because he had bought the largest paper. Mohsina pointed out that several classmates had worked hard, too. Their teacher suggested fair criteria: everyone would receive space, and volunteers would help those who needed materials. Imaan reminded Akhlaq of the Qur’anic instruction to act justly and with ihsan. At first he felt disappointed, but he helped organize the display so every child could participate. During the opening, a younger student dropped a picture frame. Instead of blaming him, Akhlaq helped repair it. He discovered that a good exhibition was not only beautiful artwork; it was also the fair and generous way everyone had worked together.",
+      "question": "Two children want the same role in a team project. What fits the ayah?",
+      "correct": 1,
+      "feedback": "Correct. Gratitude becomes visible through justice and thoughtful help.",
+      "action": "Offer someone a fair turn in a shared activity today.",
+      "reflection": "What does doing a good thing with ihsan look like?",
+      "vocabulary": "‘Adl — justice; Ihsan — excellence in good; Baghy — oppression",
+      "careNote": "Preserve the verse’s serious moral commands; do not reduce it to politeness only. Support safe adult reporting.",
+      "next": "We now read a warning about taking safety and food for granted.",
+      "review": "Explain why a fair rule can be kinder than choosing favorites.",
+      "sourceUrl": null,
+      "sourceDocument": "Imaan_Akhlaq_Tafsir_Stories_Volume_04_The_World_of_Gratitude.docx"
+    },
+    {
+      "id": "04-07",
+      "number": 7,
+      "title": "The Town That Forgot to Say Thanks",
+      "ayahs": [
+        {
+          "ref": "16:112",
+          "arabic": "وَضَرَبَ ٱللَّهُ مَثَلًا قَرْيَةً كَانَتْ ءَامِنَةً مُّطْمَئِنَّةً يَأْتِيهَا رِزْقُهَا رَغَدًا مِّن كُلِّ مَكَانٍ فَكَفَرَتْ بِأَنْعُمِ ٱللَّهِ فَأَذَٰقَهَا ٱللَّهُ لِبَاسَ ٱلْجُوعِ وَٱلْخَوْفِ بِمَا كَانُوا۟ يَصْنَعُونَ  ﴿112﴾",
+          "meaning": "Allah gives the example of a secure, well-provided town that denied His favors and experienced hunger and fear."
+        },
+        {
+          "ref": "16:113",
+          "arabic": "وَلَقَدْ جَآءَهُمْ رَسُولٌ مِّنْهُمْ فَكَذَّبُوهُ فَأَخَذَهُمُ ٱلْعَذَابُ وَهُمْ ظَـٰلِمُونَ  ﴿113﴾",
+          "meaning": "A messenger came to those people, but they rejected him and faced consequences while doing wrong."
+        },
+        {
+          "ref": "16:114",
+          "arabic": "فَكُلُوا۟ مِمَّا رَزَقَكُمُ ٱللَّهُ حَلَـٰلًا طَيِّبًا وَٱشْكُرُوا۟ نِعْمَتَ ٱللَّهِ إِن كُنتُمْ إِيَّاهُ تَعْبُدُونَ  ﴿114﴾",
+          "meaning": "Eat what Allah has provided that is lawful and good, and thank Allah for His blessing if you worship Him."
+        }
+      ],
+      "options": [
+        "Assume they must have done something wrong.",
+        "Ask a trusted adult how to support them respectfully.",
+        "Share their private situation with everyone online."
+      ],
+      "anchor": "FOCUS AYAHS: 16:112, 16:113, 16:114  |  CORE VALUES: Community gratitude • Responsibility • Food",
+      "aim": "Learn from a Qur’anic parable about rejecting blessings and choosing responsible community habits.",
+      "tafsir": "Allah presents the example of a town that had security and plentiful provision but denied His favors and rejected a messenger. The passage warns of hunger and fear, and then instructs people to eat lawful, wholesome provision with gratitude. Ibn Kathir connects this example with the danger of unbelief and ingratitude, not merely careless table habits. Teaching it faithfully requires keeping the theological warning while avoiding a false conclusion that today’s hunger, displacement or disaster proves the victims have been ungrateful. The example belongs to its revealed setting and Qur’anic lesson. A modern child can respond by being thankful for safe food and by helping people who need support. The app should not depict starving children as objects of blame or turn divine punishment into frightening game mechanics. Community responsibility is the appropriate practical application.",
+      "story": "In Amanpur, a classroom project asked students to design a kind neighborhood. Akhlaq drew a large food market, but he forgot the community pantry beside it. Mohsin explained that some families sometimes needed extra help. Imaan suggested creating a sharing shelf for unopened, suitable food under teacher supervision. During their Qur’an lesson, Sheikh Uncle read the example of the town in An-Nahl and explained that it was a serious warning about denying Allah’s favors and rejecting guidance. He also reminded them not to judge people who were hungry or frightened. Akhlaq adjusted his drawing. His imaginary market now included a clean, respectful place where neighbors could help one another. He understood that gratitude should help us protect the dignity of those who need support.",
+      "question": "A family needs help obtaining food. What is the responsible response?",
+      "correct": 1,
+      "feedback": "Well done. Gratitude encourages compassionate responsibility, not blame.",
+      "action": "With an adult, set aside one suitable food item for a community sharing effort.",
+      "reflection": "How can a community show gratitude together?",
+      "vocabulary": "Balad — town; Halal — lawful; Tayyib — good and wholesome",
+      "careNote": "Never use hunger as proof of divine punishment on real people. Food donations must follow safety and adult supervision.",
+      "next": "We move to Surah Ibrahim, where Allah makes a promise about gratitude.",
+      "review": "Identify one safe and dignified way to help someone facing food insecurity.",
+      "sourceUrl": null,
+      "sourceDocument": "Imaan_Akhlaq_Tafsir_Stories_Volume_04_The_World_of_Gratitude.docx"
+    },
+    {
+      "id": "04-08",
+      "number": 8,
+      "title": "If You Are Grateful, I Will Increase You",
+      "ayahs": [
+        {
+          "ref": "14:7",
+          "arabic": "وَإِذْ تَأَذَّنَ رَبُّكُمْ لَئِن شَكَرْتُمْ لَأَزِيدَنَّكُمْ ۖ وَلَئِن كَفَرْتُمْ إِنَّ عَذَابِى لَشَدِيدٌ  ﴿7﴾",
+          "meaning": "Allah proclaimed that grateful people would receive increase, while ingratitude carries a serious warning."
+        }
+      ],
+      "options": [
+        "If I say thanks once, Allah must give me a prize today.",
+        "I thank Allah sincerely and use His gifts well, trusting His wisdom.",
+        "Only wealthy people are truly thankful."
+      ],
+      "anchor": "FOCUS AYAHS: 14:7  |  CORE VALUES: Shukr • Trust • Patience",
+      "aim": "Learn the Qur’anic promise connected with gratitude without treating Allah’s blessings as prizes.",
+      "tafsir": "In Surah Ibrahim, Musa reminds his people of Allah’s favors, and verse 7 records the proclamation that gratitude is connected with increase while denying blessings is met with a severe warning. In Ibn Kathir and al-Tabari, this speaks to thanking Allah for His favors and the seriousness of ingratitude. It is not a promise that every grateful child will immediately receive a newer toy, win a competition or avoid illness. Allah gives and tests in His wisdom; our responsibility is to recognize His bounty and obey Him. The child-friendly lesson can distinguish thankfulness from bargaining. We thank Allah because He is worthy of thanks, not because the app has offered points. Gratitude involves heart, words and deeds, such as using time, skills and possessions in a way that pleases Him.",
+      "story": "Akhlaq had practised cycling for weeks, yet his friend Mohsin learned a tricky turn before he did. “I was grateful yesterday,” Akhlaq complained. “Why didn’t I get better today?” Imaan suggested that gratitude was not a switch that made every wish happen immediately. They visited Sheikh Uncle, who explained the promise in Surah Ibrahim without turning it into a reward machine. Akhlaq began noticing other gifts: a safe place to practise, a patient friend and the chance to improve. He tried again the next day, first checking his helmet. Sometimes he improved and sometimes he fell short, but he no longer measured his thankfulness by instant success. He learned to say al-hamdu lillah while making a sincere effort.",
+      "question": "Which thought best understands the promise of gratitude?",
+      "correct": 1,
+      "feedback": "Exactly. Shukr is worship, not a bargain for instant rewards.",
+      "action": "Use one ability Allah gave you to help someone today.",
+      "reflection": "What can I thank Allah for while still working toward a goal?",
+      "vocabulary": "Shukr — gratitude; Ziyadah — increase",
+      "careNote": "Never guarantee health, wealth, grades or prizes as an automatic response to Du’a or gratitude.",
+      "next": "Surah Ibrahim then invites us to notice a whole world of provision.",
+      "review": "Finish the sentence: “I am grateful for ___, so I will use it by ___.”",
+      "sourceUrl": null,
+      "sourceDocument": "Imaan_Akhlaq_Tafsir_Stories_Volume_04_The_World_of_Gratitude.docx"
+    },
+    {
+      "id": "04-09",
+      "number": 9,
+      "title": "The Sun, the River and a Thousand Gifts",
+      "ayahs": [
+        {
+          "ref": "14:32",
+          "arabic": "ٱللَّهُ ٱلَّذِى خَلَقَ ٱلسَّمَـٰوَٰتِ وَٱلْأَرْضَ وَأَنزَلَ مِنَ ٱلسَّمَآءِ مَآءً فَأَخْرَجَ بِهِۦ مِنَ ٱلثَّمَرَٰتِ رِزْقًا لَّكُمْ ۖ وَسَخَّرَ لَكُمُ ٱلْفُلْكَ لِتَجْرِىَ فِى ٱلْبَحْرِ بِأَمْرِهِۦ ۖ وَسَخَّرَ لَكُمُ ٱلْأَنْهَـٰرَ  ﴿32﴾",
+          "meaning": "Allah created heaven and earth, sends rain and fruits, and made ships and rivers useful for people."
+        },
+        {
+          "ref": "14:33",
+          "arabic": "وَسَخَّرَ لَكُمُ ٱلشَّمْسَ وَٱلْقَمَرَ دَآئِبَيْنِ ۖ وَسَخَّرَ لَكُمُ ٱلَّيْلَ وَٱلنَّهَارَ  ﴿33﴾",
+          "meaning": "Allah made the sun and moon serve their courses and made night and day useful for people."
+        },
+        {
+          "ref": "14:34",
+          "arabic": "وَءَاتَىٰكُم مِّن كُلِّ مَا سَأَلْتُمُوهُ ۚ وَإِن تَعُدُّوا۟ نِعْمَتَ ٱللَّهِ لَا تُحْصُوهَآ ۗ إِنَّ ٱلْإِنسَـٰنَ لَظَلُومٌ كَفَّارٌ  ﴿34﴾",
+          "meaning": "Allah gives people many blessings; their number cannot be fully counted, yet humans can be unjust and ungrateful."
+        }
+      ],
+      "options": [
+        "Drop litter because rivers are large.",
+        "Keep waste out of the water and follow safety rules.",
+        "Go into deep water without an adult."
+      ],
+      "anchor": "FOCUS AYAHS: 14:32, 14:33, 14:34  |  CORE VALUES: Reflection • Stewardship • Humility",
+      "aim": "See the earth’s systems as signs of Allah’s provision while appreciating human work and responsibility.",
+      "tafsir": "Surah Ibrahim points toward the heavens, earth, rain, fruits, ships, rivers, sun, moon, night and day as gifts made beneficial for humanity. It concludes that humans cannot count Allah’s blessings and can be unjust and ungrateful. The repeated images are not a license to waste resources: their usefulness places responsibility upon us. Classical Tafsir emphasizes the Creator’s provision and the human need to respond with worship. A child can connect this to travel, farming, navigation and daily schedules without presenting modern technology as a miracle guaranteed by a specific verse. People use knowledge and effort, and those means themselves exist within Allah’s creation. Gratitude deepens when children notice workers, protect shared resources and learn rather than merely consume. The lesson should emphasize wonder without claiming the Qur’an provides a detailed modern scientific diagram.",
+      "story": "The class visited a small riverside learning centre. Imaan watched sunlight shine on the water while Akhlaq studied a display about boats carrying food to towns. He had never thought about all the people involved: growers, drivers, boat workers, market staff and families. When he threw a snack wrapper near a bench, Mohsina asked him to pick it up so the wind would not carry it into the river. In the evening Sheikh Uncle read the verses from Surah Ibrahim. He reminded them that Allah created and made available the natural world, while human beings are responsible for what they do with it. Akhlaq returned the wrapper to a bin and began drawing a map connecting sunlight, water, farms, travel and grateful choices.",
+      "question": "What shows gratitude during a visit near a river?",
+      "correct": 1,
+      "feedback": "Yes. Gratitude includes caring for shared gifts and keeping yourself safe.",
+      "action": "Put one piece of litter into the correct bin today, using safe hygiene.",
+      "reflection": "Which things do people work together to provide from Allah’s creation?",
+      "vocabulary": "Taskhir — making beneficial; Rizq — provision",
+      "careNote": "No unsupervised water activities. Avoid claiming modern scientific details were explicitly laid out in the verse.",
+      "next": "We now learn to remember Allah at ordinary moments, including meals.",
+      "review": "List two ways a community benefits from clean waterways.",
+      "sourceUrl": null,
+      "sourceDocument": "Imaan_Akhlaq_Tafsir_Stories_Volume_04_The_World_of_Gratitude.docx"
+    },
+    {
+      "id": "04-10",
+      "number": 10,
+      "title": "Remember, Eat and Give Thanks",
+      "ayahs": [
+        {
+          "ref": "2:152",
+          "arabic": "فَٱذْكُرُونِىٓ أَذْكُرْكُمْ وَٱشْكُرُوا۟ لِى وَلَا تَكْفُرُونِ  ﴿152﴾",
+          "meaning": "Remember Allah and He will remember you; be thankful to Him and do not deny His blessings."
+        },
+        {
+          "ref": "2:172",
+          "arabic": "يَـٰٓأَيُّهَا ٱلَّذِينَ ءَامَنُوا۟ كُلُوا۟ مِن طَيِّبَـٰتِ مَا رَزَقْنَـٰكُمْ وَٱشْكُرُوا۟ لِلَّهِ إِن كُنتُمْ إِيَّاهُ تَعْبُدُونَ  ﴿172﴾",
+          "meaning": "Believers are told to eat the good things Allah has provided and thank Him in worship."
+        }
+      ],
+      "options": [
+        "Take all the food you like without asking.",
+        "Remember Allah and make sure others can eat safely.",
+        "Mock a friend who has a food allergy."
+      ],
+      "anchor": "FOCUS AYAHS: 2:152, 2:172  |  CORE VALUES: Dhikr • Good food habits • Worship",
+      "aim": "Connect remembrance of Allah with lawful food and everyday gratitude.",
+      "tafsir": "Surah Al-Baqarah commands believers to remember Allah and thank Him, and later directs them to eat from the good provision He has given and show gratitude if they worship Him. These are distinct verses brought together here as one practical theme, not a single continuous Qur’anic passage. Classical Tafsir relates their commands to sincere remembrance, worship and the acknowledgment that food ultimately comes from Allah. For young children, the lesson can connect with the independently documented Sunnah of saying Bismillah before eating and praising Allah afterward, but it should not invent a new fixed Du’a for these ayahs. Healthy eating, food accessibility, allergies, and family differences require kindness. We should avoid teaching that every food choice demonstrates another child’s degree of faith, while still explaining the authentic religious importance of lawful and wholesome provision.",
+      "story": "At lunchtime, Akhlaq reached for the largest slice of bread while Imaan was still helping their younger cousin. Salamah suggested they begin together and notice who had not yet been served. The family said Bismillah and ate. Later Akhlaq remembered that a classmate could not eat the same snack because of an allergy. At their next school picnic, he asked the teacher which choices would be safe for everyone. Sheikh Uncle connected their daily manners with the Qur’anic guidance to remember Allah and be thankful for good provision. Akhlaq discovered that appreciation was not merely saying a phrase quickly: it also meant patience, respect for other needs, and thoughtful use of what Allah provided.",
+      "question": "At a shared meal, what is a grateful and considerate choice?",
+      "correct": 1,
+      "feedback": "Well done. Gratitude and care for others can grow together.",
+      "action": "Say Bismillah before one meal today and eat with considerate manners.",
+      "reflection": "How does remembering Allah change the way I treat people at meals?",
+      "vocabulary": "Dhikr — remembrance; Tayyibat — wholesome good things",
+      "careNote": "Label the two ayahs separately. Do not merge them into a fabricated Qur’anic quotation; check dietary needs.",
+      "next": "Surah Ar-Rahman introduces mercy and the blessing of revelation itself.",
+      "review": "Tell a parent why gratitude includes both words and manners.",
+      "sourceUrl": null,
+      "sourceDocument": "Imaan_Akhlaq_Tafsir_Stories_Volume_04_The_World_of_Gratitude.docx"
+    },
+    {
+      "id": "04-11",
+      "number": 11,
+      "title": "The Most Merciful Taught the Qur’an",
+      "ayahs": [
+        {
+          "ref": "55:1",
+          "arabic": "ٱلرَّحْمَـٰنُ  ﴿1﴾",
+          "meaning": "Allah is Ar-Rahman, the Most Merciful."
+        },
+        {
+          "ref": "55:2",
+          "arabic": "عَلَّمَ ٱلْقُرْءَانَ  ﴿2﴾",
+          "meaning": "He taught the Qur’an."
+        },
+        {
+          "ref": "55:3",
+          "arabic": "خَلَقَ ٱلْإِنسَـٰنَ  ﴿3﴾",
+          "meaning": "He created humankind."
+        },
+        {
+          "ref": "55:4",
+          "arabic": "عَلَّمَهُ ٱلْبَيَانَ  ﴿4﴾",
+          "meaning": "He taught humans expression and communication."
+        },
+        {
+          "ref": "55:5",
+          "arabic": "ٱلشَّمْسُ وَٱلْقَمَرُ بِحُسْبَانٍ  ﴿5﴾",
+          "meaning": "The sun and moon follow a precise reckoning."
+        },
+        {
+          "ref": "55:6",
+          "arabic": "وَٱلنَّجْمُ وَٱلشَّجَرُ يَسْجُدَانِ  ﴿6﴾",
+          "meaning": "The stars or low-growing plants and the trees submit to Allah (the wording is discussed in Tafsir)."
+        }
+      ],
+      "options": [
+        "Interrupt and embarrass them.",
+        "Offer patient help or supportive listening.",
+        "Say they cannot learn if they do not speak easily."
+      ],
+      "anchor": "FOCUS AYAHS: 55:1, 55:2, 55:3, 55:4, 55:5, 55:6  |  CORE VALUES: Mercy • Revelation • Speech",
+      "aim": "Value the Qur’an and the gift of communication as blessings from Allah.",
+      "tafsir": "Surah Ar-Rahman opens with the Divine Name Ar-Rahman and immediately names teaching the Qur’an as a great mercy. It then mentions creating humankind, enabling expression, and the ordered courses of the sun and moon. Its reference to stars or low plants and trees submitting to Allah has more than one early interpretation, as classical exegetes explain. A children’s lesson should avoid making one uncertain meaning the only possible explanation. The order teaches that Allah’s mercy is not limited to material objects; revelation itself is a precious gift. Speech and expression should be used truthfully and gently. The verses also encourage wonder at the natural order without turning Qur’anic expressions into unsupported technical predictions. Children who communicate without spoken words are equally capable of learning guidance and expressing gratitude. The application should connect Qur’an, listening, language and respectful conversation.",
+      "story": "Imaan was preparing to read a short ayah during the school assembly. Akhlaq wanted to help but kept correcting her impatiently. Mohsina suggested using a slow audio recording so the group could practise one phrase at a time. A student who used a communication board joined them by selecting the meaning of a kindness word. The teacher praised their cooperation and reminded them that communication takes many forms. Later Sheikh Uncle read the opening of Surah Ar-Rahman and explained how teaching the Qur’an is one of Allah’s great mercies. Akhlaq realized that helping someone learn should itself be gentle. He practised his own reading again, this time listening patiently instead of interrupting.",
+      "question": "Your friend is learning an ayah slowly. What reflects mercy?",
+      "correct": 1,
+      "feedback": "Correct. Helping someone learn with respect is a beautiful response to Allah’s gifts.",
+      "action": "Listen attentively to a short Qur’anic recitation today.",
+      "reflection": "How can I use my words, signs or actions to help rather than hurt?",
+      "vocabulary": "Ar-Rahman — the Most Merciful; Bayan — expression",
+      "careNote": "No depiction of Allah; include nonverbal communication accessibility. Note exegetical difference at 55:6.",
+      "next": "The next verses connect the balance in creation to fairness among people.",
+      "review": "Choose a kind response when a classmate makes a reading mistake.",
+      "sourceUrl": null,
+      "sourceDocument": "Imaan_Akhlaq_Tafsir_Stories_Volume_04_The_World_of_Gratitude.docx"
+    },
+    {
+      "id": "04-12",
+      "number": 12,
+      "title": "The Balance of Justice",
+      "ayahs": [
+        {
+          "ref": "55:7",
+          "arabic": "وَٱلسَّمَآءَ رَفَعَهَا وَوَضَعَ ٱلْمِيزَانَ  ﴿7﴾",
+          "meaning": "Allah raised the sky and established the balance."
+        },
+        {
+          "ref": "55:8",
+          "arabic": "أَلَّا تَطْغَوْا۟ فِى ٱلْمِيزَانِ  ﴿8﴾",
+          "meaning": "People must not transgress against that balance."
+        },
+        {
+          "ref": "55:9",
+          "arabic": "وَأَقِيمُوا۟ ٱلْوَزْنَ بِٱلْقِسْطِ وَلَا تُخْسِرُوا۟ ٱلْمِيزَانَ  ﴿9﴾",
+          "meaning": "Establish weighing with fairness and do not give short measure."
+        },
+        {
+          "ref": "55:10",
+          "arabic": "وَٱلْأَرْضَ وَضَعَهَا لِلْأَنَامِ  ﴿10﴾",
+          "meaning": "Allah laid out the earth for its creatures."
+        },
+        {
+          "ref": "55:11",
+          "arabic": "فِيهَا فَـٰكِهَةٌ وَٱلنَّخْلُ ذَاتُ ٱلْأَكْمَامِ  ﴿11﴾",
+          "meaning": "It contains fruits and palm trees with their coverings."
+        },
+        {
+          "ref": "55:12",
+          "arabic": "وَٱلْحَبُّ ذُو ٱلْعَصْفِ وَٱلرَّيْحَانُ  ﴿12﴾",
+          "meaning": "It contains grains and fragrant plants."
+        },
+        {
+          "ref": "55:13",
+          "arabic": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ  ﴿13﴾",
+          "meaning": "Which of your Lord’s favors will you both deny? The repeated address includes humans and jinn."
+        }
+      ],
+      "options": [
+        "Quietly make one portion smaller for extra profit.",
+        "Measure fairly and correct mistakes honestly.",
+        "Blame someone who made an honest mistake."
+      ],
+      "anchor": "FOCUS AYAHS: 55:7, 55:8, 55:9, 55:10, 55:11, 55:12, 55:13  |  CORE VALUES: Justice • Fair measurements • Reflective gratitude",
+      "aim": "Connect the Qur’anic balance imagery with fairness and truthful measuring.",
+      "tafsir": "Allah describes establishing the heavens and the balance, forbids transgressing that balance, and commands people to weigh with equity. The passage then mentions the earth, fruits, grain and fragrant plants before the repeated challenge: which favors of your Lord will you both deny? In classical Tafsir the mizan points to justice and fair measure as well as the order established by Allah. The repeated address encompasses humans and jinn; it is not merely a catchy refrain to chant for game points. The child’s application can include truthful measurement, honest sharing and keeping promises. A game may use a toy scale to teach fair quantities, but the Quranic command is broader than a math exercise. Fairness is a way to honour Allah’s gifts. Children should never be told that a mistake in a school measurement is a sin; distinguish honest error from deliberate cheating.",
+      "story": "The Amanpur school fair had a small fruit stall. Akhlaq was in charge of preparing equal bags of dates for the visitors. He rushed, and some bags were much heavier than others. Mohsin suggested using the little kitchen scale borrowed from the teacher. When they measured carefully, everyone received a fair portion. Imaan read part of Surah Ar-Rahman about the mizan. She explained that the scale helped them understand one aspect of the command, though the verse also spoke about justice in life. Later a child accidentally spilled dates, and Akhlaq helped clean up without blame. He had learned that justice requires honesty and patience, not only a perfectly balanced scale.",
+      "question": "Two people are buying equal portions. What should you do?",
+      "correct": 1,
+      "feedback": "Right. Fairness is a thankful use of trust and responsibility.",
+      "action": "Give fair turns or portions in one shared activity today.",
+      "reflection": "When does fairness require me to slow down and check?",
+      "vocabulary": "Mizan — balance; Qist — equity",
+      "careNote": "Do not treat repeated refrain as a prescribed count in daily worship. Avoid legal overclaims from children’s puzzles.",
+      "next": "Surah Ar-Rahman continues with signs of Allah’s generous dominion over the seas.",
+      "review": "Explain the difference between a mistake and deliberate unfairness.",
+      "sourceUrl": null,
+      "sourceDocument": "Imaan_Akhlaq_Tafsir_Stories_Volume_04_The_World_of_Gratitude.docx"
+    },
+    {
+      "id": "04-13",
+      "number": 13,
+      "title": "Across the Seas: Gifts We Do Not Make",
+      "ayahs": [
+        {
+          "ref": "55:19",
+          "arabic": "مَرَجَ ٱلْبَحْرَيْنِ يَلْتَقِيَانِ  ﴿19﴾",
+          "meaning": "Allah caused two bodies of water to meet."
+        },
+        {
+          "ref": "55:20",
+          "arabic": "بَيْنَهُمَا بَرْزَخٌ لَّا يَبْغِيَانِ  ﴿20﴾",
+          "meaning": "Between them is a barrier they do not overrun in the way Allah has ordained."
+        },
+        {
+          "ref": "55:21",
+          "arabic": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ  ﴿21﴾",
+          "meaning": "Which of your Lord’s favors will you both deny?"
+        },
+        {
+          "ref": "55:22",
+          "arabic": "يَخْرُجُ مِنْهُمَا ٱللُّؤْلُؤُ وَٱلْمَرْجَانُ  ﴿22﴾",
+          "meaning": "Pearls and coral come forth from the seas."
+        },
+        {
+          "ref": "55:23",
+          "arabic": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ  ﴿23﴾",
+          "meaning": "Which of your Lord’s favors will you both deny?"
+        },
+        {
+          "ref": "55:24",
+          "arabic": "وَلَهُ ٱلْجَوَارِ ٱلْمُنشَـَٔاتُ فِى ٱلْبَحْرِ كَٱلْأَعْلَـٰمِ  ﴿24﴾",
+          "meaning": "The great ships sailing through the sea belong to Allah’s dominion."
+        },
+        {
+          "ref": "55:25",
+          "arabic": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ  ﴿25﴾",
+          "meaning": "Which of your Lord’s favors will you both deny?"
+        }
+      ],
+      "options": [
+        "Share it as certain Qur’anic proof immediately.",
+        "Ask a teacher to check the scientific explanation and Qur’anic context.",
+        "Stop respecting the Qur’an because the video may be wrong."
+      ],
+      "anchor": "FOCUS AYAHS: 55:19, 55:20, 55:21, 55:22, 55:23, 55:24, 55:25  |  CORE VALUES: Wonder • Humility • Safe exploration",
+      "aim": "Recognize seas, their provisions and travel as blessings while learning safety and honesty about science.",
+      "tafsir": "Surah Ar-Rahman speaks of two bodies of water meeting with a boundary between them, and mentions pearls, coral and great sailing vessels. Classical commentators discuss the sign of the waters and the barrier in terms appropriate to their exegetical contexts. A child-friendly curriculum should not claim that all fresh and salt water never mix or that a particular modern photograph proves an exclusive scientific miracle. The spiritual argument is Allah’s dominion and the gifts people receive from the seas. The repeated refrain asks humans and jinn to reflect upon these favors. Modern applications can include maritime travel, ocean life and responsible stewardship. We should also acknowledge that the seas can be dangerous and should never be explored without qualified adult safety measures. We do not need dramatic danger imagery to make gratitude meaningful.",
+      "story": "The classroom opened a virtual ocean exhibition. Imaan selected a clip showing a ship approaching a busy port, while Akhlaq chose a picture of coral. Mohsina explained that many people relied on safe sea travel for food and supplies. Akhlaq wanted the app to show a strange glowing line between two types of water and label it a guaranteed Qur’anic miracle. Their teacher said that Allah’s verse should be respected, but scientific pictures needed accurate explanations. They instead created a map showing ships, living things, currents and places where people cared for the coastline. That evening Akhlaq told Salaam that learning carefully had made the ocean seem more wonderful, not less. He thanked Allah without inventing facts to make the lesson exciting.",
+      "question": "A video makes a dramatic scientific claim about the seas. What should you do?",
+      "correct": 1,
+      "feedback": "Exactly. Respect for revelation includes honesty about scientific claims.",
+      "action": "Pick up one safe piece of litter away from water, with adult permission.",
+      "reflection": "Why does gratitude make me want to learn carefully?",
+      "vocabulary": "Barzakh — barrier; Alaa’ — favors",
+      "careNote": "No unsupervised water exposure or scientific miracle overclaims. Distinguish scriptural meaning from illustrations.",
+      "next": "The surah then reminds us of Allah’s everlasting greatness.",
+      "review": "Sort three statements into Qur’anic statement, observation, and unsupported claim.",
+      "sourceUrl": null,
+      "sourceDocument": "Imaan_Akhlaq_Tafsir_Stories_Volume_04_The_World_of_Gratitude.docx"
+    },
+    {
+      "id": "04-14",
+      "number": 14,
+      "title": "What Remains Forever",
+      "ayahs": [
+        {
+          "ref": "55:26",
+          "arabic": "كُلُّ مَنْ عَلَيْهَا فَانٍ  ﴿26﴾",
+          "meaning": "Every creature on earth will pass away."
+        },
+        {
+          "ref": "55:27",
+          "arabic": "وَيَبْقَىٰ وَجْهُ رَبِّكَ ذُو ٱلْجَلَـٰلِ وَٱلْإِكْرَامِ  ﴿27﴾",
+          "meaning": "The glorious and noble Face of your Lord remains; the verse affirms Allah’s everlasting majesty."
+        },
+        {
+          "ref": "55:28",
+          "arabic": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ  ﴿28﴾",
+          "meaning": "Which of your Lord’s favors will you both deny?"
+        }
+      ],
+      "options": [
+        "Think everything good is worthless.",
+        "Ask for help, remain patient and use your time well.",
+        "Blame every person nearby."
+      ],
+      "anchor": "FOCUS AYAHS: 55:26, 55:27, 55:28  |  CORE VALUES: Dependence on Allah • Hope • Perspective",
+      "aim": "Learn that Allah alone is everlasting and respond with humility and hopeful gratitude.",
+      "tafsir": "The Qur’an tells us that creatures on earth pass away while Allah, described by majesty and generosity, remains. The passage is part of Surah Ar-Rahman’s reminder that all creation depends upon its Lord. Classical Sunni Tafsir affirms Allah’s revealed description without likening Allah to creation or drawing Him in a children’s animation. This lesson can help older children understand why possessions and human achievements are limited and why worship is directed to Allah alone. Younger children should receive a gentle explanation focusing on Allah’s everlasting care and the preciousness of our time, not frightening death scenes. The repeated question about favors calls us to gratitude and faith. An app should avoid depicting Allah, turning divine attributes into objects, or asking children to process grief alone. Where a child has experienced loss, a trusted caregiver should choose how to teach this passage.",
+      "story": "Akhlaq was upset when the small model bridge he had built fell apart during a school display. “I worked so hard!” he said. Imaan helped him gather the pieces. Sheikh Uncle later explained that created things change and do not remain forever, while Allah alone is everlasting. He was careful not to compare Allah with a person or a thing. The children talked about using their time for meaningful deeds, even when a project does not last. Akhlaq decided to rebuild his bridge for another school day and to be kind to the younger child who had accidentally bumped the table. He understood that something temporary could still be used for a good purpose, and that trust in Allah offered steadiness when plans changed.",
+      "question": "Your favorite project breaks. Which response shows hopeful perspective?",
+      "correct": 1,
+      "feedback": "Good choice. Allah’s everlasting greatness helps us use temporary things wisely.",
+      "action": "Spend a few minutes caring for one shared belonging today.",
+      "reflection": "What good action can I do even if nobody keeps the object forever?",
+      "vocabulary": "Fani — passing away; Jalal — majesty",
+      "careNote": "No depictions of Allah, no graphic loss imagery, and parent-controlled access for children experiencing bereavement.",
+      "next": "The surah reminds us that sincere excellence truly matters.",
+      "review": "Tell a trusted adult one hopeful way to respond when plans change.",
+      "sourceUrl": null,
+      "sourceDocument": "Imaan_Akhlaq_Tafsir_Stories_Volume_04_The_World_of_Gratitude.docx"
+    },
+    {
+      "id": "04-15",
+      "number": 15,
+      "title": "The Beauty of Doing Good",
+      "ayahs": [
+        {
+          "ref": "55:60",
+          "arabic": "هَلْ جَزَآءُ ٱلْإِحْسَـٰنِ إِلَّا ٱلْإِحْسَـٰنُ  ﴿60﴾",
+          "meaning": "Is there any reward for excellence except excellence?"
+        },
+        {
+          "ref": "55:61",
+          "arabic": "فَبِأَىِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ  ﴿61﴾",
+          "meaning": "Which of your Lord’s favors will you both deny?"
+        }
+      ],
+      "options": [
+        "Demand public praise from the owner.",
+        "Return it responsibly for Allah’s pleasure and the owner’s right.",
+        "Keep it until a reward is offered."
+      ],
+      "anchor": "FOCUS AYAHS: 55:60, 55:61  |  CORE VALUES: Ihsan • Sincerity • Accountability",
+      "aim": "Understand that Allah honors sincere excellence and good deeds, including kindness when unseen.",
+      "tafsir": "Within Surah Ar-Rahman’s wider account of the Hereafter and Allah’s recompense, the Qur’an asks whether excellence is rewarded by anything but excellence. The classical exegetical context is not simply a classroom slogan: it includes Allah’s reward for the righteous. A child can understand the broader moral application that sincere good deeds matter, while avoiding the false claim that a nice act guarantees immediate worldly praise or a toy. Ihsan includes worshipping Allah with sincerity and treating people well. The refrain about Allah’s favors then invites reflection again. Our app should never score a child’s religious worth based on button taps, nor pretend to know Allah’s judgment about individuals. Instead, a successful lesson shows children how to choose a good action for the right reason, especially when there is no applause.",
+      "story": "Imaan found a lost pencil case in the school corridor. Akhlaq suggested returning it before the owner had time to worry. Imaan agreed, and they took it to the teacher. Later a friend said they should have taken a photograph to prove they had done something good. Akhlaq remembered what Sheikh Uncle had said about ihsan and Allah’s knowledge. “The owner getting it back is enough,” he replied. During their lesson on Surah Ar-Rahman, the children learned that Allah values sincere excellence and promises reward in the way He knows best. They smiled when the case was returned, but they did not ask the owner to praise them publicly. Their small act of care became a quiet expression of gratitude.",
+      "question": "You return something that does not belong to you. What is the best intention?",
+      "correct": 1,
+      "feedback": "Well done. Ihsan is doing what is right with sincerity.",
+      "action": "Return or care for one shared item responsibly today.",
+      "reflection": "How does a good deed feel when nobody knows I did it?",
+      "vocabulary": "Ihsan — sincere excellence; Jazaa’ — recompense",
+      "careNote": "Keep the verse’s Hereafter context explicit. No game points equated with Allah’s spiritual reward.",
+      "next": "We finish by learning that gratitude belongs in what we do for other people.",
+      "review": "Explain why giving something back matters even without a prize.",
+      "sourceUrl": null,
+      "sourceDocument": "Imaan_Akhlaq_Tafsir_Stories_Volume_04_The_World_of_Gratitude.docx"
+    },
+    {
+      "id": "04-16",
+      "number": 16,
+      "title": "Gratitude Has Hands and Feet",
+      "ayahs": [
+        {
+          "ref": "34:13",
+          "arabic": "يَعْمَلُونَ لَهُۥ مَا يَشَآءُ مِن مَّحَـٰرِيبَ وَتَمَـٰثِيلَ وَجِفَانٍ كَٱلْجَوَابِ وَقُدُورٍ رَّاسِيَـٰتٍ ۚ ٱعْمَلُوٓا۟ ءَالَ دَاوُۥدَ شُكْرًا ۚ وَقَلِيلٌ مِّنْ عِبَادِىَ ٱلشَّكُورُ  ﴿13﴾",
+          "meaning": "Those serving Sulayman made structures and vessels; the family of Dawud is commanded to work in gratitude, and truly grateful servants are few."
+        },
+        {
+          "ref": "76:8",
+          "arabic": "وَيُطْعِمُونَ ٱلطَّعَامَ عَلَىٰ حُبِّهِۦ مِسْكِينًا وَيَتِيمًا وَأَسِيرًا  ﴿8﴾",
+          "meaning": "The righteous give food, despite valuing it, to the needy, the orphan and the captive."
+        },
+        {
+          "ref": "76:9",
+          "arabic": "إِنَّمَا نُطْعِمُكُمْ لِوَجْهِ ٱللَّهِ لَا نُرِيدُ مِنكُمْ جَزَآءً وَلَا شُكُورًا  ﴿9﴾",
+          "meaning": "They seek Allah’s pleasure when feeding others and do not ask those people for reward or thanks."
+        },
+        {
+          "ref": "93:11",
+          "arabic": "وَأَمَّا بِنِعْمَةِ رَبِّكَ فَحَدِّثْ  ﴿11﴾",
+          "meaning": "Speak of and acknowledge your Lord’s blessing."
+        }
+      ],
+      "options": [
+        "Publicly identify recipients for likes.",
+        "Help through a responsible adult and protect people’s dignity.",
+        "Only help if your name appears on a leaderboard."
+      ],
+      "anchor": "FOCUS AYAHS: 34:13, 76:8, 76:9, 93:11  |  CORE VALUES: Generosity • Sincere service • Honoring blessings",
+      "aim": "Synthesize selected verses by serving others sincerely and acknowledging Allah’s gifts without boasting.",
+      "tafsir": "Allah commands the family of Dawud to work in gratitude, and praises the righteous who feed the needy, orphan and captive while seeking Allah’s pleasure rather than human thanks. Surah Ad-Duha also tells the Prophet ﷺ to speak of his Lord’s blessing. These verses belong to different surahs and original settings; this mission gathers them as a thematic closing, without pretending that they form one consecutive text. Classical Tafsir preserves the religious and historical context of the family of Dawud and the final surah’s address to the Prophet. For children, gratitude can be seen in using time, abilities and possessions to benefit others without showing off or revealing anyone’s private circumstances. Sharing should remain safe and age appropriate; a child should not be required to hand over money, approach strangers alone or disclose the needs of classmates. A heart that thanks Allah is encouraged to act thoughtfully.",
+      "story": "At the end of the school term, Imaan and Akhlaq prepared a little exhibition titled “The Hands of Gratitude.” Instead of collecting expensive gifts, classmates contributed useful efforts: sorting library books, making encouraging cards and preparing a supervised food collection. Mohsina suggested photographing everyone who received help, but the teacher explained that people deserved privacy and dignity. The children displayed drawings of their own responsibilities rather than pictures of recipients. Sheikh Uncle shared selected Qur’anic verses about gratitude in action and sincere generosity. Akhlaq wrote a sentence under their display: “We can thank Allah by doing good without needing applause.” When the exhibition ended, the children carried their remaining materials back to the classroom, ready for the next act of service.",
+      "question": "Your class helps families in need. How should the help be given?",
+      "correct": 1,
+      "feedback": "Correct. Gratitude becomes beautiful when it is sincere and respectful.",
+      "action": "Do one helpful task for someone today without asking for a reward.",
+      "reflection": "Which blessing could I use to benefit another person this week?",
+      "vocabulary": "Aal Dawud — family of Dawud; Shakur — deeply grateful servant",
+      "careNote": "Cross-surah synthesis only. Keep the precise verses separate; do not use recipient photographs or forced donations.",
+      "next": "Our completed world opens the next character journey: honesty, trust and fairness.",
+      "review": "Name a blessing, a safe action, and a way to preserve another person’s dignity.",
+      "sourceUrl": null,
+      "sourceDocument": "Imaan_Akhlaq_Tafsir_Stories_Volume_04_The_World_of_Gratitude.docx"
+    }
+  ]
+}
