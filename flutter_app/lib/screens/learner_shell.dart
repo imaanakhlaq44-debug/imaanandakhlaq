@@ -7,6 +7,7 @@ import '../domain.dart';
 import 'chapter_screen.dart';
 import 'learning_experience.dart';
 import 'welcome_screen.dart' show BrandWordmark;
+import 'ui_kit.dart';
 
 class LearnerShell extends StatefulWidget {
   const LearnerShell({
@@ -188,53 +189,124 @@ class _LearnerShellState extends State<LearnerShell> {
       ),
     ),
   );
-  Widget _progress() => ListView(
-    padding: const EdgeInsets.all(24),
-    children: [
-      Text(
-        'Your learning journey',
-        style: Theme.of(context).textTheme.headlineSmall,
-      ),
-      const SizedBox(height: 12),
-      const Text(
-        'Your existing profile progress is shown below. Newly saved activities appear in the chapter itself.',
-      ),
-      const SizedBox(height: 24),
-      Card(
-        child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Icon(
-                Icons.auto_awesome_outlined,
-                color: brandPink,
-                size: 36,
+  Widget _progress() {
+    final done = widget.learner.completed.toSet().length;
+    final reviewed = widget.learner.approved.toSet().length;
+    return ListView(
+      padding: const EdgeInsets.only(bottom: 28),
+      children: [
+        const PageHeader(
+          title: 'Your learning journey',
+          subtitle: 'Every small step matters.',
+          icon: Icons.emoji_events_rounded,
+          color: brandOrange,
+        ),
+        Reveal(
+          index: 0,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: SizedBox(
+              height:
+                  112 *
+                  MediaQuery.textScalerOf(context).scale(1).clamp(1.0, 1.6),
+              child: StatStrip(
+                children: [
+                  StatItem(
+                    value: done,
+                    label: 'Chapters',
+                    icon: Icons.menu_book_rounded,
+                    color: brandPink,
+                    onTap: () {},
+                  ),
+                  StatItem(
+                    value: reviewed,
+                    label: 'Reviewed',
+                    icon: Icons.verified_rounded,
+                    color: successInk,
+                    onTap: () {},
+                  ),
+                ],
               ),
-              const SizedBox(height: 18),
-              Text(
-                '${widget.learner.completed.toSet().length}',
-                style: Theme.of(context).textTheme.headlineLarge,
-              ),
-              const Text('Chapters recorded in your profile'),
-              const SizedBox(height: 18),
-              Text(
-                '${widget.learner.approved.toSet().length} marked reviewed',
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
-            ],
+            ),
           ),
         ),
-      ),
-      const SizedBox(height: 20),
-      if (widget.onChooseSection != null)
-        TextButton(
-          onPressed: widget.onChooseSection,
-          child: const Text('Choose Individual or School'),
+        const SizedBox(height: 18),
+        Reveal(
+          index: 1,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Container(
+              padding: const EdgeInsets.all(18),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(22),
+                gradient: const LinearGradient(
+                  colors: [Color(0xFFFFF1DE), Color(0xFFFFE4EE)],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                border: Border.all(color: brandOrange.withValues(alpha: .25)),
+              ),
+              child: Row(
+                children: [
+                  Container(
+                    width: 54,
+                    height: 54,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: brandOrange.withValues(alpha: .25),
+                          blurRadius: 10,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                    child: const Icon(
+                      Icons.auto_awesome_rounded,
+                      color: brandOrange,
+                      size: 28,
+                    ),
+                  ),
+                  const SizedBox(width: 14),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          done == 0
+                              ? 'Your first chapter awaits'
+                              : 'Keep going!',
+                          style: displayStyle(
+                            18,
+                            color: const Color(0xFFB45F0A),
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        const Text(
+                          'Your existing profile progress is shown above. '
+                          'Newly saved activities appear in the chapter itself.',
+                          style: TextStyle(color: brandNavy, height: 1.4),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ),
-      const Text(
-        'Keep exploring, practising and asking questions. Every small step matters.',
-      ),
-    ],
-  );
+        if (widget.onChooseSection != null) ...[
+          const SizedBox(height: 12),
+          Center(
+            child: TextButton.icon(
+              onPressed: widget.onChooseSection,
+              icon: const Icon(Icons.swap_horiz_rounded),
+              label: const Text('Choose Individual or School'),
+            ),
+          ),
+        ],
+      ],
+    );
+  }
 }

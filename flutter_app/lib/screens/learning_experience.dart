@@ -6,6 +6,7 @@ import '../domain.dart';
 import 'hadith_screen.dart';
 import '../courses/registry.dart';
 import 'ui_kit.dart';
+import 'entry_screens.dart' show brandCream;
 
 const courseNames = [
   'Quran',
@@ -777,9 +778,9 @@ Future<void> showCourseDetails(
   }
   final entry = courseEntry(index);
   if (entry != null && hadithScope != null) {
-    return Navigator.of(context).push<void>(
-      MaterialPageRoute(builder: (_) => entry.open(hadithScope)),
-    );
+    return Navigator.of(
+      context,
+    ).push<void>(MaterialPageRoute(builder: (_) => entry.open(hadithScope)));
   }
   return showModalBottomSheet<void>(
     context: context,
@@ -826,55 +827,138 @@ class CourseLibrary extends StatelessWidget {
   @override
   Widget build(BuildContext context) => ListView.builder(
     key: const PageStorageKey('course-library'),
-    padding: const EdgeInsets.all(18),
+    padding: const EdgeInsets.only(bottom: 24),
     itemCount: courses.length + 1,
     itemBuilder: (context, index) {
       if (index == 0) {
-        return Padding(
-          padding: const EdgeInsets.only(bottom: 18),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Learning Hub',
-                style: Theme.of(context).textTheme.headlineSmall,
-              ),
-              const SizedBox(height: 8),
-              Text(
-                hadithScope != null
-                    ? 'Start with five Hadith lessons, or explore the journeys being prepared.'
-                    : 'New learning journeys are in preparation. Explore your stories and books today.',
-              ),
-            ],
-          ),
+        return PageHeader(
+          title: 'Learning Hub',
+          subtitle: hadithScope != null
+              ? 'Start with the Hadith lessons, or explore the other journeys.'
+              : 'New learning journeys are in preparation. Explore your stories and books today.',
+          icon: Icons.auto_stories_rounded,
+          color: brandPink,
         );
       }
       final i = index - 1;
-      return Padding(
-        padding: const EdgeInsets.only(bottom: 12),
-        child: Card(
-          child: ListTile(
-            contentPadding: const EdgeInsets.all(14),
-            leading: CourseArtwork(index: i, size: 54),
-            title: Text(
-              courses[i].title,
-              style: const TextStyle(fontWeight: FontWeight.w800),
+      final status = i == 1 && hadithScope != null
+          ? '5 lessons • Ready to explore'
+          : (hadithScope == null ? null : courseEntry(i)?.subtitle) ??
+                'In preparation';
+      final ready = status != 'In preparation';
+      final accent = courseAccents[i];
+      return RowCard(
+        index: i,
+        accent: accent,
+        onTap: () => showCourseDetails(context, i, hadithScope: hadithScope),
+        child: Row(
+          children: [
+            Container(
+              width: 64,
+              height: 64,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: courseTints[i],
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: accent.withValues(alpha: .25),
+                  width: 1.5,
+                ),
+              ),
+              child: CourseArtwork(index: i, size: 46),
             ),
-            subtitle: Text(
-              i == 1 && hadithScope != null
-                  ? '5 lessons • Ready to explore'
-                  : (hadithScope == null ? null : courseEntry(i)?.subtitle) ??
-                        'In preparation',
+            const SizedBox(width: 14),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    courses[i].title,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: displayStyle(
+                      16.5,
+                      color: Color.lerp(accent, brandNavy, .45)!,
+                      height: 1.15,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    courses[i].subtitle,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(color: mutedInk, fontSize: 13),
+                  ),
+                  const SizedBox(height: 8),
+                  _StatusChip(text: status, ready: ready),
+                ],
+              ),
             ),
-            trailing: const Icon(Icons.chevron_right),
-            onTap: () =>
-                showCourseDetails(context, i, hadithScope: hadithScope),
-          ),
+            const SizedBox(width: 8),
+            Container(
+              width: 36,
+              height: 36,
+              decoration: BoxDecoration(
+                color: accent.withValues(alpha: .12),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(Icons.arrow_forward_rounded, color: accent, size: 20),
+            ),
+          ],
         ),
       );
     },
   );
 }
+
+class _StatusChip extends StatelessWidget {
+  const _StatusChip({required this.text, required this.ready});
+  final String text;
+  final bool ready;
+  @override
+  Widget build(BuildContext context) {
+    final color = ready ? successInk : mutedInk;
+    return Container(
+      padding: const EdgeInsets.fromLTRB(7, 3, 10, 3),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: ready ? .12 : .09),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            ready ? Icons.play_circle_fill_rounded : Icons.schedule_rounded,
+            size: 14,
+            color: color,
+          ),
+          const SizedBox(width: 4),
+          Flexible(
+            child: Text(
+              text,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                color: color,
+                fontSize: 12,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Book cover colours, cycled.
+const _bookColors = [
+  [Color(0xFF2C4A7C), brandNavy],
+  [brandPink, Color(0xFFF07AA8)],
+  [brandOrange, Color(0xFFF2B05A)],
+  [successInk, Color(0xFF4CB98A)],
+  [Color(0xFF7B4FD6), Color(0xFFA788F0)],
+];
 
 class BookLibrary extends StatelessWidget {
   const BookLibrary({
@@ -900,58 +984,258 @@ class BookLibrary extends StatelessWidget {
       if (!snapshot.hasData) {
         return const Center(child: CircularProgressIndicator());
       }
+      final list = snapshot.data!;
       return ListView.builder(
         key: const PageStorageKey('book-library'),
-        padding: const EdgeInsets.all(18),
-        itemCount: snapshot.data!.length + 1,
+        padding: const EdgeInsets.only(bottom: 24),
+        itemCount: list.length + 1,
         itemBuilder: (context, index) {
           if (index == 0) {
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 18),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Stories & books',
-                    style: Theme.of(context).textTheme.headlineSmall,
-                  ),
-                  const SizedBox(height: 8),
-                  const Text('Choose a book, then open a chapter.'),
-                ],
-              ),
+            return const PageHeader(
+              title: 'Stories & books',
+              subtitle: 'Choose a book, then open a chapter.',
+              icon: Icons.menu_book_rounded,
+              color: brandIndigo,
             );
           }
-          final book = snapshot.data![index - 1];
-          return Padding(
-            padding: const EdgeInsets.only(bottom: 12),
-            child: Card(
-              clipBehavior: Clip.antiAlias,
-              child: ExpansionTile(
-                key: PageStorageKey(book.id),
-                leading: const Icon(Icons.menu_book_rounded, color: brandPink),
-                title: Text(
-                  book.title,
-                  style: const TextStyle(fontWeight: FontWeight.w700),
-                ),
-                subtitle: Text('${book.chapters.length} chapters'),
-                children: [
-                  for (final chapter in book.chapters)
-                    ListTile(
-                      title: Text(chapter.title),
-                      subtitle: Text(
-                        'Pages ${chapter.pageStart}–${chapter.pageEnd}',
-                      ),
-                      trailing: const Icon(Icons.chevron_right),
-                      onTap: () => onChapter(book, chapter),
-                    ),
-                ],
-              ),
+          final i = index - 1;
+          return Reveal(
+            index: i,
+            child: _BookCard(
+              number: i + 1,
+              book: list[i],
+              colors: _bookColors[i % _bookColors.length],
+              onChapter: onChapter,
             ),
           );
         },
       );
     },
   );
+}
+
+class _BookCard extends StatefulWidget {
+  const _BookCard({
+    required this.number,
+    required this.book,
+    required this.colors,
+    required this.onChapter,
+  });
+  final int number;
+  final Book book;
+  final List<Color> colors;
+  final void Function(Book, Chapter) onChapter;
+  @override
+  State<_BookCard> createState() => _BookCardState();
+}
+
+class _BookCardState extends State<_BookCard> {
+  late bool _open =
+      PageStorage.maybeOf(
+            context,
+          )?.readState(context, identifier: 'book-${widget.book.id}')
+          as bool? ??
+      false;
+
+  void _toggle() {
+    setState(() => _open = !_open);
+    PageStorage.maybeOf(
+      context,
+    )?.writeState(context, _open, identifier: 'book-${widget.book.id}');
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final accent = widget.colors.first;
+    final book = widget.book;
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 0, 16, 14),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(22),
+          boxShadow: [
+            BoxShadow(
+              color: accent.withValues(alpha: .16),
+              blurRadius: 22,
+              offset: const Offset(0, 8),
+            ),
+          ],
+        ),
+        child: Material(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(22),
+          clipBehavior: Clip.antiAlias,
+          child: Column(
+            children: [
+              InkWell(
+                onTap: _toggle,
+                child: Padding(
+                  padding: const EdgeInsets.all(14),
+                  child: Row(
+                    children: [
+                      // A small "cover" with the book number.
+                      Container(
+                        width: 58,
+                        height: 74,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          borderRadius: const BorderRadius.horizontal(
+                            left: Radius.circular(6),
+                            right: Radius.circular(14),
+                          ),
+                          gradient: LinearGradient(
+                            colors: widget.colors,
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: accent.withValues(alpha: .3),
+                              blurRadius: 10,
+                              offset: const Offset(2, 5),
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(
+                              Icons.auto_stories_rounded,
+                              color: Colors.white,
+                              size: 22,
+                            ),
+                            Text(
+                              '${widget.number}',
+                              style: displayStyle(20, color: Colors.white),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(width: 14),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              book.title,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: displayStyle(17, height: 1.15),
+                            ),
+                            const SizedBox(height: 6),
+                            TagChip(
+                              '${book.chapters.length} chapters',
+                              color: accent,
+                            ),
+                          ],
+                        ),
+                      ),
+                      AnimatedRotation(
+                        turns: _open ? .5 : 0,
+                        duration: const Duration(milliseconds: 200),
+                        child: Container(
+                          width: 36,
+                          height: 36,
+                          decoration: BoxDecoration(
+                            color: accent.withValues(alpha: .12),
+                            shape: BoxShape.circle,
+                          ),
+                          child: Icon(
+                            Icons.keyboard_arrow_down_rounded,
+                            color: accent,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              AnimatedSize(
+                duration: const Duration(milliseconds: 220),
+                curve: Curves.easeOutCubic,
+                alignment: Alignment.topCenter,
+                child: !_open
+                    ? const SizedBox(width: double.infinity)
+                    : Container(
+                        width: double.infinity,
+                        color: brandCream,
+                        padding: const EdgeInsets.symmetric(vertical: 6),
+                        child: Column(
+                          children: [
+                            for (final (n, chapter) in book.chapters.indexed)
+                              InkWell(
+                                onTap: () => widget.onChapter(book, chapter),
+                                child: Padding(
+                                  padding: const EdgeInsets.fromLTRB(
+                                    16,
+                                    10,
+                                    14,
+                                    10,
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                        width: 30,
+                                        height: 30,
+                                        alignment: Alignment.center,
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          shape: BoxShape.circle,
+                                          border: Border.all(
+                                            color: accent.withValues(
+                                              alpha: .35,
+                                            ),
+                                          ),
+                                        ),
+                                        child: Text(
+                                          '${n + 1}',
+                                          style: displayStyle(
+                                            13,
+                                            color: accent,
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(width: 12),
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              chapter.title,
+                                              style: const TextStyle(
+                                                color: brandNavy,
+                                                fontWeight: FontWeight.w700,
+                                              ),
+                                            ),
+                                            Text(
+                                              'Pages ${chapter.pageStart}–${chapter.pageEnd}',
+                                              style: const TextStyle(
+                                                color: mutedInk,
+                                                fontSize: 12.5,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Icon(
+                                        Icons.chevron_right_rounded,
+                                        color: accent,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                          ],
+                        ),
+                      ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 class LearningNavigation extends StatelessWidget {
