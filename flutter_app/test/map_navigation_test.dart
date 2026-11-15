@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:imaan_akhlaq/app.dart';
 import 'package:imaan_akhlaq/data/catalog.dart';
+import 'package:imaan_akhlaq/courses/quran/quran_screens.dart'
+    show QuranCompanionScreen;
 import 'app_test.dart'
     show FakeRepository, viewport, precacheExperienceImages, enterSection;
 
@@ -32,12 +34,14 @@ void main() {
       expect(find.byType(AppBar), findsNothing);
       expect(find.text('Amanpur adventure'), findsNothing);
       expect(find.byKey(const Key('map-next-story')), findsNothing);
+      // The Quran course is playable now, so its node opens the course
+      // itself instead of the "In preparation" sheet.
       await tester.tap(find.byKey(const Key('map-quran')));
       await tester.pumpAndSettle();
-      expect(find.text('My Qur’an Companion'), findsOneWidget);
-      expect(find.textContaining('In preparation.'), findsOneWidget);
-      await tester.tap(find.text('Got it'));
+      expect(find.byType(QuranCompanionScreen), findsOneWidget);
+      await tester.binding.handlePopRoute();
       await tester.pumpAndSettle();
+      expect(find.byType(QuranCompanionScreen), findsNothing);
       await tester.scrollUntilVisible(
         find.byKey(const Key('map-books')),
         250,
