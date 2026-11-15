@@ -1,0 +1,3115 @@
+{
+ "id": "ibrah-01",
+ "number": 1,
+ "prophet": "Adam",
+ "prophetArabic": "آدم",
+ "heading": "PROPHET ADAM (عَلَيْهِ السَّلَامُ)",
+ "title": "The Beginning of Humanity",
+ "themes": "Knowledge • Humility • Boundaries • Repentance • Peace",
+ "scope": "Six connected original Imaan-and-Akhlaq stories • Ten interactive Qur’an-linked missions • 10 daily character actions • Parent and developer implementation notes",
+ "reviewNote": "Educational working manuscript — requires scholarly, Arabic and safeguarding review prior to release.",
+ "introduction": [
+  "This volume adapts our existing ʿIBRAH research on Prophet Adam (AS) and retains the six-episode Imaan & Akhlaq wooden-box story as the narrative heart of the child experience. The stories are fictional framing conversations: Dadi Jaan, Imaan, Akhlaq, Mama and Baba are imaginative learning companions, not historical witnesses. The Qur'anic account and authentic Hadith remain the sources of religious teaching.",
+  "A child moves through six story episodes and ten smaller learning missions. The ten missions can be completed at different speeds: each has a verified reference, a child-friendly explanation, a choice exercise, one daily action, a reflection, and a reusable game mechanic. Additional optional story challenges remain in the original story text and should not become compulsory streak requirements."
+ ],
+ "stories": [
+  {
+   "id": "s01",
+   "number": 1,
+   "title": "Before the First Footstep",
+   "subtitle": "The world before human beings",
+   "blocks": [
+    {
+     "t": "p",
+     "text": "It was a rainy evening, and Imaan and Akhlaq had settled into the lounge after dinner. Akhlaq was completely absorbed in a documentary about dinosaurs, while Imaan sat nearby drawing a small house surrounded by trees. Every few minutes, Akhlaq would call her attention to another enormous creature on the television."
+    },
+    {
+     "t": "p",
+     "text": "\"Imagine living when these creatures walked around!\" he exclaimed."
+    },
+    {
+     "t": "p",
+     "text": "Imaan smiled without looking up from her drawing. \"There were no houses for them to walk around.\""
+    },
+    {
+     "t": "p",
+     "text": "Akhlaq paused. \"That is a very important detail.\""
+    },
+    {
+     "t": "p",
+     "text": "Before he could continue, a loud rumble of thunder shook the windows and the electricity suddenly disappeared. The television went black, the fan slowed to a stop, and the room became silent."
+    },
+    {
+     "t": "p",
+     "text": "Akhlaq gave a startled cry."
+    },
+    {
+     "t": "p",
+     "text": "Imaan immediately looked at him. \"Were you scared?\""
+    },
+    {
+     "t": "p",
+     "text": "\"Of course not,\" he replied quickly. \"I was just informing everyone that the electricity had gone.\""
+    },
+    {
+     "t": "p",
+     "text": "Dadi Jaan entered carrying a rechargeable lamp. \"Alhamdulillah. At least our emergency announcement system is working.\""
+    },
+    {
+     "t": "p",
+     "text": "Everyone laughed, but Akhlaq was still mourning the loss of his documentary when Baba entered the room carrying an old wooden box."
+    },
+    {
+     "t": "p",
+     "text": "The box immediately caught the children's attention. It was made of dark wood, with brass corners and a small lock. Six strange symbols had been carved into its lid: a flame, a hand, a crown, a tree, a falling drop, and two stones lying beside each other."
+    },
+    {
+     "t": "p",
+     "text": "\"What's inside?\" Akhlaq asked."
+    },
+    {
+     "t": "p",
+     "text": "Baba smiled. \"I found it in Dadi Jaan's cupboard.\""
+    },
+    {
+     "t": "p",
+     "text": "Both children turned toward their grandmother."
+    },
+    {
+     "t": "p",
+     "text": "Dadi Jaan looked amused. From beneath her shawl, she produced a tiny brass key."
+    },
+    {
+     "t": "p",
+     "text": "Akhlaq's eyes widened. \"You knew about it!\""
+    },
+    {
+     "t": "p",
+     "text": "\"Perhaps.\""
+    },
+    {
+     "t": "p",
+     "text": "She unlocked the box. Inside were six envelopes, each marked with one of the symbols."
+    },
+    {
+     "t": "p",
+     "text": "The first carried the flame."
+    },
+    {
+     "t": "p",
+     "text": "When Akhlaq opened it, he found a black card with a sentence written across it:"
+    },
+    {
+     "t": "p",
+     "text": "Before the first human took his first breath, another creation was already here."
+    },
+    {
+     "t": "p",
+     "text": "\"Dinosaurs?\" Akhlaq guessed immediately."
+    },
+    {
+     "t": "p",
+     "text": "Dadi smiled. \"The card is talking about a different creation.\""
+    },
+    {
+     "t": "p",
+     "text": "She explained that there had once been a time when no human being had ever walked upon the earth. There were no homes built by human hands, no schools, no markets, no farms and no children running through playgrounds. The mountains stood where Allah had placed them, rivers flowed, animals lived upon the land and the world continued under Allah's command - but humanity had not yet begun."
+    },
+    {
+     "t": "p",
+     "text": "Yet human beings were not the first beings capable of choice."
+    },
+    {
+     "t": "p",
+     "text": "Before Adam, Allah had already created the jinn."
+    },
+    {
+     "t": "p",
+     "text": "Akhlaq instinctively looked toward the dark hallway."
+    },
+    {
+     "t": "p",
+     "text": "Imaan noticed. \"Don't start looking behind the furniture.\""
+    },
+    {
+     "t": "p",
+     "text": "\"I wasn't.\""
+    },
+    {
+     "t": "p",
+     "text": "Dadi laughed. She explained that jinn should not be imagined merely as frightening creatures from ghost stories. They were a creation of Allah, different from human beings. Allah created them from fire, while Adam would later be created from earth. Among the jinn were those who obeyed Allah and those who chose disobedience."
+    },
+    {
+     "t": "p",
+     "text": "\"And Iblees?\" Imaan asked."
+    },
+    {
+     "t": "p",
+     "text": "Dadi's expression became more serious. \"He existed too.\""
+    },
+    {
+     "t": "p",
+     "text": "Akhlaq stared at her. He had always thought of Iblees as appearing somewhere in Adam's story, but he had never considered that he existed before Adam himself."
+    },
+    {
+     "t": "p",
+     "text": "\"So Iblees was there before the first human?\""
+    },
+    {
+     "t": "p",
+     "text": "\"Yes.\""
+    },
+    {
+     "t": "p",
+     "text": "\"Then he didn't hate humans yet.\""
+    },
+    {
+     "t": "p",
+     "text": "\"There were no humans to hate.\""
+    },
+    {
+     "t": "p",
+     "text": "That answer left Akhlaq thinking. Something, he realised, must have happened."
+    },
+    {
+     "t": "p",
+     "text": "Dadi continued. A moment came when Allah announced to the angels that a new creation would live upon the earth. Generations of this creation would follow one another. They would build, learn, choose, worship and carry responsibility."
+    },
+    {
+     "t": "p",
+     "text": "Humanity was about to begin."
+    },
+    {
+     "t": "p",
+     "text": "The angels asked about corruption and bloodshed upon the earth, while they themselves glorified and worshipped Allah."
+    },
+    {
+     "t": "p",
+     "text": "Akhlaq immediately interrupted. \"But Adam hadn't been created yet!\""
+    },
+    {
+     "t": "p",
+     "text": "\"No.\""
+    },
+    {
+     "t": "p",
+     "text": "\"There had never been a human war?\""
+    },
+    {
+     "t": "p",
+     "text": "\"No.\""
+    },
+    {
+     "t": "p",
+     "text": "\"Then why were they talking about bloodshed?\""
+    },
+    {
+     "t": "p",
+     "text": "This time Dadi did not rush to answer him."
+    },
+    {
+     "t": "p",
+     "text": "Instead, Imaan turned the first envelope upside down. A tiny folded paper dropped onto the carpet. She opened it and found four words:"
+    },
+    {
+     "t": "p",
+     "text": "I KNOW WHAT YOU DO NOT KNOW."
+    },
+    {
+     "t": "p",
+     "text": "Dadi explained simply that Allah's knowledge included everything that human history would contain. Allah knew the terrible choices human beings could make - but He also knew about the Prophets who would guide them, the righteous people who would serve others, those who would worship sincerely, those who would protect the weak and those who would fall into mistakes but have the courage to return."
+    },
+    {
+     "t": "p",
+     "text": "Akhlaq looked down at his hands."
+    },
+    {
+     "t": "p",
+     "text": "\"So humans can do very bad things.\""
+    },
+    {
+     "t": "p",
+     "text": "\"Yes.\""
+    },
+    {
+     "t": "p",
+     "text": "\"But they can also choose very good things.\""
+    },
+    {
+     "t": "p",
+     "text": "\"Yes.\""
+    },
+    {
+     "t": "p",
+     "text": "\"That sounds like a big responsibility.\""
+    },
+    {
+     "t": "p",
+     "text": "Dadi smiled. \"Exactly.\""
+    },
+    {
+     "t": "p",
+     "text": "Just then, the electricity returned and the television came alive again. The dinosaur documentary resumed, but to Imaan's surprise, Akhlaq picked up the remote and switched it off."
+    },
+    {
+     "t": "p",
+     "text": "\"I want Envelope Two.\""
+    },
+    {
+     "t": "p",
+     "text": "Dadi laughed. \"Tomorrow.\""
+    },
+    {
+     "t": "p",
+     "text": "While complaining about the cruelty of mysterious boxes and grandmothers who ended stories at the worst possible moment, Akhlaq noticed tiny words beneath the symbol on the second envelope."
+    },
+    {
+     "t": "p",
+     "text": "Imaan leaned closer and read them aloud:"
+    },
+    {
+     "t": "p",
+     "text": "He would be made from the earth... but what Allah would teach him would surprise the heavens."
+    },
+    {
+     "t": "p",
+     "text": "The children looked at Dadi."
+    },
+    {
+     "t": "p",
+     "text": "\"What would Allah teach Adam?\" Imaan asked."
+    },
+    {
+     "t": "p",
+     "text": "Dadi closed the wooden box with a soft click."
+    },
+    {
+     "t": "p",
+     "text": "\"That,\" she said, \"is tomorrow's story.\""
+    },
+    {
+     "t": "kv",
+     "label": "Challenge of the Day",
+     "text": "Leave a Good Footprint"
+    },
+    {
+     "t": "p",
+     "text": "Today, do one good act without being asked and without announcing it afterward. Help someone, give another person a turn, pick up something someone dropped, assist a younger child, care for an animal, or make life easier for someone around you."
+    },
+    {
+     "t": "kv",
+     "label": "Level-Up",
+     "text": "Do three quiet good acts in three different places - one at home, one at school, and one with a friend or neighbour."
+    }
+   ]
+  },
+  {
+   "id": "s02",
+   "number": 2,
+   "title": "The Secret of Knowledge",
+   "subtitle": "The creation of Adam (A.S.)",
+   "blocks": [
+    {
+     "t": "p",
+     "text": "The next evening, Akhlaq was already sitting beside the wooden box when Dadi Jaan entered the lounge. He had placed himself cross-legged on the carpet and was staring at the second envelope as if staring long enough might cause it to open itself."
+    },
+    {
+     "t": "p",
+     "text": "Imaan laughed when she saw him. \"How long have you been sitting there?\""
+    },
+    {
+     "t": "p",
+     "text": "\"Twelve minutes.\""
+    },
+    {
+     "t": "p",
+     "text": "\"That may be your personal record for patience.\""
+    },
+    {
+     "t": "p",
+     "text": "Dadi settled into her chair, opened the box and handed Imaan the envelope marked with the hand."
+    },
+    {
+     "t": "p",
+     "text": "Beneath the symbol were the words they had discovered the previous night:"
+    },
+    {
+     "t": "p",
+     "text": "He would be made from the earth... but what Allah would teach him would surprise the heavens."
+    },
+    {
+     "t": "p",
+     "text": "Dadi began by telling them that Allah created Adam, the first human being, from the earth."
+    },
+    {
+     "t": "p",
+     "text": "Akhlaq looked at his own hands with new interest. \"So Adam wasn't made from gold or something valuable?\""
+    },
+    {
+     "t": "p",
+     "text": "\"No,\" Dadi replied. \"He was made from the earth.\""
+    },
+    {
+     "t": "p",
+     "text": "That puzzled him. If the material itself was humble, what made Adam special?"
+    },
+    {
+     "t": "p",
+     "text": "Dadi explained that this was precisely one of the beautiful lessons of Adam's creation. Human dignity did not come from being made of expensive material. Allah had given human beings remarkable abilities and, with those abilities, responsibility."
+    },
+    {
+     "t": "p",
+     "text": "A bird could fly more naturally than a human. A horse could run faster. Many animals were stronger. Yet Allah had given Adam knowledge, understanding and the ability to learn."
+    },
+    {
+     "t": "p",
+     "text": "Then came a remarkable moment."
+    },
+    {
+     "t": "p",
+     "text": "Allah taught Adam the names of things."
+    },
+    {
+     "t": "p",
+     "text": "The children listened closely as Dadi explained how Adam was given knowledge that Allah had chosen to teach him. When this knowledge was demonstrated before the angels, they recognised that knowledge belonged ultimately to Allah and that they knew only what Allah had taught them."
+    },
+    {
+     "t": "p",
+     "text": "Imaan began to understand the meaning of the mysterious sentence."
+    },
+    {
+     "t": "p",
+     "text": "\"So Adam's honour wasn't about being stronger than every creature.\""
+    },
+    {
+     "t": "p",
+     "text": "\"No.\""
+    },
+    {
+     "t": "p",
+     "text": "\"Or being richer.\""
+    },
+    {
+     "t": "p",
+     "text": "\"No.\""
+    },
+    {
+     "t": "p",
+     "text": "\"It was connected with knowledge and responsibility.\""
+    },
+    {
+     "t": "p",
+     "text": "Dadi nodded."
+    },
+    {
+     "t": "p",
+     "text": "Akhlaq looked around the room. A lamp, a clock, a bookshelf, pens, cups - everything had a name. He imagined the first human learning from Allah."
+    },
+    {
+     "t": "p",
+     "text": "Dadi reminded them that even today every child arrives in this world knowing almost nothing. A baby must learn words, faces, manners, skills, numbers, rules and eventually the difference between right and wrong."
+    },
+    {
+     "t": "p",
+     "text": "Mama smiled from across the room. \"You even had to learn that crayons are for drawing, not eating.\""
+    },
+    {
+     "t": "p",
+     "text": "Akhlaq stared at her. \"I was conducting research.\""
+    },
+    {
+     "t": "p",
+     "text": "Everyone laughed."
+    },
+    {
+     "t": "p",
+     "text": "Dadi continued. Knowledge, she explained, should not make a person arrogant. If Allah gives someone the ability to understand something quickly, that knowledge should make them useful to others."
+    },
+    {
+     "t": "p",
+     "text": "If a child understands mathematics and another struggles, knowledge should encourage help rather than mockery. If someone reads well, they can support someone who is still learning. If someone is talented in sport, that talent can be used to teach rather than humiliate."
+    },
+    {
+     "t": "p",
+     "text": "\"Then knowledge is almost like a responsibility,\" Akhlaq said."
+    },
+    {
+     "t": "p",
+     "text": "\"Yes,\" Dadi replied. \"A gift becomes more beautiful when it benefits someone besides you.\""
+    },
+    {
+     "t": "p",
+     "text": "Then she reached the part of the story the children had been waiting for."
+    },
+    {
+     "t": "p",
+     "text": "Allah commanded the angels to prostrate before Adam. Dadi carefully explained that this was not worship of Adam; worship belongs only to Allah. It was an act performed because Allah commanded it and an honour given to Adam."
+    },
+    {
+     "t": "p",
+     "text": "The angels obeyed."
+    },
+    {
+     "t": "p",
+     "text": "All of them."
+    },
+    {
+     "t": "p",
+     "text": "Akhlaq smiled, but then noticed that Dadi had stopped."
+    },
+    {
+     "t": "p",
+     "text": "\"All of them?\""
+    },
+    {
+     "t": "p",
+     "text": "Dadi looked toward the wooden box."
+    },
+    {
+     "t": "p",
+     "text": "\"Almost.\""
+    },
+    {
+     "t": "p",
+     "text": "Imaan immediately understood."
+    },
+    {
+     "t": "p",
+     "text": "\"Iblees.\""
+    },
+    {
+     "t": "p",
+     "text": "Dadi nodded."
+    },
+    {
+     "t": "p",
+     "text": "Iblees stood there. He had witnessed the honour given to Adam. He had heard the command. Yet he did not obey."
+    },
+    {
+     "t": "p",
+     "text": "Not because he misunderstood. Not because he had not heard."
+    },
+    {
+     "t": "p",
+     "text": "Something had begun to grow inside him."
+    },
+    {
+     "t": "p",
+     "text": "Pride."
+    },
+    {
+     "t": "p",
+     "text": "Imaan turned Envelope Two over and discovered another folded slip."
+    },
+    {
+     "t": "p",
+     "text": "Across it were written three simple words:"
+    },
+    {
+     "t": "p",
+     "text": "I AM BETTER."
+    },
+    {
+     "t": "p",
+     "text": "Akhlaq read them twice."
+    },
+    {
+     "t": "p",
+     "text": "\"That doesn't sound very dangerous.\""
+    },
+    {
+     "t": "p",
+     "text": "Dadi looked at him thoughtfully. \"Sometimes the most dangerous ideas begin with very simple words.\""
+    },
+    {
+     "t": "p",
+     "text": "She reached for the third envelope. Its symbol was a crown."
+    },
+    {
+     "t": "p",
+     "text": "Underneath were the words:"
+    },
+    {
+     "t": "p",
+     "text": "He was given a command... but pride made him argue with his Creator."
+    },
+    {
+     "t": "p",
+     "text": "Akhlaq's expression changed."
+    },
+    {
+     "t": "p",
+     "text": "\"He argued with Allah?\""
+    },
+    {
+     "t": "p",
+     "text": "Dadi returned the envelope to the box."
+    },
+    {
+     "t": "p",
+     "text": "\"Tomorrow you will hear what he said.\""
+    },
+    {
+     "t": "p",
+     "text": "The box closed."
+    },
+    {
+     "t": "p",
+     "text": "And that night, the children left with a question that seemed much bigger than the three words written on the card:"
+    },
+    {
+     "t": "p",
+     "text": "What happens when believing yourself superior becomes more important than obeying what is right?"
+    },
+    {
+     "t": "kv",
+     "label": "Challenge of the Day",
+     "text": "Use What You Know to Help"
+    },
+    {
+     "t": "p",
+     "text": "Today, use one thing you are good at to help someone who finds it difficult. Teach without showing off and without making the other person feel small."
+    },
+    {
+     "t": "kv",
+     "label": "Level-Up",
+     "text": "Help someone learn the skill without taking over the task. Let them try it themselves."
+    }
+   ]
+  },
+  {
+   "id": "s03",
+   "number": 3,
+   "title": "I Am Better",
+   "subtitle": "The arrogance of Iblees",
+   "blocks": [
+    {
+     "t": "p",
+     "text": "The following afternoon, Akhlaq returned from school carrying himself with unusual importance. He had scored the highest marks in a science quiz and, within a few minutes, had managed to tell Imaan not only his own result but the results of several classmates."
+    },
+    {
+     "t": "p",
+     "text": "Imaan eventually stopped him."
+    },
+    {
+     "t": "p",
+     "text": "\"Why are everybody else's marks part of your celebration?\""
+    },
+    {
+     "t": "p",
+     "text": "Akhlaq hesitated."
+    },
+    {
+     "t": "p",
+     "text": "Before he could answer, Dadi entered carrying the wooden box."
+    },
+    {
+     "t": "p",
+     "text": "\"Sometimes comparison helps us improve,\" she said. \"And sometimes it begins feeding something dangerous.\""
+    },
+    {
+     "t": "p",
+     "text": "The third envelope was opened."
+    },
+    {
+     "t": "p",
+     "text": "The crown."
+    },
+    {
+     "t": "p",
+     "text": "Inside were the same three words:"
+    },
+    {
+     "t": "p",
+     "text": "I AM BETTER."
+    },
+    {
+     "t": "p",
+     "text": "Dadi returned to the moment when Allah had commanded obedience and Iblees had refused."
+    },
+    {
+     "t": "p",
+     "text": "Iblees compared himself with Adam."
+    },
+    {
+     "t": "p",
+     "text": "Adam had been created from clay."
+    },
+    {
+     "t": "p",
+     "text": "Iblees had been created from fire."
+    },
+    {
+     "t": "p",
+     "text": "Instead of thinking that Allah knew best, Iblees decided that the difference between their creation proved his superiority."
+    },
+    {
+     "t": "p",
+     "text": "He argued that he was better."
+    },
+    {
+     "t": "p",
+     "text": "Akhlaq frowned. \"But Allah created both of them.\""
+    },
+    {
+     "t": "p",
+     "text": "\"Exactly.\""
+    },
+    {
+     "t": "p",
+     "text": "\"So he took something Allah had given him and used it as an excuse to disobey Allah?\""
+    },
+    {
+     "t": "p",
+     "text": "\"Yes.\""
+    },
+    {
+     "t": "p",
+     "text": "This helped the children understand pride differently."
+    },
+    {
+     "t": "p",
+     "text": "It was not wrong to know that you had a particular skill. The danger began when a person turned a difference into a measure of human worth."
+    },
+    {
+     "t": "p",
+     "text": "Someone might think, I have better marks, so I am better than you."
+    },
+    {
+     "t": "p",
+     "text": "Or, My family has more money, so I am more important."
+    },
+    {
+     "t": "p",
+     "text": "Or, I am stronger, older, more popular, from a better-known family, or better at speaking, so I deserve more respect than you."
+    },
+    {
+     "t": "p",
+     "text": "That was the road Iblees had chosen."
+    },
+    {
+     "t": "p",
+     "text": "His pride did something else too: it prevented him from admitting that he was wrong."
+    },
+    {
+     "t": "p",
+     "text": "Instead of repentance, he became more stubborn."
+    },
+    {
+     "t": "p",
+     "text": "Then Iblees asked Allah for respite."
+    },
+    {
+     "t": "p",
+     "text": "Akhlaq's curiosity increased."
+    },
+    {
+     "t": "p",
+     "text": "\"Why did he want more time?\""
+    },
+    {
+     "t": "p",
+     "text": "Because he had made a decision."
+    },
+    {
+     "t": "p",
+     "text": "He would try to mislead the children of Adam."
+    },
+    {
+     "t": "p",
+     "text": "Human beings would spread across the earth, and Iblees wanted to tempt them away from the straight path."
+    },
+    {
+     "t": "p",
+     "text": "This frightened Akhlaq until Dadi explained an important point: Shaytan could tempt and whisper, but a human being still remained responsible for his own choice."
+    },
+    {
+     "t": "p",
+     "text": "\"He cannot force your hand to steal.\""
+    },
+    {
+     "t": "p",
+     "text": "\"He cannot force your mouth to lie.\""
+    },
+    {
+     "t": "p",
+     "text": "\"He cannot force you to hurt someone.\""
+    },
+    {
+     "t": "p",
+     "text": "\"Then what can he do?\" Akhlaq asked."
+    },
+    {
+     "t": "p",
+     "text": "\"He can try to make the wrong choice look attractive.\""
+    },
+    {
+     "t": "p",
+     "text": "Dadi gave them examples they immediately understood."
+    },
+    {
+     "t": "p",
+     "text": "Everybody is doing it."
+    },
+    {
+     "t": "p",
+     "text": "Nobody will know."
+    },
+    {
+     "t": "p",
+     "text": "You deserve it."
+    },
+    {
+     "t": "p",
+     "text": "Why should you apologise first?"
+    },
+    {
+     "t": "p",
+     "text": "He started it."
+    },
+    {
+     "t": "p",
+     "text": "Just this once."
+    },
+    {
+     "t": "p",
+     "text": "And perhaps the oldest one of all:"
+    },
+    {
+     "t": "p",
+     "text": "You are better than them."
+    },
+    {
+     "t": "p",
+     "text": "Akhlaq's confidence from the science quiz suddenly looked less impressive to him."
+    },
+    {
+     "t": "p",
+     "text": "He remembered Bilal, who had missed several days of school and asked him for help with one of the science questions."
+    },
+    {
+     "t": "p",
+     "text": "\"What did you tell him?\" Dadi asked."
+    },
+    {
+     "t": "p",
+     "text": "Akhlaq lowered his head. \"I told him it was easy.\""
+    },
+    {
+     "t": "p",
+     "text": "\"And did that help?\""
+    },
+    {
+     "t": "p",
+     "text": "\"No.\""
+    },
+    {
+     "t": "p",
+     "text": "The realisation was enough. Akhlaq decided that the next day he would sit beside Bilal and explain the question properly."
+    },
+    {
+     "t": "p",
+     "text": "Dadi did not praise him excessively. She simply smiled."
+    },
+    {
+     "t": "p",
+     "text": "That was precisely the point of the story."
+    },
+    {
+     "t": "p",
+     "text": "Strength and knowledge could be used either to stand above someone - or to reach down and help them rise."
+    },
+    {
+     "t": "p",
+     "text": "Before closing the box, Dadi showed them the fourth envelope."
+    },
+    {
+     "t": "p",
+     "text": "A tree."
+    },
+    {
+     "t": "p",
+     "text": "Beneath it were the words:"
+    },
+    {
+     "t": "p",
+     "text": "One command. One tree. One whisper."
+    },
+    {
+     "t": "p",
+     "text": "Then Imaan noticed another sentence:"
+    },
+    {
+     "t": "p",
+     "text": "The easiest trap is sometimes the one that sounds like friendly advice."
+    },
+    {
+     "t": "p",
+     "text": "Akhlaq stared at the tree."
+    },
+    {
+     "t": "p",
+     "text": "Adam knew Allah."
+    },
+    {
+     "t": "p",
+     "text": "He had been honoured."
+    },
+    {
+     "t": "p",
+     "text": "He had been warned about Iblees."
+    },
+    {
+     "t": "p",
+     "text": "How could Iblees possibly convince him to make the wrong choice?"
+    },
+    {
+     "t": "p",
+     "text": "The box closed."
+    },
+    {
+     "t": "p",
+     "text": "Tomorrow, they would find out."
+    },
+    {
+     "t": "kv",
+     "label": "Challenge of the Day",
+     "text": "Lower the Crown"
+    },
+    {
+     "t": "p",
+     "text": "Find one moment today when you could put yourself first and deliberately choose respect instead. Give someone a turn, congratulate someone who outperforms you, listen without interrupting, include someone overlooked, or apologise first when you know you were wrong."
+    },
+    {
+     "t": "kv",
+     "label": "Level-Up",
+     "text": "Choose one person you often compare yourself with and do one sincere good act for that person."
+    }
+   ]
+  },
+  {
+   "id": "s04",
+   "number": 4,
+   "title": "The Forbidden Tree",
+   "subtitle": "The whisper that sounded like advice",
+   "blocks": [
+    {
+     "t": "p",
+     "text": "One afternoon, Imaan found Akhlaq staring suspiciously at Mama's tablet. A bright message on the screen promised thousands of free game coins if he clicked a large flashing button."
+    },
+    {
+     "t": "p",
+     "text": "\"Hamza sent it,\" Akhlaq explained. \"He says everyone is using it.\""
+    },
+    {
+     "t": "p",
+     "text": "Imaan looked doubtful. Mama had clearly told them not to download anything without permission."
+    },
+    {
+     "t": "p",
+     "text": "The message, however, sounded reassuring."
+    },
+    {
+     "t": "p",
+     "text": "It promised rewards."
+    },
+    {
+     "t": "p",
+     "text": "It claimed to be safe."
+    },
+    {
+     "t": "p",
+     "text": "It even sounded as though Akhlaq would be foolish not to press the button."
+    },
+    {
+     "t": "p",
+     "text": "Dadi Jaan entered at exactly that moment carrying the wooden box."
+    },
+    {
+     "t": "p",
+     "text": "\"That,\" she said, looking at the tablet, \"is a very good introduction to tonight's story.\""
+    },
+    {
+     "t": "p",
+     "text": "The fourth envelope showed the tree."
+    },
+    {
+     "t": "p",
+     "text": "Dadi explained that after Adam had been created, Allah gave him companionship through Hawwa, the mother of humanity. Adam and Hawwa lived in Paradise surrounded by blessings beyond anything children could fully imagine."
+    },
+    {
+     "t": "p",
+     "text": "They were allowed to enjoy its blessings, but Allah gave them one clear restriction."
+    },
+    {
+     "t": "p",
+     "text": "There was one particular tree they were not to approach."
+    },
+    {
+     "t": "p",
+     "text": "Akhlaq naturally wanted to know what kind of tree it had been."
+    },
+    {
+     "t": "p",
+     "text": "Dadi explained simply that Allah had not made the type of tree important for their lesson. What mattered was the command."
+    },
+    {
+     "t": "p",
+     "text": "Imaan found that interesting."
+    },
+    {
+     "t": "p",
+     "text": "They had so much available to them. Why become concerned about the one thing they had been told to avoid?"
+    },
+    {
+     "t": "p",
+     "text": "That was where Iblees entered the story again."
+    },
+    {
+     "t": "p",
+     "text": "He did not approach them as an obvious enemy announcing his intention to cause harm."
+    },
+    {
+     "t": "p",
+     "text": "He whispered."
+    },
+    {
+     "t": "p",
+     "text": "Gradually, he made the forbidden thing appear attractive."
+    },
+    {
+     "t": "p",
+     "text": "He encouraged them to think about the tree."
+    },
+    {
+     "t": "p",
+     "text": "Why this tree?"
+    },
+    {
+     "t": "p",
+     "text": "What might it contain?"
+    },
+    {
+     "t": "p",
+     "text": "What if the restriction was keeping them from something wonderful?"
+    },
+    {
+     "t": "p",
+     "text": "The more attention was placed upon the single restriction, the easier it became to forget the countless blessings already available."
+    },
+    {
+     "t": "p",
+     "text": "Then Iblees went further."
+    },
+    {
+     "t": "p",
+     "text": "He made the wrong choice sound beneficial."
+    },
+    {
+     "t": "p",
+     "text": "He presented himself as though he were sincerely advising them. He suggested that eating from the tree could bring something desirable and lasting."
+    },
+    {
+     "t": "p",
+     "text": "Akhlaq suddenly looked toward the tablet."
+    },
+    {
+     "t": "p",
+     "text": "The flashing message did not say, Break your mother's rule and click something unsafe."
+    },
+    {
+     "t": "p",
+     "text": "It said, Free coins. Everyone is doing it. Click now."
+    },
+    {
+     "t": "p",
+     "text": "The wrong choice looked completely different when wrapped in attractive words."
+    },
+    {
+     "t": "p",
+     "text": "Eventually, Adam and Hawwa ate from the tree."
+    },
+    {
+     "t": "p",
+     "text": "The excitement disappeared almost immediately."
+    },
+    {
+     "t": "p",
+     "text": "They realised what they had done."
+    },
+    {
+     "t": "p",
+     "text": "Akhlaq became quiet."
+    },
+    {
+     "t": "p",
+     "text": "\"That's like some bad choices,\" he said. \"Before you do them, they seem exciting. Afterwards you wonder why you did it.\""
+    },
+    {
+     "t": "p",
+     "text": "Dadi nodded."
+    },
+    {
+     "t": "p",
+     "text": "Temptation often promises something before the action, but it does not remain to carry the consequences afterward."
+    },
+    {
+     "t": "p",
+     "text": "Imaan asked something that troubled her."
+    },
+    {
+     "t": "p",
+     "text": "\"If Adam was a Prophet, how could he make a mistake?\""
+    },
+    {
+     "t": "p",
+     "text": "Dadi explained gently that goodness does not mean a person no longer needs Allah's guidance. Human beings need to remain alert. Smart people can be deceived. Strong people can face weakness. Someone who made a good decision yesterday can face another test today."
+    },
+    {
+     "t": "p",
+     "text": "That meant children should be careful about saying, I would never do something like that."
+    },
+    {
+     "t": "p",
+     "text": "Pride itself could make people careless."
+    },
+    {
+     "t": "p",
+     "text": "The children now desperately wanted to know what happened next."
+    },
+    {
+     "t": "p",
+     "text": "Had everything been lost?"
+    },
+    {
+     "t": "p",
+     "text": "Would Adam and Hawwa ever be forgiven?"
+    },
+    {
+     "t": "p",
+     "text": "Dadi removed the fifth envelope."
+    },
+    {
+     "t": "p",
+     "text": "A drop appeared to be falling toward the earth."
+    },
+    {
+     "t": "p",
+     "text": "Beneath it was written:"
+    },
+    {
+     "t": "p",
+     "text": "The mistake had been made. But one door was still open."
+    },
+    {
+     "t": "p",
+     "text": "Imaan immediately whispered, \"Forgiveness.\""
+    },
+    {
+     "t": "p",
+     "text": "Dadi smiled but closed the box."
+    },
+    {
+     "t": "p",
+     "text": "The answer would come tomorrow."
+    },
+    {
+     "t": "p",
+     "text": "Akhlaq quietly picked up Mama's tablet, walked over to her and handed it back."
+    },
+    {
+     "t": "p",
+     "text": "\"What about your free coins?\" Mama teased."
+    },
+    {
+     "t": "p",
+     "text": "\"I have decided to remain poor in imaginary currency.\""
+    },
+    {
+     "t": "p",
+     "text": "Everyone laughed."
+    },
+    {
+     "t": "p",
+     "text": "But inside, Akhlaq understood something new."
+    },
+    {
+     "t": "p",
+     "text": "Avoiding a wrong choice was easier when you learned to recognise the attractive wrapping around it."
+    },
+    {
+     "t": "kv",
+     "label": "Challenge of the Day",
+     "text": "Say No to One Wrong Choice"
+    },
+    {
+     "t": "p",
+     "text": "Today, when someone invites you to do something you know is wrong, refuse calmly. Do not copy, tease, hide someone's belongings, lie for a friend, break a queue, open something without permission, or join harmful behaviour simply because others are doing it."
+    },
+    {
+     "t": "kv",
+     "label": "Level-Up",
+     "text": "If a friend is being pressured into something wrong, stand beside them and make it easier for them to say no too."
+    }
+   ]
+  },
+  {
+   "id": "s05",
+   "number": 5,
+   "title": "The Door Was Still Open",
+   "subtitle": "Repentance and the beginning of life on Earth",
+   "blocks": [
+    {
+     "t": "p",
+     "text": "A loud crash came from the kitchen one afternoon."
+    },
+    {
+     "t": "p",
+     "text": "When Imaan arrived, she found Akhlaq standing beside the broken pieces of Mama's favourite blue mug."
+    },
+    {
+     "t": "p",
+     "text": "\"It fell,\" he said."
+    },
+    {
+     "t": "p",
+     "text": "Imaan looked at the high shelf where the biscuit jar was kept."
+    },
+    {
+     "t": "p",
+     "text": "\"Did it climb down itself?\""
+    },
+    {
+     "t": "p",
+     "text": "Eventually, Akhlaq admitted that he had climbed onto the counter to reach the biscuits even though Mama had told him not to."
+    },
+    {
+     "t": "p",
+     "text": "When Mama entered, he had several seconds in which he could have hidden part of the truth. Instead, his eyes fell upon the fifth envelope in the wooden box."
+    },
+    {
+     "t": "p",
+     "text": "\"I climbed onto the counter,\" he admitted. \"I was trying to get biscuits, and I knocked your mug down. I'm sorry.\""
+    },
+    {
+     "t": "p",
+     "text": "Mama was disappointed, but she thanked him for telling the truth and asked him to help clean the mess safely."
+    },
+    {
+     "t": "p",
+     "text": "Dadi Jaan, watching from the doorway, said, \"Consequences and forgiveness can exist together.\""
+    },
+    {
+     "t": "p",
+     "text": "That became the beginning of Episode Five."
+    },
+    {
+     "t": "p",
+     "text": "The children gathered around the wooden box and opened the envelope carrying the symbol of the falling drop."
+    },
+    {
+     "t": "p",
+     "text": "The mistake had been made. But one door was still open."
+    },
+    {
+     "t": "p",
+     "text": "After eating from the forbidden tree, Adam and Hawwa realised that they had disobeyed Allah."
+    },
+    {
+     "t": "p",
+     "text": "They felt ashamed."
+    },
+    {
+     "t": "p",
+     "text": "But their response was completely different from the response of Iblees."
+    },
+    {
+     "t": "p",
+     "text": "Iblees had disobeyed and defended his wrongdoing."
+    },
+    {
+     "t": "p",
+     "text": "Adam and Hawwa admitted theirs."
+    },
+    {
+     "t": "p",
+     "text": "They did not make excuses."
+    },
+    {
+     "t": "p",
+     "text": "They turned toward Allah and acknowledged that they had wronged themselves."
+    },
+    {
+     "t": "p",
+     "text": "They asked Allah for forgiveness and mercy."
+    },
+    {
+     "t": "p",
+     "text": "Allah accepted Adam's repentance."
+    },
+    {
+     "t": "p",
+     "text": "Dadi placed two cards before the children."
+    },
+    {
+     "t": "p",
+     "text": "The first was the one from Iblees:"
+    },
+    {
+     "t": "p",
+     "text": "I AM BETTER."
+    },
+    {
+     "t": "p",
+     "text": "The second carried different words:"
+    },
+    {
+     "t": "p",
+     "text": "I HAVE WRONGED MYSELF."
+    },
+    {
+     "t": "p",
+     "text": "Both stories included disobedience, yet the responses were completely different."
+    },
+    {
+     "t": "p",
+     "text": "One response was arrogance."
+    },
+    {
+     "t": "p",
+     "text": "The other was humility."
+    },
+    {
+     "t": "p",
+     "text": "One continued arguing."
+    },
+    {
+     "t": "p",
+     "text": "The other returned."
+    },
+    {
+     "t": "p",
+     "text": "One tried to justify wrongdoing."
+    },
+    {
+     "t": "p",
+     "text": "The other admitted it."
+    },
+    {
+     "t": "p",
+     "text": "Dadi explained that this was one of the greatest lessons children could learn from the beginning of humanity:"
+    },
+    {
+     "t": "p",
+     "text": "A mistake does not have to decide the kind of person you become next."
+    },
+    {
+     "t": "p",
+     "text": "Akhlaq asked what happened when someone made a very serious mistake and began believing that Allah would never forgive them."
+    },
+    {
+     "t": "p",
+     "text": "Dadi explained that hopelessness could become another trap. Shaytan might first encourage wrongdoing and then, afterward, whisper that there was no point returning to Allah."
+    },
+    {
+     "t": "p",
+     "text": "The believer must not allow either whisper to win."
+    },
+    {
+     "t": "p",
+     "text": "Repentance means returning sincerely, regretting wrongdoing and trying to repair what can be repaired."
+    },
+    {
+     "t": "p",
+     "text": "But forgiveness does not always make every worldly consequence disappear."
+    },
+    {
+     "t": "p",
+     "text": "Mama pointed toward her mug."
+    },
+    {
+     "t": "p",
+     "text": "\"I forgive you.\""
+    },
+    {
+     "t": "p",
+     "text": "Akhlaq smiled."
+    },
+    {
+     "t": "p",
+     "text": "\"But the mug is still broken.\""
+    },
+    {
+     "t": "p",
+     "text": "His smile became smaller."
+    },
+    {
+     "t": "p",
+     "text": "\"And you still aren't allowed to climb onto the counter.\""
+    },
+    {
+     "t": "p",
+     "text": "Akhlaq nodded."
+    },
+    {
+     "t": "p",
+     "text": "That helped him understand the next part."
+    },
+    {
+     "t": "p",
+     "text": "Adam's repentance had been accepted, but human life on Earth was now beginning."
+    },
+    {
+     "t": "p",
+     "text": "Dadi reminded them that Earth had already been part of humanity's story before Adam's mistake. Before Adam had even been created, Allah had announced that humanity would live upon Earth."
+    },
+    {
+     "t": "p",
+     "text": "Adam and Hawwa were therefore not arriving without hope."
+    },
+    {
+     "t": "p",
+     "text": "They would begin human life carrying guidance."
+    },
+    {
+     "t": "p",
+     "text": "For the first time, human footsteps moved upon the earth."
+    },
+    {
+     "t": "p",
+     "text": "There were no human cities waiting for them."
+    },
+    {
+     "t": "p",
+     "text": "No farms planted by earlier generations."
+    },
+    {
+     "t": "p",
+     "text": "No grandparents."
+    },
+    {
+     "t": "p",
+     "text": "No neighbours."
+    },
+    {
+     "t": "p",
+     "text": "No schools."
+    },
+    {
+     "t": "p",
+     "text": "Human life had to begin."
+    },
+    {
+     "t": "p",
+     "text": "Adam and Hawwa would build a family, raise children, teach them and remember their Creator."
+    },
+    {
+     "t": "p",
+     "text": "Years passed."
+    },
+    {
+     "t": "p",
+     "text": "Their family grew."
+    },
+    {
+     "t": "p",
+     "text": "Children were born."
+    },
+    {
+     "t": "p",
+     "text": "Among their sons were two brothers whose story would become one of the earliest warnings in human history."
+    },
+    {
+     "t": "p",
+     "text": "Dadi removed two small cards from the envelope. One represented an offering that was accepted."
+    },
+    {
+     "t": "p",
+     "text": "The other represented an offering that was not."
+    },
+    {
+     "t": "p",
+     "text": "Then Imaan noticed the sixth envelope."
+    },
+    {
+     "t": "p",
+     "text": "Two stones."
+    },
+    {
+     "t": "p",
+     "text": "On the back was written:"
+    },
+    {
+     "t": "p",
+     "text": "Sometimes the most dangerous fire is not the one burning outside us."
+    },
+    {
+     "t": "p",
+     "text": "Beneath it stood one word:"
+    },
+    {
+     "t": "p",
+     "text": "ENVY."
+    },
+    {
+     "t": "p",
+     "text": "Akhlaq's expression changed."
+    },
+    {
+     "t": "p",
+     "text": "\"Habeel and Qabeel.\""
+    },
+    {
+     "t": "p",
+     "text": "Dadi nodded."
+    },
+    {
+     "t": "p",
+     "text": "Two brothers would offer something before Allah."
+    },
+    {
+     "t": "p",
+     "text": "One offering would be accepted."
+    },
+    {
+     "t": "p",
+     "text": "One would not."
+    },
+    {
+     "t": "p",
+     "text": "But the rejection itself was not yet the tragedy."
+    },
+    {
+     "t": "p",
+     "text": "The tragedy would begin with what one brother chose to do with the feeling growing inside his heart."
+    },
+    {
+     "t": "kv",
+     "label": "Challenge of the Day",
+     "text": "Own It and Repair It"
+    },
+    {
+     "t": "p",
+     "text": "Correct one mistake you have made instead of hiding it or blaming someone else. Admit what you did, apologise sincerely, and make an effort to repair the harm. Do not add 'but...' after your apology."
+    },
+    {
+     "t": "kv",
+     "label": "Level-Up",
+     "text": "If the other person forgives you, change the behaviour that caused the problem instead of assuming the job is finished."
+    }
+   ]
+  },
+  {
+   "id": "s06",
+   "number": 6,
+   "title": "The Fire Called Envy",
+   "subtitle": "The event of Habeel and Qabeel",
+   "blocks": [
+    {
+     "t": "p",
+     "text": "The final envelope felt different."
+    },
+    {
+     "t": "p",
+     "text": "Akhlaq usually fought to be the first person to open every mystery, but on this evening he quietly allowed Imaan to take it."
+    },
+    {
+     "t": "p",
+     "text": "Perhaps both children knew that this story would not be as cheerful as the others."
+    },
+    {
+     "t": "p",
+     "text": "The envelope showed two stones."
+    },
+    {
+     "t": "p",
+     "text": "On its back was the warning they had already discovered:"
+    },
+    {
+     "t": "p",
+     "text": "Sometimes the most dangerous fire is not the one burning outside us."
+    },
+    {
+     "t": "p",
+     "text": "Inside were two cards."
+    },
+    {
+     "t": "p",
+     "text": "One read:"
+    },
+    {
+     "t": "p",
+     "text": "ACCEPTED."
+    },
+    {
+     "t": "p",
+     "text": "The other:"
+    },
+    {
+     "t": "p",
+     "text": "NOT ACCEPTED."
+    },
+    {
+     "t": "p",
+     "text": "A final folded paper asked:"
+    },
+    {
+     "t": "p",
+     "text": "What do you do when someone else receives what you wanted?"
+    },
+    {
+     "t": "p",
+     "text": "Years had passed since the beginning of human life on Earth. Adam and Hawwa's family had grown, and among Adam's sons were two brothers remembered in Muslim tradition as Habeel and Qabeel."
+    },
+    {
+     "t": "p",
+     "text": "One day, the two brothers presented offerings to Allah."
+    },
+    {
+     "t": "p",
+     "text": "One was accepted."
+    },
+    {
+     "t": "p",
+     "text": "The other was not."
+    },
+    {
+     "t": "p",
+     "text": "Akhlaq immediately understood why this could become difficult. Rejection hurt."
+    },
+    {
+     "t": "p",
+     "text": "But Dadi explained that disappointment itself was not the problem."
+    },
+    {
+     "t": "p",
+     "text": "What a person did after disappointment was the real test."
+    },
+    {
+     "t": "p",
+     "text": "The brother whose offering was not accepted allowed his disappointment to turn toward his brother."
+    },
+    {
+     "t": "p",
+     "text": "Imaan found that unfair."
+    },
+    {
+     "t": "p",
+     "text": "His brother had not rejected the offering."
+    },
+    {
+     "t": "p",
+     "text": "He had not stolen anything."
+    },
+    {
+     "t": "p",
+     "text": "He had not caused the disappointment."
+    },
+    {
+     "t": "p",
+     "text": "Yet envy can distort the way a person sees another person's success."
+    },
+    {
+     "t": "p",
+     "text": "Dadi helped the children understand how such feelings can grow."
+    },
+    {
+     "t": "p",
+     "text": "At first, the thought may simply be:"
+    },
+    {
+     "t": "p",
+     "text": "I wanted that too."
+    },
+    {
+     "t": "p",
+     "text": "Then:"
+    },
+    {
+     "t": "p",
+     "text": "Why did he get it?"
+    },
+    {
+     "t": "p",
+     "text": "Then:"
+    },
+    {
+     "t": "p",
+     "text": "He didn't deserve it."
+    },
+    {
+     "t": "p",
+     "text": "And eventually:"
+    },
+    {
+     "t": "p",
+     "text": "I wish he didn't have it at all."
+    },
+    {
+     "t": "p",
+     "text": "That was the dangerous change."
+    },
+    {
+     "t": "p",
+     "text": "Wanting something good for yourself was not the same as wanting someone else to lose their blessing."
+    },
+    {
+     "t": "p",
+     "text": "Qabeel's jealousy continued growing until he threatened his brother."
+    },
+    {
+     "t": "p",
+     "text": "Habeel did not answer with another threat. He reminded him that acceptance was connected with being mindful of Allah."
+    },
+    {
+     "t": "p",
+     "text": "He did not say, I am better than you."
+    },
+    {
+     "t": "p",
+     "text": "That sentence belonged to another character in their story."
+    },
+    {
+     "t": "p",
+     "text": "Iblees."
+    },
+    {
+     "t": "p",
+     "text": "Habeel also refused to allow his brother's wrongdoing to choose his own character for him."
+    },
+    {
+     "t": "p",
+     "text": "Dadi carefully explained that this did not mean a person should remain in danger. Children should always protect themselves, move away from violence and seek help from trustworthy adults. Self-control did not mean allowing someone to hurt you."
+    },
+    {
+     "t": "p",
+     "text": "But Qabeel did not control what was growing within him."
+    },
+    {
+     "t": "p",
+     "text": "His soul gradually made the terrible act seem acceptable."
+    },
+    {
+     "t": "p",
+     "text": "Dadi demonstrated this by moving a pencil slowly toward Akhlaq."
+    },
+    {
+     "t": "p",
+     "text": "At first, a person's conscience might say:"
+    },
+    {
+     "t": "p",
+     "text": "No. That is wrong."
+    },
+    {
+     "t": "p",
+     "text": "Then anger begins supplying excuses:"
+    },
+    {
+     "t": "p",
+     "text": "He deserves it."
+    },
+    {
+     "t": "p",
+     "text": "He started it."
+    },
+    {
+     "t": "p",
+     "text": "Nobody understands me."
+    },
+    {
+     "t": "p",
+     "text": "It isn't really that bad."
+    },
+    {
+     "t": "p",
+     "text": "And eventually:"
+    },
+    {
+     "t": "p",
+     "text": "I have the right to do it."
+    },
+    {
+     "t": "p",
+     "text": "The action itself never became right."
+    },
+    {
+     "t": "p",
+     "text": "The excuses simply made it easier to commit."
+    },
+    {
+     "t": "p",
+     "text": "Eventually, Qabeel killed his brother."
+    },
+    {
+     "t": "p",
+     "text": "For the first time in human history, one human being had taken the life of another."
+    },
+    {
+     "t": "p",
+     "text": "Dadi did not describe the violence in frightening detail. The weight of what had happened was enough."
+    },
+    {
+     "t": "p",
+     "text": "The anger that had seemed powerful before the act gave Qabeel no peace afterward."
+    },
+    {
+     "t": "p",
+     "text": "Now something completely new faced humanity."
+    },
+    {
+     "t": "p",
+     "text": "Death."
+    },
+    {
+     "t": "p",
+     "text": "Qabeel did not know what to do with his brother's body."
+    },
+    {
+     "t": "p",
+     "text": "Allah sent a crow that scratched into the earth, and through what Qabeel witnessed, he learned how his brother's body could be covered."
+    },
+    {
+     "t": "p",
+     "text": "The man who had thought himself powerful now found himself learning even from a bird."
+    },
+    {
+     "t": "p",
+     "text": "And he became regretful."
+    },
+    {
+     "t": "p",
+     "text": "Akhlaq asked the question that mattered most."
+    },
+    {
+     "t": "p",
+     "text": "\"Could it have been stopped?\""
+    },
+    {
+     "t": "p",
+     "text": "\"Yes,\" Dadi replied. \"Long before the final act.\""
+    },
+    {
+     "t": "p",
+     "text": "It could have been stopped when disappointment first appeared."
+    },
+    {
+     "t": "p",
+     "text": "When comparison began."
+    },
+    {
+     "t": "p",
+     "text": "When envy entered."
+    },
+    {
+     "t": "p",
+     "text": "When anger grew."
+    },
+    {
+     "t": "p",
+     "text": "When the first threat was spoken."
+    },
+    {
+     "t": "p",
+     "text": "There had been many opportunities to turn back."
+    },
+    {
+     "t": "p",
+     "text": "The murder did not begin with the final act."
+    },
+    {
+     "t": "p",
+     "text": "It began with a feeling that was allowed to grow without correction."
+    },
+    {
+     "t": "p",
+     "text": "Just then Mama arrived with two slices of chocolate cake. One was noticeably larger."
+    },
+    {
+     "t": "p",
+     "text": "Both children saw it."
+    },
+    {
+     "t": "p",
+     "text": "Both looked at each other."
+    },
+    {
+     "t": "p",
+     "text": "Akhlaq reached toward the larger slice, stopped, and pushed it toward Imaan."
+    },
+    {
+     "t": "p",
+     "text": "\"You take it.\""
+    },
+    {
+     "t": "p",
+     "text": "Imaan smiled and divided a little of it back onto his plate."
+    },
+    {
+     "t": "p",
+     "text": "Dadi watched them."
+    },
+    {
+     "t": "p",
+     "text": "Small moments mattered."
+    },
+    {
+     "t": "p",
+     "text": "Nobody imagined that an argument over cake was comparable to Qabeel's terrible crime. But the heart practised its habits in ordinary situations: sharing, congratulating others, controlling comparison and learning to be happy when someone else received something good."
+    },
+    {
+     "t": "p",
+     "text": "Before the evening ended, Dadi gave them one final card:"
+    },
+    {
+     "t": "p",
+     "text": "If a bad feeling enters your heart, do not give it a home."
+    },
+    {
+     "t": "p",
+     "text": "Feeling a moment of jealousy did not make a child evil."
+    },
+    {
+     "t": "p",
+     "text": "The important question was what happened next."
+    },
+    {
+     "t": "p",
+     "text": "Would they feed the feeling?"
+    },
+    {
+     "t": "p",
+     "text": "Would they complain about the other person?"
+    },
+    {
+     "t": "p",
+     "text": "Would they try to spoil their happiness?"
+    },
+    {
+     "t": "p",
+     "text": "Or would they recognise the feeling, correct themselves and choose goodness?"
+    },
+    {
+     "t": "p",
+     "text": "The wooden box was finally empty."
+    },
+    {
+     "t": "p",
+     "text": "Six envelopes had been opened."
+    },
+    {
+     "t": "p",
+     "text": "The flame had introduced the world before humanity."
+    },
+    {
+     "t": "p",
+     "text": "The hand had revealed Adam and the gift of knowledge."
+    },
+    {
+     "t": "p",
+     "text": "The crown had exposed the arrogance of Iblees."
+    },
+    {
+     "t": "p",
+     "text": "The tree had shown how temptation could disguise itself as advice."
+    },
+    {
+     "t": "p",
+     "text": "The falling drop had revealed repentance and the beginning of earthly life."
+    },
+    {
+     "t": "p",
+     "text": "And the two stones had taught them what envy could become when left uncontrolled."
+    },
+    {
+     "t": "p",
+     "text": "Akhlaq looked almost disappointed that the mystery had ended."
+    },
+    {
+     "t": "p",
+     "text": "\"So that's everything?\""
+    },
+    {
+     "t": "p",
+     "text": "Dadi smiled. \"That is only the beginning.\""
+    },
+    {
+     "t": "p",
+     "text": "She reached behind the wooden box and placed a narrow case on the table."
+    },
+    {
+     "t": "p",
+     "text": "Akhlaq immediately opened it."
+    },
+    {
+     "t": "p",
+     "text": "Inside lay a single pen."
+    },
+    {
+     "t": "p",
+     "text": "Imaan looked puzzled."
+    },
+    {
+     "t": "p",
+     "text": "\"A pen?\""
+    },
+    {
+     "t": "p",
+     "text": "At the bottom of the case was one name:"
+    },
+    {
+     "t": "p",
+     "text": "IDRIS"
+    },
+    {
+     "t": "p",
+     "text": "The children looked at Dadi."
+    },
+    {
+     "t": "p",
+     "text": "\"What does a pen have to do with a Prophet?\" Akhlaq asked."
+    },
+    {
+     "t": "p",
+     "text": "Dadi gently closed the case."
+    },
+    {
+     "t": "p",
+     "text": "\"That,\" she said, \"is another story.\""
+    },
+    {
+     "t": "p",
+     "text": "And with that, the story of the first human family ended - while the story of humanity continued."
+    },
+    {
+     "t": "kv",
+     "label": "Challenge of the Day",
+     "text": "Celebrate, Don't Compete"
+    },
+    {
+     "t": "p",
+     "text": "Today, when someone receives something good that you also wanted - a good mark, praise, a turn, a role, a prize or attention - do one sincere act of kindness toward them. Congratulate them, encourage them, help them, or celebrate their success. Do not add a comparison about yourself afterward."
+    },
+    {
+     "t": "kv",
+     "label": "Level-Up",
+     "text": "Choose someone you regularly compete with and make your sincere act of kindness toward that person specifically."
+    }
+   ]
+  }
+ ],
+ "missions": [
+  {
+   "id": "m01",
+   "number": 1,
+   "title": "Before the First Footstep",
+   "story": 1,
+   "verses": [
+    "2:30",
+    "15:27"
+   ],
+   "discover": [
+    {
+     "t": "kv",
+     "label": "Source anchor",
+     "text": "Al-Baqarah 2:30; Al-Hijr 15:27"
+    },
+    {
+     "t": "kv",
+     "label": "Learning target",
+     "text": "Responsibility and purposeful action"
+    },
+    {
+     "t": "h",
+     "text": "Discover — the Qur’anic anchor"
+    },
+    {
+     "t": "ar",
+     "text": "إِنِّي جَاعِلٌ فِي الْأَرْضِ خَلِيفَةً"
+    },
+    {
+     "t": "h",
+     "text": "Al-Baqarah 2:30 (excerpt)"
+    },
+    {
+     "t": "kv",
+     "label": "Meaning guide",
+     "text": "Allah announced that human beings would live on Earth with responsibility."
+    },
+    {
+     "t": "h",
+     "text": "Understand — age-appropriate Tafsir"
+    },
+    {
+     "t": "p",
+     "text": "Before Adam (AS) was created, Allah informed the angels that He would place a khalifah on Earth. The angels asked a question about the harm that could occur there; Allah told them that He knew what they did not know. The passage teaches Allah's complete knowledge and the seriousness of human responsibility. It does not tell us every detail of the Earth's history, nor does it give children permission to claim knowledge of what the angels did not know. Al-Hijr 15:27 states that the jinn had been created before humankind. Our responsibility is to use the abilities and opportunities Allah gives us for good. We do not prove our worth by being famous or powerful; even a small honest act can be an important way of accepting responsibility."
+    },
+    {
+     "t": "h",
+     "text": "Explore — with Imaan and Akhlaq"
+    },
+    {
+     "t": "p",
+     "text": "At home, Akhlaq notices a dropped notebook near the door. Nobody has asked him to move it. Imaan wonders whether a good action only counts when an adult assigns it. Dadi Jaan reminds them of the first envelope: human beings have choices, and an important choice can begin with something very small."
+    }
+   ],
+   "evidence": [],
+   "question": "What shows responsibility when you notice a shared area is untidy?",
+   "choices": [
+    {
+     "letter": "A",
+     "text": "Wait until someone tells you exactly what to do.",
+     "correct": false,
+     "feedback": "Waiting is sometimes necessary for safety, but when you can help safely, initiative is valuable."
+    },
+    {
+     "letter": "B",
+     "text": "Safely tidy one thing and encourage others kindly.",
+     "correct": true,
+     "feedback": "Yes. Responsible action can be quiet, safe, and helpful."
+    },
+    {
+     "letter": "C",
+     "text": "Blame whoever last used the room.",
+     "correct": false,
+     "feedback": "Blame does not solve the problem. Start with a constructive action."
+    }
+   ],
+   "action": "Safely complete one helpful household task without being asked.",
+   "remember": [
+    {
+     "t": "kv",
+     "label": "A MOMENT TO REFLECT",
+     "text": "What good can I do today, even if nobody notices?"
+    }
+   ]
+  },
+  {
+   "id": "m02",
+   "number": 2,
+   "title": "Created with Honour",
+   "story": 2,
+   "verses": [
+    "15:26",
+    "38:71–72",
+    "3:59"
+   ],
+   "discover": [
+    {
+     "t": "kv",
+     "label": "Source anchor",
+     "text": "Al-Hijr 15:26, 28–29; Sad 38:71–72; Al Imran 3:59"
+    },
+    {
+     "t": "kv",
+     "label": "Learning target",
+     "text": "Dignity, humility and gratitude"
+    },
+    {
+     "t": "h",
+     "text": "Discover — the Qur’anic anchor"
+    },
+    {
+     "t": "ar",
+     "text": "إِنِّي خَالِقٌ بَشَرًا مِنْ طِينٍ"
+    },
+    {
+     "t": "h",
+     "text": "Sad 38:71 (excerpt)"
+    },
+    {
+     "t": "kv",
+     "label": "Meaning guide",
+     "text": "Allah created Adam (AS) from clay."
+    },
+    {
+     "t": "h",
+     "text": "Understand — age-appropriate Tafsir"
+    },
+    {
+     "t": "p",
+     "text": "Allah tells us that He created Adam (AS) from clay. Other Qur'anic passages describe different aspects of this earthly material, and the Qur'an also tells of Allah fashioning Adam. Adam did not enter the world through human parents. This was a distinct act of divine creation. The revealed account invites humility, not speculation about exact visual details or the unseen process. Allah honoured Adam, and people should never treat each other as less worthy because of their possessions, appearance, family, or abilities. Our bodies and talents are blessings to be used responsibly. A child who is skilled at sports, art, or schoolwork can be thankful without believing that another child is inferior."
+    },
+    {
+     "t": "h",
+     "text": "Explore — with Imaan and Akhlaq"
+    },
+    {
+     "t": "p",
+     "text": "At school, Imaan sees two children laughing at a classmate whose shoes are worn out. Akhlaq starts to join in, then remembers that none of them chose the family or circumstances into which they were born. He decides to treat the classmate with kindness instead."
+    }
+   ],
+   "evidence": [],
+   "question": "A classmate has fewer belongings than others. What should you do?",
+   "choices": [
+    {
+     "letter": "A",
+     "text": "Avoid sitting beside them.",
+     "correct": false,
+     "feedback": "Possessions do not decide someone’s dignity."
+    },
+    {
+     "letter": "B",
+     "text": "Treat them with the same respect as everyone else.",
+     "correct": true,
+     "feedback": "Correct. Respect is not earned by wealth or appearance."
+    },
+    {
+     "letter": "C",
+     "text": "Ask everyone why their things are old.",
+     "correct": false,
+     "feedback": "Questions about private circumstances may embarrass others."
+    }
+   ],
+   "action": "Show equal respect to a classmate or sibling who is often overlooked.",
+   "remember": [
+    {
+     "t": "kv",
+     "label": "A MOMENT TO REFLECT",
+     "text": "Have I ever judged someone by their belongings?"
+    }
+   ]
+  },
+  {
+   "id": "m03",
+   "number": 3,
+   "title": "The Gift of Knowledge",
+   "story": 2,
+   "verses": [
+    "2:31–33"
+   ],
+   "discover": [
+    {
+     "t": "kv",
+     "label": "Source anchor",
+     "text": "Al-Baqarah 2:31–33"
+    },
+    {
+     "t": "kv",
+     "label": "Learning target",
+     "text": "Learning and intellectual humility"
+    },
+    {
+     "t": "h",
+     "text": "Discover — the Qur’anic anchor"
+    },
+    {
+     "t": "ar",
+     "text": "سُبْحَانَكَ لَا عِلْمَ لَنَا إِلَّا مَا عَلَّمْتَنَا إِنَّكَ أَنْتَ الْعَلِيمُ الْحَكِيمُ"
+    },
+    {
+     "t": "h",
+     "text": "Al-Baqarah 2:32 (the angels’ words)"
+    },
+    {
+     "t": "kv",
+     "label": "Meaning guide",
+     "text": "We know only what Allah has taught us; He is All-Knowing and Wise."
+    },
+    {
+     "t": "h",
+     "text": "Understand — age-appropriate Tafsir"
+    },
+    {
+     "t": "p",
+     "text": "Allah taught Adam (AS) the names and demonstrated a knowledge that the angels had not been given. The angels responded with humility: they had no knowledge except what Allah taught them. The passage is not a contest in which one group is mocked; it is a lesson in Allah's wisdom and the limits of created knowledge. Children can learn two things together: asking questions is good, and saying 'I don't know yet' is honest. Learning a fact should lead to gratitude and service. When someone understands a lesson quickly, the most beautiful use of that ability is patient teaching, not showing off or putting others down."
+    },
+    {
+     "t": "h",
+     "text": "Explore — with Imaan and Akhlaq"
+    },
+    {
+     "t": "p",
+     "text": "Akhlaq solves a science problem quickly, but his friend Bilal is confused. At first Akhlaq says, “It is easy!” Imaan asks him whether the answer becomes more valuable if his friend also understands it. He sits beside Bilal and explains the first step without doing the whole task for him."
+    }
+   ],
+   "evidence": [],
+   "question": "Your friend does not understand a question you find easy. What is best?",
+   "choices": [
+    {
+     "letter": "A",
+     "text": "Explain patiently and give them time to try.",
+     "correct": true,
+     "feedback": "Exactly. Knowledge becomes helpful when shared humbly."
+    },
+    {
+     "letter": "B",
+     "text": "Tell everyone you are smarter.",
+     "correct": false,
+     "feedback": "Showing off can hurt someone and does not show good learning."
+    },
+    {
+     "letter": "C",
+     "text": "Finish their work for them without teaching.",
+     "correct": false,
+     "feedback": "Doing it all for them prevents their own learning."
+    }
+   ],
+   "action": "Teach one useful thing to someone patiently, without showing off.",
+   "remember": [
+    {
+     "t": "kv",
+     "label": "A MOMENT TO REFLECT",
+     "text": "What would I like to learn that I do not know yet?"
+    }
+   ]
+  },
+  {
+   "id": "m04",
+   "number": 4,
+   "title": "A Command and a Choice",
+   "story": 3,
+   "verses": [
+    "2:34",
+    "18:50"
+   ],
+   "discover": [
+    {
+     "t": "kv",
+     "label": "Source anchor",
+     "text": "Al-Baqarah 2:34; Al-Kahf 18:50"
+    },
+    {
+     "t": "kv",
+     "label": "Learning target",
+     "text": "Obedience to Allah and accountability"
+    },
+    {
+     "t": "h",
+     "text": "Discover — the Qur’anic anchor"
+    },
+    {
+     "t": "ar",
+     "text": "فَسَجَدُوا إِلَّا إِبْلِيسَ"
+    },
+    {
+     "t": "h",
+     "text": "Al-Baqarah 2:34 (excerpt)"
+    },
+    {
+     "t": "kv",
+     "label": "Meaning guide",
+     "text": "The angels obeyed the command; Iblis refused."
+    },
+    {
+     "t": "h",
+     "text": "Understand — age-appropriate Tafsir"
+    },
+    {
+     "t": "p",
+     "text": "Allah commanded the angels to prostrate before Adam (AS), as an act of obedience to Allah and an honour granted to Adam—not worship of Adam. The angels obeyed. Iblis refused. Al-Kahf 18:50 explicitly identifies Iblis as one of the jinn, so children must not be taught that he was an angel by nature. The Qur'an places responsibility on choices made after guidance is clear. For children, this means following good instructions from parents and teachers when those instructions are safe and proper, while understanding that no person may require them to do something wrong or harmful. The point is obedience to Allah and moral responsibility, not unquestioning obedience to any adult demand."
+    },
+    {
+     "t": "h",
+     "text": "Explore — with Imaan and Akhlaq"
+    },
+    {
+     "t": "p",
+     "text": "Akhlaq notices a sign asking students to keep the library quiet. He knows the rule, yet he wants to shout to a friend across the room. Imaan points to the sign and asks whether understanding a rule matters if he ignores it."
+    }
+   ],
+   "evidence": [],
+   "question": "Which action shows that knowing a good rule changed your behavior?",
+   "choices": [
+    {
+     "letter": "A",
+     "text": "Read the rule and then break it for fun.",
+     "correct": false,
+     "feedback": "Knowledge should lead to good action."
+    },
+    {
+     "letter": "B",
+     "text": "Ignore it because your friends do.",
+     "correct": false,
+     "feedback": "Peer pressure does not make the choice right."
+    },
+    {
+     "letter": "C",
+     "text": "Follow the fair rule, and ask for clarification if needed.",
+     "correct": true,
+     "feedback": "Yes. Understanding and responsible action work together."
+    }
+   ],
+   "action": "Follow one important, reasonable school or home rule carefully today.",
+   "remember": [
+    {
+     "t": "kv",
+     "label": "A MOMENT TO REFLECT",
+     "text": "What good instruction is hardest for me to remember?"
+    }
+   ]
+  },
+  {
+   "id": "m05",
+   "number": 5,
+   "title": "The Trap of “I Am Better”",
+   "story": 3,
+   "verses": [
+    "7:12–18",
+    "38:76",
+    "15:42"
+   ],
+   "discover": [
+    {
+     "t": "kv",
+     "label": "Source anchor",
+     "text": "Al-A‘raf 7:12–18; Sad 38:76; Al-Hijr 15:42"
+    },
+    {
+     "t": "kv",
+     "label": "Learning target",
+     "text": "Humility and resisting arrogance"
+    },
+    {
+     "t": "h",
+     "text": "Discover — the Qur’anic anchor"
+    },
+    {
+     "t": "ar",
+     "text": "أَنَا خَيْرٌ مِنْهُ خَلَقْتَنِي مِنْ نَارٍ وَخَلَقْتَهُ مِنْ طِينٍ"
+    },
+    {
+     "t": "h",
+     "text": "Al-A‘raf 7:12 (Iblis’s boast; historical quotation)"
+    },
+    {
+     "t": "kv",
+     "label": "Meaning guide",
+     "text": "Iblis claimed he was better than Adam because of the material of his creation."
+    },
+    {
+     "t": "h",
+     "text": "Understand — age-appropriate Tafsir"
+    },
+    {
+     "t": "p",
+     "text": "Iblis refused to follow Allah's command and defended himself by claiming superiority. He compared fire with clay, as if his personal judgment could overrule his Creator's instruction. The Qur'an exposes a danger beyond ordinary confidence: arrogance that rejects truth and looks down on others. Children may be proud of working hard or improving a skill, but should not use their strengths to belittle someone else. They can celebrate success while remaining grateful. The same lesson helps them question statements like 'my family is better,' 'my grades make me more important,' or 'you cannot play because you are different.' The verse reports Iblis's wrong claim; it is not a phrase to recite devotionally."
+    },
+    {
+     "t": "h",
+     "text": "Explore — with Imaan and Akhlaq"
+    },
+    {
+     "t": "p",
+     "text": "Akhlaq wins a classroom quiz and begins listing the classmates who scored below him. Imaan asks whether his success would disappear if he congratulated someone else. Akhlaq thinks about Bilal, whom he had embarrassed before, and chooses to offer help instead of comparison."
+    }
+   ],
+   "evidence": [],
+   "question": "You come first in a competition. What is a good response?",
+   "choices": [
+    {
+     "letter": "A",
+     "text": "Tell everyone who came last.",
+     "correct": false,
+     "feedback": "Sharing others’ disappointment is not kindness."
+    },
+    {
+     "letter": "B",
+     "text": "Thank Allah and congratulate others respectfully.",
+     "correct": true,
+     "feedback": "Correct. Gratitude and good manners can accompany success."
+    },
+    {
+     "letter": "C",
+     "text": "Stop speaking to classmates who lost.",
+     "correct": false,
+     "feedback": "Success does not give anyone permission to exclude others."
+    }
+   ],
+   "action": "Congratulate another child sincerely without comparing their result with yours.",
+   "remember": [
+    {
+     "t": "kv",
+     "label": "A MOMENT TO REFLECT",
+     "text": "When does confidence turn into pride?"
+    }
+   ]
+  },
+  {
+   "id": "m06",
+   "number": 6,
+   "title": "Blessings and Boundaries",
+   "story": 4,
+   "verses": [
+    "2:35",
+    "7:19",
+    "20:117–119"
+   ],
+   "discover": [
+    {
+     "t": "kv",
+     "label": "Source anchor",
+     "text": "Al-Baqarah 2:35; Al-A‘raf 7:19; Ta-Ha 20:117–119"
+    },
+    {
+     "t": "kv",
+     "label": "Learning target",
+     "text": "Gratitude, respecting limits"
+    },
+    {
+     "t": "h",
+     "text": "Discover — the Qur’anic anchor"
+    },
+    {
+     "t": "ar",
+     "text": "وَلَا تَقْرَبَا هَٰذِهِ الشَّجَرَةَ"
+    },
+    {
+     "t": "h",
+     "text": "Al-Baqarah 2:35 (excerpt)"
+    },
+    {
+     "t": "kv",
+     "label": "Meaning guide",
+     "text": "Adam and his wife were told not to approach a particular tree."
+    },
+    {
+     "t": "h",
+     "text": "Understand — age-appropriate Tafsir"
+    },
+    {
+     "t": "p",
+     "text": "Allah allowed Adam (AS) and his wife to enjoy the blessings of Paradise, while giving them a clear restriction concerning one tree. The Qur'an does not identify the tree's species, and guessing its fruit adds nothing needed for the lesson. The story begins with generosity: many blessings were permitted before the single restriction was mentioned. Children can recognize how unwise choices sometimes begin when they fix their attention on one forbidden thing and forget everything they already have. In daily life, boundaries protect safety, privacy, and trust. A rule against unsafe downloading, leaving home without permission, or harming someone does not remove a child's freedom to enjoy countless good and safe activities."
+    },
+    {
+     "t": "h",
+     "text": "Explore — with Imaan and Akhlaq"
+    },
+    {
+     "t": "p",
+     "text": "Mama allows the children to use the tablet for a learning game, but asks them not to install anything. Akhlaq sees an exciting advertisement. Imaan reminds him that they already have good activities available and that one unsafe click could create problems."
+    }
+   ],
+   "evidence": [],
+   "question": "An unfamiliar game link promises a reward if you install it secretly. What should you do?",
+   "choices": [
+    {
+     "letter": "A",
+     "text": "Ask a trusted adult and respect the rule.",
+     "correct": true,
+     "feedback": "Yes. Caution and permission help keep everyone safe."
+    },
+    {
+     "letter": "B",
+     "text": "Install it quickly before anyone sees.",
+     "correct": false,
+     "feedback": "Secrecy is not a good safety check."
+    },
+    {
+     "letter": "C",
+     "text": "Share the link with friends so they can try it first.",
+     "correct": false,
+     "feedback": "Passing on an unknown link can put friends at risk too."
+    }
+   ],
+   "action": "Ask permission before opening or downloading something new on a device.",
+   "remember": [
+    {
+     "t": "kv",
+     "label": "A MOMENT TO REFLECT",
+     "text": "Which good things can I enjoy instead of focusing on what is forbidden?"
+    }
+   ]
+  },
+  {
+   "id": "m07",
+   "number": 7,
+   "title": "When a Whisper Sounds Helpful",
+   "story": 4,
+   "verses": [
+    "7:20–22",
+    "20:120"
+   ],
+   "discover": [
+    {
+     "t": "kv",
+     "label": "Source anchor",
+     "text": "Al-A‘raf 7:20–22; Ta-Ha 20:120"
+    },
+    {
+     "t": "kv",
+     "label": "Learning target",
+     "text": "Careful thinking and resisting temptation"
+    },
+    {
+     "t": "h",
+     "text": "Discover — the Qur’anic anchor"
+    },
+    {
+     "t": "ar",
+     "text": "فَوَسْوَسَ لَهُمَا الشَّيْطَانُ"
+    },
+    {
+     "t": "h",
+     "text": "Al-A‘raf 7:20 (excerpt)"
+    },
+    {
+     "t": "kv",
+     "label": "Meaning guide",
+     "text": "Shaytan whispered to Adam and his wife."
+    },
+    {
+     "t": "h",
+     "text": "Understand — age-appropriate Tafsir"
+    },
+    {
+     "t": "p",
+     "text": "In the Qur'anic account, Shaytan did not present his suggestion as open harm. He whispered and made the disobedience appear attractive. The verses describe the temptation and its consequences without requiring us to invent the tree's identity or imagined conversations. For children, the teaching is not to become frightened of every thought; it is to pause when a suggestion conflicts with what is right. Pressure may come through classmates, advertisements, or one's own desire for quick reward. A strong response can be a quiet 'no,' moving away, asking a trusted adult, and choosing a safer alternative. The child is responsible for choices, and adults should guide rather than shame children who ask for help."
+    },
+    {
+     "t": "h",
+     "text": "Explore — with Imaan and Akhlaq"
+    },
+    {
+     "t": "p",
+     "text": "A classmate says the whole group should copy answers because “everyone is doing it.” Akhlaq wants to belong. Imaan asks whether the crowd can change a wrong action into a right one. He decides to work honestly and seek help with the lesson later."
+    }
+   ],
+   "evidence": [],
+   "question": "Someone says, “Everybody cheats a little; don’t worry.” What is best?",
+   "choices": [
+    {
+     "letter": "A",
+     "text": "Join in because most people agree.",
+     "correct": false,
+     "feedback": "A crowd cannot turn cheating into honesty."
+    },
+    {
+     "letter": "B",
+     "text": "Refuse calmly and choose honest work.",
+     "correct": true,
+     "feedback": "Correct. Calm refusal shows real strength."
+    },
+    {
+     "letter": "C",
+     "text": "Secretly record a friend and share it online.",
+     "correct": false,
+     "feedback": "Protect others’ privacy; seek help from a responsible adult when needed."
+    }
+   ],
+   "action": "Say a calm “no” to one unsafe or dishonest suggestion today.",
+   "remember": [
+    {
+     "t": "kv",
+     "label": "A MOMENT TO REFLECT",
+     "text": "What words make a wrong choice sound attractive?"
+    }
+   ]
+  },
+  {
+   "id": "m08",
+   "number": 8,
+   "title": "The Door of Repentance",
+   "story": 5,
+   "verses": [
+    "7:23",
+    "2:37",
+    "20:122"
+   ],
+   "discover": [
+    {
+     "t": "kv",
+     "label": "Source anchor",
+     "text": "Al-A‘raf 7:23; Al-Baqarah 2:37; Ta-Ha 20:122"
+    },
+    {
+     "t": "kv",
+     "label": "Learning target",
+     "text": "Repentance, honesty and hope"
+    },
+    {
+     "t": "h",
+     "text": "Discover — the Qur’anic anchor"
+    },
+    {
+     "t": "ar",
+     "text": "رَبَّنَا ظَلَمْنَا أَنْفُسَنَا وَإِنْ لَمْ تَغْفِرْ لَنَا وَتَرْحَمْنَا لَنَكُونَنَّ مِنَ الْخَاسِرِينَ"
+    },
+    {
+     "t": "h",
+     "text": "Al-A‘raf 7:23 (complete supplication)"
+    },
+    {
+     "t": "kv",
+     "label": "Meaning guide",
+     "text": "Our Lord, we have wronged ourselves. If You do not forgive us and have mercy on us, we will surely be among the losers."
+    },
+    {
+     "t": "h",
+     "text": "Understand — age-appropriate Tafsir"
+    },
+    {
+     "t": "p",
+     "text": "Adam (AS) and his wife admitted their wrong and turned to Allah with a supplication recorded in Al-A'raf 7:23. The Qur'an also tells us that Allah accepted Adam's repentance (2:37; 20:122). This response differs from Iblis's arrogant refusal to acknowledge wrongdoing. Tawbah is not a magic phrase that erases the duty to correct harm; sincere repentance includes regret, stopping wrong conduct, and resolving not to repeat it. When another person's rights are involved, a child should try to put matters right with safe adult guidance. Never ask children to reveal private sins to the app. Children can learn this Qur'anic Du'a through careful, gradual memorization, hearing its meaning as words of hope and humility."
+    },
+    {
+     "t": "h",
+     "text": "Explore — with Imaan and Akhlaq"
+    },
+    {
+     "t": "p",
+     "text": "Akhlaq accidentally breaks a cup while reaching for something he was told not to touch. He is frightened and considers blaming the cat. He remembers Dadi Jaan’s two cards, “I am better” and “I have wronged myself,” and decides to tell Mama what happened and ask for help cleaning up the pieces safely."
+    }
+   ],
+   "evidence": [],
+   "question": "You break something and are afraid to admit it. What should you do?",
+   "choices": [
+    {
+     "letter": "A",
+     "text": "Blame a younger sibling.",
+     "correct": false,
+     "feedback": "Blaming others adds another wrong."
+    },
+    {
+     "letter": "B",
+     "text": "Hide sharp pieces under a rug.",
+     "correct": false,
+     "feedback": "Hiding sharp pieces can hurt someone."
+    },
+    {
+     "letter": "C",
+     "text": "Tell a trusted adult the truth, apologize, and help safely.",
+     "correct": true,
+     "feedback": "Yes. Truthfulness, apology, and safe repair are good steps."
+    }
+   ],
+   "action": "Correct one small mistake honestly today and make amends where possible.",
+   "remember": [
+    {
+     "t": "kv",
+     "label": "A MOMENT TO REFLECT",
+     "text": "How does admitting a mistake help me change?"
+    }
+   ]
+  },
+  {
+   "id": "m09",
+   "number": 9,
+   "title": "Guidance for Life on Earth",
+   "story": 5,
+   "verses": [
+    "2:38–39",
+    "20:123"
+   ],
+   "discover": [
+    {
+     "t": "kv",
+     "label": "Source anchor",
+     "text": "Al-Baqarah 2:38–39; Ta-Ha 20:123"
+    },
+    {
+     "t": "kv",
+     "label": "Learning target",
+     "text": "Hope, guidance and responsibility"
+    },
+    {
+     "t": "h",
+     "text": "Discover — the Qur’anic anchor"
+    },
+    {
+     "t": "ar",
+     "text": "فَمَنْ تَبِعَ هُدَايَ فَلَا خَوْفٌ عَلَيْهِمْ وَلَا هُمْ يَحْزَنُونَ"
+    },
+    {
+     "t": "h",
+     "text": "Al-Baqarah 2:38 (excerpt)"
+    },
+    {
+     "t": "kv",
+     "label": "Meaning guide",
+     "text": "Whoever follows Allah’s guidance is promised a path of reassurance from Him."
+    },
+    {
+     "t": "h",
+     "text": "Understand — age-appropriate Tafsir"
+    },
+    {
+     "t": "p",
+     "text": "Allah had announced an earthly role for humanity before Adam's test (2:30). After the episode in Paradise, the Qur'an speaks about descent and promises guidance. The lesson is therefore not that human life became meaningless or hopeless. People would face choices and consequences, yet Allah would guide them through revelation and His messengers. For children, this means knowing where to look when confused: sound Qur'anic teaching, authentic Sunnah, and trusted adults who can help apply them wisely. Guidance does not mean every day will be easy or that a person will never feel sad; it offers a direction for faith and conduct. The promise of the verse must not be turned into a claim that anxiety or sadness proves poor faith."
+    },
+    {
+     "t": "h",
+     "text": "Explore — with Imaan and Akhlaq"
+    },
+    {
+     "t": "p",
+     "text": "Imaan and Akhlaq are unsure how to respond when two friends quarrel. Instead of choosing sides without knowing what happened, they seek advice, listen fairly, and decide to avoid spreading the argument through the class."
+    }
+   ],
+   "evidence": [],
+   "question": "You are unsure whether a choice is right. What is a good first step?",
+   "choices": [
+    {
+     "letter": "A",
+     "text": "Ask a knowledgeable, trusted adult and check reliable guidance.",
+     "correct": true,
+     "feedback": "Yes. Seeking sound guidance is a wise habit."
+    },
+    {
+     "letter": "B",
+     "text": "Copy what gets the most likes.",
+     "correct": false,
+     "feedback": "Popularity is not a test of truth."
+    },
+    {
+     "letter": "C",
+     "text": "Guess and insist you cannot be mistaken.",
+     "correct": false,
+     "feedback": "Humility helps us correct a mistaken guess."
+    }
+   ],
+   "action": "Ask one sincere question about good behavior to a trusted parent or teacher.",
+   "remember": [
+    {
+     "t": "kv",
+     "label": "A MOMENT TO REFLECT",
+     "text": "Whom can I ask when I need reliable guidance?"
+    }
+   ]
+  },
+  {
+   "id": "m10",
+   "number": 10,
+   "title": "When Envy Takes Over",
+   "story": 6,
+   "verses": [
+    "5:27–31"
+   ],
+   "discover": [
+    {
+     "t": "kv",
+     "label": "Source anchor",
+     "text": "Al-Ma’idah 5:27–31"
+    },
+    {
+     "t": "kv",
+     "label": "Learning target",
+     "text": "Avoiding envy, peace and respect for life"
+    },
+    {
+     "t": "h",
+     "text": "Discover — the Qur’anic anchor"
+    },
+    {
+     "t": "ar",
+     "text": "إِنَّمَا يَتَقَبَّلُ اللَّهُ مِنَ الْمُتَّقِينَ"
+    },
+    {
+     "t": "p",
+     "text": "Al-Ma’idah 5:27 (excerpt, words of the brother whose offering was accepted)"
+    },
+    {
+     "t": "kv",
+     "label": "Meaning guide",
+     "text": "Allah accepts from those who are mindful of Him."
+    },
+    {
+     "t": "h",
+     "text": "Understand — age-appropriate Tafsir"
+    },
+    {
+     "t": "p",
+     "text": "The Qur'an relates the account of Adam's two sons, whose offerings had different outcomes. One threatened the other and then committed murder. The victim reminded him of mindfulness of Allah; later, a crow helped the wrongdoer recognize how to cover his brother's body, and he experienced regret. The Qur'an does not name the brothers; the familiar names Habil and Qabil are known from later Islamic historical tradition. Their story must not become entertainment about violence, a competitive fight, or a claim that a young child who feels jealous is like a murderer. Jealousy is a feeling that must be handled wisely; adults can help children notice comparisons early, avoid threats, seek support, and congratulate others. The seriousness of life and wrongdoing is taught without frightening imagery."
+    },
+    {
+     "t": "h",
+     "text": "Explore — with Imaan and Akhlaq"
+    },
+    {
+     "t": "p",
+     "text": "Akhlaq is disappointed when another student receives an award he wanted. At first he says the winner did not deserve it. Imaan listens and helps him separate two questions: “Am I disappointed?” and “Should I wish harm on someone else?” Akhlaq decides to congratulate his classmate and ask his teacher how to improve for next time."
+    }
+   ],
+   "evidence": [],
+   "question": "Your friend wins a prize you wanted. What is the best next step?",
+   "choices": [
+    {
+     "letter": "A",
+     "text": "Spoil the celebration so they feel bad.",
+     "correct": false,
+     "feedback": "Hurting someone does not remove disappointment."
+    },
+    {
+     "letter": "B",
+     "text": "Congratulate them and plan how to improve.",
+     "correct": true,
+     "feedback": "Correct. You can feel disappointed and still act kindly."
+    },
+    {
+     "letter": "C",
+     "text": "Spread a rumor that the result was unfair.",
+     "correct": false,
+     "feedback": "Rumors can harm people and rarely solve the problem."
+    }
+   ],
+   "action": "Congratulate someone today for a success you also hoped to achieve.",
+   "remember": [
+    {
+     "t": "kv",
+     "label": "A MOMENT TO REFLECT",
+     "text": "What can I do when I feel jealous without hurting anyone?"
+    }
+   ]
+  }
+ ],
+ "review": [
+  {
+   "arabic": "إِنِّي جَاعِلٌ فِي الْأَرْضِ خَلِيفَةً",
+   "reference": "Al-Baqarah 2:30 (excerpt)",
+   "meaning": "Allah announced that human beings would live on Earth with responsibility."
+  },
+  {
+   "arabic": "إِنِّي خَالِقٌ بَشَرًا مِنْ طِينٍ",
+   "reference": "Sad 38:71 (excerpt)",
+   "meaning": "Allah created Adam (AS) from clay."
+  },
+  {
+   "arabic": "سُبْحَانَكَ لَا عِلْمَ لَنَا إِلَّا مَا عَلَّمْتَنَا إِنَّكَ أَنْتَ الْعَلِيمُ الْحَكِيمُ",
+   "reference": "Al-Baqarah 2:32 (the angels’ words)",
+   "meaning": "We know only what Allah has taught us; He is All-Knowing and Wise."
+  },
+  {
+   "arabic": "فَسَجَدُوا إِلَّا إِبْلِيسَ",
+   "reference": "Al-Baqarah 2:34 (excerpt)",
+   "meaning": "The angels obeyed the command; Iblis refused."
+  },
+  {
+   "arabic": "أَنَا خَيْرٌ مِنْهُ خَلَقْتَنِي مِنْ نَارٍ وَخَلَقْتَهُ مِنْ طِينٍ",
+   "reference": "Al-A‘raf 7:12 (Iblis’s boast; historical quotation)",
+   "meaning": "Iblis claimed he was better than Adam because of the material of his creation."
+  },
+  {
+   "arabic": "وَلَا تَقْرَبَا هَٰذِهِ الشَّجَرَةَ",
+   "reference": "Al-Baqarah 2:35 (excerpt)",
+   "meaning": "Adam and his wife were told not to approach a particular tree."
+  },
+  {
+   "arabic": "فَوَسْوَسَ لَهُمَا الشَّيْطَانُ",
+   "reference": "Al-A‘raf 7:20 (excerpt)",
+   "meaning": "Shaytan whispered to Adam and his wife."
+  },
+  {
+   "arabic": "رَبَّنَا ظَلَمْنَا أَنْفُسَنَا وَإِنْ لَمْ تَغْفِرْ لَنَا وَتَرْحَمْنَا لَنَكُونَنَّ مِنَ الْخَاسِرِينَ",
+   "reference": "Al-A‘raf 7:23 (complete supplication)",
+   "meaning": "Our Lord, we have wronged ourselves. If You do not forgive us and have mercy on us, we will surely be among the losers."
+  },
+  {
+   "arabic": "فَمَنْ تَبِعَ هُدَايَ فَلَا خَوْفٌ عَلَيْهِمْ وَلَا هُمْ يَحْزَنُونَ",
+   "reference": "Al-Baqarah 2:38 (excerpt)",
+   "meaning": "Whoever follows Allah’s guidance is promised a path of reassurance from Him."
+  },
+  {
+   "arabic": "إِنَّمَا يَتَقَبَّلُ اللَّهُ مِنَ الْمُتَّقِينَ",
+   "meaning": "Allah accepts from those who are mindful of Him."
+  }
+ ],
+ "synthesis": [
+  {
+   "t": "p",
+   "text": "The beginning of humanity teaches children that Allah's creation is purposeful and His guidance is generous. Adam (AS) was honoured with knowledge, yet human abilities are never grounds for arrogance. The story of Iblis exposes the danger of using gifts to claim superiority. The garden teaches grateful enjoyment within limits; the temptation teaches the need to pause before attractive wrongdoing. Above all, Adam's supplication shows the door of sincere repentance. The story of the two sons adds a serious warning against feeding envy until it harms others."
+  },
+  {
+   "t": "h",
+   "text": "The six qualities to carry forward"
+  },
+  {
+   "t": "h",
+   "text": "Quality"
+  },
+  {
+   "t": "h",
+   "text": "What the child can say"
+  },
+  {
+   "t": "h",
+   "text": "One behavior to notice"
+  },
+  {
+   "t": "h",
+   "text": "Responsibility"
+  },
+  {
+   "t": "p",
+   "text": "I can help in small ways."
+  },
+  {
+   "t": "h",
+   "text": "Helpful action without showing off"
+  },
+  {
+   "t": "h",
+   "text": "Knowledge"
+  },
+  {
+   "t": "p",
+   "text": "I can learn and help others learn."
+  },
+  {
+   "t": "h",
+   "text": "Patient teaching"
+  },
+  {
+   "t": "h",
+   "text": "Humility"
+  },
+  {
+   "t": "p",
+   "text": "My strengths do not make others less worthy."
+  },
+  {
+   "t": "h",
+   "text": "Respectful celebration"
+  },
+  {
+   "t": "h",
+   "text": "Self-control"
+  },
+  {
+   "t": "p",
+   "text": "I can pause before choosing."
+  },
+  {
+   "t": "h",
+   "text": "Refuses unsafe pressure"
+  },
+  {
+   "t": "h",
+   "text": "Repentance"
+  },
+  {
+   "t": "p",
+   "text": "I can admit a mistake and improve."
+  },
+  {
+   "t": "h",
+   "text": "Honest repair"
+  },
+  {
+   "t": "h",
+   "text": "Compassion"
+  },
+  {
+   "t": "p",
+   "text": "I can be happy for another person."
+  },
+  {
+   "t": "h",
+   "text": "Congratulates others"
+  },
+  {
+   "t": "h",
+   "text": "World completion activity — The Six-Envelope Review"
+  },
+  {
+   "t": "p",
+   "text": "After the ten missions, the child returns to Dadi Jaan’s wooden box. Six symbols appear: a flame, a hand, a crown, a tree, a drop, and two stones. The child matches each symbol to the relevant part of the story, explains one authentic teaching, and chooses one real-world habit to practise. The reward is an illustrated page titled “A Good Beginning”; it is a learning keepsake, not a judgment of the child’s faith."
+  },
+  {
+   "t": "h",
+   "text": "Optional seven-day habit journey"
+  },
+  {
+   "t": "h",
+   "text": "Day"
+  },
+  {
+   "t": "h",
+   "text": "Suggested focus"
+  },
+  {
+   "t": "h",
+   "text": "No-pressure parent prompt"
+  },
+  {
+   "t": "h",
+   "text": "1"
+  },
+  {
+   "t": "h",
+   "text": "Help quietly"
+  },
+  {
+   "t": "p",
+   "text": "Where did you make life easier for someone?"
+  },
+  {
+   "t": "h",
+   "text": "2"
+  },
+  {
+   "t": "h",
+   "text": "Share knowledge"
+  },
+  {
+   "t": "p",
+   "text": "What did you explain patiently?"
+  },
+  {
+   "t": "h",
+   "text": "3"
+  },
+  {
+   "t": "h",
+   "text": "Practise humility"
+  },
+  {
+   "t": "p",
+   "text": "Whom did you congratulate?"
+  },
+  {
+   "t": "h",
+   "text": "4"
+  },
+  {
+   "t": "h",
+   "text": "Respect a boundary"
+  },
+  {
+   "t": "p",
+   "text": "What safe choice did you make?"
+  },
+  {
+   "t": "h",
+   "text": "5"
+  },
+  {
+   "t": "h",
+   "text": "Pause before acting"
+  },
+  {
+   "t": "p",
+   "text": "What helped you resist pressure?"
+  },
+  {
+   "t": "h",
+   "text": "6"
+  },
+  {
+   "t": "h",
+   "text": "Repair a mistake"
+  },
+  {
+   "t": "p",
+   "text": "What did you learn about apology?"
+  },
+  {
+   "t": "h",
+   "text": "7"
+  },
+  {
+   "t": "h",
+   "text": "Celebrate another person"
+  },
+  {
+   "t": "p",
+   "text": "How did kindness change your feelings?"
+  }
+ ],
+ "source": {
+  "document": "originals/06-IBRAH/IBRAH_Junior_Volume_01_Prophet_Adam_Complete_Stories_and_Gamified_Missions.docx",
+  "extractedText": "extracted/06-IBRAH/IBRAH_Junior_Volume_01_Prophet_Adam_Complete_Stories_and_Gamified_Missions.txt",
+  "sha256": "72F93399AC2053641C6DD4E258809CF5B2723E474A02C52D2B63FC87EF6FC995",
+  "collection": "imaan-email-content-2026-11-14 (later 24-file IBRAH bundle)",
+  "status": "Working edition from the content owner. Arabic, translations, Tafsir and child-safeguarding require qualified scholarly review before release."
+ }
+}
