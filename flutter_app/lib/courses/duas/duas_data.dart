@@ -168,9 +168,16 @@ class DuaVolume {
     });
   }
 
+  // loadString hands files over 50 KB to a background isolate; decoding
+  // the bytes here keeps loading simple and works under the test clock.
+  static Future<String> _text(AssetBundle bundle, String key) async {
+    final data = await bundle.load(key);
+    return utf8.decode(data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes));
+  }
+
   static Future<List<DuaVolume>> _load(AssetBundle bundle) async => [
     for (var v = 1; v <= count; v++)
-      DuaVolume.fromJson(await bundle.loadString(assetFor(v))),
+      DuaVolume.fromJson(await _text(bundle, assetFor(v))),
   ];
 }
 

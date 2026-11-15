@@ -23,9 +23,17 @@ double _arabicSize(String text) => text.length > 300
     : 30;
 
 class DuasCourseScreen extends StatefulWidget {
-  const DuasCourseScreen({super.key, required this.scope, this.store});
+  const DuasCourseScreen({
+    super.key,
+    required this.scope,
+    this.store,
+    this.loadVolumes,
+  });
   final String scope;
   final DuaProgressStore? store;
+
+  /// Defaults to the bundled volumes (DuaVolume.loadAll).
+  final Future<List<DuaVolume>> Function()? loadVolumes;
   @override
   State<DuasCourseScreen> createState() => _DuasCourseScreenState();
 }
@@ -55,7 +63,7 @@ class _DuasCourseScreenState extends State<DuasCourseScreen> {
       _volumes = null;
     });
     try {
-      final volumes = await DuaVolume.loadAll();
+      final volumes = await (widget.loadVolumes ?? DuaVolume.loadAll)();
       final saved = await _store.load();
       if (!mounted) return;
       _progress.value = saved;
@@ -655,10 +663,14 @@ class _DuaLessonScreenState extends State<DuaLessonScreen> {
                 ),
               ],
               Expanded(
-                child: ListView(
+                // Not lazy: a lesson page is short and should be built whole.
+                child: SingleChildScrollView(
                   controller: _scroll,
                   padding: const EdgeInsets.fromLTRB(18, 20, 18, 20),
-                  children: _summary ? _finish() : _content(),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: _summary ? _finish() : _content(),
+                  ),
                 ),
               ),
               if (_error != null)
