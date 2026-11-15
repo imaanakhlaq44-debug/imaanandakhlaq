@@ -1,45 +1,55 @@
-# Hadith: five-lesson playable preview
+# Hadith to Live By: 100 playable lessons
 
 ## Content provenance
 
-The Arabic passages, lesson names, child-friendly meanings, explanations, daily actions and source references come from the supplied `Imaan_Akhlaq_50_Hadith_Curriculum_Interactive_Developer_Edition.docx` (3 November 2026, version 1.1), extracted from the email thread. The first five entries of World 01, My Words and Honesty, are used.
+All 100 lessons are bundled in `assets/data/hadith-demo.json`. The file name stays the same because `pubspec.yaml` lists it.
 
-| Lesson | Source reference |
-|---|---|
-| Truth Lights the Way | Sahih al-Bukhari 6094 |
-| A Promise Matters | Sahih al-Bukhari 33 |
-| Choose Kind Words | Sahih al-Bukhari 6018 |
-| Safe Hands, Safe Words | Sahih al-Bukhari 10 |
-| Beautiful Character | Sahih al-Bukhari 3559 |
+| Lessons | Worlds | Source document (recorded per lesson in `sourceDocument`) |
+|---|---|---|
+| 1–50 | 1–10 | `Imaan_Akhlaq_50_Hadith_Curriculum_Interactive_Developer_Edition.docx` (3 November 2026, v1.1) |
+| 51–100 | 11–20 | `Imaan_Akhlaq_Hadith_51_to_100_New_Authentic_Actions.docx` |
 
-Source URLs are retained per lesson. The short memorization fields must not be mistaken for a replacement for the complete narration. Excerpt flags are preserved from the provided curriculum; the source action opens the full narration.
+For lessons 1–50, the base edition (`Imaan_Akhlaq_50_Authentic_Hadith_Character_Action_Curriculum.docx`) was compared field by field with the interactive edition. They are identical.
 
-The modern Imaan/Akhlaq scenarios, three-choice questions and formative feedback were authored for this sample as fictional teaching activities. They are not presented as quotations, historical reports, or new religious rules. The Arabic learning chunks recombine into the exact supplied passage. The first source guide itself requires final Arabic/Hadith/pedagogy review before production publication; this sample is not an independent scholarly certification.
+**Verbatim from the source:** title, Arabic memorization text, the "What it means" text (`meaning`), the "Let's learn" text (`explanation`), the daily action, source reference and URL, and world titles. The memorization label (`label`) is also verbatim, for example "EXCERPT", "NARRATOR'S REPORT; EXCERPT" or "EXCERPT; HASAN GRADING (DARUSSALAM)". `excerpt` is true when that label says EXCERPT. These fields were extracted by script from the email extraction (`imaan-email-content-2026-11-14/extracted/02-Hadith`). Nothing in them was typed by hand or corrected. Lessons 1–5 already in the app matched the source exactly and were kept.
+
+**Written for the app (fictional teaching activities, not quotations or rulings):** story, question, three choices with feedback, and the Arabic chunk break points used on the Remember step. The stories feature Imaan and Akhlaq in modern everyday scenes. They never dramatize the Prophet ﷺ or his Companions. Chunks always join back into the exact source Arabic, and the tests enforce this. Each lesson has 2–4 chunks, and phrases such as صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ are kept whole.
+
+**Scholarly review is still required before public release.** The source documents require it themselves. It covers the Arabic wording, excerpt boundaries, chunk break points, translations, and the age-appropriateness of the authored scenarios. Take extra care with lessons 53, 83, 85 and 92, which the source flags for sensitive adaptation or adult context. The JSON `reviewStatus` field records this.
+
+Each narrator's report (lessons 77, 79, 80, 82, 94, 97, 100) shows "A narrator's report, not words spoken by the Prophet ﷺ". Every lesson also shows its verbatim curriculum note under the reference, so Tirmidhi gradings are never presented as Bukhari/Muslim.
 
 ## Implemented flow
 
-Individual → Hadith (Home card, map's Hadith House or Learning Hub) → five-lesson list → Story → Understand → Remember → Choose → Daily action → optional reflection.
+Individual → Hadith (Home card, the map's Hadith House or the Learning Hub) → course list → Story → Understand → Remember → Choose → Daily action → optional reflection.
 
-The memory step can hide/show the Arabic. A mistaken contextual choice gives corrective feedback; the child can try again without penalties. A correct choice permits continuation. Planning a daily action records that the lesson was explored, not that worship or the action was performed. Reflection offers Yes / I tried / Not yet without penalties. There are no reward points or changes to school-approved chapter records.
+The course list groups lessons into the 20 curriculum worlds as collapsible cards. A world card shows its number, title, lesson range and how many lessons have been explored. Only the world holding the next unexplored lesson opens by default. The navy header shows "x of 100 lessons explored" and a "Start with lesson 1" / "Next: lesson N" button. The list is built lazily (`ListView.builder`), and a world's rows are only built while it is open.
 
-School learners retain the existing course preview until school assignment/review workflows are migrated. Merely sharing the book reader does not enroll a school child in this Individual preview.
+The Remember step can hide/show the Arabic. A wrong choice gives corrective feedback, and the child can try again without penalty. Only the correct choice lets them continue. Saving the daily-action plan records that the lesson was explored, not that worship or the action was performed. Reflection offers Yes / I tried / Not yet without penalties. There are no reward points and no changes to school-approved chapter records.
+
+School learners keep the existing course preview until the school assignment/review workflows are migrated.
 
 ## Saved progress
 
-`DeviceHadithProgressStore` uses the asynchronous preferences API for small local learning state. It saves the current step, chosen answer, exploration date and optional action reflection. Writes are awaited before advancing the screen; errors keep the current step and show retry feedback. Unreadable existing data is not silently overwritten. Storage keys are separated by the guest or learner scope.
-
-This is device/browser-local progress, not Firebase synchronization, teacher approval or a backup. Browser/device storage deletion removes it. No personal mistake description, voice recording or private reflection essay is collected. The existing production activity-saving callable is not used by this preview.
-
-Package documentation: https://pub.dev/packages/shared_preferences
+`DeviceHadithProgressStore` saves to device storage (`SharedPreferencesAsync`), separated by guest or learner scope. Each lesson's entry holds the current step, the chosen answer, the exploration date and the optional reflection. Existing lesson IDs (`hadith-01`…) are unchanged, so earlier progress on lessons 1–5 still loads. This is device-local only: no Firebase sync, teacher approval or backup.
 
 ## Assets and performance
 
-The JSON catalogue is bundled and parsed once. No PDF, remote image or audio download occurs when opening these lessons. The story reuses the approved reading illustration, with a bounded decode size. Arabic uses bundled Noto Naskh Arabic from the Google Fonts repository, licensed under SIL OFL; the license text is bundled alongside it.
-
-Font source: https://github.com/google/fonts/tree/main/ofl/notonaskharabic
-
-No final Arabic audio was supplied, so the preview does not simulate playback or use an unreviewed synthesized recitation.
+The JSON (~185 KB) is bundled and parsed once. Lessons and worlds come from one parse. No PDF, remote image or audio is downloaded. Arabic uses the bundled Noto Naskh Arabic font (SIL OFL). No final Arabic audio was supplied, so none is simulated.
 
 ## Verification
 
-40 Flutter tests passed, including all existing entry/account/book/map tests and eight new Hadith tests. Checks cover the source registry and Arabic chunks, learner/guest storage isolation, reopening saved progress, corrupted storage, save failures, wrong/correct answers, all five lesson questions/actions, optional reflection, and small phones with enlarged text. Course, Arabic-reading and quiz screenshots are included in the golden tests. Static analysis passed and the debug Android arm64 APK built successfully. The live browser flow was exercised from the Individual home: story, Arabic reading, hide/recall, incorrect/correct choices, action plan, optional Not yet reflection, then a full page reload. The course restored 1 of 5 lessons explored from real browser storage. The pane was left on the five-lesson list. No production Firebase progress or rewards were written.
+`flutter analyze` is clean, and `flutter test` passes (67 tests, 10 of them for Hadith). The Hadith tests check:
+
+* **Registry:** all 100 lessons in order. Unique primary references whose URL matches the reference. Every chunk set joins back to the exact Arabic. Exactly one correct choice per lesson. Excerpt flag matches the label. World numbers and source documents are correct. Narrator's reports are labelled.
+* **Worlds:** 20 worlds of five lessons each.
+* **Every lesson plays:** each of the 100 lessons is opened from its world in the list, with a wrong choice (feedback shown), then the correct choice, then its action and the saved plan.
+* **Continue and labels:** "Next: lesson 77" opens lesson 77, which shows its narrator note and curriculum note.
+* **Small screens:** a 320 px phone at 1.6× text, with every world header open, plus all steps of lesson 94, the longest Arabic passage.
+* **Earlier checks kept:** storage isolation, corrupted storage, failed saves, and the school gate.
+
+The course and Understand golden screenshots were regenerated.
+
+## Rebuilding the JSON
+
+The extraction/merge scripts used for this import live outside the repo. To change an authored activity, edit the lesson in the JSON directly and keep `chunks.join(' ') == arabic`. Never edit the verbatim source fields without a new source document.

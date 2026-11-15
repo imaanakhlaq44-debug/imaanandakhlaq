@@ -1,17 +1,167 @@
 {
-  "version": 1,
-  "sourceDocument": "Imaan_Akhlaq_50_Hadith_Curriculum_Interactive_Developer_Edition.docx",
+  "version": 2,
+  "sourceDocuments": [
+    "Imaan_Akhlaq_50_Hadith_Curriculum_Interactive_Developer_Edition.docx",
+    "Imaan_Akhlaq_Hadith_51_to_100_New_Authentic_Actions.docx"
+  ],
+  "reviewStatus": "Arabic, meanings, excerpt labels and references are copied word for word from the source documents. Stories, questions, choices, feedback and Arabic chunk break points are fictional teaching activities written for the app. Everything needs qualified Hadith/Arabic and editorial review before public release.",
+  "worlds": [
+    {
+      "number": 1,
+      "title": "My Words and Honesty",
+      "sourceTitle": "MY WORDS AND HONESTY",
+      "first": 1,
+      "last": 5
+    },
+    {
+      "number": 2,
+      "title": "Kindness and Mercy",
+      "sourceTitle": "KINDNESS AND MERCY",
+      "first": 6,
+      "last": 10
+    },
+    {
+      "number": 3,
+      "title": "Family, Elders and Home",
+      "sourceTitle": "FAMILY, ELDERS AND HOME",
+      "first": 11,
+      "last": 15
+    },
+    {
+      "number": 4,
+      "title": "Patience and Self-Control",
+      "sourceTitle": "PATIENCE AND SELF-CONTROL",
+      "first": 16,
+      "last": 20
+    },
+    {
+      "number": 5,
+      "title": "Gratitude and Inner Goodness",
+      "sourceTitle": "GRATITUDE AND INNER GOODNESS",
+      "first": 21,
+      "last": 25
+    },
+    {
+      "number": 6,
+      "title": "Cleanliness and Healthy Habits",
+      "sourceTitle": "CLEANLINESS AND HEALTHY HABITS",
+      "first": 26,
+      "last": 30
+    },
+    {
+      "number": 7,
+      "title": "Food, Sharing and Contentment",
+      "sourceTitle": "FOOD, SHARING AND CONTENTMENT",
+      "first": 31,
+      "last": 35
+    },
+    {
+      "number": 8,
+      "title": "Helping, Giving and Service",
+      "sourceTitle": "HELPING, GIVING AND SERVICE",
+      "first": 36,
+      "last": 40
+    },
+    {
+      "number": 9,
+      "title": "Friendship and Community",
+      "sourceTitle": "FRIENDSHIP AND COMMUNITY",
+      "first": 41,
+      "last": 45
+    },
+    {
+      "number": 10,
+      "title": "Learning, Intention and Worship",
+      "sourceTitle": "LEARNING, INTENTION AND WORSHIP",
+      "first": 46,
+      "last": 50
+    },
+    {
+      "number": 11,
+      "title": "Words that Protect Friendships",
+      "sourceTitle": "WORDS THAT PROTECT FRIENDSHIPS",
+      "first": 51,
+      "last": 55
+    },
+    {
+      "number": 12,
+      "title": "Respectful Everyday Manners",
+      "sourceTitle": "RESPECTFUL EVERYDAY MANNERS",
+      "first": 56,
+      "last": 60
+    },
+    {
+      "number": 13,
+      "title": "Responsibility and a Growing Mind",
+      "sourceTitle": "RESPONSIBILITY AND A GROWING MIND",
+      "first": 61,
+      "last": 65
+    },
+    {
+      "number": 14,
+      "title": "Salah and Beautiful Remembrance",
+      "sourceTitle": "SALAH AND BEAUTIFUL REMEMBRANCE",
+      "first": 66,
+      "last": 70
+    },
+    {
+      "number": 15,
+      "title": "The Qur'an as My Companion",
+      "sourceTitle": "THE QUR'AN AS MY COMPANION",
+      "first": 71,
+      "last": 75
+    },
+    {
+      "number": 16,
+      "title": "Family, Respect and Care",
+      "sourceTitle": "FAMILY, RESPECT AND CARE",
+      "first": 76,
+      "last": 80
+    },
+    {
+      "number": 17,
+      "title": "Caring for the World Around Us",
+      "sourceTitle": "CARING FOR THE WORLD AROUND US",
+      "first": 81,
+      "last": 85
+    },
+    {
+      "number": 18,
+      "title": "Generosity and Fairness",
+      "sourceTitle": "GENEROSITY AND FAIRNESS",
+      "first": 86,
+      "last": 90
+    },
+    {
+      "number": 19,
+      "title": "Balance, Wisdom and Resilience",
+      "sourceTitle": "BALANCE, WISDOM AND RESILIENCE",
+      "first": 91,
+      "last": 95
+    },
+    {
+      "number": 20,
+      "title": "Little Sunnahs, Big Character",
+      "sourceTitle": "LITTLE SUNNAHS, BIG CHARACTER",
+      "first": 96,
+      "last": 100
+    }
+  ],
   "lessons": [
     {
       "id": "hadith-01",
+      "number": 1,
+      "world": 1,
       "title": "Truth Lights the Way",
       "arabic": "إِنَّ الصِّدْقَ يَهْدِي إِلَى الْبِرِّ",
       "excerpt": true,
+      "label": "EXCERPT FROM A LONGER REPORT",
       "meaning": "Being truthful leads us toward goodness.",
       "explanation": "Your words are powerful! Telling the truth builds trust, even when admitting a mistake feels difficult. Allah loves the path of goodness.",
       "action": "If you make a mistake today, tell a trusted adult the truth about it.",
       "source": "Sahih al-Bukhari 6094",
       "sourceUrl": "https://sunnah.com/bukhari:6094",
+      "sourceDocument": "Imaan_Akhlaq_50_Hadith_Curriculum_Interactive_Developer_Edition.docx",
       "story": "Imaan and Akhlaq are drawing a garden. Akhlaq reaches for a blue pencil and accidentally spills some water. Nobody else saw it. He takes a breath, tells Dadi Jaan what happened and asks how he can help clean up.",
       "question": "You accidentally knock over a cup. What is the honest choice?",
       "answers": [
@@ -38,14 +188,18 @@
     },
     {
       "id": "hadith-02",
+      "number": 2,
+      "world": 1,
       "title": "A Promise Matters",
       "arabic": "إِذَا وَعَدَ أَخْلَفَ",
       "excerpt": true,
+      "label": "EXCERPT FROM A LONGER REPORT",
       "meaning": "Breaking a promise is a serious bad habit.",
       "explanation": "Our Prophet ﷺ warned us about breaking promises as a sign of hypocrisy. We learn the opposite habit: make promises carefully and try our best to keep them.",
       "action": "Keep one small promise you have made today.",
       "source": "Sahih al-Bukhari 33",
       "sourceUrl": "https://sunnah.com/bukhari:33",
+      "sourceDocument": "Imaan_Akhlaq_50_Hadith_Curriculum_Interactive_Developer_Edition.docx",
       "story": "Imaan promises to return Akhlaq’s storybook after lunch. Later, her friends invite her to play. She remembers her promise, returns the book first, and then joins the game. Akhlaq knows he can trust her words.",
       "question": "You promised to return a book today, but a game is starting. What could you do?",
       "answers": [
@@ -72,14 +226,18 @@
     },
     {
       "id": "hadith-03",
+      "number": 3,
+      "world": 1,
       "title": "Choose Kind Words",
       "arabic": "فَلْيَقُلْ خَيْرًا أَوْ لِيَصْمُتْ",
       "excerpt": true,
+      "label": "EXCERPT FROM A LONGER REPORT",
       "meaning": "Say what is good, or stay quiet.",
       "explanation": "Before speaking, ask: Is it true? Is it kind? Is it useful? Sometimes a quiet pause can protect another person’s heart.",
       "action": "Before replying in a difficult moment, pause and choose one kind sentence.",
       "source": "Sahih al-Bukhari 6018",
       "sourceUrl": "https://sunnah.com/bukhari:6018",
+      "sourceDocument": "Imaan_Akhlaq_50_Hadith_Curriculum_Interactive_Developer_Edition.docx",
       "story": "Akhlaq loses a turn in a game and feels upset. He is about to say something hurtful. Imaan gives him a moment. He pauses and says, “I’m disappointed. Can we try another round?” The game stays friendly.",
       "question": "A friend makes a mistake during a game. Which response is kind?",
       "answers": [
@@ -106,14 +264,18 @@
     },
     {
       "id": "hadith-04",
+      "number": 4,
+      "world": 1,
       "title": "Safe Hands, Safe Words",
       "arabic": "الْمُسْلِمُ مَنْ سَلِمَ الْمُسْلِمُونَ مِنْ لِسَانِهِ وَيَدِهِ",
       "excerpt": false,
+      "label": "SHORT COMPLETE STATEMENT",
       "meaning": "A Muslim should not harm others with words or hands.",
       "explanation": "Being strong is not about pushing or teasing. It means making people feel safe around you.",
       "action": "During play today, keep your hands gentle and your words respectful.",
       "source": "Sahih al-Bukhari 10",
       "sourceUrl": "https://sunnah.com/bukhari:10",
+      "sourceDocument": "Imaan_Akhlaq_50_Hadith_Curriculum_Interactive_Developer_Edition.docx",
       "story": "Two children both want the same ball. Akhlaq feels like grabbing it. He keeps his hands gentle and asks for a turn. Imaan suggests taking turns, so everyone can play without being pushed or teased.",
       "question": "Someone is using the toy you want. What is a safe choice?",
       "answers": [
@@ -140,14 +302,18 @@
     },
     {
       "id": "hadith-05",
+      "number": 5,
+      "world": 1,
       "title": "Beautiful Character",
       "arabic": "إِنَّ مِنْ خِيَارِكُمْ أَحْسَنَكُمْ أَخْلَاقًا",
       "excerpt": true,
+      "label": "EXCERPT FROM A LONGER REPORT",
       "meaning": "Among the best people are those with the best character.",
       "explanation": "You do not need a medal to be wonderful. Your honesty, patience and kindness make a real difference!",
       "action": "Choose one moment today to respond with extra politeness.",
       "source": "Sahih al-Bukhari 3559",
       "sourceUrl": "https://sunnah.com/bukhari:3559",
+      "sourceDocument": "Imaan_Akhlaq_50_Hadith_Curriculum_Interactive_Developer_Edition.docx",
       "story": "Imaan is busy making a paper flower when her little cousin asks for help. She puts it down for a moment and answers gently. Akhlaq notices that beautiful character can show itself in one small, ordinary choice.",
       "question": "A younger child asks you for help while you are busy. What shows good character?",
       "answers": [
@@ -170,6 +336,3663 @@
       "chunks": [
         "إِنَّ مِنْ خِيَارِكُمْ",
         "أَحْسَنَكُمْ أَخْلَاقًا"
+      ]
+    },
+    {
+      "id": "hadith-06",
+      "number": 6,
+      "world": 2,
+      "title": "Wish Good for Others",
+      "arabic": "لاَ يُؤْمِنُ أَحَدُكُمْ حَتَّى يُحِبَّ لأَخِيهِ مَا يُحِبُّ لِنَفْسِهِ",
+      "excerpt": false,
+      "label": "SHORT COMPLETE STATEMENT",
+      "meaning": "Love for others the good you love for yourself.",
+      "explanation": "You enjoy being welcomed and included. Other children do too! A caring heart wants goodness for everyone.",
+      "action": "Invite one child to join a game or activity.",
+      "source": "Sahih al-Bukhari 13",
+      "sourceUrl": "https://sunnah.com/bukhari:13",
+      "sourceDocument": "Imaan_Akhlaq_50_Hadith_Curriculum_Interactive_Developer_Edition.docx",
+      "story": "Imaan is picking teams for a game. A new girl stands by the wall, watching. Imaan remembers how good it feels to be chosen. She walks over and says, “Would you like to play on our team?”",
+      "question": "A child is standing alone while everyone else plays. What could you do?",
+      "answers": [
+        {
+          "text": "Invite them to join the game.",
+          "feedback": "You want for them the same welcome you would want for yourself. That is a caring heart.",
+          "correct": true
+        },
+        {
+          "text": "Ignore them because they are new.",
+          "feedback": "Being new can feel lonely. Think about how you would want to be treated.",
+          "correct": false
+        },
+        {
+          "text": "Tell them the game is full, even though it is not.",
+          "feedback": "That is not true, and it leaves them out. Try a more welcoming choice.",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "لاَ يُؤْمِنُ أَحَدُكُمْ",
+        "حَتَّى يُحِبَّ لأَخِيهِ",
+        "مَا يُحِبُّ لِنَفْسِهِ"
+      ]
+    },
+    {
+      "id": "hadith-07",
+      "number": 7,
+      "world": 2,
+      "title": "A Merciful Heart",
+      "arabic": "مَنْ لاَ يَرْحَمُ لاَ يُرْحَمُ",
+      "excerpt": false,
+      "label": "SHORT COMPLETE STATEMENT",
+      "meaning": "Whoever shows no mercy is not shown mercy.",
+      "explanation": "Mercy means noticing when someone is sad, small, frightened or struggling—and treating them gently.",
+      "action": "Comfort someone who looks upset today.",
+      "source": "Sahih al-Bukhari 5997",
+      "sourceUrl": "https://sunnah.com/bukhari:5997",
+      "sourceDocument": "Imaan_Akhlaq_50_Hadith_Curriculum_Interactive_Developer_Edition.docx",
+      "story": "Akhlaq sees his little cousin crying after falling off a swing. Some children laugh. Akhlaq kneels down, asks if he is hurt, and helps him find an adult. His cousin stops crying and holds his hand.",
+      "question": "A younger child falls and starts to cry. What shows a merciful heart?",
+      "answers": [
+        {
+          "text": "Laugh along with the others.",
+          "feedback": "Laughing can make the hurt feel worse. Look for a gentler choice.",
+          "correct": false
+        },
+        {
+          "text": "Check that they are okay and get help if needed.",
+          "feedback": "You noticed their pain and treated them gently. That is mercy.",
+          "correct": true
+        },
+        {
+          "text": "Walk away because it is not your problem.",
+          "feedback": "Mercy means noticing when someone is struggling. How could you help?",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "مَنْ لاَ يَرْحَمُ",
+        "لاَ يُرْحَمُ"
+      ]
+    },
+    {
+      "id": "hadith-08",
+      "number": 8,
+      "world": 2,
+      "title": "Words Can Be Charity",
+      "arabic": "وَالْكَلِمَةُ الطَّيِّبَةُ صَدَقَةٌ",
+      "excerpt": true,
+      "label": "EXCERPT FROM A LONGER REPORT",
+      "meaning": "A good word is an act of charity.",
+      "explanation": "You can give a beautiful gift even without money: kind words! They make others feel noticed and appreciated.",
+      "action": "Give one sincere compliment to someone today.",
+      "source": "Sahih al-Bukhari 2989",
+      "sourceUrl": "https://sunnah.com/bukhari:2989",
+      "sourceDocument": "Imaan_Akhlaq_50_Hadith_Curriculum_Interactive_Developer_Edition.docx",
+      "story": "Imaan’s friend shows a drawing she worked hard on. It is a little messy, but the colours are bright. Imaan says, “I love the colours you chose!” Her friend smiles all the way home.",
+      "question": "Your classmate shows you their project. What could you say?",
+      "answers": [
+        {
+          "text": "Say nothing and look away.",
+          "feedback": "A kind word can be a gift. Could you find something good to say?",
+          "correct": false
+        },
+        {
+          "text": "Point out every mistake loudly.",
+          "feedback": "Pointing out mistakes in front of others can hurt. Try a kind word first.",
+          "correct": false
+        },
+        {
+          "text": "Give one sincere compliment about something you like.",
+          "feedback": "A true, kind word is a beautiful gift that costs nothing.",
+          "correct": true
+        }
+      ],
+      "chunks": [
+        "وَالْكَلِمَةُ الطَّيِّبَةُ",
+        "صَدَقَةٌ"
+      ]
+    },
+    {
+      "id": "hadith-09",
+      "number": 9,
+      "world": 2,
+      "title": "A Cheerful Welcome",
+      "arabic": "لاَ تَحْقِرَنَّ مِنَ الْمَعْرُوفِ شَيْئًا وَلَوْ أَنْ تَلْقَى أَخَاكَ بِوَجْهٍ طَلْقٍ",
+      "excerpt": false,
+      "label": "SHORT COMPLETE STATEMENT",
+      "meaning": "Even a cheerful greeting is a meaningful good deed.",
+      "explanation": "A smile and friendly face can make a new child feel that they belong. Little good deeds matter to Allah.",
+      "action": "Welcome someone today with a warm greeting and cheerful face.",
+      "source": "Sahih Muslim 2626",
+      "sourceUrl": "https://sunnah.com/muslim:2626",
+      "sourceDocument": "Imaan_Akhlaq_50_Hadith_Curriculum_Interactive_Developer_Edition.docx",
+      "story": "A new boy joins Akhlaq’s class and looks nervous. Akhlaq remembers that a small good deed still matters. He smiles, says Assalamu Alaikum, and shows him where to hang his bag.",
+      "question": "A new child arrives at your class. What is a small good deed you could do?",
+      "answers": [
+        {
+          "text": "Greet them with a warm smile.",
+          "feedback": "A cheerful face helps someone feel they belong. Small good deeds matter.",
+          "correct": true
+        },
+        {
+          "text": "Stare at them without saying anything.",
+          "feedback": "Staring can feel uncomfortable. How could you make them feel welcome?",
+          "correct": false
+        },
+        {
+          "text": "Whisper about them with friends.",
+          "feedback": "Whispering about someone can make them feel left out. Try a friendly greeting.",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "لاَ تَحْقِرَنَّ مِنَ الْمَعْرُوفِ شَيْئًا",
+        "وَلَوْ أَنْ تَلْقَى أَخَاكَ",
+        "بِوَجْهٍ طَلْقٍ"
+      ]
+    },
+    {
+      "id": "hadith-10",
+      "number": 10,
+      "world": 2,
+      "title": "Kindness to Animals",
+      "arabic": "فِي كُلِّ كَبِدٍ رَطْبَةٍ أَجْرٌ",
+      "excerpt": true,
+      "label": "EXCERPT FROM A LONGER REPORT",
+      "meaning": "There is reward in kindness to living creatures.",
+      "explanation": "Animals feel thirst and need care. Our faith teaches compassion for living things, not just for people.",
+      "action": "With an adult’s help, safely place clean water where birds can drink.",
+      "source": "Sahih al-Bukhari 2363",
+      "sourceUrl": "https://sunnah.com/bukhari:2363",
+      "sourceDocument": "Imaan_Akhlaq_50_Hadith_Curriculum_Interactive_Developer_Edition.docx",
+      "story": "On a hot afternoon, Imaan notices birds hopping near the dry garden tap. She asks Ammi for help, and together they place a shallow bowl of clean water in a safe, shady spot. Soon a sparrow comes to drink.",
+      "question": "You see a thirsty bird on a hot day. What is a kind and safe choice?",
+      "answers": [
+        {
+          "text": "Chase it away for fun.",
+          "feedback": "Animals feel thirst and fear too. Think of a gentle choice.",
+          "correct": false
+        },
+        {
+          "text": "Ask an adult to help you put out some clean water.",
+          "feedback": "That is compassion for a living creature, done safely with an adult.",
+          "correct": true
+        },
+        {
+          "text": "Throw small stones near it.",
+          "feedback": "That could hurt or frighten the bird. Our faith teaches kindness to animals.",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "فِي كُلِّ كَبِدٍ رَطْبَةٍ",
+        "أَجْرٌ"
+      ]
+    },
+    {
+      "id": "hadith-11",
+      "number": 11,
+      "world": 3,
+      "title": "Be Your Best at Home",
+      "arabic": "خَيْرُكُمْ خَيْرُكُمْ لِأَهْلِهِ",
+      "excerpt": true,
+      "label": "EXCERPT FROM A LONGER REPORT",
+      "meaning": "The best of you are those best to their families.",
+      "explanation": "Good manners begin at home. Family members deserve the same cheerful kindness that we show visitors and friends.",
+      "action": "Offer to help a family member with one task without being asked.",
+      "source": "Jamiʿ at-Tirmidhi 3895",
+      "sourceUrl": "https://sunnah.com/tirmidhi:3895",
+      "sourceDocument": "Imaan_Akhlaq_50_Hadith_Curriculum_Interactive_Developer_Edition.docx",
+      "story": "After school, Akhlaq is polite to his friends but grumpy at home. Then he notices Baba carrying heavy shopping bags. He jumps up, takes one bag, and says, “Let me help.” Baba smiles warmly.",
+      "question": "Your family member is busy with a task. What shows your best at home?",
+      "answers": [
+        {
+          "text": "Offer to help without being asked.",
+          "feedback": "Good manners begin at home. Your family deserves your kindness too.",
+          "correct": true
+        },
+        {
+          "text": "Keep playing and pretend not to notice.",
+          "feedback": "Your family needs your kindness as much as your friends do. Try again.",
+          "correct": false
+        },
+        {
+          "text": "Help only if they give you a prize.",
+          "feedback": "Helping at home is a gift of love, not a trade. What could you do freely?",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "خَيْرُكُمْ",
+        "خَيْرُكُمْ لِأَهْلِهِ"
+      ]
+    },
+    {
+      "id": "hadith-12",
+      "number": 12,
+      "world": 3,
+      "title": "Greet Your Elders",
+      "arabic": "يُسَلِّمُ الصَّغِيرُ عَلَى الْكَبِيرِ",
+      "excerpt": true,
+      "label": "EXCERPT FROM A LONGER REPORT",
+      "meaning": "A younger person should offer salam to an older person.",
+      "explanation": "You can begin a beautiful moment with one greeting. Saying salam shows respect and spreads peace.",
+      "action": "Say Assalamu Alaikum first to an elder today.",
+      "source": "Sahih al-Bukhari 6231",
+      "sourceUrl": "https://sunnah.com/bukhari:6231",
+      "sourceDocument": "Imaan_Akhlaq_50_Hadith_Curriculum_Interactive_Developer_Edition.docx",
+      "story": "Dada Abbu visits for dinner. Imaan is busy with her puzzle, but she stops, walks over, and says, “Assalamu Alaikum, Dada Abbu!” He smiles and pats her head.",
+      "question": "An elder relative enters the room. What could you do first?",
+      "answers": [
+        {
+          "text": "Wait for them to greet you.",
+          "feedback": "You can be the one to begin. Think about who greets first.",
+          "correct": false
+        },
+        {
+          "text": "Keep looking at your screen.",
+          "feedback": "Elders deserve your attention and respect. Try another choice.",
+          "correct": false
+        },
+        {
+          "text": "Say Assalamu Alaikum to them first.",
+          "feedback": "A greeting from you shows respect and spreads peace.",
+          "correct": true
+        }
+      ],
+      "chunks": [
+        "يُسَلِّمُ الصَّغِيرُ",
+        "عَلَى الْكَبِيرِ"
+      ]
+    },
+    {
+      "id": "hadith-13",
+      "number": 13,
+      "world": 3,
+      "title": "Love and Care for Mother",
+      "arabic": "أُمُّكَ ثُمَّ أُمُّكَ ثُمَّ أُمُّكَ ثُمَّ أَبُوكَ",
+      "excerpt": true,
+      "label": "EXCERPT FROM A LONGER REPORT",
+      "meaning": "Your mother deserves special good companionship, and your father also deserves it.",
+      "explanation": "Our parents work hard to care for us. We can answer their care with respect, gratitude and gentle words.",
+      "action": "Say a heartfelt thank-you to your mother or caregiver today.",
+      "source": "Sahih al-Bukhari 5971",
+      "sourceUrl": "https://sunnah.com/bukhari:5971",
+      "sourceDocument": "Imaan_Akhlaq_50_Hadith_Curriculum_Interactive_Developer_Edition.docx",
+      "story": "Ammi is tired after a long day. Akhlaq notices and brings her a glass of water. He says, “Thank you for everything you do for us, Ammi.” Her tired face lights up with a smile.",
+      "question": "Your mother or caregiver looks tired. What is a caring response?",
+      "answers": [
+        {
+          "text": "Ask for more snacks right away.",
+          "feedback": "She is tired right now. How could you show care instead?",
+          "correct": false
+        },
+        {
+          "text": "Thank her and offer a little help.",
+          "feedback": "Gratitude and gentle care honour the people who look after us.",
+          "correct": true
+        },
+        {
+          "text": "Complain that dinner is late.",
+          "feedback": "Complaining can add to her tiredness. Try a kinder choice.",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "أُمُّكَ ثُمَّ أُمُّكَ",
+        "ثُمَّ أُمُّكَ",
+        "ثُمَّ أَبُوكَ"
+      ]
+    },
+    {
+      "id": "hadith-14",
+      "number": 14,
+      "world": 3,
+      "title": "The Prophet Helped at Home",
+      "arabic": "كَانَ يَكُونُ فِي مِهْنَةِ أَهْلِهِ",
+      "excerpt": true,
+      "label": "EXCERPT FROM A LONGER REPORT",
+      "meaning": "The Prophet ﷺ helped and served his family at home.",
+      "explanation": "Aishah (رضي الله عنها) described how the Prophet ﷺ helped his family. Helping at home is noble, not something to avoid.",
+      "action": "Put away your own belongings today without waiting to be reminded.",
+      "source": "Sahih al-Bukhari 676",
+      "sourceUrl": "https://sunnah.com/bukhari:676",
+      "sourceDocument": "Imaan_Akhlaq_50_Hadith_Curriculum_Interactive_Developer_Edition.docx",
+      "story": "Imaan’s toys are spread across the living room floor. Nobody has asked her to tidy up yet. She remembers that helping at home is a noble thing, and she puts every toy back in its box.",
+      "question": "Your things are lying around the house. What could you do?",
+      "answers": [
+        {
+          "text": "Leave them for someone else to pick up.",
+          "feedback": "Helping at home is something to be proud of, not avoid. Try again.",
+          "correct": false
+        },
+        {
+          "text": "Put them away without being reminded.",
+          "feedback": "That is real help at home. You are taking care of your family’s space.",
+          "correct": true
+        },
+        {
+          "text": "Hide them under the sofa.",
+          "feedback": "Hiding things does not really tidy them. What would truly help?",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "كَانَ يَكُونُ",
+        "فِي مِهْنَةِ أَهْلِهِ"
+      ]
+    },
+    {
+      "id": "hadith-15",
+      "number": 15,
+      "world": 3,
+      "title": "Stay Connected to Family",
+      "arabic": "فَلْيَصِلْ رَحِمَهُ",
+      "excerpt": true,
+      "label": "EXCERPT FROM A LONGER REPORT",
+      "meaning": "Keep your family ties strong.",
+      "explanation": "Family love grows when we remember and care for relatives. A short greeting can brighten someone’s whole day.",
+      "action": "With a parent’s help, send a greeting to a relative today.",
+      "source": "Sahih al-Bukhari 5986",
+      "sourceUrl": "https://sunnah.com/bukhari:5986",
+      "sourceDocument": "Imaan_Akhlaq_50_Hadith_Curriculum_Interactive_Developer_Edition.docx",
+      "story": "Akhlaq’s Khala lives in another city. He has not spoken to her for a long time. With Ammi’s help, he records a short voice message: “Assalamu Alaikum, Khala! I miss you.” She replies with a happy message.",
+      "question": "You have not spoken to a relative for a while. What could you do?",
+      "answers": [
+        {
+          "text": "With a parent’s help, send them a greeting.",
+          "feedback": "A short greeting keeps family ties strong and can brighten their day.",
+          "correct": true
+        },
+        {
+          "text": "Wait until they contact you.",
+          "feedback": "You can be the one who reaches out. How could you connect?",
+          "correct": false
+        },
+        {
+          "text": "Forget about them because they live far away.",
+          "feedback": "Family love can grow even across distance. Try a caring choice.",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "فَلْيَصِلْ",
+        "رَحِمَهُ"
+      ]
+    },
+    {
+      "id": "hadith-16",
+      "number": 16,
+      "world": 4,
+      "title": "Pause Before Anger",
+      "arabic": "لاَ تَغْضَبْ",
+      "excerpt": false,
+      "label": "SHORT COMPLETE STATEMENT",
+      "meaning": "Do not give in to anger.",
+      "explanation": "Feeling angry can happen to anyone. The challenge is choosing what to do next instead of shouting or hurting.",
+      "action": "When upset today, stop and take three slow breaths before replying.",
+      "source": "Sahih al-Bukhari 6116",
+      "sourceUrl": "https://sunnah.com/bukhari:6116",
+      "sourceDocument": "Imaan_Akhlaq_50_Hadith_Curriculum_Interactive_Developer_Edition.docx",
+      "story": "Akhlaq’s little brother knocks over his block tower. Akhlaq feels his face get hot. He stops, takes three slow breaths, and then says, “Please be careful. Let’s build it again together.”",
+      "question": "Someone ruins something you made. What could you do first?",
+      "answers": [
+        {
+          "text": "Shout at them right away.",
+          "feedback": "Feeling angry is normal, but shouting can hurt. What could you do first?",
+          "correct": false
+        },
+        {
+          "text": "Knock over something of theirs.",
+          "feedback": "Getting even does not fix things. Try a calmer choice.",
+          "correct": false
+        },
+        {
+          "text": "Stop and take a few slow breaths before speaking.",
+          "feedback": "Pausing gives you a chance to choose your next step wisely.",
+          "correct": true
+        }
+      ],
+      "chunks": [
+        "لاَ",
+        "تَغْضَبْ"
+      ]
+    },
+    {
+      "id": "hadith-17",
+      "number": 17,
+      "world": 4,
+      "title": "Real Strength",
+      "arabic": "إِنَّمَا الشَّدِيدُ الَّذِي يَمْلِكُ نَفْسَهُ عِنْدَ الْغَضَبِ",
+      "excerpt": true,
+      "label": "EXCERPT FROM A LONGER REPORT",
+      "meaning": "The truly strong person controls themself when angry.",
+      "explanation": "You are stronger when you can calm your voice than when you win an argument. Self-control is a real superpower.",
+      "action": "In one frustrating moment today, lower your voice instead of raising it.",
+      "source": "Sahih al-Bukhari 6114",
+      "sourceUrl": "https://sunnah.com/bukhari:6114",
+      "sourceDocument": "Imaan_Akhlaq_50_Hadith_Curriculum_Interactive_Developer_Edition.docx",
+      "story": "During a board game, Imaan’s friend says she cheated, which is not true. Imaan feels like yelling. Instead she lowers her voice and says, “I didn’t cheat. Let’s check the rules together.”",
+      "question": "Someone says something unfair to you during a game. What shows real strength?",
+      "answers": [
+        {
+          "text": "Shout louder until they stop.",
+          "feedback": "Being loud is not the same as being strong. Try another way.",
+          "correct": false
+        },
+        {
+          "text": "Keep your voice calm and explain.",
+          "feedback": "Controlling yourself when you are angry is real strength.",
+          "correct": true
+        },
+        {
+          "text": "Throw the game pieces.",
+          "feedback": "That could hurt someone or spoil the game. What would a strong person do?",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "إِنَّمَا الشَّدِيدُ",
+        "الَّذِي يَمْلِكُ نَفْسَهُ",
+        "عِنْدَ الْغَضَبِ"
+      ]
+    },
+    {
+      "id": "hadith-18",
+      "number": 18,
+      "world": 4,
+      "title": "Be Patient at the Start",
+      "arabic": "إِنَّمَا الصَّبْرُ عِنْدَ الصَّدْمَةِ الأُولَى",
+      "excerpt": false,
+      "label": "SHORT COMPLETE STATEMENT",
+      "meaning": "Real patience shows itself at the first difficult moment.",
+      "explanation": "A disappointment can feel big at first. You can pause, ask Allah for help, and choose a calmer next step.",
+      "action": "When one plan changes today, respond without complaining for one minute.",
+      "source": "Sahih al-Bukhari 1283",
+      "sourceUrl": "https://sunnah.com/bukhari:1283",
+      "sourceDocument": "Imaan_Akhlaq_50_Hadith_Curriculum_Interactive_Developer_Edition.docx",
+      "story": "Akhlaq was looking forward to the park, but it starts to rain. His first feeling is to complain. He pauses, says a quiet du’a, and suggests a board game indoors instead.",
+      "question": "Your plan is suddenly cancelled. What shows patience?",
+      "answers": [
+        {
+          "text": "Pause, stay calm and look for another idea.",
+          "feedback": "Real patience shows itself at the first difficult moment. Well done.",
+          "correct": true
+        },
+        {
+          "text": "Complain loudly for the rest of the day.",
+          "feedback": "It is okay to feel disappointed. How could you respond more calmly?",
+          "correct": false
+        },
+        {
+          "text": "Blame someone for the change.",
+          "feedback": "Sometimes plans change and nobody is to blame. Try a calmer step.",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "إِنَّمَا الصَّبْرُ",
+        "عِنْدَ الصَّدْمَةِ الأُولَى"
+      ]
+    },
+    {
+      "id": "hadith-19",
+      "number": 19,
+      "world": 4,
+      "title": "Choose Gentleness",
+      "arabic": "إِنَّ اللَّهَ رَفِيقٌ يُحِبُّ الرِّفْقَ",
+      "excerpt": true,
+      "label": "EXCERPT FROM A LONGER REPORT",
+      "meaning": "Allah is gentle and loves gentleness.",
+      "explanation": "Your gentle voice can calm a younger child or help settle a disagreement. Kindness can be firm without being harsh.",
+      "action": "Speak gently to someone who needs your help today.",
+      "source": "Sahih Muslim 2593",
+      "sourceUrl": "https://sunnah.com/muslim:2593",
+      "sourceDocument": "Imaan_Akhlaq_50_Hadith_Curriculum_Interactive_Developer_Edition.docx",
+      "story": "Imaan’s little sister is struggling to tie her shoes and starts to get upset. Imaan sits beside her and speaks softly: “Let’s do it slowly together.” Her sister calms down and tries again.",
+      "question": "A younger child is upset and needs your help. How could you speak?",
+      "answers": [
+        {
+          "text": "Speak harshly so they hurry up.",
+          "feedback": "Harsh words can make it harder. Think of a gentler way.",
+          "correct": false
+        },
+        {
+          "text": "Use a gentle voice and help patiently.",
+          "feedback": "Gentleness can calm someone and help them learn.",
+          "correct": true
+        },
+        {
+          "text": "Laugh because they are slow.",
+          "feedback": "Laughing can hurt their feelings. Try a kinder response.",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "إِنَّ اللَّهَ رَفِيقٌ",
+        "يُحِبُّ الرِّفْقَ"
+      ]
+    },
+    {
+      "id": "hadith-20",
+      "number": 20,
+      "world": 4,
+      "title": "Gentleness Makes Things Beautiful",
+      "arabic": "إِنَّ الرِّفْقَ لاَ يَكُونُ فِي شَيْءٍ إِلاَّ زَانَهُ",
+      "excerpt": true,
+      "label": "EXCERPT FROM A LONGER REPORT",
+      "meaning": "Gentleness makes things better and more beautiful.",
+      "explanation": "Think of how much easier it is to learn when someone patiently explains. Your gentleness can help others learn too.",
+      "action": "Explain one thing patiently to someone who does not understand it yet.",
+      "source": "Sahih Muslim 2594",
+      "sourceUrl": "https://sunnah.com/muslim:2594",
+      "sourceDocument": "Imaan_Akhlaq_50_Hadith_Curriculum_Interactive_Developer_Edition.docx",
+      "story": "Akhlaq’s friend cannot understand a maths question. Akhlaq could just give him the answer, but instead he explains it step by step, patiently. Soon his friend says, “Oh, now I get it!”",
+      "question": "A friend does not understand something you know. What is the gentle choice?",
+      "answers": [
+        {
+          "text": "Say “That’s easy, why don’t you get it?”",
+          "feedback": "That can make your friend feel silly. Try a gentler way.",
+          "correct": false
+        },
+        {
+          "text": "Refuse to help.",
+          "feedback": "Your help could make a big difference. What could you do?",
+          "correct": false
+        },
+        {
+          "text": "Explain it slowly and patiently.",
+          "feedback": "Gentleness makes learning easier and more beautiful.",
+          "correct": true
+        }
+      ],
+      "chunks": [
+        "إِنَّ الرِّفْقَ",
+        "لاَ يَكُونُ فِي شَيْءٍ",
+        "إِلاَّ زَانَهُ"
+      ]
+    },
+    {
+      "id": "hadith-21",
+      "number": 21,
+      "world": 5,
+      "title": "Thank People",
+      "arabic": "مَنْ لاَ يَشْكُرِ النَّاسَ لاَ يَشْكُرِ اللَّهَ",
+      "excerpt": false,
+      "label": "SHORT COMPLETE STATEMENT",
+      "meaning": "Gratitude to people is part of gratitude to Allah.",
+      "explanation": "Someone cooked, taught, cleaned or helped you today. Notice their effort and let them know it matters.",
+      "action": "Thank one person for a specific helpful thing they did.",
+      "source": "Jamiʿ at-Tirmidhi 1954",
+      "sourceUrl": "https://sunnah.com/tirmidhi:1954",
+      "sourceDocument": "Imaan_Akhlaq_50_Hadith_Curriculum_Interactive_Developer_Edition.docx",
+      "story": "The school cleaner, Uncle Rashid, always keeps the classroom tidy. One morning, Imaan stops and says, “Thank you for keeping our classroom so clean!” He smiles and says it made his day.",
+      "question": "Someone helped you today. What could you do?",
+      "answers": [
+        {
+          "text": "Thank them for the specific thing they did.",
+          "feedback": "Noticing someone’s effort and thanking them is a beautiful habit.",
+          "correct": true
+        },
+        {
+          "text": "Say nothing because it is their job.",
+          "feedback": "Everyone’s effort deserves to be noticed. Could you show gratitude?",
+          "correct": false
+        },
+        {
+          "text": "Thank them only if others are watching.",
+          "feedback": "Gratitude is sincere, whoever is watching. Try again.",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "مَنْ لاَ يَشْكُرِ النَّاسَ",
+        "لاَ يَشْكُرِ اللَّهَ"
+      ]
+    },
+    {
+      "id": "hadith-22",
+      "number": 22,
+      "world": 5,
+      "title": "Grateful in Happy Times",
+      "arabic": "إِنْ أَصَابَتْهُ سَرَّاءُ شَكَرَ فَكَانَ خَيْرًا لَهُ",
+      "excerpt": true,
+      "label": "EXCERPT FROM A LONGER REPORT",
+      "meaning": "When something good happens, a believer gives thanks.",
+      "explanation": "Happy moments are chances to remember Allah. Gratitude helps us enjoy blessings without forgetting the One who gives them.",
+      "action": "When something good happens today, say Alhamdulillah sincerely.",
+      "source": "Sahih Muslim 2999",
+      "sourceUrl": "https://sunnah.com/muslim:2999",
+      "sourceDocument": "Imaan_Akhlaq_50_Hadith_Curriculum_Interactive_Developer_Edition.docx",
+      "story": "Akhlaq finds out he did well on his spelling test. He feels so happy! Before running to tell his friends, he quietly says, “Alhamdulillah,” remembering who gave him the ability to learn.",
+      "question": "Something good happens to you. What is a grateful response?",
+      "answers": [
+        {
+          "text": "Show off to everyone.",
+          "feedback": "Being happy is good, but showing off can make others feel bad. Try again.",
+          "correct": false
+        },
+        {
+          "text": "Say Alhamdulillah sincerely.",
+          "feedback": "Remembering Allah in happy moments is a beautiful kind of gratitude.",
+          "correct": true
+        },
+        {
+          "text": "Forget about it straight away.",
+          "feedback": "Good moments are chances to remember Allah. What could you say?",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "إِنْ أَصَابَتْهُ سَرَّاءُ",
+        "شَكَرَ فَكَانَ خَيْرًا لَهُ"
+      ]
+    },
+    {
+      "id": "hadith-23",
+      "number": 23,
+      "world": 5,
+      "title": "Notice Your Blessings",
+      "arabic": "انْظُرُوا إِلَى مَنْ أَسْفَلَ مِنْكُمْ",
+      "excerpt": true,
+      "label": "EXCERPT FROM A LONGER REPORT",
+      "meaning": "Look at those who have less than you in worldly things.",
+      "explanation": "Rather than comparing your things with someone who has more, notice the gifts Allah has already given you.",
+      "action": "Name one everyday blessing you often forget to appreciate.",
+      "source": "Sahih Muslim 2963c",
+      "sourceUrl": "https://sunnah.com/muslim:2963c",
+      "sourceDocument": "Imaan_Akhlaq_50_Hadith_Curriculum_Interactive_Developer_Edition.docx",
+      "story": "Imaan feels sad because her friend has a fancier pencil case. Then she thinks about her own warm home, her family and her lunch box. She feels thankful for the gifts Allah has already given her.",
+      "question": "You feel upset because a friend has something nicer. What helps?",
+      "answers": [
+        {
+          "text": "Keep comparing until you feel worse.",
+          "feedback": "Comparing with those who have more can steal our happiness. Try another thought.",
+          "correct": false
+        },
+        {
+          "text": "Take their pencil case.",
+          "feedback": "Taking what is not yours is never right. What could help your heart instead?",
+          "correct": false
+        },
+        {
+          "text": "Notice the blessings you already have.",
+          "feedback": "Looking at your own blessings helps your heart feel grateful.",
+          "correct": true
+        }
+      ],
+      "chunks": [
+        "انْظُرُوا إِلَى",
+        "مَنْ أَسْفَلَ مِنْكُمْ"
+      ]
+    },
+    {
+      "id": "hadith-24",
+      "number": 24,
+      "world": 5,
+      "title": "Small Habits Grow",
+      "arabic": "أَحَبَّ الأَعْمَالِ أَدْوَمُهَا إِلَى اللَّهِ وَإِنْ قَلَّ",
+      "excerpt": true,
+      "label": "EXCERPT FROM A LONGER REPORT",
+      "meaning": "Allah loves good deeds done regularly, even when small.",
+      "explanation": "One small good habit repeated daily can shape your character. Start small and keep going!",
+      "action": "Spend two minutes revising a surah you already know today.",
+      "source": "Sahih al-Bukhari 6464",
+      "sourceUrl": "https://sunnah.com/bukhari:6464",
+      "sourceDocument": "Imaan_Akhlaq_50_Hadith_Curriculum_Interactive_Developer_Edition.docx",
+      "story": "Akhlaq wants to learn a long surah all in one day. Dadi Jaan smiles and suggests two minutes every day instead. A week later, he still remembers his short surah perfectly.",
+      "question": "You want to build a good habit. What works best?",
+      "answers": [
+        {
+          "text": "Do a small amount every day.",
+          "feedback": "Small good deeds done regularly can shape your character.",
+          "correct": true
+        },
+        {
+          "text": "Do a lot once and then stop.",
+          "feedback": "Big bursts are hard to keep up. What could you do regularly?",
+          "correct": false
+        },
+        {
+          "text": "Wait until you have lots of time.",
+          "feedback": "Small steps can start today. Try a steadier choice.",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "أَحَبَّ الأَعْمَالِ",
+        "أَدْوَمُهَا إِلَى اللَّهِ",
+        "وَإِنْ قَلَّ"
+      ]
+    },
+    {
+      "id": "hadith-25",
+      "number": 25,
+      "world": 5,
+      "title": "The Heart Matters",
+      "arabic": "وَلَكِنْ يَنْظُرُ إِلَى قُلُوبِكُمْ وَأَعْمَالِكُمْ",
+      "excerpt": true,
+      "label": "EXCERPT FROM A LONGER REPORT",
+      "meaning": "Allah looks at your hearts and your actions.",
+      "explanation": "Your clothes and possessions do not decide your worth. A sincere heart and good actions matter much more.",
+      "action": "Do one helpful deed today without asking for praise.",
+      "source": "Sahih Muslim 2564",
+      "sourceUrl": "https://sunnah.com/muslim:2564",
+      "sourceDocument": "Imaan_Akhlaq_50_Hadith_Curriculum_Interactive_Developer_Edition.docx",
+      "story": "Imaan helps her teacher carry books to the library. Nobody else sees it. She does not tell anyone, because she did it to help, not for praise. Her heart feels quietly happy.",
+      "question": "You do something helpful but nobody notices. What matters most?",
+      "answers": [
+        {
+          "text": "Tell everyone so they praise you.",
+          "feedback": "Wanting praise is natural, but a sincere heart matters more. Try again.",
+          "correct": false
+        },
+        {
+          "text": "Stop helping because nobody saw.",
+          "feedback": "Allah sees your heart and your actions. Keep going!",
+          "correct": false
+        },
+        {
+          "text": "Your sincere heart and good action matter.",
+          "feedback": "You remembered that a sincere heart and good actions matter much more.",
+          "correct": true
+        }
+      ],
+      "chunks": [
+        "وَلَكِنْ يَنْظُرُ",
+        "إِلَى قُلُوبِكُمْ وَأَعْمَالِكُمْ"
+      ]
+    },
+    {
+      "id": "hadith-26",
+      "number": 26,
+      "world": 6,
+      "title": "Cleanliness Is Important",
+      "arabic": "الطُّهُورُ شَطْرُ الإِيمَانِ",
+      "excerpt": true,
+      "label": "EXCERPT FROM A LONGER REPORT",
+      "meaning": "Purification is half of faith.",
+      "explanation": "Cleanliness is part of our worship and everyday care. Keeping ourselves clean can be a beautiful habit.",
+      "action": "Wash your hands properly before your next meal.",
+      "source": "Sahih Muslim 223",
+      "sourceUrl": "https://sunnah.com/muslim:223",
+      "sourceDocument": "Imaan_Akhlaq_50_Hadith_Curriculum_Interactive_Developer_Edition.docx",
+      "story": "Akhlaq rushes in from playing football, ready to grab a samosa. He looks at his muddy hands, stops, and washes them properly with soap first. Then he enjoys his snack.",
+      "question": "You are about to eat but your hands are dirty. What should you do?",
+      "answers": [
+        {
+          "text": "Wash your hands properly first.",
+          "feedback": "Cleanliness is part of our faith and everyday care. Well done.",
+          "correct": true
+        },
+        {
+          "text": "Wipe them on your clothes.",
+          "feedback": "That does not really clean them. What would be better?",
+          "correct": false
+        },
+        {
+          "text": "Eat quickly before anyone notices.",
+          "feedback": "Dirty hands can make you unwell. Try a cleaner choice.",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "الطُّهُورُ",
+        "شَطْرُ الإِيمَانِ"
+      ]
+    },
+    {
+      "id": "hadith-27",
+      "number": 27,
+      "world": 6,
+      "title": "Keep Pathways Safe",
+      "arabic": "وَأَدْنَاهَا إِمَاطَةُ الأَذَى عَنِ الطَّرِيقِ",
+      "excerpt": true,
+      "label": "EXCERPT FROM A LONGER REPORT",
+      "meaning": "Removing harm from a path is a branch of faith.",
+      "explanation": "A safe path helps everyone. Even small acts of tidiness can become rewarding good deeds.",
+      "action": "With adult supervision, move one harmless piece of litter into a bin.",
+      "source": "Sahih Muslim 35b",
+      "sourceUrl": "https://sunnah.com/muslim:35b",
+      "sourceDocument": "Imaan_Akhlaq_50_Hadith_Curriculum_Interactive_Developer_Edition.docx",
+      "story": "On the way to the masjid, Imaan sees a banana peel on the path. Someone could slip! With Baba nearby, she picks it up and puts it in the bin.",
+      "question": "You see something on a path that could make someone slip. What could you do?",
+      "answers": [
+        {
+          "text": "Step over it and keep walking.",
+          "feedback": "Others might not see it. How could you keep the path safe?",
+          "correct": false
+        },
+        {
+          "text": "Kick it into the road.",
+          "feedback": "That moves the problem somewhere else. Try a safer choice.",
+          "correct": false
+        },
+        {
+          "text": "With an adult nearby, move it safely into a bin.",
+          "feedback": "Removing harm from a path helps everyone and is a good deed.",
+          "correct": true
+        }
+      ],
+      "chunks": [
+        "وَأَدْنَاهَا",
+        "إِمَاطَةُ الأَذَى",
+        "عَنِ الطَّرِيقِ"
+      ]
+    },
+    {
+      "id": "hadith-28",
+      "number": 28,
+      "world": 6,
+      "title": "Beautiful and Clean",
+      "arabic": "إِنَّ اللَّهَ جَمِيلٌ يُحِبُّ الْجَمَالَ",
+      "excerpt": true,
+      "label": "EXCERPT FROM A LONGER REPORT",
+      "meaning": "Allah is beautiful and loves beauty.",
+      "explanation": "Beauty is not about expensive things. Caring for neatness and treating others well makes our surroundings welcoming.",
+      "action": "Tidy and arrange your study place today.",
+      "source": "Sahih Muslim 91",
+      "sourceUrl": "https://sunnah.com/muslim:91",
+      "sourceDocument": "Imaan_Akhlaq_50_Hadith_Curriculum_Interactive_Developer_Edition.docx",
+      "story": "Akhlaq’s desk is covered in crumpled paper and broken crayons. It is hard to find anything. He tidies it, arranges his books neatly, and suddenly homework feels much easier.",
+      "question": "Your study space is messy. What could you do?",
+      "answers": [
+        {
+          "text": "Leave it messy forever.",
+          "feedback": "A neat space can feel more welcoming. What could you change?",
+          "correct": false
+        },
+        {
+          "text": "Tidy and arrange it neatly.",
+          "feedback": "Caring for neatness makes our surroundings beautiful.",
+          "correct": true
+        },
+        {
+          "text": "Push everything onto the floor.",
+          "feedback": "That just moves the mess. Try a tidier choice.",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "إِنَّ اللَّهَ جَمِيلٌ",
+        "يُحِبُّ الْجَمَالَ"
+      ]
+    },
+    {
+      "id": "hadith-29",
+      "number": 29,
+      "world": 6,
+      "title": "Drink with Care",
+      "arabic": "إِذَا شَرِبَ أَحَدُكُمْ فَلاَ يَتَنَفَّسْ فِي الإِنَاءِ",
+      "excerpt": true,
+      "label": "EXCERPT FROM A LONGER REPORT",
+      "meaning": "Do not breathe into the drinking vessel.",
+      "explanation": "Small table manners protect hygiene and show consideration. Take a little pause away from the cup when you need a breath.",
+      "action": "At your next drink, take the cup away from your mouth before breathing.",
+      "source": "Sahih al-Bukhari 5630",
+      "sourceUrl": "https://sunnah.com/bukhari:5630",
+      "sourceDocument": "Imaan_Akhlaq_50_Hadith_Curriculum_Interactive_Developer_Edition.docx",
+      "story": "Imaan is very thirsty after playing. She gulps her water and nearly breathes into the cup. She remembers, lowers the cup, takes a breath, and then drinks again calmly.",
+      "question": "You are drinking water and need to breathe. What is the polite way?",
+      "answers": [
+        {
+          "text": "Breathe into the cup.",
+          "feedback": "Small table manners protect hygiene. Try another way.",
+          "correct": false
+        },
+        {
+          "text": "Move the cup away from your mouth, then breathe.",
+          "feedback": "That is a clean and considerate habit.",
+          "correct": true
+        },
+        {
+          "text": "Blow bubbles into the water.",
+          "feedback": "That can be fun but is not hygienic for drinking. Try again.",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "إِذَا شَرِبَ أَحَدُكُمْ",
+        "فَلاَ يَتَنَفَّسْ فِي الإِنَاءِ"
+      ]
+    },
+    {
+      "id": "hadith-30",
+      "number": 30,
+      "world": 6,
+      "title": "A Polite Sneeze",
+      "arabic": "إِذَا عَطَسَ أَحَدُكُمْ فَلْيَقُلِ الْحَمْدُ لِلَّهِ",
+      "excerpt": true,
+      "label": "EXCERPT FROM A LONGER REPORT",
+      "meaning": "When you sneeze, say Alhamdulillah.",
+      "explanation": "Islam teaches beautiful everyday manners, even for ordinary moments. Remembering Allah can be part of your daily routine.",
+      "action": "The next time you sneeze, cover your mouth appropriately and say Alhamdulillah.",
+      "source": "Sahih al-Bukhari 6224",
+      "sourceUrl": "https://sunnah.com/bukhari:6224",
+      "sourceDocument": "Imaan_Akhlaq_50_Hadith_Curriculum_Interactive_Developer_Edition.docx",
+      "story": "In class, Akhlaq feels a sneeze coming. He covers his mouth with his elbow and then quietly says, “Alhamdulillah.” His friend next to him replies kindly.",
+      "question": "You are about to sneeze. What is the polite thing to do?",
+      "answers": [
+        {
+          "text": "Sneeze into the air without covering.",
+          "feedback": "Covering your mouth protects others. Try a more polite way.",
+          "correct": false
+        },
+        {
+          "text": "Cover your mouth and say Alhamdulillah.",
+          "feedback": "You remembered Allah in an ordinary moment and protected others too.",
+          "correct": true
+        },
+        {
+          "text": "Pretend it never happened.",
+          "feedback": "There is a beautiful manner for sneezing. Can you remember it?",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "إِذَا عَطَسَ أَحَدُكُمْ",
+        "فَلْيَقُلِ الْحَمْدُ لِلَّهِ"
+      ]
+    },
+    {
+      "id": "hadith-31",
+      "number": 31,
+      "world": 7,
+      "title": "Begin with Allah’s Name",
+      "arabic": "يَا غُلاَمُ سَمِّ اللَّهَ وَكُلْ بِيَمِينِكَ وَكُلْ مِمَّا يَلِيكَ",
+      "excerpt": false,
+      "label": "SHORT COMPLETE STATEMENT",
+      "meaning": "Say Allah’s name, eat with your right hand and eat from near you.",
+      "explanation": "The Prophet ﷺ kindly taught a young boy how to eat. Simple manners can turn an ordinary meal into a chance to follow his example.",
+      "action": "At your next meal, say Bismillah before you begin.",
+      "source": "Sahih al-Bukhari 5376",
+      "sourceUrl": "https://sunnah.com/bukhari:5376",
+      "sourceDocument": "Imaan_Akhlaq_50_Hadith_Curriculum_Interactive_Developer_Edition.docx",
+      "story": "At a family lunch, Akhlaq is hungry and reaches for food from across the table. Then he remembers. He says Bismillah, uses his right hand, and eats from the side of the plate near him.",
+      "question": "You are about to start your meal. What comes first?",
+      "answers": [
+        {
+          "text": "Say Bismillah before you begin.",
+          "feedback": "Saying Allah’s name turns an ordinary meal into a chance to follow the Sunnah.",
+          "correct": true
+        },
+        {
+          "text": "Grab food from the middle of the table.",
+          "feedback": "There are beautiful manners for eating. What could you do first?",
+          "correct": false
+        },
+        {
+          "text": "Start eating quickly without thinking.",
+          "feedback": "Slowing down helps you remember. What should you say first?",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "يَا غُلاَمُ",
+        "سَمِّ اللَّهَ",
+        "وَكُلْ بِيَمِينِكَ",
+        "وَكُلْ مِمَّا يَلِيكَ"
+      ]
+    },
+    {
+      "id": "hadith-32",
+      "number": 32,
+      "world": 7,
+      "title": "Eat with Balance",
+      "arabic": "مَا مَلأَ آدَمِيٌّ وِعَاءً شَرًّا مِنْ بَطْنٍ",
+      "excerpt": true,
+      "label": "EXCERPT FROM A LONGER REPORT",
+      "meaning": "Avoid filling your stomach excessively.",
+      "explanation": "Food is a blessing. Enjoy it calmly, and listen when your body tells you that you have had enough.",
+      "action": "At one meal today, eat slowly and notice when you feel comfortably full.",
+      "source": "Jamiʿ at-Tirmidhi 2380",
+      "sourceUrl": "https://sunnah.com/tirmidhi:2380",
+      "sourceDocument": "Imaan_Akhlaq_50_Hadith_Curriculum_Interactive_Developer_Edition.docx",
+      "story": "There is biryani at Nani’s house, and Imaan loves it. She has a second plate and begins to feel full. She stops, puts her spoon down, and decides she has had enough.",
+      "question": "You are eating your favourite food and feel full. What is a balanced choice?",
+      "answers": [
+        {
+          "text": "Keep eating until your tummy hurts.",
+          "feedback": "Food is a blessing, but too much can make us unwell. Try again.",
+          "correct": false
+        },
+        {
+          "text": "Hide food to eat later in secret.",
+          "feedback": "Hiding food is not needed. How could you listen to your body?",
+          "correct": false
+        },
+        {
+          "text": "Stop when you feel comfortably full.",
+          "feedback": "You listened to your body and enjoyed food with balance.",
+          "correct": true
+        }
+      ],
+      "chunks": [
+        "مَا مَلأَ آدَمِيٌّ وِعَاءً",
+        "شَرًّا مِنْ بَطْنٍ"
+      ]
+    },
+    {
+      "id": "hadith-33",
+      "number": 33,
+      "world": 7,
+      "title": "A Small Gift Counts",
+      "arabic": "اتَّقُوا النَّارَ وَلَوْ بِشِقِّ تَمْرَةٍ",
+      "excerpt": true,
+      "label": "EXCERPT FROM A LONGER REPORT",
+      "meaning": "Even a very small gift of charity matters.",
+      "explanation": "You do not need to be wealthy to be generous. A small gift, offered sincerely, can be special.",
+      "action": "Share a small part of your snack with someone who would welcome it.",
+      "source": "Sahih al-Bukhari 1417",
+      "sourceUrl": "https://sunnah.com/bukhari:1417",
+      "sourceDocument": "Imaan_Akhlaq_50_Hadith_Curriculum_Interactive_Developer_Edition.docx",
+      "story": "Akhlaq has a small packet of biscuits. His friend forgot his snack today. Akhlaq does not have much, but he shares two biscuits. His friend says it was the best biscuit ever.",
+      "question": "You only have a small snack, and a friend has none. What could you do?",
+      "answers": [
+        {
+          "text": "Eat it all quickly before they see.",
+          "feedback": "Even a small share can be special. Think again.",
+          "correct": false
+        },
+        {
+          "text": "Share a small part with them.",
+          "feedback": "You do not need much to be generous. A small gift, given sincerely, counts.",
+          "correct": true
+        },
+        {
+          "text": "Tell them to buy their own.",
+          "feedback": "They might not be able to today. Try a more generous choice.",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "اتَّقُوا النَّارَ",
+        "وَلَوْ بِشِقِّ تَمْرَةٍ"
+      ]
+    },
+    {
+      "id": "hadith-34",
+      "number": 34,
+      "world": 7,
+      "title": "Respect the Food",
+      "arabic": "مَا عَابَ النَّبِيُّ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ طَعَامًا قَطُّ",
+      "excerpt": true,
+      "label": "EXCERPT FROM A LONGER REPORT",
+      "meaning": "The Prophet ﷺ never spoke badly about food.",
+      "explanation": "You may not like every dish, and that is okay. We can decline politely without insulting the food or the person who prepared it.",
+      "action": "If you dislike a food today, respond politely without mocking it.",
+      "source": "Sahih al-Bukhari 5409",
+      "sourceUrl": "https://sunnah.com/bukhari:5409",
+      "sourceDocument": "Imaan_Akhlaq_50_Hadith_Curriculum_Interactive_Developer_Edition.docx",
+      "story": "Dadi Jaan cooks karela for dinner. Imaan does not like its bitter taste. Instead of making a face, she says, “Thank you, Dadi Jaan. Could I have a little less, please?”",
+      "question": "You are served a food you do not like. What is the polite response?",
+      "answers": [
+        {
+          "text": "Say “Yuck, this is disgusting!”",
+          "feedback": "That can hurt the person who cooked. Try a polite way to decline.",
+          "correct": false
+        },
+        {
+          "text": "Politely take a little or decline without mocking it.",
+          "feedback": "You respected the food and the person who prepared it.",
+          "correct": true
+        },
+        {
+          "text": "Push the plate away rudely.",
+          "feedback": "There is a kinder way to show you do not want it. Try again.",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "مَا عَابَ النَّبِيُّ",
+        "صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ",
+        "طَعَامًا قَطُّ"
+      ]
+    },
+    {
+      "id": "hadith-35",
+      "number": 35,
+      "world": 7,
+      "title": "Thank Allah After Eating",
+      "arabic": "إِنَّ اللَّهَ لَيَرْضَى عَنِ الْعَبْدِ أَنْ يَأْكُلَ الأَكْلَةَ فَيَحْمَدَهُ عَلَيْهَا",
+      "excerpt": true,
+      "label": "EXCERPT FROM A LONGER REPORT",
+      "meaning": "Allah is pleased when a servant praises Him after eating.",
+      "explanation": "Mealtimes bring nourishment, care and blessing. A simple Alhamdulillah helps you remember Allah’s generosity.",
+      "action": "After your next meal, say Alhamdulillah with attention.",
+      "source": "Sahih Muslim 2734",
+      "sourceUrl": "https://sunnah.com/muslim:2734",
+      "sourceDocument": "Imaan_Akhlaq_50_Hadith_Curriculum_Interactive_Developer_Edition.docx",
+      "story": "After a delicious meal, Akhlaq is ready to rush off and play. He stops for a moment and says, “Alhamdulillah,” thinking about who gave him the food. Then he thanks Ammi too.",
+      "question": "You have just finished eating. What could you say?",
+      "answers": [
+        {
+          "text": "Say Alhamdulillah with attention.",
+          "feedback": "Praising Allah after eating helps you remember His generosity.",
+          "correct": true
+        },
+        {
+          "text": "Run off without a word.",
+          "feedback": "A meal is a blessing. What could you say before leaving?",
+          "correct": false
+        },
+        {
+          "text": "Complain that there was no dessert.",
+          "feedback": "Complaining can make us forget our blessings. Try again.",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "إِنَّ اللَّهَ لَيَرْضَى عَنِ الْعَبْدِ",
+        "أَنْ يَأْكُلَ الأَكْلَةَ",
+        "فَيَحْمَدَهُ عَلَيْهَا"
+      ]
+    },
+    {
+      "id": "hadith-36",
+      "number": 36,
+      "world": 8,
+      "title": "Help Each Other",
+      "arabic": "وَاللَّهُ فِي عَوْنِ الْعَبْدِ مَا كَانَ الْعَبْدُ فِي عَوْنِ أَخِيهِ",
+      "excerpt": true,
+      "label": "EXCERPT FROM A LONGER REPORT",
+      "meaning": "Allah helps the servant who helps another.",
+      "explanation": "Someone in your class may need a helping hand. Helping sincerely is a lovely way to serve others.",
+      "action": "Help one person complete a small task today.",
+      "source": "Sahih Muslim 2699",
+      "sourceUrl": "https://sunnah.com/muslim:2699",
+      "sourceDocument": "Imaan_Akhlaq_50_Hadith_Curriculum_Interactive_Developer_Edition.docx",
+      "story": "Imaan’s classmate drops her crayons all over the floor. Some children giggle. Imaan kneels down and helps her pick them all up. Her classmate whispers, “Thank you.”",
+      "question": "Someone drops their things. What could you do?",
+      "answers": [
+        {
+          "text": "Laugh with the others.",
+          "feedback": "Laughing can make them feel embarrassed. How could you help?",
+          "correct": false
+        },
+        {
+          "text": "Walk past quickly.",
+          "feedback": "Your help could make a difference. Try again.",
+          "correct": false
+        },
+        {
+          "text": "Help them pick things up.",
+          "feedback": "Helping someone sincerely is a lovely way to serve others.",
+          "correct": true
+        }
+      ],
+      "chunks": [
+        "وَاللَّهُ فِي عَوْنِ الْعَبْدِ",
+        "مَا كَانَ الْعَبْدُ",
+        "فِي عَوْنِ أَخِيهِ"
+      ]
+    },
+    {
+      "id": "hadith-37",
+      "number": 37,
+      "world": 8,
+      "title": "Show Someone a Good Way",
+      "arabic": "مَنْ دَلَّ عَلَى خَيْرٍ فَلَهُ مِثْلُ أَجْرِ فَاعِلِهِ",
+      "excerpt": false,
+      "label": "SHORT COMPLETE STATEMENT",
+      "meaning": "Guiding someone toward good brings a reward too.",
+      "explanation": "You can help others discover a good habit, a useful book or a kind action. Goodness grows when shared.",
+      "action": "Teach a friend one useful good habit you practise.",
+      "source": "Sahih Muslim 1893",
+      "sourceUrl": "https://sunnah.com/muslim:1893",
+      "sourceDocument": "Imaan_Akhlaq_50_Hadith_Curriculum_Interactive_Developer_Edition.docx",
+      "story": "Akhlaq has learnt to say Bismillah before eating. He gently reminds his younger cousin at lunch, not to boss him, but to share something good. His cousin starts saying it too.",
+      "question": "You know a good habit. What could you do with it?",
+      "answers": [
+        {
+          "text": "Keep it a secret.",
+          "feedback": "Goodness grows when it is shared. What could you do?",
+          "correct": false
+        },
+        {
+          "text": "Teach it kindly to a friend.",
+          "feedback": "Guiding someone toward good is a beautiful thing to do.",
+          "correct": true
+        },
+        {
+          "text": "Tease others for not knowing it.",
+          "feedback": "Teasing pushes people away. Try sharing it gently.",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "مَنْ دَلَّ عَلَى خَيْرٍ",
+        "فَلَهُ مِثْلُ أَجْرِ فَاعِلِهِ"
+      ]
+    },
+    {
+      "id": "hadith-38",
+      "number": 38,
+      "world": 8,
+      "title": "Every Good Deed Matters",
+      "arabic": "كُلُّ مَعْرُوفٍ صَدَقَةٌ",
+      "excerpt": false,
+      "label": "SHORT COMPLETE STATEMENT",
+      "meaning": "Every good action is charity.",
+      "explanation": "Opening a door, helping a friend or speaking kindly can all count. There are many ways to do good every day!",
+      "action": "Do one small helpful deed for someone today.",
+      "source": "Sahih al-Bukhari 6021",
+      "sourceUrl": "https://sunnah.com/bukhari:6021",
+      "sourceDocument": "Imaan_Akhlaq_50_Hadith_Curriculum_Interactive_Developer_Edition.docx",
+      "story": "Imaan holds the door for a lady carrying a baby. Later she helps her friend find a lost sock and says something kind to her brother. Little by little, her day is full of good deeds.",
+      "question": "Which of these could count as a good deed?",
+      "answers": [
+        {
+          "text": "Holding a door open for someone.",
+          "feedback": "Yes! Even small kind actions can count as good deeds.",
+          "correct": true
+        },
+        {
+          "text": "Only very big, expensive things.",
+          "feedback": "Good deeds do not need to be big. Look again.",
+          "correct": false
+        },
+        {
+          "text": "Nothing, unless someone gives you a prize.",
+          "feedback": "Good deeds are not about prizes. Try again.",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "كُلُّ مَعْرُوفٍ",
+        "صَدَقَةٌ"
+      ]
+    },
+    {
+      "id": "hadith-39",
+      "number": 39,
+      "world": 8,
+      "title": "Be There for Someone",
+      "arabic": "وَمَنْ كَانَ فِي حَاجَةِ أَخِيهِ كَانَ اللَّهُ فِي حَاجَتِهِ",
+      "excerpt": true,
+      "label": "EXCERPT FROM A LONGER REPORT",
+      "meaning": "Allah helps those who look after another person’s needs.",
+      "explanation": "If a friend needs help, do not always wait for someone else. Even a little assistance can make a big difference.",
+      "action": "Offer appropriate help to a classmate who is struggling with a task.",
+      "source": "Sahih al-Bukhari 2442",
+      "sourceUrl": "https://sunnah.com/bukhari:2442",
+      "sourceDocument": "Imaan_Akhlaq_50_Hadith_Curriculum_Interactive_Developer_Edition.docx",
+      "story": "Akhlaq’s classmate is struggling to carry a heavy art project. Others think someone else will help. Akhlaq does not wait. He holds one side and they carry it together.",
+      "question": "A classmate is struggling with a task. What could you do?",
+      "answers": [
+        {
+          "text": "Wait for someone else to help.",
+          "feedback": "Sometimes nobody else steps in. Could you help?",
+          "correct": false
+        },
+        {
+          "text": "Offer a helping hand.",
+          "feedback": "Looking after someone’s need is a caring choice.",
+          "correct": true
+        },
+        {
+          "text": "Laugh because it looks funny.",
+          "feedback": "Struggling is not funny for them. Try a kinder response.",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "وَمَنْ كَانَ فِي حَاجَةِ أَخِيهِ",
+        "كَانَ اللَّهُ فِي حَاجَتِهِ"
+      ]
+    },
+    {
+      "id": "hadith-40",
+      "number": 40,
+      "world": 8,
+      "title": "Care for People in Need",
+      "arabic": "السَّاعِي عَلَى الأَرْمَلَةِ وَالْمِسْكِينِ كَالْمُجَاهِدِ فِي سَبِيلِ اللَّهِ",
+      "excerpt": true,
+      "label": "EXCERPT FROM A LONGER REPORT",
+      "meaning": "Caring for people in need has a tremendous reward.",
+      "explanation": "A caring community remembers people who have less support. Children can learn compassion through simple, safe acts of giving.",
+      "action": "With an adult, choose one useful item to donate to a person in need.",
+      "source": "Sahih al-Bukhari 5353",
+      "sourceUrl": "https://sunnah.com/bukhari:5353",
+      "sourceDocument": "Imaan_Akhlaq_50_Hadith_Curriculum_Interactive_Developer_Edition.docx",
+      "story": "Imaan’s family is collecting warm clothes for families who need them. Imaan looks through her cupboard and chooses a good jacket that no longer fits. Ammi helps her fold it for the donation box.",
+      "question": "Your family is collecting things for people in need. What could you do?",
+      "answers": [
+        {
+          "text": "Give something broken and useless.",
+          "feedback": "Giving is about caring. What could really help someone?",
+          "correct": false
+        },
+        {
+          "text": "Say it is not your job.",
+          "feedback": "Children can care for others too. Try again.",
+          "correct": false
+        },
+        {
+          "text": "With an adult, choose a useful item to give.",
+          "feedback": "That is a safe and caring way to help people in need.",
+          "correct": true
+        }
+      ],
+      "chunks": [
+        "السَّاعِي عَلَى الأَرْمَلَةِ وَالْمِسْكِينِ",
+        "كَالْمُجَاهِدِ فِي سَبِيلِ اللَّهِ"
+      ]
+    },
+    {
+      "id": "hadith-41",
+      "number": 41,
+      "world": 9,
+      "title": "Choose Good Company",
+      "arabic": "مَثَلُ الْجَلِيسِ الصَّالِحِ وَالسَّوْءِ كَحَامِلِ الْمِسْكِ وَنَافِخِ الْكِيرِ",
+      "excerpt": true,
+      "label": "EXCERPT FROM A LONGER REPORT",
+      "meaning": "Good friends influence us, just as sweet perfume spreads its scent.",
+      "explanation": "Friends affect the choices we make. Look for companions who encourage you to be honest, caring and responsible.",
+      "action": "Spend time today with someone who encourages a good habit.",
+      "source": "Sahih al-Bukhari 5534",
+      "sourceUrl": "https://sunnah.com/bukhari:5534",
+      "sourceDocument": "Imaan_Akhlaq_50_Hadith_Curriculum_Interactive_Developer_Edition.docx",
+      "story": "Akhlaq has two friends. One always encourages him to finish his homework and tell the truth. The other often dares him to do silly, unsafe things. Akhlaq decides to spend more time with the friend who helps him be good.",
+      "question": "Which friend would help you grow in good habits?",
+      "answers": [
+        {
+          "text": "A friend who encourages honesty and kindness.",
+          "feedback": "Good friends influence us for the better, like a sweet perfume.",
+          "correct": true
+        },
+        {
+          "text": "A friend who dares you to break rules.",
+          "feedback": "Friends affect our choices. Look for someone who helps you be good.",
+          "correct": false
+        },
+        {
+          "text": "Anyone, it does not matter.",
+          "feedback": "Our friends really do affect us. Think again.",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "مَثَلُ الْجَلِيسِ الصَّالِحِ وَالسَّوْءِ",
+        "كَحَامِلِ الْمِسْكِ",
+        "وَنَافِخِ الْكِيرِ"
+      ]
+    },
+    {
+      "id": "hadith-42",
+      "number": 42,
+      "world": 9,
+      "title": "Do Not Jump to Conclusions",
+      "arabic": "إِيَّاكُمْ وَالظَّنَّ فَإِنَّ الظَّنَّ أَكْذَبُ الْحَدِيثِ",
+      "excerpt": true,
+      "label": "EXCERPT FROM A LONGER REPORT",
+      "meaning": "Beware of harmful suspicion and unfounded assumptions.",
+      "explanation": "A friend may seem quiet because they are tired, not because they are upset with you. Ask gently instead of guessing badly.",
+      "action": "Before assuming someone meant harm, ask a calm, respectful question.",
+      "source": "Sahih al-Bukhari 6064",
+      "sourceUrl": "https://sunnah.com/bukhari:6064",
+      "sourceDocument": "Imaan_Akhlaq_50_Hadith_Curriculum_Interactive_Developer_Edition.docx",
+      "story": "Imaan’s friend does not wave back at her in the morning. Imaan starts to think, “She must be angry with me.” Instead of guessing, she asks gently. Her friend says, “Sorry, I didn’t see you. I was so sleepy!”",
+      "question": "A friend seems quiet today. What should you do?",
+      "answers": [
+        {
+          "text": "Decide they are angry with you.",
+          "feedback": "Guessing badly can be unfair. Is there a better way to find out?",
+          "correct": false
+        },
+        {
+          "text": "Tell others they are being rude.",
+          "feedback": "That spreads an unfair idea. Try a kinder choice.",
+          "correct": false
+        },
+        {
+          "text": "Ask them gently if everything is okay.",
+          "feedback": "Asking calmly is better than assuming the worst.",
+          "correct": true
+        }
+      ],
+      "chunks": [
+        "إِيَّاكُمْ وَالظَّنَّ",
+        "فَإِنَّ الظَّنَّ أَكْذَبُ الْحَدِيثِ"
+      ]
+    },
+    {
+      "id": "hadith-43",
+      "number": 43,
+      "world": 9,
+      "title": "Keep Neighbors Safe",
+      "arabic": "وَاللَّهِ لاَ يُؤْمِنُ ... الَّذِي لاَ يَأْمَنُ جَارُهُ بَوَائِقَهُ",
+      "excerpt": true,
+      "label": "EXCERPT FROM A LONGER REPORT",
+      "meaning": "A neighbor should feel safe from our harm.",
+      "explanation": "We can show respect to people living near us by being thoughtful, keeping noise down and caring for shared spaces.",
+      "action": "Make one choice today that keeps your neighbors comfortable.",
+      "source": "Sahih al-Bukhari 6016",
+      "sourceUrl": "https://sunnah.com/bukhari:6016",
+      "sourceDocument": "Imaan_Akhlaq_50_Hadith_Curriculum_Interactive_Developer_Edition.docx",
+      "story": "It is late in the evening, and Akhlaq wants to bounce his ball against the wall. He remembers the neighbour’s baby sleeps next door. He puts the ball away and plays a quiet game instead.",
+      "question": "Your neighbour’s baby is sleeping. What could you do?",
+      "answers": [
+        {
+          "text": "Play loudly because it is your house.",
+          "feedback": "Neighbours should feel safe and comfortable near us. Try again.",
+          "correct": false
+        },
+        {
+          "text": "Choose a quiet activity.",
+          "feedback": "That keeps your neighbours comfortable. Thoughtful choice!",
+          "correct": true
+        },
+        {
+          "text": "Bang on the wall for fun.",
+          "feedback": "That could upset your neighbours. What would be considerate?",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "وَاللَّهِ لاَ يُؤْمِنُ ...",
+        "الَّذِي لاَ يَأْمَنُ",
+        "جَارُهُ بَوَائِقَهُ"
+      ]
+    },
+    {
+      "id": "hadith-44",
+      "number": 44,
+      "world": 9,
+      "title": "No Jealousy or Hate",
+      "arabic": "لاَ تَبَاغَضُوا وَلاَ تَحَاسَدُوا وَلاَ تَدَابَرُوا",
+      "excerpt": true,
+      "label": "EXCERPT FROM A LONGER REPORT",
+      "meaning": "Do not hate, envy or turn away from each other.",
+      "explanation": "A friend’s success does not take away your chances. Cheer for others and keep your own heart peaceful.",
+      "action": "Congratulate someone today on something they did well.",
+      "source": "Sahih al-Bukhari 6065",
+      "sourceUrl": "https://sunnah.com/bukhari:6065",
+      "sourceDocument": "Imaan_Akhlaq_50_Hadith_Curriculum_Interactive_Developer_Edition.docx",
+      "story": "Imaan’s friend wins the drawing competition. For a moment, Imaan feels a little jealous. Then she walks over and says, “Mabrook! Your picture is beautiful.” Her heart feels lighter.",
+      "question": "A friend wins something you wanted. What is the peaceful choice?",
+      "answers": [
+        {
+          "text": "Congratulate them sincerely.",
+          "feedback": "Cheering for others keeps your heart peaceful and your friendship strong.",
+          "correct": true
+        },
+        {
+          "text": "Say their work was not that good.",
+          "feedback": "That can hurt them and your own heart. Try again.",
+          "correct": false
+        },
+        {
+          "text": "Stop talking to them.",
+          "feedback": "Turning away from friends can damage friendship. Try a kinder choice.",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "لاَ تَبَاغَضُوا",
+        "وَلاَ تَحَاسَدُوا",
+        "وَلاَ تَدَابَرُوا"
+      ]
+    },
+    {
+      "id": "hadith-45",
+      "number": 45,
+      "world": 9,
+      "title": "No Cheating",
+      "arabic": "مَنْ غَشَّ فَلَيْسَ مِنِّي",
+      "excerpt": true,
+      "label": "EXCERPT FROM A LONGER REPORT",
+      "meaning": "Cheating is against the Prophet’s teaching.",
+      "explanation": "Real achievement comes from your own effort. Being honest in a test, game or sale is more important than appearing to win.",
+      "action": "In your next game or school task, follow the rules even when nobody is watching.",
+      "source": "Sahih Muslim 102",
+      "sourceUrl": "https://sunnah.com/muslim:102",
+      "sourceDocument": "Imaan_Akhlaq_50_Hadith_Curriculum_Interactive_Developer_Edition.docx",
+      "story": "During a spelling test, Akhlaq could easily see his neighbour’s paper. Nobody is watching. He covers his eyes with his hand, takes a breath, and writes his own answers.",
+      "question": "You could copy someone’s answers without anyone noticing. What is the honest choice?",
+      "answers": [
+        {
+          "text": "Copy just one answer.",
+          "feedback": "Even one copied answer is cheating. Try again.",
+          "correct": false
+        },
+        {
+          "text": "Do your own work honestly.",
+          "feedback": "Real achievement comes from your own effort. Well done!",
+          "correct": true
+        },
+        {
+          "text": "Ask your friend to show you all the answers.",
+          "feedback": "That is still cheating, even if they agree. Think again.",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "مَنْ غَشَّ",
+        "فَلَيْسَ مِنِّي"
+      ]
+    },
+    {
+      "id": "hadith-46",
+      "number": 46,
+      "world": 10,
+      "title": "Keep Learning the Deen",
+      "arabic": "مَنْ يُرِدِ اللَّهُ بِهِ خَيْرًا يُفَقِّهْهُ فِي الدِّينِ",
+      "excerpt": false,
+      "label": "SHORT COMPLETE STATEMENT",
+      "meaning": "Allah grants understanding of religion to someone He wishes good for.",
+      "explanation": "Asking thoughtful questions and learning patiently are wonderful habits. There is always more good to discover.",
+      "action": "Ask a teacher or parent one sincere question about Islam today.",
+      "source": "Sahih al-Bukhari 71",
+      "sourceUrl": "https://sunnah.com/bukhari:71",
+      "sourceDocument": "Imaan_Akhlaq_50_Hadith_Curriculum_Interactive_Developer_Edition.docx",
+      "story": "Imaan wonders why Muslims fast in Ramadan. Instead of keeping the question to herself, she asks her teacher after class. Her teacher is happy to explain, and Imaan learns something new.",
+      "question": "You have a question about Islam. What could you do?",
+      "answers": [
+        {
+          "text": "Keep it to yourself and stay confused.",
+          "feedback": "Asking is a wonderful way to learn. What could you do?",
+          "correct": false
+        },
+        {
+          "text": "Make up your own answer.",
+          "feedback": "It is better to learn from someone who knows. Try again.",
+          "correct": false
+        },
+        {
+          "text": "Ask a teacher or parent sincerely.",
+          "feedback": "Asking thoughtful questions is a beautiful habit of a learner.",
+          "correct": true
+        }
+      ],
+      "chunks": [
+        "مَنْ يُرِدِ اللَّهُ بِهِ خَيْرًا",
+        "يُفَقِّهْهُ فِي الدِّينِ"
+      ]
+    },
+    {
+      "id": "hadith-47",
+      "number": 47,
+      "world": 10,
+      "title": "Learn and Share Qur’an",
+      "arabic": "خَيْرُكُمْ مَنْ تَعَلَّمَ الْقُرْآنَ وَعَلَّمَهُ",
+      "excerpt": false,
+      "label": "SHORT COMPLETE STATEMENT",
+      "meaning": "Among the best are those who learn the Qur’an and teach it.",
+      "explanation": "Every surah you learn is precious. You can share what you have learned in a gentle and encouraging way.",
+      "action": "Revise one short surah and recite it to a trusted family member.",
+      "source": "Sahih al-Bukhari 5027",
+      "sourceUrl": "https://sunnah.com/bukhari:5027",
+      "sourceDocument": "Imaan_Akhlaq_50_Hadith_Curriculum_Interactive_Developer_Edition.docx",
+      "story": "Akhlaq has just memorised Surah Al-Kawthar. His little sister is learning to read. He sits beside her and gently helps her with the first ayah, smiling when she gets it right.",
+      "question": "You have learned a short surah. What could you do with it?",
+      "answers": [
+        {
+          "text": "Share it kindly with someone in your family.",
+          "feedback": "Learning and gently sharing the Qur’an is a precious thing.",
+          "correct": true
+        },
+        {
+          "text": "Laugh at people who do not know it.",
+          "feedback": "Laughing can discourage others. Try sharing it gently.",
+          "correct": false
+        },
+        {
+          "text": "Never recite it again.",
+          "feedback": "Practising helps it stay in your heart. Try again.",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "خَيْرُكُمْ",
+        "مَنْ تَعَلَّمَ الْقُرْآنَ",
+        "وَعَلَّمَهُ"
+      ]
+    },
+    {
+      "id": "hadith-48",
+      "number": 48,
+      "world": 10,
+      "title": "Begin with a Good Intention",
+      "arabic": "إِنَّمَا الأَعْمَالُ بِالنِّيَّاتِ",
+      "excerpt": true,
+      "label": "EXCERPT FROM A LONGER REPORT",
+      "meaning": "Actions are judged by intentions.",
+      "explanation": "The reason behind your action matters. Before helping, studying or giving, quietly intend to please Allah.",
+      "action": "Before your next good deed, make a sincere intention for Allah.",
+      "source": "Sahih al-Bukhari 1",
+      "sourceUrl": "https://sunnah.com/bukhari:1",
+      "sourceDocument": "Imaan_Akhlaq_50_Hadith_Curriculum_Interactive_Developer_Edition.docx",
+      "story": "Imaan is about to help her teacher tidy the classroom. Before starting, she quietly thinks, “I’m doing this to please Allah.” Then she gets to work with a happy heart.",
+      "question": "Before doing a good deed, what can you do?",
+      "answers": [
+        {
+          "text": "Make a sincere intention for Allah.",
+          "feedback": "The reason behind your action matters. A sincere intention is beautiful.",
+          "correct": true
+        },
+        {
+          "text": "Think only about who will praise you.",
+          "feedback": "Wanting praise can creep in. What intention could you make instead?",
+          "correct": false
+        },
+        {
+          "text": "Nothing, intentions do not matter.",
+          "feedback": "Intentions do matter. Try again.",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "إِنَّمَا الأَعْمَالُ",
+        "بِالنِّيَّاتِ"
+      ]
+    },
+    {
+      "id": "hadith-49",
+      "number": 49,
+      "world": 10,
+      "title": "Make Du’a in Sujud",
+      "arabic": "أَقْرَبُ مَا يَكُونُ الْعَبْدُ مِنْ رَبِّهِ وَهُوَ سَاجِدٌ",
+      "excerpt": true,
+      "label": "EXCERPT FROM A LONGER REPORT",
+      "meaning": "A servant is especially close to Allah during prostration.",
+      "explanation": "Sujud is a beautiful moment of worship. You can ask Allah for goodness while following the etiquette of prayer.",
+      "action": "In your next appropriate sujud, make a short du’a in the way you have been taught.",
+      "source": "Sahih Muslim 482",
+      "sourceUrl": "https://sunnah.com/muslim:482",
+      "sourceDocument": "Imaan_Akhlaq_50_Hadith_Curriculum_Interactive_Developer_Edition.docx",
+      "story": "Akhlaq is praying Maghrib with his family. In sujud, he remembers his teacher saying it is a special time to ask Allah for good. In his heart he asks Allah to help his grandmother feel better.",
+      "question": "What is a beautiful thing to do in sujud, in the way you have been taught?",
+      "answers": [
+        {
+          "text": "Rush through it as fast as you can.",
+          "feedback": "Sujud is a special moment. Try a calmer choice.",
+          "correct": false
+        },
+        {
+          "text": "Make a short du’a in the way you have been taught.",
+          "feedback": "Sujud is a beautiful moment to ask Allah for goodness.",
+          "correct": true
+        },
+        {
+          "text": "Look around at what others are doing.",
+          "feedback": "Prayer is a time to focus on Allah. Try again.",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "أَقْرَبُ مَا يَكُونُ الْعَبْدُ",
+        "مِنْ رَبِّهِ",
+        "وَهُوَ سَاجِدٌ"
+      ]
+    },
+    {
+      "id": "hadith-50",
+      "number": 50,
+      "world": 10,
+      "title": "Give Sincere Advice",
+      "arabic": "الدِّينُ النَّصِيحَةُ",
+      "excerpt": true,
+      "label": "EXCERPT FROM A LONGER REPORT",
+      "meaning": "Religion includes sincere care and good counsel.",
+      "explanation": "Helping someone is not about embarrassing them. A good friend gives gentle advice and wants what is best for others.",
+      "action": "If a friend needs help, offer one kind, private suggestion today.",
+      "source": "Sahih Muslim 55a",
+      "sourceUrl": "https://sunnah.com/muslim:55a",
+      "sourceDocument": "Imaan_Akhlaq_50_Hadith_Curriculum_Interactive_Developer_Edition.docx",
+      "story": "Imaan notices her friend has her shoelace untied, and it might make her trip. Instead of shouting it in front of everyone, Imaan quietly tells her, “Your lace is loose, be careful.”",
+      "question": "Your friend has made a small mistake. How could you help?",
+      "answers": [
+        {
+          "text": "Announce it loudly to the class.",
+          "feedback": "That might embarrass them. Is there a kinder way?",
+          "correct": false
+        },
+        {
+          "text": "Say nothing even if they might get hurt.",
+          "feedback": "Caring friends help each other. Try again.",
+          "correct": false
+        },
+        {
+          "text": "Give a kind, private suggestion.",
+          "feedback": "Gentle, private advice shows you want what is best for them.",
+          "correct": true
+        }
+      ],
+      "chunks": [
+        "الدِّينُ",
+        "النَّصِيحَةُ"
+      ]
+    },
+    {
+      "id": "hadith-51",
+      "number": 51,
+      "world": 11,
+      "title": "Be the First to Make Peace",
+      "arabic": "وَخَيْرُهُمَا الَّذِي يَبْدَأُ بِالسَّلَامِ",
+      "excerpt": true,
+      "label": "EXCERPT",
+      "meaning": "The better of two people who have fallen out is the one who begins with Salam.",
+      "explanation": "Friendships sometimes have difficult days. Courage can mean taking the first peaceful step instead of waiting for the other person.",
+      "action": "After a small disagreement, calmly greet the other person and offer to make peace.",
+      "source": "Sahih al-Bukhari 6077",
+      "sourceUrl": "https://sunnah.com/bukhari:6077",
+      "sourceDocument": "Imaan_Akhlaq_Hadith_51_to_100_New_Authentic_Actions.docx",
+      "story": "Imaan and Akhlaq argued about whose turn it was on the swing. Now they are not speaking. Imaan feels nervous, but she walks over first and says, “Assalamu Alaikum. Shall we make up?” Akhlaq smiles with relief.",
+      "question": "You and a friend had a small disagreement. What shows courage?",
+      "answers": [
+        {
+          "text": "Wait for them to say sorry first.",
+          "feedback": "Waiting can make the gap grow. Who could take the first step?",
+          "correct": false
+        },
+        {
+          "text": "Be the first to greet them and make peace.",
+          "feedback": "Taking the first peaceful step is real courage.",
+          "correct": true
+        },
+        {
+          "text": "Tell everyone how unfair they were.",
+          "feedback": "That can make things worse. Try a peaceful choice.",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "وَخَيْرُهُمَا الَّذِي",
+        "يَبْدَأُ بِالسَّلَامِ"
+      ]
+    },
+    {
+      "id": "hadith-52",
+      "number": 52,
+      "world": 11,
+      "title": "Never Use Insults",
+      "arabic": "سِبَابُ الْمُسْلِمِ فُسُوقٌ",
+      "excerpt": true,
+      "label": "EXCERPT",
+      "meaning": "Insulting a Muslim is sinful behavior.",
+      "explanation": "Strong people do not need hurtful names or insults to be heard. Even when you disagree, you can stay respectful.",
+      "action": "Spend today speaking without calling anyone an insulting name.",
+      "source": "Sahih al-Bukhari 48",
+      "sourceUrl": "https://sunnah.com/bukhari:48",
+      "sourceDocument": "Imaan_Akhlaq_Hadith_51_to_100_New_Authentic_Actions.docx",
+      "story": "During football, a boy calls Akhlaq a mean name. Akhlaq feels like calling him a worse name back. Instead, he says firmly, “Please don’t call me that. Let’s just play.”",
+      "question": "Someone calls you an unkind name. What is the respectful choice?",
+      "answers": [
+        {
+          "text": "Call them a worse name back.",
+          "feedback": "Insults do not make you stronger. Try another way.",
+          "correct": false
+        },
+        {
+          "text": "Calmly ask them to stop, without insulting them.",
+          "feedback": "You stayed respectful even when you disagreed. That is strength.",
+          "correct": true
+        },
+        {
+          "text": "Make up a rude song about them.",
+          "feedback": "That is still insulting. Think of a respectful reply.",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "سِبَابُ الْمُسْلِمِ",
+        "فُسُوقٌ"
+      ]
+    },
+    {
+      "id": "hadith-53",
+      "number": 53,
+      "world": 11,
+      "title": "Do Not Carry Gossip",
+      "arabic": "لَا يَدْخُلُ الْجَنَّةَ نَمَّامٌ",
+      "excerpt": false,
+      "label": "SHORT NARRATION",
+      "meaning": "The Prophet ﷺ gave a serious warning against carrying harmful gossip between people.",
+      "explanation": "Passing a hurtful message from one friend to another can break trust. You can be the person who stops the chain.",
+      "action": "If someone shares gossip, do not pass it on; change to a kinder subject.",
+      "source": "Sahih Muslim 105a",
+      "sourceUrl": "https://sunnah.com/muslim:105a",
+      "sourceDocument": "Imaan_Akhlaq_Hadith_51_to_100_New_Authentic_Actions.docx",
+      "story": "A girl at lunch whispers to Imaan, “Did you hear what Sana said about Hiba?” Imaan does not want to pass hurtful words around. She says, “Let’s talk about something else. Did you see the new library books?”",
+      "question": "Someone tells you a hurtful piece of gossip. What could you do?",
+      "answers": [
+        {
+          "text": "Pass it on to another friend.",
+          "feedback": "Passing it on can break trust and hurt people. Try again.",
+          "correct": false
+        },
+        {
+          "text": "Add some extra details.",
+          "feedback": "That makes the hurt worse. What could stop the chain?",
+          "correct": false
+        },
+        {
+          "text": "Do not pass it on and change to a kinder subject.",
+          "feedback": "You stopped the chain. That protects friendships.",
+          "correct": true
+        }
+      ],
+      "chunks": [
+        "لَا يَدْخُلُ الْجَنَّةَ",
+        "نَمَّامٌ"
+      ]
+    },
+    {
+      "id": "hadith-54",
+      "number": 54,
+      "world": 11,
+      "title": "Check Before You Share",
+      "arabic": "كَفَى بِالْمَرْءِ كَذِبًا أَنْ يُحَدِّثَ بِكُلِّ مَا سَمِعَ",
+      "excerpt": false,
+      "label": "COMPLETE CORE WORDING",
+      "meaning": "Repeating everything you hear can make you spread falsehood.",
+      "explanation": "Not every story or online message is true. Wise children stop, check, and ask a trusted adult before passing news along.",
+      "action": "Before forwarding or repeating one story today, check whether it is true.",
+      "source": "Sahih Muslim 5",
+      "sourceUrl": "https://sunnah.com/muslim:5",
+      "sourceDocument": "Imaan_Akhlaq_Hadith_51_to_100_New_Authentic_Actions.docx",
+      "story": "Akhlaq hears that school will be closed tomorrow. He is about to tell all his friends. Then he stops and asks his teacher first. It turns out the story was not true at all.",
+      "question": "You hear some exciting news. What should you do before sharing it?",
+      "answers": [
+        {
+          "text": "Share it straight away with everyone.",
+          "feedback": "Not every story is true. What could you do first?",
+          "correct": false
+        },
+        {
+          "text": "Check with a trusted adult whether it is true.",
+          "feedback": "Checking first stops you from spreading something false. Wise choice!",
+          "correct": true
+        },
+        {
+          "text": "Make the story sound even bigger.",
+          "feedback": "That makes it less true. Try again.",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "كَفَى بِالْمَرْءِ كَذِبًا",
+        "أَنْ يُحَدِّثَ",
+        "بِكُلِّ مَا سَمِعَ"
+      ]
+    },
+    {
+      "id": "hadith-55",
+      "number": 55,
+      "world": 11,
+      "title": "Include Everyone",
+      "arabic": "إِذَا كُنْتُمْ ثَلَاثَةً فَلَا يَتَنَاجَى رَجُلَانِ دُونَ الْآخَرِ",
+      "excerpt": true,
+      "label": "EXCERPT",
+      "meaning": "When three people are together, two should not whisper privately in a way that excludes the third.",
+      "explanation": "Imagine how lonely a friend feels when everyone whispers without them. Your kindness can make the whole group feel welcome.",
+      "action": "During a group activity, invite someone who seems left out into the conversation.",
+      "source": "Sahih al-Bukhari 6290",
+      "sourceUrl": "https://sunnah.com/bukhari:6290",
+      "sourceDocument": "Imaan_Akhlaq_Hadith_51_to_100_New_Authentic_Actions.docx",
+      "story": "Imaan, Hiba and a new girl are working on a group project. Hiba starts whispering secrets to Imaan only. Imaan notices the new girl looking sad, so she says, “Let’s all decide together.”",
+      "question": "In a group of three, two friends start whispering. What could you do?",
+      "answers": [
+        {
+          "text": "Bring everyone back into the conversation.",
+          "feedback": "Your kindness can make the whole group feel welcome.",
+          "correct": true
+        },
+        {
+          "text": "Whisper too and leave the third person out.",
+          "feedback": "Imagine how lonely that feels. Try again.",
+          "correct": false
+        },
+        {
+          "text": "Tell the third person to go away.",
+          "feedback": "That excludes them even more. What would be kinder?",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "إِذَا كُنْتُمْ ثَلَاثَةً",
+        "فَلَا يَتَنَاجَى رَجُلَانِ",
+        "دُونَ الْآخَرِ"
+      ]
+    },
+    {
+      "id": "hadith-56",
+      "number": 56,
+      "world": 12,
+      "title": "Greet People You Meet",
+      "arabic": "وَتَقْرَأُ السَّلَامَ عَلَى مَنْ عَرَفْتَ وَمَنْ لَمْ تَعْرِفْ",
+      "excerpt": true,
+      "label": "EXCERPT",
+      "meaning": "Offering Salam to people you know and those you do not know is among good Islamic manners.",
+      "explanation": "A warm greeting makes a place friendlier. You do not need to be famous or important to spread peace.",
+      "action": "Offer Salam politely to an appropriate person in your family or school today.",
+      "source": "Sahih al-Bukhari 12",
+      "sourceUrl": "https://sunnah.com/bukhari:12",
+      "sourceDocument": "Imaan_Akhlaq_Hadith_51_to_100_New_Authentic_Actions.docx",
+      "story": "At the masjid, Akhlaq sees an elderly man he does not know. He remembers that salam is for everyone. He smiles and says, “Assalamu Alaikum,” and the man replies warmly.",
+      "question": "You meet someone appropriate whom you do not know well, with your family nearby. What could you do?",
+      "answers": [
+        {
+          "text": "Ignore them because you do not know them.",
+          "feedback": "Salam can be for people you know and those you do not. Try again.",
+          "correct": false
+        },
+        {
+          "text": "Only greet your best friends.",
+          "feedback": "A greeting spreads peace to many people. Think again.",
+          "correct": false
+        },
+        {
+          "text": "Offer a polite salam.",
+          "feedback": "A warm greeting makes a place friendlier.",
+          "correct": true
+        }
+      ],
+      "chunks": [
+        "وَتَقْرَأُ السَّلَامَ",
+        "عَلَى مَنْ عَرَفْتَ",
+        "وَمَنْ لَمْ تَعْرِفْ"
+      ]
+    },
+    {
+      "id": "hadith-57",
+      "number": 57,
+      "world": 12,
+      "title": "Ask Before Entering",
+      "arabic": "إِذَا اسْتَأْذَنَ أَحَدُكُمْ ثَلَاثًا فَلَمْ يُؤْذَنْ لَهُ فَلْيَرْجِعْ",
+      "excerpt": true,
+      "label": "EXCERPT",
+      "meaning": "If permission is not given after asking three times, leave instead of forcing entry.",
+      "explanation": "Everyone needs personal space. Knocking and waiting shows that you respect other people's comfort and privacy.",
+      "action": "Knock and wait for permission before entering a family member's room.",
+      "source": "Sahih al-Bukhari 6245",
+      "sourceUrl": "https://sunnah.com/bukhari:6245",
+      "sourceDocument": "Imaan_Akhlaq_Hadith_51_to_100_New_Authentic_Actions.docx",
+      "story": "Imaan wants to borrow her brother’s colours. His door is closed. She knocks and waits. He says, “Not now, I’m changing.” Imaan says, “Okay!” and comes back later.",
+      "question": "You want to go into a family member’s room. What is respectful?",
+      "answers": [
+        {
+          "text": "Burst in without knocking.",
+          "feedback": "Everyone needs personal space. What could you do first?",
+          "correct": false
+        },
+        {
+          "text": "Knock and wait for permission.",
+          "feedback": "Knocking and waiting shows you respect others’ privacy.",
+          "correct": true
+        },
+        {
+          "text": "Keep banging until they open.",
+          "feedback": "If they do not give permission, it is better to come back later.",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "إِذَا اسْتَأْذَنَ أَحَدُكُمْ ثَلَاثًا",
+        "فَلَمْ يُؤْذَنْ لَهُ",
+        "فَلْيَرْجِعْ"
+      ]
+    },
+    {
+      "id": "hadith-58",
+      "number": 58,
+      "world": 12,
+      "title": "Remember Allah at the Door",
+      "arabic": "إِذَا دَخَلَ الرَّجُلُ بَيْتَهُ فَذَكَرَ اللَّهَ عِنْدَ دُخُولِهِ",
+      "excerpt": true,
+      "label": "EXCERPT",
+      "meaning": "Remembering Allah when entering home is taught in the Sunnah.",
+      "explanation": "Your home is a wonderful place to begin a good habit. Let your arrival be peaceful and full of remembrance.",
+      "action": "When you come home today, say Bismillah and greet your family.",
+      "source": "Sahih Muslim 2018a",
+      "sourceUrl": "https://sunnah.com/muslim:2018a",
+      "sourceDocument": "Imaan_Akhlaq_Hadith_51_to_100_New_Authentic_Actions.docx",
+      "story": "Akhlaq rushes home after school, shouting for his snack. Then he remembers. He steps in calmly, says Bismillah, and greets his family with salam. The house feels peaceful.",
+      "question": "You are arriving home. What is a lovely way to come in?",
+      "answers": [
+        {
+          "text": "Say Bismillah and greet your family.",
+          "feedback": "Remembering Allah at the door makes your arrival peaceful.",
+          "correct": true
+        },
+        {
+          "text": "Slam the door and run to your room.",
+          "feedback": "That can startle your family. Try a calmer way.",
+          "correct": false
+        },
+        {
+          "text": "Shout for food straight away.",
+          "feedback": "There is a more peaceful way to arrive. Try again.",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "إِذَا دَخَلَ الرَّجُلُ بَيْتَهُ",
+        "فَذَكَرَ اللَّهَ",
+        "عِنْدَ دُخُولِهِ"
+      ]
+    },
+    {
+      "id": "hadith-59",
+      "number": 59,
+      "world": 12,
+      "title": "Show Good Manners in Shared Spaces",
+      "arabic": "غَضُّ الْبَصَرِ وَكَفُّ الْأَذَى وَرَدُّ السَّلَامِ",
+      "excerpt": true,
+      "label": "EXCERPT",
+      "meaning": "Good conduct in public places includes restraint, not causing harm, and returning greetings.",
+      "explanation": "The street, school corridor, and park belong to many people. Every small respectful choice helps everyone feel comfortable.",
+      "action": "In one shared space today, walk considerately and let someone pass without pushing.",
+      "source": "Sahih al-Bukhari 2465",
+      "sourceUrl": "https://sunnah.com/bukhari:2465",
+      "sourceDocument": "Imaan_Akhlaq_Hadith_51_to_100_New_Authentic_Actions.docx",
+      "story": "The school corridor is crowded at break time. Imaan wants to get to the playground fast, but she walks calmly, lets a younger child pass, and returns a friend’s salam on the way.",
+      "question": "A shared corridor is crowded. What shows good manners?",
+      "answers": [
+        {
+          "text": "Push through to get there first.",
+          "feedback": "Pushing can hurt others. Try a more considerate way.",
+          "correct": false
+        },
+        {
+          "text": "Run and shout through the crowd.",
+          "feedback": "Shared spaces belong to everyone. Try again.",
+          "correct": false
+        },
+        {
+          "text": "Walk considerately and let others pass.",
+          "feedback": "Small respectful choices help everyone feel comfortable.",
+          "correct": true
+        }
+      ],
+      "chunks": [
+        "غَضُّ الْبَصَرِ",
+        "وَكَفُّ الْأَذَى",
+        "وَرَدُّ السَّلَامِ"
+      ]
+    },
+    {
+      "id": "hadith-60",
+      "number": 60,
+      "world": 12,
+      "title": "Make Room for Someone",
+      "arabic": "وَلَكِنْ تَفَسَّحُوا وَتَوَسَّعُوا",
+      "excerpt": true,
+      "label": "EXCERPT",
+      "meaning": "Make space for others rather than pushing someone out of their seat.",
+      "explanation": "You can make people feel welcome without saying a word. Sometimes simply moving over is a beautiful act of kindness.",
+      "action": "Make room for someone to sit comfortably beside you today.",
+      "source": "Sahih al-Bukhari 6270",
+      "sourceUrl": "https://sunnah.com/bukhari:6270",
+      "sourceDocument": "Imaan_Akhlaq_Hadith_51_to_100_New_Authentic_Actions.docx",
+      "story": "In circle time, a new boy has nowhere to sit. Akhlaq shuffles over and pats the space beside him. The boy sits down and smiles. Nobody had to say a word.",
+      "question": "Someone has nowhere to sit. What could you do?",
+      "answers": [
+        {
+          "text": "Move over and make room for them.",
+          "feedback": "Simply moving over can be a beautiful act of kindness.",
+          "correct": true
+        },
+        {
+          "text": "Spread out so there is no space.",
+          "feedback": "That keeps them out. Think again.",
+          "correct": false
+        },
+        {
+          "text": "Tell them to sit on the floor far away.",
+          "feedback": "That can feel unwelcoming. Try a kinder choice.",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "وَلَكِنْ تَفَسَّحُوا",
+        "وَتَوَسَّعُوا"
+      ]
+    },
+    {
+      "id": "hadith-61",
+      "number": 61,
+      "world": 13,
+      "title": "Treasure Your Time",
+      "arabic": "نِعْمَتَانِ مَغْبُونٌ فِيهِمَا كَثِيرٌ مِنَ النَّاسِ الصِّحَّةُ وَالْفَرَاغُ",
+      "excerpt": false,
+      "label": "COMPLETE CORE WORDING",
+      "meaning": "Health and free time are two blessings many people fail to use well.",
+      "explanation": "Your minutes are special. You can play, rest, learn, and help others when you choose your time wisely.",
+      "action": "Use ten minutes of free time for one useful activity you choose.",
+      "source": "Sahih al-Bukhari 6412",
+      "sourceUrl": "https://sunnah.com/bukhari:6412",
+      "sourceDocument": "Imaan_Akhlaq_Hadith_51_to_100_New_Authentic_Actions.docx",
+      "story": "Imaan has a free afternoon. She could spend all of it on cartoons. She decides to watch one, then spends ten minutes reading a new book and helping Ammi water the plants.",
+      "question": "You have some free time. What is a wise way to use part of it?",
+      "answers": [
+        {
+          "text": "Spend all of it doing nothing useful.",
+          "feedback": "Free time is a blessing. How could you use some of it well?",
+          "correct": false
+        },
+        {
+          "text": "Choose ten minutes for something useful.",
+          "feedback": "Your minutes are special. You chose your time wisely.",
+          "correct": true
+        },
+        {
+          "text": "Complain that you are bored.",
+          "feedback": "There are many useful things to choose from. Try again.",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "نِعْمَتَانِ مَغْبُونٌ فِيهِمَا",
+        "كَثِيرٌ مِنَ النَّاسِ",
+        "الصِّحَّةُ وَالْفَرَاغُ"
+      ]
+    },
+    {
+      "id": "hadith-62",
+      "number": 62,
+      "world": 13,
+      "title": "Make Learning Welcoming",
+      "arabic": "يَسِّرُوا وَلَا تُعَسِّرُوا وَبَشِّرُوا وَلَا تُنَفِّرُوا",
+      "excerpt": false,
+      "label": "COMPLETE WORDING",
+      "meaning": "Make things easier and encouraging rather than unnecessarily difficult or off-putting.",
+      "explanation": "A good learner can also be a helpful teacher. Encourage others instead of making them feel silly for not knowing.",
+      "action": "Explain one small lesson to someone patiently, without teasing them for a mistake.",
+      "source": "Sahih al-Bukhari 69",
+      "sourceUrl": "https://sunnah.com/bukhari:69",
+      "sourceDocument": "Imaan_Akhlaq_Hadith_51_to_100_New_Authentic_Actions.docx",
+      "story": "Akhlaq’s younger cousin is learning to read Urdu and gets a word wrong. Akhlaq’s friend laughs. Akhlaq says, “That’s okay! It’s tricky. Let’s try it together.”",
+      "question": "Someone makes a mistake while learning. How could you help?",
+      "answers": [
+        {
+          "text": "Laugh at the mistake.",
+          "feedback": "Laughing can make learning feel scary. Try again.",
+          "correct": false
+        },
+        {
+          "text": "Explain kindly and encourage them.",
+          "feedback": "Making learning easy and encouraging is a beautiful way to help.",
+          "correct": true
+        },
+        {
+          "text": "Tell them they will never learn.",
+          "feedback": "That can stop them from trying. Think of an encouraging choice.",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "يَسِّرُوا وَلَا تُعَسِّرُوا",
+        "وَبَشِّرُوا وَلَا تُنَفِّرُوا"
+      ]
+    },
+    {
+      "id": "hadith-63",
+      "number": 63,
+      "world": 13,
+      "title": "Return What You Borrow",
+      "arabic": "إِنَّ خِيَارَكُمْ أَحْسَنُكُمْ قَضَاءً",
+      "excerpt": true,
+      "label": "EXCERPT",
+      "meaning": "The best people fulfill what they owe generously and well.",
+      "explanation": "Borrowed pencils, books, and toys are a trust. Returning them carefully shows people they can rely on you.",
+      "action": "Return one borrowed item today in good condition, or remind yourself to return it on time.",
+      "source": "Sahih al-Bukhari 2305",
+      "sourceUrl": "https://sunnah.com/bukhari:2305",
+      "sourceDocument": "Imaan_Akhlaq_Hadith_51_to_100_New_Authentic_Actions.docx",
+      "story": "Imaan borrowed her friend’s book last week. She has nearly forgotten about it. When she finds it on her shelf, she makes sure it is clean, puts it in her bag, and returns it the next morning with a thank-you note.",
+      "question": "You borrowed something from a friend. What should you do?",
+      "answers": [
+        {
+          "text": "Keep it because they might forget.",
+          "feedback": "Borrowed things are a trust. Try again.",
+          "correct": false
+        },
+        {
+          "text": "Return it late and damaged.",
+          "feedback": "Others rely on you to care for their things. Think again.",
+          "correct": false
+        },
+        {
+          "text": "Return it on time and in good condition.",
+          "feedback": "People can rely on you. That is a beautiful habit.",
+          "correct": true
+        }
+      ],
+      "chunks": [
+        "إِنَّ خِيَارَكُمْ",
+        "أَحْسَنُكُمْ قَضَاءً"
+      ]
+    },
+    {
+      "id": "hadith-64",
+      "number": 64,
+      "world": 13,
+      "title": "Work Toward What Benefits You",
+      "arabic": "احْرِصْ عَلَى مَا يَنْفَعُكَ وَاسْتَعِنْ بِاللَّهِ وَلَا تَعْجِزْ",
+      "excerpt": true,
+      "label": "EXCERPT",
+      "meaning": "Work for what benefits you, seek Allah's help, and do not give up helplessly.",
+      "explanation": "A difficult homework question or skill is not the end of the journey. Do your best, ask Allah for help, and try again.",
+      "action": "Choose one difficult but helpful task and work on it for ten focused minutes.",
+      "source": "Sahih Muslim 2664",
+      "sourceUrl": "https://sunnah.com/muslim:2664",
+      "sourceDocument": "Imaan_Akhlaq_Hadith_51_to_100_New_Authentic_Actions.docx",
+      "story": "Akhlaq is learning to ride a bicycle and keeps wobbling. He feels like giving up. He makes a du’a for help, gets back on, and practises for ten more minutes. Slowly, it gets easier.",
+      "question": "Something helpful is hard to learn. What could you do?",
+      "answers": [
+        {
+          "text": "Give up straight away.",
+          "feedback": "Difficult is not the end of the journey. Try again.",
+          "correct": false
+        },
+        {
+          "text": "Do your best, ask Allah for help and keep trying.",
+          "feedback": "Working hard and seeking Allah’s help is a strong way forward.",
+          "correct": true
+        },
+        {
+          "text": "Blame others for it being hard.",
+          "feedback": "Blaming does not help us learn. What could you do?",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "احْرِصْ عَلَى مَا يَنْفَعُكَ",
+        "وَاسْتَعِنْ بِاللَّهِ",
+        "وَلَا تَعْجِزْ"
+      ]
+    },
+    {
+      "id": "hadith-65",
+      "number": 65,
+      "world": 13,
+      "title": "Ask Allah with Hope",
+      "arabic": "إِذَا دَعَا أَحَدُكُمْ فَلْيَعْزِمِ الْمَسْأَلَةَ",
+      "excerpt": true,
+      "label": "EXCERPT",
+      "meaning": "When making Du'a, ask Allah sincerely and with conviction.",
+      "explanation": "Your Du'a matters. Ask with hope, knowing Allah is wise and responds as He wills.",
+      "action": "Make one sincere Du'a for something good, using your own respectful words.",
+      "source": "Sahih al-Bukhari 6338",
+      "sourceUrl": "https://sunnah.com/bukhari:6338",
+      "sourceDocument": "Imaan_Akhlaq_Hadith_51_to_100_New_Authentic_Actions.docx",
+      "story": "Imaan’s grandmother is in hospital. Imaan raises her hands and makes a sincere du’a in her own words, asking Allah to make her grandmother well. She asks with hope, trusting that Allah is wise.",
+      "question": "You want to ask Allah for something good. How could you make du’a?",
+      "answers": [
+        {
+          "text": "Ask sincerely and with hope.",
+          "feedback": "Your du’a matters. Asking with hope is beautiful.",
+          "correct": true
+        },
+        {
+          "text": "Say it quickly without thinking.",
+          "feedback": "Du’a is a special conversation with Allah. Try again.",
+          "correct": false
+        },
+        {
+          "text": "Think there is no point asking.",
+          "feedback": "Allah hears every du’a. Try a more hopeful choice.",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "إِذَا دَعَا أَحَدُكُمْ",
+        "فَلْيَعْزِمِ الْمَسْأَلَةَ"
+      ]
+    },
+    {
+      "id": "hadith-66",
+      "number": 66,
+      "world": 14,
+      "title": "Honor Prayer Time",
+      "arabic": "الصَّلَاةُ عَلَى وَقْتِهَا",
+      "excerpt": true,
+      "label": "EXCERPT",
+      "meaning": "Prayer at its proper time is among the deeds especially loved by Allah.",
+      "explanation": "Prayer is a special meeting with Allah. Learning to prepare for it is a beautiful step, at your own age and ability.",
+      "action": "When the next prayer time arrives, help prepare a prayer space or pray with guidance.",
+      "source": "Sahih al-Bukhari 527",
+      "sourceUrl": "https://sunnah.com/bukhari:527",
+      "sourceDocument": "Imaan_Akhlaq_Hadith_51_to_100_New_Authentic_Actions.docx",
+      "story": "The adhan sounds for Asr. Akhlaq is in the middle of a game. He pauses, helps Baba lay out the prayer mats, and joins the family prayer with guidance.",
+      "question": "You hear that it is prayer time. What could you do?",
+      "answers": [
+        {
+          "text": "Keep playing and forget about it.",
+          "feedback": "Prayer time is a special meeting with Allah. What could you do?",
+          "correct": false
+        },
+        {
+          "text": "Help prepare a prayer space or pray with guidance.",
+          "feedback": "Preparing for prayer is a beautiful step, at your age and ability.",
+          "correct": true
+        },
+        {
+          "text": "Complain that it always interrupts you.",
+          "feedback": "It is okay to feel that way sometimes. How could you respond kindly?",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "الصَّلَاةُ",
+        "عَلَى وَقْتِهَا"
+      ]
+    },
+    {
+      "id": "hadith-67",
+      "number": 67,
+      "world": 14,
+      "title": "Prayer Helps Us Begin Again",
+      "arabic": "فَذَلِكَ مِثْلُ الصَّلَوَاتِ الْخَمْسِ يَمْحُو اللَّهُ بِهَا الْخَطَايَا",
+      "excerpt": true,
+      "label": "EXCERPT",
+      "meaning": "The five daily prayers are compared to repeated washing that removes dirt.",
+      "explanation": "Just as washing makes us physically clean, Salah brings us back to Allah and helps us seek forgiveness and improvement.",
+      "action": "After a prayer today, ask Allah to help you improve one habit.",
+      "source": "Sahih al-Bukhari 528",
+      "sourceUrl": "https://sunnah.com/bukhari:528",
+      "sourceDocument": "Imaan_Akhlaq_Hadith_51_to_100_New_Authentic_Actions.docx",
+      "story": "Imaan was unkind to her brother today and feels bad. After praying, she asks Allah to help her be more patient tomorrow. She also says sorry to her brother.",
+      "question": "You made a mistake today. What could you do after prayer?",
+      "answers": [
+        {
+          "text": "Ask Allah to help you improve.",
+          "feedback": "Salah helps us come back to Allah and seek improvement.",
+          "correct": true
+        },
+        {
+          "text": "Decide you can never change.",
+          "feedback": "Everyone can improve. Try a more hopeful choice.",
+          "correct": false
+        },
+        {
+          "text": "Pretend it never happened.",
+          "feedback": "Being honest with ourselves helps us grow. Try again.",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "فَذَلِكَ مِثْلُ الصَّلَوَاتِ الْخَمْسِ",
+        "يَمْحُو اللَّهُ بِهَا الْخَطَايَا"
+      ]
+    },
+    {
+      "id": "hadith-68",
+      "number": 68,
+      "world": 14,
+      "title": "Two Beautiful Phrases",
+      "arabic": "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ سُبْحَانَ اللَّهِ الْعَظِيمِ",
+      "excerpt": true,
+      "label": "EXCERPT",
+      "meaning": "These two short phrases are beloved to the Most Merciful and weighty in reward.",
+      "explanation": "Even a short phrase can fill your day with remembrance. Learn it gently and say it with attention.",
+      "action": "Recite these two phrases after learning their meaning with a parent or teacher.",
+      "source": "Sahih al-Bukhari 6406",
+      "sourceUrl": "https://sunnah.com/bukhari:6406",
+      "sourceDocument": "Imaan_Akhlaq_Hadith_51_to_100_New_Authentic_Actions.docx",
+      "story": "Akhlaq is waiting in the car for Ammi. Instead of feeling bored, he quietly practises the two phrases his teacher taught him, thinking about their meaning as he says them.",
+      "question": "You are waiting with nothing to do. What could fill the moment?",
+      "answers": [
+        {
+          "text": "Quietly remember Allah with phrases you have learned.",
+          "feedback": "Even a short phrase can fill your day with remembrance.",
+          "correct": true
+        },
+        {
+          "text": "Complain about waiting.",
+          "feedback": "Waiting can be a chance to remember Allah. Try again.",
+          "correct": false
+        },
+        {
+          "text": "Kick the seat in front.",
+          "feedback": "That can disturb others. What could you do instead?",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ",
+        "سُبْحَانَ اللَّهِ الْعَظِيمِ"
+      ]
+    },
+    {
+      "id": "hadith-69",
+      "number": 69,
+      "world": 14,
+      "title": "Four Words of Dhikr",
+      "arabic": "سُبْحَانَ اللَّهِ وَالْحَمْدُ لِلَّهِ وَلَا إِلَهَ إِلَّا اللَّهُ وَاللَّهُ أَكْبَرُ",
+      "excerpt": true,
+      "label": "EXCERPT",
+      "meaning": "Four phrases of remembrance are especially beloved to Allah.",
+      "explanation": "These words praise Allah and remind us of His greatness. You can carry them in your heart wherever you go.",
+      "action": "Learn and recite all four phrases today, one at a time.",
+      "source": "Sahih Muslim 2137a",
+      "sourceUrl": "https://sunnah.com/muslim:2137a",
+      "sourceDocument": "Imaan_Akhlaq_Hadith_51_to_100_New_Authentic_Actions.docx",
+      "story": "Imaan and Ammi go for a walk and see a beautiful sunset. Imaan wants to say something to praise Allah. Ammi teaches her four phrases of remembrance, one at a time, and Imaan says each one slowly.",
+      "question": "You see something beautiful in nature. What could you do?",
+      "answers": [
+        {
+          "text": "Say nothing and forget it.",
+          "feedback": "Beautiful moments can remind us of Allah. Try again.",
+          "correct": false
+        },
+        {
+          "text": "Remember and praise Allah.",
+          "feedback": "Praising Allah when we see His creation is a lovely habit.",
+          "correct": true
+        },
+        {
+          "text": "Take a photo and boast about it.",
+          "feedback": "Enjoying it is fine, but what could your heart remember?",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "سُبْحَانَ اللَّهِ",
+        "وَالْحَمْدُ لِلَّهِ",
+        "وَلَا إِلَهَ إِلَّا اللَّهُ",
+        "وَاللَّهُ أَكْبَرُ"
+      ]
+    },
+    {
+      "id": "hadith-70",
+      "number": 70,
+      "world": 14,
+      "title": "Send Salawat",
+      "arabic": "مَنْ صَلَّى عَلَيَّ وَاحِدَةً صَلَّى اللَّهُ عَلَيْهِ عَشْرًا",
+      "excerpt": true,
+      "label": "EXCERPT",
+      "meaning": "Whoever sends one blessing upon the Prophet ﷺ receives ten blessings from Allah.",
+      "explanation": "Sending Salawat reminds us of our love and respect for the Prophet ﷺ, whose example helps us become better.",
+      "action": "Recite one complete Salawat today with attention and respect.",
+      "source": "Sahih Muslim 408",
+      "sourceUrl": "https://sunnah.com/muslim:408",
+      "sourceDocument": "Imaan_Akhlaq_Hadith_51_to_100_New_Authentic_Actions.docx",
+      "story": "In class, the teacher mentions the Prophet ﷺ. Akhlaq quietly sends salawat with love and respect. After school, Dadi Jaan helps him learn a complete salawat to recite with attention.",
+      "question": "When you hear the name of the Prophet ﷺ, what could you do?",
+      "answers": [
+        {
+          "text": "Send salawat with respect.",
+          "feedback": "Sending salawat shows love and respect for the Prophet ﷺ.",
+          "correct": true
+        },
+        {
+          "text": "Ignore it.",
+          "feedback": "His example helps us become better. How could you show respect?",
+          "correct": false
+        },
+        {
+          "text": "Make a joke.",
+          "feedback": "His name deserves respect. Try again.",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "مَنْ صَلَّى عَلَيَّ وَاحِدَةً",
+        "صَلَّى اللَّهُ عَلَيْهِ عَشْرًا"
+      ]
+    },
+    {
+      "id": "hadith-71",
+      "number": 71,
+      "world": 15,
+      "title": "Keep Trying to Recite",
+      "arabic": "وَالَّذِي يَقْرَأُ الْقُرْآنَ وَيَتَتَعْتَعُ فِيهِ وَهُوَ عَلَيْهِ شَاقٌّ لَهُ أَجْرَانِ",
+      "excerpt": true,
+      "label": "EXCERPT",
+      "meaning": "A person who recites the Qur'an with difficulty while striving has two rewards.",
+      "explanation": "Do not feel embarrassed when a verse seems hard. Allah knows your effort, and patient practice is precious.",
+      "action": "Practise one difficult Qur'anic verse slowly with a teacher or trusted recitation audio.",
+      "source": "Sahih Muslim 798a",
+      "sourceUrl": "https://sunnah.com/muslim:798a",
+      "sourceDocument": "Imaan_Akhlaq_Hadith_51_to_100_New_Authentic_Actions.docx",
+      "story": "Imaan finds a new ayah very hard to read. She stumbles on the words and feels embarrassed. Her teacher smiles and says, “Keep going slowly.” Imaan practises again, one word at a time.",
+      "question": "A verse of the Qur’an is hard for you to read. What could you do?",
+      "answers": [
+        {
+          "text": "Give up because it is too difficult.",
+          "feedback": "Allah knows your effort. Patient practice is precious.",
+          "correct": false
+        },
+        {
+          "text": "Practise slowly with a teacher.",
+          "feedback": "Striving with patience is beautiful. Keep going!",
+          "correct": true
+        },
+        {
+          "text": "Feel ashamed and hide it.",
+          "feedback": "There is no need to feel embarrassed. Try a braver choice.",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "وَالَّذِي يَقْرَأُ الْقُرْآنَ",
+        "وَيَتَتَعْتَعُ فِيهِ",
+        "وَهُوَ عَلَيْهِ شَاقٌّ",
+        "لَهُ أَجْرَانِ"
+      ]
+    },
+    {
+      "id": "hadith-72",
+      "number": 72,
+      "world": 15,
+      "title": "Make Time for Qur'an",
+      "arabic": "اقْرَءُوا الْقُرْآنَ فَإِنَّهُ يَأْتِي يَوْمَ الْقِيَامَةِ شَفِيعًا لِأَصْحَابِهِ",
+      "excerpt": true,
+      "label": "EXCERPT",
+      "meaning": "Recite the Qur'an; it will intercede for those devoted to it on the Day of Resurrection.",
+      "explanation": "The Qur'an is not a race. A small daily connection, made with respect, can grow into a lifelong friendship with Allah's Book.",
+      "action": "Spend five focused minutes reciting or listening attentively to Qur'an today.",
+      "source": "Sahih Muslim 804a",
+      "sourceUrl": "https://sunnah.com/muslim:804a",
+      "sourceDocument": "Imaan_Akhlaq_Hadith_51_to_100_New_Authentic_Actions.docx",
+      "story": "Akhlaq’s evenings are full of homework and play. He decides to keep five special minutes each day for the Qur’an. Some days he recites, other days he listens carefully with Baba.",
+      "question": "How could you build a friendship with the Qur’an?",
+      "answers": [
+        {
+          "text": "Only open it once a year.",
+          "feedback": "A small daily connection can grow into a lifelong friendship.",
+          "correct": false
+        },
+        {
+          "text": "Rush through as much as possible without care.",
+          "feedback": "The Qur’an is not a race. Try again.",
+          "correct": false
+        },
+        {
+          "text": "Spend a few focused minutes with it each day.",
+          "feedback": "A small daily connection, made with respect, is wonderful.",
+          "correct": true
+        }
+      ],
+      "chunks": [
+        "اقْرَءُوا الْقُرْآنَ",
+        "فَإِنَّهُ يَأْتِي يَوْمَ الْقِيَامَةِ",
+        "شَفِيعًا لِأَصْحَابِهِ"
+      ]
+    },
+    {
+      "id": "hadith-73",
+      "number": 73,
+      "world": 15,
+      "title": "Every Letter Matters",
+      "arabic": "مَنْ قَرَأَ حَرْفًا مِنْ كِتَابِ اللَّهِ فَلَهُ بِهِ حَسَنَةٌ",
+      "excerpt": true,
+      "label": "EXCERPT; HASAN GRADING (DARUSSALAM); TIRMIDHI: HASAN SAHIH",
+      "meaning": "Reciting even a letter from Allah's Book brings reward, as described in this Hadith.",
+      "explanation": "Small steps are worth taking. Keep reciting correctly, even if you are learning just a little today.",
+      "action": "Recite a short passage with care and correct your pronunciation with a qualified guide.",
+      "source": "Jamiʿ at-Tirmidhi 2910",
+      "sourceUrl": "https://sunnah.com/tirmidhi:2910",
+      "sourceDocument": "Imaan_Akhlaq_Hadith_51_to_100_New_Authentic_Actions.docx",
+      "story": "Imaan is learning only a few new letters each day in her Qaida. Sometimes she feels slow. Her teacher reminds her that every small step matters. Imaan practises carefully and asks for corrections.",
+      "question": "You can only learn a little Qur’an today. What should you remember?",
+      "answers": [
+        {
+          "text": "Small steps are still worth taking.",
+          "feedback": "Keep reciting correctly, even if just a little today.",
+          "correct": true
+        },
+        {
+          "text": "It is not worth trying if it is only a little.",
+          "feedback": "Every small step matters. Try again.",
+          "correct": false
+        },
+        {
+          "text": "Rush so you can finish faster.",
+          "feedback": "Careful recitation is better than rushing. Think again.",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "مَنْ قَرَأَ حَرْفًا",
+        "مِنْ كِتَابِ اللَّهِ",
+        "فَلَهُ بِهِ حَسَنَةٌ"
+      ]
+    },
+    {
+      "id": "hadith-74",
+      "number": 74,
+      "world": 15,
+      "title": "Discover Surah Al-Ikhlas",
+      "arabic": "إِنَّهَا لَتَعْدِلُ ثُلُثَ الْقُرْآنِ",
+      "excerpt": true,
+      "label": "EXCERPT",
+      "meaning": "The Prophet ﷺ taught the great virtue of Surah Al-Ikhlas, describing it as equivalent to one-third of the Qur'an.",
+      "explanation": "This small surah teaches the oneness of Allah. Its short length makes it a wonderful place to strengthen correct recitation and understanding.",
+      "action": "Recite Surah Al-Ikhlas slowly today and explain one idea about Allah's oneness.",
+      "source": "Sahih al-Bukhari 5013",
+      "sourceUrl": "https://sunnah.com/bukhari:5013",
+      "sourceDocument": "Imaan_Akhlaq_Hadith_51_to_100_New_Authentic_Actions.docx",
+      "story": "Akhlaq learns Surah Al-Ikhlas in class. At dinner, he recites it slowly for his family and explains one thing: “It teaches that Allah is One.” Baba nods proudly.",
+      "question": "What does Surah Al-Ikhlas teach us about?",
+      "answers": [
+        {
+          "text": "The oneness of Allah.",
+          "feedback": "That is right! This short surah teaches the oneness of Allah.",
+          "correct": true
+        },
+        {
+          "text": "How to play a game.",
+          "feedback": "Not quite. Think about what the surah says about Allah.",
+          "correct": false
+        },
+        {
+          "text": "The weather.",
+          "feedback": "Try again. What does the surah teach about Allah?",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "إِنَّهَا لَتَعْدِلُ",
+        "ثُلُثَ الْقُرْآنِ"
+      ]
+    },
+    {
+      "id": "hadith-75",
+      "number": 75,
+      "world": 15,
+      "title": "Review What You Memorize",
+      "arabic": "تَعَاهَدُوا الْقُرْآنَ",
+      "excerpt": true,
+      "label": "EXCERPT",
+      "meaning": "Keep revising and taking care of the Qur'an you have learned.",
+      "explanation": "Memorization is like caring for a beautiful garden. Revising an old surah helps it stay fresh in your heart.",
+      "action": "Revise one surah you already know without looking, then check any mistakes.",
+      "source": "Sahih al-Bukhari 5033",
+      "sourceUrl": "https://sunnah.com/bukhari:5033",
+      "sourceDocument": "Imaan_Akhlaq_Hadith_51_to_100_New_Authentic_Actions.docx",
+      "story": "Imaan learned Surah An-Nas last year, but she has not recited it for a while. She tries it from memory and stumbles on one ayah. She checks it carefully, practises again, and it feels fresh in her heart.",
+      "question": "You memorised a surah a long time ago. What should you do?",
+      "answers": [
+        {
+          "text": "Never think about it again.",
+          "feedback": "Memorisation needs care, like a garden. Try again.",
+          "correct": false
+        },
+        {
+          "text": "Revise it regularly and check mistakes.",
+          "feedback": "Revising helps it stay fresh in your heart.",
+          "correct": true
+        },
+        {
+          "text": "Pretend you still know it perfectly.",
+          "feedback": "Being honest helps you improve. What could you do?",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "تَعَاهَدُوا",
+        "الْقُرْآنَ"
+      ]
+    },
+    {
+      "id": "hadith-76",
+      "number": 76,
+      "world": 16,
+      "title": "Respect Older and Younger",
+      "arabic": "لَيْسَ مِنَّا مَنْ لَمْ يَرْحَمْ صَغِيرَنَا وَيَعْرِفْ شَرَفَ كَبِيرِنَا",
+      "excerpt": true,
+      "label": "EXCERPT; HASAN GRADING (DARUSSALAM)",
+      "meaning": "Show kindness to younger children and proper respect to older people.",
+      "explanation": "Everyone deserves dignity. You can be gentle with little children and considerate toward elders.",
+      "action": "Offer respectful help to an older family member or kindness to a younger child today.",
+      "source": "Jamiʿ at-Tirmidhi 1920",
+      "sourceUrl": "https://sunnah.com/tirmidhi:1920",
+      "sourceDocument": "Imaan_Akhlaq_Hadith_51_to_100_New_Authentic_Actions.docx",
+      "story": "At a family gathering, Akhlaq helps his little cousin reach the juice. Then he gives his chair to Nana Abbu, who has just arrived. Both of them smile at him.",
+      "question": "At a family gathering, what shows respect for young and old?",
+      "answers": [
+        {
+          "text": "Ignore the little ones and the elders.",
+          "feedback": "Everyone deserves dignity. Try again.",
+          "correct": false
+        },
+        {
+          "text": "Be gentle with younger children and respectful to elders.",
+          "feedback": "That is a beautiful way to honour everyone in the family.",
+          "correct": true
+        },
+        {
+          "text": "Only care about your own friends.",
+          "feedback": "Family includes young and old. Think again.",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "لَيْسَ مِنَّا",
+        "مَنْ لَمْ يَرْحَمْ صَغِيرَنَا",
+        "وَيَعْرِفْ شَرَفَ كَبِيرِنَا"
+      ]
+    },
+    {
+      "id": "hadith-77",
+      "number": 77,
+      "world": 16,
+      "title": "Be Patient with People",
+      "arabic": "خَدَمْتُ النَّبِيَّ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ عَشْرَ سِنِينَ فَمَا قَالَ لِي أُفٍّ",
+      "excerpt": true,
+      "label": "NARRATOR'S REPORT; EXCERPT",
+      "meaning": "Anas رضي الله عنه reported that the Prophet ﷺ treated him with remarkable patience during years of service.",
+      "explanation": "People are still learning, and mistakes happen. The Prophet's gentleness is an example for the way we speak at home.",
+      "action": "When someone makes a small mistake, respond without saying 'ugh' or scolding them.",
+      "source": "Sahih al-Bukhari 6038",
+      "sourceUrl": "https://sunnah.com/bukhari:6038",
+      "sourceDocument": "Imaan_Akhlaq_Hadith_51_to_100_New_Authentic_Actions.docx",
+      "story": "Imaan’s little brother spills paint on her drawing by accident. She wants to say “Ugh!” but she stops. She takes a breath and says, “It’s okay. Let’s clean it up together.”",
+      "question": "Someone makes a small mistake that annoys you. What is a patient response?",
+      "answers": [
+        {
+          "text": "Say “Ugh!” and scold them.",
+          "feedback": "Mistakes happen, and people are still learning. Try a gentler way.",
+          "correct": false
+        },
+        {
+          "text": "Refuse to talk to them.",
+          "feedback": "Silence can hurt too. How could you respond gently?",
+          "correct": false
+        },
+        {
+          "text": "Respond calmly without scolding.",
+          "feedback": "Gentle patience is a beautiful example to follow at home.",
+          "correct": true
+        }
+      ],
+      "chunks": [
+        "خَدَمْتُ النَّبِيَّ",
+        "صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ",
+        "عَشْرَ سِنِينَ",
+        "فَمَا قَالَ لِي أُفٍّ"
+      ]
+    },
+    {
+      "id": "hadith-78",
+      "number": 78,
+      "world": 16,
+      "title": "Visit Someone Who Is Unwell",
+      "arabic": "وَعِيَادَةُ الْمَرِيضِ",
+      "excerpt": true,
+      "label": "EXCERPT",
+      "meaning": "Visiting the sick is among the rights Muslims owe one another.",
+      "explanation": "When someone is ill, a gentle check-in can brighten the day. Always follow family and health guidance for visits.",
+      "action": "With a parent's help, send a kind message or Du'a to someone who is unwell.",
+      "source": "Sahih al-Bukhari 1240",
+      "sourceUrl": "https://sunnah.com/bukhari:1240",
+      "sourceDocument": "Imaan_Akhlaq_Hadith_51_to_100_New_Authentic_Actions.docx",
+      "story": "Akhlaq’s friend is ill and has missed school all week. Akhlaq asks Ammi to help him send a kind voice message: “Get well soon! I made du’a for you.” His friend feels cheered up.",
+      "question": "A friend is unwell at home. What could you do?",
+      "answers": [
+        {
+          "text": "With a parent’s help, send a kind message or du’a.",
+          "feedback": "A gentle check-in can brighten someone’s day.",
+          "correct": true
+        },
+        {
+          "text": "Forget about them until they return.",
+          "feedback": "Your care could make them feel better. Try again.",
+          "correct": false
+        },
+        {
+          "text": "Visit without asking your family first.",
+          "feedback": "Always follow family and health guidance. What could you do safely?",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "وَعِيَادَةُ",
+        "الْمَرِيضِ"
+      ]
+    },
+    {
+      "id": "hadith-79",
+      "number": 79,
+      "world": 16,
+      "title": "Receive Gifts Gratefully",
+      "arabic": "كَانَ رَسُولُ اللَّهِ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ يَقْبَلُ الْهَدِيَّةَ وَيُثِيبُ عَلَيْهَا",
+      "excerpt": false,
+      "label": "NARRATOR'S REPORT",
+      "meaning": "The Prophet ﷺ accepted gifts and would respond with a return gift.",
+      "explanation": "A gift is not about its price. A grateful heart notices the love, care, and effort behind it.",
+      "action": "Thank someone sincerely for something they gave or did for you.",
+      "source": "Sahih al-Bukhari 2585",
+      "sourceUrl": "https://sunnah.com/bukhari:2585",
+      "sourceDocument": "Imaan_Akhlaq_Hadith_51_to_100_New_Authentic_Actions.docx",
+      "story": "Imaan’s little cousin gives her a drawing of a flower. It is a bit scribbly. Imaan says, “Thank you! I love it,” and puts it on her wall. Then she makes a small card for her cousin in return.",
+      "question": "Someone gives you a small gift. How could you respond?",
+      "answers": [
+        {
+          "text": "Say it is not good enough.",
+          "feedback": "A gift is about the love behind it. Try again.",
+          "correct": false
+        },
+        {
+          "text": "Thank them sincerely.",
+          "feedback": "A grateful heart notices the care behind a gift.",
+          "correct": true
+        },
+        {
+          "text": "Throw it away in front of them.",
+          "feedback": "That would hurt their feelings. Think again.",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "كَانَ رَسُولُ اللَّهِ",
+        "صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ",
+        "يَقْبَلُ الْهَدِيَّةَ",
+        "وَيُثِيبُ عَلَيْهَا"
+      ]
+    },
+    {
+      "id": "hadith-80",
+      "number": 80,
+      "world": 16,
+      "title": "Children Deserve Greetings Too",
+      "arabic": "أَنَّهُ مَرَّ عَلَى صِبْيَانٍ فَسَلَّمَ عَلَيْهِمْ",
+      "excerpt": true,
+      "label": "NARRATOR'S REPORT; EXCERPT",
+      "meaning": "Anas رضي الله عنه greeted children and said the Prophet ﷺ used to do so.",
+      "explanation": "Every child matters. A greeting says: 'I see you, and you belong here.'",
+      "action": "Offer a kind Salam to a younger sibling or child today.",
+      "source": "Sahih al-Bukhari 6247",
+      "sourceUrl": "https://sunnah.com/bukhari:6247",
+      "sourceDocument": "Imaan_Akhlaq_Hadith_51_to_100_New_Authentic_Actions.docx",
+      "story": "Akhlaq walks past a group of younger children playing in the park. He smiles and says, “Assalamu Alaikum!” The little ones wave back happily, feeling noticed.",
+      "question": "You pass by some younger children. What could you do?",
+      "answers": [
+        {
+          "text": "Walk past as if they are not there.",
+          "feedback": "Every child matters. How could you show that?",
+          "correct": false
+        },
+        {
+          "text": "Offer them a kind salam.",
+          "feedback": "A greeting says “I see you, and you belong here.”",
+          "correct": true
+        },
+        {
+          "text": "Tell them to move out of your way.",
+          "feedback": "That can feel unkind. Try a friendlier choice.",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "أَنَّهُ مَرَّ عَلَى صِبْيَانٍ",
+        "فَسَلَّمَ عَلَيْهِمْ"
+      ]
+    },
+    {
+      "id": "hadith-81",
+      "number": 81,
+      "world": 17,
+      "title": "Plant Something Good",
+      "arabic": "مَا مِنْ مُسْلِمٍ يَغْرِسُ غَرْسًا أَوْ يَزْرَعُ زَرْعًا",
+      "excerpt": true,
+      "label": "EXCERPT",
+      "meaning": "Planting something that others benefit from is rewarded as charity.",
+      "explanation": "A small plant can give shade, beauty, and food. Caring for the earth is one way to do lasting good.",
+      "action": "Plant a seed or help water a family plant responsibly today.",
+      "source": "Sahih al-Bukhari 2320",
+      "sourceUrl": "https://sunnah.com/bukhari:2320",
+      "sourceDocument": "Imaan_Akhlaq_Hadith_51_to_100_New_Authentic_Actions.docx",
+      "story": "Imaan plants a small tomato seed in a pot with Nani. Every day, she waters it carefully. Weeks later, the plant grows, and the whole family enjoys the tomatoes.",
+      "question": "How could you do lasting good for the world around you?",
+      "answers": [
+        {
+          "text": "Plant a seed or care for a plant.",
+          "feedback": "A small plant can give shade, beauty and food. Lovely choice!",
+          "correct": true
+        },
+        {
+          "text": "Pull up plants for fun.",
+          "feedback": "Plants are part of Allah’s creation. Try again.",
+          "correct": false
+        },
+        {
+          "text": "Leave rubbish in the garden.",
+          "feedback": "That harms the earth. What could you do instead?",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "مَا مِنْ مُسْلِمٍ",
+        "يَغْرِسُ غَرْسًا",
+        "أَوْ يَزْرَعُ زَرْعًا"
+      ]
+    },
+    {
+      "id": "hadith-82",
+      "number": 82,
+      "world": 17,
+      "title": "Never Hurt Animals for Fun",
+      "arabic": "نَهَى رَسُولُ اللَّهِ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ أَنْ يُتَّخَذَ شَيْءٌ فِيهِ الرُّوحُ غَرَضًا",
+      "excerpt": false,
+      "label": "NARRATOR'S REPORT; SAHIH GRADING (DARUSSALAM)",
+      "meaning": "The Prophet ﷺ prohibited using living creatures as targets for entertainment.",
+      "explanation": "Animals are living beings, not toys to frighten or hurt. Being gentle includes leaving creatures safe.",
+      "action": "Keep an animal safe today: observe it gently without chasing, throwing things, or disturbing it.",
+      "source": "Jamiʿ at-Tirmidhi 1475",
+      "sourceUrl": "https://sunnah.com/tirmidhi:1475",
+      "sourceDocument": "Imaan_Akhlaq_Hadith_51_to_100_New_Authentic_Actions.docx",
+      "story": "At the park, some boys throw stones at a stray cat to make it run. Akhlaq says, “Stop, that could hurt it!” He tells a nearby adult, and they leave the cat in peace.",
+      "question": "Some children are throwing things at an animal for fun. What could you do?",
+      "answers": [
+        {
+          "text": "Join in because it looks funny.",
+          "feedback": "Animals are living beings, not toys. Try again.",
+          "correct": false
+        },
+        {
+          "text": "Ask them to stop and tell an adult.",
+          "feedback": "Being gentle includes keeping creatures safe.",
+          "correct": true
+        },
+        {
+          "text": "Throw things too.",
+          "feedback": "That could hurt the animal. Think of a gentle choice.",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "نَهَى رَسُولُ اللَّهِ",
+        "صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ",
+        "أَنْ يُتَّخَذَ شَيْءٌ فِيهِ الرُّوحُ غَرَضًا"
+      ]
+    },
+    {
+      "id": "hadith-83",
+      "number": 83,
+      "world": 17,
+      "title": "Protect Water from Filth",
+      "arabic": "لَا يَبُولَنَّ أَحَدُكُمْ فِي الْمَاءِ الدَّائِمِ الَّذِي لَا يَجْرِي",
+      "excerpt": true,
+      "label": "EXCERPT",
+      "meaning": "The Prophet ﷺ forbade polluting still water in this way.",
+      "explanation": "Clean water matters to people, animals, and our environment. We should never contaminate it.",
+      "action": "Help protect water today by keeping trash and dirt away from a water source.",
+      "source": "Sahih al-Bukhari 239",
+      "sourceUrl": "https://sunnah.com/bukhari:239",
+      "sourceDocument": "Imaan_Akhlaq_Hadith_51_to_100_New_Authentic_Actions.docx",
+      "story": "On a family picnic by a pond, Imaan sees an empty wrapper floating near the edge. With Baba’s help, she picks it out with a stick and puts all their rubbish in a bag to take home.",
+      "question": "You are near a pond or stream. How could you protect the water?",
+      "answers": [
+        {
+          "text": "Throw your rubbish in it.",
+          "feedback": "Clean water matters to people and animals. Try again.",
+          "correct": false
+        },
+        {
+          "text": "Keep rubbish and dirt away from the water.",
+          "feedback": "You helped protect water for everyone. Well done!",
+          "correct": true
+        },
+        {
+          "text": "Pour dirty water into it.",
+          "feedback": "That contaminates the water. Think of a cleaner choice.",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "لَا يَبُولَنَّ أَحَدُكُمْ",
+        "فِي الْمَاءِ الدَّائِمِ",
+        "الَّذِي لَا يَجْرِي"
+      ]
+    },
+    {
+      "id": "hadith-84",
+      "number": 84,
+      "world": 17,
+      "title": "Cover and Protect Food",
+      "arabic": "غَطُّوا الْإِنَاءَ وَأَوْكُوا السِّقَاءَ",
+      "excerpt": true,
+      "label": "EXCERPT",
+      "meaning": "Cover vessels and secure water containers, as taught in the Sunnah.",
+      "explanation": "Simple habits help keep food and water protected. You can support your family with careful, tidy routines.",
+      "action": "With adult guidance, cover one stored food item or water container properly.",
+      "source": "Sahih Muslim 2012a",
+      "sourceUrl": "https://sunnah.com/muslim:2012a",
+      "sourceDocument": "Imaan_Akhlaq_Hadith_51_to_100_New_Authentic_Actions.docx",
+      "story": "After dinner, Akhlaq sees the leftover food and the water jug left open on the table. With Ammi’s guidance, he covers the dish and puts the lid on the jug.",
+      "question": "Food or water is left uncovered. What could you do?",
+      "answers": [
+        {
+          "text": "Leave it open overnight.",
+          "feedback": "Simple habits keep food and water protected. Try again.",
+          "correct": false
+        },
+        {
+          "text": "With adult guidance, cover it properly.",
+          "feedback": "Careful, tidy routines help protect your family’s food.",
+          "correct": true
+        },
+        {
+          "text": "Put your fingers in it.",
+          "feedback": "That is not hygienic. What would protect it?",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "غَطُّوا الْإِنَاءَ",
+        "وَأَوْكُوا السِّقَاءَ"
+      ]
+    },
+    {
+      "id": "hadith-85",
+      "number": 85,
+      "world": 17,
+      "title": "Pets Need Kind Care",
+      "arabic": "فَلَمْ تُطْعِمْهَا وَلَمْ تَدَعْهَا تَأْكُلُ",
+      "excerpt": true,
+      "label": "EXCERPT FROM WARNING NARRATION; ADAPT SENSITIVELY FOR YOUNG CHILDREN",
+      "meaning": "A serious warning is given in a narration about keeping a cat confined without food or freedom to find food.",
+      "explanation": "If we care for an animal, we must also care for its needs. Love means responsibility, not just playing.",
+      "action": "With a parent, make sure a pet or garden animal has suitable water and care.",
+      "source": "Sahih al-Bukhari 3318",
+      "sourceUrl": "https://sunnah.com/bukhari:3318",
+      "sourceDocument": "Imaan_Akhlaq_Hadith_51_to_100_New_Authentic_Actions.docx",
+      "story": "Imaan’s family looks after a cat. One morning, Imaan wants to play straight away. She remembers that caring for a pet means looking after its needs, so she first checks with Ammi that the cat has fresh water and food.",
+      "question": "You look after a pet. What does kind care include?",
+      "answers": [
+        {
+          "text": "Only playing with it when you want.",
+          "feedback": "Love means responsibility, not just playing. Try again.",
+          "correct": false
+        },
+        {
+          "text": "With a parent, making sure it has water and care.",
+          "feedback": "Caring for an animal includes its needs. That is real love.",
+          "correct": true
+        },
+        {
+          "text": "Forgetting about it for days.",
+          "feedback": "A pet depends on us. Think of a caring choice.",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "فَلَمْ تُطْعِمْهَا",
+        "وَلَمْ تَدَعْهَا تَأْكُلُ"
+      ]
+    },
+    {
+      "id": "hadith-86",
+      "number": 86,
+      "world": 18,
+      "title": "Give Before You Are Asked",
+      "arabic": "أَنْ تَصَدَّقَ وَأَنْتَ صَحِيحٌ شَحِيحٌ",
+      "excerpt": true,
+      "label": "EXCERPT",
+      "meaning": "Giving charity willingly while healthy and attached to what one has is especially meaningful.",
+      "explanation": "Generosity is not only about giving what you no longer want. Sometimes sharing something you value is the bigger step.",
+      "action": "With your parent's permission, share a useful item or some of your savings for a good cause.",
+      "source": "Sahih al-Bukhari 1419",
+      "sourceUrl": "https://sunnah.com/bukhari:1419",
+      "sourceDocument": "Imaan_Akhlaq_Hadith_51_to_100_New_Authentic_Actions.docx",
+      "story": "Akhlaq has been saving coins for a new toy. At the masjid, there is a collection for a family in need. With Baba’s permission, he puts in some of his savings, even though it is hard.",
+      "question": "You have something you value. What shows real generosity?",
+      "answers": [
+        {
+          "text": "Only give things you do not want anymore.",
+          "feedback": "Generosity can mean sharing something you value. Try again.",
+          "correct": false
+        },
+        {
+          "text": "With permission, share some of what you value for a good cause.",
+          "feedback": "Sharing something you value is a bigger, beautiful step.",
+          "correct": true
+        },
+        {
+          "text": "Never share anything.",
+          "feedback": "Sharing can make someone’s life better. Think again.",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "أَنْ تَصَدَّقَ",
+        "وَأَنْتَ صَحِيحٌ شَحِيحٌ"
+      ]
+    },
+    {
+      "id": "hadith-87",
+      "number": 87,
+      "world": 18,
+      "title": "Giving Does Not Reduce True Good",
+      "arabic": "مَا نَقَصَتْ صَدَقَةٌ مِنْ مَالٍ",
+      "excerpt": true,
+      "label": "EXCERPT",
+      "meaning": "Charity does not decrease wealth in the way we may fear; the Hadith speaks of its blessing.",
+      "explanation": "When you give sincerely, you are choosing kindness over keeping everything to yourself.",
+      "action": "Put aside a small amount for charity, with a parent's help.",
+      "source": "Sahih Muslim 2588",
+      "sourceUrl": "https://sunnah.com/muslim:2588",
+      "sourceDocument": "Imaan_Akhlaq_Hadith_51_to_100_New_Authentic_Actions.docx",
+      "story": "Imaan worries that if she gives some of her pocket money to charity, she will have less. Ammi helps her put aside a small amount. Imaan feels happy choosing kindness over keeping everything.",
+      "question": "You are unsure about giving a little to charity. What could you do?",
+      "answers": [
+        {
+          "text": "With a parent’s help, set aside a small amount.",
+          "feedback": "When you give sincerely, you choose kindness.",
+          "correct": true
+        },
+        {
+          "text": "Keep it all and never give.",
+          "feedback": "Giving can bring blessing. Try again.",
+          "correct": false
+        },
+        {
+          "text": "Make fun of people who give.",
+          "feedback": "Giving is a beautiful choice. Think again.",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "مَا نَقَصَتْ صَدَقَةٌ",
+        "مِنْ مَالٍ"
+      ]
+    },
+    {
+      "id": "hadith-88",
+      "number": 88,
+      "world": 18,
+      "title": "Be Happy to Give",
+      "arabic": "الْيَدُ الْعُلْيَا خَيْرٌ مِنَ الْيَدِ السُّفْلَى",
+      "excerpt": true,
+      "label": "EXCERPT",
+      "meaning": "The giving hand is better than the receiving hand, in the context of charity and self-reliance.",
+      "explanation": "Giving is lovely, and needing help is never shameful. Start by sharing what you responsibly can.",
+      "action": "Offer one useful thing or act of help without waiting to be asked.",
+      "source": "Sahih al-Bukhari 1427",
+      "sourceUrl": "https://sunnah.com/bukhari:1427",
+      "sourceDocument": "Imaan_Akhlaq_Hadith_51_to_100_New_Authentic_Actions.docx",
+      "story": "Akhlaq sees his classmate has forgotten a pencil for the test. Without waiting to be asked, he offers his spare one. His classmate is grateful, and Akhlaq feels happy to give.",
+      "question": "A classmate needs something you have spare. What could you do?",
+      "answers": [
+        {
+          "text": "Offer it without waiting to be asked.",
+          "feedback": "Giving happily is lovely. And needing help is never shameful.",
+          "correct": true
+        },
+        {
+          "text": "Hide your spare one.",
+          "feedback": "Sharing what you responsibly can is a good choice. Try again.",
+          "correct": false
+        },
+        {
+          "text": "Laugh because they forgot.",
+          "feedback": "Everyone forgets sometimes. Think of a kinder choice.",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "الْيَدُ الْعُلْيَا خَيْرٌ",
+        "مِنَ الْيَدِ السُّفْلَى"
+      ]
+    },
+    {
+      "id": "hadith-89",
+      "number": 89,
+      "world": 18,
+      "title": "Respect Even a Tiny Gift",
+      "arabic": "لَا تَحْقِرَنَّ جَارَةٌ لِجَارَتِهَا وَلَوْ فِرْسِنَ شَاةٍ",
+      "excerpt": true,
+      "label": "EXCERPT",
+      "meaning": "Do not look down on a small gift from a neighbor.",
+      "explanation": "A small present may carry a huge amount of care. Your gratitude can make the giver feel valued.",
+      "action": "Thank someone kindly for a small gift or gesture, without comparing its price.",
+      "source": "Sahih al-Bukhari 2566",
+      "sourceUrl": "https://sunnah.com/bukhari:2566",
+      "sourceDocument": "Imaan_Akhlaq_Hadith_51_to_100_New_Authentic_Actions.docx",
+      "story": "The neighbour Aunty sends over a small plate of halwa. Imaan’s friend says, “That’s all?” Imaan says, “It was so kind of her!” and thanks Aunty warmly the next day.",
+      "question": "A neighbour gives you a very small gift. How could you respond?",
+      "answers": [
+        {
+          "text": "Complain that it is too small.",
+          "feedback": "A small gift may carry a huge amount of care. Try again.",
+          "correct": false
+        },
+        {
+          "text": "Compare it to bigger gifts.",
+          "feedback": "Comparing can hurt the giver. Think again.",
+          "correct": false
+        },
+        {
+          "text": "Thank them kindly for their care.",
+          "feedback": "Your gratitude makes the giver feel valued.",
+          "correct": true
+        }
+      ],
+      "chunks": [
+        "لَا تَحْقِرَنَّ جَارَةٌ لِجَارَتِهَا",
+        "وَلَوْ فِرْسِنَ شَاةٍ"
+      ]
+    },
+    {
+      "id": "hadith-90",
+      "number": 90,
+      "world": 18,
+      "title": "Good Work Can Be Charity",
+      "arabic": "يَعْمَلُ بِيَدِهِ فَيَنْفَعُ نَفْسَهُ وَيَتَصَدَّقُ",
+      "excerpt": true,
+      "label": "EXCERPT",
+      "meaning": "Useful work can benefit a person and provide opportunities to give.",
+      "explanation": "Doing a task well is a wonderful skill. Even small helpful work teaches care and responsibility.",
+      "action": "Complete one useful household task thoroughly and without expecting a prize.",
+      "source": "Sahih al-Bukhari 1445",
+      "sourceUrl": "https://sunnah.com/bukhari:1445",
+      "sourceDocument": "Imaan_Akhlaq_Hadith_51_to_100_New_Authentic_Actions.docx",
+      "story": "Akhlaq is asked to sweep the courtyard. He could do it quickly and leave the corners dusty. Instead, he sweeps every corner carefully. When he finishes, he feels proud of a job done well.",
+      "question": "You are given a household task. How could you do it?",
+      "answers": [
+        {
+          "text": "Do it carelessly so you finish fast.",
+          "feedback": "Doing a task well is a wonderful skill. Try again.",
+          "correct": false
+        },
+        {
+          "text": "Complete it thoroughly without expecting a prize.",
+          "feedback": "That is care and responsibility. Well done!",
+          "correct": true
+        },
+        {
+          "text": "Refuse unless you get paid.",
+          "feedback": "Helpful work is good in itself. Think again.",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "يَعْمَلُ بِيَدِهِ",
+        "فَيَنْفَعُ نَفْسَهُ",
+        "وَيَتَصَدَّقُ"
+      ]
+    },
+    {
+      "id": "hadith-91",
+      "number": 91,
+      "world": 19,
+      "title": "Faith Is Not Meant to Overwhelm",
+      "arabic": "إِنَّ الدِّينَ يُسْرٌ",
+      "excerpt": true,
+      "label": "EXCERPT",
+      "meaning": "The religion is easy; we should not make worship excessively difficult.",
+      "explanation": "Growing in faith takes patience. Start with what you can do correctly and keep learning step by step.",
+      "action": "Choose one small act of worship you can practise calmly and consistently this week.",
+      "source": "Sahih al-Bukhari 39",
+      "sourceUrl": "https://sunnah.com/bukhari:39",
+      "sourceDocument": "Imaan_Akhlaq_Hadith_51_to_100_New_Authentic_Actions.docx",
+      "story": "Imaan wants to do lots of extra worship all at once, but she gets tired and gives up. Her teacher suggests choosing one small act she can do calmly every day. Imaan chooses saying Bismillah before eating.",
+      "question": "You want to grow in worship. What is a wise way to start?",
+      "answers": [
+        {
+          "text": "Try to do everything at once.",
+          "feedback": "Growing in faith takes patience. Try a steadier step.",
+          "correct": false
+        },
+        {
+          "text": "Choose one small act you can do calmly and regularly.",
+          "feedback": "Starting with what you can do well, and growing step by step, is wise.",
+          "correct": true
+        },
+        {
+          "text": "Give up because it feels too hard.",
+          "feedback": "Faith is not meant to overwhelm you. Try again.",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "إِنَّ الدِّينَ",
+        "يُسْرٌ"
+      ]
+    },
+    {
+      "id": "hadith-92",
+      "number": 92,
+      "world": 19,
+      "title": "Rest When You Truly Need Rest",
+      "arabic": "إِذَا نَعَسَ أَحَدُكُمْ وَهُوَ يُصَلِّي فَلْيَرْقُدْ حَتَّى يَذْهَبَ عَنْهُ النَّوْمُ",
+      "excerpt": true,
+      "label": "EXCERPT; ADULT EXPLAINS PRAYER CONTEXT",
+      "meaning": "Someone extremely sleepy during voluntary prayer should rest until the sleepiness passes.",
+      "explanation": "Good learning needs a rested mind. Our body is an amanah, so sensible rest matters too.",
+      "action": "Tonight, prepare for sleep on time rather than staying up unnecessarily.",
+      "source": "Sahih al-Bukhari 212",
+      "sourceUrl": "https://sunnah.com/bukhari:212",
+      "sourceDocument": "Imaan_Akhlaq_Hadith_51_to_100_New_Authentic_Actions.docx",
+      "story": "Akhlaq wants to stay up very late to finish a cartoon series. He knows he has school tomorrow and feels very sleepy. He decides to switch off the screen and get ready for bed on time.",
+      "question": "It is getting late and you are very sleepy. What is a sensible choice?",
+      "answers": [
+        {
+          "text": "Stay up as late as possible.",
+          "feedback": "A rested mind learns better. Try again.",
+          "correct": false
+        },
+        {
+          "text": "Get ready for sleep on time.",
+          "feedback": "Our body is an amanah. Sensible rest matters.",
+          "correct": true
+        },
+        {
+          "text": "Drink fizzy drinks to stay awake.",
+          "feedback": "That might make sleep harder. Think again.",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "إِذَا نَعَسَ أَحَدُكُمْ وَهُوَ يُصَلِّي",
+        "فَلْيَرْقُدْ حَتَّى يَذْهَبَ عَنْهُ النَّوْمُ"
+      ]
+    },
+    {
+      "id": "hadith-93",
+      "number": 93,
+      "world": 19,
+      "title": "Be Fair and Easy in Transactions",
+      "arabic": "رَحِمَ اللَّهُ رَجُلًا سَمْحًا إِذَا بَاعَ وَإِذَا اشْتَرَى",
+      "excerpt": true,
+      "label": "EXCERPT",
+      "meaning": "The Prophet ﷺ prayed for mercy for someone who is gracious in buying and selling.",
+      "explanation": "Whether you are exchanging stickers or buying supplies, you can be fair, calm, and considerate.",
+      "action": "In one small exchange today, be honest, polite, and fair to the other person.",
+      "source": "Sahih al-Bukhari 2076",
+      "sourceUrl": "https://sunnah.com/bukhari:2076",
+      "sourceDocument": "Imaan_Akhlaq_Hadith_51_to_100_New_Authentic_Actions.docx",
+      "story": "Imaan and her friend are swapping stickers. Imaan notices one of hers is torn. Instead of hiding it, she says, “This one is torn. Let me give you a different one.” Her friend appreciates her fairness.",
+      "question": "You are swapping things with a friend. What is fair?",
+      "answers": [
+        {
+          "text": "Hide the damaged item and swap it anyway.",
+          "feedback": "Being fair means being honest. Try again.",
+          "correct": false
+        },
+        {
+          "text": "Be honest, polite and fair in the swap.",
+          "feedback": "Fair and considerate dealings make friendships stronger.",
+          "correct": true
+        },
+        {
+          "text": "Argue until you get the best deal.",
+          "feedback": "There is a calmer, fairer way. Think again.",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "رَحِمَ اللَّهُ رَجُلًا سَمْحًا",
+        "إِذَا بَاعَ",
+        "وَإِذَا اشْتَرَى"
+      ]
+    },
+    {
+      "id": "hadith-94",
+      "number": 94,
+      "world": 19,
+      "title": "Choose the Easier Good Option",
+      "arabic": "مَا خُيِّرَ رَسُولُ اللَّهِ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ بَيْنَ أَمْرَيْنِ إِلَّا أَخَذَ أَيْسَرَهُمَا مَا لَمْ يَكُنْ إِثْمًا",
+      "excerpt": true,
+      "label": "NARRATOR'S DESCRIPTION; EXCERPT",
+      "meaning": "When choosing between permissible options, the Prophet ﷺ often chose the easier one.",
+      "explanation": "Wise choices do not have to be complicated. Pick what is good, permissible, and manageable rather than making everything hard.",
+      "action": "For one task today, choose a simple, honest way to finish it properly.",
+      "source": "Sahih al-Bukhari 3560",
+      "sourceUrl": "https://sunnah.com/bukhari:3560",
+      "sourceDocument": "Imaan_Akhlaq_Hadith_51_to_100_New_Authentic_Actions.docx",
+      "story": "Akhlaq has a school project. He thinks of making it hugely complicated and stressful. Imaan suggests a simple, honest plan that he can finish properly. He chooses the easier good option and does it well.",
+      "question": "You can choose between two good ways to do a task. What is wise?",
+      "answers": [
+        {
+          "text": "Choose the simple, honest way and finish properly.",
+          "feedback": "Wise choices do not have to be complicated.",
+          "correct": true
+        },
+        {
+          "text": "Always choose the hardest way, even if you cannot finish.",
+          "feedback": "Making everything hard is not needed. Try again.",
+          "correct": false
+        },
+        {
+          "text": "Choose a way that involves cheating because it is easier.",
+          "feedback": "Easy is only good when it is also honest. Think again.",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "مَا خُيِّرَ رَسُولُ اللَّهِ",
+        "صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ",
+        "بَيْنَ أَمْرَيْنِ إِلَّا أَخَذَ أَيْسَرَهُمَا",
+        "مَا لَمْ يَكُنْ إِثْمًا"
+      ]
+    },
+    {
+      "id": "hadith-95",
+      "number": 95,
+      "world": 19,
+      "title": "Learn from a Mistake",
+      "arabic": "لَا يُلْدَغُ الْمُؤْمِنُ مِنْ جُحْرٍ وَاحِدٍ مَرَّتَيْنِ",
+      "excerpt": false,
+      "label": "COMPLETE CORE WORDING",
+      "meaning": "A believer should learn from harmful experiences rather than repeating the same avoidable mistake.",
+      "explanation": "Mistakes can teach you something valuable. Being wise means noticing what happened and changing your next step.",
+      "action": "Think of one recent mistake and choose one specific way to avoid repeating it.",
+      "source": "Sahih al-Bukhari 6133",
+      "sourceUrl": "https://sunnah.com/bukhari:6133",
+      "sourceDocument": "Imaan_Akhlaq_Hadith_51_to_100_New_Authentic_Actions.docx",
+      "story": "Imaan left her homework until the last minute and felt stressed. The next week, she remembers how that felt. This time, she does a little each day and finishes calmly.",
+      "question": "You made a mistake last time. What is a wise next step?",
+      "answers": [
+        {
+          "text": "Repeat the same mistake.",
+          "feedback": "Mistakes can teach us something valuable. Try again.",
+          "correct": false
+        },
+        {
+          "text": "Notice what happened and change your next step.",
+          "feedback": "Being wise means learning from what happened.",
+          "correct": true
+        },
+        {
+          "text": "Blame someone else.",
+          "feedback": "Blaming does not help you learn. Think again.",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "لَا يُلْدَغُ الْمُؤْمِنُ",
+        "مِنْ جُحْرٍ وَاحِدٍ",
+        "مَرَّتَيْنِ"
+      ]
+    },
+    {
+      "id": "hadith-96",
+      "number": 96,
+      "world": 20,
+      "title": "Start with the Right Shoe",
+      "arabic": "إِذَا انْتَعَلَ أَحَدُكُمْ فَلْيَبْدَأْ بِالْيُمْنَى",
+      "excerpt": true,
+      "label": "EXCERPT",
+      "meaning": "When putting on shoes, begin with the right foot.",
+      "explanation": "A small habit can remind you to follow the Sunnah in ordinary parts of your day.",
+      "action": "Put on your right shoe first today, and take off the left shoe first.",
+      "source": "Sahih al-Bukhari 5855",
+      "sourceUrl": "https://sunnah.com/bukhari:5855",
+      "sourceDocument": "Imaan_Akhlaq_Hadith_51_to_100_New_Authentic_Actions.docx",
+      "story": "Akhlaq is rushing to get ready for school. As he puts on his shoes, he pauses and remembers to start with the right shoe. When he gets home, he takes off the left one first.",
+      "question": "You are putting on your shoes. Which one could you start with?",
+      "answers": [
+        {
+          "text": "The left shoe.",
+          "feedback": "Try again. Which foot does the Sunnah say to begin with?",
+          "correct": false
+        },
+        {
+          "text": "The right shoe.",
+          "feedback": "Yes! A small habit helps you follow the Sunnah every day.",
+          "correct": true
+        },
+        {
+          "text": "It does not matter at all.",
+          "feedback": "There is a Sunnah for this small moment. Think again.",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "إِذَا انْتَعَلَ أَحَدُكُمْ",
+        "فَلْيَبْدَأْ بِالْيُمْنَى"
+      ]
+    },
+    {
+      "id": "hadith-97",
+      "number": 97,
+      "world": 20,
+      "title": "Prefer the Right in Good Things",
+      "arabic": "كَانَ النَّبِيُّ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ يُعْجِبُهُ التَّيَمُّنُ",
+      "excerpt": true,
+      "label": "NARRATOR'S DESCRIPTION; EXCERPT",
+      "meaning": "The Prophet ﷺ liked beginning with the right in appropriate actions, including cleanliness and dressing.",
+      "explanation": "Beautiful manners can become part of your everyday routine, one thoughtful action at a time.",
+      "action": "Begin a suitable daily action, such as putting on clothes, with the right side.",
+      "source": "Sahih al-Bukhari 168",
+      "sourceUrl": "https://sunnah.com/bukhari:168",
+      "sourceDocument": "Imaan_Akhlaq_Hadith_51_to_100_New_Authentic_Actions.docx",
+      "story": "Imaan is getting dressed for Eid. She remembers to put her right arm into her sleeve first. It is a small thing, but it reminds her to follow the Sunnah throughout her day.",
+      "question": "You are putting on your clothes. Which side could you begin with?",
+      "answers": [
+        {
+          "text": "The right side.",
+          "feedback": "Beautiful manners can be part of your everyday routine.",
+          "correct": true
+        },
+        {
+          "text": "Whichever is quickest.",
+          "feedback": "There is a beautiful Sunnah for this. Try again.",
+          "correct": false
+        },
+        {
+          "text": "The left side always.",
+          "feedback": "Think again. Which side did the Prophet ﷺ like to begin with?",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "كَانَ النَّبِيُّ",
+        "صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ",
+        "يُعْجِبُهُ التَّيَمُّنُ"
+      ]
+    },
+    {
+      "id": "hadith-98",
+      "number": 98,
+      "world": 20,
+      "title": "Yawn Politely",
+      "arabic": "فَإِذَا تَثَاوَبَ أَحَدُكُمْ فَلْيَرُدَّهُ مَا اسْتَطَاعَ",
+      "excerpt": true,
+      "label": "EXCERPT; COVERING MOUTH ALSO TAUGHT IN RELATED AUTHENTIC REPORTS",
+      "meaning": "Try to restrain a yawn as much as reasonably possible, according to the Hadith.",
+      "explanation": "Even small public manners show care for others. You can keep your behavior polite when you are tired.",
+      "action": "When you yawn today, cover your mouth and behave quietly.",
+      "source": "Sahih al-Bukhari 6226",
+      "sourceUrl": "https://sunnah.com/bukhari:6226",
+      "sourceDocument": "Imaan_Akhlaq_Hadith_51_to_100_New_Authentic_Actions.docx",
+      "story": "In a quiet assembly, Akhlaq feels a big yawn coming. He tries to hold it back and covers his mouth with his hand. He stays quiet so others are not disturbed.",
+      "question": "You feel a yawn coming in a quiet place. What is polite?",
+      "answers": [
+        {
+          "text": "Yawn loudly with your mouth wide open.",
+          "feedback": "Small public manners show care for others. Try again.",
+          "correct": false
+        },
+        {
+          "text": "Try to hold it back and cover your mouth.",
+          "feedback": "You kept your behaviour polite, even when tired.",
+          "correct": true
+        },
+        {
+          "text": "Make a funny noise while yawning.",
+          "feedback": "That might disturb others. Think again.",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "فَإِذَا تَثَاوَبَ أَحَدُكُمْ",
+        "فَلْيَرُدَّهُ مَا اسْتَطَاعَ"
+      ]
+    },
+    {
+      "id": "hadith-99",
+      "number": 99,
+      "world": 20,
+      "title": "Make Salam a Friendly Habit",
+      "arabic": "يُسَلِّمُ الرَّاكِبُ عَلَى الْمَاشِي وَالْمَاشِي عَلَى الْقَاعِدِ",
+      "excerpt": true,
+      "label": "EXCERPT",
+      "meaning": "The Sunnah teaches considerate ways of initiating greetings in different situations.",
+      "explanation": "You can be the person who starts a friendly greeting. It spreads warmth without costing anything.",
+      "action": "When you approach a seated family member today, begin with a respectful Salam.",
+      "source": "Sahih al-Bukhari 6232",
+      "sourceUrl": "https://sunnah.com/bukhari:6232",
+      "sourceDocument": "Imaan_Akhlaq_Hadith_51_to_100_New_Authentic_Actions.docx",
+      "story": "Imaan walks into the living room where Dadi Jaan is sitting. Before asking for anything, she begins with a respectful, “Assalamu Alaikum, Dadi Jaan.” Dadi Jaan replies with a warm smile.",
+      "question": "You walk up to a family member who is sitting down. What could you do first?",
+      "answers": [
+        {
+          "text": "Begin with a respectful salam.",
+          "feedback": "Starting a friendly greeting spreads warmth without costing anything.",
+          "correct": true
+        },
+        {
+          "text": "Start asking for things right away.",
+          "feedback": "There is a lovely way to begin. Try again.",
+          "correct": false
+        },
+        {
+          "text": "Wait for them to greet you first.",
+          "feedback": "You can be the one who begins. Think again.",
+          "correct": false
+        }
+      ],
+      "chunks": [
+        "يُسَلِّمُ الرَّاكِبُ عَلَى الْمَاشِي",
+        "وَالْمَاشِي عَلَى الْقَاعِدِ"
+      ]
+    },
+    {
+      "id": "hadith-100",
+      "number": 100,
+      "world": 20,
+      "title": "Use Gentle Hands",
+      "arabic": "مَا ضَرَبَ رَسُولُ اللَّهِ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ شَيْئًا قَطُّ بِيَدِهِ وَلَا امْرَأَةً وَلَا خَادِمًا",
+      "excerpt": true,
+      "label": "NARRATOR'S DESCRIPTION; EXCERPT",
+      "meaning": "A'ishah رضي الله عنها described that the Prophet ﷺ did not strike women or servants, reflecting his gentle conduct.",
+      "explanation": "Your hands can help, build, comfort, and protect. When you are upset, choose safe and gentle actions.",
+      "action": "During one frustrating moment today, keep your hands gentle and use words to ask for help.",
+      "source": "Sahih Muslim 2328a",
+      "sourceUrl": "https://sunnah.com/muslim:2328a",
+      "sourceDocument": "Imaan_Akhlaq_Hadith_51_to_100_New_Authentic_Actions.docx",
+      "story": "Akhlaq is building a puzzle, and his little sister keeps taking pieces. He feels frustrated and his hands want to snatch them back. He keeps his hands gentle and says, “Please can you give them back? Ammi, can you help us?”",
+      "question": "You feel frustrated with someone. What could your hands do?",
+      "answers": [
+        {
+          "text": "Hit or push them.",
+          "feedback": "Hitting can hurt. Your hands can be gentle even when you are upset.",
+          "correct": false
+        },
+        {
+          "text": "Snatch things from them.",
+          "feedback": "Snatching can hurt or scare someone. Try again.",
+          "correct": false
+        },
+        {
+          "text": "Stay gentle and use words to ask for help.",
+          "feedback": "Your hands can help, build, comfort and protect.",
+          "correct": true
+        }
+      ],
+      "chunks": [
+        "مَا ضَرَبَ رَسُولُ اللَّهِ",
+        "صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ",
+        "شَيْئًا قَطُّ بِيَدِهِ",
+        "وَلَا امْرَأَةً وَلَا خَادِمًا"
       ]
     }
   ]

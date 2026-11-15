@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../app_theme.dart';
 import '../data/hadith_course.dart';
+import 'ui_kit.dart';
 
 class HadithCourseScreen extends StatefulWidget {
   const HadithCourseScreen({super.key, required this.scope, this.store});
@@ -15,7 +16,9 @@ class _HadithCourseScreenState extends State<HadithCourseScreen> {
   late final HadithProgressStore _store =
       widget.store ?? DeviceHadithProgressStore.forLearner(widget.scope);
   List<HadithLesson>? _lessons;
+  List<_WorldGroup> _groups = const [];
   Map<String, HadithProgress> _progress = {};
+  final Set<int> _open = {};
   String? _error;
   @override
   void initState() {
@@ -30,11 +33,21 @@ class _HadithCourseScreenState extends State<HadithCourseScreen> {
     });
     try {
       final lessons = await HadithLesson.load();
+      final worlds = await HadithLesson.loadWorlds();
       final saved = await _store.load();
       if (mounted) {
         setState(() {
           _lessons = lessons;
+          _groups = _WorldGroup.build(worlds, lessons);
           _progress = saved;
+          if (_open.isEmpty && _groups.isNotEmpty) {
+            final next = _nextLesson;
+            _open.add(
+              next == null
+                  ? _groups.first.number
+                  : _groups.firstWhere((g) => g.lessons.contains(next)).number,
+            );
+          }
         });
       }
     } catch (_) {
@@ -47,7 +60,17 @@ class _HadithCourseScreenState extends State<HadithCourseScreen> {
     }
   }
 
-  Future<void> _open(HadithLesson lesson) async {
+  bool _explored(HadithLesson l) => _progress[l.id]?.explored ?? false;
+
+  /// The first lesson not yet explored, in curriculum order.
+  HadithLesson? get _nextLesson {
+    for (final l in _lessons ?? const <HadithLesson>[]) {
+      if (!_explored(l)) return l;
+    }
+    return null;
+  }
+
+  Future<void> _openLesson(HadithLesson lesson) async {
     await Navigator.of(context).push<void>(
       MaterialPageRoute(
         builder: (_) => HadithLessonScreen(
@@ -65,8 +88,7 @@ class _HadithCourseScreenState extends State<HadithCourseScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final count =
-        _lessons?.where((l) => _progress[l.id]?.explored ?? false).length ?? 0;
+    final lessons = _lessons;
     return Scaffold(
       key: const Key('hadith-course'),
       appBar: AppBar(title: const Text('Hadith to Live By')),
@@ -82,128 +104,245 @@ class _HadithCourseScreenState extends State<HadithCourseScreen> {
                     child: const Text('Retry'),
                   ),
                 )
-              : _lessons == null
+              : lessons == null
               ? const Center(child: CircularProgressIndicator())
-              : ListView(
+              : ListView.builder(
+                  key: const Key('hadith-lesson-list'),
                   padding: const EdgeInsets.all(20),
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(22),
-                      decoration: BoxDecoration(
-                        color: brandNavy,
-                        borderRadius: BorderRadius.circular(24),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            'MY WORDS & HONESTY',
-                            style: TextStyle(
-                              color: Color(0xFFFFD6E7),
-                              fontSize: 12,
-                              fontWeight: FontWeight.w800,
-                              letterSpacing: 1,
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          const Text(
-                            'Small words.\nBeautiful choices.',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 28,
-                              height: 1.12,
-                              fontWeight: FontWeight.w800,
-                            ),
-                          ),
-                          const SizedBox(height: 16),
-                          Text(
-                            '$count of 5 lessons explored',
-                            key: const Key('hadith-progress-count'),
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          LinearProgressIndicator(
-                            value: count / 5,
-                            minHeight: 6,
-                            borderRadius: BorderRadius.circular(8),
-                            backgroundColor: const Color(0xFF465682),
-                            color: brandPink,
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 18),
-                    const Text(
-                      'Read a story, remember the words, make a choice and try one small action.',
-                      style: TextStyle(color: Color(0xFF66738E), height: 1.5),
-                    ),
-                    const SizedBox(height: 20),
-                    for (var i = 0; i < _lessons!.length; i++) ...[
-                      Card(
-                        child: ListTile(
-                          key: Key('hadith-lesson-${i + 1}'),
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 15,
-                            vertical: 10,
-                          ),
-                          leading: CircleAvatar(
-                            backgroundColor: const Color(0xFFFCE8F0),
-                            foregroundColor: brandPink,
-                            child: Text(
-                              '${i + 1}',
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w800,
-                              ),
-                            ),
-                          ),
-                          title: Text(
-                            _lessons![i].title,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w800,
-                              color: ink,
-                            ),
-                          ),
-                          subtitle: Text(_status(_progress[_lessons![i].id])),
-                          trailing: Icon(
-                            _progress[_lessons![i].id]?.explored == true
-                                ? Icons.check_circle_outline
-                                : Icons.chevron_right,
-                            color: brandPink,
-                          ),
-                          onTap: () => _open(_lessons![i]),
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-                    ],
-                    const SizedBox(height: 6),
-                    Text(
-                      widget.scope == 'guest'
-                          ? 'Trying as a guest. Progress is saved on this device.'
-                          : 'Progress is saved on this device for this learner.',
-                      style: const TextStyle(
-                        fontSize: 12,
-                        color: Color(0xFF66738E),
-                        height: 1.5,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    const Text(
-                      '5-lesson preview • Curriculum text includes source references. Arabic audio will follow after review.',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color(0xFF66738E),
-                        height: 1.5,
-                      ),
-                    ),
-                  ],
+                  itemCount: _groups.length + 2,
+                  itemBuilder: (context, i) {
+                    if (i == 0) return _hero(lessons);
+                    if (i == _groups.length + 1) return _footer();
+                    return _world(_groups[i - 1]);
+                  },
                 ),
         ),
       ),
     );
   }
+
+  Widget _hero(List<HadithLesson> lessons) {
+    final count = lessons.where(_explored).length;
+    final next = _nextLesson;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Container(
+          padding: const EdgeInsets.all(22),
+          decoration: BoxDecoration(
+            color: brandNavy,
+            borderRadius: BorderRadius.circular(24),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                '${_groups.length} CHARACTER WORLDS',
+                style: const TextStyle(
+                  color: Color(0xFFFFD6E7),
+                  fontSize: 12,
+                  fontWeight: FontWeight.w800,
+                  letterSpacing: 1,
+                ),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                'Small words.\nBeautiful choices.',
+                style: displayStyle(
+                  28,
+                  color: Colors.white,
+                  height: 1.12,
+                  weight: FontWeight.w700,
+                ),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                '$count of ${lessons.length} lessons explored',
+                key: const Key('hadith-progress-count'),
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              const SizedBox(height: 10),
+              LinearProgressIndicator(
+                value: lessons.isEmpty ? 0 : count / lessons.length,
+                minHeight: 6,
+                borderRadius: BorderRadius.circular(8),
+                backgroundColor: const Color(0xFF465682),
+                color: brandPink,
+              ),
+              if (next != null) ...[
+                const SizedBox(height: 18),
+                FilledButton.icon(
+                  key: const Key('hadith-continue'),
+                  style: FilledButton.styleFrom(
+                    backgroundColor: brandPink,
+                    foregroundColor: Colors.white,
+                  ),
+                  onPressed: () => _openLesson(next),
+                  icon: const Icon(Icons.play_arrow_rounded),
+                  label: Text(
+                    count == 0
+                        ? 'Start with lesson 1'
+                        : 'Next: lesson ${next.number}',
+                  ),
+                ),
+              ],
+            ],
+          ),
+        ),
+        const SizedBox(height: 18),
+        const Text(
+          'Read a story, remember the words, make a choice and try one small action.',
+          style: TextStyle(color: Color(0xFF66738E), height: 1.5),
+        ),
+        const SizedBox(height: 20),
+      ],
+    );
+  }
+
+  Widget _world(_WorldGroup g) {
+    final open = _open.contains(g.number);
+    final done = g.lessons.where(_explored).length;
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: Card(
+        clipBehavior: Clip.antiAlias,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            InkWell(
+              key: Key('hadith-world-${g.number}'),
+              onTap: () => setState(
+                () => open ? _open.remove(g.number) : _open.add(g.number),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(16, 14, 12, 14),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 44,
+                      height: 44,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: done == g.lessons.length
+                            ? brandPink
+                            : const Color(0xFFFFF1E2),
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                      child: Text(
+                        '${g.number}',
+                        style: displayStyle(
+                          18,
+                          color: done == g.lessons.length
+                              ? Colors.white
+                              : brandOrange,
+                          weight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 14),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            g.title,
+                            style: displayStyle(17, color: ink, height: 1.2),
+                          ),
+                          const SizedBox(height: 3),
+                          Text(
+                            'Lessons ${g.first}–${g.last} • $done of ${g.lessons.length} explored',
+                            style: const TextStyle(
+                              fontSize: 13,
+                              color: Color(0xFF66738E),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Semantics(
+                      label: open ? 'Hide lessons' : 'Show lessons',
+                      child: Icon(
+                        open ? Icons.expand_less : Icons.expand_more,
+                        color: brandNavy,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            if (open)
+              for (final l in g.lessons) ...[
+                const Divider(height: 1),
+                ListTile(
+                  key: Key('hadith-lesson-${l.number}'),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 15,
+                    vertical: 6,
+                  ),
+                  leading: CircleAvatar(
+                    backgroundColor: const Color(0xFFFCE8F0),
+                    foregroundColor: brandPink,
+                    child: Text(
+                      '${l.number}',
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w800,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ),
+                  title: Text(
+                    l.title,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w800,
+                      color: ink,
+                    ),
+                  ),
+                  subtitle: Text(_status(_progress[l.id])),
+                  trailing: Icon(
+                    _explored(l)
+                        ? Icons.check_circle_outline
+                        : Icons.chevron_right,
+                    color: brandPink,
+                  ),
+                  onTap: () => _openLesson(l),
+                ),
+              ],
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _footer() => Padding(
+    padding: const EdgeInsets.only(top: 6),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          widget.scope == 'guest'
+              ? 'Trying as a guest. Progress is saved on this device.'
+              : 'Progress is saved on this device for this learner.',
+          style: const TextStyle(
+            fontSize: 12,
+            color: Color(0xFF66738E),
+            height: 1.5,
+          ),
+        ),
+        const SizedBox(height: 8),
+        Text(
+          '${_lessons?.length ?? 0} lessons • Curriculum text includes source references and awaits scholarly review. Arabic audio will follow after review.',
+          style: const TextStyle(
+            fontSize: 12,
+            color: Color(0xFF66738E),
+            height: 1.5,
+          ),
+        ),
+      ],
+    ),
+  );
 
   String _status(HadithProgress? p) {
     if (p == null) return 'Story • Learn • Choose • Act';
@@ -211,6 +350,34 @@ class _HadithCourseScreenState extends State<HadithCourseScreen> {
     if (p.reflection == 'yes') return 'Explored • You tried your action';
     if (p.reflection == 'tried') return 'Explored • You gave it a try';
     return 'Explored • Action planned';
+  }
+}
+
+/// A world and the lessons that belong to it. Falls back to one group when
+/// the catalogue has no world list.
+class _WorldGroup {
+  const _WorldGroup(this.number, this.title, this.lessons);
+  final int number;
+  final String title;
+  final List<HadithLesson> lessons;
+  int get first => lessons.first.number;
+  int get last => lessons.last.number;
+  static List<_WorldGroup> build(
+    List<HadithWorld> worlds,
+    List<HadithLesson> lessons,
+  ) {
+    final groups = [
+      for (final w in worlds)
+        _WorldGroup(
+          w.number,
+          w.title,
+          lessons.where(w.contains).toList(growable: false),
+        ),
+    ].where((g) => g.lessons.isNotEmpty).toList();
+    if (groups.isEmpty && lessons.isNotEmpty) {
+      return [_WorldGroup(1, 'Hadith to Live By', lessons)];
+    }
+    return groups;
   }
 }
 
@@ -454,6 +621,15 @@ class _HadithLessonScreenState extends State<HadithLessonScreen> {
               style: TextStyle(color: Color(0xFF66738E), fontSize: 12),
             ),
           ),
+        if (l.label.contains('NARRATOR'))
+          const Padding(
+            key: Key('hadith-narrator-note'),
+            padding: EdgeInsets.only(top: 4),
+            child: Text(
+              'A narrator’s report, not words spoken by the Prophet ﷺ',
+              style: TextStyle(color: Color(0xFF66738E), fontSize: 12),
+            ),
+          ),
         const SizedBox(height: 22),
         _heading('What it means'),
         const SizedBox(height: 10),
@@ -473,6 +649,15 @@ class _HadithLessonScreenState extends State<HadithLessonScreen> {
           l.source,
           style: const TextStyle(fontWeight: FontWeight.w700, color: brandNavy),
         ),
+        if (l.label.isNotEmpty)
+          Padding(
+            padding: const EdgeInsets.only(top: 4),
+            child: Text(
+              'Curriculum note: ${l.label}',
+              key: const Key('hadith-source-label'),
+              style: const TextStyle(color: Color(0xFF66738E), fontSize: 12),
+            ),
+          ),
         TextButton.icon(
           key: const Key('hadith-source'),
           onPressed: _source,
