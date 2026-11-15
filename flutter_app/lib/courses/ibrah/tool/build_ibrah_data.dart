@@ -18,15 +18,45 @@ class Vol {
 }
 
 const vols = [
-  Vol(1, 'IBRAH_Junior_Volume_01_Prophet_Adam_Complete_Stories_and_Gamified_Missions', 'Adam', 'آدم'),
-  Vol(2, 'IBRAH_Junior_Volume_02_Prophet_Idris_Complete_Stories_and_Gamified_Missions', 'Idris', 'إدريس'),
-  Vol(3, 'IBRAH_Junior_Volume_03_Prophet_Nuh_Complete_Stories_and_Gamified_Missions', 'Nuh', 'نوح'),
+  Vol(
+    1,
+    'IBRAH_Junior_Volume_01_Prophet_Adam_Complete_Stories_and_Gamified_Missions',
+    'Adam',
+    'آدم',
+  ),
+  Vol(
+    2,
+    'IBRAH_Junior_Volume_02_Prophet_Idris_Complete_Stories_and_Gamified_Missions',
+    'Idris',
+    'إدريس',
+  ),
+  Vol(
+    3,
+    'IBRAH_Junior_Volume_03_Prophet_Nuh_Complete_Stories_and_Gamified_Missions',
+    'Nuh',
+    'نوح',
+  ),
   Vol(4, 'IBRAH_Junior_Volume_4_Prophet_Hud_Resent', 'Hud', 'هود'),
-  Vol(5, 'IBRAH_Junior_Volume_05_Prophet_Salih_Complete_Stories_and_Gamified_Missions', 'Salih', 'صالح'),
-  Vol(6, 'IBRAH_Junior_Volume_06_Prophet_Ibrahim_Complete_Stories_and_Gamified_Missions', 'Ibrahim', 'إبراهيم'),
+  Vol(
+    5,
+    'IBRAH_Junior_Volume_05_Prophet_Salih_Complete_Stories_and_Gamified_Missions',
+    'Salih',
+    'صالح',
+  ),
+  Vol(
+    6,
+    'IBRAH_Junior_Volume_06_Prophet_Ibrahim_Complete_Stories_and_Gamified_Missions',
+    'Ibrahim',
+    'إبراهيم',
+  ),
   Vol(7, 'IBRAH_Junior_Volume_07_Prophet_Lut_Fresh_Copy', 'Lut', 'لوط'),
   Vol(8, 'IBRAH_Junior_Volume_8_Ismail_Fresh_Copy', 'Ismail', 'إسماعيل'),
-  Vol(9, 'IBRAH_Junior_Volume_09_Ishaq_Yaqub_Complete', 'Ishaq & Yaqub', 'إسحاق ويعقوب'),
+  Vol(
+    9,
+    'IBRAH_Junior_Volume_09_Ishaq_Yaqub_Complete',
+    'Ishaq & Yaqub',
+    'إسحاق ويعقوب',
+  ),
   Vol(10, 'IBRAH_Junior_Volume_10_Yusuf_Complete', 'Yusuf', 'يوسف'),
   Vol(11, 'IBRAH_Junior_Volume_11_Ayyub_Complete', 'Ayyub', 'أيوب'),
   Vol(12, 'IBRAH_Junior_Volume_12_Shuayb_Complete', 'Shuayb', 'شعيب'),
@@ -34,7 +64,12 @@ const vols = [
   Vol(14, 'IBRAH_Junior_Volume_14_Harun_Complete', 'Harun', 'هارون'),
   Vol(15, 'IBRAH_Junior_Volume_15_Fresh_Copy', 'Yusha ibn Nun', 'يوشع بن نون'),
   Vol(16, 'IBRAH_Junior_Volume_16_Dawud_Complete', 'Dawud', 'داود'),
-  Vol(17, 'IBRAH_Junior_Volume_17_Sulayman_Download_Copy', 'Sulayman', 'سليمان'),
+  Vol(
+    17,
+    'IBRAH_Junior_Volume_17_Sulayman_Download_Copy',
+    'Sulayman',
+    'سليمان',
+  ),
   Vol(18, 'IBRAH_Junior_Volume_18_Ilyas_Complete', 'Ilyas', 'إلياس'),
   Vol(19, 'IBRAH_Junior_Volume_19_Al_Yasa_Complete', 'Al-Yasa', 'اليسع'),
   Vol(20, 'IBRAH_Junior_Volume_20_Dhul_Kifl_Complete', 'Dhul-Kifl', 'ذو الكفل'),
@@ -44,7 +79,9 @@ const vols = [
   Vol(24, 'IBRAH_Junior_Volume_24_Isa_Complete', 'Isa', 'عيسى'),
 ];
 
-final arabicRe = RegExp(r'[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]');
+final arabicRe = RegExp(
+  r'[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]',
+);
 final letterRe = RegExp(r'[A-Za-z\u00C0-\u024F\u1E00-\u1EFF]');
 
 bool isArabic(String s) {
@@ -144,7 +181,10 @@ List<Map<String, dynamic>> evidenceIn(List<String> lines) {
     for (var j = i + 1; j < lines.length && j <= i + 3; j++) {
       if (isArabic(lines[j])) break;
       final l = lines[j];
-      if (ref == null && verseRe.hasMatch(l) && l.length < 70 && !meaningRe.hasMatch(l)) {
+      if (ref == null &&
+          verseRe.hasMatch(l) &&
+          l.length < 70 &&
+          !meaningRe.hasMatch(l)) {
         ref = clean(l);
       }
       if (l.startsWith('Reference:')) ref = clean(l.substring(10));
@@ -248,13 +288,21 @@ List<Map<String, dynamic>> parseStories(List<String> lines) {
       if (l.isEmpty || devLine.hasMatch(l)) continue;
       if (storyCallout.hasMatch(l)) {
         if (l == 'STORY ACTION' && i + 1 < e) {
-          blocks.add({'t': 'kv', 'label': 'Story action', 'text': clean(lines[++i])});
+          blocks.add({
+            't': 'kv',
+            'label': 'Story action',
+            'text': clean(lines[++i]),
+          });
           continue;
         }
         final m = RegExp(r'^([^•:]+?)\s*(?:•|·|:)\s*(.+)$').firstMatch(l);
         var text = m?.group(2) ?? l;
         text = text.replaceFirst(RegExp(r'\s*\|\s*Missions?:.*$'), '');
-        blocks.add({'t': 'kv', 'label': clean(m?.group(1) ?? ''), 'text': clean(text)});
+        blocks.add({
+          't': 'kv',
+          'label': clean(m?.group(1) ?? ''),
+          'text': clean(text),
+        });
         continue;
       }
       blocks.add({'t': isArabic(l) ? 'ar' : 'p', 'text': l});
@@ -306,7 +354,10 @@ List<Map<String, dynamic>> parseMissions(
     final e = k + 1 < starts.length ? starts[k + 1] : lines.length;
     final (_, inline) = matchMarker(lines[s], missionMarkers)!;
     final number = int.parse(
-      RegExp(r'MISSION (\d+)', caseSensitive: false).firstMatch(lines[s])!.group(1)!,
+      RegExp(
+        r'MISSION (\d+)',
+        caseSensitive: false,
+      ).firstMatch(lines[s])!.group(1)!,
     );
     var i = s + 1;
     final title = inline ? inlineTitle(lines[s]) : clean(lines[i++]);
@@ -320,10 +371,14 @@ List<Map<String, dynamic>> parseMissions(
     ).firstMatch(head);
     final storyNo = storyM == null ? null : int.parse(storyM.group(1)!);
 
-    final ci = body.indexWhere((l) => choiceRe.hasMatch(l) || soloLetter.hasMatch(l));
+    final ci = body.indexWhere(
+      (l) => choiceRe.hasMatch(l) || soloLetter.hasMatch(l),
+    );
     final ai = body.indexWhere((l) => answerRe.hasMatch(l));
     if (ci < 0 || ai < 0 || ai < ci) {
-      warnings.add('vol $vol mission $number: no choices/answer (ci=$ci ai=$ai)');
+      warnings.add(
+        'vol $vol mission $number: no choices/answer (ci=$ci ai=$ai)',
+      );
       continue;
     }
     // Question: closest line before the first choice that is not a table header.
@@ -357,7 +412,9 @@ List<Map<String, dynamic>> parseMissions(
       }
       if (m != null) {
         // Adam's volume puts all three on one line: "A: … • B: … • C: …".
-        final multi = RegExp(r'([A-D]):\s(.*?)(?=\s•\s[A-D]:\s|$)').allMatches(l).toList();
+        final multi = RegExp(
+          r'([A-D]):\s(.*?)(?=\s•\s[A-D]:\s|$)',
+        ).allMatches(l).toList();
         if (multi.length > 1) {
           for (final x in multi) {
             feedback[x.group(1)!] = clean(x.group(2)!);
@@ -367,7 +424,9 @@ List<Map<String, dynamic>> parseMissions(
         }
         continue;
       }
-      final why = RegExp(r'^(?:Supportive feedback:|Why this choice\?)\s*(.+)$').firstMatch(l);
+      final why = RegExp(
+        r'^(?:Supportive feedback:|Why this choice\?)\s*(.+)$',
+      ).firstMatch(l);
       if (why != null) {
         correctWhy = clean(why.group(1)!);
         continue;
@@ -380,12 +439,17 @@ List<Map<String, dynamic>> parseMissions(
     for (final c in choices) {
       final letter = c['letter'] as String;
       c['correct'] = letter == correct;
-      final fb = feedback[letter] ??
-          (letter == correct ? (correctWhy ?? (answerNote.isEmpty ? null : answerNote)) : null);
+      final fb =
+          feedback[letter] ??
+          (letter == correct
+              ? (correctWhy ?? (answerNote.isEmpty ? null : answerNote))
+              : null);
       if (fb != null) c['feedback'] = fb;
     }
     if (!choices.any((c) => c['correct'] == true)) {
-      warnings.add('vol $vol mission $number: correct letter $correct not among choices');
+      warnings.add(
+        'vol $vol mission $number: correct letter $correct not among choices',
+      );
     }
     // Daily action and the "remember" screen.
     String? action;
@@ -399,7 +463,9 @@ List<Map<String, dynamic>> parseMissions(
       }
       final am2 = actionRe.firstMatch(l);
       if (action == null && am2 != null && l.indexOf(am2.group(0)!) < 30) {
-        var rest = l.substring(am2.end).replaceFirst(RegExp(r'^[\s:•—–\-]+'), '');
+        var rest = l
+            .substring(am2.end)
+            .replaceFirst(RegExp(r'^[\s:•—–\-]+'), '');
         rest = rest.replaceFirst(RegExp(r'^Exactly one action\s*'), '');
         if (rest.split(' ').length >= 4) {
           action = clean(rest);
@@ -413,10 +479,14 @@ List<Map<String, dynamic>> parseMissions(
         }
         continue;
       }
-      if (RegExp(r'^(Act and reflect|Reflect and revisit)$').hasMatch(l)) continue;
+      if (RegExp(r'^(Act and reflect|Reflect and revisit)$').hasMatch(l)) {
+        continue;
+      }
       remember.add(block(l));
     }
-    if (action == null) warnings.add('vol $vol mission $number: no daily action');
+    if (action == null) {
+      warnings.add('vol $vol mission $number: no daily action');
+    }
     var discover = <Map<String, dynamic>>[];
     for (var d = 0; d < qi; d++) {
       final l = body[d];
@@ -431,7 +501,11 @@ List<Map<String, dynamic>> parseMissions(
         discover[sa + 1]['text'] == 'Learning target') {
       discover.replaceRange(sa, sa + 4, [
         {'t': 'kv', 'label': 'Source anchor', 'text': discover[sa + 2]['text']},
-        {'t': 'kv', 'label': 'Learning target', 'text': discover[sa + 3]['text']},
+        {
+          't': 'kv',
+          'label': 'Learning target',
+          'text': discover[sa + 3]['text'],
+        },
       ]);
     }
     while (discover.isNotEmpty && discover.last['t'] == 'h') {
@@ -487,15 +561,21 @@ Map<String, dynamic> parseVolume(
     part(RegExp(r'^PART [IV]+ — .*[Ss]ynthesis')),
     part(RegExp(r'^Closing synthesis')),
   ].firstWhere((x) => x >= 0, orElse: () => -1);
-  final storyEnd = missionStart >= 0 ? missionStart : nextPart(lines, storyStart);
+  final storyEnd = missionStart >= 0
+      ? missionStart
+      : nextPart(lines, storyStart);
   var storyLines = lines.sublist(storyStart + 1, storyEnd);
   if (missionStart < 0) {
     // Volume 6 runs its missions straight after the stories.
-    final first = storyLines.indexWhere((l) => matchMarker(l, missionMarkers) != null);
+    final first = storyLines.indexWhere(
+      (l) => matchMarker(l, missionMarkers) != null,
+    );
     missionStart = storyStart + first;
     storyLines = storyLines.sublist(0, first);
   }
-  final missionEnd = synthStart > missionStart ? synthStart : nextPart(lines, missionStart);
+  final missionEnd = synthStart > missionStart
+      ? synthStart
+      : nextPart(lines, missionStart);
   final library = libStart < 0
       ? <Map<String, dynamic>>[]
       : evidenceIn(lines.sublist(libStart + 1, nextPart(lines, libStart)));
@@ -506,7 +586,9 @@ Map<String, dynamic> parseVolume(
   // Arabic anchors printed inside the mission cards.
   var review = library.where((x) => x['meaning'] != null).toList();
   if (review.length < 2) {
-    review = evidenceIn(missionLines).where((x) => x['meaning'] != null).toList();
+    review = evidenceIn(
+      missionLines,
+    ).where((x) => x['meaning'] != null).toList();
   }
   final seen = <String>{};
   review = [
@@ -519,7 +601,10 @@ Map<String, dynamic> parseVolume(
   ];
   final synthesis = <Map<String, dynamic>>[];
   if (synthStart >= 0) {
-    for (final l in lines.sublist(synthStart + 1, nextPart(lines, synthStart))) {
+    for (final l in lines.sublist(
+      synthStart + 1,
+      nextPart(lines, synthStart),
+    )) {
       final c = clean(l);
       if (c.isEmpty || devLine.hasMatch(c)) continue;
       synthesis.add({
@@ -539,22 +624,29 @@ Map<String, dynamic> parseVolume(
       }
     }
   }
-  final reviewLine = lines.take(16).firstWhere(
-    (l) =>
-        l.length < 260 &&
-        RegExp(
-          r'review(?: is)? required|requires?\b.*review|review.*before|review\b.*\brequired',
-          caseSensitive: false,
-        ).hasMatch(l),
-    orElse: () => 'Scholarly review required before publication.',
-  );
-  final counts = lines.take(12).firstWhere(
-    (l) => RegExp(r'stories', caseSensitive: false).hasMatch(l) &&
-        RegExp(r'missions', caseSensitive: false).hasMatch(l),
-    orElse: () => '',
-  );
+  final reviewLine = lines
+      .take(16)
+      .firstWhere(
+        (l) =>
+            l.length < 260 &&
+            RegExp(
+              r'review(?: is)? required|requires?\b.*review|review.*before|review\b.*\brequired',
+              caseSensitive: false,
+            ).hasMatch(l),
+        orElse: () => 'Scholarly review required before publication.',
+      );
+  final counts = lines
+      .take(12)
+      .firstWhere(
+        (l) =>
+            RegExp(r'stories', caseSensitive: false).hasMatch(l) &&
+            RegExp(r'missions', caseSensitive: false).hasMatch(l),
+        orElse: () => '',
+      );
   if (stories.isEmpty) warnings.add('vol ${v.n}: no stories');
-  if (review.length < 2) warnings.add('vol ${v.n}: review has ${review.length} items');
+  if (review.length < 2) {
+    warnings.add('vol ${v.n}: review has ${review.length} items');
+  }
   return {
     'id': 'ibrah-${v.n.toString().padLeft(2, '0')}',
     'number': v.n,
@@ -574,7 +666,8 @@ Map<String, dynamic> parseVolume(
       'document': 'originals/06-IBRAH/${v.file}.docx',
       'extractedText': 'extracted/06-IBRAH/${v.file}.txt',
       'sha256': ?inv?['sha256'],
-      'collection': 'imaan-email-content-2026-11-14 (later 24-file IBRAH bundle)',
+      'collection':
+          'imaan-email-content-2026-11-14 (later 24-file IBRAH bundle)',
       'status':
           'Working edition from the content owner. Arabic, translations, Tafsir and child-safeguarding require qualified scholarly review before release.',
     },
@@ -600,7 +693,9 @@ void main(List<String> args) {
     final lines = File('$dir\\${v.file}.txt').readAsLinesSync();
     final data = parseVolume(v, lines, inventory[v.file], warnings);
     final name = 'ibrah-${v.n.toString().padLeft(2, '0')}.json';
-    File('assets/data/courses/$name').writeAsStringSync('${enc.convert(data)}\n');
+    File(
+      'assets/data/courses/$name',
+    ).writeAsStringSync('${enc.convert(data)}\n');
     index.add({
       'id': data['id'],
       'number': v.n,
@@ -618,11 +713,7 @@ void main(List<String> args) {
     );
   }
   File('assets/data/courses/ibrah-index.json').writeAsStringSync(
-    '${enc.convert({
-      'course': 'IBRAH Junior / Qisas-ul-Nabiyeen',
-      'note': 'Generated by lib/courses/ibrah/tool/build_ibrah_data.dart from the extracted IBRAH texts (later 24-file bundle). Scholarly review required before release.',
-      'volumes': index,
-    })}\n',
+    '${enc.convert({'course': 'IBRAH Junior / Qisas-ul-Nabiyeen', 'note': 'Generated by lib/courses/ibrah/tool/build_ibrah_data.dart from the extracted IBRAH texts (later 24-file bundle). Scholarly review required before release.', 'volumes': index})}\n',
   );
   for (final w in warnings) {
     print('WARN $w');
