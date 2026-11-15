@@ -1,0 +1,1923 @@
+{
+ "version": 1,
+ "source": {
+  "document": "Imaan_Akhlaq_My_Salah_Journey_COMPLETE_Curriculum_and_Developer_Manual.docx",
+  "section": "04-Salah",
+  "thread": "imaa and Akhlaq individual section additions (3–10 Nov 2026)",
+  "extracted": "2026-11-14"
+ },
+ "reviewStatus": "PENDING",
+ "reviewNote": "Draft from the content owner’s manual. Arabic, Fiqh and Urdu text still need scholarly review before release.",
+ "tryAgain": "Thank you for trying. Watch the calm demonstration once more, then choose again.",
+ "tasbihNotice": "This special prayer is described in a narration in Sunan Abi Dawud 1297. Scholars disagree about the reliability of the report and the recommendation to perform this prayer. This lesson is optional; ask a qualified scholar.",
+ "tasbihPreNotice": "Scholars differ over Salat al-Tasbih; this advanced lesson describes a reported method, not a required prayer.",
+ "witrNotice": "Your family or teacher may follow a different established school of prayer. We will teach one complete method carefully. We respect Muslims who learn another recognized method.",
+ "worlds": [
+  {
+   "id": "ready",
+   "code": "00",
+   "title": "Getting Ready",
+   "guidance": [
+    "Recognize the Adhan and when Fard Salah is due; app prayer times must come from a vetted local calculation method with clear parent controls, not guessed times.",
+    "Learn Wudu in a separate complete lesson including what is necessary and what breaks it according to the selected teaching tradition.",
+    "Prepare clean body, clothing and place; modest covering and Qiblah direction. Respect accommodations when illness, mobility or sensory needs apply.",
+    "Intention is a sincere purpose of worship in the heart; do not invent a mandatory Arabic verbal formula.",
+    "Teach calmness (ṭumaʾnīnah), attentiveness and regularity. The app must not rush children through Salah.",
+    "Do not display full-body sacred personal worship as a spectacle or ask children to upload evidence of their prayer."
+   ],
+   "opening": "Welcome back! Today, Imaan and Akhlaq will learn one more part of Salah with patience. Listen, explore, practise, then use what you have learned respectfully with a trusted adult.",
+   "optional": false
+  },
+  {
+   "id": "fard",
+   "code": "01",
+   "title": "Five Daily Fard Prayers",
+   "discover": "Salah is our daily connection with Allah. Five opportunities to return to Him, practise responsibility and remember what matters.",
+   "evidence": "Qur’an 4:103 (prescribed times); Sahih al-Bukhari 46 (five daily prayers); Bukhari 528 (five prayers likened to a river that cleanses).",
+   "outcome": "Child can name five Salah, know Fard rak’ahs, follow a two-rak’ah model and understand the three/four-rak’ah extensions.",
+   "teachingFlow": [
+    "Find the Salah time, make Wudu as needed, prepare a clean place, cover appropriately and face Qiblah.",
+    "Form intention sincerely and begin with Takbir al-Ihram: اللَّهُ أَكْبَرُ.",
+    "Stand calmly; learn one verified opening Du’a as appropriate, and recite Surah al-Fatihah according to the selected school’s guidance; add a short surah where applicable.",
+    "Move into Ruku with Takbir; remain composed and say the approved Ruku remembrance.",
+    "Rise from Ruku with its established remembrance and stand still.",
+    "Enter the first Sujud; recite its remembrance; rise to the sitting position; make the supplication between the Sujuds.",
+    "Complete the second Sujud. This completes one rak’ah.",
+    "Stand for the next rak’ah and repeat the applicable recitation and postures.",
+    "Sit for Tashahhud after the second rak’ah. For a two-rak’ah prayer, complete the final sitting with Salawat, approved Du’a and Taslim.",
+    "For a three/four-rak’ah Fard prayer, rise after the first sitting and perform the remaining rak’ah(s), with third/fourth-rak’ah recitations following the family’s approved Fiqh method.",
+    "End with the prescribed Taslim and learn optional authentic remembrances after Salah separately."
+   ],
+   "recitationsNote": "Library R01–R13, plus verified full Surah al-Fatihah and age-appropriate short surahs from the Qur’an Hifz module.",
+   "adultNote": "Takbir placements, hands position, Fatiha recitation behind an imam, finger movement, volume of Ameen, and detailed final sitting have recognized differences. Teach a complete vetted school-specific method without declaring other approved methods invalid. Do not generalize personal flexibility to every procedural issue.",
+   "opening": "Welcome back! Today, Imaan and Akhlaq will learn one more part of Salah with patience. Listen, explore, practise, then use what you have learned respectfully with a trusted adult.",
+   "optional": false
+  },
+  {
+   "id": "sunnah",
+   "code": "02",
+   "title": "Sunnah and Rawātib",
+   "discover": "These prayers help a child develop love, consistency and attentiveness in worship without mistaking voluntary prayer for a replacement of Fard.",
+   "evidence": "Sahih Muslim 728a/b on twelve regular voluntary rak’ahs and the promise of a house in Paradise; Bukhari 1180–1181 narrates ten observed regular rak’ahs. Reported sets vary.",
+   "outcome": "Distinguish Fard, Sunnah Mu’akkadah, other Sunnah/Nafl, and the meaning of Rawātib.",
+   "teachingFlow": [
+    "Select a regular Sunnah prayer near its associated Fard time, with parental guidance.",
+    "Use the familiar Salah preparation, Takbir, standing, recitation, Ruku, Sujud and sitting sequence.",
+    "For two-rak’ah Sunnah, follow the complete two-rak’ah path and end with Taslim.",
+    "For four-rak’ah voluntary prayers, follow an approved school-specific configuration; the app should not impose one universal pattern.",
+    "Build sustainable habits: small authentic practice matters more than collecting all optional prayers at once."
+   ],
+   "recitationsNote": "Reuse the core Salah text library; no unique mandatory wording is invented for every Sunnah prayer.",
+   "adultNote": "One reported 12-rak’ah Rawātib set: 2 before Fajr, 4 before Dhuhr, 2 after Dhuhr, 2 after Maghrib, 2 after Isha (Muslim 728, Tirmidhi 415). Other strongly attested ten-rak’ah patterns also exist. Show evidence/version before displaying a set.",
+   "opening": "Welcome back! Today, Imaan and Akhlaq will learn one more part of Salah with patience. Listen, explore, practise, then use what you have learned respectfully with a trusted adult.",
+   "optional": false
+  },
+  {
+   "id": "witr",
+   "code": "03",
+   "title": "Witr",
+   "discover": "Witr completes the night’s worship with an odd number of rak’ahs and teaches children to ask Allah for guidance.",
+   "evidence": "Sahih Muslim 749a (night prayer in pairs, then one Witr); Abu Dawud 1422 (reported 1/3/5 formats); Tirmidhi 464 (Prophetic Qunut to al-Hasan).",
+   "outcome": "Understand Witr time, the role of Qunut, and the difference between Hanafi and other recognized forms.",
+   "teachingFlow": [
+    "Recognize that Witr is prayed after Isha and before Fajr; if the family plans night worship, its placement is discussed with a teacher.",
+    "Choose the vetted path: commonly a three-rak’ah Hanafi Witr, or an approved one-rak’ah / two-plus-one arrangement according to another school.",
+    "Follow the usual Salah movements for each rak’ah, preserving the school-specific sitting and Salam sequence.",
+    "Learn the selected Qunut placement and wording: in the Hanafi school, traditionally before Ruku in the third rak’ah after an additional Takbir; other schools have differing positions and practice.",
+    "Finish with appropriate sitting, Salawat and Taslim. Add a reminder never to ridicule the other method."
+   ],
+   "recitationsNote": "R14 (Prophetic Qunut from Tirmidhi 464). A Hanafi customary Qunut text may be included in the app only with a separate vetted attribution and fiqh-context record.",
+   "adultNote": "Hanafi jurists classify Witr as wajib; other Sunni schools generally regard it as an emphasized Sunnah. This is a legitimate jurisprudential difference, not a ranking of people’s sincerity. Qunut timing and wording differ; approved family/teacher method must be selected, not inferred from the child’s location.",
+   "opening": "Welcome back! Today, Imaan and Akhlaq will learn one more part of Salah with patience. Listen, explore, practise, then use what you have learned respectfully with a trusted adult.",
+   "optional": false
+  },
+  {
+   "id": "tahajjud",
+   "code": "04",
+   "title": "Tahajjud",
+   "discover": "The quiet hours of night give an opportunity for extra voluntary worship, Du’a, gratitude and careful reflection.",
+   "evidence": "Qur’an 17:79; Sahih Muslim 1163a (most excellent prayer after the obligatory prayers is night prayer); Sahih Muslim 749a (two-by-two); Bukhari 1120 (night-opening Du’a).",
+   "outcome": "Understand the difference between general night prayer (Qiyam) and the term Tahajjud, often used for prayer after sleep, as taught in the family’s tradition.",
+   "teachingFlow": [
+    "Explain the permitted night period after Isha until before Fajr, with parental guidance and age-appropriate bedtime routines.",
+    "Make a gentle intention to worship; do not disturb sleep needed for health or Fajr responsibilities.",
+    "Make Wudu and pray two rak’ahs using the normal prayer pattern; longer recitation is optional and gradual.",
+    "After Taslim, make sincere Du’a. Additional pairs can be offered according to ability and family practice.",
+    "Connect Witr appropriately to the chosen night-prayer practice under family/teacher guidance."
+   ],
+   "recitationsNote": "R15 (Prophetic Tahajjud opening supplication, Bukhari 1120); core Salah text; Tirmidhi 464 Qunut where applicable.",
+   "adultNote": "For preschoolers, do not make late waking a competitive achievement. Children can learn the concept before practising the full night worship.",
+   "opening": "Welcome back! Today, Imaan and Akhlaq will learn one more part of Salah with patience. Listen, explore, practise, then use what you have learned respectfully with a trusted adult.",
+   "optional": false
+  },
+  {
+   "id": "janazah",
+   "code": "05",
+   "title": "Janazah",
+   "discover": "Janazah teaches compassion, the rights of other Muslims, and making Du’a for someone who has died.",
+   "evidence": "Sahih al-Bukhari 1333 (four Takbirs for al-Najashi); Sahih Muslim 963d (supplication for the deceased).",
+   "outcome": "Learn that Janazah is a communal obligation (farḍ kifāyah) in established Sunni jurisprudence and has neither Ruku nor Sujud.",
+   "teachingFlow": [
+    "Explain respectfully that Janazah takes place for a deceased Muslim; no graphic death content or pretend-funeral gameplay.",
+    "Stand in the congregational rows, observing the leader and the family’s juristic tradition; intention remains sincere.",
+    "Follow the first Takbir and the prescribed opening recitation according to the selected school (e.g., Thana in a common Hanafi presentation; al-Fatihah in another recognized presentation).",
+    "After the second Takbir, send blessings upon the Prophet ﷺ according to the approved method.",
+    "After the third Takbir, make Du’a for the deceased; source a longer authentic Du’a such as Muslim 963d.",
+    "After the fourth Takbir, conclude with Taslim as taught in the selected school; no bowing or prostrating.",
+    "Outside the prayer, practise compassionate speech and support for someone who is grieving."
+   ],
+   "recitationsNote": "R13 Salawat; R16 the authentic Janazah Du’a from Muslim 963d; approve any school-specific opening text.",
+   "adultNote": "The number/placement of Takbirs and recitation details have jurisprudential variations. The app must not use casual minigames about deceased persons, funeral bodies or mourning families. Not all full adult Du’as suit every young learner.",
+   "opening": "Welcome back! Today, Imaan and Akhlaq will learn one more part of Salah with patience. Listen, explore, practise, then use what you have learned respectfully with a trusted adult.",
+   "optional": false
+  },
+  {
+   "id": "istisqa",
+   "code": "06",
+   "title": "Istisqa",
+   "discover": "When rainfall is needed, Muslims ask Allah for mercy and rain while remembering that wasting water and harming the environment are wrong.",
+   "evidence": "Sahih Muslim 894b (the Prophet ﷺ went for Istisqa and prayed two rak’ahs); Bukhari 1013 (اللَّهُمَّ اسْقِنَا).",
+   "outcome": "Know that this is generally a communal prayer connected with drought, supplication and public guidance—not a regular personal daily prayer.",
+   "teachingFlow": [
+    "Learn how dry weather affects families, crops and animals in an age-appropriate way.",
+    "A community gathers with the imam for the two-rak’ah Istisqa prayer where taught; the precise Takbirs and sequence are set by approved school-specific instruction.",
+    "The congregation listens respectfully to the imam’s address and joins supplication for rain; sermon placement and some procedural details vary.",
+    "Explain the narrations about the Prophet ﷺ facing the Qiblah and turning his mantle; do not require children to imitate the gesture without guidance.",
+    "Close by connecting Du’a to responsible behaviour: save water and support those affected by drought."
+   ],
+   "recitationsNote": "R17 (اللَّهُمَّ اسْقِنَا), Bukhari 1013. Do not invent additional required words or counts.",
+   "adultNote": "Istisqa variants include extra Takbirs in some schools and differences in sermon placement; no single universal sequencing rule should be silently hard-coded.",
+   "opening": "Welcome back! Today, Imaan and Akhlaq will learn one more part of Salah with patience. Listen, explore, practise, then use what you have learned respectfully with a trusted adult.",
+   "optional": false
+  },
+  {
+   "id": "tasbih",
+   "code": "07",
+   "title": "Salat al-Tasbih — Optional",
+   "discover": "Learn a reported four-rak’ah prayer built around glorification, while understanding that scholars genuinely disagree about its Hadith evidence and recommendation.",
+   "evidence": "Abu Dawud 1297 gives one transmitted formula. Al-Albani graded the report Sahih; other prominent scholars criticized the report and did not recommend the practice. Treat both scholarly assessments respectfully.",
+   "outcome": "Older students can recognize the four-part Tasbih and the reported 75-per-rak’ah arrangement (total 300), without confusing it with obligatory Sunnah.",
+   "teachingFlow": [
+    "Show a clear pre-lesson notice: “Scholars differ over Salat al-Tasbih; this advanced lesson describes a reported method, not a required prayer.”",
+    "Use the report of Abu Dawud 1297: pray four rak’ahs, reciting al-Fatihah and a surah in each.",
+    "After recitation while standing, say the four-part Tasbih 15 times.",
+    "Say the same Tasbih 10 times in Ruku, then 10 after rising; 10 in first Sujud, 10 in the sitting between Sujuds, 10 in second Sujud, and 10 after lifting from second Sujud.",
+    "The seven counts total 75 in a rak’ah; repeat across four rak’ahs, totaling 300 in the cited reported arrangement.",
+    "Let a qualified scholar specify the sitting and Taslim structure and whether to offer this prayer within the child’s educational tradition. Never auto-create a mandatory daily routine."
+   ],
+   "recitationsNote": "R18 (the four-part Tasbih). Exact placement drawn from Abu Dawud 1297 only; other transmitted arrangements must be stored as separately reviewed variants.",
+   "adultNote": "Do not cite universal “forgiveness of all sins” promises as uncontested: the narration’s authenticity is debated. The entire world is optional, elder/parent/teacher-gated, and cannot prevent overall programme completion.",
+   "opening": "Welcome back! Today, Imaan and Akhlaq will learn one more part of Salah with patience. Listen, explore, practise, then use what you have learned respectfully with a trusted adult.",
+   "optional": true
+  }
+ ],
+ "missions": [
+  {
+   "id": "P1",
+   "world": "ready",
+   "title": "Why Salah Matters",
+   "scene": "Akhlaq is building a model airplane when the Adhan begins. He wonders whether Salah will spoil his fun. Imaan says, “We can enjoy good things and still make time for the One who gave us our day.” Salaam explains that prayer is not a race or a punishment. It is a regular meeting of remembrance, thanks and obedience.",
+   "learn": "Salah connects us to Allah at appointed times. Children learn the habit gently with family help, while personal religious obligations depend on age and circumstances.",
+   "check": {
+    "sourceQuestion": "Choose the better plan: (A) ignore every prayer until bedtime; (B) pause at prayer time with family guidance and return to the activity afterward.",
+    "question": "Choose the better plan:",
+    "options": [
+     "Ignore every prayer until bedtime",
+     "Pause at prayer time with family guidance and return to the activity afterward"
+    ],
+    "correct": 1,
+    "sourceCorrect": "B",
+    "feedback": "We can care for our responsibilities and return to play afterward. Learning Salah is a journey, not a reason to shame someone.",
+    "authoredDistractors": []
+   },
+   "action": "Ask a parent or teacher when the next prayer begins and help prepare the space.",
+   "evidence": "Qur’an 4:103; Bukhari 631",
+   "guardrail": "No promise that mastering an app equals completing Salah.",
+   "recitations": [],
+   "links": [
+    {
+     "label": "Qur’an 4:103",
+     "url": "https://quran.com/4/103"
+    },
+    {
+     "label": "Bukhari 631",
+     "url": "https://sunnah.com/bukhari:631"
+    }
+   ]
+  },
+  {
+   "id": "P2",
+   "world": "ready",
+   "title": "The Five Salah Times",
+   "scene": "On the way to school, Imaan sees the morning sky. Later she sees sunlight high above, long afternoon shadows, sunset and evening darkness. She tells Akhlaq, “Our day has different moments, and Allah has given us prayers across them.”",
+   "learn": "Fajr is before sunrise; Dhuhr after midday; Asr later in the afternoon; Maghrib just after sunset; Isha at night. Precise times depend on location and an approved calculation/teaching approach.",
+   "check": {
+    "sourceQuestion": "Match: Which Salah comes just after sunset? Fajr, Maghrib, or Isha.",
+    "question": "Which Salah comes just after sunset?",
+    "options": [
+     "Fajr",
+     "Maghrib",
+     "Isha"
+    ],
+    "correct": 1,
+    "sourceCorrect": "Maghrib",
+    "feedback": "Maghrib begins after sunset. The app should not guess its real clock time without a vetted local schedule.",
+    "authoredDistractors": []
+   },
+   "action": "Name the five prayers in order with a parent.",
+   "evidence": "Qur’an 4:103; five daily prayers: Bukhari 46",
+   "guardrail": "No inaccurate universal clock times or colored sun icons equated with legal start/end boundaries.",
+   "recitations": [],
+   "links": [
+    {
+     "label": "Qur’an 4:103",
+     "url": "https://quran.com/4/103"
+    },
+    {
+     "label": "Bukhari 46",
+     "url": "https://sunnah.com/bukhari:46"
+    }
+   ]
+  },
+  {
+   "id": "P3",
+   "world": "ready",
+   "title": "Wudu: Ready with Care",
+   "scene": "Akhlaq washes his hands quickly and wants to jump ahead. Imaan smiles: “Let us learn carefully. Water is a blessing and our actions should be thoughtful.” A parent guides them through the family’s Wudu method.",
+   "learn": "Wudu is preparation for prayer. Learn the properly taught steps, what is necessary, and how to save water without omitting required washing; details are school-specific.",
+   "check": {
+    "sourceQuestion": "Which is the best answer? (A) rush with splashes; (B) follow the teacher’s Wudu steps calmly; (C) use as much water as possible.",
+    "question": "Which is the best answer?",
+    "options": [
+     "Rush with splashes",
+     "Follow the teacher’s Wudu steps calmly",
+     "Use as much water as possible"
+    ],
+    "correct": 1,
+    "sourceCorrect": "B",
+    "feedback": "Careful cleanliness and avoiding waste belong together.",
+    "authoredDistractors": []
+   },
+   "action": "With adult support, practise the approved Wudu method once without unnecessary water waste.",
+   "evidence": "Qur’an 5:6; Bukhari 164 and Muslim 226 for Wudu reports",
+   "guardrail": "Develop a separate jurist-approved complete Wudu unit; do not imply an abbreviated quiz is legal instruction.",
+   "recitations": [],
+   "links": []
+  },
+  {
+   "id": "P4",
+   "world": "ready",
+   "title": "A Respectful Prayer Space",
+   "scene": "Before prayer, Imaan notices toys on the mat and Akhlaq notices the room is noisy. They tidy the place, check the Qiblah with a parent and make room for someone who needs to pray sitting.",
+   "learn": "Salah requires appropriate cleanliness, covering and Qiblah when able. People with genuine needs may have legally recognized accommodations. Intention is in the heart, not a compulsory invented Arabic sentence.",
+   "check": {
+    "sourceQuestion": "Which preparation is appropriate? Clear a clean place; mock someone who sits; or turn away from the Qiblah on purpose.",
+    "question": "Which preparation is appropriate?",
+    "options": [
+     "Clear a clean place",
+     "Mock someone who sits",
+     "Turn away from the Qiblah on purpose"
+    ],
+    "correct": 0,
+    "sourceCorrect": "Clear a clean place",
+    "feedback": "We prepare respectfully and never mock someone praying with an accommodation.",
+    "authoredDistractors": []
+   },
+   "action": "Prepare a clean, quiet prayer space for the next family Salah.",
+   "evidence": "Qur’an 2:144; Bukhari 1117 (praying according to ability)",
+   "guardrail": "The app must not pronounce a child’s real prayer invalid for disability.",
+   "recitations": [],
+   "links": []
+  },
+  {
+   "id": "P5",
+   "world": "ready",
+   "title": "Learn the Salah Words",
+   "scene": "Akhlaq knows how to say “Allahu Akbar” but does not know Ruku, Sujud or Tashahhud. Imaan turns these into gentle picture cards. Each card links an Arabic term to a real posture rather than a made-up dance.",
+   "learn": "Takbir begins Salah; Qiyam is standing; Ruku is bowing; Sujud is prostration; Tashahhud is sitting testimony; Taslim is the closing greeting.",
+   "check": {
+    "sourceQuestion": "Which card matches the bowing position: Ruku, Sujud or Taslim?",
+    "question": "Which card matches the bowing position?",
+    "options": [
+     "Ruku",
+     "Sujud",
+     "Taslim"
+    ],
+    "correct": 0,
+    "sourceCorrect": "Ruku",
+    "feedback": "Ruku means bowing. We practise slowly and respectfully.",
+    "authoredDistractors": []
+   },
+   "action": "Teach one Salah word and its meaning to a younger sibling or friend, if they want to learn.",
+   "evidence": "Bukhari 631; Bukhari 735; Bukhari 831",
+   "guardrail": "Movement examples must show adult-approved posture and privacy-respecting clothing.",
+   "recitations": [
+    "R01",
+    "R12"
+   ],
+   "links": [
+    {
+     "label": "Bukhari 631",
+     "url": "https://sunnah.com/bukhari:631"
+    },
+    {
+     "label": "Bukhari 735",
+     "url": "https://sunnah.com/bukhari:735"
+    },
+    {
+     "label": "Bukhari 831",
+     "url": "https://sunnah.com/bukhari:831"
+    }
+   ]
+  },
+  {
+   "id": "F1",
+   "world": "fard",
+   "title": "Begin with Takbir",
+   "scene": "Imaan stands ready for a two-rak’ah practice. Akhlaq asks whether he must whisper a long intention formula. Salaam says, “Know in your heart which prayer you are offering. Then start with the opening Takbir.”",
+   "learn": "After correct preparation and sincere intention, begin Salah with Allahu Akbar. A reported opening Du’a may follow according to the selected prayer method. Do not teach a compulsory verbal niyyah formula.",
+   "check": {
+    "sourceQuestion": "Put the first two steps in order: (A) Taslim then Takbir; (B) intention in heart then opening Takbir.",
+    "question": "Put the first two steps in order:",
+    "options": [
+     "Taslim then Takbir",
+     "Intention in heart then opening Takbir"
+    ],
+    "correct": 1,
+    "sourceCorrect": "B",
+    "feedback": "The sincere purpose comes first; Takbir marks entry into Salah.",
+    "authoredDistractors": []
+   },
+   "action": "Practise the opening Takbir once with a parent or teacher.",
+   "evidence": "Bukhari 631; Bukhari 744",
+   "guardrail": "Opening Du’a R02 is one authentic choice. Approved Hanafi Thana is a separate variant; neither is invented as mandatory for all.",
+   "recitations": [
+    "R01",
+    "R02"
+   ],
+   "links": [
+    {
+     "label": "Bukhari 631",
+     "url": "https://sunnah.com/bukhari:631"
+    },
+    {
+     "label": "Bukhari 744",
+     "url": "https://sunnah.com/bukhari:744"
+    }
+   ]
+  },
+  {
+   "id": "F2",
+   "world": "fard",
+   "title": "Al-Fatihah and Calm Recitation",
+   "scene": "Akhlaq memorized a short surah but sometimes rushes through the sounds. Imaan lets him hear a qualified reciter and points to each word. “We learn patiently,” she says, “because the words of the Qur’an deserve care.”",
+   "learn": "Al-Fatihah is central to Salah. Recitation behind an imam and additional surah details vary by school. Use the approved Qur’an audio asset and do not let recognition software issue final religious judgments.",
+   "check": {
+    "sourceQuestion": "When learning Al-Fatihah, should we (A) make up a word if forgotten or (B) pause and learn the exact word with a teacher?",
+    "question": "When learning Al-Fatihah, what should we do?",
+    "options": [
+     "Make up a word if forgotten",
+     "Pause and learn the exact word with a teacher"
+    ],
+    "correct": 1,
+    "sourceCorrect": "B",
+    "feedback": "Qur’anic words must be preserved. It is good to ask for help.",
+    "authoredDistractors": []
+   },
+   "action": "Listen to the first three verses of Al-Fatihah with an adult and repeat gently.",
+   "evidence": "Bukhari 756; Qur’an 1:1–7",
+   "guardrail": "Full approved 7-ayah text linked in addendum; guard against incorrect surah/ayah boundaries.",
+   "recitations": [
+    "FATIHA"
+   ],
+   "links": []
+  },
+  {
+   "id": "F3",
+   "world": "fard",
+   "title": "Ruku and Rising",
+   "scene": "When Akhlaq tries to finish the bow in a second, Imaan says, “Salah needs calm movements.” He learns to say Subhana Rabbiyal Azim in Ruku and the narrated praises when rising.",
+   "learn": "A rak’ah includes Ruku and standing after Ruku. Use the approved remembrance and do not rush through required stillness. Raf‘ al-Yadayn is presented neutrally according to the guardian-selected teaching method.",
+   "check": {
+    "sourceQuestion": "Arrange: bow → stand up calmly → first prostration. What follows Ruku directly?",
+    "question": "Arrange: bow → stand up calmly → first prostration. What follows Ruku directly?",
+    "options": [
+     "Stand up calmly",
+     "First prostration"
+    ],
+    "correct": 0,
+    "sourceCorrect": "Stand up calmly",
+    "feedback": "Standing straight after Ruku matters; we do not skip the pause.",
+    "authoredDistractors": []
+   },
+   "action": "With adult guidance, practise Ruku and standing up calmly during one practice sequence.",
+   "evidence": "Bukhari 735; Abu Dawud 871",
+   "guardrail": "Do not grade hand raising as right/wrong globally; variant must follow selected Fiqh profile.",
+   "recitations": [
+    "R03",
+    "R04",
+    "R05"
+   ],
+   "links": [
+    {
+     "label": "Bukhari 735",
+     "url": "https://sunnah.com/bukhari:735"
+    },
+    {
+     "label": "Abu Dawud 871",
+     "url": "https://sunnah.com/abudawud:871"
+    }
+   ]
+  },
+  {
+   "id": "F4",
+   "world": "fard",
+   "title": "The Two Sujuds",
+   "scene": "Akhlaq places a picture of a sitting person after one prostration but forgets the second. Imaan draws a gentle sequence: first Sujud, sitting, second Sujud. She reminds him to remain calm and not look around.",
+   "learn": "Each rak’ah contains two Sujuds with sitting between them. Learn the words for prostration and the simple supplication for the sitting, with verified variants available.",
+   "check": {
+    "sourceQuestion": "Fill the gap: Sujud 1 → ___ → Sujud 2.",
+    "question": "Fill the gap: Sujud 1 → ___ → Sujud 2.",
+    "options": [
+     "Sit between them",
+     "Ruku"
+    ],
+    "correct": 0,
+    "sourceCorrect": "Sit between them",
+    "feedback": "There is a sitting between the two prostrations.",
+    "authoredDistractors": [
+     "Ruku"
+    ]
+   },
+   "action": "Practise the two-Sujud sequence under an adult’s supervision, at a comfortable pace.",
+   "evidence": "Abu Dawud 871; Abu Dawud 874",
+   "guardrail": "Mobility adjustments require a jurist-reviewed alternative sequence; no need for camera checks.",
+   "recitations": [
+    "R06",
+    "R07"
+   ],
+   "links": [
+    {
+     "label": "Abu Dawud 871",
+     "url": "https://sunnah.com/abudawud:871"
+    },
+    {
+     "label": "Abu Dawud 874",
+     "url": "https://sunnah.com/abudawud:874"
+    }
+   ]
+  },
+  {
+   "id": "F5",
+   "world": "fard",
+   "title": "Tashahhud to Salam",
+   "scene": "At the end of a practice Salah, Akhlaq tries to say Salam immediately. Imaan remembers the sitting words learned with Dadi Jaan. She shows him the Tashahhud and Salawat cards.",
+   "learn": "In the final sitting learn the selected Tashahhud, blessings upon the Prophet ﷺ, and where appropriate a sourced Du’a, before concluding with Taslim. Some details and variants differ.",
+   "check": {
+    "sourceQuestion": "Which comes before closing Taslim in the two-rak’ah guided path: Tashahhud or a new Ruku?",
+    "question": "Which comes before closing Taslim in the two-rak’ah guided path?",
+    "options": [
+     "Tashahhud",
+     "A new Ruku"
+    ],
+    "correct": 0,
+    "sourceCorrect": "Tashahhud",
+    "feedback": "The final sitting is a place for remembrance and supplication.",
+    "authoredDistractors": []
+   },
+   "action": "Learn the opening phrase of the Tashahhud with a qualified teacher.",
+   "evidence": "Bukhari 831; Bukhari 3370",
+   "guardrail": "Use complete approved variant R08/R09. Do not splice different Tashahhud texts.",
+   "recitations": [
+    "R08",
+    "R09",
+    "R12"
+   ],
+   "links": [
+    {
+     "label": "Bukhari 831",
+     "url": "https://sunnah.com/bukhari:831"
+    },
+    {
+     "label": "Bukhari 3370",
+     "url": "https://sunnah.com/bukhari:3370"
+    }
+   ]
+  },
+  {
+   "id": "F6",
+   "world": "fard",
+   "title": "My First Complete Two Rak’ahs",
+   "scene": "The family prepares for a practice session. Akhlaq now knows the pieces, but worries about forgetting. Salaam says, “We are practising together. Mistakes in this learning exercise help us see what to learn next.”",
+   "learn": "Combine two complete rak’ahs: preparation, Takbir, appropriate standing recitations, Ruku, rising, two Sujuds, second rak’ah, final sitting and Taslim. This is a learning walkthrough, not an automated validity ruling.",
+   "check": {
+    "sourceQuestion": "At the end of the first rak’ah of a two-rak’ah Salah, do we finish with Taslim or stand for rak’ah two?",
+    "question": "At the end of the first rak’ah of a two-rak’ah Salah, what do we do?",
+    "options": [
+     "Finish with Taslim",
+     "Stand for rak’ah two"
+    ],
+    "correct": 1,
+    "sourceCorrect": "Stand for rak’ah two",
+    "feedback": "Two rak’ahs means the full sequence is completed twice before the final sitting and Taslim.",
+    "authoredDistractors": []
+   },
+   "action": "With a parent or teacher, practise the entire two-rak’ah sequence once without rushing.",
+   "evidence": "Bukhari 631; Bukhari 757; Bukhari 831",
+   "guardrail": "Specific details of which words and gestures appear in each transition require method ID.",
+   "recitations": [
+    "R10",
+    "R11"
+   ],
+   "table": {
+    "title": "Two-rak’ah guided model",
+    "rows": [
+     [
+      "State",
+      "First rak’ah",
+      "Second rak’ah"
+     ],
+     [
+      "Preparation",
+      "Wudu, Qiblah, covering, intention.",
+      "—"
+     ],
+     [
+      "Opening",
+      "Takbir; approved optional opening remembrance.",
+      "Stand following the preceding Sujud."
+     ],
+     [
+      "Qiyam / recitation",
+      "Al-Fatihah; additional Qur’an as applicable.",
+      "Al-Fatihah; additional Qur’an as applicable."
+     ],
+     [
+      "Ruku",
+      "Bow with Takbir and approved Ruku Dhikr.",
+      "Repeat calmly."
+     ],
+     [
+      "I‘tidal",
+      "Rise, then praise Allah as taught.",
+      "Repeat calmly."
+     ],
+     [
+      "Sujud 1 → sitting → Sujud 2",
+      "Two prostrations and pause between.",
+      "Two prostrations and pause between."
+     ],
+     [
+      "Sitting",
+      "After rak’ah 1: rise for rak’ah 2.",
+      "Final Tashahhud, Salawat and approved Du’a."
+     ],
+     [
+      "Finish",
+      "—",
+      "Taslim according to selected profile."
+     ]
+    ],
+    "note": "Child-facing narration: “We stand with respect and begin with Allahu Akbar. We recite the Qur’an carefully, bow, rise calmly, prostrate, sit and prostrate again. That is one rak’ah. We rise for the second, repeat the movements, then sit for Tashahhud, send blessings upon the Prophet ﷺ and finish with Salam.”",
+    "source": "Part II B2"
+   },
+   "links": [
+    {
+     "label": "Bukhari 631",
+     "url": "https://sunnah.com/bukhari:631"
+    },
+    {
+     "label": "Bukhari 831",
+     "url": "https://sunnah.com/bukhari:831"
+    }
+   ]
+  },
+  {
+   "id": "F7",
+   "world": "fard",
+   "title": "The Three- and Four-Rak’ah Builder",
+   "scene": "Imaan and Akhlaq place Fajr, Maghrib and Dhuhr cards on a board. The first has two rak’ahs, the second three, and the third four. When they finish, Akhlaq sees why the first and final sitting cannot be confused.",
+   "learn": "Maghrib Fard has three rak’ahs. Dhuhr, Asr and Isha Fard have four; Fajr has two. For 3 and 4, the first sitting follows rak’ah two and the last sitting occurs after the last rak’ah; recitation details follow approved school method.",
+   "check": {
+    "sourceQuestion": "Which Fard Salah has three rak’ahs: Maghrib, Fajr or Dhuhr?",
+    "question": "Which Fard Salah has three rak’ahs?",
+    "options": [
+     "Maghrib",
+     "Fajr",
+     "Dhuhr"
+    ],
+    "correct": 0,
+    "sourceCorrect": "Maghrib",
+    "feedback": "Maghrib is the three-rak’ah obligatory prayer.",
+    "authoredDistractors": []
+   },
+   "action": "Explain the Fard rak’ah count of all five prayers to a parent.",
+   "evidence": "Bukhari 631; established Fard counts from Prophetic practice",
+   "guardrail": "Avoid false universal claims about exact third/fourth-rak’ah recitation for followers and imams.",
+   "recitations": [
+    "R13"
+   ],
+   "table": {
+    "title": "Fard rak’ahs",
+    "rows": [
+     [
+      "Fard prayer",
+      "Fard rak’ahs",
+      "Default memorization layout"
+     ],
+     [
+      "Fajr",
+      "2",
+      "Two rak’ahs → final sitting → Salam"
+     ],
+     [
+      "Dhuhr",
+      "4",
+      "Two rak’ahs → first Tashahhud → two more → final sitting → Salam"
+     ],
+     [
+      "Asr",
+      "4",
+      "Same four-rak’ah structure"
+     ],
+     [
+      "Maghrib",
+      "3",
+      "Two rak’ahs → first Tashahhud → one more → final sitting → Salam"
+     ],
+     [
+      "Isha",
+      "4",
+      "Same four-rak’ah structure"
+     ]
+    ],
+    "source": "Part I §7"
+   },
+   "links": [
+    {
+     "label": "Bukhari 631",
+     "url": "https://sunnah.com/bukhari:631"
+    }
+   ]
+  },
+  {
+   "id": "F8",
+   "world": "fard",
+   "title": "Salah with Others",
+   "scene": "At the mosque, Akhlaq is excited and begins talking loudly while another family is praying. Imaan whispers kindly, “We can move softly and respect those who are remembering Allah.”",
+   "learn": "Learn congregational attention, following the imam at the proper time, respectful rows and suitable quietness. Specific rules on reciting behind the imam follow the approved local teaching method.",
+   "check": {
+    "sourceQuestion": "If someone is praying nearby, what is kind: make a loud joke or lower your voice and give them space?",
+    "question": "If someone is praying nearby, what is kind?",
+    "options": [
+     "Make a loud joke",
+     "Lower your voice and give them space"
+    ],
+    "correct": 1,
+    "sourceCorrect": "Lower your voice",
+    "feedback": "A respectful prayer space helps everyone.",
+    "authoredDistractors": []
+   },
+   "action": "Help keep a mosque or home prayer area calm, tidy and welcoming.",
+   "evidence": "Bukhari 722; Bukhari 631",
+   "guardrail": "Children need supervision and warm correction; no public embarrassment.",
+   "recitations": [],
+   "links": [
+    {
+     "label": "Bukhari 631",
+     "url": "https://sunnah.com/bukhari:631"
+    }
+   ]
+  },
+  {
+   "id": "S1",
+   "world": "sunnah",
+   "title": "Fard and Sunnah: What Changes?",
+   "scene": "Akhlaq notices his father praying two additional rak’ahs. He asks whether they replace the prayer already offered. Salaam explains, “Fard and Sunnah are not the same. Extra worship builds our love of Allah, but we never treat it as a substitute.”",
+   "learn": "Define Fard, Sunnah Rawatib and other Nafl in age-appropriate terms; teach the value of steady voluntary worship, without creating guilt when a child is learning.",
+   "check": {
+    "sourceQuestion": "What should come first when time is limited: making sure an obligatory prayer is attended to or treating optional prayer as a replacement?",
+    "question": "What should come first when time is limited?",
+    "options": [
+     "Making sure an obligatory prayer is attended to",
+     "Treating optional prayer as a replacement"
+    ],
+    "correct": 0,
+    "sourceCorrect": "The obligatory prayer",
+    "feedback": "We honour what is required and learn extra worship gradually.",
+    "authoredDistractors": []
+   },
+   "action": "Ask a guardian to name one Sunnah prayer associated with a Fard prayer.",
+   "evidence": "Muslim 728a",
+   "guardrail": "A 12-rak’ah Rawatib reward belongs to the reported pattern; do not award imaginary in-app Paradise property.",
+   "recitations": [],
+   "links": [
+    {
+     "label": "Muslim 728a",
+     "url": "https://sunnah.com/muslim:728a"
+    }
+   ]
+  },
+  {
+   "id": "S2",
+   "world": "sunnah",
+   "title": "Two Sunnah Rak’ahs Before Fajr",
+   "scene": "Before dawn, Imaan sees her mother preparing for Fajr and notices two Sunnah rak’ahs. She learns they come before the obligatory Fajr prayer and share the familiar two-rak’ah pattern.",
+   "learn": "Learn the established special importance of the two Sunnah rak’ahs before Fajr; keep worship within an age-appropriate routine with family guidance.",
+   "check": {
+    "sourceQuestion": "Which Fajr prayer comes first in the usual home schedule: two Sunnah rak’ahs or the two Fard rak’ahs?",
+    "question": "Which Fajr prayer comes first in the usual home schedule?",
+    "options": [
+     "Two Sunnah rak’ahs",
+     "The two Fard rak’ahs"
+    ],
+    "correct": 0,
+    "sourceCorrect": "Two Sunnah rak’ahs",
+    "feedback": "The Fajr Sunnah comes before the obligatory Fajr prayer.",
+    "authoredDistractors": []
+   },
+   "action": "With an adult, identify when the Sunnah of Fajr is offered.",
+   "evidence": "Muslim 725a",
+   "guardrail": "Do not wake young children compulsively; teach by observation and voluntary practice.",
+   "recitations": [],
+   "links": [
+    {
+     "label": "Muslim 725a",
+     "url": "https://sunnah.com/muslim:725a"
+    }
+   ]
+  },
+  {
+   "id": "S3",
+   "world": "sunnah",
+   "title": "Sunnah Before and After Other Prayers",
+   "scene": "Akhlaq arranges a daily Salah board and spots extra Sunnah opportunities around Dhuhr, Maghrib and Isha. He notices that descriptions of ten and twelve regular rak’ahs come from different narrations.",
+   "learn": "Present one teacher-approved Rawatib pattern, with an expandable comparison card for authenticated alternatives. Common 12-rak’ah set: 2 before Fajr, 4 before Dhuhr, 2 after Dhuhr, 2 after Maghrib, 2 after Isha.",
+   "check": {
+    "sourceQuestion": "In the cited twelve-rak’ah plan, how many are placed after Maghrib: two or six?",
+    "question": "In the cited twelve-rak’ah plan, how many are placed after Maghrib?",
+    "options": [
+     "Two",
+     "Six"
+    ],
+    "correct": 0,
+    "sourceCorrect": "Two",
+    "feedback": "Two regular Sunnah rak’ahs are mentioned after Maghrib in this pattern.",
+    "authoredDistractors": []
+   },
+   "action": "With a parent, place five Sunnah time cards around their associated Fard prayers.",
+   "evidence": "Muslim 728a; Tirmidhi 415",
+   "guardrail": "Do not present one Rawatib arrangement as a universal legal verdict for all schools.",
+   "recitations": [],
+   "table": {
+    "title": "Sunnah/Rawātib teaching paths",
+    "rows": [
+     [
+      "Type",
+      "Common teaching sequence",
+      "Evidence / caution"
+     ],
+     [
+      "2 before Fajr",
+      "Two-rak’ah Sunnah before Fard Fajr",
+      "Muslim 725a; strong virtue; do not overwhelm preschoolers"
+     ],
+     [
+      "Dhuhr regular Sunnah",
+      "Often 4 before and 2 after in a twelve-rak’ah plan",
+      "Muslim 728a; exact configuration variant-controlled"
+     ],
+     [
+      "Maghrib regular Sunnah",
+      "Two after Fard Maghrib",
+      "Bukhari 1180; Muslim 728"
+     ],
+     [
+      "Isha regular Sunnah",
+      "Two after Fard Isha",
+      "Bukhari 1180; Muslim 728"
+     ],
+     [
+      "Additional Nafl",
+      "Two or more as taught by school and context",
+      "Not a substitute for any Fard prayer"
+     ]
+    ],
+    "note": "Narrator: “The Fard prayers are the foundation. Sunnah prayers are beautiful opportunities to worship Allah more. Let us begin with one manageable habit and grow with care.”",
+    "source": "Part II B5"
+   },
+   "links": [
+    {
+     "label": "Muslim 728a",
+     "url": "https://sunnah.com/muslim:728a"
+    }
+   ]
+  },
+  {
+   "id": "S4",
+   "world": "sunnah",
+   "title": "A Gentle Sunnah Habit",
+   "scene": "Akhlaq wants to do every optional prayer immediately and becomes frustrated. Imaan suggests, “Choose one habit and learn it well. Allah loves sincere worship, not rushing through a checklist.”",
+   "learn": "Build sustainable voluntary practice. No streak penalties, compulsion, fake obligation or rivalry between children.",
+   "check": {
+    "sourceQuestion": "Which habit is wiser: one carefully learned Sunnah with family support or many rushed exercises just to earn points?",
+    "question": "Which habit is wiser?",
+    "options": [
+     "One carefully learned Sunnah with family support",
+     "Many rushed exercises just to earn points"
+    ],
+    "correct": 0,
+    "sourceCorrect": "One carefully learned Sunnah",
+    "feedback": "Small, steady steps can be meaningful.",
+    "authoredDistractors": []
+   },
+   "action": "Choose one suitable Sunnah habit to learn with a caregiver this week.",
+   "evidence": "Bukhari 6464 (consistent deeds)",
+   "guardrail": "Do not confuse devotional promise with app medals.",
+   "recitations": [],
+   "links": []
+  },
+  {
+   "id": "W1",
+   "world": "witr",
+   "title": "Why Witr Is Special",
+   "scene": "After Isha, Imaan sees a Witr reminder. Akhlaq asks why the prayer is called Witr. They learn that it ends with an odd number of rak’ahs and has a special place in night worship.",
+   "learn": "Witr is performed after Isha and before Fajr. Recognized Sunni schools differ in its legal classification and format; Hanafi practice commonly teaches three connected rak’ahs.",
+   "check": {
+    "sourceQuestion": "Is Witr associated with the end of night worship or the middle of Dhuhr Fard?",
+    "question": "Is Witr associated with…",
+    "options": [
+     "The end of night worship",
+     "The middle of Dhuhr Fard"
+    ],
+    "correct": 0,
+    "sourceCorrect": "The end of night worship",
+    "feedback": "Witr is linked to night worship, after Isha.",
+    "authoredDistractors": []
+   },
+   "action": "Ask a parent when your family offers Witr.",
+   "evidence": "Muslim 749a",
+   "guardrail": "Hanafi wajib vs emphasized Sunnah elsewhere; profile must make path coherent.",
+   "recitations": [],
+   "links": [
+    {
+     "label": "Muslim 749a",
+     "url": "https://sunnah.com/muslim:749a"
+    }
+   ]
+  },
+  {
+   "id": "W2",
+   "world": "witr",
+   "title": "Build My Witr Path",
+   "scene": "Akhlaq sees two prayer diagrams in the app. One shows three connected rak’ahs; another shows two followed by one. Imaan says, “These are school-approved teaching paths. We learn the one our family follows and respect the other.”",
+   "learn": "For Hanafi: three connected rak’ahs, first sitting after rak’ah two, final sitting after three, Qunut commonly before Ruku in third with an additional Takbir. Alternative: 2+1 or other coherent jurist-approved forms with Qunut placement as approved.",
+   "check": {
+    "sourceQuestion": "Which is safe for the app: mix random steps from both diagrams, or choose one complete approved method?",
+    "question": "Which is safe for the app?",
+    "options": [
+     "Mix random steps from both diagrams",
+     "Choose one complete approved method"
+    ],
+    "correct": 1,
+    "sourceCorrect": "Choose one complete approved method",
+    "feedback": "Recognized differences should never become a confusing hybrid prayer.",
+    "authoredDistractors": []
+   },
+   "action": "View your family’s Witr sequence with a parent or teacher.",
+   "evidence": "Muslim 749a; Tirmidhi 464",
+   "guardrail": "Method switching may only happen on guardian settings; no child-made hybrid.",
+   "recitations": [],
+   "table": {
+    "title": "Witr: two complete alternatives",
+    "rows": [
+     [
+      "Feature",
+      "Hanafi teaching profile",
+      "Other approved 2+1 teaching profile"
+     ],
+     [
+      "When",
+      "After Isha before Fajr",
+      "After Isha before Fajr"
+     ],
+     [
+      "Rak’ahs",
+      "Three connected rak’ahs",
+      "Two rak’ahs with Taslim, followed by one separate rak’ah"
+     ],
+     [
+      "First sitting",
+      "After two rak’ahs",
+      "Final sitting after two then Taslim"
+     ],
+     [
+      "Qunut placement",
+      "Commonly before Ruku in third, with additional Takbir",
+      "Profile may place Qunut after Ruku or follow another authorized variant"
+     ],
+     [
+      "Final Taslim",
+      "After connected third rak’ah",
+      "At end of the separate one-rak’ah Witr"
+     ],
+     [
+      "Legal status",
+      "Wajib in Hanafi law",
+      "Emphasized Sunnah in other Sunni schools generally"
+     ]
+    ],
+    "note": "Default wording notice: “Your family or teacher may follow a different established school of prayer. We will teach one complete method carefully. We respect Muslims who learn another recognized method.”",
+    "source": "Part II B6"
+   },
+   "links": [
+    {
+     "label": "Muslim 749a",
+     "url": "https://sunnah.com/muslim:749a"
+    },
+    {
+     "label": "Tirmidhi 464",
+     "url": "https://sunnah.com/tirmidhi:464"
+    }
+   ]
+  },
+  {
+   "id": "W3",
+   "world": "witr",
+   "title": "My Qunut Supplication",
+   "scene": "Imaan listens to the words Allahumma ihdini fiman hadayt in small segments. Akhlaq first learns only the phrase asking Allah for guidance, then returns the next day to continue.",
+   "learn": "The taught Qunut reported from al-Hasan ibn Ali is a source-linked option for Witr; a standard Hanafi Qunut selection requires its own juristic source and audio. Placement differs; the app must not force this exact wording in every method.",
+   "check": {
+    "sourceQuestion": "What is the opening meaning of Allahumma ihdini: “O Allah, guide me” or “I am already perfect”?",
+    "question": "What is the opening meaning of Allahumma ihdini?",
+    "options": [
+     "“O Allah, guide me”",
+     "“I am already perfect”"
+    ],
+    "correct": 0,
+    "sourceCorrect": "O Allah, guide me",
+    "feedback": "We ask Allah for guidance because we all need help.",
+    "authoredDistractors": []
+   },
+   "action": "Memorize one Qunut phrase and explain its meaning to a parent.",
+   "evidence": "Tirmidhi 464",
+   "guardrail": "Full Arabic R14 is in Part I; count is study repetitions, not prescribed Qunut repetition.",
+   "recitations": [
+    "R14"
+   ],
+   "links": [
+    {
+     "label": "Tirmidhi 464",
+     "url": "https://sunnah.com/tirmidhi:464"
+    }
+   ]
+  },
+  {
+   "id": "T1",
+   "world": "tahajjud",
+   "title": "The Quiet Hours",
+   "scene": "Akhlaq wakes briefly at night and hears his father praying softly. He wonders whether children must lose sleep to earn achievements. Imaan explains that Tahajjud is voluntary and precious, but health and necessary rest matter.",
+   "learn": "Night prayer after Isha and before Fajr is encouraged; Tahajjud is often used for prayer after sleeping. No child should be pushed into damaging sleep or missing Fajr.",
+   "check": {
+    "sourceQuestion": "Which is better: force a tired child awake every night or let families choose gentle, suitable practice?",
+    "question": "Which is better?",
+    "options": [
+     "Force a tired child awake every night",
+     "Let families choose gentle, suitable practice"
+    ],
+    "correct": 1,
+    "sourceCorrect": "Let families choose",
+    "feedback": "The app never makes optional late-night worship a competition.",
+    "authoredDistractors": []
+   },
+   "action": "Before sleeping, say a short sincere Du’a with a parent.",
+   "evidence": "Qur’an 17:79; Muslim 1163a",
+   "guardrail": "Night notifications disabled for younger learners by default.",
+   "recitations": [],
+   "links": [
+    {
+     "label": "Qur’an 17:79",
+     "url": "https://quran.com/17/79"
+    },
+    {
+     "label": "Muslim 1163a",
+     "url": "https://sunnah.com/muslim:1163a"
+    }
+   ]
+  },
+  {
+   "id": "T2",
+   "world": "tahajjud",
+   "title": "A Gentle Two-Rak’ah Night Prayer",
+   "scene": "When Imaan and Akhlaq have a weekend routine with family, they see a demonstration of two quiet rak’ahs at night. There is no timer, no leaderboard, and no demand to stay awake for hours.",
+   "learn": "Tahajjud/Qiyam commonly proceeds two rak’ahs at a time, with Witr handled according to approved family guidance. Longer recitation is optional and not a prerequisite for children.",
+   "check": {
+    "sourceQuestion": "A simple night-prayer practice can begin with how many rak’ahs: two or eleven compulsory?",
+    "question": "A simple night-prayer practice can begin with how many rak’ahs?",
+    "options": [
+     "Two",
+     "Eleven compulsory"
+    ],
+    "correct": 0,
+    "sourceCorrect": "Two",
+    "feedback": "Two mindful rak’ahs can be a manageable way to learn.",
+    "authoredDistractors": []
+   },
+   "action": "If suitable, discuss a parent-guided occasional night prayer; otherwise revise its two-rak’ah sequence in daylight.",
+   "evidence": "Muslim 749a",
+   "guardrail": "Never promise special night worship completed because a simulation was completed.",
+   "recitations": [],
+   "links": [
+    {
+     "label": "Muslim 749a",
+     "url": "https://sunnah.com/muslim:749a"
+    }
+   ]
+  },
+  {
+   "id": "T3",
+   "world": "tahajjud",
+   "title": "My Night Du’a",
+   "scene": "Akhlaq says, “There are so many words in the night-prayer supplication!” Imaan shows him a small phrase and meaning. He learns that it begins with praise and trust, and that advanced sections can wait.",
+   "learn": "Teach a long authenticated Tahajjud supplication in short segments, with full original available. Young children may listen only; older children memorize across weeks.",
+   "check": {
+    "sourceQuestion": "The long night Du’a teaches praise and trust. Should we preserve every Arabic word or simplify the Arabic itself?",
+    "question": "The long night Du’a teaches praise and trust. What should we do?",
+    "options": [
+     "Preserve every Arabic word",
+     "Simplify the Arabic itself"
+    ],
+    "correct": 0,
+    "sourceCorrect": "Preserve every Arabic word",
+    "feedback": "We can simplify explanation, never rewrite the sacred source.",
+    "authoredDistractors": []
+   },
+   "action": "Learn one praise phrase from the Tahajjud Du’a with an adult.",
+   "evidence": "Bukhari 1120",
+   "guardrail": "R15 long wording: verify exact selected report variant and keep complete source accessible.",
+   "recitations": [
+    "R15"
+   ],
+   "links": [
+    {
+     "label": "Bukhari 1120",
+     "url": "https://sunnah.com/bukhari:1120"
+    }
+   ]
+  },
+  {
+   "id": "J1",
+   "world": "janazah",
+   "title": "What Is Janazah?",
+   "scene": "A family in Amanpur has lost a relative. Imaan notices their sadness and asks what they need. Dadi Jaan explains that we treat grief gently and pray for the deceased, without jokes or frightening pictures.",
+   "learn": "Janazah is a communal obligation in Sunni law and an act of compassion. Children need age-sensitive support, simple language, and parental discretion about participation.",
+   "check": {
+    "sourceQuestion": "If a classmate is grieving, do we joke about it or offer kind, quiet support?",
+    "question": "If a classmate is grieving, what do we do?",
+    "options": [
+     "Joke about it",
+     "Offer kind, quiet support"
+    ],
+    "correct": 1,
+    "sourceCorrect": "Offer kind, quiet support",
+    "feedback": "We do not need perfect words to be gentle and caring.",
+    "authoredDistractors": []
+   },
+   "action": "With a parent, make a general Du’a for deceased Muslims.",
+   "evidence": "Bukhari 1333; Muslim 963d",
+   "guardrail": "No pretend corpse game, grief score or scary depictions.",
+   "recitations": [],
+   "links": [
+    {
+     "label": "Bukhari 1333",
+     "url": "https://sunnah.com/bukhari:1333"
+    },
+    {
+     "label": "Muslim 963d",
+     "url": "https://sunnah.com/muslim:963d"
+    }
+   ]
+  },
+  {
+   "id": "J2",
+   "world": "janazah",
+   "title": "Four Takbirs, No Ruku",
+   "scene": "Akhlaq sees a funeral-prayer learning diagram without bowing or prostration and asks if something is missing. His teacher explains that Janazah has a distinct structure: standing, Takbirs, appropriate recitations, Du’a and Salam.",
+   "learn": "A common Janazah format has four Takbirs with standing throughout, no Ruku or Sujud. After the first, school-specific opening (Hanafi Thana vs al-Fatihah for other paths); after second Salawat; after third Du’a; after fourth closing Taslim.",
+   "check": {
+    "sourceQuestion": "Which movement does not belong to the Janazah prayer: Ruku or standing?",
+    "question": "Which movement does not belong to the Janazah prayer?",
+    "options": [
+     "Ruku",
+     "Standing"
+    ],
+    "correct": 0,
+    "sourceCorrect": "Ruku",
+    "feedback": "Janazah does not use Ruku or Sujud.",
+    "authoredDistractors": []
+   },
+   "action": "View a dignified four-Takbir timeline with a parent or teacher.",
+   "evidence": "Bukhari 1333; Muslim 963d",
+   "guardrail": "School controls first Takbir recitation and other detailed choices. Avoid claims of one universal path.",
+   "recitations": [],
+   "table": {
+    "title": "Janazah learning sequence",
+    "rows": [
+     [
+      "After Takbir",
+      "Common Hanafi learning path",
+      "Other recognized teaching path example"
+     ],
+     [
+      "First",
+      "Stand, first Takbir, opening Thana",
+      "Stand, first Takbir, al-Fatihah"
+     ],
+     [
+      "Second",
+      "Second Takbir, send Salawat upon the Prophet ﷺ",
+      "Second Takbir, send Salawat"
+     ],
+     [
+      "Third",
+      "Third Takbir, Du’a for deceased",
+      "Third Takbir, Du’a for deceased"
+     ],
+     [
+      "Fourth",
+      "Fourth Takbir, Taslim as taught by local scholar",
+      "Fourth Takbir, finish with approved Taslim method"
+     ]
+    ],
+    "note": "No Ruku or Sujud appears in this prayer. Text variants about a deceased man, woman, child or group are separate scholar-reviewed assets, not automatic grammatical replacements. Offer family opt-in and emotional safeguarding.",
+    "source": "Part II B8"
+   },
+   "links": [
+    {
+     "label": "Bukhari 1333",
+     "url": "https://sunnah.com/bukhari:1333"
+    },
+    {
+     "label": "Muslim 963d",
+     "url": "https://sunnah.com/muslim:963d"
+    }
+   ]
+  },
+  {
+   "id": "J3",
+   "world": "janazah",
+   "title": "Making Du’a for the Deceased",
+   "scene": "Imaan learns the phrase “Allahummaghfir lahu warhamhu” and its meaning. She realizes that praying for others is an act of mercy, and that different grammatical forms may be needed for different persons.",
+   "learn": "Teach the authentic longer Janazah Du’a from Muslim 963d for older students. Never blindly swap pronouns for women, children or groups; use separately approved assets.",
+   "check": {
+    "sourceQuestion": "The opening words ask Allah for (A) forgiveness and mercy or (B) worldly prizes.",
+    "question": "The opening words ask Allah for…",
+    "options": [
+     "Forgiveness and mercy",
+     "Worldly prizes"
+    ],
+    "correct": 0,
+    "sourceCorrect": "Forgiveness and mercy",
+    "feedback": "The Du’a asks Allah to forgive and show mercy.",
+    "authoredDistractors": []
+   },
+   "action": "Make a respectful Du’a for deceased Muslims with your family.",
+   "evidence": "Muslim 963d",
+   "guardrail": "A sensitive learning screen; no character acting as a deceased body.",
+   "recitations": [
+    "R16"
+   ],
+   "links": [
+    {
+     "label": "Muslim 963d",
+     "url": "https://sunnah.com/muslim:963d"
+    }
+   ]
+  },
+  {
+   "id": "I1",
+   "world": "istisqa",
+   "title": "When Rain Is Needed",
+   "scene": "In Amanpur, a long dry period has made the garden difficult to care for. Imaan sees water being wasted and reminds Akhlaq that we can ask Allah for beneficial rain while also using water responsibly.",
+   "learn": "Teach the purpose of Istisqa during drought, the importance of Du’a, and practical water conservation. Do not suggest every rainless afternoon requires a community ritual.",
+   "check": {
+    "sourceQuestion": "During a drought, what can we do? Pray and conserve water, or waste water because rain will come.",
+    "question": "During a drought, what can we do?",
+    "options": [
+     "Pray and conserve water",
+     "Waste water because rain will come"
+    ],
+    "correct": 0,
+    "sourceCorrect": "Pray and conserve water",
+    "feedback": "Making Du’a and taking responsibility go together.",
+    "authoredDistractors": []
+   },
+   "action": "Reduce unnecessary water use once today while completing required hygiene.",
+   "evidence": "Muslim 894b; Bukhari 1013",
+   "guardrail": "Teach water hygiene carefully; never discourage appropriate Wudu or drinking water.",
+   "recitations": [],
+   "links": [
+    {
+     "label": "Bukhari 1013",
+     "url": "https://sunnah.com/bukhari:1013"
+    },
+    {
+     "label": "Muslim 894b",
+     "url": "https://sunnah.com/muslim:894b"
+    }
+   ]
+  },
+  {
+   "id": "I2",
+   "world": "istisqa",
+   "title": "The Community Asks for Rain",
+   "scene": "Akhlaq watches a respectful learning video of a community gathering for Istisqa. Their teacher explains that the Prophet ﷺ prayed two rak’ahs for rain, while the order of related address, Du’a, extra Takbirs and mantle gesture differs in juristic teaching.",
+   "learn": "Follow a vetted two-rak’ah Istisqa method with imam-led instruction; show sourced rain Du’a. No generic click-to-make-rain effect: whether rain falls is not controlled by app actions.",
+   "check": {
+    "sourceQuestion": "Which statement is correct? “The app makes rain happen” or “We ask Allah for rain and care for water responsibly.”",
+    "question": "Which statement is correct?",
+    "options": [
+     "“The app makes rain happen”",
+     "“We ask Allah for rain and care for water responsibly.”"
+    ],
+    "correct": 1,
+    "sourceCorrect": "We ask Allah for rain and care for water responsibly",
+    "feedback": "The prayer is a supplication, not a weather-control game.",
+    "authoredDistractors": []
+   },
+   "action": "With a parent, learn “Allahumma-sqina” and practise one water-saving habit.",
+   "evidence": "Muslim 894a–d; Bukhari 1013",
+   "guardrail": "Variant profile: sermon placement, extra Takbirs, mantle gesture and conditions for use.",
+   "recitations": [
+    "R17"
+   ],
+   "links": [
+    {
+     "label": "Bukhari 1013",
+     "url": "https://sunnah.com/bukhari:1013"
+    }
+   ]
+  },
+  {
+   "id": "B1",
+   "world": "tasbih",
+   "title": "The Tasbih Formula",
+   "scene": "Akhlaq hears a four-part phrase of remembrance and learns its meaning. The adult lesson note explains that a special prayer called Salat al-Tasbih is reported, but scholars differ over the narration.",
+   "learn": "The Tasbih formula is meaningful Dhikr regardless of the debate about this special prayer. For Salat al-Tasbih, preserve a prominent evidence-dispute disclaimer and optional advanced access.",
+   "check": {
+    "sourceQuestion": "Which is true? “Every scholar agrees on Salat al-Tasbih” or “Scholars differ about its report and recommendation.”",
+    "question": "Which is true?",
+    "options": [
+     "“Every scholar agrees on Salat al-Tasbih”",
+     "“Scholars differ about its report and recommendation.”"
+    ],
+    "correct": 1,
+    "sourceCorrect": "Scholars differ about its report and recommendation",
+    "feedback": "Respecting scholarly disagreement is part of learning.",
+    "authoredDistractors": []
+   },
+   "action": "Learn the four parts of the Tasbih formula and their meanings, without a special fixed daily count.",
+   "evidence": "Abu Dawud 1297 (disputed status)",
+   "guardrail": "Use age/guardian gate; no app lock if this world is skipped.",
+   "recitations": [
+    "R18"
+   ],
+   "links": [
+    {
+     "label": "Abu Dawud 1297",
+     "url": "https://sunnah.com/abudawud:1297"
+    }
+   ]
+  },
+  {
+   "id": "B2",
+   "world": "tasbih",
+   "title": "Understand the Reported Method",
+   "scene": "An older learner chooses “Explore the reported method.” They see seven positions with 15, then six groups of 10, and learn that 75 in a rak’ah makes 300 over four rak’ahs. The guide never claims all scholars recommend it.",
+   "learn": "As reported in Abu Dawud 1297: after recitation 15; Ruku 10; standing after Ruku 10; first Sujud 10; between Sujuds 10; second Sujud 10; sitting after second Sujud 10; repeat four rak’ahs. The app shows this as a contested report, not an obligatory universal practice.",
+   "check": {
+    "sourceQuestion": "Calculate the total in one rak’ah: 15 + 10 + 10 + 10 + 10 + 10 + 10.",
+    "question": "Calculate the total in one rak’ah: 15 + 10 + 10 + 10 + 10 + 10 + 10.",
+    "options": [
+     "65",
+     "75",
+     "300"
+    ],
+    "correct": 1,
+    "sourceCorrect": "75",
+    "feedback": "That is the reported count per rak’ah; scholarly authentication remains disputed.",
+    "authoredDistractors": [
+     "65",
+     "300"
+    ]
+   },
+   "action": "Discuss respectfully with a qualified adult why scholars may reach different conclusions about Hadith evidence.",
+   "evidence": "Abu Dawud 1297; scholarly disagreements",
+   "guardrail": "Use the selected report variant only; no fixed daily obligation or guaranteed virtue graphic.",
+   "recitations": [],
+   "table": {
+    "title": "Reported counts (Abu Dawud 1297)",
+    "rows": [
+     [
+      "Position",
+      "Reported count",
+      "Cumulative count within rak’ah"
+     ],
+     [
+      "After standing Qur’an recitation",
+      "15",
+      "15"
+     ],
+     [
+      "Ruku",
+      "10",
+      "25"
+     ],
+     [
+      "After rising from Ruku",
+      "10",
+      "35"
+     ],
+     [
+      "First Sujud",
+      "10",
+      "45"
+     ],
+     [
+      "Between the two Sujuds",
+      "10",
+      "55"
+     ],
+     [
+      "Second Sujud",
+      "10",
+      "65"
+     ],
+     [
+      "After rising from second Sujud",
+      "10",
+      "75"
+     ],
+     [
+      "Four rak’ahs total",
+      "75 × 4",
+      "300"
+     ]
+    ],
+    "note": "Prominent notice: “This special prayer is described in a narration in Sunan Abi Dawud 1297. Scholars disagree about the reliability of the report and the recommendation to perform this prayer. This lesson is optional; ask a qualified scholar.”",
+    "source": "Part II B10"
+   },
+   "links": [
+    {
+     "label": "Abu Dawud 1297",
+     "url": "https://sunnah.com/abudawud:1297"
+    }
+   ]
+  }
+ ],
+ "recitations": [
+  {
+   "id": "R01",
+   "title": "Entry Takbir",
+   "usedWhere": "Beginning Salah",
+   "arabic": "اللَّهُ أَكْبَرُ",
+   "meaning": "Allah is greater than everything.",
+   "meaningChild": "Allah is greater than all.",
+   "meaningUrdu": "اللہ سب سے بڑا ہے۔",
+   "memorization": "Single phrase; listen once, repeat without shouting.",
+   "source": "Core Salah practice; Bukhari 631 (general model); canonical Takbir in Salah",
+   "editorialNote": "Not a Du’a; a prescribed declaration.",
+   "quran": false,
+   "links": [
+    {
+     "label": "Bukhari 631",
+     "url": "https://sunnah.com/bukhari:631"
+    }
+   ]
+  },
+  {
+   "id": "R02",
+   "title": "Opening supplication",
+   "usedWhere": "After the first Takbir, where used",
+   "arabic": "اللَّهُمَّ بَاعِدْ بَيْنِي وَبَيْنَ خَطَايَايَ كَمَا بَاعَدْتَ بَيْنَ الْمَشْرِقِ وَالْمَغْرِبِ، اللَّهُمَّ نَقِّنِي مِنَ الْخَطَايَا كَمَا يُنَقَّى الثَّوْبُ الْأَبْيَضُ مِنَ الدَّنَسِ، اللَّهُمَّ اغْسِلْ خَطَايَايَ بِالْمَاءِ وَالثَّلْجِ وَالْبَرَدِ",
+   "meaning": "O Allah, keep me away from my sins, cleanse me of them and forgive me.",
+   "meaningChild": "O Allah, distance me from sins, purify me, and forgive me.",
+   "meaningUrdu": "اے اللہ! مجھے گناہوں سے دور فرما، پاک کر دے اور معاف فرما۔",
+   "memorization": "Three meaning blocks; optional advanced asset.",
+   "source": "Bukhari 744",
+   "editorialNote": "One authentic opening. Other openings (including common Hanafi Thana) require a separately reviewed variant record.",
+   "quran": false,
+   "links": [
+    {
+     "label": "Bukhari 744",
+     "url": "https://sunnah.com/bukhari:744"
+    }
+   ]
+  },
+  {
+   "id": "R03",
+   "title": "Ruku remembrance",
+   "usedWhere": "While bowing",
+   "arabic": "سُبْحَانَ رَبِّيَ الْعَظِيمِ",
+   "meaning": "How perfect is my Lord, the Magnificent.",
+   "meaningChild": "My magnificent Lord is free of imperfection.",
+   "meaningUrdu": "میرا عظمت والا رب ہر عیب سے پاک ہے۔",
+   "memorization": "One phrase; pair to Ruku only.",
+   "source": "Abu Dawud 871; established wording",
+   "editorialNote": "Do not confuse audio-study loops with a religiously prescribed count.",
+   "quran": false,
+   "links": [
+    {
+     "label": "Abu Dawud 871",
+     "url": "https://sunnah.com/abudawud:871"
+    }
+   ]
+  },
+  {
+   "id": "R04",
+   "title": "Rising from Ruku",
+   "usedWhere": "When coming up from bowing",
+   "arabic": "سَمِعَ اللَّهُ لِمَنْ حَمِدَهُ",
+   "meaning": "Allah hears those who praise Him.",
+   "meaningChild": "Allah hears the one who praises Him.",
+   "meaningUrdu": "اللہ اُس کی سنتا ہے جو اُس کی حمد کرتا ہے۔",
+   "memorization": "One phrase; distinguish from response phrase.",
+   "source": "Bukhari 735",
+   "editorialNote": "Who says which praise phrase in congregation is taught by the selected juristic path.",
+   "quran": false,
+   "links": [
+    {
+     "label": "Bukhari 735",
+     "url": "https://sunnah.com/bukhari:735"
+    }
+   ]
+  },
+  {
+   "id": "R05",
+   "title": "Praise on rising",
+   "usedWhere": "After rising from Ruku",
+   "arabic": "رَبَّنَا وَلَكَ الْحَمْدُ",
+   "meaning": "Our Lord, and to You belongs all praise.",
+   "meaningChild": "Our Lord, to You belongs all praise.",
+   "meaningUrdu": "اے ہمارے رب! سب تعریف تیرے ہی لیے ہے۔",
+   "memorization": "One phrase; other valid wording variants exist.",
+   "source": "Bukhari 735",
+   "editorialNote": "Other authentic praise wordings exist.",
+   "quran": false,
+   "links": [
+    {
+     "label": "Bukhari 735",
+     "url": "https://sunnah.com/bukhari:735"
+    }
+   ]
+  },
+  {
+   "id": "R06",
+   "title": "Sujud remembrance",
+   "usedWhere": "While prostrating",
+   "arabic": "سُبْحَانَ رَبِّيَ الْأَعْلَى",
+   "meaning": "How perfect is my Lord, the Most High.",
+   "meaningChild": "My Most High Lord is perfect.",
+   "meaningUrdu": "میرا سب سے بلند رب ہر عیب سے پاک ہے۔",
+   "memorization": "One phrase; pair to Sujud only.",
+   "source": "Abu Dawud 871",
+   "editorialNote": "Respect the stillness of Sujud; do not hurry the recitation.",
+   "quran": false,
+   "links": [
+    {
+     "label": "Abu Dawud 871",
+     "url": "https://sunnah.com/abudawud:871"
+    }
+   ]
+  },
+  {
+   "id": "R07",
+   "title": "Between two Sujuds",
+   "usedWhere": "Sitting between two prostrations",
+   "arabic": "رَبِّ اغْفِرْ لِي، رَبِّ اغْفِرْ لِي",
+   "meaning": "My Lord, forgive me, my Lord, forgive me.",
+   "meaningChild": "My Lord, forgive me.",
+   "meaningUrdu": "اے میرے رب! مجھے بخش دے۔",
+   "memorization": "Short repeated phrase; source variant controls repetition.",
+   "source": "Ibn Majah 897 (graded Sahih); see Abu Dawud 874",
+   "editorialNote": "A concise transmitted form; longer authentic variants may be added as separate IDs.",
+   "quran": false,
+   "links": [
+    {
+     "label": "Abu Dawud 874",
+     "url": "https://sunnah.com/abudawud:874"
+    },
+    {
+     "label": "Ibn Majah 897",
+     "url": "https://sunnah.com/ibnmajah:897"
+    }
+   ]
+  },
+  {
+   "id": "R08",
+   "title": "Tashahhud",
+   "usedWhere": "First and/or final sitting according to the selected Salah method",
+   "arabic": "التَّحِيَّاتُ لِلَّهِ، وَالصَّلَوَاتُ وَالطَّيِّبَاتُ، السَّلَامُ عَلَيْكَ أَيُّهَا النَّبِيُّ وَرَحْمَةُ اللَّهِ وَبَرَكَاتُهُ، السَّلَامُ عَلَيْنَا وَعَلَى عِبَادِ اللَّهِ الصَّالِحِينَ، أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللَّهُ، وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ",
+   "meaning": "Greetings, prayers and good words belong to Allah; peace and mercy upon the Prophet ﷺ and Allah’s righteous servants. I testify to Allah’s oneness and Muhammad’s messengership.",
+   "meaningChild": "Greetings, worship and good words belong to Allah; peace and testimony.",
+   "meaningUrdu": "تمام تعظیم، عبادت اور پاکیزہ باتیں اللہ کے لیے ہیں؛ سلام اور گواہی کے الفاظ۔",
+   "memorization": "Break by meaning: praise / peace / testimony.",
+   "source": "Bukhari 831",
+   "editorialNote": "Approved variant must retain the selected Tashahhud wording exactly.",
+   "quran": false,
+   "links": [
+    {
+     "label": "Bukhari 831",
+     "url": "https://sunnah.com/bukhari:831"
+    }
+   ]
+  },
+  {
+   "id": "R09",
+   "title": "Salawat Ibrahimiyyah",
+   "usedWhere": "Final sitting as taught by the school",
+   "arabic": "اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ، وَعَلَى آلِ مُحَمَّدٍ، كَمَا صَلَّيْتَ عَلَى إِبْرَاهِيمَ، وَعَلَى آلِ إِبْرَاهِيمَ، إِنَّكَ حَمِيدٌ مَجِيدٌ، اللَّهُمَّ بَارِكْ عَلَى مُحَمَّدٍ، وَعَلَى آلِ مُحَمَّدٍ، كَمَا بَارَكْتَ عَلَى إِبْرَاهِيمَ، وَعَلَى آلِ إِبْرَاهِيمَ، إِنَّكَ حَمِيدٌ مَجِيدٌ",
+   "meaning": "O Allah, send blessings and peace upon Muhammad and his family as You blessed Ibrahim and his family.",
+   "meaningChild": "O Allah, bless Muhammad ﷺ and his family.",
+   "meaningUrdu": "اے اللہ! محمد ﷺ اور آپ کی آل پر رحمت و برکت نازل فرما۔",
+   "memorization": "Break into Salawat first half and blessing second half.",
+   "source": "Bukhari 3370",
+   "editorialNote": "Store alternate authentic variants separately; no mixing of half-versions.",
+   "quran": false,
+   "links": [
+    {
+     "label": "Bukhari 3370",
+     "url": "https://sunnah.com/bukhari:3370"
+    }
+   ]
+  },
+  {
+   "id": "R10",
+   "title": "Seeking forgiveness in Salah",
+   "usedWhere": "Supplication before Taslim where appropriate",
+   "arabic": "اللَّهُمَّ إِنِّي ظَلَمْتُ نَفْسِي ظُلْمًا كَثِيرًا، وَلَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ، فَاغْفِرْ لِي مَغْفِرَةً مِنْ عِنْدِكَ، وَارْحَمْنِي، إِنَّكَ أَنْتَ الْغَفُورُ الرَّحِيمُ",
+   "meaning": "O Allah, I have wronged myself; forgive me and show me mercy.",
+   "meaningChild": "O Allah, I have wronged myself; grant forgiveness and mercy.",
+   "meaningUrdu": "اے اللہ! میں نے اپنے نفس پر ظلم کیا؛ مجھے معاف فرما اور رحم فرما۔",
+   "memorization": "Two–three phrase blocks; not compulsory for every path.",
+   "source": "Bukhari 834",
+   "editorialNote": "Taught to Abu Bakr (RA) for Salah, distinct from a fabricated obligatory formula.",
+   "quran": false,
+   "links": [
+    {
+     "label": "Bukhari 834",
+     "url": "https://sunnah.com/bukhari:834"
+    }
+   ]
+  },
+  {
+   "id": "R11",
+   "title": "Four things to seek refuge from",
+   "usedWhere": "Du’a near the end of Salah",
+   "arabic": "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ عَذَابِ جَهَنَّمَ، وَمِنْ عَذَابِ الْقَبْرِ، وَمِنْ فِتْنَةِ الْمَحْيَا وَالْمَمَاتِ، وَمِنْ شَرِّ فِتْنَةِ الْمَسِيحِ الدَّجَّالِ",
+   "meaning": "O Allah, protect me from punishment and difficult trials in life and death.",
+   "meaningChild": "O Allah, protect me from the trials named in this supplication.",
+   "meaningUrdu": "اے اللہ! مجھے سخت آزمائشوں اور عذاب سے محفوظ فرما۔",
+   "memorization": "Sensitive meaning; protect child from frightening imagery.",
+   "source": "Sahih Muslim 588",
+   "editorialNote": "For young learners, give a compassionate, simplified meaning, not frightening visuals.",
+   "quran": false,
+   "links": [
+    {
+     "label": "Muslim 588",
+     "url": "https://sunnah.com/muslim:588"
+    }
+   ]
+  },
+  {
+   "id": "R12",
+   "title": "Taslim",
+   "usedWhere": "At completion of Salah",
+   "arabic": "السَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللَّهِ",
+   "meaning": "Peace and Allah’s mercy be upon you.",
+   "meaningChild": "Peace and Allah’s mercy be upon you.",
+   "meaningUrdu": "تم پر سلامتی اور اللہ کی رحمت ہو۔",
+   "memorization": "Short closing greeting.",
+   "source": "Established ending greeting in Salah; use scholar-approved school variant",
+   "editorialNote": "Do not turn the number or direction of Taslim into a contested quiz.",
+   "quran": false,
+   "links": []
+  },
+  {
+   "id": "R13",
+   "title": "Remembrance after Salah",
+   "usedWhere": "After completing Salah",
+   "arabic": "أَسْتَغْفِرُ اللَّهَ، أَسْتَغْفِرُ اللَّهَ، أَسْتَغْفِرُ اللَّهَ، اللَّهُمَّ أَنْتَ السَّلَامُ وَمِنْكَ السَّلَامُ، تَبَارَكْتَ يَا ذَا الْجَلَالِ وَالْإِكْرَامِ",
+   "meaning": "I seek Allah’s forgiveness. O Allah, You are Peace and peace comes from You.",
+   "meaningChild": "I seek Allah’s forgiveness; Allah is the Source of peace.",
+   "meaningUrdu": "میں اللہ سے بخشش مانگتا ہوں؛ اے اللہ، تو سلامتی والا ہے۔",
+   "memorization": "Keep thrice istighfar and later words distinct.",
+   "source": "Sahih Muslim 591",
+   "editorialNote": "Reuse existing Zād al-Qulūb Junior and Salah Vol 4 content; synchronize data rather than copying.",
+   "quran": false,
+   "links": [
+    {
+     "label": "Muslim 591",
+     "url": "https://sunnah.com/muslim:591"
+    }
+   ]
+  },
+  {
+   "id": "R14",
+   "title": "Prophetic Du’a al-Qunut",
+   "usedWhere": "Witr Qunut according to juristic school",
+   "arabic": "اللَّهُمَّ اهْدِنِي فِيمَنْ هَدَيْتَ، وَعَافِنِي فِيمَنْ عَافَيْتَ، وَتَوَلَّنِي فِيمَنْ تَوَلَّيْتَ، وَبَارِكْ لِي فِيمَا أَعْطَيْتَ، وَقِنِي شَرَّ مَا قَضَيْتَ، فَإِنَّكَ تَقْضِي وَلَا يُقْضَى عَلَيْكَ، وَإِنَّهُ لَا يَذِلُّ مَنْ وَالَيْتَ، تَبَارَكْتَ رَبَّنَا وَتَعَالَيْتَ",
+   "meaning": "O Allah, guide me, grant me well-being, care for me, bless what You give, and protect me from harm.",
+   "meaningChild": "O Allah, guide, protect, care for, and bless me.",
+   "meaningUrdu": "اے اللہ! مجھے ہدایت، عافیت، مدد، برکت اور حفاظت عطا فرما۔",
+   "memorization": "Segment 4–6 clauses over multiple sessions.",
+   "source": "Tirmidhi 464 (Hasan according to al-Tirmidhi; also published Sahih grading)",
+   "editorialNote": "Hanafi common Qunut texts have distinct transmission/usage; do not misattribute them to this exact report.",
+   "quran": false,
+   "links": [
+    {
+     "label": "Tirmidhi 464",
+     "url": "https://sunnah.com/tirmidhi:464"
+    }
+   ]
+  },
+  {
+   "id": "R15",
+   "title": "Tahajjud opening Du’a",
+   "usedWhere": "On rising for night prayer; optional advanced memorization",
+   "arabic": "اللَّهُمَّ لَكَ الْحَمْدُ أَنْتَ قَيِّمُ السَّمَاوَاتِ وَالْأَرْضِ وَمَنْ فِيهِنَّ، وَلَكَ الْحَمْدُ، لَكَ مُلْكُ السَّمَاوَاتِ وَالْأَرْضِ وَمَنْ فِيهِنَّ، وَلَكَ الْحَمْدُ أَنْتَ نُورُ السَّمَاوَاتِ وَالْأَرْضِ، وَلَكَ الْحَمْدُ أَنْتَ الْحَقُّ، وَوَعْدُكَ الْحَقُّ، وَلِقَاؤُكَ حَقٌّ، وَقَوْلُكَ حَقٌّ، وَالْجَنَّةُ حَقٌّ، وَالنَّارُ حَقٌّ، وَالنَّبِيُّونَ حَقٌّ، وَمُحَمَّدٌ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ حَقٌّ، وَالسَّاعَةُ حَقٌّ، اللَّهُمَّ لَكَ أَسْلَمْتُ، وَبِكَ آمَنْتُ، وَعَلَيْكَ تَوَكَّلْتُ، وَإِلَيْكَ أَنَبْتُ، وَبِكَ خَاصَمْتُ، وَإِلَيْكَ حَاكَمْتُ، فَاغْفِرْ لِي مَا قَدَّمْتُ وَمَا أَخَّرْتُ، وَمَا أَسْرَرْتُ وَمَا أَعْلَنْتُ، أَنْتَ الْمُقَدِّمُ وَأَنْتَ الْمُؤَخِّرُ، لَا إِلَهَ إِلَّا أَنْتَ",
+   "meaning": "A long night-prayer supplication praising Allah’s greatness, affirming truth, declaring trust, and asking forgiveness.",
+   "meaningChild": "Praise Allah, affirm truth and trust, and ask forgiveness.",
+   "meaningUrdu": "تمام تعریف اللہ کے لیے ہے؛ میں اللہ پر ایمان، بھروسہ اور توبہ کا اقرار کرتا ہوں۔",
+   "memorization": "Listen-only for young; multiweek advanced sections.",
+   "source": "Bukhari 1120",
+   "editorialNote": "Longer reported variant; parent-guided and segment-only for younger children. Do not attach narrator additions to Prophetic quote without checking text boundaries.",
+   "quran": false,
+   "links": [
+    {
+     "label": "Bukhari 1120",
+     "url": "https://sunnah.com/bukhari:1120"
+    }
+   ]
+  },
+  {
+   "id": "R16",
+   "title": "Du’a for the deceased",
+   "usedWhere": "In Janazah after the relevant Takbir according to juristic method",
+   "arabic": "اللَّهُمَّ اغْفِرْ لَهُ وَارْحَمْهُ وَاعْفُ عَنْهُ وَعَافِهِ وَأَكْرِمْ نُزُلَهُ وَوَسِّعْ مُدْخَلَهُ وَاغْسِلْهُ بِمَاءٍ وَثَلْجٍ وَبَرَدٍ وَنَقِّهِ مِنَ الْخَطَايَا كَمَا يُنَقَّى الثَّوْبُ الْأَبْيَضُ مِنَ الدَّنَسِ وَأَبْدِلْهُ دَارًا خَيْرًا مِنْ دَارِهِ وَأَهْلًا خَيْرًا مِنْ أَهْلِهِ وَزَوْجًا خَيْرًا مِنْ زَوْجِهِ وَقِهِ فِتْنَةَ الْقَبْرِ وَعَذَابَ النَّارِ",
+   "meaning": "O Allah, forgive and have mercy on the deceased, honour them and give them a better home in the Hereafter.",
+   "meaningChild": "O Allah, forgive and show mercy to the deceased.",
+   "meaningUrdu": "اے اللہ! مرحوم کی مغفرت اور رحمت فرما اور اسے عزت عطا فرما۔",
+   "memorization": "Context-sensitive pronouns; sensitive story.",
+   "source": "Sahih Muslim 963d",
+   "editorialNote": "This is the male-singular recorded wording. Adaptations for deceased woman, child or plural contexts require a jurist-approved independent text; do not blindly change pronouns.",
+   "quran": false,
+   "links": [
+    {
+     "label": "Muslim 963d",
+     "url": "https://sunnah.com/muslim:963d"
+    }
+   ]
+  },
+  {
+   "id": "R17",
+   "title": "Request for rain",
+   "usedWhere": "In Istisqa supplication",
+   "arabic": "اللَّهُمَّ اسْقِنَا، اللَّهُمَّ اسْقِنَا، اللَّهُمَّ اسْقِنَا",
+   "meaning": "O Allah, give us rain.",
+   "meaningChild": "O Allah, give us rain.",
+   "meaningUrdu": "اے اللہ! ہمیں بارش عطا فرما۔",
+   "memorization": "Report records 3 repetitions in its context.",
+   "source": "Bukhari 1013",
+   "editorialNote": "Here repeated three times in the referenced report; distinguish quote from general optional study repetition.",
+   "quran": false,
+   "links": [
+    {
+     "label": "Bukhari 1013",
+     "url": "https://sunnah.com/bukhari:1013"
+    }
+   ]
+  },
+  {
+   "id": "R18",
+   "title": "Tasbih in reported Salat al-Tasbih",
+   "usedWhere": "Optional advanced Salat al-Tasbih",
+   "arabic": "سُبْحَانَ اللَّهِ وَالْحَمْدُ لِلَّهِ وَلَا إِلَهَ إِلَّا اللَّهُ وَاللَّهُ أَكْبَرُ",
+   "meaning": "Allah is perfect; praise belongs to Allah; there is no deity worthy of worship except Allah; Allah is greater than all.",
+   "meaningChild": "Glorification, praise, Tawhid and Takbir.",
+   "meaningUrdu": "اللہ پاک ہے، سب تعریف اللہ کی ہے، اللہ کے سوا کوئی معبود نہیں، اللہ سب سے بڑا ہے۔",
+   "memorization": "Keep the formula separate from the debated prayer status.",
+   "source": "Sunan Abi Dawud 1297; contested hadith authentication across scholars",
+   "editorialNote": "If practice enabled, replicate a single chosen chain/method; separate spiritual count from ordinary app listening repetitions.",
+   "quran": false,
+   "links": [
+    {
+     "label": "Sunan Abi Dawud 1297",
+     "url": "https://sunnah.com/abudawud:1297"
+    }
+   ]
+  },
+  {
+   "id": "FATIHA",
+   "title": "Surah al-Fatihah",
+   "usedWhere": null,
+   "arabic": "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ ۝ الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ ۝ الرَّحْمَٰنِ الرَّحِيمِ ۝ مَالِكِ يَوْمِ الدِّينِ ۝ إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ ۝ اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ ۝ صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ",
+   "meaning": "We praise Allah, the Most Merciful and Lord of all worlds. We worship Him, seek His help and ask Him to guide us along the straight path.",
+   "meaningChild": null,
+   "meaningUrdu": "ہم اللہ کی حمد کرتے ہیں، اس کی رحمت کو یاد کرتے ہیں، اسی کی عبادت کرتے ہیں اور اسی سے سیدھے راستے کی ہدایت مانگتے ہیں۔",
+   "memorization": "For memorization: segment by verified verse boundaries, not by punctuation shown in this editorial line. The Basmala verse-numbering treatment differs by Qur’an counting tradition; link to licensed, reciter-aligned source rather than hard-coding “seven” by punctuation. Qur’an 1:1–7.",
+   "source": "Qur’an 1:1–7",
+   "editorialNote": "Additional Qur’an assets: one approved short-surah clip per teaching stage (for example Al-Ikhlas, Al-Falaq and An-Nas). Do not synthesize Qur’anic recitation from uncontrolled generative voice models. The separate Qur’an Hifz module remains the canonical source for this library.",
+   "quran": true,
+   "links": []
+  }
+ ],
+ "fiqh": {
+  "disclaimer": "You may see Muslims practising certain parts of Salah differently. These practices come from recognized scholarly teaching. Follow the method taught by your family or teacher and respect those who follow another recognized method.",
+  "topics": [
+   {
+    "topic": "Raf‘ al-Yadayn",
+    "difference": "Hands raised at opening only in common Hanafi presentation, or additionally around Ruku in reported hadith-based pathways",
+    "rule": "Do not say “your way is wrong”; stick to one profile"
+   },
+   {
+    "topic": "Hand placement",
+    "difference": "Position of hands during standing differs among schools",
+    "rule": "Illustrations reflect selected teaching profile"
+   },
+   {
+    "topic": "Ameen / recitation",
+    "difference": "Audibility and behind-imam Fatiha rules vary",
+    "rule": "Congregation lesson stays on selected approved path"
+   },
+   {
+    "topic": "Finger in Tashahhud",
+    "difference": "Placement and movement differ",
+    "rule": "Optional adult explainer; not a scored decision"
+   },
+   {
+    "topic": "Qunut in Witr",
+    "difference": "Position, wording and manner vary",
+    "rule": "Exact linked method IDs and source variants"
+   },
+   {
+    "topic": "Witr status",
+    "difference": "Hanafi wajib; others emphasized Sunnah generally",
+    "rule": "No moral judgement of family practice"
+   },
+   {
+    "topic": "Janazah opening",
+    "difference": "Thana or Fatihah in approved methods",
+    "rule": "Do not teach one generic sequence as the sole Sunnah"
+   },
+   {
+    "topic": "Istisqa",
+    "difference": "Takbirs, address placement, mantle turning and other details vary",
+    "rule": "Teach selected whole method or neutral overview"
+   },
+   {
+    "topic": "Tasbih",
+    "difference": "Hadith strength and recommendation are disputed",
+    "rule": "Optional, evidence-dispute label, scholar gate"
+   }
+  ],
+  "parentNote": "This app is not the place to argue whose legal school is strongest. Respect does not mean declaring every detailed method interchangeable. Teach one complete coherent method; show evidence notes to guardians and interested older learners. Publication requires review by scholars familiar with the chosen Sunni juristic profiles.",
+  "noProfile": "If the guardian has not selected a profile, display the shared foundational sequence only, plus “Ask your family or teacher for the detailed method”. Do not default to an assumed school based on location, language or family name.",
+  "rafChild": "You may see some people raise their hands at certain points in Salah and others not raise them again after the opening Takbir. Scholars have taught recognized ways of praying based on their understanding of the Sunnah. Follow the way your parents or teacher are teaching you, and always respect others who pray differently.",
+  "rafAdult": "Bukhari 735 and 739 report raising hands before and after Ruku and at another transition. The Hanafi legal tradition commonly teaches raising at the opening Takbir without additional instances in the standard daily prayer. Do not make a blanket claim that both practices are identical in evidentiary derivation or that every gesture is freely interchangeable within an individual school’s complete method."
+ },
+ "register": [
+  {
+   "label": "Qur’an 4:103",
+   "url": "https://quran.com/4/103"
+  },
+  {
+   "label": "Qur’an 17:79",
+   "url": "https://quran.com/17/79"
+  },
+  {
+   "label": "Bukhari 46",
+   "url": "https://sunnah.com/bukhari:46"
+  },
+  {
+   "label": "Bukhari 528",
+   "url": "https://sunnah.com/bukhari:528"
+  },
+  {
+   "label": "Bukhari 631",
+   "url": "https://sunnah.com/bukhari:631"
+  },
+  {
+   "label": "Bukhari 735",
+   "url": "https://sunnah.com/bukhari:735"
+  },
+  {
+   "label": "Bukhari 739",
+   "url": "https://sunnah.com/bukhari:739"
+  },
+  {
+   "label": "Bukhari 744",
+   "url": "https://sunnah.com/bukhari:744"
+  },
+  {
+   "label": "Bukhari 831",
+   "url": "https://sunnah.com/bukhari:831"
+  },
+  {
+   "label": "Bukhari 834",
+   "url": "https://sunnah.com/bukhari:834"
+  },
+  {
+   "label": "Bukhari 1120",
+   "url": "https://sunnah.com/bukhari:1120"
+  },
+  {
+   "label": "Bukhari 1180",
+   "url": "https://sunnah.com/bukhari:1180"
+  },
+  {
+   "label": "Bukhari 1333",
+   "url": "https://sunnah.com/bukhari:1333"
+  },
+  {
+   "label": "Bukhari 3370",
+   "url": "https://sunnah.com/bukhari:3370"
+  },
+  {
+   "label": "Bukhari 1013",
+   "url": "https://sunnah.com/bukhari:1013"
+  },
+  {
+   "label": "Muslim 591",
+   "url": "https://sunnah.com/muslim:591"
+  },
+  {
+   "label": "Muslim 588",
+   "url": "https://sunnah.com/muslim:588"
+  },
+  {
+   "label": "Muslim 728b",
+   "url": "https://sunnah.com/muslim:728b"
+  },
+  {
+   "label": "Muslim 749a",
+   "url": "https://sunnah.com/muslim:749a"
+  },
+  {
+   "label": "Muslim 894b",
+   "url": "https://sunnah.com/muslim:894b"
+  },
+  {
+   "label": "Muslim 963d",
+   "url": "https://sunnah.com/muslim:963d"
+  },
+  {
+   "label": "Muslim 1163a",
+   "url": "https://sunnah.com/muslim:1163a"
+  },
+  {
+   "label": "Abu Dawud 871",
+   "url": "https://sunnah.com/abudawud:871"
+  },
+  {
+   "label": "Abu Dawud 874",
+   "url": "https://sunnah.com/abudawud:874"
+  },
+  {
+   "label": "Abu Dawud 1297",
+   "url": "https://sunnah.com/abudawud:1297"
+  },
+  {
+   "label": "Abu Dawud 1422",
+   "url": "https://sunnah.com/abudawud:1422"
+  },
+  {
+   "label": "Tirmidhi 464",
+   "url": "https://sunnah.com/tirmidhi:464"
+  },
+  {
+   "label": "Ibn Majah 897",
+   "url": "https://sunnah.com/ibnmajah:897"
+  },
+  {
+   "label": "Egypt Dar al-Ifta: Qunut school differences",
+   "url": "https://www.dar-alifta.org/en/fatwa/details/23880/juristic-views-on-qunut-in-witr-and-fajr-prayers"
+  },
+  {
+   "label": "Egypt Dar al-Ifta: voluntary prayers",
+   "url": "https://www.dar-alifta.org/en/article/details/1892/voluntary-prayers"
+  },
+  {
+   "label": "IslamQA: Tasbih hadith scholarly dispute",
+   "url": "https://islamqa.info/en/answers/145112"
+  },
+  {
+   "label": "Muslim 725a",
+   "url": "https://sunnah.com/muslim:725a"
+  },
+  {
+   "label": "Muslim 728a",
+   "url": "https://sunnah.com/muslim:728a"
+  }
+ ]
+}
