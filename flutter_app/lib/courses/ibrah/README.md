@@ -1,6 +1,6 @@
 # IBRAH Junior / Qisas-ul-Nabiyeen (course index 5)
 
-Status 15 Nov 2026: **all 24 volumes are playable** (200 stories, 280 missions).
+Status 15 Nov 2026: **all 24 volumes are playable** (186 stories, 280 missions).
 None are left. Everything still needs scholarly review before release (see below).
 
 ## Flow
