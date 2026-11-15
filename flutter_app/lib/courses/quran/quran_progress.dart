@@ -307,11 +307,14 @@ class DeviceQuranProgressStore implements QuranProgressStore {
     required this.writeValue,
   }) : key = 'imaan.quran.v1.${Uri.encodeComponent(scope)}';
   factory DeviceQuranProgressStore.forLearner(String scope) {
-    final prefs = SharedPreferencesAsync();
+    // Created on first use, so a missing platform plugin surfaces as a
+    // load/save error the screen can show, not a crash while building.
+    SharedPreferencesAsync? prefs;
+    SharedPreferencesAsync p() => prefs ??= SharedPreferencesAsync();
     return DeviceQuranProgressStore(
       scope: scope,
-      readValue: prefs.getString,
-      writeValue: prefs.setString,
+      readValue: (k) => p().getString(k),
+      writeValue: (k, v) => p().setString(k, v),
     );
   }
   final String key;

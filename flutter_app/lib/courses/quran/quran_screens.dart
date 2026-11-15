@@ -930,48 +930,73 @@ class QuranJuzScreen extends StatelessWidget {
 /// accident. It is not a security boundary: progress stays on this device.
 Future<void> openAdultArea(BuildContext context, QuranController c) async {
   final a = 3 + c.random.nextInt(7), b = 3 + c.random.nextInt(7);
-  final answer = TextEditingController();
   final ok = await showDialog<bool>(
     context: context,
-    builder: (context) => AlertDialog(
-      title: const Text('For parents & teachers'),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text('What is $a × $b?', key: const Key('quran-adult-question')),
-          const SizedBox(height: 8),
-          TextField(
-            key: const Key('quran-adult-answer'),
-            controller: answer,
-            autofocus: true,
-            keyboardType: TextInputType.number,
-            onSubmitted: (v) => Navigator.pop(context, v.trim() == '${a * b}'),
-          ),
-        ],
-      ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(context, false),
-          child: const Text('Cancel'),
-        ),
-        FilledButton(
-          key: const Key('quran-adult-enter'),
-          onPressed: () =>
-              Navigator.pop(context, answer.text.trim() == '${a * b}'),
-          child: const Text('Open'),
-        ),
-      ],
-    ),
+    builder: (_) => _AdultGate(a: a, b: b),
   );
-  answer.dispose();
-  if (ok == true && context.mounted) {
+  if (!context.mounted || ok == null) return; // cancelled
+  if (ok) {
     await _push(context, QuranAdultScreen(c: c));
-  } else if (ok == false && context.mounted) {
+  } else {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('That answer was not right. Please ask a grown-up.')),
     );
   }
+}
+
+/// Owns its text controller, so it is disposed only after the dialog's
+/// closing animation, never while the TextField still uses it.
+class _AdultGate extends StatefulWidget {
+  const _AdultGate({required this.a, required this.b});
+  final int a, b;
+  @override
+  State<_AdultGate> createState() => _AdultGateState();
+}
+
+class _AdultGateState extends State<_AdultGate> {
+  final _answer = TextEditingController();
+  @override
+  void dispose() {
+    _answer.dispose();
+    super.dispose();
+  }
+
+  void _submit() =>
+      Navigator.pop(context, _answer.text.trim() == '${widget.a * widget.b}');
+
+  @override
+  Widget build(BuildContext context) => AlertDialog(
+    title: const Text('For parents & teachers'),
+    content: Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'What is ${widget.a} × ${widget.b}?',
+          key: const Key('quran-adult-question'),
+        ),
+        const SizedBox(height: 8),
+        TextField(
+          key: const Key('quran-adult-answer'),
+          controller: _answer,
+          autofocus: true,
+          keyboardType: TextInputType.number,
+          onSubmitted: (_) => _submit(),
+        ),
+      ],
+    ),
+    actions: [
+      TextButton(
+        onPressed: () => Navigator.pop(context),
+        child: const Text('Cancel'),
+      ),
+      FilledButton(
+        key: const Key('quran-adult-enter'),
+        onPressed: _submit,
+        child: const Text('Open'),
+      ),
+    ],
+  );
 }
 
 Future<void> openSource(String url) =>
