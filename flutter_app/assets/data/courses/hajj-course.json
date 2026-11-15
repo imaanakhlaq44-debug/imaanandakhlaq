@@ -1,0 +1,2313 @@
+{
+ "version": 1,
+ "sourceDocument": "Imaan_Akhlaq_Kids_Hajj_Umrah_Gamified_Curriculum_Developer_Guide.docx",
+ "sourceVersion": "Version 1.0 | 6 November 2026",
+ "religiousReview": "pending",
+ "reviewNote": "All religious rulings, dua wording and optional/obligatory classifications require review by a qualified scholarly board, with Hanafi-oriented defaults and transparent madhhab notes.",
+ "vision": "Our aim is not to turn the sacred rites into entertainment. We use gentle stories, age-appropriate rehearsal and reflection so that children understand what Muslims do in Hajj and Umrah, why they do it, and how the lessons can make them truthful, patient, kind and helpful at home.",
+ "promise": "The child is rewarded inside the app for learning, remembering, solving ethical dilemmas and practising good habits. The app never scores the value of a real Tawaf, prayer, dua or Hajj before Allah, and never certifies ritual validity.",
+ "boundaries": [
+  "Learning is open to all ages. Real Hajj travel is subject to current Saudi and country-of-departure permissions: Pakistan’s 2026 Hajj policy excluded those under 12; reconfirm for every Hajj season. [S04]",
+  "A child who performs Hajj may be rewarded, but a prepubescent child’s Hajj does not discharge the obligatory adult Hajj when it later becomes due. Explain this in the parent layer, not as a scary child-facing rule. [S05]",
+  "Umrah and Hajj are not interchangeable. Hajj occurs at specified times and has additional rites; Umrah follows Ihram, Tawaf, Sa‘i and Tahallul. [S01][S02]",
+  "The Prophet ﷺ is never illustrated or voiced. Prophets, the sacred rites and historical figures are treated respectfully. Historical dialogues are clearly fictional teaching devices, never falsely attributed quotations.",
+  "No children are encouraged to approach dangerous crowds, perform actual Rami as a game, approach heights or mountains for completion, break group supervision, or use a phone while moving in dense crowds.",
+  "Madinah ziyarat is a separate optional visit, not a requirement for Hajj or Umrah. Historical places are not presented as having special worship rewards without evidence.",
+  "All religious rulings, dua wording and optional/obligatory classifications require review by a qualified scholarly board, with Hanafi-oriented defaults and transparent madhhab notes."
+ ],
+ "missionLoop": "Mission loop: Story → Discover → Learn the rule → Try a safe virtual rehearsal → Choose the kind action → Dua echo → Check understanding → Daily action → Muhasabah. In a real travel setting, the parent opens a quiet-reference companion rather than a game.",
+ "progressNote": "Use an “Explorer’s Notebook” with collected learning pages, not “spiritual coins.” Each mission has three academic completion types: Heard the story; Understood the idea; Practised the value. Make missed questions a chance to learn rather than a punishment. No time pressure and no leaderboard.",
+ "devCheck": "DEV CHECK: Show three completion states (not started / learning completed / parent-marked real action); do not mark worship as valid. Parent can open lesson source and safety note.",
+ "ages": [
+  {
+   "id": "3–5",
+   "label": "Little Explorers",
+   "content": "60–90-second narrated episodes; match, point, count, colour, repeat a short phrase with parent. No reading dependence.",
+   "session": "One idea per screen; unscored practice; 3–5 minutes max with adult."
+  },
+  {
+   "id": "6–9",
+   "label": "Kindness Travellers",
+   "content": "2–4-minute stories; tap sequence; drag-and-drop, Arabic audio, gentle choice tasks, parent dialogue.",
+   "session": "2 knowledge items + 1 action; 5–8 minutes."
+  },
+  {
+   "id": "10–14",
+   "label": "Young Guides",
+   "content": "4–7-minute deeper lessons; sequence logic, evidence, fiqh-labelled notes, scenarios, journal and service missions.",
+   "session": "3–5 questions + reflection; 8–12 minutes."
+  }
+ ],
+ "ageNote": "Age 3–5 content is also usable as parent-read-aloud. Every mission carries the same central value, but not the same reading load. For 10–14 years, avoid childish jokes, excessive mascot animations or prizes for worship.",
+ "adventures": [
+  {
+   "id": "umrah",
+   "title": "Umrah: The Journey of the Heart",
+   "use": "Preparation through completion and returning home.",
+   "worlds": "U01,U02,U03,U04,U05,U06,U07,U08,U09,U10"
+  },
+  {
+   "id": "hajj",
+   "title": "Hajj: The Great Pilgrimage",
+   "use": "Age-appropriate simulation of Hajj rites and ethics.",
+   "gate": "The whole Hajj adventure is educational for all ages. Do not activate an “I am performing Hajj now” child mode from the child profile. Any actual travel companion belongs behind parent verification, current season eligibility, tour/operator instructions and qualified fiqh guidance.",
+   "worlds": "H01,H02,H03,H04,H05,H06,H07,H08,H09,H10,H11,H12"
+  },
+  {
+   "id": "explore",
+   "title": "Explore the Holy Cities",
+   "use": "Makkah and Madinah virtues, Seerah and visits.",
+   "worlds": "Z01,Z02"
+  }
+ ],
+ "worlds": [
+  {
+   "id": "U01",
+   "title": "A Letter from the Haramain",
+   "storyBeat": "Dadi Jaan unfolds the travel notebook and a map, while Imaan wonders why the family is so happy.",
+   "missions": [
+    "U01.1",
+    "U01.2",
+    "U01.3"
+   ]
+  },
+  {
+   "id": "U02",
+   "title": "Pack the Heart, Pack the Bag",
+   "storyBeat": "Salamah asks the children to help pack; Akhlaq discovers that a kind heart belongs in the suitcase too.",
+   "missions": [
+    "U02.1",
+    "U02.2",
+    "U02.3"
+   ]
+  },
+  {
+   "id": "U03",
+   "title": "The Miqat and the Talbiyah",
+   "storyBeat": "The family reviews the Miqat rule before arrival. Sheikh Uncle teaches the Talbiyah meaning.",
+   "missions": [
+    "U03.1",
+    "U03.2",
+    "U03.3"
+   ]
+  },
+  {
+   "id": "U04",
+   "title": "Makkah at Last",
+   "storyBeat": "The family arrives; Imaan sees the Grand Mosque and learns to move calmly with others.",
+   "missions": [
+    "U04.1",
+    "U04.2",
+    "U04.3"
+   ]
+  },
+  {
+   "id": "U05",
+   "title": "Seven Circles of Kindness",
+   "storyBeat": "Imaan rushes toward the Black Stone; Akhlaq suggests they protect others while learning Tawaf.",
+   "missions": [
+    "U05.1",
+    "U05.2",
+    "U05.3"
+   ]
+  },
+  {
+   "id": "U06",
+   "title": "After Tawaf: Gratitude and Zamzam",
+   "storyBeat": "Dadi Jaan reminds the family that every sip and prayer is a reason to be grateful.",
+   "missions": [
+    "U06.1",
+    "U06.2",
+    "U06.3"
+   ]
+  },
+  {
+   "id": "U07",
+   "title": "The Steps of Hajar",
+   "storyBeat": "Dadi Jaan explains Hajar’s trust in Allah alongside her effort while caring for Isma‘il.",
+   "missions": [
+    "U07.1",
+    "U07.2",
+    "U07.3"
+   ]
+  },
+  {
+   "id": "U08",
+   "title": "The Hair and the Happy Return",
+   "storyBeat": "After Sa‘i, Sheikh Uncle explains Tahallul with parent-safe wording.",
+   "missions": [
+    "U08.1",
+    "U08.2",
+    "U08.3"
+   ]
+  },
+  {
+   "id": "U09",
+   "title": "A Child in Makkah",
+   "storyBeat": "The family notices people from many places sharing the sacred space.",
+   "missions": [
+    "U09.1",
+    "U09.2",
+    "U09.3"
+   ]
+  },
+  {
+   "id": "U10",
+   "title": "Home with a New Heart",
+   "storyBeat": "Akhlaq asks whether Umrah is over when the family arrives home. Zameer invites action.",
+   "missions": [
+    "U10.1",
+    "U10.2",
+    "U10.3"
+   ]
+  },
+  {
+   "id": "H01",
+   "title": "The Great Invitation",
+   "storyBeat": "A letter from adult relatives describes Hajj. Imaan and Akhlaq open a virtual learning journal.",
+   "missions": [
+    "H01.1",
+    "H01.2",
+    "H01.3"
+   ]
+  },
+  {
+   "id": "H02",
+   "title": "Three Paths, One Purpose",
+   "storyBeat": "Sheikh Uncle lays out three adult Hajj routes without making children choose a legal route themselves.",
+   "missions": [
+    "H02.1",
+    "H02.2",
+    "H02.3"
+   ]
+  },
+  {
+   "id": "H03",
+   "title": "Getting Ready for Hajj",
+   "storyBeat": "The adults’ learning journal prepares for Miqat and the busy Hajj days.",
+   "missions": [
+    "H03.1",
+    "H03.2",
+    "H03.3"
+   ]
+  },
+  {
+   "id": "H04",
+   "title": "Mina: Day of Preparation",
+   "storyBeat": "Adult relatives enter Mina on 8 Dhul-Hijjah, and the children study peaceful camp living.",
+   "missions": [
+    "H04.1",
+    "H04.2",
+    "H04.3"
+   ]
+  },
+  {
+   "id": "H05",
+   "title": "Arafat: A Day of Dua",
+   "storyBeat": "The Hajj journal describes 9 Dhul-Hijjah at Arafat with repentance and worship.",
+   "missions": [
+    "H05.1",
+    "H05.2",
+    "H05.3"
+   ]
+  },
+  {
+   "id": "H06",
+   "title": "Muzdalifah Under the Stars",
+   "storyBeat": "After sunset on 9 Dhul-Hijjah, the journal explains travel to Muzdalifah and remembrance.",
+   "missions": [
+    "H06.1",
+    "H06.2",
+    "H06.3"
+   ]
+  },
+  {
+   "id": "H07",
+   "title": "10 Dhul-Hijjah: The Jamarat",
+   "storyBeat": "Sheikh Uncle uses diagrams, not a cartoon devil, to explain Rami.",
+   "missions": [
+    "H07.1",
+    "H07.2",
+    "H07.3"
+   ]
+  },
+  {
+   "id": "H08",
+   "title": "Sacrifice, Gratitude, and Hair",
+   "storyBeat": "The adults’ journal connects Hady to obedience and piety.",
+   "missions": [
+    "H08.1",
+    "H08.2",
+    "H08.3"
+   ]
+  },
+  {
+   "id": "H09",
+   "title": "Back to the Sacred Mosque",
+   "storyBeat": "The journal explains Tawaf al-Ifadah and relevant Sa‘i in Hajj.",
+   "missions": [
+    "H09.1",
+    "H09.2",
+    "H09.3"
+   ]
+  },
+  {
+   "id": "H10",
+   "title": "Days of Mina and Patience",
+   "storyBeat": "The journal covers the 11th–13th of Dhul-Hijjah and Rami of the three Jamarat.",
+   "missions": [
+    "H10.1",
+    "H10.2",
+    "H10.3"
+   ]
+  },
+  {
+   "id": "H11",
+   "title": "Farewell with Gratitude",
+   "storyBeat": "The Hajj journal explains departure and Tawaf al-Wada‘ where applicable.",
+   "missions": [
+    "H11.1",
+    "H11.2",
+    "H11.3"
+   ]
+  },
+  {
+   "id": "H12",
+   "title": "A Changed Heart",
+   "storyBeat": "Imaan and Akhlaq read the adults’ journal and make their own age-appropriate promises.",
+   "missions": [
+    "H12.1",
+    "H12.2",
+    "H12.3"
+   ]
+  },
+  {
+   "id": "Z01",
+   "title": "Makkah: The City of Sacred Memories",
+   "storyBeat": "The family explores learning cards about Makkah without inventing extra rituals.",
+   "missions": [
+    "Z01.1",
+    "Z01.2",
+    "Z01.3"
+   ]
+  },
+  {
+   "id": "Z02",
+   "title": "Madinah: Love Expressed Through Manners",
+   "storyBeat": "Dadi Jaan introduces the Prophet’s city, Quba and Uhud with respectful Seerah guidance.",
+   "missions": [
+    "Z02.1",
+    "Z02.2",
+    "Z02.3"
+   ]
+  }
+ ],
+ "missions": [
+  {
+   "id": "U01.1",
+   "world": "U01",
+   "title": "The House of Allah",
+   "teach": "Identify the Ka‘bah as the sacred House around which Tawaf is performed.",
+   "play": "Find the Ka‘bah in the picture.",
+   "extend": "Explain the direction of prayer versus the purpose of Tawaf.",
+   "action": "Speak respectfully when discussing sacred places.",
+   "evidence": [
+    "S01"
+   ],
+   "duas": [],
+   "checks": []
+  },
+  {
+   "id": "U01.2",
+   "world": "U01",
+   "title": "What Is Umrah?",
+   "teach": "Recognise that Umrah has specific rites and is not just a holiday.",
+   "play": "Arrange four large picture cards.",
+   "extend": "Name Ihram, Tawaf, Sa‘i and hair-cutting in order.",
+   "action": "Make a sincere learning intention.",
+   "evidence": [
+    "S01"
+   ],
+   "duas": [
+    "D03"
+   ],
+   "checks": [
+    {
+     "id": "SCENE 01",
+     "question": "Is Umrah only a sightseeing trip?",
+     "answer": "No; it is worship with specific rites.",
+     "source": "SCENE 01",
+     "feedback": "Well done. The purpose guides our actions."
+    }
+   ],
+   "interaction": {
+    "type": "sequence",
+    "items": [
+     "Ihram",
+     "Tawaf",
+     "Sa‘i",
+     "hair-cutting"
+    ],
+    "from": "U01.2 Extend (10–14)"
+   }
+  },
+  {
+   "id": "U01.3",
+   "world": "U01",
+   "title": "Why We Travel",
+   "teach": "Appreciate worship, gratitude and obedience over photographs and souvenirs.",
+   "play": "Choose “pray/help” over a purely souvenir-focused option.",
+   "extend": "Explain why outward rites connect to character.",
+   "action": "Thank a caregiver for one act of service.",
+   "evidence": [
+    "S06"
+   ],
+   "duas": [],
+   "checks": [],
+   "interaction": {
+    "type": "choice",
+    "good": "pray/help",
+    "other": "a purely souvenir-focused option",
+    "from": "U01.3 Play (3–9)"
+   }
+  },
+  {
+   "id": "U02.1",
+   "world": "U02",
+   "title": "My Little Checklist",
+   "teach": "Learn travel essentials: water, appropriate clothing, meeting point and family contact plan.",
+   "play": "Pack safe objects into a picture suitcase.",
+   "extend": "Sort essential from optional items; distinguish official regulations.",
+   "action": "Help prepare one safe item with parent.",
+   "evidence": [
+    "S03"
+   ],
+   "duas": [],
+   "checks": [
+    {
+     "id": "Q01",
+     "question": "You have packed three snacks. Your sibling forgot one.",
+     "answer": "Offer one kindly.",
+     "value": "Generosity",
+     "world": "U02",
+     "source": "Decision bank Q01"
+    }
+   ]
+  },
+  {
+   "id": "U02.2",
+   "world": "U02",
+   "title": "Say Sorry, Say Thank You",
+   "teach": "Understand tawbah, respect and settling family disagreements before travel.",
+   "play": "Choose the kind sentence in a dialogue.",
+   "extend": "Write one repair/apology or gratitude action.",
+   "action": "Apologise sincerely to someone.",
+   "evidence": [
+    "S06"
+   ],
+   "duas": [
+    "D04"
+   ],
+   "checks": []
+  },
+  {
+   "id": "U02.3",
+   "world": "U02",
+   "title": "Stay Together, Stay Safe",
+   "teach": "Learn adult supervision, rest, hydration and requesting help.",
+   "play": "Pair children with trusted adults in a scenario.",
+   "extend": "Design a meet-up plan with parent, without revealing private data.",
+   "action": "Practise “I need help” with family.",
+   "evidence": [
+    "S03"
+   ],
+   "duas": [],
+   "checks": [
+    {
+     "id": "Q02",
+     "question": "Another child is tired on the journey.",
+     "answer": "Tell a caregiver and make room to rest.",
+     "value": "Care and safety",
+     "world": "U02",
+     "source": "Decision bank Q02"
+    }
+   ]
+  },
+  {
+   "id": "U03.1",
+   "world": "U03",
+   "title": "The Miqat Line",
+   "teach": "Understand that a pilgrim intending Umrah enters Ihram before crossing the applicable Miqat.",
+   "play": "Place a “ready” sign before the line.",
+   "extend": "Solve an airport timeline and identify when the guardian must act.",
+   "action": "Prepare early rather than rushing.",
+   "evidence": [
+    "S01"
+   ],
+   "duas": [],
+   "checks": []
+  },
+  {
+   "id": "U03.2",
+   "world": "U03",
+   "title": "What Is Ihram?",
+   "teach": "Differentiate the state of Ihram from the clothing associated with it.",
+   "play": "Sort “clothes” and “actions” picture cards.",
+   "extend": "Describe intention, Talbiyah and selected restrictions with gender-appropriate guidance.",
+   "action": "Treat shared space gently.",
+   "evidence": [
+    "S01"
+   ],
+   "duas": [],
+   "checks": []
+  },
+  {
+   "id": "U03.3",
+   "world": "U03",
+   "title": "Labbayk Echo",
+   "teach": "Listen to and understand the Talbiyah without treating a perfect recording as a ritual validity test.",
+   "play": "Repeat one phrase after a recording.",
+   "extend": "Match Talbiyah lines to basic meanings.",
+   "action": "Say a short phrase of gratitude.",
+   "evidence": [
+    "S07"
+   ],
+   "duas": [
+    "D01"
+   ],
+   "checks": [
+    {
+     "id": "Q03",
+     "question": "You cannot remember a dua yet.",
+     "answer": "Listen again and learn slowly.",
+     "value": "Learning without shame",
+     "world": "U03",
+     "source": "Decision bank Q03"
+    }
+   ]
+  },
+  {
+   "id": "U04.1",
+   "world": "U04",
+   "title": "The Sacred Mosque",
+   "teach": "Locate Masjid al-Haram and learn quiet, respectful conduct.",
+   "play": "Tap kind vs noisy behaviour.",
+   "extend": "Differentiate common mosque etiquette from special ritual rulings.",
+   "action": "Lower your voice in a shared space.",
+   "evidence": [
+    "S01"
+   ],
+   "duas": [
+    "D06",
+    "D07"
+   ],
+   "checks": []
+  },
+  {
+   "id": "U04.2",
+   "world": "U04",
+   "title": "Find the Right Way",
+   "teach": "Learn movement and supervision in busy places.",
+   "play": "Choose the wide safe walkway.",
+   "extend": "Prioritise officials’ routes over a map shortcut.",
+   "action": "Walk without pushing when with others.",
+   "evidence": [
+    "S03"
+   ],
+   "duas": [],
+   "checks": [
+    {
+     "id": "Q04",
+     "question": "Your parent says a pathway is crowded.",
+     "answer": "Follow the parent and official signs.",
+     "value": "Safety",
+     "world": "U04",
+     "source": "Decision bank Q04"
+    }
+   ]
+  },
+  {
+   "id": "U04.3",
+   "world": "U04",
+   "title": "Before Tawaf",
+   "teach": "Understand intention, purification concerns and guardian coordination.",
+   "play": "Arrange “ask adult, prepare, begin” cards.",
+   "extend": "Know when ritual details require a scholar or parent decision.",
+   "action": "Pause and listen before a new task.",
+   "evidence": [
+    "S01"
+   ],
+   "duas": [],
+   "checks": [],
+   "interaction": {
+    "type": "sequence",
+    "items": [
+     "ask adult",
+     "prepare",
+     "begin"
+    ],
+    "from": "U04.3 Play (3–9)"
+   }
+  },
+  {
+   "id": "U05.1",
+   "world": "U05",
+   "title": "Start at the Black Stone",
+   "teach": "Learn Tawaf’s start reference without needing to approach or touch the Black Stone.",
+   "play": "Point to the starting marker on a calm diagram.",
+   "extend": "Identify direction and start/end marker on a map.",
+   "action": "Never push to touch an object.",
+   "evidence": [
+    "S01"
+   ],
+   "duas": [],
+   "checks": [
+    {
+     "id": "Q05",
+     "question": "People are near the Black Stone.",
+     "answer": "Do not push or try to force a touch.",
+     "value": "Mercy",
+     "world": "U05",
+     "source": "Decision bank Q05"
+    }
+   ]
+  },
+  {
+   "id": "U05.2",
+   "world": "U05",
+   "title": "Seven Whole Circuits",
+   "teach": "Learn seven complete counterclockwise circuits around the Ka‘bah.",
+   "play": "Count seven loops with large beads.",
+   "extend": "Distinguish a circuit from a step; recover from a mistaken practice count.",
+   "action": "Be patient when counting.",
+   "evidence": [
+    "S01"
+   ],
+   "duas": [],
+   "checks": [
+    {
+     "id": "Q06",
+     "question": "How many complete circuits are in Tawaf?",
+     "answer": "Seven.",
+     "value": "Knowledge",
+     "world": "U05",
+     "source": "Decision bank Q06"
+    }
+   ],
+   "interaction": {
+    "type": "count",
+    "count": 7,
+    "labels": [],
+    "from": "U05.2 Play (3–9)"
+   }
+  },
+  {
+   "id": "U05.3",
+   "world": "U05",
+   "title": "Gentle Tawaf Manners",
+   "teach": "Know that dhikr/dua are permitted and there is no mandatory invented dua for each circuit.",
+   "play": "Choose “share room” over “push.”",
+   "extend": "Identify unsafe ritual shortcuts and myths.",
+   "action": "Help someone without crowding.",
+   "evidence": [
+    "S01"
+   ],
+   "duas": [
+    "D02"
+   ],
+   "checks": [
+    {
+     "id": "SCENE 02",
+     "question": "What if people are crowded?",
+     "answer": "Protect them and follow safe routes.",
+     "source": "SCENE 02"
+    }
+   ],
+   "interaction": {
+    "type": "choice",
+    "good": "share room",
+    "other": "push",
+    "from": "U05.3 Play (3–9)"
+   }
+  },
+  {
+   "id": "U06.1",
+   "world": "U06",
+   "title": "Two Rak‘ahs, Safely",
+   "teach": "Recognise prayer after Tawaf and the need to keep pathways clear.",
+   "play": "Choose a safe place icon.",
+   "extend": "Recognise that forcing a specific spot in a crowd is not required.",
+   "action": "Give others room to pass.",
+   "evidence": [
+    "S01"
+   ],
+   "duas": [],
+   "checks": []
+  },
+  {
+   "id": "U06.2",
+   "world": "U06",
+   "title": "The Gift of Water",
+   "teach": "Learn about Zamzam and using water responsibly.",
+   "play": "Pick “drink calmly and avoid waste.”",
+   "extend": "Separate authentic knowledge from exaggerated tales.",
+   "action": "Do not waste drinking water.",
+   "evidence": [
+    "S03"
+   ],
+   "duas": [],
+   "checks": [
+    {
+     "id": "Q07",
+     "question": "You want a drink after Tawaf.",
+     "answer": "Drink calmly and do not waste water.",
+     "value": "Gratitude",
+     "world": "U06",
+     "source": "Decision bank Q07"
+    }
+   ]
+  },
+  {
+   "id": "U06.3",
+   "world": "U06",
+   "title": "Dua from the Heart",
+   "teach": "Understand that a child may ask Allah for good things in permitted general dua.",
+   "play": "Choose a gratitude sentence.",
+   "extend": "Write a dua for family and others.",
+   "action": "Pray for someone in need.",
+   "evidence": [
+    "S06"
+   ],
+   "duas": [
+    "D05"
+   ],
+   "checks": []
+  },
+  {
+   "id": "U07.1",
+   "world": "U07",
+   "title": "Meet Safa and Marwah",
+   "teach": "Identify the two locations and connect to the Qur’anic verse.",
+   "play": "Match the Safa/Marwah labels.",
+   "extend": "Recall why these are among the signs of Allah.",
+   "action": "Try a task patiently after difficulty.",
+   "evidence": [
+    "S08"
+   ],
+   "duas": [
+    "D10",
+    "D09"
+   ],
+   "checks": []
+  },
+  {
+   "id": "U07.2",
+   "world": "U07",
+   "title": "Seven Lengths",
+   "teach": "Understand Safa→Marwah = 1 length; finish at Marwah after seven.",
+   "play": "Trace seven safe arrows on a screen.",
+   "extend": "Spot errors in a sequence containing a false round-trip count.",
+   "action": "Finish what you begin calmly.",
+   "evidence": [
+    "S01"
+   ],
+   "duas": [],
+   "checks": [
+    {
+     "id": "Q08",
+     "question": "From Safa to Marwah counts as what?",
+     "answer": "One Sa‘i length.",
+     "value": "Knowledge",
+     "world": "U07",
+     "source": "Decision bank Q08"
+    },
+    {
+     "id": "Q09",
+     "question": "The seventh Sa‘i length ends where?",
+     "answer": "Marwah.",
+     "value": "Knowledge",
+     "world": "U07",
+     "source": "Decision bank Q09"
+    }
+   ],
+   "interaction": {
+    "type": "count",
+    "count": 7,
+    "labels": [
+     "Safa → Marwah",
+     "Marwah → Safa",
+     "Safa → Marwah",
+     "Marwah → Safa",
+     "Safa → Marwah",
+     "Marwah → Safa",
+     "Safa → Marwah"
+    ],
+    "from": "SCENE 03 interaction"
+   }
+  },
+  {
+   "id": "U07.3",
+   "world": "U07",
+   "title": "Effort and Trust",
+   "teach": "Learn that tawakkul is action together with reliance upon Allah.",
+   "play": "Choose “seek help and keep trying.”",
+   "extend": "Write a real-life effort-and-dua plan.",
+   "action": "Persist at a difficult good task.",
+   "evidence": [
+    "S08"
+   ],
+   "duas": [],
+   "checks": [
+    {
+     "id": "SCENE 03",
+     "question": "What is the seventh destination?",
+     "answer": "Marwah.",
+     "source": "SCENE 03"
+    }
+   ]
+  },
+  {
+   "id": "U08.1",
+   "world": "U08",
+   "title": "What Is Tahallul?",
+   "teach": "Understand that shaving or trimming the hair follows Sa‘i to complete Umrah and end Ihram.",
+   "play": "Put “haircut” after Sa‘i picture.",
+   "extend": "Distinguish male and female rulings with parent-reviewed fiqh notes.",
+   "action": "Follow the correct order in daily work.",
+   "evidence": [
+    "S01"
+   ],
+   "duas": [],
+   "checks": [
+    {
+     "id": "Q10",
+     "question": "A friend says Umrah ends before hair cutting.",
+     "answer": "Explain that shaving or trimming follows Sa‘i.",
+     "value": "Knowledge",
+     "world": "U08",
+     "source": "Decision bank Q10"
+    }
+   ]
+  },
+  {
+   "id": "U08.2",
+   "world": "U08",
+   "title": "Ask an Adult First",
+   "teach": "Learn that hair cutting, scissors and exception rules are adult-supervised.",
+   "play": "Find the safe adult-help card.",
+   "extend": "Select a scholar-help branch for uncertain hair-cutting rules.",
+   "action": "Ask before using sharp tools.",
+   "evidence": [
+    "S01"
+   ],
+   "duas": [],
+   "checks": []
+  },
+  {
+   "id": "U08.3",
+   "world": "U08",
+   "title": "A Quiet Thank You",
+   "teach": "Celebrate gratitude without claiming Allah’s acceptance from an app badge.",
+   "play": "Choose a thank-you postcard.",
+   "extend": "Name one way Umrah can change conduct.",
+   "action": "Do a quiet kindness at home.",
+   "evidence": [
+    "S06"
+   ],
+   "duas": [],
+   "checks": []
+  },
+  {
+   "id": "U09.1",
+   "world": "U09",
+   "title": "We Are One Ummah",
+   "teach": "Understand unity, respect and differences in language and appearance.",
+   "play": "Match greetings to kindness symbols.",
+   "extend": "Write a welcome note to someone different from oneself.",
+   "action": "Be courteous to a new neighbour.",
+   "evidence": [
+    "S06"
+   ],
+   "duas": [],
+   "checks": [
+    {
+     "id": "Q11",
+     "question": "A friend has a different language and clothing.",
+     "answer": "Respect and welcome them.",
+     "value": "Unity",
+     "world": "U09",
+     "source": "Decision bank Q11"
+    }
+   ]
+  },
+  {
+   "id": "U09.2",
+   "world": "U09",
+   "title": "Guard the Haram",
+   "teach": "Learn cleanliness, orderly prayer and conservation.",
+   "play": "Sort “keep clean” actions.",
+   "extend": "Explain that respect is more important than an image or souvenir.",
+   "action": "Collect litter with adult supervision.",
+   "evidence": [
+    "S03"
+   ],
+   "duas": [],
+   "checks": []
+  },
+  {
+   "id": "U09.3",
+   "world": "U09",
+   "title": "A Story, Not a Ritual",
+   "teach": "Distinguish optional Makkah historical visits from Umrah rites.",
+   "play": "Sort “Umrah step” and “historical visit.”",
+   "extend": "Explain why climbing Hira/Thawr is not part of Umrah.",
+   "action": "Respect historical sites and others.",
+   "evidence": [
+    "S03"
+   ],
+   "duas": [],
+   "checks": []
+  },
+  {
+   "id": "U10.1",
+   "world": "U10",
+   "title": "Remember the Journey",
+   "teach": "Put the Umrah story cards in order.",
+   "play": "Four-card sequence replay.",
+   "extend": "Explain all steps without claiming to certify rites.",
+   "action": "Share one lesson with family.",
+   "evidence": [
+    "S01"
+   ],
+   "duas": [],
+   "checks": [],
+   "interaction": {
+    "type": "sequence",
+    "items": [
+     "Ihram",
+     "Tawaf 7",
+     "Sa‘i 7 lengths",
+     "Tahallul"
+    ],
+    "from": "T07"
+   }
+  },
+  {
+   "id": "U10.2",
+   "world": "U10",
+   "title": "Seven Days of Kindness",
+   "teach": "Begin daily small commitments in prayer, honesty and helpfulness.",
+   "play": "Select one kindness card each day.",
+   "extend": "Set measurable habits and private reflections.",
+   "action": "Help a caregiver once daily.",
+   "evidence": [
+    "S06"
+   ],
+   "duas": [],
+   "checks": [
+    {
+     "id": "Q12",
+     "question": "You returned home from a learning journey.",
+     "answer": "Continue a good habit.",
+     "value": "Action",
+     "world": "U10",
+     "source": "Decision bank Q12"
+    }
+   ]
+  },
+  {
+   "id": "U10.3",
+   "world": "U10",
+   "title": "My 40-Day Promise",
+   "teach": "Choose one continuing habit, with forgiveness for missed days.",
+   "play": "Decorate a noncompetitive habit card.",
+   "extend": "Set a realistic plan with review milestones.",
+   "action": "Review conduct kindly, not obsessively.",
+   "evidence": [
+    "S06"
+   ],
+   "duas": [],
+   "checks": []
+  },
+  {
+   "id": "H01.1",
+   "world": "H01",
+   "title": "Hajj Is a Pillar",
+   "teach": "Know Hajj is an obligation for eligible Muslims once in life; children learn without pressure.",
+   "play": "Place Hajj beside the five pillars.",
+   "extend": "Explain eligibility without confusing childhood learning with obligation.",
+   "action": "Respect responsibilities at your stage of life.",
+   "evidence": [
+    "S02"
+   ],
+   "duas": [],
+   "checks": []
+  },
+  {
+   "id": "H01.2",
+   "world": "H01",
+   "title": "Hajj and Umrah",
+   "teach": "Find which rites are shared and which occur only in Hajj.",
+   "play": "Sort simple Hajj vs Umrah picture cards.",
+   "extend": "Compare Arafat and day-specific Hajj rites with Umrah.",
+   "action": "Keep promises made to family.",
+   "evidence": [
+    "S01"
+   ],
+   "duas": [],
+   "checks": []
+  },
+  {
+   "id": "H01.3",
+   "world": "H01",
+   "title": "A Pilgrim’s Character",
+   "teach": "Qur’an 2:197 teaches avoiding arguments and wrongdoing.",
+   "play": "Choose gentle speech in a crowd.",
+   "extend": "Apply taqwa to a school conflict.",
+   "action": "Avoid one unnecessary argument.",
+   "evidence": [
+    "S06"
+   ],
+   "duas": [],
+   "checks": []
+  },
+  {
+   "id": "H02.1",
+   "world": "H02",
+   "title": "Meet Tamattu‘",
+   "teach": "Understand the route has Umrah, exit from Ihram and later Hajj Ihram.",
+   "play": "Sequence three picture blocks.",
+   "extend": "Identify typical hady requirement.",
+   "action": "Listen before choosing.",
+   "evidence": [
+    "S02"
+   ],
+   "duas": [],
+   "checks": [],
+   "interaction": {
+    "type": "sequence",
+    "items": [
+     "Umrah",
+     "exit from Ihram",
+     "then a new Hajj Ihram in the Hajj season"
+    ],
+    "from": "Adult-route glossary: Tamattu‘"
+   }
+  },
+  {
+   "id": "H02.2",
+   "world": "H02",
+   "title": "Meet Qiran",
+   "teach": "Understand one Ihram for Hajj and Umrah together.",
+   "play": "Match the shared Ihram ribbon.",
+   "extend": "Compare Qiran with Tamattu‘.",
+   "action": "Accept that different people need different help.",
+   "evidence": [
+    "S02"
+   ],
+   "duas": [],
+   "checks": []
+  },
+  {
+   "id": "H02.3",
+   "world": "H02",
+   "title": "Meet Ifrad",
+   "teach": "Understand Hajj alone and that parent/scholar decides the real route.",
+   "play": "Sort three route badges.",
+   "extend": "Explain no hady is due merely for choosing Ifrad.",
+   "action": "Ask when you are unsure.",
+   "evidence": [
+    "S02"
+   ],
+   "duas": [],
+   "checks": []
+  },
+  {
+   "id": "H03.1",
+   "world": "H03",
+   "title": "Ihram with Care",
+   "teach": "Recognise intention, Ihram boundaries and tailored etiquette.",
+   "play": "Match Ihram basics.",
+   "extend": "Explain at least three restrictions at a child-appropriate level.",
+   "action": "Care for the environment.",
+   "evidence": [
+    "S02"
+   ],
+   "duas": [],
+   "checks": []
+  },
+  {
+   "id": "H03.2",
+   "world": "H03",
+   "title": "The Talbiyah Returns",
+   "teach": "Review the same authentic Talbiyah from Umrah.",
+   "play": "Echo the opening phrase.",
+   "extend": "Explain why the phrase expresses obedience.",
+   "action": "Respond helpfully when asked.",
+   "evidence": [
+    "S07"
+   ],
+   "duas": [
+    "D01"
+   ],
+   "checks": []
+  },
+  {
+   "id": "H03.3",
+   "world": "H03",
+   "title": "The Travel Plan",
+   "teach": "Learn the role of permits, transport, adults and officials.",
+   "play": "Select the supervisor icon.",
+   "extend": "Locate annually updated official-information card.",
+   "action": "Keep a safe communication plan.",
+   "evidence": [
+    "S04"
+   ],
+   "duas": [
+    "D13"
+   ],
+   "checks": []
+  },
+  {
+   "id": "H04.1",
+   "world": "H04",
+   "title": "Find Mina",
+   "teach": "Know the 8th of Dhul-Hijjah is generally a Mina preparation day.",
+   "play": "Place Mina on a simple map.",
+   "extend": "Sequence Day 8 before Day 9.",
+   "action": "Be ready early for a family event.",
+   "evidence": [
+    "S02"
+   ],
+   "duas": [],
+   "checks": [],
+   "interaction": {
+    "type": "sequence",
+    "items": [
+     "8 Dhul-Hijjah: Mina (preparation day)",
+     "9 Dhul-Hijjah: Arafat, then Muzdalifah after sunset"
+    ],
+    "from": "Chronological map"
+   }
+  },
+  {
+   "id": "H04.2",
+   "world": "H04",
+   "title": "Shared Spaces",
+   "teach": "Understand prayer, cleanliness and fair use of facilities.",
+   "play": "Choose respectful camp behaviour.",
+   "extend": "Resolve a hypothetical queue conflict.",
+   "action": "Leave shared spaces tidy.",
+   "evidence": [
+    "S06"
+   ],
+   "duas": [],
+   "checks": []
+  },
+  {
+   "id": "H04.3",
+   "world": "H04",
+   "title": "Patience Under the Sun",
+   "teach": "Learn to rest, hydrate and follow safety guidance.",
+   "play": "Find shade/water/rest icons.",
+   "extend": "Explain warning signs that require adult help.",
+   "action": "Offer water kindly when permitted.",
+   "evidence": [
+    "S03"
+   ],
+   "duas": [
+    "D12"
+   ],
+   "checks": []
+  },
+  {
+   "id": "H05.1",
+   "world": "H05",
+   "title": "Arafat Matters",
+   "teach": "Recognise standing at Arafat as central to Hajj.",
+   "play": "Match Arafat on the timeline.",
+   "extend": "Distinguish Arafat from a tourist stop.",
+   "action": "Value important duties before extras.",
+   "evidence": [
+    "S02"
+   ],
+   "duas": [],
+   "checks": [
+    {
+     "id": "Q14",
+     "question": "What is special about Arafat in Hajj?",
+     "answer": "Standing there is central to Hajj.",
+     "value": "Knowledge",
+     "world": "H05",
+     "source": "Decision bank Q14"
+    }
+   ]
+  },
+  {
+   "id": "H05.2",
+   "world": "H05",
+   "title": "Talk to Allah",
+   "teach": "Learn personal dua and seeking forgiveness in age-appropriate language.",
+   "play": "Choose a dua topic: family/forgiveness/goodness.",
+   "extend": "Write a sincere dua without requiring a special invented formula.",
+   "action": "Pray for another person.",
+   "evidence": [
+    "S06"
+   ],
+   "duas": [
+    "D04"
+   ],
+   "checks": [
+    {
+     "id": "SCENE 04",
+     "question": "Which action follows the lesson of Arafat?",
+     "answer": "Make dua and treat others well.",
+     "source": "SCENE 04"
+    }
+   ]
+  },
+  {
+   "id": "H05.3",
+   "world": "H05",
+   "title": "The Gentle Tongue",
+   "teach": "Learn to avoid disputes even when tired.",
+   "play": "Pick a patient response to a queue.",
+   "extend": "Explain Qur’an 2:197 in everyday words.",
+   "action": "Resolve a disagreement calmly.",
+   "evidence": [
+    "S06"
+   ],
+   "duas": [],
+   "checks": [
+    {
+     "id": "Q15",
+     "question": "Someone annoys you when you are tired.",
+     "answer": "Use gentle words and ask for help.",
+     "value": "Patience",
+     "world": "H05",
+     "source": "Decision bank Q15"
+    }
+   ]
+  },
+  {
+   "id": "H06.1",
+   "world": "H06",
+   "title": "When Do We Go?",
+   "teach": "Learn Arafat first, then Muzdalifah after sunset.",
+   "play": "Arrange sun-to-night cards.",
+   "extend": "Explain the sequence and the need for authorized guidance.",
+   "action": "Wait your turn without complaining.",
+   "evidence": [
+    "S02"
+   ],
+   "duas": [],
+   "checks": [
+    {
+     "id": "Q16",
+     "question": "When is Muzdalifah visited in the common Hajj sequence?",
+     "answer": "After sunset on the day of Arafat.",
+     "value": "Sequence",
+     "world": "H06",
+     "source": "Decision bank Q16"
+    }
+   ]
+  },
+  {
+   "id": "H06.2",
+   "world": "H06",
+   "title": "Night of Remembrance",
+   "teach": "Recognise salah, dhikr, rest and safety.",
+   "play": "Sort “worship/rest” healthy actions.",
+   "extend": "Discuss why safety and rest are part of responsible planning.",
+   "action": "Appreciate quiet moments.",
+   "evidence": [
+    "S02"
+   ],
+   "duas": [
+    "D11"
+   ],
+   "checks": []
+  },
+  {
+   "id": "H06.3",
+   "world": "H06",
+   "title": "Pebbles Are Not Toys",
+   "teach": "Know small pebbles are for a prescribed Hajj rite, not a game, and never thrown at people.",
+   "play": "Match safe symbolic pebble icons on a flat screen.",
+   "extend": "Explain actual Rami must follow official routes and legal timing.",
+   "action": "Never throw objects near others.",
+   "evidence": [
+    "S02"
+   ],
+   "duas": [],
+   "checks": []
+  },
+  {
+   "id": "H07.1",
+   "world": "H07",
+   "title": "One Jamrah Today",
+   "teach": "Learn Jamrat al-Aqabah with seven pebbles on the 10th.",
+   "play": "Count seven symbol dots, no throwing animation.",
+   "extend": "Place Day 10 in the correct Jamarat schedule.",
+   "action": "Practise self-control.",
+   "evidence": [
+    "S02"
+   ],
+   "duas": [],
+   "checks": [
+    {
+     "id": "Q18",
+     "question": "A practice activity asks you to throw a stone at your friend.",
+     "answer": "Refuse and choose a safe educational activity.",
+     "value": "Safety",
+     "world": "H07",
+     "source": "Decision bank Q18"
+    }
+   ],
+   "interaction": {
+    "type": "count",
+    "count": 7,
+    "labels": [],
+    "from": "H07.1 Play (3–9)"
+   }
+  },
+  {
+   "id": "H07.2",
+   "world": "H07",
+   "title": "Crowds Are Real",
+   "teach": "The safest route and officials’ guidance come before speed.",
+   "play": "Choose between a safe route and unsafe shortcut.",
+   "extend": "Solve a high-crowd decision with guardian assistance.",
+   "action": "Avoid pushing in a queue.",
+   "evidence": [
+    "S03"
+   ],
+   "duas": [],
+   "checks": [
+    {
+     "id": "SCENE 05",
+     "question": "What is the safest response near crowded Jamarat?",
+     "answer": "Follow the official route and responsible adults.",
+     "source": "SCENE 05"
+    }
+   ],
+   "interaction": {
+    "type": "choice",
+    "good": "a safe route",
+    "other": "unsafe shortcut",
+    "from": "H07.2 Play (3–9)"
+   }
+  },
+  {
+   "id": "H07.3",
+   "world": "H07",
+   "title": "What Are We Learning?",
+   "teach": "Recognise obedience to Allah instead of superstitious ideas about hitting a devil.",
+   "play": "Choose the true explanation.",
+   "extend": "Identify and reject an invented “devil target” narrative.",
+   "action": "Reject mockery or aggression.",
+   "evidence": [
+    "S06"
+   ],
+   "duas": [
+    "D08"
+   ],
+   "checks": [
+    {
+     "id": "Q17",
+     "question": "Are Jamarat targets for a cartoon monster?",
+     "answer": "No. Rami is prescribed worship.",
+     "value": "Correct belief",
+     "world": "H07",
+     "source": "Decision bank Q17"
+    }
+   ]
+  },
+  {
+   "id": "H08.1",
+   "world": "H08",
+   "title": "What Is Hady?",
+   "teach": "Learn that certain Hajj routes require a sacrifice under religious rules.",
+   "play": "Match route icon to a neutral sacrifice symbol.",
+   "extend": "Connect Hady to Tamattu‘ and Qiran, with proper exceptions.",
+   "action": "Share food and resources generously.",
+   "evidence": [
+    "S09"
+   ],
+   "duas": [],
+   "checks": []
+  },
+  {
+   "id": "H08.2",
+   "world": "H08",
+   "title": "Taqwa Is the Goal",
+   "teach": "Qur’an 22:37 teaches that piety, not meat or blood, reaches Allah.",
+   "play": "Choose “sincerity” over “showing off.”",
+   "extend": "Explain taqwa in a simple reflection.",
+   "action": "Do one kind act privately.",
+   "evidence": [
+    "S09"
+   ],
+   "duas": [],
+   "checks": [
+    {
+     "id": "Q19",
+     "question": "What reaches Allah from sacrifice according to Qur’an 22:37?",
+     "answer": "Taqwa (piety), not flesh or blood.",
+     "value": "Spiritual meaning",
+     "world": "H08",
+     "source": "Decision bank Q19"
+    }
+   ],
+   "interaction": {
+    "type": "choice",
+    "good": "sincerity",
+    "other": "showing off",
+    "from": "H08.2 Play (3–9)"
+   }
+  },
+  {
+   "id": "H08.3",
+   "world": "H08",
+   "title": "The Hair Step",
+   "teach": "Recognise the shaving/trimming stage and that legal order can vary by situation.",
+   "play": "Find the step in the day-10 sequence.",
+   "extend": "Explain why variations need qualified fiqh review.",
+   "action": "Ask adults before using scissors.",
+   "evidence": [
+    "S02"
+   ],
+   "duas": [],
+   "checks": []
+  },
+  {
+   "id": "H09.1",
+   "world": "H09",
+   "title": "Tawaf al-Ifadah",
+   "teach": "Recognise it as an essential Hajj rite, distinct from optional Tawaf.",
+   "play": "Identify the right Tawaf card.",
+   "extend": "Distinguish Ifadah and Wada‘ without claiming every pilgrim’s route identical.",
+   "action": "Prioritise obligations.",
+   "evidence": [
+    "S02"
+   ],
+   "duas": [],
+   "checks": [
+    {
+     "id": "Q20",
+     "question": "Is Tawaf al-Ifadah an essential Hajj rite?",
+     "answer": "Yes.",
+     "value": "Knowledge",
+     "world": "H09",
+     "source": "Decision bank Q20"
+    }
+   ]
+  },
+  {
+   "id": "H09.2",
+   "world": "H09",
+   "title": "Sa‘i, If Required",
+   "teach": "Understand Sa‘i timing depends on Hajj type and what was done earlier.",
+   "play": "Match “ask route” to the correct branching path.",
+   "extend": "Test multiple route examples without double-counting.",
+   "action": "Check facts before acting.",
+   "evidence": [
+    "S02"
+   ],
+   "duas": [],
+   "checks": []
+  },
+  {
+   "id": "H09.3",
+   "world": "H09",
+   "title": "The App Cannot Certify",
+   "teach": "Know that marking a screen is not religious validation.",
+   "play": "Select a “review with guardian” icon.",
+   "extend": "Describe what to do if a rite is uncertain or missed.",
+   "action": "Admit uncertainty rather than guessing.",
+   "evidence": [
+    "S02"
+   ],
+   "duas": [],
+   "checks": []
+  },
+  {
+   "id": "H10.1",
+   "world": "H10",
+   "title": "Three Jamarat",
+   "teach": "Know the 11th and 12th require the three Jamarat in order.",
+   "play": "Arrange three named markers.",
+   "extend": "Recognise seven pebbles per Jamrah and the timing conditions.",
+   "action": "Follow instructions carefully.",
+   "evidence": [
+    "S02"
+   ],
+   "duas": [],
+   "checks": []
+  },
+  {
+   "id": "H10.2",
+   "world": "H10",
+   "title": "The Twelfth Day Choice",
+   "teach": "Learn that departure after the 12th is subject to requirements and timings.",
+   "play": "Choose “check guidance” in the schedule.",
+   "extend": "Describe why the 13th is not the same schedule for everyone.",
+   "action": "Plan responsibly.",
+   "evidence": [
+    "S02"
+   ],
+   "duas": [],
+   "checks": []
+  },
+  {
+   "id": "H10.3",
+   "world": "H10",
+   "title": "When Things Go Wrong",
+   "teach": "Seek a qualified adult/scholar after a missed, delayed or uncertain rite.",
+   "play": "Tap the help sign, not the “guess” sign.",
+   "extend": "Practise a respectful “what happened?” help report.",
+   "action": "Ask for help early.",
+   "evidence": [
+    "S02"
+   ],
+   "duas": [],
+   "checks": [
+    {
+     "id": "Q21",
+     "question": "You do not know whether a real rite was completed.",
+     "answer": "Tell your parent or qualified guide; do not guess from the app.",
+     "value": "Humility",
+     "world": "H10",
+     "source": "Decision bank Q21"
+    }
+   ],
+   "interaction": {
+    "type": "choice",
+    "good": "the help sign",
+    "other": "the “guess” sign",
+    "from": "H10.3 Play (3–9)"
+   }
+  },
+  {
+   "id": "H11.1",
+   "world": "H11",
+   "title": "Farewell Tawaf",
+   "teach": "Understand the farewell rite and recognise exceptions require fiqh guidance.",
+   "play": "Match farewell to departure card.",
+   "extend": "Differentiate a farewell ritual from visiting Madinah.",
+   "action": "Thank people as you leave.",
+   "evidence": [
+    "S02"
+   ],
+   "duas": [],
+   "checks": []
+  },
+  {
+   "id": "H11.2",
+   "world": "H11",
+   "title": "No Pushing for Pictures",
+   "teach": "Protect worshippers’ privacy, safety and quiet worship.",
+   "play": "Choose “put camera away” in a crowded scene.",
+   "extend": "Create a privacy-respecting travel-photo policy.",
+   "action": "Ask consent before photographing others.",
+   "evidence": [
+    "S03"
+   ],
+   "duas": [],
+   "checks": []
+  },
+  {
+   "id": "H11.3",
+   "world": "H11",
+   "title": "Madinah Is Separate",
+   "teach": "Recognise visiting Madinah is virtuous but not required to validate Hajj.",
+   "play": "Sort Hajj rite vs separate visit cards.",
+   "extend": "Explain the difference between rites and historical visits.",
+   "action": "Respect someone who cannot visit.",
+   "evidence": [
+    "S10"
+   ],
+   "duas": [],
+   "checks": []
+  },
+  {
+   "id": "H12.1",
+   "world": "H12",
+   "title": "What Have We Learned?",
+   "teach": "Put the key Hajj days in order.",
+   "play": "Timeline review with five cards.",
+   "extend": "Explain Day 8 through Day 13 in broad strokes.",
+   "action": "Teach a sibling one useful fact.",
+   "evidence": [
+    "S02"
+   ],
+   "duas": [],
+   "checks": [],
+   "interaction": {
+    "type": "sequence",
+    "items": [
+     "8 Dhul-Hijjah: Mina (preparation day)",
+     "9 Dhul-Hijjah: Arafat, then Muzdalifah after sunset",
+     "10 Dhul-Hijjah: Jamrat al-Aqabah; Hady, hair, Ifadah & relevant Sa‘i",
+     "11–12 Dhul-Hijjah: Mina; three Jamarat in the prescribed order",
+     "13 Dhul-Hijjah: For pilgrims remaining, further Rami"
+    ],
+    "from": "Chronological map (five cards)"
+   }
+  },
+  {
+   "id": "H12.2",
+   "world": "H12",
+   "title": "The 40-Day Kindness Path",
+   "teach": "Create tiny real-life commitments without spiritual scores.",
+   "play": "Choose a daily action card.",
+   "extend": "Track two habits and reflect honestly without shame.",
+   "action": "Build kindness into the home.",
+   "evidence": [
+    "S06"
+   ],
+   "duas": [],
+   "checks": []
+  },
+  {
+   "id": "H12.3",
+   "world": "H12",
+   "title": "Future Pilgrim Promise",
+   "teach": "Understand that adulthood and real eligibility come later; learning begins now.",
+   "play": "Choose one personal value from the journey.",
+   "extend": "Write what responsible preparation for future Hajj means.",
+   "action": "Be patient and grateful today.",
+   "evidence": [
+    "S05"
+   ],
+   "duas": [],
+   "checks": [
+    {
+     "id": "Q22",
+     "question": "Your schoolmate cannot travel for Hajj.",
+     "answer": "Never make them feel inferior.",
+     "value": "Compassion",
+     "world": "H12",
+     "source": "Decision bank Q22"
+    }
+   ]
+  },
+  {
+   "id": "Z01.1",
+   "world": "Z01",
+   "title": "Masjid al-Haram and the Ka‘bah",
+   "teach": "Learn mosque virtue, etiquette and the distinction between sacred worship and tourism.",
+   "play": "Find respectful actions around a mosque.",
+   "extend": "Explain a sourced virtue without exaggerated multipliers.",
+   "action": "Keep shared places clean.",
+   "evidence": [
+    "S01"
+   ],
+   "duas": [
+    "D06"
+   ],
+   "checks": []
+  },
+  {
+   "id": "Z01.2",
+   "world": "Z01",
+   "title": "Hira and Thawr: History",
+   "teach": "Understand links to revelation and Hijrah as history; no prescribed Umrah obligation to climb.",
+   "play": "Match “story” vs “rite” labels.",
+   "extend": "Distinguish historical facts and devotional claims.",
+   "action": "Value quiet reflection.",
+   "evidence": [
+    "S10"
+   ],
+   "duas": [],
+   "checks": [
+    {
+     "id": "Q23",
+     "question": "Is climbing Hira part of the Umrah obligation?",
+     "answer": "No. It is historical ziyarat, not an Umrah rite.",
+     "value": "Evidence",
+     "world": "Z01",
+     "source": "Decision bank Q23"
+    }
+   ]
+  },
+  {
+   "id": "Z01.3",
+   "world": "Z01",
+   "title": "The People of Makkah",
+   "teach": "Recognise generosity, service and responsibility toward hosts/workers/pilgrims.",
+   "play": "Choose a polite response to a helper.",
+   "extend": "Reflect on a service worker’s perspective.",
+   "action": "Thank someone who serves others.",
+   "evidence": [
+    "S06"
+   ],
+   "duas": [],
+   "checks": []
+  },
+  {
+   "id": "Z02.1",
+   "world": "Z02",
+   "title": "The Prophet’s Mosque",
+   "teach": "Know basic etiquette and that Madinah visit is separate from Hajj/Umrah validity.",
+   "play": "Choose quiet respect in a mosque scene.",
+   "extend": "Describe Sunnah-based salam etiquette without attributing imaginary words.",
+   "action": "Offer sincere salawat.",
+   "evidence": [
+    "S10"
+   ],
+   "duas": [
+    "D14"
+   ],
+   "checks": [
+    {
+     "id": "Q13",
+     "question": "Is visiting Madinah required to validate Hajj?",
+     "answer": "No.",
+     "value": "Knowledge",
+     "world": "Z02",
+     "source": "Decision bank Q13"
+    }
+   ]
+  },
+  {
+   "id": "Z02.2",
+   "world": "Z02",
+   "title": "Quba and Uhud",
+   "teach": "Recognise Quba as a mosque and Uhud as a site of Seerah lessons.",
+   "play": "Place landmark cards on an illustrated map.",
+   "extend": "Distinguish recommended worship from historical learning.",
+   "action": "Keep promises and show courage.",
+   "evidence": [
+    "S10"
+   ],
+   "duas": [],
+   "checks": [
+    {
+     "id": "SCENE 06",
+     "question": "Does a family who cannot visit Madinah have an incomplete Hajj?",
+     "answer": "No.",
+     "source": "SCENE 06"
+    }
+   ]
+  },
+  {
+   "id": "Z02.3",
+   "world": "Z02",
+   "title": "A Salam and a Kind Return",
+   "teach": "Learn respectful greetings and the importance of bringing good conduct home.",
+   "play": "Choose a respectful farewell.",
+   "extend": "Write a two-paragraph personal reflection.",
+   "action": "Greet others warmly.",
+   "evidence": [
+    "S06"
+   ],
+   "duas": [],
+   "checks": [
+    {
+     "id": "Q24",
+     "question": "What can love for the Prophet ﷺ inspire?",
+     "answer": "Learn his Sunnah, send salawat and practise good manners.",
+     "value": "Character",
+     "world": "Z02",
+     "source": "Decision bank Q24"
+    }
+   ]
+  }
+ ],
+ "scenes": [
+  {
+   "id": "SCENE 01",
+   "title": "The Journey Notebook",
+   "world": "U01",
+   "dialogue": [
+    {
+     "speaker": "Salaam",
+     "line": "We are preparing for a special journey to Makkah."
+    },
+    {
+     "speaker": "Imaan",
+     "line": "Are we going there only to see a beautiful place?"
+    },
+    {
+     "speaker": "Salamah",
+     "line": "We hope to worship Allah and learn better patience and kindness."
+    },
+    {
+     "speaker": "Akhlaq",
+     "line": "Then can we prepare our hearts as well as our bags?"
+    },
+    {
+     "speaker": "Dadi Jaan",
+     "line": "That is a beautiful beginning. Each step should teach us something we can live every day."
+    }
+   ],
+   "interaction": "Child opens two illustrated suitcases: “things to carry” and “good manners to carry.” The second receives patience, gratitude, honesty and helpfulness. The first receives clothing and water with a parent safety note.",
+   "check": "“Is Umrah only a sightseeing trip?” Correct: No; it is worship with specific rites. Feedback: “Well done. The purpose guides our actions.”"
+  },
+  {
+   "id": "SCENE 02",
+   "title": "The Seven Circuits",
+   "world": "U05",
+   "dialogue": [
+    {
+     "speaker": "Imaan",
+     "line": "I see a picture of the Black Stone. Should I push forward to reach it?"
+    },
+    {
+     "speaker": "Sheikh Uncle",
+     "line": "Never harm another person for a recommended action. Begin each Tawaf circuit at the correct reference point, but you do not have to touch the Stone."
+    },
+    {
+     "speaker": "Akhlaq",
+     "line": "What if I forget my practice count?"
+    },
+    {
+     "speaker": "Salamah",
+     "line": "In this lesson, we can practise again. In real worship, ask a guardian for the correct guidance."
+    },
+    {
+     "speaker": "Zameer",
+     "line": "Kindness is not an interruption to worship; it is part of our conduct."
+    }
+   ],
+   "interaction": "A stationary overhead diagram highlights one circuit at a time, without imitating a crowded “speed run.” The child learns clockwise versus counterclockwise by selecting the correct directional arrow; use no movement of religious actors as arcade coins.",
+   "check": "“How many full circuits?” Seven. “What if people are crowded?” Protect them and follow safe routes."
+  },
+  {
+   "id": "SCENE 03",
+   "title": "Hajar’s Effort",
+   "world": "U07",
+   "dialogue": [
+    {
+     "speaker": "Dadi Jaan",
+     "line": "Long ago, Hajar showed trust in Allah while she took action to care for her child."
+    },
+    {
+     "speaker": "Imaan",
+     "line": "So trusting Allah does not mean sitting still?"
+    },
+    {
+     "speaker": "Dadi Jaan",
+     "line": "Exactly. We ask Allah for help and do what is right and possible."
+    },
+    {
+     "speaker": "Akhlaq",
+     "line": "Then I will try again when my homework is difficult—and ask for help when I need it."
+    },
+    {
+     "speaker": "Sheikh Uncle",
+     "line": "Safa and Marwah are among the signs of Allah. Our Sa‘i follows the prescribed route."
+    }
+   ],
+   "interaction": "On-screen path shows Safa to Marwah as length 1, then Marwah to Safa as length 2, continuing to seven and ending at Marwah. For preschool children use seven numbered dots. Do not present a full round-trip as one length.",
+   "check": "“What is the seventh destination?” Marwah. Action card: “Try your difficult good task again.”"
+  },
+  {
+   "id": "SCENE 04",
+   "title": "Arafat and the Gentle Tongue",
+   "world": "H05",
+   "dialogue": [
+    {
+     "speaker": "Akhlaq",
+     "line": "Why is the Day of Arafat so important?"
+    },
+    {
+     "speaker": "Sheikh Uncle",
+     "line": "Standing at Arafat is central to Hajj, and pilgrims spend the day in worship and supplication."
+    },
+    {
+     "speaker": "Imaan",
+     "line": "I sometimes argue when I am tired."
+    },
+    {
+     "speaker": "Zameer",
+     "line": "Remember: good manners are also for difficult moments."
+    },
+    {
+     "speaker": "Dadi Jaan",
+     "line": "The Qur’an teaches pilgrims to avoid disputes. You can practise this lesson at home today."
+    }
+   ],
+   "interaction": "Child chooses a response when another learner cuts ahead in a school queue. The calm, safe option receives educational feedback. No child is led to imitate actual Arafat movement physically.",
+   "check": "“Which action follows the lesson of Arafat?” Make dua and treat others well."
+  },
+  {
+   "id": "SCENE 05",
+   "title": "The Jamarat are Not Targets",
+   "world": "H07",
+   "dialogue": [
+    {
+     "speaker": "Imaan",
+     "line": "I saw a picture of small pebbles. Are pilgrims throwing at a monster?"
+    },
+    {
+     "speaker": "Sheikh Uncle",
+     "line": "No. Rami is a prescribed act of Hajj; we do not invent a monster or devil to hit."
+    },
+    {
+     "speaker": "Akhlaq",
+     "line": "Then we should not turn it into a throwing game!"
+    },
+    {
+     "speaker": "Salaam",
+     "line": "Correct. Crowded places require special care and obedience to safety instructions."
+    },
+    {
+     "speaker": "Zameer",
+     "line": "Learning to resist a bad choice is a safe challenge we can practise now."
+    }
+   ],
+   "interaction": "Child orders the numbered Jamarat markers on a flat educational diagram. A separate ethics challenge concerns not throwing objects at people. Never animate stones hitting a character.",
+   "check": "“What is the safest response near crowded Jamarat?” Follow the official route and responsible adults."
+  },
+  {
+   "id": "SCENE 06",
+   "title": "Madinah and Meaningful Love",
+   "world": "Z02",
+   "dialogue": [
+    {
+     "speaker": "Akhlaq",
+     "line": "Is Madinah part of the Hajj requirement?"
+    },
+    {
+     "speaker": "Sheikh Uncle",
+     "line": "It is a blessed visit, but visiting Madinah is not a condition for the validity of Hajj or Umrah."
+    },
+    {
+     "speaker": "Imaan",
+     "line": "How do we show love for the Prophet ﷺ?"
+    },
+    {
+     "speaker": "Dadi Jaan",
+     "line": "By learning and following his guidance, sending salawat and practising good manners."
+    },
+    {
+     "speaker": "Salamah",
+     "line": "Let us take those lessons into our home as well."
+    }
+   ],
+   "interaction": "Child sorts “Hajj rite,” “Umrah rite,” and “separate visit.” Correct feedback is never framed as judging who is more devoted.",
+   "check": "“Does a family who cannot visit Madinah have an incomplete Hajj?” No. Source label: [S10]."
+  }
+ ],
+ "duaIntro": "All Arabic is provided as editable text for the publisher. Children learn meaning before memorisation. The app shall not imply these are all obligatory or fixed at every station. Hadith text/grade and Arabic diacritics must be verified by the scholarly editorial board before recording.",
+ "duas": [
+  {
+   "id": "D01",
+   "title": "Talbiyah — during Ihram",
+   "arabic": "لَبَّيْكَ اللَّهُمَّ لَبَّيْكَ، لَبَّيْكَ لَا شَرِيكَ لَكَ لَبَّيْكَ، إِنَّ الْحَمْدَ وَالنِّعْمَةَ لَكَ وَالْمُلْكَ، لَا شَرِيكَ لَكَ",
+   "meaning": "Here I am at Your service, O Allah. You have no partner. Praise, blessings and sovereignty belong to You.",
+   "source": "Sahih Muslim 1184a",
+   "note": "Short echo for younger ages; full text for older learners.",
+   "shortEcho": "لَبَّيْكَ اللَّهُمَّ لَبَّيْكَ"
+  },
+  {
+   "id": "D02",
+   "title": "Qur’anic dua for good",
+   "arabic": "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ",
+   "meaning": "Our Lord, give us good in this life and in the Hereafter and protect us from the Fire.",
+   "source": "Qur’an 2:201",
+   "note": "Explain that this is an authentic general dua; useful during Tawaf."
+  },
+  {
+   "id": "D03",
+   "title": "Asking for knowledge",
+   "arabic": "رَبِّ زِدْنِي عِلْمًا",
+   "meaning": "My Lord, increase me in knowledge.",
+   "source": "Qur’an 20:114",
+   "note": "Best first memory card for ages 3–5."
+  },
+  {
+   "id": "D04",
+   "title": "Repentance of Adam and Hawwa",
+   "arabic": "رَبَّنَا ظَلَمْنَا أَنْفُسَنَا وَإِنْ لَمْ تَغْفِرْ لَنَا وَتَرْحَمْنَا لَنَكُونَنَّ مِنَ الْخَاسِرِينَ",
+   "meaning": "Our Lord, we have wronged ourselves. If You do not forgive us and have mercy on us, we will be among the losers.",
+   "source": "Qur’an 7:23",
+   "note": "For gentle lessons on apologising and changing behaviour."
+  },
+  {
+   "id": "D05",
+   "title": "Dua for parents",
+   "arabic": "رَبِّ اغْفِرْ لِي وَلِوَالِدَيَّ وَلِلْمُؤْمِنِينَ يَوْمَ يَقُومُ الْحِسَابُ",
+   "meaning": "My Lord, forgive me, my parents and the believers on the Day of Reckoning.",
+   "source": "Qur’an 14:41",
+   "note": "Parent-led discussion; not a fixed pilgrimage-only dua."
+  },
+  {
+   "id": "D06",
+   "title": "When entering a mosque",
+   "arabic": "اللَّهُمَّ افْتَحْ لِي أَبْوَابَ رَحْمَتِكَ",
+   "meaning": "O Allah, open for me the doors of Your mercy.",
+   "source": "Sahih Muslim 713",
+   "note": "Teach general mosque etiquette, not exclusive to Makkah."
+  },
+  {
+   "id": "D07",
+   "title": "When leaving a mosque",
+   "arabic": "اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنْ فَضْلِكَ",
+   "meaning": "O Allah, I ask You from Your bounty.",
+   "source": "Sahih Muslim 713",
+   "note": "Short, memorable exit card."
+  },
+  {
+   "id": "D08",
+   "title": "Takbir",
+   "arabic": "اللَّهُ أَكْبَرُ",
+   "meaning": "Allah is greatest.",
+   "source": "Rami Takbir in Sahih al-Bukhari 1753; also general dhikr",
+   "note": "Explain context separately; never use for throwing-game animation."
+  },
+  {
+   "id": "D09",
+   "title": "Tahlil — oneness of Allah",
+   "arabic": "لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ",
+   "meaning": "None has the right to be worshipped but Allah alone. His is the dominion and praise, and He has power over all things.",
+   "source": "Sahih Muslim 1218 (Safa/Marwah context)",
+   "note": "Advanced full memorisation, younger learners repeat first phrase.",
+   "shortEcho": "لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ"
+  },
+  {
+   "id": "D10",
+   "title": "At Safa: Qur’anic opening",
+   "arabic": "إِنَّ الصَّفَا وَالْمَرْوَةَ مِنْ شَعَائِرِ اللَّهِ",
+   "meaning": "Indeed Safa and Marwah are among the signs of Allah.",
+   "source": "Qur’an 2:158; see Sahih Muslim 1218",
+   "note": "Make clear this is a verse, not a newly invented dua."
+  },
+  {
+   "id": "D11",
+   "title": "Simple Tasbih",
+   "arabic": "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ",
+   "meaning": "Glory and praise be to Allah.",
+   "source": "Sahih al-Bukhari 6405",
+   "note": "General dhikr, not mandatory at a fixed pilgrimage location."
+  },
+  {
+   "id": "D12",
+   "title": "Prayer for patience and courage",
+   "arabic": "رَبَّنَا أَفْرِغْ عَلَيْنَا صَبْرًا وَثَبِّتْ أَقْدَامَنَا",
+   "meaning": "Our Lord, pour patience upon us and make our feet firm.",
+   "source": "Qur’an 2:250",
+   "note": "Good for a school challenge; not a ritual-specific formula."
+  },
+  {
+   "id": "D13",
+   "title": "Qur’anic travel remembrance",
+   "arabic": "سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَٰذَا وَمَا كُنَّا لَهُ مُقْرِنِينَ وَإِنَّا إِلَىٰ رَبِّنَا لَمُنْقَلِبُونَ",
+   "meaning": "Glory to the One Who has subjected this to us; to our Lord we will return.",
+   "source": "Qur’an 43:13–14",
+   "note": "Explain as a portion used in travel remembrance."
+  },
+  {
+   "id": "D14",
+   "title": "Salawat — concise learning card",
+   "arabic": "اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ",
+   "meaning": "O Allah, send blessings upon Muhammad.",
+   "source": "Short permitted salawat; full transmitted Ibrahimiyyah formula in scholar-approved advanced card (Bukhari 3370)",
+   "note": "Not presented as a complete replacement for prayer-specific salawat."
+  }
+ ],
+ "muhasabah": [
+  "Was I patient today?",
+  "Did I tell the truth when it was difficult?",
+  "Did I make life easier for someone?"
+ ],
+ "fortyIntro": "A child may select just one daily micro-action. Parents and teachers encourage without comparing siblings or making claims about Allah’s judgment. These habits support everyday conduct after the virtual or real journey.",
+ "fortyDays": [
+  "Thank a caregiver sincerely",
+  "Put one belonging back in place",
+  "Say a kind word to someone",
+  "Share something fairly",
+  "Listen without interrupting",
+  "Tell the truth in a difficult moment",
+  "Offer a simple dua for family",
+  "Help clear the table",
+  "Read or listen to Qur’an with a parent",
+  "Say sorry when necessary",
+  "Use water without waste",
+  "Hold a door or give someone space",
+  "Be patient in a queue",
+  "Clean a study area",
+  "Avoid teasing for one day",
+  "Greet a neighbour politely",
+  "Remember one pilgrimage lesson",
+  "Choose gentle words during frustration",
+  "Help a younger child learn",
+  "Offer a short gratitude dua",
+  "Keep your promise today",
+  "Care for an animal or plant safely",
+  "Ask a respectful question",
+  "Do a quiet good deed",
+  "Let another child go first",
+  "Keep public space tidy",
+  "Read a short Seerah passage",
+  "Say salawat in an appropriate moment",
+  "Be honest about an unfinished task",
+  "Thank a community helper",
+  "Share a useful fact kindly",
+  "Be respectful when someone differs",
+  "Pause before arguing",
+  "Finish one small responsibility",
+  "Make dua for someone ill",
+  "Practise a memorised dhikr",
+  "Help prepare a family meal safely",
+  "Ask forgiveness and forgive someone",
+  "Choose one habit to keep next month",
+  "Review what changed in my conduct"
+ ],
+ "sites": [
+  {
+   "name": "Masjid al-Haram",
+   "learn": "Sacred House, Tawaf and orderly worship.",
+   "classification": "Sacred mosque; required rites occur here."
+  },
+  {
+   "name": "Hira / Jabal al-Nur",
+   "learn": "Beginning of revelation; love of learning.",
+   "classification": "Historical site; climbing is not an Umrah rite."
+  },
+  {
+   "name": "Cave of Thawr",
+   "learn": "Hijrah, tawakkul and careful planning.",
+   "classification": "Historical site; climbing is not a Hajj/Umrah rite."
+  },
+  {
+   "name": "Jannat al-Mu‘alla",
+   "learn": "Respect for the deceased and Makkah’s early history.",
+   "classification": "Cemetery; etiquette and access rules."
+  },
+  {
+   "name": "Masjid an-Nabawi",
+   "learn": "Prayer, salam, good manners and love of the Sunnah.",
+   "classification": "Separate Madinah visit; not required for Hajj validity."
+  },
+  {
+   "name": "Masjid Quba",
+   "learn": "Early Madinah and the Sunnah of praying at Quba.",
+   "classification": "Established mosque virtue; verify hadith text."
+  },
+  {
+   "name": "Masjid al-Qiblatain",
+   "learn": "Learning about the change of Qiblah.",
+   "classification": "Historical learning; no invented special reward."
+  },
+  {
+   "name": "Uhud",
+   "learn": "Courage, discipline and sacrifice in the Seerah.",
+   "classification": "Historical learning; respect local access."
+  },
+  {
+   "name": "Al-Baqi",
+   "learn": "Dua for deceased Muslims and remembrance of the Hereafter.",
+   "classification": "Cemetery; no grave-directed supplication."
+  },
+  {
+   "name": "Trench / Khandaq area",
+   "learn": "Cooperation, planning and perseverance.",
+   "classification": "Historical learning; site access may change."
+  }
+ ],
+ "siteNote": "Each site card uses one illustration, one narrated fact, a clearly identified evidence label, one character-value question, one family note and one safe “return to map” action. Avoid auto-routing to remote hills, graves or restricted areas.",
+ "parent": {
+  "routes": [
+   {
+    "route": "Tamattu‘",
+    "feature": "Umrah; exit from Ihram; then a new Hajj Ihram in the Hajj season.",
+    "hady": "Generally required, subject to conditions."
+   },
+   {
+    "route": "Qiran",
+    "feature": "Hajj and Umrah combined in one Ihram.",
+    "hady": "Generally required, subject to conditions."
+   },
+   {
+    "route": "Ifrad",
+    "feature": "Hajj alone.",
+    "hady": "Not required solely for selecting Ifrad."
+   }
+  ],
+  "hajjDays": [
+   {
+    "when": "8 Dhul-Hijjah",
+    "where": "Mina (preparation day)",
+    "lesson": "Patience, shared-space manners"
+   },
+   {
+    "when": "9 Dhul-Hijjah",
+    "where": "Arafat, then Muzdalifah after sunset",
+    "lesson": "Dua, remembrance, gratitude"
+   },
+   {
+    "when": "10 Dhul-Hijjah",
+    "where": "Jamrat al-Aqabah; Hady, hair, Ifadah & relevant Sa‘i",
+    "lesson": "Correct rites and care for others"
+   },
+   {
+    "when": "11–12 Dhul-Hijjah",
+    "where": "Mina; three Jamarat in the prescribed order",
+    "lesson": "Responsibility, crowd safety"
+   },
+   {
+    "when": "13 Dhul-Hijjah",
+    "where": "For pilgrims remaining, further Rami",
+    "lesson": "Finish duties patiently"
+   },
+   {
+    "when": "Before departure",
+    "where": "Farewell Tawaf when required/possible",
+    "lesson": "Gratitude, ask adult for exceptions"
+   }
+  ],
+  "hajjDaysNote": "DEV NOTE: This is a teaching map, not a universal legal order. Timing, variations, exceptions and school-based details must be route- and scholar-reviewed.",
+  "companion": [
+   "If a family requests travel support, open a parent-only reference experience that explains the proper route, safety, official sources and general guidance. Avoid making child input the authoritative record of Tawaf, Sa‘i or Hajj completion. Parent mode never certifies the validity of rituals.",
+   "Child mode cannot book Hajj/Umrah services, purchase travel, request location permission, or mark an adult rite as completed.",
+   "The adult route selector must show Tamattu‘/Qiran/Ifrad options where applicable; do not merge divergent Hajj steps.",
+   "Do not automatically prescribe handling of missed Miqat, menstruation, delayed Tawaf, Rami on behalf, disability, Ihram violation or Hady: show a qualified-scholar/official-guide referral.",
+   "Unverified 2027+ eligibility must never be filled with hard-coded 2026 rules; policy has jurisdiction, season and expiry.",
+   "Offline companion may display downloaded verified material; when a permit or transport note expires, clearly show “verify current official instructions.”"
+  ],
+  "faq": [
+   {
+    "q": "Does learning Hajj make a child eligible to go?",
+    "a": "No. The whole curriculum is educational. Actual Hajj participation must follow official age, visa, health and local policy for the relevant season. In Pakistan’s 2026 scheme children below 12 were not eligible; this must not be hard-coded for later years. [S04]"
+   },
+   {
+    "q": "Can a young child perform Hajj?",
+    "a": "The Sunnah recognises the Hajj of a child and a reward for the guardian, but it does not discharge the adult obligation after puberty when its conditions are met. Guardians need current permits and scholarly guidance for actual practice. [S05]"
+   },
+   {
+    "q": "Is Umrah compulsory for a young child?",
+    "a": "Do not pressure a child with adult obligations. Educational practice may be enjoyed at any age, while real Umrah should be supervised and governed by current permissions and fiqh advice."
+   },
+   {
+    "q": "What if a child does not memorise the duas?",
+    "a": "Memorisation is gradual. The app must allow listening, understanding, repeating and general permitted dua; it should not invent mandatory formulas for every Tawaf round."
+   },
+   {
+    "q": "Can children touch or kiss the Black Stone?",
+    "a": "No one should push, risk injury or break supervision to reach it. Touching it is not a condition of Tawaf. Child safety comes first."
+   },
+   {
+    "q": "What if a child becomes lost, unwell or overheated?",
+    "a": "Stop the lesson/game. Follow official safety directions and seek help from a responsible adult or local emergency services; medical safety comes before app completion."
+   },
+   {
+    "q": "What about an older girl who has begun menstruating?",
+    "a": "Offer an age-appropriate, private and parent-gated explanation. Menstruation affects Tawaf rules; the app must not give an automated personal fatwa or declare ritual validity. Consult a qualified scholar and guardian."
+   },
+   {
+    "q": "What if a ritual was missed or an Ihram restriction was broken?",
+    "a": "The app records an “I need help” note, explains why this can affect duties, and routes to a knowledgeable adult or qualified scholar. No guessing and no automatic penalty calculator."
+   },
+   {
+    "q": "Does a Madinah visit complete Hajj or Umrah?",
+    "a": "No. Madinah is a separate blessed visit; the validity of pilgrimage is not dependent on visiting it."
+   },
+   {
+    "q": "May a child use the app during an actual Tawaf or Rami?",
+    "a": "Do not prompt active games during rituals or moving crowds. A guardian may view downloaded guidance safely when stationary and appropriate."
+   }
+  ]
+ },
+ "sources": [
+  {
+   "id": "S01",
+   "title": "Official Nusuk Umrah Journey",
+   "note": "Stages: Ihram, Tawaf, Sa‘i, shave/trim; safety and etiquette.",
+   "url": "https://umrah.nusuk.sa/Journey"
+  },
+  {
+   "id": "S02",
+   "title": "Official Nusuk Hajj Rituals and Journey",
+   "note": "Hajj pathways and stage-by-stage rites.",
+   "url": "https://hajj.nusuk.sa/nusuk/hajj-rituals"
+  },
+  {
+   "id": "S03",
+   "title": "Saudi Ministry of Hajj and Umrah, Awareness Guides",
+   "note": "Operational guidance; year- and place-sensitive.",
+   "url": "https://haj.gov.sa/Guides"
+  },
+  {
+   "id": "S04",
+   "title": "Pakistan Ministry of Religious Affairs, Hajj Wing (2026 policy)",
+   "note": "2026 child-eligibility snapshot; check again for each season.",
+   "url": "https://www.mora.gov.pk/Detail/YmYyMTFjNTEtNGJiMC00YmIyLWIwNmItZjk3MjY1MzUwZTdm"
+  },
+  {
+   "id": "S05",
+   "title": "Sahih Muslim 1336a",
+   "note": "Child’s Hajj may be rewarded; see scholarly discussion of adult Hajj obligation.",
+   "url": "https://sunnah.com/muslim/15/457"
+  },
+  {
+   "id": "S06",
+   "title": "Qur’an 2:197",
+   "note": "Pilgrimage manners, taqwa, avoiding dispute.",
+   "url": "https://quran.com/2/197"
+  },
+  {
+   "id": "S07",
+   "title": "Sahih Muslim 1184a",
+   "note": "Talbiyah of the Prophet ﷺ.",
+   "url": "https://sunnah.com/muslim:1184a"
+  },
+  {
+   "id": "S08",
+   "title": "Qur’an 2:158 and Sahih Muslim 1218",
+   "note": "Safa/Marwah are among Allah’s signs; detailed Sa‘i report reviewed separately.",
+   "url": "https://quran.com/2/158"
+  },
+  {
+   "id": "S09",
+   "title": "Qur’an 22:37",
+   "note": "Sacrifice, obedience and taqwa.",
+   "url": "https://quran.com/22/37"
+  },
+  {
+   "id": "S10",
+   "title": "Sahih al-Bukhari 1190 and Seerah/historical sources",
+   "note": "Virtue of prayer in the Prophet’s Mosque; optional Madinah visit as separate itinerary.",
+   "url": "https://sunnah.com/bukhari:1190"
+  },
+  {
+   "id": "S11",
+   "title": "Sahih al-Bukhari 1773",
+   "note": "Virtues of Umrah and Hajj mabrur.",
+   "url": "https://sunnah.com/bukhari:1773"
+  },
+  {
+   "id": "S12",
+   "title": "Sahih Muslim 713",
+   "note": "Mosque entry and departure supplications.",
+   "url": "https://sunnah.com/muslim:713"
+  },
+  {
+   "id": "S13",
+   "title": "Qur’an 2:201, 7:23, 14:41, 20:114, 43:13–14",
+   "note": "Approved Qur’anic supplication starting points.",
+   "url": "https://quran.com/2/201"
+  },
+  {
+   "id": "S14",
+   "title": "Sahih al-Bukhari 1753",
+   "note": "Rami narration/Takbir; verify application with fiqh reviewer.",
+   "url": "https://sunnah.com/bukhari:1753"
+  },
+  {
+   "id": "S15",
+   "title": "Sahih al-Bukhari 6405",
+   "note": "General Tasbih dhikr card.",
+   "url": "https://sunnah.com/bukhari:6405"
+  },
+  {
+   "id": "S16",
+   "title": "Sahih al-Bukhari 3370",
+   "note": "Full Salawat Ibrahimiyyah for advanced expansion.",
+   "url": "https://sunnah.com/bukhari:3370"
+  }
+ ],
+ "finalWarning": "Neither the authoring draft nor app activities should be published as a fatwa, actual rite certificate, guarantee of reward, or current official travel notice. Keep the child’s experience joyful and accurate; keep worship dignified, safety-first and firmly connected to character."
+}
