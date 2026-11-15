@@ -47,9 +47,20 @@ class HajjCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Container(
     width: double.infinity,
-    padding: padding,
-    decoration: cardDecoration().copyWith(color: color),
-    child: child,
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(20),
+      boxShadow: cardDecoration().boxShadow,
+    ),
+    // Material (not a coloured box) so list tiles inside keep their ink.
+    child: Material(
+      color: color,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+        side: const BorderSide(color: lineColor),
+      ),
+      clipBehavior: Clip.antiAlias,
+      child: Padding(padding: padding, child: child),
+    ),
   );
 }
 
