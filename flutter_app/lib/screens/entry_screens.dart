@@ -37,7 +37,10 @@ class SectionChoice extends StatelessWidget {
   static const _muted = Color(0xFF6B7488);
 
   /// Fades and lifts [child] in after [delayMs]; finite, so tests settle.
-  static Widget _rise(int delayMs, Widget child) => TweenAnimationBuilder<double>(
+  static Widget _rise(
+    int delayMs,
+    Widget child,
+  ) => TweenAnimationBuilder<double>(
     tween: Tween(begin: 0, end: 1),
     duration: Duration(milliseconds: 450 + delayMs),
     curve: Interval(delayMs / (450 + delayMs), 1, curve: Curves.easeOutCubic),
@@ -54,105 +57,109 @@ class SectionChoice extends StatelessWidget {
     backgroundColor: brandCream,
     body: BrandBackdrop(
       child: SafeArea(
-          child: LayoutBuilder(
-            builder: (context, constraints) => SingleChildScrollView(
-              child: ConstrainedBox(
-                constraints: BoxConstraints(minHeight: constraints.maxHeight),
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 24, 20, 20),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      _rise(0, Center(child: _logoRing())),
-                      const SizedBox(height: 22),
-                      _rise(
-                        80,
-                        const Text(
-                          'Assalamu Alaikum!',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: brandPink,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w700,
-                            letterSpacing: .4,
-                          ),
+        child: LayoutBuilder(
+          builder: (context, constraints) => SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: constraints.maxHeight),
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(20, 24, 20, 20),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    _rise(0, Center(child: _logoRing())),
+                    const SizedBox(height: 22),
+                    _rise(
+                      80,
+                      const Text(
+                        'Assalamu Alaikum!',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: brandPink,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: .4,
                         ),
                       ),
-                      const SizedBox(height: 6),
-                      _rise(
-                        120,
-                        const Text(
-                          'Choose your space',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontFamily: 'Fredoka',
-                            fontVariations: [FontVariation('wght', 600)],
-                            fontSize: 30,
-                            fontWeight: FontWeight.w600,
-                            color: brandNavy,
-                            height: 1.15,
-                          ),
+                    ),
+                    const SizedBox(height: 6),
+                    _rise(
+                      120,
+                      const Text(
+                        'Choose your space',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: 'Fredoka',
+                          fontVariations: [FontVariation('wght', 600)],
+                          fontSize: 30,
+                          fontWeight: FontWeight.w600,
+                          color: brandNavy,
+                          height: 1.15,
                         ),
                       ),
-                      const SizedBox(height: 8),
-                      _rise(
-                        160,
-                        const Text(
-                          'Learn at home or with your school.',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: _muted, fontSize: 15),
+                    ),
+                    const SizedBox(height: 8),
+                    _rise(
+                      160,
+                      const Text(
+                        'Learn at home or with your school.',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: _muted, fontSize: 15),
+                      ),
+                    ),
+                    const SizedBox(height: 30),
+                    _rise(
+                      240,
+                      _ChoiceCard(
+                        key: const Key('choose-individual'),
+                        title: 'Individual',
+                        tag: 'For kids & families',
+                        subtitle:
+                            'Stories, Hadith and activities at home, '
+                            'at your own pace.',
+                        icon: Icons.auto_stories_rounded,
+                        gradient: const [brandPink, brandOrange],
+                        accent: brandPink,
+                        onTap: () => onChoose(AppSection.individual),
+                      ),
+                    ),
+                    const SizedBox(height: 14),
+                    _rise(
+                      320,
+                      _ChoiceCard(
+                        key: const Key('choose-school'),
+                        title: 'School',
+                        tag: 'For students & teachers',
+                        subtitle:
+                            'Sign in with the account your school '
+                            'gave you, or register a school.',
+                        icon: Icons.school_rounded,
+                        gradient: const [brandNavy, Color(0xFF3A4E8C)],
+                        accent: brandNavy,
+                        onTap: () => onChoose(AppSection.school),
+                      ),
+                    ),
+                    const SizedBox(height: 28),
+                    _rise(
+                      400,
+                      const Text(
+                        'ISLAMIC STORIES & EDUCATION FOR KIDS',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Color(0xFFB5A99A),
+                          fontSize: 11.5,
+                          fontWeight: FontWeight.w600,
+                          letterSpacing: 1.4,
                         ),
                       ),
-                      const SizedBox(height: 30),
-                      _rise(
-                        240,
-                        _ChoiceCard(
-                          key: const Key('choose-individual'),
-                          title: 'Individual',
-                          subtitle: 'Stories, Hadith and activities at home, '
-                              'at your own pace.',
-                          icon: Icons.auto_stories_rounded,
-                          gradient: const [brandPink, brandOrange],
-                          accent: brandPink,
-                          onTap: () => onChoose(AppSection.individual),
-                        ),
-                      ),
-                      const SizedBox(height: 14),
-                      _rise(
-                        320,
-                        _ChoiceCard(
-                          key: const Key('choose-school'),
-                          title: 'School',
-                          subtitle: 'Sign in with the account your school '
-                              'gave you, or register a school.',
-                          icon: Icons.school_rounded,
-                          gradient: const [brandNavy, Color(0xFF3A4E8C)],
-                          accent: brandNavy,
-                          onTap: () => onChoose(AppSection.school),
-                        ),
-                      ),
-                      const SizedBox(height: 28),
-                      _rise(
-                        400,
-                        const Text(
-                          'ISLAMIC STORIES & EDUCATION FOR KIDS',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Color(0xFFB5A99A),
-                            fontSize: 11.5,
-                            fontWeight: FontWeight.w600,
-                            letterSpacing: 1.4,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),
           ),
         ),
+      ),
     ),
   );
 
@@ -238,10 +245,13 @@ class BrandLogoRing extends StatelessWidget {
   );
 }
 
+/// A soft, lightly tinted door into one section of the app: colour lives in
+/// the icon tile and arrow, the card itself stays calm.
 class _ChoiceCard extends StatelessWidget {
   const _ChoiceCard({
     super.key,
     required this.title,
+    required this.tag,
     required this.subtitle,
     required this.icon,
     required this.gradient,
@@ -249,98 +259,157 @@ class _ChoiceCard extends StatelessWidget {
     required this.onTap,
   });
 
-  final String title, subtitle;
+  final String title, tag, subtitle;
   final IconData icon;
   final List<Color> gradient;
   final Color accent;
   final VoidCallback onTap;
 
   @override
-  Widget build(BuildContext context) => Semantics(
-    button: true,
-    label: '$title. $subtitle',
-    excludeSemantics: true,
-    child: Material(
-      color: Colors.transparent,
-      borderRadius: BorderRadius.circular(22),
-      elevation: 0,
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(22),
-        child: Ink(
-          decoration: BoxDecoration(
-            // The fill must sit in the same decoration as the shadow, or the
-            // shadow shows through and tints the card.
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(22),
-            border: Border.all(color: accent.withValues(alpha: .16)),
-            boxShadow: [
-              BoxShadow(
-                color: accent.withValues(alpha: .10),
-                blurRadius: 22,
-                offset: const Offset(0, 8),
+  Widget build(BuildContext context) {
+    final showTag = MediaQuery.textScalerOf(context).scale(14) <= 17;
+    final tint = Color.lerp(Colors.white, accent, .07)!;
+    return Semantics(
+      button: true,
+      label: '$title. $subtitle',
+      excludeSemantics: true,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(22),
+          boxShadow: [
+            BoxShadow(
+              color: accent.withValues(alpha: .10),
+              blurRadius: 18,
+              offset: const Offset(0, 8),
+            ),
+          ],
+        ),
+        child: Material(
+          borderRadius: BorderRadius.circular(22),
+          clipBehavior: Clip.antiAlias,
+          child: Ink(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Colors.white, tint],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
               ),
-            ],
-          ),
-          padding: const EdgeInsets.fromLTRB(16, 16, 14, 16),
-          child: Row(
-            children: [
-              Container(
-                width: 58,
-                height: 58,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(18),
-                  gradient: LinearGradient(
-                    colors: gradient,
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
+              border: Border.all(color: accent.withValues(alpha: .16)),
+              borderRadius: BorderRadius.circular(22),
+            ),
+            child: InkWell(
+              onTap: onTap,
+              splashColor: accent.withValues(alpha: .08),
+              highlightColor: accent.withValues(alpha: .04),
+              child: Stack(
+                children: [
+                  // One quiet bubble in the corner.
+                  Positioned(
+                    right: -28,
+                    top: -34,
+                    child: Container(
+                      width: 96,
+                      height: 96,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: accent.withValues(alpha: .05),
+                      ),
+                    ),
                   ),
-                ),
-                child: Icon(icon, color: Colors.white, size: 30),
-              ),
-              const SizedBox(width: 14),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      style: TextStyle(
-                        color: accent,
-                        fontSize: 19,
-                        fontWeight: FontWeight.w800,
-                      ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 16, 14, 16),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 58,
+                          height: 58,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(18),
+                            gradient: LinearGradient(
+                              colors: gradient,
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: accent.withValues(alpha: .22),
+                                blurRadius: 10,
+                                offset: const Offset(0, 4),
+                              ),
+                            ],
+                          ),
+                          child: Icon(icon, color: Colors.white, size: 30),
+                        ),
+                        const SizedBox(width: 14),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              if (showTag) ...[
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 8,
+                                    vertical: 2,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: accent.withValues(alpha: .08),
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: Text(
+                                    tag,
+                                    style: TextStyle(
+                                      color: accent,
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.w700,
+                                      letterSpacing: .2,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 4),
+                              ],
+                              Text(
+                                title,
+                                style: TextStyle(
+                                  color: accent,
+                                  fontSize: 19,
+                                  fontWeight: FontWeight.w800,
+                                ),
+                              ),
+                              const SizedBox(height: 2),
+                              Text(
+                                subtitle,
+                                style: const TextStyle(
+                                  color: Color(0xFF6B7488),
+                                  fontSize: 13.5,
+                                  height: 1.35,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Container(
+                          width: 34,
+                          height: 34,
+                          decoration: BoxDecoration(
+                            color: accent.withValues(alpha: .10),
+                            shape: BoxShape.circle,
+                          ),
+                          child: Icon(
+                            Icons.arrow_forward_rounded,
+                            color: accent,
+                            size: 20,
+                          ),
+                        ),
+                      ],
                     ),
-                    const SizedBox(height: 3),
-                    Text(
-                      subtitle,
-                      style: const TextStyle(
-                        color: Color(0xFF6B7488),
-                        fontSize: 13.5,
-                        height: 1.35,
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              const SizedBox(width: 8),
-              Container(
-                width: 34,
-                height: 34,
-                decoration: BoxDecoration(
-                  color: accent.withValues(alpha: .10),
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(
-                  Icons.arrow_forward_rounded,
-                  color: accent,
-                  size: 20,
-                ),
-              ),
-            ],
+            ),
           ),
         ),
       ),
-    ),
-  );
+    );
+  }
 }
