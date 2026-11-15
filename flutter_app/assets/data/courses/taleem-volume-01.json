@@ -1,0 +1,1097 @@
+{
+ "course": "Rihlat al-Huda Junior / Taleem-ul-Islam",
+ "review": "Editorial working edition. Arabic, references and rulings need qualified scholarly review before release.",
+ "id": "taleem-v1",
+ "volume": 1,
+ "title": "The Beginning of Guidance",
+ "arabicTitle": "بِدَايَةُ الْهُدَى",
+ "ages": "6–8",
+ "declared": "21 COMPLETE LESSONS  •  9 LEARNING JOURNEYS",
+ "status": "EDITORIAL WORKING EDITION — scholarly and Arabic verification required before publication",
+ "welcome": "This book is for children who are beginning to understand Islam, learn how to worship Allah and build good habits. We will learn with Imaan, Akhlaq, their family, Sheikh Uncle and their friends. Their adventures are fictional everyday examples; Qur’anic statements and authentic Prophetic teachings remain the source of religious guidance.",
+ "sourceDocument": "Rihlat_al_Huda_Junior_Volume_01_Ages_6_to_8_Complete.docx",
+ "journeys": [
+  {
+   "number": 1,
+   "title": "My Muslim Identity",
+   "aim": "I know who I am, what I believe, and why my words should be truthful.",
+   "lessons": [
+    {
+     "id": "taleem-v1-l01",
+     "number": 1,
+     "title": "I Am a Muslim",
+     "story": [
+      "The first page of Imaan’s new school notebook was blank. Her teacher had asked every child to write three things about themselves. Mohsin wrote that he loved football. Mohsina wrote that she liked drawing. Akhlaq wrote, “I am very good at eating mangoes,” and everybody laughed.",
+      "Imaan thought carefully. She wrote her name, the city where she lived, and the words “I am a Muslim.” On the way home Akhlaq asked, “Is Muslim just another name, like the name of our city?”",
+      "Dadi Jaan opened a small green notebook for the two children. “It is more than a name,” she said. “It means we believe in Allah and want to follow the guidance He sent through Prophet Muhammad ﷺ.”",
+      "Akhlaq remembered that a new student in class had been left out of a game. “Does being Muslim tell us what to do about that?” he asked. “It certainly should guide you,” Dadi replied. “You can invite the child to play, speak honestly, and treat people fairly.”",
+      "The next morning Akhlaq moved over on the bench and made room for the new pupil. He was learning that the words on Imaan’s notebook could shape ordinary choices."
+     ],
+     "teaching": [
+      {
+       "text": "Islam teaches us to worship Allah alone and learn the guidance brought by His Messenger ﷺ. A Muslim learns what to believe, how to worship, and how to treat others. A special name, language, or favourite food does not make somebody kind or truthful. Our faith calls us to practise those qualities. We are still learning, and when we make mistakes we can apologise, seek Allah’s forgiveness, and try again."
+      }
+     ],
+     "questions": [
+      {
+       "q": "Who is a Muslim?",
+       "a": "Someone who accepts Islam and believes in Allah and His Messenger ﷺ."
+      },
+      {
+       "q": "Is Islam only about Salah?",
+       "a": "No. It also guides our beliefs, other worship and good conduct."
+      },
+      {
+       "q": "How can a child show good character?",
+       "a": "By telling the truth, helping others and treating people fairly."
+      }
+     ],
+     "reflect": [
+      "If a new child came into your class, how could you make them feel welcome?"
+     ],
+     "decide": null,
+     "remember": [
+      "I can explain the main idea.",
+      "I have practised or asked for help.",
+      "I can name one good action."
+     ],
+     "objective": "Explain being Muslim as belief in Allah, following His Messenger ﷺ, and learning to live well.",
+     "masterChapters": "1",
+     "evidenceLabel": "Evidence to read with an adult",
+     "evidence": "Qur’an 3:19; 16:90",
+     "dailyAction": "Invite someone to join a useful or friendly activity today.",
+     "tryTogether": "Draw three simple pictures: belief, worship and kindness. Tell an adult what each picture means.",
+     "keyWords": "Islam — submission to Allah; Akhlaq — good character.",
+     "parentNote": "Let children introduce their faith in their own words. Never make them judge the beliefs or hearts of classmates."
+    },
+    {
+     "id": "taleem-v1-l02",
+     "number": 2,
+     "title": "Words of the Kalimah",
+     "story": [
+      "Akhlaq was repeating the Kalimah while packing his schoolbag. Imaan listened, then asked him what the words meant. “They are beautiful Arabic words,” he said. “But I need help explaining them.”",
+      "Salaam sat beside the children. He spoke the words slowly and explained that the first part means Allah alone deserves worship. The second part means Muhammad ﷺ is Allah’s Messenger.",
+      "“Why do we say the words carefully?” Akhlaq asked. Salaam showed him a label on a medicine bottle. “When words matter, we must understand them. Words about faith deserve even more attention.” He reminded them that saying the Shahadah is a serious testimony of belief, not a magic password.",
+      "Later at school, Mohsina asked Imaan why Muslims say the Kalimah. Imaan paused and answered gently: “Because we believe Allah alone deserves worship and Muhammad ﷺ is His Messenger.” She did not make fun of the question or demand that her friend repeat the words.",
+      "That evening Akhlaq tried again. This time, before reciting, he told Salamah the meaning in his own language. His mother smiled. “Now you are working on understanding as well as memory.”"
+     ],
+     "teaching": [
+      {
+       "text": "The Kalimah Tayyibah joins two foundations: the Oneness of Allah and the Messengerhood of Muhammad ﷺ. The Shahadah expresses testimony to these beliefs. We do not worship the Messenger ﷺ; we love and follow him as Allah’s servant and Messenger. Arabic should be taught accurately by a reliable adult or teacher. A child may learn the sounds slowly and should never be embarrassed for needing help with pronunciation."
+      },
+      {
+       "arabic": "لَا إِلَٰهَ إِلَّا اللَّهُ مُحَمَّدٌ رَسُولُ اللَّهِ",
+       "meaning": "Kalimah Tayyibah — worship Allah alone and follow His Messenger ﷺ."
+      },
+      {
+       "arabic": "أَشْهَدُ أَنْ لَا إِلَٰهَ إِلَّا اللَّهُ وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ",
+       "meaning": "Shahadah — I bear witness that only Allah deserves worship, and Muhammad ﷺ is His servant and Messenger."
+      }
+     ],
+     "questions": [
+      {
+       "q": "What does “Lā ilāha illā Allāh” mean?",
+       "a": "No one except Allah is worthy of worship."
+      },
+      {
+       "q": "Who is Muhammad ﷺ?",
+       "a": "Allah’s servant and Messenger."
+      },
+      {
+       "q": "Why do we learn the meaning?",
+       "a": "So our words express something we understand and believe."
+      }
+     ],
+     "reflect": [
+      "What is the difference between repeating words and knowing what they mean?"
+     ],
+     "decide": null,
+     "remember": [
+      "I can explain the main idea.",
+      "I have practised or asked for help.",
+      "I can name one good action."
+     ],
+     "objective": "Learn the meaning of the Kalimah and recognise that the Shahadah is a truthful testimony.",
+     "masterChapters": "2",
+     "evidenceLabel": "Evidence to read with an adult",
+     "evidence": "Qur’an 47:19; 48:29",
+     "dailyAction": "Recite the Kalimah with a trusted adult and explain both parts in your own words.",
+     "tryTogether": "Make two linked cards: “Worship Allah alone” and “Follow His Messenger ﷺ.”",
+     "keyWords": "Tawḥīd — Allah’s Oneness; Shahadah — testimony of faith.",
+     "parentNote": "Use the Arabic in the approved master text for recitation. Practise gently with accurate audio, never with public pronunciation rankings."
+    },
+    {
+     "id": "taleem-v1-l03",
+     "number": 3,
+     "title": "Imaan Lives in the Heart",
+     "story": [
+      "Sir Zameer asked his pupils, “Can you see somebody’s belief the way you see their schoolbag?” A few children shook their heads. Akhlaq whispered, “What if the schoolbag has a Qur’an in it?”",
+      "“Having a book is good,” the teacher said, “but we cannot look inside a person’s heart. Allah knows what is truly there.”",
+      "At home Dadi Jaan showed the children the brief and detailed statements of faith they would study as they grew. She explained, in familiar words, that Muslims believe in Allah, His angels, His books, His messengers, the Last Day and divine decree.",
+      "Imaan began a little wheel with six sections, one for each belief. Akhlaq asked whether believing meant a person would never do anything wrong. Dadi shook her head. “A believer continues to learn and repent. Do not decide that someone has no faith because they made a mistake.”",
+      "The next day a classmate struggled to memorise the six parts. Instead of laughing, Akhlaq helped the child use the picture wheel. The lesson had already changed his behaviour: he had used what he knew to help someone else."
+     ],
+     "teaching": [
+      {
+       "text": "Imaan means faith or belief. The original Taʿleem-ul-Islam teaches the traditional summaries called Imaan Mujmal and Imaan Mufassal. At this age, children should first understand the main meanings. Belief in Allah includes trusting His guidance, and this should encourage honesty and kindness. We do not measure anybody’s faith with scores, badges or a classroom competition."
+      }
+     ],
+     "questions": [
+      {
+       "q": "What is Imaan?",
+       "a": "Sincere belief in what Allah has taught us to believe."
+      },
+      {
+       "q": "Can we see what is in a heart?",
+       "a": "No. Allah knows hearts."
+      },
+      {
+       "q": "Should we laugh at someone learning a belief?",
+       "a": "No. We should help patiently."
+      }
+     ],
+     "reflect": [
+      "What can you do when a classmate does not know an answer?"
+     ],
+     "decide": null,
+     "remember": [
+      "I can explain the main idea.",
+      "I have practised or asked for help.",
+      "I can name one good action."
+     ],
+     "objective": "Recognise Imaan as sincere belief and name the principal articles of faith in simple language.",
+     "masterChapters": "10",
+     "evidenceLabel": "Evidence to read with an adult",
+     "evidence": "Qur’an 2:285; Hadith of Jibrīl (Ṣaḥīḥ Muslim 8a)",
+     "dailyAction": "Help someone learn one word or idea kindly.",
+     "tryTogether": "Create a six-part articles-of-faith wheel with adult guidance.",
+     "keyWords": "Imaan — faith; Ihsān — striving to worship and act with excellence.",
+     "parentNote": "Introduce Imaan Mujmal and Mufassal from the source as memorisation for learners ready for it; keep the distinction between instructional formulas and direct Qur’anic verses clear."
+    }
+   ]
+  },
+  {
+   "number": 2,
+   "title": "Knowing Allah and the Unseen",
+   "aim": "I learn about Allah, the unseen and our return to Him with hope.",
+   "lessons": [
+    {
+     "id": "taleem-v1-l04",
+     "number": 4,
+     "title": "Knowing Allah, Our Creator",
+     "story": [
+      "Akhlaq found a tiny seed in the garden. “It looks sleepy,” he said, dropping it into the earth. Imaan brought some water and they marked the spot with a wooden stick.",
+      "Every afternoon they checked it. At first nothing happened. Then a small green shoot appeared. Akhlaq was delighted. “Dadi, I planted it, so did I make the leaf?”",
+      "“You planted the seed and cared for it,” Dadi replied. “But you did not create life. Allah is the Creator, and we are people who use the abilities and opportunities He gives.”",
+      "Imaan looked around at the trees, the sunlight and the birds. She understood that thinking about creation could help her feel grateful. “What does Allah look like?” Akhlaq asked.",
+      "Dadi answered carefully: “Allah is not like the things He created. We learn about Him from the Qur’an and authentic Sunnah. We do not draw Him or imagine that He is a person or an object.”",
+      "They watered the seedling and returned home. The plant had become a reminder: use what Allah has provided, and care responsibly for living things."
+     ],
+     "teaching": [
+      {
+       "text": "Allah is One, the Creator and Provider. Everything in creation depends on Him; Allah depends on no one. He knows what we cannot know and alone has the right to be worshipped. We can thank Him for blessings and ask Him for help. Gratitude also appears in action: we should not waste resources or hurt living things carelessly."
+      }
+     ],
+     "questions": [
+      {
+       "q": "Who created the world?",
+       "a": "Allah."
+      },
+      {
+       "q": "Is Allah like His creation?",
+       "a": "No. Nothing is comparable to Him."
+      },
+      {
+       "q": "How do we show gratitude?",
+       "a": "By remembering Allah and using His gifts well."
+      }
+     ],
+     "reflect": [
+      "Name one gift you use every day. How can you care for it?"
+     ],
+     "decide": null,
+     "remember": [
+      "I can explain the main idea.",
+      "I have practised or asked for help.",
+      "I can name one good action."
+     ],
+     "objective": "Describe Allah as the One Creator who alone deserves worship and is unlike His creation.",
+     "masterChapters": "3",
+     "evidenceLabel": "Evidence to read with an adult",
+     "evidence": "Qur’an 112:1–4; 2:21",
+     "dailyAction": "Thank Allah for a blessing and avoid wasting it today.",
+     "tryTogether": "Make a “gifts around me” drawing with water, food, family or nature. Do not draw Allah.",
+     "keyWords": "Khāliq — Creator; Shukr — gratitude.",
+     "parentNote": "Affirm Tawḥīd clearly. Avoid analogies that make Allah resemble created objects or people."
+    },
+    {
+     "id": "taleem-v1-l05",
+     "number": 5,
+     "title": "Angels and the Unseen",
+     "story": [
+      "One evening the lights went off during a storm. Akhlaq could hear rain outside but could not see every drop. “Not seeing something does not always mean it is not there,” he said.",
+      "Salaam agreed, then added an important difference. “We can investigate rain with our eyes and instruments. But angels belong to the unseen; what we know about them comes from Allah’s Revelation.”",
+      "Imaan opened her lesson book. She had learned that Jibrīl brought Revelation by Allah’s command. The children also read that angels obey the duties Allah gives them.",
+      "At school, another pupil said he knew exactly what every angel looked like from a drawing online. Imaan did not argue angrily. “We should not guess about the unseen,” she said. “Our teacher can help us check what the Qur’an and authentic Sunnah really tell us.”",
+      "That afternoon Akhlaq remembered that Allah knows his actions even when nobody was watching. He picked up some papers left on the classroom floor without waiting for a reward. He was not working to be seen by people; he was practising responsibility."
+     ],
+     "teaching": [
+      {
+       "text": "Belief in angels is among the articles of Imaan. Angels are created by Allah and obey His commands. Jibrīl is known for bringing Revelation to the Prophets. Some angels record deeds by Allah’s command. We should be careful: pictures, guesses and stories online are not proof about the unseen. The lesson is not to make children afraid, but to encourage honest and thoughtful choices."
+      }
+     ],
+     "questions": [
+      {
+       "q": "How do we learn about angels?",
+       "a": "Through the Qur’an and authentic Sunnah."
+      },
+      {
+       "q": "Who brought Revelation to the Prophets?",
+       "a": "Jibrīl, by Allah’s command."
+      },
+      {
+       "q": "Should we invent details about angels?",
+       "a": "No. We should use reliable knowledge."
+      }
+     ],
+     "reflect": [
+      "What good thing could you do even when nobody praises you?"
+     ],
+     "decide": null,
+     "remember": [
+      "I can explain the main idea.",
+      "I have practised or asked for help.",
+      "I can name one good action."
+     ],
+     "objective": "Understand that angels are part of the unseen and are known through Revelation.",
+     "masterChapters": "14",
+     "evidenceLabel": "Evidence to read with an adult",
+     "evidence": "Qur’an 2:285; 82:10–12",
+     "dailyAction": "Complete one helpful deed quietly.",
+     "tryTogether": "Sort cards: “Known from Revelation,” “Something we can observe,” and “We do not know.”",
+     "keyWords": "Ghayb — unseen; Malāʾikah — angels.",
+     "parentNote": "Do not depict angels as verified portraits or give fabricated names and jobs. Keep the presentation calm and age-appropriate."
+    },
+    {
+     "id": "taleem-v1-l06",
+     "number": 6,
+     "title": "This Life and the Hereafter",
+     "story": [
+      "The children planted flowers in two clay pots for their school exhibition. One pot broke when Akhlaq accidentally knocked it over. He stared at the pieces, worried that his effort was wasted.",
+      "Salamah helped him clear the sharp fragments safely. “Some things in this world do not last,” she said. “Allah teaches us that our lives here are not the whole story.”",
+      "Akhlaq asked about the Hereafter. Salamah explained that people will return to Allah and that Allah is perfectly just. She spoke about Jannah as a place of reward and mercy, without making the children picture frightening scenes.",
+      "“But what about my broken pot?” he asked. “You can make it right where possible,” Imaan suggested. “You can tell the teacher honestly and help make another one.”",
+      "He did. Instead of pretending nothing had happened, Akhlaq explained the accident and offered to repair the display. The teacher thanked him for being truthful.",
+      "That evening Dadi Jaan reminded them that deeds matter. “We do not do good merely to collect stickers,” she said. “We try to please Allah, and we ask Him to accept our efforts.”"
+     ],
+     "teaching": [
+      {
+       "text": "Muslims believe in resurrection, the Last Day and the Hereafter. Allah knows every deed and judges fairly. We should remember His mercy, seek forgiveness and repair harm when we can. Children do not need frightening descriptions to learn that choices have consequences. The purpose of this lesson is hope joined with responsibility."
+      }
+     ],
+     "questions": [
+      {
+       "q": "Does life in this world last forever?",
+       "a": "No. Muslims believe in the Hereafter."
+      },
+      {
+       "q": "Who judges with perfect justice?",
+       "a": "Allah."
+      },
+      {
+       "q": "What should we do after harming someone?",
+       "a": "Tell the truth, ask forgiveness and make things right where possible."
+      }
+     ],
+     "reflect": [
+      "Why does telling the truth matter even when it feels difficult?"
+     ],
+     "decide": null,
+     "remember": [
+      "I can explain the main idea.",
+      "I have practised or asked for help.",
+      "I can name one good action."
+     ],
+     "objective": "Understand that earthly life is temporary and Allah judges with perfect justice and mercy.",
+     "masterChapters": "19",
+     "evidenceLabel": "Evidence to read with an adult",
+     "evidence": "Qur’an 99:7–8; 21:35",
+     "dailyAction": "Correct one small mistake without hiding it.",
+     "tryTogether": "Draw a path of three actions: admit, apologise, repair.",
+     "keyWords": "Ākhirah — Hereafter; Tawbah — returning to Allah in repentance.",
+     "parentNote": "Avoid graphic punishment scenes and coercive fear. Reassure distressed children and invite questions privately."
+    }
+   ]
+  },
+  {
+   "number": 3,
+   "title": "Revelation and the Messenger",
+   "aim": "I love the Prophet ﷺ, honour the Qur’an and learn from reliable guidance.",
+   "lessons": [
+    {
+     "id": "taleem-v1-l07",
+     "number": 7,
+     "title": "Loving Rasulullah ﷺ",
+     "story": [
+      "Sheikh Uncle asked the class to make a poster about a person whose good conduct had helped others. Akhlaq wanted to draw a famous athlete. Imaan asked whether they could learn about the example of Prophet Muhammad ﷺ instead.",
+      "Sheikh Uncle opened a book of Sīrah and explained that the Prophet ﷺ was known for truthfulness, mercy and trustworthy conduct. Allah sent him as the final Messenger. “We learn his teachings from reliable sources,” he said. “And we must not invent events or words for him.”",
+      "During break, Mohsin dropped a box of coloured pencils. One pupil stepped over them, but Akhlaq knelt down to help. “Why did you do that?” Mohsin asked.",
+      "Akhlaq answered, “Because caring for people is part of the good manners our Prophet taught.”",
+      "That evening the family made a small list: speak truthfully; be gentle; keep promises; make duʿāʾ for others. Salamah also taught them to say ﷺ respectfully when the Prophet was mentioned.",
+      "They did not try to draw the Prophet. Instead, their poster showed a helpful hand, a returned pencil case and a child making room for someone else."
+     ],
+     "teaching": [
+      {
+       "text": "Prophet Muhammad ﷺ is Allah’s servant and final Messenger. We worship Allah alone and follow the guidance delivered by His Messenger. Love is not merely a word: it encourages good manners, worship and honesty. Sīrah stories and Hadith must be checked. The Prophet ﷺ should not be portrayed as a character in children's games or pictures."
+      }
+     ],
+     "questions": [
+      {
+       "q": "Who is the final Messenger?",
+       "a": "Prophet Muhammad ﷺ."
+      },
+      {
+       "q": "Do we worship the Prophet ﷺ?",
+       "a": "No. We worship Allah alone."
+      },
+      {
+       "q": "How can we follow good manners?",
+       "a": "By kindness, honesty and keeping promises."
+      }
+     ],
+     "reflect": [
+      "Which good manner would you like to practise more often?"
+     ],
+     "decide": null,
+     "remember": [
+      "I can explain the main idea.",
+      "I have practised or asked for help.",
+      "I can name one good action."
+     ],
+     "objective": "Recognise Muhammad ﷺ as Allah’s final Messenger and connect love with good conduct.",
+     "masterChapters": "4",
+     "evidenceLabel": "Evidence to read with an adult",
+     "evidence": "Qur’an 33:21; 21:107",
+     "dailyAction": "Offer help to someone without being asked.",
+     "tryTogether": "Make a “good manners” poster using actions and objects, not a drawing of the Prophet ﷺ.",
+     "keyWords": "Rasūl — Messenger; Sīrah — the Prophet’s life.",
+     "parentNote": "Use verified Sīrah and authentic reports. Do not animate or depict the Prophet ﷺ; model mercy and adab in teacher feedback."
+    },
+    {
+     "id": "taleem-v1-l08",
+     "number": 8,
+     "title": "The Qur’an Is Allah’s Book",
+     "story": [
+      "Imaan found Akhlaq trying to place a school storybook on the same shelf as the family Qur’an. “Both have pages,” he observed. “Why do we treat the Qur’an differently?”",
+      "Dadi Jaan sat with them. “The Qur’an is the Revelation Allah sent to Prophet Muhammad ﷺ. We recite it as Allah’s words. A storybook can teach useful things, but it is not Revelation.”",
+      "She explained that the Revelation came through Jibrīl and was preserved through recitation, memorisation and writing. Akhlaq asked whether knowing the sounds without the meanings was enough. “Learning to recite correctly matters,” Dadi said, “and so does trying to understand and follow what you learn.”",
+      "The next morning the family chose a short time to listen to Qur’anic recitation. Akhlaq repeated slowly with Dadi’s help. When he made a mistake, she let him try again without scolding.",
+      "Later at school, Imaan returned a borrowed Qur’an to the shelf carefully and helped another child find the right place in a lesson. For her, respect for the Qur’an was becoming a habit of learning and good behaviour."
+     ],
+     "teaching": [
+      {
+       "text": "The Qur’an is Allah’s Book, revealed to Prophet Muhammad ﷺ. Muslims recite its Arabic, learn the meanings through reliable teachers, and seek to obey its guidance. Memorisation is valuable, but understanding and practice are important too. For this age group, choose short passages and use accurate, patient instruction rather than speed competitions."
+      }
+     ],
+     "questions": [
+      {
+       "q": "What is the Qur’an?",
+       "a": "Allah’s Revelation to Prophet Muhammad ﷺ."
+      },
+      {
+       "q": "Who brought Revelation by Allah’s command?",
+       "a": "Jibrīl."
+      },
+      {
+       "q": "What should follow reading or listening?",
+       "a": "Trying to understand and practise the guidance."
+      }
+     ],
+     "reflect": [
+      "What good action can you take after learning a Qur’anic teaching?"
+     ],
+     "decide": null,
+     "remember": [
+      "I can explain the main idea.",
+      "I have practised or asked for help.",
+      "I can name one good action."
+     ],
+     "objective": "Understand the Qur’an as Allah’s Revelation and practise recitation with respect and understanding.",
+     "masterChapters": "5",
+     "evidenceLabel": "Evidence to read with an adult",
+     "evidence": "Qur’an 15:9; 2:2",
+     "dailyAction": "Listen to or recite a short passage with a trusted teacher today.",
+     "tryTogether": "Make a three-step card: Listen → Understand → Practise.",
+     "keyWords": "Waḥy — Revelation; Tilāwah — recitation.",
+     "parentNote": "Use approved muṣḥaf text and recitation. Do not substitute transliteration for Arabic teaching or reward speed over accuracy."
+    },
+    {
+     "id": "taleem-v1-l09",
+     "number": 9,
+     "title": "Allah Sent Guidance Through Books",
+     "story": [
+      "Akhlaq placed three signs on the reading table: “Travel,” “Animals,” and “Science.” He wanted every book to have a useful place. Imaan asked whether all books taught the same things.",
+      "“No,” said Sheikh Uncle. “We read each book for what it actually contains.” He turned the conversation towards the books Allah revealed. Muslims believe Allah sent guidance to His Messengers, and the Qur’an is the final revealed criterion.",
+      "Akhlaq had heard the names of the Tawrah, Zabūr and Injīl. Sheikh Uncle explained that Muslims believe in the Revelations Allah originally sent. We should not carelessly assume that every present-day copy has exactly the same status as the original Revelation.",
+      "At the school library, a pupil laughed at a book because its title sounded unfamiliar. Imaan reminded him that mocking what we do not understand is not a good way to learn. They asked their teacher to explain the shelf instead.",
+      "That evening Akhlaq added a new label to his notebook: “Ask before guessing.” The lesson about Revelation had also taught him how to be a respectful learner."
+     ],
+     "teaching": [
+      {
+       "text": "Belief in Allah’s revealed books is part of Imaan. The source text names the Tawrah, Zabūr, Injīl and Qur’an in its teaching of revealed books. Muslims recognise the original divine guidance given to Messengers and follow the Qur’an as the final criterion. Children should not be asked to settle complex interreligious textual questions; they can learn their own belief clearly and speak with courtesy."
+      }
+     ],
+     "questions": [
+      {
+       "q": "Who sends Revelation?",
+       "a": "Allah."
+      },
+      {
+       "q": "What is the final revealed criterion for Muslims?",
+       "a": "The Qur’an."
+      },
+      {
+       "q": "How do we talk to people with different beliefs?",
+       "a": "With truthfulness, courtesy and fairness."
+      }
+     ],
+     "reflect": [
+      "What could you say when you hear someone laugh at something they do not understand?"
+     ],
+     "decide": null,
+     "remember": [
+      "I can explain the main idea.",
+      "I have practised or asked for help.",
+      "I can name one good action."
+     ],
+     "objective": "Recognise that Allah sent guidance through Messengers and that the Qur’an is the final criterion.",
+     "masterChapters": "15",
+     "evidenceLabel": "Evidence to read with an adult",
+     "evidence": "Qur’an 2:285; 5:48",
+     "dailyAction": "Ask a respectful question about something you are learning instead of guessing.",
+     "tryTogether": "Match the words “Revelation,” “Messenger,” and “Guidance” to simple definitions.",
+     "keyWords": "Kitāb — book; Hidāyah — guidance.",
+     "parentNote": "Keep distinct the original Revelations affirmed by Islam and the status of present extant texts; avoid argumentative comparative theology at this age."
+    }
+   ]
+  },
+  {
+   "number": 4,
+   "title": "Five Pillars of Worship",
+   "aim": "I can name the five pillars and understand why Muslims practise them.",
+   "lessons": [
+    {
+     "id": "taleem-v1-l10",
+     "number": 10,
+     "title": "Five Pillars, One Life of Worship",
+     "story": [
+      "Akhlaq built a tower from five wooden blocks. He gave each block a bright paper label. The first said Shahadah. The next four said Salah, Zakah, Fasting and Hajj.",
+      "“Is Islam really a tower?” he asked. Salamah smiled. “It is a teaching picture. The Prophet ﷺ told us Islam is built on five pillars. A picture can help us remember, but Islam is much greater than a wooden toy.”",
+      "Imaan held each block and named its meaning. Shahadah is testimony. Salah is prayer. Zakah is a duty connected to qualifying wealth. Fasting in Ramadan teaches obedience and self-restraint. Hajj is a pilgrimage required of Muslims who are able.",
+      "Akhlaq wondered whether he had to perform Hajj that year. His father explained that the duties have proper conditions, including age and ability, and that children learn gradually.",
+      "When the tower was finished, Akhlaq used it to teach his younger cousin. But he did not ask the cousin to perform adult duties. He simply invited her to name the pillars and say which one she would learn more about next."
+     ],
+     "teaching": [
+      {
+       "text": "The five pillars are Shahadah, Salah, Zakah, fasting Ramadan and Hajj. They are acts of worship with their own conditions and rulings; not every duty applies to every child in the same way. For ages 6–8, knowing their names and purposes is the goal. The rights of other people, good character and learning are also important parts of living Islam."
+      }
+     ],
+     "questions": [
+      {
+       "q": "How many pillars of Islam are there?",
+       "a": "Five."
+      },
+      {
+       "q": "Name two pillars.",
+       "a": "For example, Shahadah and Salah."
+      },
+      {
+       "q": "Must every young child complete Hajj?",
+       "a": "No. Hajj has conditions, including ability and religious responsibility."
+      }
+     ],
+     "reflect": [
+      "Which pillar are you already learning about?"
+     ],
+     "decide": null,
+     "remember": [
+      "I can explain the main idea.",
+      "I have practised or asked for help.",
+      "I can name one good action."
+     ],
+     "objective": "Name the five pillars and describe one simple purpose of each.",
+     "masterChapters": "6",
+     "evidenceLabel": "Evidence to read with an adult",
+     "evidence": "Ṣaḥīḥ al-Bukhārī 8; Qur’an 2:43; 3:97",
+     "dailyAction": "Tell a family member the five pillars in order.",
+     "tryTogether": "Arrange five labeled blocks or cards; explain what each represents.",
+     "keyWords": "Rukn — pillar; ʿIbādah — worship.",
+     "parentNote": "Avoid presenting adult legal obligations as tests for young children. Explain the difference between practising a skill and a duty becoming legally obligatory."
+    }
+   ]
+  },
+  {
+   "number": 5,
+   "title": "Purity and Care",
+   "aim": "I learn hygiene, privacy and preparation for Salah.",
+   "lessons": [
+    {
+     "id": "taleem-v1-l11",
+     "number": 11,
+     "title": "Cleanliness and Purity",
+     "story": [
+      "The school’s art table was covered with paper scraps after a busy morning. Mohsin said the room looked messy, but Akhlaq announced, “If it is messy, nobody can pray here!”",
+      "Sir Zameer helped the children separate two questions. “Is this room tidy?” he asked. They agreed it was not. “Do we know that every scrap of paper is a ritual impurity?” They shook their heads.",
+      "At home Salaam explained that Muslims learn both everyday cleanliness and prescribed purification for worship. Clothes can be neat yet a person may still need Wudu. A garden shirt can be dusty without being ritually impure.",
+      "Akhlaq liked this distinction. He had sometimes worried that a speck of soil would spoil everything. Salamah reassured him that they should clean known dirt and impurities sensibly, but not invent reasons for endless checking.",
+      "After dinner Imaan wiped their study table while Akhlaq returned the scattered books. They were learning that care for shared spaces is a beautiful habit, and preparing for worship requires its own clear rules."
+     ],
+     "teaching": [
+      {
+       "text": "Ṭahārah refers to purification under Islamic teaching. There is a difference between ordinary cleaning and ritual purity. Some actions require Wudu or Ghusl before Salah. We must learn the proper method, but we should not become afraid of every mark or repeatedly check without a real reason. This beginner lesson introduces the distinction; detailed Hanafi rulings belong to later levels."
+      }
+     ],
+     "questions": [
+      {
+       "q": "Is ordinary dust always ritual impurity?",
+       "a": "No."
+      },
+      {
+       "q": "What is Ṭahārah?",
+       "a": "Purification as taught in Islam."
+      },
+      {
+       "q": "What helps us avoid unnecessary worry?",
+       "a": "Follow a clear taught method and do not act on groundless doubts."
+      }
+     ],
+     "reflect": [
+      "How does keeping a shared space clean help other people?"
+     ],
+     "decide": null,
+     "remember": [
+      "I can explain the main idea.",
+      "I have practised or asked for help.",
+      "I can name one good action."
+     ],
+     "objective": "Distinguish everyday tidiness from the purification required before worship.",
+     "masterChapters": "23",
+     "evidenceLabel": "Evidence to read with an adult",
+     "evidence": "Qur’an 5:6; 2:222",
+     "dailyAction": "Help tidy one place others use.",
+     "tryTogether": "Sort pictures into “needs tidying,” “prepare for Salah,” and “ask an adult.”",
+     "keyWords": "Ṭāhir — ritually pure; Najāsah — recognised impurity.",
+     "parentNote": "Prevent scrupulosity: do not frame harmless stains or ordinary dust as automatic ritual impurities."
+    },
+    {
+     "id": "taleem-v1-l12",
+     "number": 12,
+     "title": "Respectful Bathroom Habits",
+     "story": [
+      "Akhlaq rushed out of the bathroom and almost bumped into Mohsin. A trail of water crossed the floor. “Someone could slip!” Imaan said. The two children asked Salamah for a cloth and dried the floor safely.",
+      "At their evening lesson, Salamah explained that using the toilet is a private matter. Islam teaches cleanliness and modesty. Children should clean themselves properly, wash their hands with soap, leave the place usable and respect other people’s privacy.",
+      "Akhlaq asked an embarrassed question about how to clean himself. His mother answered quietly and plainly. She reminded him that it is always fine to ask a trusted adult when he needs help.",
+      "The next day at school, a small child was unable to open a cubicle door. Rather than laugh or gather an audience, Imaan called a teacher who could help safely.",
+      "Akhlaq added a simple sentence to his notebook: “Cleanliness protects me and other people.” He had discovered that manners do not stop when nobody is watching."
+     ],
+     "teaching": [
+      {
+       "text": "Istinjāʾ means cleaning after using the toilet according to Islamic guidance. At this level, teach privacy, appropriate cleansing with water or suitable means, handwashing, keeping clothes and surroundings clean, and consideration for others. The details of legal thresholds, exceptional circumstances and differences among schools should be taught later. No child should be asked to describe private bodily details in front of classmates."
+      }
+     ],
+     "questions": [
+      {
+       "q": "What is Istinjāʾ?",
+       "a": "Cleaning after using the toilet."
+      },
+      {
+       "q": "Why wash our hands?",
+       "a": "To protect cleanliness and health."
+      },
+      {
+       "q": "Should we laugh at someone needing help?",
+       "a": "No. Seek appropriate private adult help."
+      }
+     ],
+     "reflect": [
+      "What makes a shared bathroom safe and pleasant for the next person?"
+     ],
+     "decide": null,
+     "remember": [
+      "I can explain the main idea.",
+      "I have practised or asked for help.",
+      "I can name one good action."
+     ],
+     "objective": "Practise basic toilet hygiene, privacy and considerate use of shared facilities.",
+     "masterChapters": "28",
+     "evidenceLabel": "Evidence to read with an adult",
+     "evidence": "Ṣaḥīḥ al-Bukhārī 142, 150; Qur’an 2:222",
+     "dailyAction": "Wash hands carefully and leave the bathroom clean and safe.",
+     "tryTogether": "Arrange an illustrated hygiene sequence: privacy, clean, wash hands, leave the place ready.",
+     "keyWords": "Istinjāʾ — personal cleansing after the toilet; Ḥayāʾ — modesty.",
+     "parentNote": "Teach privately and respectfully. Encourage safe disclosure of harm; privacy must never be used to silence a child who needs protection."
+    },
+    {
+     "id": "taleem-v1-l13",
+     "number": 13,
+     "title": "Wudu: Getting Ready for Salah",
+     "story": [
+      "The family was preparing for Maghrib when Akhlaq rushed to the sink. He turned the tap as far as it would go and splashed water everywhere. “I am being extra clean!” he said.",
+      "Salaam closed the tap to a gentle flow. “We need the washing that Allah has commanded, not a flood,” he explained. He showed Akhlaq the steps slowly: begin in Allah’s name; wash the hands; rinse the mouth and nose appropriately; wash the face; wash each arm including the elbow; wipe the head; and wash both feet including the ankles.",
+      "Imaan followed with her own Wudu while Salamah checked that she did not hurry past her elbows or ankles. Each child learned by doing rather than by competing.",
+      "Akhlaq forgot one step and looked worried. “That is why we practise with guidance,” said Salaam. “Ask if you are unsure. Do not repeat everything over and over because of a little doubt.”",
+      "When they were finished, the basin was dry, the tap was closed and the children were ready to pray. Akhlaq looked at the water he had saved and smiled. He was learning that careful worship and care for Allah’s gifts belong together."
+     ],
+     "teaching": [
+      {
+       "text": "The original introductory chapter teaches Wudu before Salah. Its detailed Chapter 25 explains the four Hanafi obligatory actions: washing the face, washing both arms including elbows, wiping the required part of the head, and washing both feet including ankles. At ages 6–8, children learn the complete ordinary sequence with supervised demonstration; detailed nullifiers and exceptions remain for later. Intention and beginning with Bismillah should be encouraged, with the correct Hanafi categories explained when older."
+      }
+     ],
+     "questions": [
+      {
+       "q": "Why do we make Wudu?",
+       "a": "To prepare for Salah according to Allah’s guidance."
+      },
+      {
+       "q": "What should we wipe during Wudu?",
+       "a": "The head, in the taught manner."
+      },
+      {
+       "q": "Should we leave the water running?",
+       "a": "No. Use what is needed without waste."
+      }
+     ],
+     "reflect": [
+      "Do you rush when learning a new skill, or can you practise calmly?"
+     ],
+     "decide": null,
+     "remember": [
+      "I can explain the main idea.",
+      "I have practised or asked for help.",
+      "I can name one good action."
+     ],
+     "objective": "Practise a calm, supervised Wudu sequence without wasting water.",
+     "masterChapters": "8; early preview of 25",
+     "evidenceLabel": "Evidence to read with an adult",
+     "evidence": "Qur’an 5:6; Ṣaḥīḥ al-Bukhārī 135",
+     "dailyAction": "Practise Wudu once with a parent or teacher, checking elbows and ankles.",
+     "tryTogether": "Put six illustrated Wudu-step cards into order; adults demonstrate the complete method.",
+     "keyWords": "Wuḍūʾ — ritual ablution; Masḥ — wiping.",
+     "parentNote": "Use live supervised demonstration and approved Hanafi instructions. Do not make learners repeat Wudu for ungrounded doubts; provide accommodations for disability."
+    }
+   ]
+  },
+  {
+   "number": 6,
+   "title": "My Daily Salah",
+   "aim": "I learn the prayers, masjid manners and the basic prayer sequence.",
+   "lessons": [
+    {
+     "id": "taleem-v1-l14",
+     "number": 14,
+     "title": "Five Prayers Through the Day",
+     "story": [
+      "Imaan looked at the family wall calendar. It had football practice, homework and a birthday reminder, but Akhlaq had added five empty circles down one side.",
+      "“What are they?” she asked. “Places to remember Salah,” Akhlaq answered. With Salaam’s help he wrote: Fajr, Zuhr, ʿAsr, Maghrib and ʿIshāʾ.",
+      "He wondered why prayer times were different each day. Salaam explained that Salah has prescribed times and that a reliable local timetable can help the family know when to pray. He also showed them the Qiblah direction.",
+      "Later that afternoon the children were building a model bridge. Akhlaq did not want to stop. Imaan gently reminded him about the prayer time. He put the pieces safely into a box, and they went to prepare with their family.",
+      "At night Salamah asked whether the five circles were a test to prove which child was better. “No,” Akhlaq said. “They help me remember Allah.” The family agreed not to use the chart to shame anyone. They would use it to build a good habit of learning and worship."
+     ],
+     "teaching": [
+      {
+       "text": "The five obligatory daily prayers are Fajr, Zuhr, ʿAsr, Maghrib and ʿIshāʾ. Each has a prescribed time. Muslims face the Qiblah, towards the Kaʿbah in Makkah. For young children, the first goal is to know the names and recognise the importance of Salah, then gradually practise the actions and words with a trusted adult. Detailed prayer-time calculations and juristic differences are deferred."
+      }
+     ],
+     "questions": [
+      {
+       "q": "Name the five prayers in order.",
+       "a": "Fajr, Zuhr, ʿAsr, Maghrib and ʿIshāʾ."
+      },
+      {
+       "q": "What direction do we face?",
+       "a": "The Qiblah."
+      },
+      {
+       "q": "Why use a prayer timetable?",
+       "a": "To know when the prescribed times have begun."
+      }
+     ],
+     "reflect": [
+      "What can help you remember something important without becoming worried?"
+     ],
+     "decide": null,
+     "remember": [
+      "I can explain the main idea.",
+      "I have practised or asked for help.",
+      "I can name one good action."
+     ],
+     "objective": "Name the five prayers in order and connect prayer to the rhythm of a Muslim day.",
+     "masterChapters": "7",
+     "evidenceLabel": "Evidence to read with an adult",
+     "evidence": "Qur’an 4:103; 20:14",
+     "dailyAction": "Identify the next prayer time with your family and prepare calmly.",
+     "tryTogether": "Put five prayer cards on a sunrise-to-night timeline.",
+     "keyWords": "Ṣalāh — prescribed prayer; Qiblah — direction faced in prayer.",
+     "parentNote": "Teach the age of training for Salah with kindness. Never treat a child’s prayer tracker as a measure of faith or public worth."
+    },
+    {
+     "id": "taleem-v1-l15",
+     "number": 15,
+     "title": "The Adhan and the Masjid",
+     "story": [
+      "Akhlaq heard the Adhan as the family approached the masjid. He stopped talking because he wanted to listen. Imaan pointed at the shoes lined up near the entrance. “Everyone has come to remember Allah,” she said.",
+      "Sheikh Uncle welcomed the children and explained the Adhan as the call announcing Salah. Iqamah is the call when the prayer is about to begin. An imam leads a congregational prayer, and the people follow him.",
+      "Inside the masjid, Akhlaq saw a small child searching for her sandals. He nearly rushed across the prayer area to help, then stopped to ask an adult where it was safe to go. Together they found the sandals without disturbing worshippers.",
+      "After Salah Mohsin wanted to run between the rows. Akhlaq invited him to walk outside first. “A masjid is a place of worship,” he said, “and we can show respect while being kind to younger children.”",
+      "On the way home Dadi asked what they had learned. Imaan answered, “The Adhan invites us to worship, and being at the masjid reminds us to care about the people around us.”"
+     ],
+     "teaching": [
+      {
+       "text": "The Adhan calls people to prayer, and Iqamah announces its beginning. Jamāʿah means congregational worship. The imam leads, and worshippers follow according to the taught method. Children should be welcomed and taught calmly to keep the prayer area clean, respect others, and avoid disruption. Detailed rules of following the imam and joining late belong to later levels."
+      }
+     ],
+     "questions": [
+      {
+       "q": "What is the Adhan?",
+       "a": "The call to Salah."
+      },
+      {
+       "q": "Who leads a congregation?",
+       "a": "The imam."
+      },
+      {
+       "q": "How can a child respect the masjid?",
+       "a": "By being clean, calm and considerate."
+      }
+     ],
+     "reflect": [
+      "How can you help someone without disturbing people who are praying?"
+     ],
+     "decide": null,
+     "remember": [
+      "I can explain the main idea.",
+      "I have practised or asked for help.",
+      "I can name one good action."
+     ],
+     "objective": "Recognise the Adhan and practise respectful behaviour in the masjid.",
+     "masterChapters": "31",
+     "evidenceLabel": "Evidence to read with an adult",
+     "evidence": "Ṣaḥīḥ al-Bukhārī 631; Qur’an 62:9",
+     "dailyAction": "Listen respectfully to an Adhan and learn one phrase with a teacher.",
+     "tryTogether": "Match “Adhan,” “Iqamah,” “Imam,” and “Jamāʿah” to their meanings.",
+     "keyWords": "Adhān — call to prayer; Jamāʿah — congregation.",
+     "parentNote": "Support accessible, welcoming masjid visits. Do not embarrass children for normal learning mistakes."
+    },
+    {
+     "id": "taleem-v1-l16",
+     "number": 16,
+     "title": "Learning Salah Step by Step",
+     "story": [
+      "Akhlaq stood beside his prayer mat and tried to remember the next movement. He could begin with the Takbīr, but after bowing he became unsure what came next.",
+      "Imaan did not laugh. “Let us practise with Father,” she said. Salaam demonstrated the ordinary order of prayer slowly. They began by making sure they were properly prepared, facing the Qiblah and intending the prayer. They stood and began with Takbīr; then came recitation, bowing, standing upright again, and two prostrations with a sitting between them.",
+      "Akhlaq followed the demonstration and asked where the second rakʿah began. Father showed him that the sequence continues and that the final sitting and Salām conclude the prayer.",
+      "“Do I need to know every Arabic word today?” Akhlaq asked. “You should learn what you need with accurate instruction,” Salaam answered, “and build your memory steadily. We do not improvise the Arabic recitations.”",
+      "Afterwards the children practised the movements quietly without pretending their rehearsal was an actual obligatory prayer. Imaan reminded her brother that the aim was worship with care, not performing for an audience."
+     ],
+     "teaching": [
+      {
+       "text": "Salah has an order taught by the Prophet ﷺ. A beginner learns the basic conditions before prayer, the standing, opening Takbīr, recitation, Rukūʿ, rising, Sujūd, sitting, the next rakʿah and the final sitting with Salām. The source chapter offers introductory steps; Chapter 32 supplies detailed Hanafi pillars and duties. Arabic recitation and precise methods must be taught from a checked recitation guide by a qualified instructor, not reconstructed from a simplified activity."
+      }
+     ],
+     "questions": [
+      {
+       "q": "What is a Rakʿah?",
+       "a": "One unit of Salah."
+      },
+      {
+       "q": "What is Rukūʿ?",
+       "a": "The prescribed bowing in prayer."
+      },
+      {
+       "q": "What is Sujūd?",
+       "a": "The prescribed prostration in prayer."
+      }
+     ],
+     "reflect": [
+      "How does practising calmly help you learn worship correctly?"
+     ],
+     "decide": null,
+     "remember": [
+      "I can explain the main idea.",
+      "I have practised or asked for help.",
+      "I can name one good action."
+     ],
+     "objective": "Learn the basic order of a two-rakʿah prayer through supervised demonstration.",
+     "masterChapters": "9; early preview of 32",
+     "evidenceLabel": "Evidence to read with an adult",
+     "evidence": "Qur’an 20:14; 23:1–2",
+     "dailyAction": "Learn or revise one part of Salah with a parent or teacher.",
+     "tryTogether": "Sequence cards: stand and recite → bow → rise → prostrate → sit → prostrate; then discuss the next rakʿah and final sitting.",
+     "keyWords": "Rakʿah — prayer unit; Rukūʿ — bowing; Sujūd — prostration.",
+     "parentNote": "This is a supervised learning overview, not a complete legal recitation manual. The source mentions an Appendix D not present in the uploaded PDF: attach an independently verified recitation sheet before publication."
+    }
+   ]
+  },
+  {
+   "number": 7,
+   "title": "The Blessings of Ramadan",
+   "aim": "I understand fasting and worship with kindness and safe gradual learning.",
+   "lessons": [
+    {
+     "id": "taleem-v1-l17",
+     "number": 17,
+     "title": "Ramadan: A Month of Worship",
+     "story": [
+      "The first Ramadan evening felt different. Dates were on the table, the family spoke about the moon, and Akhlaq could smell soup from the kitchen. “Is Ramadan only about being hungry?” he asked.",
+      "Salamah explained that fasting means refraining from food, drink and other things specified by Islamic law from dawn until sunset with the proper intention. Ramadan also teaches worship, kindness and control of our words.",
+      "Imaan wanted to try a child-friendly learning activity, but she was worried that the older cousins would count who had fasted for the most hours. Salaam told everyone not to compete over health or hardship. “Children learn gradually,” he said. “Adults who are obligated to fast have rulings and recognised exemptions; young children are not to be shamed.”",
+      "When Mohsin became upset during a game, Akhlaq remembered that good manners were part of Ramadan. He let Mohsin have a turn and spoke gently.",
+      "At Iftar the family thanked Allah. Dadi Jaan asked what Akhlaq had learned. He replied, “Ramadan teaches us to remember Allah and be careful with our actions, not just to watch the clock.”"
+     ],
+     "teaching": [
+      {
+       "text": "Fasting Ramadan is one of the pillars of Islam. The source explains intention, Suḥūr, Iftār and guarding speech. Young learners should understand these ideas and practise age-appropriate good habits. Fasting obligations, health exemptions, medicine and make-up rules require adult and qualified guidance. Children should never be compelled into unsafe fasting or encouraged to hide discomfort."
+      }
+     ],
+     "questions": [
+      {
+       "q": "In which month do Muslims fast?",
+       "a": "Ramadan."
+      },
+      {
+       "q": "What is Iftār?",
+       "a": "The meal that ends the fast at sunset."
+      },
+      {
+       "q": "Does Ramadan also teach good manners?",
+       "a": "Yes. We should guard our words and actions."
+      }
+     ],
+     "reflect": [
+      "What kind word could you say when you feel upset?"
+     ],
+     "decide": null,
+     "remember": [
+      "I can explain the main idea.",
+      "I have practised or asked for help.",
+      "I can name one good action."
+     ],
+     "objective": "Understand the meaning of fasting and practise Ramadan manners without pressure.",
+     "masterChapters": "39",
+     "evidenceLabel": "Evidence to read with an adult",
+     "evidence": "Qur’an 2:183–185; Ṣaḥīḥ al-Bukhārī 1903",
+     "dailyAction": "Practise one act of self-control or generosity today.",
+     "tryTogether": "Arrange the Ramadan day cards: Suḥūr, Fajr/dawn, daytime, sunset/Iftār.",
+     "keyWords": "Ṣawm — fasting; Suḥūr — pre-dawn meal; Iftār — breaking the fast.",
+     "parentNote": "Do not use fasting duration competitions or ask about private medical exemptions. A child’s health takes priority."
+    },
+    {
+     "id": "taleem-v1-l18",
+     "number": 18,
+     "title": "Ramadan Nights and Taraweeh",
+     "story": [
+      "On a Ramadan evening, Imaan heard Qur’anic recitation coming from the masjid. “The nights sound different this month,” she said. Dadi explained that many Muslims gather for Taraweeh after ʿIshāʾ in Ramadan.",
+      "Akhlaq wanted to join the family for the entire night. Salaam smiled. “You can learn gradually. Your comfort and sleep matter too.” The family agreed that an adult would guide the visit and the children could rest when needed.",
+      "At the masjid Akhlaq noticed an older worshipper moving slowly. He waited rather than crowding through the doorway. Mohsina offered to carry a light prayer mat for her grandmother.",
+      "Later Akhlaq asked about different numbers of rakʿahs he had heard people discuss. Sheikh Uncle said that the Hanafi text teaches its recognised Taraweeh practice, while older learners can study how scholars discuss the evidence and juristic differences. “Tonight,” he added, “learn to listen respectfully and help one another.”",
+      "On the way home Imaan wrote in her notebook, “The Qur’an should change how I treat people.”"
+     ],
+     "teaching": [
+      {
+       "text": "Taraweeh is a special Ramadan night prayer. The source teaches its Hanafi classification and method in detail. At age 6–8, children need a simple introduction, not a debate over rakʿah counts. They can learn to listen, participate with adults as appropriate, and appreciate Qur’an recitation. Sleep, disability and genuine fatigue should be handled compassionately."
+      }
+     ],
+     "questions": [
+      {
+       "q": "When is Taraweeh prayed?",
+       "a": "On Ramadan nights, after ʿIshāʾ."
+      },
+      {
+       "q": "What do worshippers often listen to in Taraweeh?",
+       "a": "Qur’anic recitation."
+      },
+      {
+       "q": "Should a tired young child be shamed?",
+       "a": "No. Learning should be kind and appropriate."
+      }
+     ],
+     "reflect": [
+      "How can we make a crowded place easier for someone who needs extra time?"
+     ],
+     "decide": null,
+     "remember": [
+      "I can explain the main idea.",
+      "I have practised or asked for help.",
+      "I can name one good action."
+     ],
+     "objective": "Recognise Taraweeh as Ramadan night prayer and practise patient masjid participation.",
+     "masterChapters": "34",
+     "evidenceLabel": "Evidence to read with an adult",
+     "evidence": "Ṣaḥīḥ al-Bukhārī 2010; Qur’an 2:185",
+     "dailyAction": "Make room for someone and speak gently during a family or community gathering.",
+     "tryTogether": "Create a quiet Ramadan evening plan with prayer, Qur’an time and sufficient rest.",
+     "keyWords": "Tarāwīḥ — Ramadan night prayers; Tilāwah — Qur’anic recitation.",
+     "parentNote": "Leave detailed Ḥanafī rakʿah classifications and comparisons to later levels. Avoid public moral rankings of children."
+    }
+   ]
+  },
+  {
+   "number": 8,
+   "title": "Community and Compassion",
+   "aim": "I learn the manners of gatherings, sorrow and giving.",
+   "lessons": [
+    {
+     "id": "taleem-v1-l19",
+     "number": 19,
+     "title": "Friday, Eid and Caring in Sad Times",
+     "story": [
+      "On Friday, the family prepared for the masjid. Akhlaq noticed that everyone was taking care with their clothes and timing. “Why does Friday feel special?” he asked. Salaam explained that Jumuʿah brings worshippers together for remembrance, a sermon and prayer.",
+      "A few weeks later Eid arrived. The children helped Salamah pack a small gift for a neighbour. Mohsina was excited about new clothes; Imaan reminded her that gratitude and kindness mattered more than showing off.",
+      "Then another day the family heard that an elderly neighbour had died. Akhlaq felt sad and unsure what to say. Dadi Jaan held his hand and explained that Muslims pray for the deceased, comfort the family and help with their needs. She told him that sadness is natural and that he could ask questions.",
+      "The children made a short sympathy card, and their parents checked that it was suitable. They did not turn the loss into a game or expect the bereaved family to smile.",
+      "Through the three occasions, Akhlaq saw different kinds of gathering: remembering Allah, celebrating with gratitude, and showing compassion when someone is grieving."
+     ],
+     "teaching": [
+      {
+       "text": "Jumuʿah is the special Friday congregational prayer. Eid prayers are linked to the two Islamic festivals. Ṣalāt al-Janāzah is the funeral prayer for a deceased Muslim. Detailed legal eligibility, sermons, takbīrs and funeral rites require later instruction. For this age, respect for worship, gratitude, community care and appropriate sympathy are the central lessons."
+      }
+     ],
+     "questions": [
+      {
+       "q": "What is Jumuʿah?",
+       "a": "The special Friday congregational prayer."
+      },
+      {
+       "q": "What are the two Eids?",
+       "a": "Eid al-Fiṭr and Eid al-Aḍḥā."
+      },
+      {
+       "q": "How can we support a grieving family?",
+       "a": "With gentle words, duʿāʾ and useful help."
+      }
+     ],
+     "reflect": [
+      "What kind words or actions would help someone who feels sad?"
+     ],
+     "decide": null,
+     "remember": [
+      "I can explain the main idea.",
+      "I have practised or asked for help.",
+      "I can name one good action."
+     ],
+     "objective": "Recognise three community prayer occasions and practise manners appropriate to each.",
+     "masterChapters": "38",
+     "evidenceLabel": "Evidence to read with an adult",
+     "evidence": "Qur’an 62:9; Ṣaḥīḥ al-Bukhārī Book of Funerals",
+     "dailyAction": "Offer a respectful greeting, a small kindness or a helpful task to someone today.",
+     "tryTogether": "Sort scenario cards into “Friday,” “Eid,” and “Caring after a death.”",
+     "keyWords": "Jumuʿah — Friday gathering; Janāzah — funeral prayer.",
+     "parentNote": "Handle death sensitively. Do not simulate a funeral as entertainment or publicly ask children to discuss personal bereavement."
+    },
+    {
+     "id": "taleem-v1-l20",
+     "number": 20,
+     "title": "Zakah, Fitr and Dignified Giving",
+     "story": [
+      "Just before Eid, Imaan saw Salamah placing an envelope into a drawer. It held money for a family who needed support. Akhlaq asked why they did not write the amount in large letters so everyone would see how generous they were.",
+      "Salamah explained that giving must protect people’s dignity. Zakah is an obligation on qualifying wealth for those to whom its conditions apply. Sadaqat al-Fitr is connected with the end of Ramadan. People can also give voluntary charity.",
+      "“But we are children,” Imaan said. “Can we still help?” “Of course,” replied Salamah. “You can be generous with your time, share what is yours appropriately and avoid embarrassing anyone who receives help.”",
+      "At school the class organised a book-sharing shelf. Mohsin wanted to place a sign saying, “Only poor children may take books.” Imaan suggested a kinder one: “Take a book when you need it; return or share one when you can.”",
+      "The teacher approved. Soon several children were borrowing and returning books without feeling singled out. Akhlaq realised that generosity meant thinking about another person’s feelings as well as about the gift."
+     ],
+     "teaching": [
+      {
+       "text": "Zakah is a prescribed duty connected to qualifying wealth and recognised recipients. Sadaqat al-Fitr is a separate obligation with its own conditions at the end of Ramadan. Voluntary charity is also valuable. Children need not calculate Niṣāb, disclose family finances or distribute funds themselves. Learning to give with dignity and fairness is appropriate now; technical financial rulings come later."
+      }
+     ],
+     "questions": [
+      {
+       "q": "What is Zakah?",
+       "a": "An Islamic obligation on qualifying wealth under its rules."
+      },
+      {
+       "q": "When is Sadaqat al-Fitr connected?",
+       "a": "The end of Ramadan."
+      },
+      {
+       "q": "Should charity embarrass people?",
+       "a": "No. Protect people’s dignity."
+      }
+     ],
+     "reflect": [
+      "How can you help someone without making them feel small?"
+     ],
+     "decide": null,
+     "remember": [
+      "I can explain the main idea.",
+      "I have practised or asked for help.",
+      "I can name one good action."
+     ],
+     "objective": "Distinguish the duty of Zakah from voluntary giving and practise respectful generosity.",
+     "masterChapters": "42",
+     "evidenceLabel": "Evidence to read with an adult",
+     "evidence": "Qur’an 9:60; 2:261; Ṣaḥīḥ al-Bukhārī 1503",
+     "dailyAction": "Share one useful thing or spend time helping someone respectfully.",
+     "tryTogether": "Plan a classroom book-sharing shelf with fair, respectful rules.",
+     "keyWords": "Zakāh — obligatory giving under its rules; Ṣadaqah — charity.",
+     "parentNote": "Avoid public donation leaderboards and financial disclosure. Leave adult tax-like calculations and eligibility to the appropriate advanced curriculum."
+    }
+   ]
+  },
+  {
+   "number": 9,
+   "title": "The Holy Cities",
+   "aim": "I learn the purpose of Hajj and Umrah and the importance of patience.",
+   "lessons": [
+    {
+     "id": "taleem-v1-l21",
+     "number": 21,
+     "title": "A Journey to Makkah: Hajj and Umrah",
+     "story": [
+      "The family spread a map across the dining table. Imaan found Makkah and pointed to the Kaʿbah. Akhlaq had heard words such as Ihram, Tawaf, Saʿi, ʿArafah and Mina but could not put them together.",
+      "Salaam explained that Hajj is a great act of worship required of those who fulfil its conditions. It takes place during appointed days and includes prescribed rites. Umrah is a separate sacred visit with its own rites and can be performed at other times.",
+      "Dadi Jaan placed two simple picture cards on the table: one showed a path through the Hajj places; the other showed the basic Umrah sequence. She carefully said that these were learning maps, not permission to rearrange rites or a substitute for an experienced pilgrim’s guidance.",
+      "Akhlaq watched a video showing a crowded walkway. “What if someone is slow?” he asked. “Then we must be patient,” replied Salamah. “In pilgrimage, harming others to get closer to a place of worship is not good manners.”",
+      "For the school exhibition Imaan designed a “Kindness on a Journey” poster: wait your turn, offer help, keep places clean, speak gently. Akhlaq added the final words in his green notebook: “When I learn worship, I should also learn mercy.”"
+     ],
+     "teaching": [
+      {
+       "text": "Hajj is one of Islam’s five pillars and has conditions including ability. Umrah is distinct from Hajj. The original Chapter 43 explains Hajj as a duty and connects pilgrimage with avoiding indecency, wrongdoing and quarrelling. Chapters 44–45 give detailed sequences; these are only previewed at this level. A young learner should recognise the Kaʿbah, Makkah, Ihram, Tawaf and Saʿi, without trying to perform mock sacred rites as games."
+      }
+     ],
+     "questions": [
+      {
+       "q": "Where is the Kaʿbah?",
+       "a": "In Makkah."
+      },
+      {
+       "q": "Is Hajj one of the five pillars?",
+       "a": "Yes, for those meeting its conditions."
+      },
+      {
+       "q": "Is Umrah the same as Hajj?",
+       "a": "No. It is a distinct act of worship."
+      }
+     ],
+     "reflect": [
+      "How can patience make a busy place safer for everyone?"
+     ],
+     "decide": null,
+     "remember": [
+      "I can explain the main idea.",
+      "I have practised or asked for help.",
+      "I can name one good action."
+     ],
+     "objective": "Recognise Hajj as a pillar for those able, distinguish Hajj from Umrah, and connect pilgrimage with gentle conduct.",
+     "masterChapters": "43; early preview of 44–45",
+     "evidenceLabel": "Evidence to read with an adult",
+     "evidence": "Qur’an 3:97; 2:196–197; 22:27",
+     "dailyAction": "Practise waiting your turn and helping someone move safely.",
+     "tryTogether": "Compare two simple picture paths: Hajj includes ʿArafah on appointed days; Umrah has its own rites. Adult explains the differences.",
+     "keyWords": "Ḥajj — prescribed pilgrimage; ʿUmrah — sacred visit with its own rites.",
+     "parentNote": "Use checked maps and pictures without representing a classroom game as a valid rite. Contemporary permits, safety rules and personal pilgrim issues are beyond this introductory volume."
+    }
+   ]
+  }
+ ]
+}
