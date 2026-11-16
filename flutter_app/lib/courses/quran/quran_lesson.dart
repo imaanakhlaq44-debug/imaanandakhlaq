@@ -4,6 +4,8 @@ import '../../screens/ui_kit.dart';
 import 'quran_data.dart';
 import 'quran_progress.dart';
 import 'quran_screens.dart';
+import 'quran_text.dart';
+import 'recitation_view.dart';
 import '../../rewards/reward_widgets.dart';
 
 const _soft = Color(0xFFF7F8FB);
@@ -34,6 +36,17 @@ class _QuranPassageScreenState extends State<QuranPassageScreen> {
   RecallResult? _recall;
   String? _error;
   final _scroll = ScrollController();
+
+  /// The verified Uthmani text and recitation, once loaded.
+  QuranText? _text;
+
+  @override
+  void initState() {
+    super.initState();
+    QuranText.load().then((t) {
+      if (mounted) setState(() => _text = t);
+    }, onError: (_) {});
+  }
 
   @override
   void dispose() {
@@ -246,41 +259,54 @@ class _QuranPassageScreenState extends State<QuranPassageScreen> {
 
   List<Widget> _content() => switch (_step) {
     0 => [
-      PendingPanel(
-        title: 'Recitation audio pending review',
-        body:
-            'A licensed, verified human recitation (Ḥafṣ ʿan ʿĀṣim) will be added after review; the app never uses a synthetic voice. For now, listen to a parent or teacher recite ${passage.range.label} from a printed muṣḥaf, as many times as you like.',
+      _recitation(
+        controls: true,
+        fallback: PendingPanel(
+          title: 'Recitation audio pending review',
+          body:
+              'A licensed, verified human recitation (Ḥafṣ ʿan ʿĀṣim) will be added after review; the app never uses a synthetic voice. For now, listen to a parent or teacher recite ${passage.range.label} from a printed muṣḥaf, as many times as you like.',
+        ),
       ),
       const SizedBox(height: 14),
       _mode(c.data!.modes[0]),
     ],
     1 => [
-      PendingPanel(
-        title: 'Arabic text pending verified Uthmānī import',
-        body:
-            'The Qur’an text will come from a checksum-verified Uthmānī edition, never typed by hand. Until then, read it from a printed muṣḥaf. These are the ayahs of this lesson, in order:',
+      _recitation(
+        controls: false,
+        fallback: const PendingPanel(
+          title: 'Arabic text pending verified Uthmānī import',
+          body:
+              'The Qur’an text will come from a checksum-verified Uthmānī edition, never typed by hand. Until then, read it from a printed muṣḥaf. These are the ayahs of this lesson, in order:',
+        ),
       ),
       const SizedBox(height: 12),
-      Wrap(
-        key: const Key('quran-ayah-slots'),
-        spacing: 6,
-        runSpacing: 6,
-        children: [
-          for (final a in passage.range.ayahs)
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-              decoration: BoxDecoration(
-                color: _soft,
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(color: lineColor),
+      if (_text?.of(passage.range).isEmpty ?? true)
+        Wrap(
+          key: const Key('quran-ayah-slots'),
+          spacing: 6,
+          runSpacing: 6,
+          children: [
+            for (final a in passage.range.ayahs)
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 6,
+                ),
+                decoration: BoxDecoration(
+                  color: _soft,
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: lineColor),
+                ),
+                child: Text(
+                  '$a',
+                  style: const TextStyle(
+                    color: ink,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
               ),
-              child: Text(
-                '$a',
-                style: const TextStyle(color: ink, fontWeight: FontWeight.w700),
-              ),
-            ),
-        ],
-      ),
+          ],
+        ),
       if (passage.chunks.isNotEmpty || passage.chunkNote != null) ...[
         const SizedBox(height: 16),
         _chunkPlan(),
@@ -291,6 +317,20 @@ class _QuranPassageScreenState extends State<QuranPassageScreen> {
     4 => _recallStep(),
     _ => _keep(),
   };
+
+  /// The imported Uthmani text and recitation for this passage, or
+  /// [fallback] while it loads or if this passage has none.
+  Widget _recitation({required bool controls, required Widget fallback}) {
+    final t = _text;
+    final verses = t?.of(passage.range) ?? const <QuranVerse>[];
+    if (t == null || verses.isEmpty) return fallback;
+    return RecitationView(
+      key: ValueKey('${passage.id}-$controls'),
+      verses: verses,
+      reciter: t.reciter,
+      showControls: controls,
+    );
+  }
 
   Widget _chunkPlan() => _Box(
     title: 'Editor-approved chunk plan',

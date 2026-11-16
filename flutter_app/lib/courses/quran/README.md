@@ -84,12 +84,18 @@ Choices where the source left gaps (all shown as "pending" in the app):
 
 ## Still needed before release
 
-1. **Verified Uthmānī text** (approved edition and licence, checksum,
-   Basmala/waqf/Sajdah policy) for every passage; then render it in
-   NotoNaskhArabic in the See it step instead of the pending panel and ayah
-   number slots.
-2. **Licensed human recitation audio** (Ḥafṣ ʿan ʿĀṣim) with verse
-   timestamps, for Hear it, Echo, Loop and highlighting.
+1. **Uthmānī text — imported 16 Nov 2026** for all 990 ayahs the course
+   uses (`assets/data/courses/quran-text.json`, from the Quran.com API by
+   `tool/gen_quran_text.cjs`; its SHA-256 checksum is checked by
+   `test/courses/quran_text_test.dart`). Hear it and See it show the full
+   published verse text, never the per-word list, which can drop small
+   tajweed marks (e.g. 2:2). Still to do: an editor spot-checks it against
+   a printed Madinah muṣḥaf; decide the Basmala and Sajdah display policy.
+2. **Recitation — Mahmoud Khalil Al-Husary (Muallim)**, streamed per ayah
+   from mirrors.quranicaudio.com, with word timings that light up the word
+   being recited, and each ayah repeatable ×1/×3/×5. Still to do: confirm
+   commercial-use permission with the Quran Foundation / QuranicAudio, and
+   an offline cache.
 3. **Approved phrase chunks** for long ayahs (2:255, 2:285, 2:286).
 4. **Child-friendly meanings** in English/Urdu from a Tafsir editor (only the
    2:285–286 storyboard theme exists in the source).
