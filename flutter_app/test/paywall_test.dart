@@ -32,6 +32,20 @@ void main() {
 
   Widget app(Widget child) => MaterialApp(home: child);
 
+  test('the server decides; an unreachable server leaves it unknown', () async {
+    final sent = <Map<String, dynamic>>[];
+    final ok = serverVerifier((name, data) async {
+      expect(name, 'verifyPlaySubscription');
+      sent.add(data);
+      return {'active': data['purchaseToken'] == 'good-token'};
+    });
+    expect(await ok('good-token'), isTrue);
+    expect(await ok('bad-token'), isFalse);
+    expect(sent.first['productId'], individualSubscriptionId);
+    final down = serverVerifier((_, _) async => throw StateError('offline'));
+    expect(await down('good-token'), isNull);
+  });
+
   testWidgets('the first lesson is free even without a subscription', (
     tester,
   ) async {

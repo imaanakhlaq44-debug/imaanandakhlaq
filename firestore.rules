@@ -750,5 +750,19 @@ service cloud.firestore {
     match /school_links/{token} {
       allow read, write: if false;
     }
+
+    // ---------------------------------------------------------------
+    // 16. Individual subscription
+    // ---------------------------------------------------------------
+    // Written only by verifyPlaySubscription after Google Play confirms a
+    // purchase. The learner may read their own summary; the raw purchase
+    // tokens in play_tokens are for the server alone.
+    match /entitlements/{uid} {
+      allow read: if request.auth != null && request.auth.uid == uid;
+      allow write: if false;
+    }
+    match /play_tokens/{tokenHash} {
+      allow read, write: if false;
+    }
   }
 }

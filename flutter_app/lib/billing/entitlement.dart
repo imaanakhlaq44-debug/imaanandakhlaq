@@ -33,7 +33,10 @@ class PlanOffer {
 /// [FakeBilling].
 abstract class BillingBackend {
   bool get available;
-  Future<void> start(void Function(bool active) onActive);
+
+  /// [onActive] gets true/false when access is known, or null when a
+  /// purchase flow ended without changing it (cancelled, failed).
+  Future<void> start(void Function(bool? active) onActive);
   Future<List<PlanOffer>> plans();
   Future<void> buy(PlanOffer plan);
   Future<void> restore();
@@ -92,9 +95,9 @@ class Entitlement extends ChangeNotifier {
     notifyListeners();
   }
 
-  void _setActive(bool value) {
+  void _setActive(bool? value) {
     busy = false;
-    if (value != _active) {
+    if (value != null && value != _active) {
       _active = value;
       if (persist) {
         SharedPreferencesAsync().setBool(_key, value).catchError((_) {});
@@ -132,16 +135,35 @@ class Entitlement extends ChangeNotifier {
 
 /// Google Play Billing through the in_app_purchase plugin.
 class PlayBilling extends BillingBackend {
+  PlayBilling({this.verifier});
+
+  /// Asks our server (verifyPlaySubscription) whether a Play purchase token
+  /// is really active. Returns null when the server cannot be reached; the
+  /// purchase is then trusted for now and checked again next launch.
+  final Future<bool?> Function(String purchaseToken)? verifier;
+
   InAppPurchase? _iap;
   StreamSubscription<List<PurchaseDetails>>? _sub;
   bool _available = false;
-  void Function(bool)? _onActive;
+  void Function(bool?)? _onActive;
 
   @override
   bool get available => _available;
 
+  /// Whether this Play purchase grants access, asking the server if we can.
+  Future<bool> _verified(PurchaseDetails p) async {
+    final check = verifier;
+    if (check == null) return true;
+    final token = p.verificationData.serverVerificationData;
+    try {
+      return await check(token) ?? true;
+    } catch (_) {
+      return true;
+    }
+  }
+
   @override
-  Future<void> start(void Function(bool active) onActive) async {
+  Future<void> start(void Function(bool? active) onActive) async {
     _onActive = onActive;
     if (kIsWeb || defaultTargetPlatform != TargetPlatform.android) return;
     final iap = _iap = InAppPurchase.instance;
@@ -162,10 +184,12 @@ class PlayBilling extends BillingBackend {
           (p.status == PurchaseStatus.purchased ||
               p.status == PurchaseStatus.restored),
     );
+    var active = false;
     for (final p in mine) {
       if (p.pendingCompletePurchase) await _iap!.completePurchase(p);
+      if (!active && await _verified(p)) active = true;
     }
-    _onActive?.call(mine.isNotEmpty);
+    _onActive?.call(active);
   }
 
   Future<void> _onPurchases(List<PurchaseDetails> list) async {
@@ -174,10 +198,13 @@ class PlayBilling extends BillingBackend {
       switch (p.status) {
         case PurchaseStatus.purchased:
         case PurchaseStatus.restored:
-          _onActive?.call(true);
+          if (p.pendingCompletePurchase) await _iap!.completePurchase(p);
+          _onActive?.call(await _verified(p));
+          continue;
         case PurchaseStatus.error:
         case PurchaseStatus.canceled:
-          _onActive?.call(false);
+          // The learner keeps whatever access they already had.
+          _onActive?.call(null);
         case PurchaseStatus.pending:
           break;
       }
@@ -243,14 +270,14 @@ class FakeBilling extends BillingBackend {
   FakeBilling({this.active = false, this.storeOpen = true});
   bool active;
   final bool storeOpen;
-  void Function(bool)? _onActive;
+  void Function(bool?)? _onActive;
   final bought = <String>[];
 
   @override
   bool get available => storeOpen;
 
   @override
-  Future<void> start(void Function(bool active) onActive) async {
+  Future<void> start(void Function(bool? active) onActive) async {
     _onActive = onActive;
     onActive(active);
   }
@@ -283,3 +310,22 @@ class FakeBilling extends BillingBackend {
   @override
   Future<void> restore() async => _onActive?.call(active);
 }
+
+/// The server check used in the app: the `verifyPlaySubscription` Cloud
+/// Function. Returns null (unknown) when it cannot be reached.
+Future<bool?> Function(String) serverVerifier(
+  Future<Map<String, dynamic>> Function(String name, Map<String, dynamic> data)
+  call,
+) => (token) async {
+  try {
+    final r = await call('verifyPlaySubscription', {
+      'purchaseToken': token,
+      'productId': individualSubscriptionId,
+    });
+    final active = r['active'];
+    return active is bool ? active : null;
+  } catch (e) {
+    debugPrint('verifyPlaySubscription: $e');
+    return null;
+  }
+};

@@ -3469,3 +3469,7 @@ exports.listOrgs = onCall({ cors: true }, async (request) => {
 // Native Flutter learner saves, authorized and committed on the server.
 const { makeSaveActivity } = require('./native-activities');
 exports.saveLearnerActivity = onCall({ cors: true }, makeSaveActivity({ db, HttpsError, catalog: require('./native-catalog.json') }));
+
+// Google Play subscription check for the Individual section (see play-billing.js).
+const { makeVerifyPlaySubscription } = require('./play-billing');
+exports.verifyPlaySubscription = onCall({ cors: true, maxInstances: 10 }, makeVerifyPlaySubscription({ db, HttpsError }));

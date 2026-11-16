@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'app.dart';
 import 'screens/entry_screens.dart' show launchLogo;
 import 'app_theme.dart';
+import 'billing/entitlement.dart';
 import 'data/app_repository.dart';
 import 'dev/emulator_storage_stub.dart'
     if (dart.library.js_interop) 'dev/emulator_storage_web.dart';
@@ -80,6 +81,17 @@ Future<void> main() async {
       FirebaseFirestore.instance.useFirestoreEmulator(host, 8080);
       FirebaseFunctions.instance.useFunctionsEmulator(host, 5001);
     }
+    // Purchases are confirmed by our server, which asks Google Play.
+    Entitlement.instance = Entitlement(
+      backend: PlayBilling(
+        verifier: serverVerifier((name, data) async {
+          final r = await FirebaseFunctions.instance
+              .httpsCallable(name)
+              .call<Object?>(data);
+          return Map<String, dynamic>.from(r.data as Map);
+        }),
+      ),
+    );
     runApp(
       ImaanApp(
         repository: FirebaseRepository(
