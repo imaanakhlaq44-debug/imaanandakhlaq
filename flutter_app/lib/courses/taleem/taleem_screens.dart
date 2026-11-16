@@ -1,3 +1,4 @@
+import '../../billing/paywall.dart';
 import '../../screens/story_cards.dart';
 import 'package:imaan_akhlaq/rewards/reward_widgets.dart';
 import 'package:flutter/material.dart';
@@ -377,12 +378,15 @@ class TaleemEditionScreen extends StatelessWidget {
   void _open(BuildContext context, TaleemLesson lesson) =>
       Navigator.of(context).push<void>(
         MaterialPageRoute(
-          builder: (_) => TaleemLessonScreen(
-            edition: edition,
-            lesson: lesson,
-            progress:
-                session.progress.value[lesson.id] ?? const TaleemProgress(),
-            onSave: (p) => session.save(lesson.id, p),
+          builder: (_) => PaidGate(
+            free: lesson.id == edition.journeys.first.lessons.first.id,
+            child: TaleemLessonScreen(
+              edition: edition,
+              lesson: lesson,
+              progress:
+                  session.progress.value[lesson.id] ?? const TaleemProgress(),
+              onSave: (p) => session.save(lesson.id, p),
+            ),
           ),
         ),
       );

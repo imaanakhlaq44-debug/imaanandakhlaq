@@ -1,3 +1,4 @@
+import '../../billing/paywall.dart';
 import '../../screens/story_cards.dart';
 import '../../audio/voice.dart';
 import 'package:imaan_akhlaq/rewards/reward_widgets.dart';
@@ -102,15 +103,18 @@ class _SalahCourseScreenState extends State<SalahCourseScreen> {
     if (!await _notice(_data!.world(mission.world)) || !mounted) return;
     await Navigator.of(context).push<void>(
       MaterialPageRoute(
-        builder: (_) => SalahMissionScreen(
-          data: _data!,
-          mission: mission,
-          progress: _progress[mission.id] ?? const SalahProgress(),
-          onSave: (value) async {
-            final next = {..._progress, mission.id: value};
-            await _store.save(next);
-            if (mounted) setState(() => _progress = next);
-          },
+        builder: (_) => PaidGate(
+          free: mission.id == _data!.missions.first.id,
+          child: SalahMissionScreen(
+            data: _data!,
+            mission: mission,
+            progress: _progress[mission.id] ?? const SalahProgress(),
+            onSave: (value) async {
+              final next = {..._progress, mission.id: value};
+              await _store.save(next);
+              if (mounted) setState(() => _progress = next);
+            },
+          ),
         ),
       ),
     );

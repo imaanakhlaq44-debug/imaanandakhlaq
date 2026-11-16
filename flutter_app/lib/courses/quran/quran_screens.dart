@@ -1,3 +1,4 @@
+import '../../billing/paywall.dart';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -77,7 +78,9 @@ class QuranController extends ChangeNotifier {
     final names = data!.revision.mastery;
     final now = this.now();
     if (p.mastery == null) {
-      return p.started ? 'Started • step ${p.step + 1} of 6' : 'Ready to practise';
+      return p.started
+          ? 'Started • step ${p.step + 1} of 6'
+          : 'Ready to practise';
     }
     final base = names[p.mastery!.index];
     if (p.approvedAt != null) return '$base • Checked by an adult';
@@ -148,7 +151,13 @@ Future<void> _push(BuildContext context, Widget screen) =>
     Navigator.of(context).push<void>(MaterialPageRoute(builder: (_) => screen));
 
 Future<void> openPassage(BuildContext context, QuranController c, String id) =>
-    _push(context, QuranPassageScreen(c: c, passageId: id));
+    _push(
+      context,
+      PaidGate(
+        free: id == c.data!.roadPassages.first.id,
+        child: QuranPassageScreen(c: c, passageId: id),
+      ),
+    );
 
 class _Home extends StatelessWidget {
   const _Home({required this.c, required this.guest});
@@ -164,12 +173,20 @@ class _Home extends StatelessWidget {
     final road = d.roadPassages;
     final practising = p.passages.values.where((x) => x.mastery != null).length;
     final masnunDone = d.masnun
-        .where((m) => (p.of(m.passageId).mastery?.index ?? -1) >= Mastery.independent.index)
+        .where(
+          (m) =>
+              (p.of(m.passageId).mastery?.index ?? -1) >=
+              Mastery.independent.index,
+        )
         .length;
     final roadDone = road
-        .where((x) => (p.of(x.id).mastery?.index ?? -1) >= Mastery.independent.index)
+        .where(
+          (x) => (p.of(x.id).mastery?.index ?? -1) >= Mastery.independent.index,
+        )
         .length;
-    final experience = d.experiences.where((e) => e.id == p.experience).firstOrNull;
+    final experience = d.experiences
+        .where((e) => e.id == p.experience)
+        .firstOrNull;
     return ListView(
       padding: const EdgeInsets.fromLTRB(18, 12, 18, 28),
       children: [
@@ -214,7 +231,10 @@ class _Home extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 14),
-        Reveal(index: 1, child: _NextStep(c: c, due: due)),
+        Reveal(
+          index: 1,
+          child: _NextStep(c: c, due: due),
+        ),
         const SizedBox(height: 14),
         Reveal(
           index: 2,
@@ -238,7 +258,8 @@ class _Home extends StatelessWidget {
             key: const Key('quran-path-hifz'),
             icon: Icons.route_rounded,
             title: 'Hifz & Recitation Skills',
-            body: 'My Learning Road: start with Al-Fātiḥah and short Juz 30 surahs.',
+            body:
+                'My Learning Road: start with Al-Fātiḥah and short Juz 30 surahs.',
             progress: '$roadDone of ${road.length} recited on my own',
             value: roadDone / road.length,
             onTap: () => _push(context, QuranRoadScreen(c: c)),
@@ -251,7 +272,8 @@ class _Home extends StatelessWidget {
             key: const Key('quran-path-masnun'),
             icon: Icons.nights_stay_outlined,
             title: 'Masnūn Recitations',
-            body: 'Passages with a cited Sunnah context, such as before sleep or in ṣalāh.',
+            body:
+                'Passages with a cited Sunnah context, such as before sleep or in ṣalāh.',
             progress: '$masnunDone of ${d.masnun.length} recited on my own',
             value: masnunDone / d.masnun.length,
             onTap: () => _push(context, QuranMasnunScreen(c: c)),
@@ -264,7 +286,8 @@ class _Home extends StatelessWidget {
             key: const Key('quran-open-juz'),
             icon: Icons.menu_book_outlined,
             title: 'Qur’an by Juz',
-            body: 'Browse all 30 Juz in Qur’anic order, with each Juz’s selected passages.',
+            body:
+                'Browse all 30 Juz in Qur’anic order, with each Juz’s selected passages.',
             onTap: () => _push(context, QuranJuzListScreen(c: c)),
           ),
         ),
@@ -334,7 +357,8 @@ class _NextStep extends StatelessWidget {
     final fresh = d.roadPassages.where((x) => !p.of(x.id).started).firstOrNull;
     if (due.isNotEmpty) {
       title = 'Today’s review';
-      body = '${d.passage(due.first).displayTitle} is ready to recite from memory.';
+      body =
+          '${d.passage(due.first).displayTitle} is ready to recite from memory.';
       button = 'Start review';
       onTap = () => _push(context, QuranRevisionScreen(c: c));
     } else if (resume != null) {
@@ -426,7 +450,9 @@ class _Placement extends StatelessWidget {
           for (final e in d.experiences) ...[
             Pressable(
               child: Material(
-                color: c.progress.experience == e.id ? _tint : const Color(0xFFF7F8FB),
+                color: c.progress.experience == e.id
+                    ? _tint
+                    : const Color(0xFFF7F8FB),
                 borderRadius: BorderRadius.circular(16),
                 child: InkWell(
                   key: Key('quran-experience-${e.id}'),
@@ -571,7 +597,10 @@ class _PathCard extends StatelessWidget {
               backgroundColor: const Color(0xFFE5E9F0),
             ),
             const SizedBox(height: 4),
-            Text(progress, style: const TextStyle(fontSize: 12, color: mutedInk)),
+            Text(
+              progress,
+              style: const TextStyle(fontSize: 12, color: mutedInk),
+            ),
           ],
         ),
       ),
@@ -612,7 +641,10 @@ class PendingPanel extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   body,
-                  style: const TextStyle(color: Color(0xFF5E4A1E), height: 1.45),
+                  style: const TextStyle(
+                    color: Color(0xFF5E4A1E),
+                    height: 1.45,
+                  ),
                 ),
               ],
             ),
@@ -674,7 +706,10 @@ class _PassageRow extends StatelessWidget {
                 ? const Icon(Icons.check_rounded)
                 : Text(
                     lead ?? '${passage.range.surah}',
-                    style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 13),
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w800,
+                      fontSize: 13,
+                    ),
                   ),
           ),
           const SizedBox(width: 12),
@@ -685,7 +720,10 @@ class _PassageRow extends StatelessWidget {
               children: [
                 Text(
                   passage.displayTitle,
-                  style: const TextStyle(fontWeight: FontWeight.w800, color: ink),
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w800,
+                    color: ink,
+                  ),
                 ),
                 const SizedBox(height: 2),
                 Text(
@@ -779,7 +817,8 @@ class QuranRoadScreen extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(16, 0, 16, 10),
               child: PendingPanel(
                 title: 'Order pending editor approval',
-                body: 'The source says: “${phase.order}”.'
+                body:
+                    'The source says: “${phase.order}”.'
                     '${phase.phase == 'Growing recall' ? ' Shown from the end of Juz 30 backwards, as the source allows.' : ''}',
               ),
             ),
@@ -863,7 +902,10 @@ class QuranJuzListScreen extends StatelessWidget {
                     children: [
                       Text(
                         'Juz ${z.number} • ${z.start} → ${z.end}',
-                        style: const TextStyle(fontWeight: FontWeight.w800, color: ink),
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w800,
+                          color: ink,
+                        ),
                       ),
                       const SizedBox(height: 2),
                       Text(
@@ -895,7 +937,9 @@ class QuranJuzScreen extends StatelessWidget {
     children: () {
       final d = c.data!;
       return [
-        _intro('Starts at ${juz.start} and ends at ${juz.end}.\nLearning focus: ${juz.focus}'),
+        _intro(
+          'Starts at ${juz.start} and ends at ${juz.end}.\nLearning focus: ${juz.focus}',
+        ),
         const SectionTitle('Selected passages'),
         for (final (i, s) in juz.selections.indexed)
           _PassageRow(
@@ -939,7 +983,9 @@ Future<void> openAdultArea(BuildContext context, QuranController c) async {
     await _push(context, QuranAdultScreen(c: c));
   } else {
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('That answer was not right. Please ask a grown-up.')),
+      const SnackBar(
+        content: Text('That answer was not right. Please ask a grown-up.'),
+      ),
     );
   }
 }
@@ -1004,13 +1050,26 @@ Future<void> openSource(String url) =>
 
 /// Friendly review date: Today, Tomorrow, In 3 days, or "15 Nov".
 String friendlyDate(DateTime when, DateTime now) {
-  final days = DateUtils.dateOnly(when.toLocal())
-      .difference(DateUtils.dateOnly(now.toLocal()))
-      .inDays;
+  final days = DateUtils.dateOnly(
+    when.toLocal(),
+  ).difference(DateUtils.dateOnly(now.toLocal())).inDays;
   if (days <= 0) return 'Today';
   if (days == 1) return 'Tomorrow';
   if (days < 14) return 'In $days days';
-  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const months = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
+  ];
   final l = when.toLocal();
   return '${l.day} ${months[l.month - 1]}';
 }

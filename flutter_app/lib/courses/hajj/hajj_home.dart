@@ -1,3 +1,4 @@
+import '../../billing/paywall.dart';
 import 'package:flutter/material.dart';
 import '../../app_theme.dart';
 import '../../screens/ui_kit.dart';
@@ -439,7 +440,10 @@ class AdventureScreen extends StatelessWidget {
       trailing: const Icon(Icons.chevron_right),
       onTap: () => Navigator.of(context).push<void>(
         MaterialPageRoute(
-          builder: (_) => HajjMissionScreen(c: c, missionId: id),
+          builder: (_) => PaidGate(
+            free: id == c.course.worlds.first.missionIds.first,
+            child: HajjMissionScreen(c: c, missionId: id),
+          ),
         ),
       ),
     );

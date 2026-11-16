@@ -1,3 +1,4 @@
+import '../../billing/paywall.dart';
 import 'package:flutter/material.dart';
 import '../../app_theme.dart';
 import '../../screens/ui_kit.dart';
@@ -547,7 +548,10 @@ class _HajjMissionScreenState extends State<HajjMissionScreen> {
               ? null
               : () => Navigator.of(context).pushReplacement(
                   MaterialPageRoute<void>(
-                    builder: (_) => HajjMissionScreen(c: c, missionId: next),
+                    builder: (_) => PaidGate(
+                      free: next == c.course.worlds.first.missionIds.first,
+                      child: HajjMissionScreen(c: c, missionId: next),
+                    ),
                   ),
                 ),
           child: Text('Next mission: ${course.missions[next]!.title}'),

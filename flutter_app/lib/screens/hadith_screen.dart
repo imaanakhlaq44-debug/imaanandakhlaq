@@ -1,3 +1,4 @@
+import '../billing/paywall.dart';
 import 'story_cards.dart';
 import '../audio/voice.dart';
 import 'package:imaan_akhlaq/rewards/reward_widgets.dart';
@@ -76,14 +77,17 @@ class _HadithCourseScreenState extends State<HadithCourseScreen> {
   Future<void> _openLesson(HadithLesson lesson) async {
     await Navigator.of(context).push<void>(
       MaterialPageRoute(
-        builder: (_) => HadithLessonScreen(
-          lesson: lesson,
-          progress: _progress[lesson.id] ?? const HadithProgress(),
-          onSave: (value) async {
-            final next = {..._progress, lesson.id: value};
-            await _store.save(next);
-            if (mounted) setState(() => _progress = next);
-          },
+        builder: (_) => PaidGate(
+          free: lesson.number == 1,
+          child: HadithLessonScreen(
+            lesson: lesson,
+            progress: _progress[lesson.id] ?? const HadithProgress(),
+            onSave: (value) async {
+              final next = {..._progress, lesson.id: value};
+              await _store.save(next);
+              if (mounted) setState(() => _progress = next);
+            },
+          ),
         ),
       ),
     );

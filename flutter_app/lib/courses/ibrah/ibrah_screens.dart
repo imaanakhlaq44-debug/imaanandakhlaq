@@ -1,3 +1,4 @@
+import '../../billing/paywall.dart';
 import '../../audio/voice.dart';
 import 'package:imaan_akhlaq/rewards/reward_widgets.dart';
 import 'dart:math';
@@ -362,10 +363,13 @@ class _IbrahVolumeScreenState extends State<IbrahVolumeScreen> {
                             done: p.storyRead(v.id, s.id),
                             icon: Icons.menu_book_outlined,
                             onTap: () => _push(
-                              IbrahStoryScreen(
-                                volume: v,
-                                story: s,
-                                progress: widget.progress,
+                              PaidGate(
+                                free: v.number == 1 && s.number == 1,
+                                child: IbrahStoryScreen(
+                                  volume: v,
+                                  story: s,
+                                  progress: widget.progress,
+                                ),
                               ),
                             ),
                           ),
@@ -384,10 +388,13 @@ class _IbrahVolumeScreenState extends State<IbrahVolumeScreen> {
                             done: p.mission(v.id, m.id).done,
                             icon: Icons.flag_outlined,
                             onTap: () => _push(
-                              IbrahMissionScreen(
-                                volume: v,
-                                mission: m,
-                                progress: widget.progress,
+                              PaidGate(
+                                free: v.number == 1 && m.story == 1,
+                                child: IbrahMissionScreen(
+                                  volume: v,
+                                  mission: m,
+                                  progress: widget.progress,
+                                ),
                               ),
                             ),
                           ),
@@ -409,9 +416,12 @@ class _IbrahVolumeScreenState extends State<IbrahVolumeScreen> {
                           done: p.reviewed.containsKey(v.id),
                           icon: Icons.auto_awesome_outlined,
                           onTap: () => _push(
-                            IbrahReviewScreen(
-                              volume: v,
-                              progress: widget.progress,
+                            PaidGate(
+                              free: false,
+                              child: IbrahReviewScreen(
+                                volume: v,
+                                progress: widget.progress,
+                              ),
                             ),
                           ),
                         ),

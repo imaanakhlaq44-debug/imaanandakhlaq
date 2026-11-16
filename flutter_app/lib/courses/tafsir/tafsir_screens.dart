@@ -1,3 +1,4 @@
+import '../../billing/paywall.dart';
 import '../../screens/story_cards.dart';
 import '../../audio/voice.dart';
 import 'package:imaan_akhlaq/rewards/reward_widgets.dart';
@@ -359,14 +360,19 @@ class _TafsirWorldScreenState extends State<TafsirWorldScreen> {
     final state = widget.state;
     await Navigator.of(context).push<void>(
       MaterialPageRoute(
-        builder: (_) => TafsirMissionScreen(
-          world: widget.world,
-          mission: mission,
-          progress: state.progress[mission.id] ?? const TafsirProgress(),
-          onSave: (value) async {
-            await state.save(mission.id, value);
-            if (mounted) setState(() {});
-          },
+        builder: (_) => PaidGate(
+          free:
+              widget.world.number == 1 &&
+              mission.id == widget.world.missions.first.id,
+          child: TafsirMissionScreen(
+            world: widget.world,
+            mission: mission,
+            progress: state.progress[mission.id] ?? const TafsirProgress(),
+            onSave: (value) async {
+              await state.save(mission.id, value);
+              if (mounted) setState(() {});
+            },
+          ),
         ),
       ),
     );

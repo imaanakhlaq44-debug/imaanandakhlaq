@@ -1,3 +1,4 @@
+import '../../billing/paywall.dart';
 import '../../screens/story_cards.dart';
 import '../../audio/voice.dart';
 import 'package:imaan_akhlaq/rewards/reward_widgets.dart';
@@ -339,11 +340,14 @@ class DuasVolumeScreen extends StatelessWidget {
   void _open(BuildContext context, DuaLesson lesson) =>
       Navigator.of(context).push<void>(
         MaterialPageRoute(
-          builder: (_) => DuaLessonScreen(
-            lesson: lesson,
-            volume: volume,
-            progress: progress.value[lesson.id] ?? const DuaProgress(),
-            onSave: (value) => onSave(lesson.id, value),
+          builder: (_) => PaidGate(
+            free: volume.number == 1 && lesson.number == 1,
+            child: DuaLessonScreen(
+              lesson: lesson,
+              volume: volume,
+              progress: progress.value[lesson.id] ?? const DuaProgress(),
+              onSave: (value) => onSave(lesson.id, value),
+            ),
           ),
         ),
       );
