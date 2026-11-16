@@ -7,8 +7,23 @@ import 'hadith_screen.dart';
 import '../courses/registry.dart';
 import 'ui_kit.dart';
 import 'entry_screens.dart' show brandCream;
+import '../l10n/language.dart';
 import '../rewards/rewards.dart';
 import '../rewards/reward_widgets.dart';
+
+/// Course names in the current language (see [courseNames] for English).
+String courseName(int i) => tr(courseNames[i], courseNamesUrdu[i]);
+
+const courseNamesUrdu = [
+  'قرآن',
+  'حدیث',
+  'دعائیں',
+  'نماز',
+  'تفسیر',
+  'قصص الانبیاء',
+  'حج و عمرہ',
+  'تعلیم الاسلام',
+];
 
 const courseNames = [
   'Quran',
@@ -131,11 +146,17 @@ class LearningDashboard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Explore learning', style: displayStyle(23)),
+                  Text(
+                    tr('Explore learning', 'سیکھنے کی دنیا'),
+                    style: displayStyle(23),
+                  ),
                   const SizedBox(height: 2),
-                  const Text(
-                    'Pick a subject and start a little adventure.',
-                    style: TextStyle(color: mutedInk, fontSize: 13.5),
+                  Text(
+                    tr(
+                      'Pick a subject and start a little adventure.',
+                      'کوئی مضمون چنیں اور ایک ننھا سا سفر شروع کریں۔',
+                    ),
+                    style: const TextStyle(color: mutedInk, fontSize: 13.5),
                   ),
                 ],
               ),
@@ -284,7 +305,7 @@ class _SubjectTile extends StatelessWidget {
                         Expanded(
                           child: Center(
                             child: Text(
-                              courseNames[index],
+                              courseName(index),
                               textAlign: TextAlign.center,
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
@@ -409,7 +430,7 @@ class _MapTile extends StatelessWidget {
                       Expanded(
                         child: Center(
                           child: Text(
-                            'Adventure map',
+                            tr('Adventure map', 'مہم کا نقشہ'),
                             textAlign: TextAlign.center,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
@@ -527,7 +548,9 @@ class _SmallActionCardState extends State<_SmallActionCard> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      _done ? 'MashaAllah!' : 'Today’s small action',
+                      _done
+                          ? tr('MashaAllah!', 'ماشاءاللہ!')
+                          : tr('Today’s small action', 'آج کا ننھا نیک کام'),
                       style: displayStyle(
                         17,
                         color: _done
@@ -538,8 +561,14 @@ class _SmallActionCardState extends State<_SmallActionCard> {
                     const SizedBox(height: 3),
                     Text(
                       _done
-                          ? 'You made someone smile today.'
-                          : 'Say one kind thing to someone.',
+                          ? tr(
+                              'You made someone smile today.',
+                              'آج آپ نے کسی کے چہرے پر مسکراہٹ بکھیر دی۔',
+                            )
+                          : tr(
+                              'Say one kind thing to someone.',
+                              'کسی سے ایک اچھی بات کہیں۔',
+                            ),
                       style: const TextStyle(
                         color: brandNavy,
                         fontSize: 14.5,
@@ -616,233 +645,258 @@ class _ContinueCard extends StatelessWidget {
         stops: [0, .42, .75, 1],
       ),
     ),
-    child: LayoutBuilder(
-      builder: (context, constraints) {
-        final stacked =
-            constraints.maxWidth < 300 ||
-            MediaQuery.textScalerOf(context).scale(14) > 19;
-        Widget artwork(double width, double height) => Image.asset(
-          'assets/images/reading-hero-book1.png',
-          key: const Key('reading-hero-art'),
-          width: width,
-          height: height,
-          fit: BoxFit.contain,
-          alignment: Alignment.bottomCenter,
-          cacheWidth: 640,
-          excludeFromSemantics: true,
-        );
-        Widget label() => Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-          decoration: BoxDecoration(
-            color: brandOrange.withValues(alpha: .9),
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Text(
-            learner == null ? 'Story time' : 'Up next',
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 12,
-              fontWeight: FontWeight.w800,
-              letterSpacing: .3,
-            ),
-          ),
-        );
-        Widget title() => FutureBuilder<List<Book>>(
-          future: books,
-          builder: (context, snapshot) {
-            final done = learner?.completed.toSet() ?? <String>{};
-            final next = snapshot.data
-                ?.expand((book) => book.chapters)
-                .where((chapter) => !done.contains(chapter.id))
-                .firstOrNull;
-            return Text(
-              learner == null
-                  ? 'Read a story together'
-                  : next?.title ?? 'Continue reading',
-              maxLines: stacked ? null : 3,
-              overflow: stacked ? null : TextOverflow.ellipsis,
-              style: displayStyle(23, color: Colors.white, height: 1.15),
+    child: Stack(
+      // Passthrough keeps the hero full width under the language switch.
+      fit: StackFit.passthrough,
+      children: [
+        LayoutBuilder(
+          builder: (context, constraints) {
+            final stacked =
+                constraints.maxWidth < 300 ||
+                MediaQuery.textScalerOf(context).scale(14) > 19;
+            Widget artwork(double width, double height) => Image.asset(
+              'assets/images/reading-hero-book1.png',
+              key: const Key('reading-hero-art'),
+              width: width,
+              height: height,
+              fit: BoxFit.contain,
+              alignment: Alignment.bottomCenter,
+              cacheWidth: 640,
+              excludeFromSemantics: true,
             );
-          },
-        );
-        Widget button() => FilledButton.icon(
-          key: const Key('continue-learning'),
-          style: FilledButton.styleFrom(
-            backgroundColor: Colors.white,
-            foregroundColor: brandPink,
-            minimumSize: const Size(48, 46),
-            padding: const EdgeInsets.fromLTRB(10, 0, 16, 0),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
-            ),
-            elevation: 2,
-            shadowColor: Colors.black26,
-          ),
-          icon: const Icon(Icons.play_circle_fill_rounded, size: 26),
-          onPressed: onContinue,
-          label: Text(
-            learner == null ? 'Read a story' : 'Continue',
-            style: const TextStyle(fontSize: 14.5, fontWeight: FontWeight.w800),
-          ),
-        );
-        final w = constraints.maxWidth;
-        final topInset = MediaQuery.paddingOf(context).top;
-        Widget star(double left, double top, double size, double alpha) =>
-            Positioned(
-              left: left,
-              top: top + topInset,
-              child: Icon(
-                Icons.auto_awesome,
-                size: size,
-                color: const Color(0xFFFFE7A8).withValues(alpha: alpha),
+            Widget label() => Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+              decoration: BoxDecoration(
+                color: brandOrange.withValues(alpha: .9),
+                borderRadius: BorderRadius.circular(20),
               ),
-            );
-        Widget dot(double left, double top, double size, double alpha) =>
-            Positioned(
-              left: left,
-              top: top + topInset,
-              child: Container(
-                width: size,
-                height: size,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white.withValues(alpha: alpha),
+              child: Text(
+                learner == null
+                    ? tr('Story time', 'کہانی کا وقت')
+                    : tr('Up next', 'اگلا سبق'),
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w800,
+                  letterSpacing: .3,
                 ),
               ),
             );
-        final rings = [
-          // Warm lamp-light glow behind the reading children.
-          Positioned(
-            right: stacked ? null : -w * .12,
-            left: stacked ? w * .5 - 160 : null,
-            bottom: stacked ? 30 : -90,
-            child: IgnorePointer(
-              child: Container(
-                width: 320,
-                height: 320,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  gradient: RadialGradient(
-                    colors: [
-                      const Color(0xFFFFB45C).withValues(alpha: .55),
-                      const Color(0xFFFF8A5C).withValues(alpha: .18),
-                      const Color(0x00FF8A5C),
-                    ],
-                    stops: const [0, .5, 1],
+            Widget title() => FutureBuilder<List<Book>>(
+              future: books,
+              builder: (context, snapshot) {
+                final done = learner?.completed.toSet() ?? <String>{};
+                final next = snapshot.data
+                    ?.expand((book) => book.chapters)
+                    .where((chapter) => !done.contains(chapter.id))
+                    .firstOrNull;
+                return Text(
+                  learner == null
+                      ? tr('Read a story together', 'آئیں مل کر کہانی پڑھیں')
+                      : next?.title ??
+                            tr('Continue reading', 'پڑھنا جاری رکھیں'),
+                  maxLines: stacked ? null : 3,
+                  overflow: stacked ? null : TextOverflow.ellipsis,
+                  style: displayStyle(23, color: Colors.white, height: 1.15),
+                );
+              },
+            );
+            Widget button() => FilledButton.icon(
+              key: const Key('continue-learning'),
+              style: FilledButton.styleFrom(
+                backgroundColor: Colors.white,
+                foregroundColor: brandPink,
+                minimumSize: const Size(48, 46),
+                padding: const EdgeInsets.fromLTRB(10, 0, 16, 0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                elevation: 2,
+                shadowColor: Colors.black26,
+              ),
+              icon: const Icon(Icons.play_circle_fill_rounded, size: 26),
+              onPressed: onContinue,
+              label: Text(
+                learner == null
+                    ? tr('Read a story', 'کہانی پڑھیں')
+                    : tr('Continue', 'جاری رکھیں'),
+                style: const TextStyle(
+                  fontSize: 14.5,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+            );
+            final w = constraints.maxWidth;
+            final topInset = MediaQuery.paddingOf(context).top;
+            Widget star(double left, double top, double size, double alpha) =>
+                Positioned(
+                  left: left,
+                  top: top + topInset,
+                  child: Icon(
+                    Icons.auto_awesome,
+                    size: size,
+                    color: const Color(0xFFFFE7A8).withValues(alpha: alpha),
+                  ),
+                );
+            Widget dot(double left, double top, double size, double alpha) =>
+                Positioned(
+                  left: left,
+                  top: top + topInset,
+                  child: Container(
+                    width: size,
+                    height: size,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.white.withValues(alpha: alpha),
+                    ),
+                  ),
+                );
+            final rings = [
+              // Warm lamp-light glow behind the reading children.
+              PositionedDirectional(
+                end: stacked ? null : -w * .12,
+                start: stacked ? w * .5 - 160 : null,
+                bottom: stacked ? 30 : -90,
+                child: IgnorePointer(
+                  child: Container(
+                    width: 320,
+                    height: 320,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      gradient: RadialGradient(
+                        colors: [
+                          const Color(0xFFFFB45C).withValues(alpha: .55),
+                          const Color(0xFFFF8A5C).withValues(alpha: .18),
+                          const Color(0x00FF8A5C),
+                        ],
+                        stops: const [0, .5, 1],
+                      ),
+                    ),
                   ),
                 ),
               ),
-            ),
-          ),
-          // Soft rolling hill along the bottom edge.
-          Positioned(
-            left: -w * .2,
-            right: -w * .2,
-            bottom: -150,
-            child: Container(
-              height: 200,
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.all(
-                  Radius.elliptical(400, 120),
-                ),
-                color: Colors.white.withValues(alpha: .07),
-              ),
-            ),
-          ),
-          Positioned(
-            left: -60,
-            top: -60,
-            child: Container(
-              width: 170,
-              height: 170,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: Colors.white.withValues(alpha: .06),
-                  width: 16,
+              // Soft rolling hill along the bottom edge.
+              Positioned(
+                left: -w * .2,
+                right: -w * .2,
+                bottom: -150,
+                child: Container(
+                  height: 200,
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(
+                      Radius.elliptical(400, 120),
+                    ),
+                    color: Colors.white.withValues(alpha: .07),
+                  ),
                 ),
               ),
-            ),
-          ),
-          // Crescent moon.
-          Positioned(
-            right: 18,
-            top: 14 + topInset,
-            child: Transform.rotate(
-              angle: -.5,
-              child: Icon(
-                Icons.nightlight_round,
-                size: 26,
-                color: const Color(0xFFFFE7A8),
-                shadows: [
-                  Shadow(
-                    color: const Color(0xFFFFD27A).withValues(alpha: .8),
-                    blurRadius: 14,
+              Positioned(
+                left: -60,
+                top: -60,
+                child: Container(
+                  width: 170,
+                  height: 170,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: Colors.white.withValues(alpha: .06),
+                      width: 16,
+                    ),
+                  ),
+                ),
+              ),
+              // Crescent moon, just below the language switch.
+              PositionedDirectional(
+                end: 24,
+                top: 54 + topInset,
+                child: Transform.rotate(
+                  angle: -.5,
+                  child: Icon(
+                    Icons.nightlight_round,
+                    size: 26,
+                    color: const Color(0xFFFFE7A8),
+                    shadows: [
+                      Shadow(
+                        color: const Color(0xFFFFD27A).withValues(alpha: .8),
+                        blurRadius: 14,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              star(w * .38, 18, 14, .85),
+              star(w * .55, 46, 10, .6),
+              star(w * .8, 64, 12, .7),
+              dot(w * .3, 40, 3, .5),
+              dot(w * .66, 22, 3, .7),
+              dot(w * .52, 84, 2.5, .45),
+              dot(w * .9, 40, 2.5, .55),
+            ];
+            if (stacked) {
+              return Stack(
+                children: [
+                  ...rings,
+                  Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        label(),
+                        const SizedBox(height: 8),
+                        title(),
+                        const SizedBox(height: 8),
+                        Center(child: artwork(220, 145)),
+                        const SizedBox(height: 12),
+                        SizedBox(width: double.infinity, child: button()),
+                      ],
+                    ),
+                  ),
+                ],
+              );
+            }
+            return ConstrainedBox(
+              constraints: const BoxConstraints(minHeight: 188),
+              child: Stack(
+                children: [
+                  ...rings,
+                  PositionedDirectional(
+                    end: -8,
+                    bottom: 0,
+                    child: artwork(constraints.maxWidth * .58, 176),
+                  ),
+                  Padding(
+                    padding: const EdgeInsetsDirectional.fromSTEB(
+                      20,
+                      26,
+                      0,
+                      22,
+                    ),
+                    child: SizedBox(
+                      width: constraints.maxWidth * .46,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          label(),
+                          const SizedBox(height: 10),
+                          title(),
+                          const SizedBox(height: 16),
+                          button(),
+                        ],
+                      ),
+                    ),
                   ),
                 ],
               ),
-            ),
-          ),
-          star(w * .38, 18, 14, .85),
-          star(w * .55, 46, 10, .6),
-          star(w * .8, 64, 12, .7),
-          dot(w * .3, 40, 3, .5),
-          dot(w * .66, 22, 3, .7),
-          dot(w * .52, 84, 2.5, .45),
-          dot(w * .9, 40, 2.5, .55),
-        ];
-        if (stacked) {
-          return Stack(
-            children: [
-              ...rings,
-              Padding(
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    label(),
-                    const SizedBox(height: 8),
-                    title(),
-                    const SizedBox(height: 8),
-                    Center(child: artwork(220, 145)),
-                    const SizedBox(height: 12),
-                    SizedBox(width: double.infinity, child: button()),
-                  ],
-                ),
-              ),
-            ],
-          );
-        }
-        return ConstrainedBox(
-          constraints: const BoxConstraints(minHeight: 188),
-          child: Stack(
-            children: [
-              ...rings,
-              Positioned(
-                right: -8,
-                bottom: 0,
-                child: artwork(constraints.maxWidth * .58, 176),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(20, 26, 0, 22),
-                child: SizedBox(
-                  width: constraints.maxWidth * .46,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      label(),
-                      const SizedBox(height: 10),
-                      title(),
-                      const SizedBox(height: 16),
-                      button(),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
+            );
+          },
+        ),
+        // Language switch, on top of the artwork so it is always tappable.
+        PositionedDirectional(
+          end: 14,
+          top: 12 + MediaQuery.paddingOf(context).top,
+          child: const LanguageToggle(onDark: true),
+        ),
+      ],
     ),
   );
 }
@@ -946,7 +1000,7 @@ class AdventureMap extends StatelessWidget {
                 ),
               ),
               stop(
-                'Quran\nGarden',
+                tr('Quran\nGarden', 'قرآن\nباغیچہ'),
                 'map-quran',
                 0.255,
                 0.09,
@@ -954,7 +1008,7 @@ class AdventureMap extends StatelessWidget {
                 () => onCourse(0),
               ),
               stop(
-                'Hadith\nHouse',
+                tr('Hadith\nHouse', 'حدیث\nگھر'),
                 'map-hadith',
                 0.775,
                 0.1,
@@ -962,7 +1016,7 @@ class AdventureMap extends StatelessWidget {
                 () => onCourse(1),
               ),
               stop(
-                'Dua\nCorner',
+                tr('Dua\nCorner', 'دعا\nکونا'),
                 'map-duas',
                 0.175,
                 0.28,
@@ -970,7 +1024,7 @@ class AdventureMap extends StatelessWidget {
                 () => onCourse(2),
               ),
               stop(
-                'Salah\nStudio',
+                tr('Salah\nStudio', 'نماز\nکمرہ'),
                 'map-salah',
                 0.785,
                 0.3,
@@ -978,7 +1032,7 @@ class AdventureMap extends StatelessWidget {
                 () => onCourse(3),
               ),
               stop(
-                'Story\nLibrary',
+                tr('Story\nLibrary', 'کہانی\nلائبریری'),
                 'map-books',
                 0.205,
                 0.55,
@@ -986,7 +1040,7 @@ class AdventureMap extends StatelessWidget {
                 onBooks,
               ),
               stop(
-                'Explore\nMore',
+                tr('Explore\nMore', 'مزید\nدیکھیں'),
                 'map-explore',
                 0.88,
                 0.64,
@@ -1076,14 +1130,17 @@ Future<void> showCourseDetails(
               style: const TextStyle(fontSize: 16, height: 1.5),
             ),
             const SizedBox(height: 16),
-            const Text(
-              'In preparation. This journey will open after its lessons and audio are reviewed.',
-              style: TextStyle(color: Color(0xFF66738E), height: 1.5),
+            Text(
+              tr(
+                'In preparation. This journey will open after its lessons and audio are reviewed.',
+                'تیاری میں ہے۔ یہ سفر اسباق اور آڈیو کی جانچ کے بعد کھلے گا۔',
+              ),
+              style: const TextStyle(color: Color(0xFF66738E), height: 1.5),
             ),
             const SizedBox(height: 24),
             FilledButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text('Got it'),
+              child: Text(tr('Got it', 'ٹھیک ہے')),
             ),
           ],
         ),
@@ -1103,10 +1160,16 @@ class CourseLibrary extends StatelessWidget {
     itemBuilder: (context, index) {
       if (index == 0) {
         return PageHeader(
-          title: 'Learning Hub',
+          title: tr('Learning Hub', 'سیکھنے کا مرکز'),
           subtitle: hadithScope != null
-              ? 'Start with the Hadith lessons, or explore the other journeys.'
-              : 'New learning journeys are in preparation. Explore your stories and books today.',
+              ? tr(
+                  'Start with the Hadith lessons, or explore the other journeys.',
+                  'حدیث کے اسباق سے شروع کریں، یا باقی سفر دیکھیں۔',
+                )
+              : tr(
+                  'New learning journeys are in preparation. Explore your stories and books today.',
+                  'نئے سفر تیار ہو رہے ہیں۔ آج اپنی کہانیاں اور کتابیں دیکھیں۔',
+                ),
           icon: Icons.auto_stories_rounded,
           color: brandPink,
         );
@@ -1247,9 +1310,12 @@ class BookLibrary extends StatelessWidget {
     builder: (context, snapshot) {
       if (snapshot.hasError) {
         return MessageView(
-          title: 'Books could not load',
-          message: 'Please try again.',
-          action: FilledButton(onPressed: onRetry, child: const Text('Retry')),
+          title: tr('Books could not load', 'کتابیں نہیں کھل سکیں'),
+          message: tr('Please try again.', 'دوبارہ کوشش کریں۔'),
+          action: FilledButton(
+            onPressed: onRetry,
+            child: Text(tr('Retry', 'دوبارہ')),
+          ),
         );
       }
       if (!snapshot.hasData) {
@@ -1262,9 +1328,12 @@ class BookLibrary extends StatelessWidget {
         itemCount: list.length + 1,
         itemBuilder: (context, index) {
           if (index == 0) {
-            return const PageHeader(
-              title: 'Stories & books',
-              subtitle: 'Choose a book, then open a chapter.',
+            return PageHeader(
+              title: tr('Stories & books', 'کہانیاں اور کتابیں'),
+              subtitle: tr(
+                'Choose a book, then open a chapter.',
+                'کتاب چنیں، پھر باب کھولیں۔',
+              ),
               icon: Icons.menu_book_rounded,
               color: brandIndigo,
             );
@@ -1528,29 +1597,29 @@ class LearningNavigation extends StatelessWidget {
     selectedIndex: selectedIndex,
     onDestinationSelected: onSelected,
     destinations: [
-      const NavigationDestination(
-        key: Key('nav-home'),
-        icon: Icon(Icons.home_outlined),
-        selectedIcon: Icon(Icons.home, color: brandPink),
-        label: 'Home',
+      NavigationDestination(
+        key: const Key('nav-home'),
+        icon: const Icon(Icons.home_outlined),
+        selectedIcon: const Icon(Icons.home, color: brandPink),
+        label: tr('Home', 'گھر'),
       ),
-      const NavigationDestination(
-        key: Key('nav-map'),
-        icon: Icon(Icons.map_outlined),
-        selectedIcon: Icon(Icons.map, color: brandPink),
-        label: 'Map',
+      NavigationDestination(
+        key: const Key('nav-map'),
+        icon: const Icon(Icons.map_outlined),
+        selectedIcon: const Icon(Icons.map, color: brandPink),
+        label: tr('Map', 'نقشہ'),
       ),
-      const NavigationDestination(
-        key: Key('nav-learn'),
-        icon: Icon(Icons.school_outlined),
-        selectedIcon: Icon(Icons.school, color: brandPink),
-        label: 'Learn',
+      NavigationDestination(
+        key: const Key('nav-learn'),
+        icon: const Icon(Icons.school_outlined),
+        selectedIcon: const Icon(Icons.school, color: brandPink),
+        label: tr('Learn', 'سیکھیں'),
       ),
-      const NavigationDestination(
-        key: Key('nav-books'),
-        icon: Icon(Icons.menu_book_outlined),
-        selectedIcon: Icon(Icons.menu_book, color: brandPink),
-        label: 'Books',
+      NavigationDestination(
+        key: const Key('nav-books'),
+        icon: const Icon(Icons.menu_book_outlined),
+        selectedIcon: const Icon(Icons.menu_book, color: brandPink),
+        label: tr('Books', 'کتابیں'),
       ),
       NavigationDestination(
         key: const Key('nav-profile'),
@@ -1559,7 +1628,7 @@ class LearningNavigation extends StatelessWidget {
           guest ? Icons.person : Icons.insights,
           color: brandPink,
         ),
-        label: guest ? 'Profile' : 'Progress',
+        label: guest ? tr('Profile', 'پروفائل') : tr('Progress', 'پیش رفت'),
       ),
     ],
   );

@@ -9,6 +9,8 @@ const canvas = Color(0xFFF4F6FA);
 ThemeData appTheme() => ThemeData(
   useMaterial3: true,
   fontFamily: 'AppSans',
+  // Urdu letters (Individual section in Urdu) fall back to Nastaleeq.
+  fontFamilyFallback: const ['JameelNoori'],
   colorScheme: ColorScheme.fromSeed(seedColor: brandPink, surface: canvas)
       .copyWith(
         primary: brandPink,
@@ -24,6 +26,7 @@ ThemeData appTheme() => ThemeData(
     scrolledUnderElevation: 0,
     titleTextStyle: TextStyle(
       fontFamily: 'AppSans',
+      fontFamilyFallback: ['JameelNoori'],
       fontSize: 20,
       fontWeight: FontWeight.w700,
       color: ink,
@@ -52,6 +55,7 @@ ThemeData appTheme() => ThemeData(
       foregroundColor: brandNavy,
       textStyle: const TextStyle(
         fontFamily: 'AppSans',
+        fontFamilyFallback: ['JameelNoori'],
         fontSize: 16,
         fontWeight: FontWeight.w700,
       ),
@@ -67,6 +71,7 @@ ThemeData appTheme() => ThemeData(
       minimumSize: const Size(48, 54),
       textStyle: const TextStyle(
         fontFamily: 'AppSans',
+        fontFamilyFallback: ['JameelNoori'],
         fontSize: 16,
         fontWeight: FontWeight.w700,
       ),

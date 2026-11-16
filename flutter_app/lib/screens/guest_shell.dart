@@ -4,6 +4,7 @@ import '../data/catalog.dart';
 import '../domain.dart';
 import 'learning_experience.dart';
 import 'ui_kit.dart';
+import '../l10n/language.dart';
 import 'entry_screens.dart' show BrandLogoRing;
 
 class GuestShell extends StatefulWidget {
@@ -24,7 +25,9 @@ class _GuestShellState extends State<GuestShell> {
   late Future<List<Book>> _books = Catalog().books();
   void _select(int tab) => setState(() => _tab = tab);
   @override
-  Widget build(BuildContext context) => PopScope(
+  Widget build(BuildContext context) => LanguageScope(child: _build(context));
+
+  Widget _build(BuildContext context) => PopScope(
     canPop: false,
     onPopInvokedWithResult: (didPop, _) {
       if (!didPop) {
@@ -40,9 +43,9 @@ class _GuestShellState extends State<GuestShell> {
           ? null
           : AppBar(
               title: Text(switch (_tab) {
-                2 => 'Learn',
-                3 => 'Books',
-                _ => 'Profile',
+                2 => tr('Learn', 'سیکھیں'),
+                3 => tr('Books', 'کتابیں'),
+                _ => tr('Profile', 'پروفائل'),
               }),
             ),
       body: SafeArea(
@@ -107,14 +110,18 @@ class _GuestShellState extends State<GuestShell> {
               const BrandLogoRing(size: 84),
               const SizedBox(height: 14),
               Text(
-                'Your learning profile',
+                tr('Your learning profile', 'آپ کا تعلیمی پروفائل'),
                 textAlign: TextAlign.center,
                 style: displayStyle(23, color: Colors.white),
               ),
               const SizedBox(height: 6),
               Text(
-                'Sign in to keep your reading and activities together, or '
-                'create an account to start learning.',
+                tr(
+                  'Sign in to keep your reading and activities together, or '
+                      'create an account to start learning.',
+                  'سائن اِن کریں تاکہ آپ کی پڑھائی اور سرگرمیاں محفوظ رہیں، '
+                      'یا نیا اکاؤنٹ بنا کر سیکھنا شروع کریں۔',
+                ),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Colors.white.withValues(alpha: .85),
@@ -132,7 +139,7 @@ class _GuestShellState extends State<GuestShell> {
                   ),
                 ),
                 icon: const Icon(Icons.login_rounded),
-                label: const Text('Sign in'),
+                label: Text(tr('Sign in', 'سائن اِن')),
               ),
               const SizedBox(height: 10),
               OutlinedButton.icon(
@@ -147,7 +154,7 @@ class _GuestShellState extends State<GuestShell> {
                   ),
                 ),
                 icon: const Icon(Icons.person_add_alt_1_rounded),
-                label: const Text('Create account'),
+                label: Text(tr('Create account', 'اکاؤنٹ بنائیں')),
               ),
             ],
           ),
@@ -158,10 +165,22 @@ class _GuestShellState extends State<GuestShell> {
         index: 1,
         child: Row(
           children: [
-            for (final (icon, color, text) in const [
-              (Icons.bookmark_rounded, brandPink, 'Save your\nreading'),
-              (Icons.emoji_events_rounded, brandOrange, 'Track your\nprogress'),
-              (Icons.family_restroom_rounded, successInk, 'Learn with\nfamily'),
+            for (final (icon, color, text) in [
+              (
+                Icons.bookmark_rounded,
+                brandPink,
+                tr('Save your\nreading', 'اپنی پڑھائی\nمحفوظ کریں'),
+              ),
+              (
+                Icons.emoji_events_rounded,
+                brandOrange,
+                tr('Track your\nprogress', 'اپنی ترقی\nدیکھیں'),
+              ),
+              (
+                Icons.family_restroom_rounded,
+                successInk,
+                tr('Learn with\nfamily', 'گھر والوں کے\nساتھ سیکھیں'),
+              ),
             ]) ...[
               Expanded(
                 child: Container(
@@ -221,15 +240,19 @@ class _GuestShellState extends State<GuestShell> {
             color: brandNavy.withValues(alpha: .05),
             borderRadius: BorderRadius.circular(16),
           ),
-          child: const Row(
+          child: Row(
             children: [
-              Icon(Icons.school_rounded, color: brandNavy),
-              SizedBox(width: 10),
+              const Icon(Icons.school_rounded, color: brandNavy),
+              const SizedBox(width: 10),
               Expanded(
                 child: Text(
-                  'School families and teachers can use the PAR- or TCH- '
-                  'username provided by their school.',
-                  style: TextStyle(height: 1.45, color: brandNavy),
+                  tr(
+                    'School families and teachers can use the PAR- or TCH- '
+                        'username provided by their school.',
+                    'اسکول کے والدین اور اساتذہ اسکول کی طرف سے دیا گیا '
+                        'PAR- یا TCH- یوزرنیم استعمال کریں۔',
+                  ),
+                  style: const TextStyle(height: 1.45, color: brandNavy),
                 ),
               ),
             ],
@@ -241,7 +264,9 @@ class _GuestShellState extends State<GuestShell> {
         TextButton.icon(
           onPressed: widget.onChooseSection,
           icon: const Icon(Icons.swap_horiz_rounded),
-          label: const Text('Choose Individual or School'),
+          label: Text(
+            tr('Choose Individual or School', 'انفرادی یا اسکول چنیں'),
+          ),
         ),
       ],
     ],
@@ -257,12 +282,15 @@ class _GuestShellState extends State<GuestShell> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Keep your learning together',
+              tr('Keep your learning together', 'اپنی پڑھائی ایک جگہ رکھیں'),
               style: Theme.of(context).textTheme.headlineSmall,
             ),
             const SizedBox(height: 12),
-            const Text(
-              'Sign in to open the story and save your reflection and weekly practice.',
+            Text(
+              tr(
+                'Sign in to open the story and save your reflection and weekly practice.',
+                'کہانی کھولنے اور اپنی سوچ اور ہفتہ وار مشق محفوظ کرنے کے لیے سائن اِن کریں۔',
+              ),
             ),
             const SizedBox(height: 22),
             FilledButton(
@@ -270,14 +298,14 @@ class _GuestShellState extends State<GuestShell> {
                 Navigator.pop(sheetContext);
                 widget.onSignIn();
               },
-              child: const Text('Sign in'),
+              child: Text(tr('Sign in', 'سائن اِن')),
             ),
             TextButton(
               onPressed: () {
                 Navigator.pop(sheetContext);
                 widget.onCreateAccount();
               },
-              child: const Text('Create account'),
+              child: Text(tr('Create account', 'اکاؤنٹ بنائیں')),
             ),
           ],
         ),

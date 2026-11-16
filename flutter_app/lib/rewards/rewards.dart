@@ -52,6 +52,17 @@ class RewardBadge {
 }
 
 /// Display names for the course keys used in badges.
+const rewardCourseNamesUrdu = {
+  'quran': 'قرآن',
+  'hadith': 'حدیث',
+  'duas': 'دعائیں',
+  'salah': 'نماز',
+  'tafsir': 'تفسیر',
+  'ibrah': 'قصص الانبیاء',
+  'hajj': 'حج و عمرہ',
+  'taleem': 'تعلیم الاسلام',
+};
+
 const rewardCourseNames = {
   'quran': 'Qur’an',
   'hadith': 'Hadith',

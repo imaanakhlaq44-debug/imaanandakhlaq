@@ -54,6 +54,11 @@ flutter:
       fonts:
         - asset: assets/fonts/noto-naskh-arabic.ttf
 
+    # Urdu UI text (Individual section in Urdu mode).
+    - family: JameelNoori
+      fonts:
+        - asset: assets/fonts/jameel-noori-nastaleeq.ttf
+
     # Brand display face (headings, big numbers). Variable font: set the
     # weight with FontVariation.weight, see displayStyle() in ui_kit.dart.
     - family: Fredoka

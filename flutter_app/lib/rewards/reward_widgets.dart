@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../app_theme.dart';
 import '../screens/ui_kit.dart';
 import 'rewards.dart';
+import '../l10n/language.dart';
 
 const _gold = Color(0xFFF5B83D);
 const _flame = Color(0xFFF07A3C);
@@ -44,11 +45,14 @@ void showRewardCelebration(BuildContext context, RewardResult result) {
   if (overlay == null) return;
   late OverlayEntry entry;
   entry = OverlayEntry(
-    builder: (_) => _Celebration(
-      result: result,
-      onDone: () {
-        if (entry.mounted) entry.remove();
-      },
+    builder: (_) => Directionality(
+      textDirection: AppLanguage.instance.direction,
+      child: _Celebration(
+        result: result,
+        onDone: () {
+          if (entry.mounted) entry.remove();
+        },
+      ),
     ),
   );
   overlay.insert(entry);
@@ -145,14 +149,23 @@ class _CelebrationState extends State<_Celebration>
                         const SizedBox(height: 6),
                         Text(
                           r.stars == 3
-                              ? 'MashaAllah, well done!'
-                              : 'Good effort, keep going!',
+                              ? tr(
+                                  'MashaAllah, well done!',
+                                  'ماشاءاللہ، شاباش!',
+                                )
+                              : tr(
+                                  'Good effort, keep going!',
+                                  'اچھی کوشش، آگے بڑھتے رہیں!',
+                                ),
                           textAlign: TextAlign.center,
                           style: displayStyle(18),
                         ),
                         const SizedBox(height: 2),
                         Text(
-                          '+${r.stars} stars  •  ${r.totalStars} in total',
+                          tr(
+                            '+${r.stars} stars  •  ${r.totalStars} in total',
+                            '+${r.stars} ستارے  •  کل ${r.totalStars}',
+                          ),
                           style: const TextStyle(
                             color: mutedInk,
                             fontWeight: FontWeight.w600,
@@ -163,7 +176,10 @@ class _CelebrationState extends State<_Celebration>
                           _Pill(
                             icon: Icons.local_fire_department_rounded,
                             color: _flame,
-                            text: '${r.streak}-day learning streak!',
+                            text: tr(
+                              '${r.streak}-day learning streak!',
+                              'لگاتار ${r.streak} دن سے سیکھ رہے ہیں!',
+                            ),
                           ),
                         ],
                         if (r.badge != null) ...[
@@ -268,9 +284,9 @@ class _BadgeEarned extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'New badge unlocked!',
-                style: TextStyle(
+              Text(
+                tr('New badge unlocked!', 'نیا بیج مل گیا!'),
+                style: const TextStyle(
                   color: Color(0xFFB45F0A),
                   fontWeight: FontWeight.w800,
                   fontSize: 12.5,
@@ -363,21 +379,24 @@ class RewardStrip extends StatelessWidget {
                   icon: Icons.local_fire_department_rounded,
                   color: today ? _flame : const Color(0xFFC9BFB3),
                   value: streak,
-                  label: streak == 1 ? 'day streak' : 'days streak',
+                  label: tr(
+                    streak == 1 ? 'day streak' : 'days streak',
+                    'دن لگاتار',
+                  ),
                 ),
                 const _Divider(),
                 _StripItem(
                   icon: Icons.star_rounded,
                   color: _gold,
                   value: s.stars,
-                  label: 'stars',
+                  label: tr('stars', 'ستارے'),
                 ),
                 const _Divider(),
                 _StripItem(
                   icon: Icons.workspace_premium_rounded,
                   color: const Color(0xFF7B4FD6),
                   value: s.badges.length,
-                  label: s.badges.length == 1 ? 'badge' : 'badges',
+                  label: tr(s.badges.length == 1 ? 'badge' : 'badges', 'بیج'),
                 ),
                 const Icon(Icons.chevron_right_rounded, color: mutedInk),
               ],
@@ -435,126 +454,140 @@ class _StripItem extends StatelessWidget {
 }
 
 /// The learner's badge shelf.
-Future<void> showBadgesSheet(BuildContext context) =>
-    showModalBottomSheet<void>(
-      context: context,
-      showDragHandle: true,
-      isScrollControlled: true,
-      builder: (context) {
-        final s = Rewards.instance.state;
-        final now = Rewards.instance.clock();
-        return SafeArea(
-          child: ConstrainedBox(
-            constraints: BoxConstraints(
-              maxHeight: MediaQuery.sizeOf(context).height * .8,
-            ),
-            child: ListView(
-              key: const Key('badges-sheet'),
-              shrinkWrap: true,
-              padding: const EdgeInsets.fromLTRB(20, 0, 20, 24),
-              children: [
-                Text('My rewards', style: displayStyle(24)),
-                const SizedBox(height: 4),
-                const Text(
+Future<void> showBadgesSheet(
+  BuildContext context,
+) => showModalBottomSheet<void>(
+  context: context,
+  showDragHandle: true,
+  isScrollControlled: true,
+  builder: (context) {
+    final s = Rewards.instance.state;
+    final now = Rewards.instance.clock();
+    return Directionality(
+      textDirection: AppLanguage.instance.direction,
+      child: SafeArea(
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            maxHeight: MediaQuery.sizeOf(context).height * .8,
+          ),
+          child: ListView(
+            key: const Key('badges-sheet'),
+            shrinkWrap: true,
+            padding: const EdgeInsets.fromLTRB(20, 0, 20, 24),
+            children: [
+              Text(tr('My rewards', 'میرے انعامات'), style: displayStyle(24)),
+              const SizedBox(height: 4),
+              Text(
+                tr(
                   'Stars for every lesson you finish, a badge for every '
-                  'world you complete.',
-                  style: TextStyle(color: mutedInk, height: 1.4),
+                      'world you complete.',
+                  'ہر مکمل سبق پر ستارے، اور ہر مکمل دنیا پر ایک بیج۔',
                 ),
-                const SizedBox(height: 16),
-                Row(
-                  children: [
-                    _SheetStat(
-                      icon: Icons.local_fire_department_rounded,
-                      color: _flame,
-                      value: '${s.streakOn(now)}',
-                      label: 'Streak now',
-                    ),
-                    const SizedBox(width: 10),
-                    _SheetStat(
-                      icon: Icons.emoji_events_rounded,
-                      color: const Color(0xFF7B4FD6),
-                      value: '${s.bestStreak}',
-                      label: 'Best streak',
-                    ),
-                    const SizedBox(width: 10),
-                    _SheetStat(
-                      icon: Icons.check_circle_rounded,
-                      color: successInk,
-                      value: '${s.finished}',
-                      label: 'Finished',
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                Text('Badges', style: displayStyle(19)),
-                const SizedBox(height: 10),
-                if (s.badges.isEmpty)
-                  Container(
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFFFF6E6),
-                      borderRadius: BorderRadius.circular(18),
-                    ),
-                    child: const Row(
-                      children: [
-                        BadgeMedal(size: 46, earned: false),
-                        SizedBox(width: 12),
-                        Expanded(
-                          child: Text(
-                            'Finish every lesson in one world or volume to win '
-                            'your first badge!',
-                            style: TextStyle(
-                              color: brandNavy,
-                              fontWeight: FontWeight.w600,
-                              height: 1.35,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
-                else
-                  Wrap(
-                    spacing: 12,
-                    runSpacing: 14,
+                style: const TextStyle(color: mutedInk, height: 1.4),
+              ),
+              const SizedBox(height: 16),
+              Row(
+                children: [
+                  _SheetStat(
+                    icon: Icons.local_fire_department_rounded,
+                    color: _flame,
+                    value: '${s.streakOn(now)}',
+                    label: tr('Streak now', 'موجودہ سلسلہ'),
+                  ),
+                  const SizedBox(width: 10),
+                  _SheetStat(
+                    icon: Icons.emoji_events_rounded,
+                    color: const Color(0xFF7B4FD6),
+                    value: '${s.bestStreak}',
+                    label: tr('Best streak', 'بہترین سلسلہ'),
+                  ),
+                  const SizedBox(width: 10),
+                  _SheetStat(
+                    icon: Icons.check_circle_rounded,
+                    color: successInk,
+                    value: '${s.finished}',
+                    label: tr('Finished', 'مکمل'),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+              Text(tr('Badges', 'بیج'), style: displayStyle(19)),
+              const SizedBox(height: 10),
+              if (s.badges.isEmpty)
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFFFF6E6),
+                    borderRadius: BorderRadius.circular(18),
+                  ),
+                  child: Row(
                     children: [
-                      for (final b in s.badges.reversed)
-                        SizedBox(
-                          width: 96,
-                          child: Column(
-                            children: [
-                              const BadgeMedal(size: 58),
-                              const SizedBox(height: 6),
-                              Text(
-                                b.title,
-                                textAlign: TextAlign.center,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                  color: brandNavy,
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 12.5,
-                                  height: 1.2,
-                                ),
-                              ),
-                              Text(
-                                rewardCourseNames[b.course] ?? b.course,
-                                style: const TextStyle(
-                                  color: mutedInk,
-                                  fontSize: 11,
-                                ),
-                              ),
-                            ],
+                      const BadgeMedal(size: 46, earned: false),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Text(
+                          tr(
+                            'Finish every lesson in one world or volume to win '
+                                'your first badge!',
+                            'کسی ایک دنیا یا جلد کے سارے سبق مکمل کریں اور '
+                                'اپنا پہلا بیج جیتیں!',
+                          ),
+                          style: const TextStyle(
+                            color: brandNavy,
+                            fontWeight: FontWeight.w600,
+                            height: 1.35,
                           ),
                         ),
+                      ),
                     ],
                   ),
-              ],
-            ),
+                )
+              else
+                Wrap(
+                  spacing: 12,
+                  runSpacing: 14,
+                  children: [
+                    for (final b in s.badges.reversed)
+                      SizedBox(
+                        width: 96,
+                        child: Column(
+                          children: [
+                            const BadgeMedal(size: 58),
+                            const SizedBox(height: 6),
+                            Text(
+                              b.title,
+                              textAlign: TextAlign.center,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                color: brandNavy,
+                                fontWeight: FontWeight.w700,
+                                fontSize: 12.5,
+                                height: 1.2,
+                              ),
+                            ),
+                            Text(
+                              tr(
+                                rewardCourseNames[b.course] ?? b.course,
+                                rewardCourseNamesUrdu[b.course] ?? b.course,
+                              ),
+                              style: const TextStyle(
+                                color: mutedInk,
+                                fontSize: 11,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                  ],
+                ),
+            ],
           ),
-        );
-      },
+        ),
+      ),
     );
+  },
+);
 
 class _SheetStat extends StatelessWidget {
   const _SheetStat({

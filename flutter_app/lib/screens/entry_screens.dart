@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../app_theme.dart';
 import '../entry_kind.dart';
 import 'brand_splash.dart';
+import '../l10n/language.dart';
 
 const launchLogo = 'assets/images/launch-logo.jpg';
 
@@ -52,112 +53,138 @@ class SectionChoice extends StatelessWidget {
   );
 
   @override
-  Widget build(BuildContext context) => Scaffold(
+  Widget build(BuildContext context) => LanguageScope(child: _build(context));
+
+  Widget _build(BuildContext context) => Scaffold(
     key: const Key('section-choice'),
     backgroundColor: brandCream,
     body: BrandBackdrop(
       child: SafeArea(
-        child: LayoutBuilder(
-          builder: (context, constraints) => SingleChildScrollView(
-            child: ConstrainedBox(
-              constraints: BoxConstraints(minHeight: constraints.maxHeight),
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(20, 24, 20, 20),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    _rise(0, Center(child: _logoRing())),
-                    const SizedBox(height: 22),
-                    _rise(
-                      80,
-                      const Text(
-                        'Assalamu Alaikum!',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: brandPink,
-                          fontSize: 15,
-                          fontWeight: FontWeight.w700,
-                          letterSpacing: .4,
+        child: Stack(
+          children: [
+            LayoutBuilder(
+              builder: (context, constraints) => SingleChildScrollView(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 24, 20, 20),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        _rise(0, Center(child: _logoRing())),
+                        const SizedBox(height: 22),
+                        _rise(
+                          80,
+                          Text(
+                            tr('Assalamu Alaikum!', 'السلام علیکم!'),
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              color: brandPink,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w700,
+                              letterSpacing: .4,
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                    const SizedBox(height: 6),
-                    _rise(
-                      120,
-                      const Text(
-                        'Choose your space',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontFamily: 'Fredoka',
-                          fontVariations: [FontVariation('wght', 600)],
-                          fontSize: 30,
-                          fontWeight: FontWeight.w600,
-                          color: brandNavy,
-                          height: 1.15,
+                        const SizedBox(height: 6),
+                        _rise(
+                          120,
+                          Text(
+                            tr('Choose your space', 'اپنی جگہ چنیں'),
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              fontFamily: 'Fredoka',
+                              fontFamilyFallback: ['JameelNoori'],
+                              fontVariations: [FontVariation('wght', 600)],
+                              fontSize: 30,
+                              fontWeight: FontWeight.w600,
+                              color: brandNavy,
+                              height: 1.15,
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    _rise(
-                      160,
-                      const Text(
-                        'Learn at home or with your school.',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: _muted, fontSize: 15),
-                      ),
-                    ),
-                    const SizedBox(height: 30),
-                    _rise(
-                      240,
-                      _ChoiceCard(
-                        key: const Key('choose-individual'),
-                        title: 'Individual',
-                        tag: 'For kids & families',
-                        subtitle:
-                            'Stories, Hadith and activities at home, '
-                            'at your own pace.',
-                        icon: Icons.auto_stories_rounded,
-                        gradient: const [brandPink, brandOrange],
-                        accent: brandPink,
-                        onTap: () => onChoose(AppSection.individual),
-                      ),
-                    ),
-                    const SizedBox(height: 14),
-                    _rise(
-                      320,
-                      _ChoiceCard(
-                        key: const Key('choose-school'),
-                        title: 'School',
-                        tag: 'For students & teachers',
-                        subtitle:
-                            'Sign in with the account your school '
-                            'gave you, or register a school.',
-                        icon: Icons.school_rounded,
-                        gradient: const [brandNavy, Color(0xFF3A4E8C)],
-                        accent: brandNavy,
-                        onTap: () => onChoose(AppSection.school),
-                      ),
-                    ),
-                    const SizedBox(height: 28),
-                    _rise(
-                      400,
-                      const Text(
-                        'ISLAMIC STORIES & EDUCATION FOR KIDS',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Color(0xFFB5A99A),
-                          fontSize: 11.5,
-                          fontWeight: FontWeight.w600,
-                          letterSpacing: 1.4,
+                        const SizedBox(height: 8),
+                        _rise(
+                          160,
+                          Text(
+                            tr(
+                              'Learn at home or with your school.',
+                              'گھر پر سیکھیں یا اپنے اسکول کے ساتھ۔',
+                            ),
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(color: _muted, fontSize: 15),
+                          ),
                         ),
-                      ),
+                        const SizedBox(height: 30),
+                        _rise(
+                          240,
+                          _ChoiceCard(
+                            key: const Key('choose-individual'),
+                            title: tr('Individual', 'انفرادی'),
+                            tag: tr(
+                              'For kids & families',
+                              'بچوں اور گھر والوں کے لیے',
+                            ),
+                            subtitle: tr(
+                              'Stories, Hadith and activities at home, '
+                                  'at your own pace.',
+                              'کہانیاں، حدیث اور سرگرمیاں گھر پر، '
+                                  'اپنی رفتار سے۔',
+                            ),
+                            icon: Icons.auto_stories_rounded,
+                            gradient: const [brandPink, brandOrange],
+                            accent: brandPink,
+                            onTap: () => onChoose(AppSection.individual),
+                          ),
+                        ),
+                        const SizedBox(height: 14),
+                        _rise(
+                          320,
+                          _ChoiceCard(
+                            key: const Key('choose-school'),
+                            title: tr('School', 'اسکول'),
+                            tag: tr(
+                              'For students & teachers',
+                              'طلبہ اور اساتذہ کے لیے',
+                            ),
+                            subtitle: tr(
+                              'Sign in with the account your school '
+                                  'gave you, or register a school.',
+                              'اسکول کے دیے ہوئے اکاؤنٹ سے سائن اِن کریں، '
+                                  'یا اپنا اسکول رجسٹر کریں۔',
+                            ),
+                            icon: Icons.school_rounded,
+                            gradient: const [brandNavy, Color(0xFF3A4E8C)],
+                            accent: brandNavy,
+                            onTap: () => onChoose(AppSection.school),
+                          ),
+                        ),
+                        const SizedBox(height: 28),
+                        _rise(
+                          400,
+                          Text(
+                            tr(
+                              'ISLAMIC STORIES & EDUCATION FOR KIDS',
+                              'بچوں کے لیے اسلامی کہانیاں اور تعلیم',
+                            ),
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              color: Color(0xFFB5A99A),
+                              fontSize: 11.5,
+                              fontWeight: FontWeight.w600,
+                              letterSpacing: 1.4,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               ),
             ),
-          ),
+            const Positioned(top: 10, right: 12, child: LanguageToggle()),
+          ],
         ),
       ),
     ),

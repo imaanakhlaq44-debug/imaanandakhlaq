@@ -14,6 +14,7 @@ TextStyle displayStyle(
   double? letterSpacing,
 }) => TextStyle(
   fontFamily: 'Fredoka',
+  fontFamilyFallback: const ['JameelNoori'],
   fontSize: size,
   color: color,
   height: height,

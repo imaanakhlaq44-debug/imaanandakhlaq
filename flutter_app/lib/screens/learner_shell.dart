@@ -5,6 +5,7 @@ import '../data/app_repository.dart';
 import '../data/catalog.dart';
 import '../domain.dart';
 import 'chapter_screen.dart';
+import '../l10n/language.dart';
 import 'learning_experience.dart';
 import 'welcome_screen.dart' show BrandWordmark;
 import 'ui_kit.dart';
@@ -33,8 +34,14 @@ class _LearnerShellState extends State<LearnerShell> {
   String? get _hadithScope =>
       widget.learner.role == AccountRole.individual ? widget.learner.uid : null;
   void _select(int tab) => setState(() => _tab = tab);
+  // Only Individual learners get the Urdu/English switch; school learners
+  // keep the English layout their teachers see.
   @override
-  Widget build(BuildContext context) => PopScope(
+  Widget build(BuildContext context) => _hadithScope == null
+      ? _build(context)
+      : LanguageScope(child: _build(context));
+
+  Widget _build(BuildContext context) => PopScope(
     canPop: false,
     onPopInvokedWithResult: (didPop, _) {
       if (didPop) {
@@ -56,9 +63,14 @@ class _LearnerShellState extends State<LearnerShell> {
       }
       _lastBack = now;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Press back again to exit'),
-          duration: Duration(seconds: 2),
+        SnackBar(
+          content: Text(
+            tr(
+              'Press back again to exit',
+              'باہر جانے کے لیے دوبارہ واپس دبائیں',
+            ),
+          ),
+          duration: const Duration(seconds: 2),
         ),
       );
     },
@@ -105,12 +117,15 @@ class _LearnerShellState extends State<LearnerShell> {
                       }
                     }
                   },
-                  itemBuilder: (_) => const [
+                  itemBuilder: (_) => [
                     PopupMenuItem(
                       value: 'progress',
-                      child: Text('My progress'),
+                      child: Text(tr('My progress', 'میری پیش رفت')),
                     ),
-                    PopupMenuItem(value: 'logout', child: Text('Sign out')),
+                    PopupMenuItem(
+                      value: 'logout',
+                      child: Text(tr('Sign out', 'سائن آؤٹ')),
+                    ),
                   ],
                 ),
               ],
@@ -303,7 +318,9 @@ class _LearnerShellState extends State<LearnerShell> {
             child: TextButton.icon(
               onPressed: widget.onChooseSection,
               icon: const Icon(Icons.swap_horiz_rounded),
-              label: const Text('Choose Individual or School'),
+              label: Text(
+                tr('Choose Individual or School', 'انفرادی یا اسکول چنیں'),
+              ),
             ),
           ),
         ],
