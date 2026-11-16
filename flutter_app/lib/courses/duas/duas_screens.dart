@@ -1,3 +1,4 @@
+import '../../screens/story_cards.dart';
 import '../../audio/voice.dart';
 import 'package:imaan_akhlaq/rewards/reward_widgets.dart';
 import 'package:flutter/material.dart';
@@ -761,14 +762,7 @@ class _DuaLessonScreenState extends State<DuaLessonScreen> {
     const SizedBox(height: 20),
     _heading('A moment with Imaan & Akhlaq'),
     const SizedBox(height: 12),
-    for (final p in _l.story)
-      Padding(
-        padding: const EdgeInsets.only(bottom: 12),
-        child: Text(
-          p,
-          style: const TextStyle(fontSize: 18, height: 1.6, color: ink),
-        ),
-      ),
+    StoryCards(paragraphs: _l.story, accent: duasAccent),
     const SizedBox(height: 6),
     const Text(
       'A fictional teaching story, not a historical report.',

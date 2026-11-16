@@ -1,3 +1,4 @@
+import 'story_cards.dart';
 import '../audio/voice.dart';
 import 'package:imaan_akhlaq/rewards/reward_widgets.dart';
 import 'package:flutter/material.dart';
@@ -627,10 +628,7 @@ class _HadithLessonScreenState extends State<HadithLessonScreen> {
         const SizedBox(height: 20),
         _heading('A moment with Imaan & Akhlaq'),
         const SizedBox(height: 12),
-        Text(
-          l.story,
-          style: const TextStyle(fontSize: 18, height: 1.6, color: ink),
-        ),
+        StoryCards(paragraphs: [l.story]),
         const SizedBox(height: 18),
         const Text(
           'An everyday teaching story',

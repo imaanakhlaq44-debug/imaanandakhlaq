@@ -1,3 +1,4 @@
+import '../../screens/story_cards.dart';
 import '../../audio/voice.dart';
 import 'package:imaan_akhlaq/rewards/reward_widgets.dart';
 import 'package:flutter/material.dart';
@@ -827,7 +828,7 @@ class _SalahMissionScreenState extends State<SalahMissionScreen> {
       const SizedBox(height: 20),
       salahHeading('With Imaan & Akhlaq'),
       const SizedBox(height: 12),
-      Text(_m.scene, style: bodyText(18)),
+      StoryCards(paragraphs: [_m.scene], accent: salahAccent),
       const SizedBox(height: 16),
       const Text(
         'A teaching story set in Amanpur',

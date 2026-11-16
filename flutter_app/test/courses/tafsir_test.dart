@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+import '../story_cards_test.dart' show storyShown;
 import 'package:imaan_akhlaq/app_theme.dart';
 import 'package:imaan_akhlaq/courses/registry.dart';
 import 'package:imaan_akhlaq/courses/tafsir/tafsir_data.dart';
@@ -191,7 +192,7 @@ void main() {
     await tap(tester, 'tafsir-world-1');
     await tap(tester, 'tafsir-mission-01-01');
     final m = worlds.first.missions.first;
-    expect(find.text(m.story), findsOneWidget);
+    expect(storyShown(m.story), findsOneWidget);
     await tap(tester, 'tafsir-next');
     expect(find.text(m.ayahs.single.arabic), findsOneWidget);
     await tap(tester, 'tafsir-next');

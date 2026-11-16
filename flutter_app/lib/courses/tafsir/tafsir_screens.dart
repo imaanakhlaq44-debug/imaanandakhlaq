@@ -1,3 +1,4 @@
+import '../../screens/story_cards.dart';
 import '../../audio/voice.dart';
 import 'package:imaan_akhlaq/rewards/reward_widgets.dart';
 import 'package:flutter/material.dart';
@@ -749,7 +750,7 @@ class _TafsirMissionScreenState extends State<TafsirMissionScreen> {
         ),
       ),
       const SizedBox(height: 18),
-      _body(_m.story, size: 18),
+      StoryCards(paragraphs: [_m.story], accent: tafsirAccent),
       const SizedBox(height: 16),
       const Text(
         'This story is a made-up example for today. It is not part of the Qur’an.',

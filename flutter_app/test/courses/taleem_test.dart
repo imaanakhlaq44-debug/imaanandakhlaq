@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+import '../story_cards_test.dart' show storyShown;
 import 'package:imaan_akhlaq/app_theme.dart';
 import 'package:imaan_akhlaq/courses/registry.dart';
 import 'package:imaan_akhlaq/courses/taleem/taleem_data.dart';
@@ -210,7 +211,7 @@ void main() {
     await tap(tester, 'taleem-edition-2');
     final lesson = editions[1].lessons.first;
     await tap(tester, 'taleem-lesson-${lesson.id}');
-    expect(find.text(lesson.story.first), findsOneWidget);
+    expect(storyShown(lesson.story.first), findsOneWidget);
     await tap(tester, 'taleem-next');
     expect(find.text(lesson.evidence), findsOneWidget);
     await tap(tester, 'taleem-next');

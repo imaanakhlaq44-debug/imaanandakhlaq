@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+import '../story_cards_test.dart' show storyShown;
 import 'package:imaan_akhlaq/app_theme.dart';
 import 'package:imaan_akhlaq/courses/duas/duas_course.dart';
 import 'package:imaan_akhlaq/courses/duas/duas_data.dart';
@@ -174,7 +175,7 @@ void main() {
 
   Future<void> playLesson(WidgetTester tester, DuaVolume v, DuaLesson l) async {
     await tap(tester, 'dua-lesson-${l.number}');
-    expect(find.text(l.story.first), findsOneWidget);
+    expect(storyShown(l.story.first), findsOneWidget);
     await tap(tester, 'dua-next');
     expect(find.byKey(const Key('dua-arabic')), findsOneWidget);
     expect(find.text(l.english), findsOneWidget);

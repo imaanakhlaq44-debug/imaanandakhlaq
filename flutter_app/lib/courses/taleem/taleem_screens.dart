@@ -1,3 +1,4 @@
+import '../../screens/story_cards.dart';
 import 'package:imaan_akhlaq/rewards/reward_widgets.dart';
 import 'package:flutter/material.dart';
 import '../../app_theme.dart';
@@ -833,7 +834,7 @@ class _TaleemLessonScreenState extends State<TaleemLessonScreen> {
       const SizedBox(height: 22),
       _heading('Discover — An Imaan & Akhlaq Story'),
       const SizedBox(height: 12),
-      for (final p in _l.story) _para(p, size: 18),
+      StoryCards(paragraphs: _l.story, accent: _accent),
       const Text(
         'An everyday teaching story with fictional characters, not a scriptural event.',
         style: TextStyle(color: _muted, fontSize: 12, height: 1.5),
