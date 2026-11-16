@@ -6,6 +6,7 @@ import '../data/catalog.dart';
 import '../domain.dart';
 import 'chapter_screen.dart';
 import '../l10n/language.dart';
+import '../audio/voice.dart';
 import 'learning_experience.dart';
 import 'welcome_screen.dart' show BrandWordmark;
 import 'ui_kit.dart';
@@ -62,6 +63,7 @@ class _LearnerShellState extends State<LearnerShell> {
         return;
       }
       _lastBack = now;
+      VoiceGuide.instance.play(VoiceLine.goodbye);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(

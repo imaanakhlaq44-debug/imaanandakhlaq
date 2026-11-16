@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:imaan_akhlaq/app.dart';
+import 'package:imaan_akhlaq/audio/voice.dart';
 import 'package:imaan_akhlaq/l10n/language.dart';
 import 'app_test.dart' show FakeRepository, viewport;
 
@@ -53,6 +54,16 @@ void main() {
       reason: 'in Urdu the picture sits left of the words',
     );
     expect(find.text('سیکھنے کی دنیا'), findsOneWidget);
+    expect(
+      VoiceGuide.instance.played,
+      contains(VoiceLine.welcome),
+      reason: 'the Individual home greets the learner once',
+    );
+    await tester.tap(find.byKey(const Key('sound-toggle')));
+    await tester.pump();
+    expect(VoiceGuide.instance.on, isFalse);
+    await tester.tap(find.byKey(const Key('sound-toggle')));
+    await tester.pump();
     expect(find.text('قرآن'), findsOneWidget);
     expect(find.text('گھر'), findsOneWidget);
 

@@ -4,6 +4,7 @@ import '../app_theme.dart';
 import '../screens/ui_kit.dart';
 import 'rewards.dart';
 import '../l10n/language.dart';
+import '../audio/voice.dart';
 
 const _gold = Color(0xFFF5B83D);
 const _flame = Color(0xFFF07A3C);
@@ -34,7 +35,16 @@ Future<RewardResult?> celebrateFinish(
   } catch (_) {
     return null;
   }
-  if (result != null && context.mounted) showRewardCelebration(context, result);
+  if (result != null && context.mounted) {
+    showRewardCelebration(context, result);
+    VoiceGuide.instance.play(
+      result.badge != null
+          ? VoiceLine.badge
+          : result.streakGrew && result.streak > 1
+          ? VoiceLine.streak
+          : VoiceLine.stars,
+    );
+  }
   return result;
 }
 

@@ -1,0 +1,41 @@
+{
+  "_note": "Voice lines for the Individual section. Regenerate with: node tool/voice/generate.mjs (reads the ElevenLabs key from E:/Almas/keys/key.txt, never from the repo).",
+  "voices": {
+    "ur": { "id": "hA0RyxVmITMttngSpcOF", "name": "Saira - Rich, Poetic Urdu Storyteller" },
+    "en": { "id": "cgSgspJ2msm6clMCkdW9", "name": "Jessica - Playful, Bright, Warm" }
+  },
+  "lines": {
+    "welcome": {
+      "en": "Assalamu alaikum! Welcome back, my friend. What shall we learn today?",
+      "ur": "السلام علیکم! خوش آمدید میرے پیارے دوست۔ آج ہم کیا سیکھیں گے؟"
+    },
+    "lesson_start": {
+      "en": "Bismillah! Let's begin our adventure.",
+      "ur": "بسم اللہ! چلیں، اپنا سفر شروع کرتے ہیں۔"
+    },
+    "correct": {
+      "en": "MashaAllah! That's right!",
+      "ur": "ماشاءاللہ! بالکل درست!"
+    },
+    "try_again": {
+      "en": "Almost! Let's try once more.",
+      "ur": "کوئی بات نہیں، ایک بار پھر کوشش کریں!"
+    },
+    "stars": {
+      "en": "Well done! You earned your stars!",
+      "ur": "شاباش! آپ نے ستارے جیت لیے!"
+    },
+    "badge": {
+      "en": "Wow! A brand new badge, just for you!",
+      "ur": "واہ! آپ کو نیا بیج مل گیا!"
+    },
+    "streak": {
+      "en": "You're learning every day. Keep it up!",
+      "ur": "آپ روز سیکھ رہے ہیں، ایسے ہی آگے بڑھتے رہیں!"
+    },
+    "goodbye": {
+      "en": "Allah Hafiz! See you again soon.",
+      "ur": "اللہ حافظ! جلد پھر ملیں گے۔"
+    }
+  }
+}

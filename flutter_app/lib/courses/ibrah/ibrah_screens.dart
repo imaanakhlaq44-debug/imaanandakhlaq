@@ -1,3 +1,4 @@
+import '../../audio/voice.dart';
 import 'package:imaan_akhlaq/rewards/reward_widgets.dart';
 import 'dart:math';
 import 'package:flutter/material.dart';
@@ -1095,7 +1096,11 @@ class _IbrahMissionScreenState extends State<IbrahMissionScreen> {
             onPressed: _busy
                 ? null
                 : () {
-                    if (!m.choices[i].correct) _mistakes++;
+                    final right = m.choices[i].correct;
+                    if (!right) _mistakes++;
+                    VoiceGuide.instance.play(
+                      right ? VoiceLine.correct : VoiceLine.tryAgain,
+                    );
                     _persist(_p.copyWith(choice: i));
                   },
             style: OutlinedButton.styleFrom(

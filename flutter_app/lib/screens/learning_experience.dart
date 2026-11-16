@@ -8,6 +8,7 @@ import '../courses/registry.dart';
 import 'ui_kit.dart';
 import 'entry_screens.dart' show brandCream;
 import '../l10n/language.dart';
+import '../audio/voice.dart';
 import '../rewards/rewards.dart';
 import '../rewards/reward_widgets.dart';
 
@@ -115,7 +116,13 @@ class LearningDashboard extends StatelessWidget {
         ? 2
         : 3;
     final count = courseNames.length + (onMap == null ? 0 : 1);
-    if (rewardScope != null) Rewards.instance.use(rewardScope!);
+    if (rewardScope != null) {
+      Rewards.instance.use(rewardScope!);
+      // A spoken greeting the first time the Individual home appears.
+      WidgetsBinding.instance.addPostFrameCallback(
+        (_) => VoiceGuide.instance.welcomeOnce(),
+      );
+    }
     return CustomScrollView(
       key: const PageStorageKey('smart-home'),
       slivers: [
@@ -894,7 +901,14 @@ class _ContinueCard extends StatelessWidget {
         PositionedDirectional(
           end: 14,
           top: 12 + MediaQuery.paddingOf(context).top,
-          child: const LanguageToggle(onDark: true),
+          child: const Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SoundToggle(onDark: true),
+              SizedBox(width: 6),
+              LanguageToggle(onDark: true),
+            ],
+          ),
         ),
       ],
     ),
@@ -1095,6 +1109,9 @@ Future<void> showCourseDetails(
   int index, {
   String? hadithScope,
 }) {
+  if (hadithScope != null && (index == 1 || courseEntry(index) != null)) {
+    VoiceGuide.instance.play(VoiceLine.lessonStart);
+  }
   if (index == 1 && hadithScope != null) {
     return Navigator.of(context).push<void>(
       MaterialPageRoute(builder: (_) => HadithCourseScreen(scope: hadithScope)),
