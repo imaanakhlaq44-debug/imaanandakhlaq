@@ -1,3 +1,4 @@
+import '../../billing/lock_badge.dart';
 import '../../billing/paywall.dart';
 import '../../screens/story_cards.dart';
 import '../../audio/voice.dart';
@@ -268,7 +269,10 @@ class _WorldCard extends StatelessWidget {
           ),
           child: Material(
             color: ready ? Colors.white : const Color(0xFFF0F2F6),
-            borderRadius: BorderRadius.circular(20),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+              side: const BorderSide(color: lessonOutline, width: 1.3),
+            ),
             clipBehavior: Clip.antiAlias,
             child: InkWell(
               onTap: onTap,
@@ -406,10 +410,13 @@ class _TafsirWorldScreenState extends State<TafsirWorldScreen> {
               for (var i = 0; i < w.missions.length; i++)
                 Reveal(
                   index: i + 1,
-                  child: _MissionTile(
-                    mission: w.missions[i],
-                    progress: state.progress[w.missions[i].id],
-                    onTap: () => _open(w.missions[i]),
+                  child: LockCorner(
+                    free: w.number == 1 && i == 0,
+                    child: _MissionTile(
+                      mission: w.missions[i],
+                      progress: state.progress[w.missions[i].id],
+                      onTap: () => _open(w.missions[i]),
+                    ),
                   ),
                 ),
               const SizedBox(height: 4),
@@ -451,7 +458,10 @@ class _MissionTile extends StatelessWidget {
           ),
           child: Material(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+              side: const BorderSide(color: lessonOutline, width: 1.3),
+            ),
             clipBehavior: Clip.antiAlias,
             child: InkWell(
               key: Key('tafsir-mission-${mission.id}'),

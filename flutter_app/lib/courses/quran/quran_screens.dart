@@ -1,3 +1,4 @@
+import '../../billing/lock_badge.dart';
 import '../../billing/paywall.dart';
 import 'dart:math';
 import 'package:flutter/material.dart';
@@ -694,58 +695,62 @@ class _PassageRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final p = c.progress.of(passage.id);
     final done = (p.mastery?.index ?? -1) >= Mastery.independent.index;
-    return RowCard(
-      index: index,
-      onTap: () => openPassage(context, c, passage.id),
-      child: Row(
-        children: [
-          CircleAvatar(
-            backgroundColor: done ? quranAccent : _tint,
-            foregroundColor: done ? Colors.white : quranAccent,
-            child: done
-                ? const Icon(Icons.check_rounded)
-                : Text(
-                    lead ?? '${passage.range.surah}',
+    return LockCorner(
+      free: passage.id == c.data!.roadPassages.first.id,
+      child: RowCard(
+        index: index,
+        outline: lessonOutline,
+        onTap: () => openPassage(context, c, passage.id),
+        child: Row(
+          children: [
+            CircleAvatar(
+              backgroundColor: done ? quranAccent : _tint,
+              foregroundColor: done ? Colors.white : quranAccent,
+              child: done
+                  ? const Icon(Icons.check_rounded)
+                  : Text(
+                      lead ?? '${passage.range.surah}',
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w800,
+                        fontSize: 13,
+                      ),
+                    ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                key: Key('quran-passage-${passage.id}'),
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    passage.displayTitle,
                     style: const TextStyle(
                       fontWeight: FontWeight.w800,
-                      fontSize: 13,
+                      color: ink,
                     ),
                   ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              key: Key('quran-passage-${passage.id}'),
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  passage.displayTitle,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w800,
-                    color: ink,
-                  ),
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  '${passage.range.label} • ${c.status(passage.id)}',
-                  style: const TextStyle(color: mutedInk, fontSize: 13),
-                ),
-                if (note != null) ...[
                   const SizedBox(height: 2),
                   Text(
-                    note!,
-                    style: const TextStyle(
-                      color: quranAccent,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w700,
-                    ),
+                    '${passage.range.label} • ${c.status(passage.id)}',
+                    style: const TextStyle(color: mutedInk, fontSize: 13),
                   ),
+                  if (note != null) ...[
+                    const SizedBox(height: 2),
+                    Text(
+                      note!,
+                      style: const TextStyle(
+                        color: quranAccent,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ],
                 ],
-              ],
+              ),
             ),
-          ),
-          const Icon(Icons.chevron_right, color: quranAccent),
-        ],
+            const Icon(Icons.chevron_right, color: quranAccent),
+          ],
+        ),
       ),
     );
   }

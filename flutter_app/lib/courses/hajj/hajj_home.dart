@@ -1,3 +1,4 @@
+import '../../billing/lock_badge.dart';
 import '../../billing/paywall.dart';
 import 'package:flutter/material.dart';
 import '../../app_theme.dart';
@@ -419,30 +420,33 @@ class AdventureScreen extends StatelessWidget {
         : p.step > 0
         ? 'Continue from step ${p.step + 1}'
         : 'Not started';
-    return ListTile(
-      key: Key('hajj-mission-$id'),
-      contentPadding: EdgeInsets.zero,
-      leading: CircleAvatar(
-        backgroundColor: p.learned ? hajjGreen : hajjTint,
-        foregroundColor: p.learned ? Colors.white : hajjGreen,
-        child: p.learned
-            ? Icon(p.parentMarked ? Icons.volunteer_activism : Icons.check)
-            : Text(
-                id.split('.').last,
-                style: const TextStyle(fontWeight: FontWeight.w800),
-              ),
-      ),
-      title: Text(
-        m.title,
-        style: const TextStyle(fontWeight: FontWeight.w800, color: ink),
-      ),
-      subtitle: Text(status),
-      trailing: const Icon(Icons.chevron_right),
-      onTap: () => Navigator.of(context).push<void>(
-        MaterialPageRoute(
-          builder: (_) => PaidGate(
-            free: id == c.course.worlds.first.missionIds.first,
-            child: HajjMissionScreen(c: c, missionId: id),
+    return LockCorner(
+      free: id == c.course.worlds.first.missionIds.first,
+      child: ListTile(
+        key: Key('hajj-mission-$id'),
+        contentPadding: EdgeInsets.zero,
+        leading: CircleAvatar(
+          backgroundColor: p.learned ? hajjGreen : hajjTint,
+          foregroundColor: p.learned ? Colors.white : hajjGreen,
+          child: p.learned
+              ? Icon(p.parentMarked ? Icons.volunteer_activism : Icons.check)
+              : Text(
+                  id.split('.').last,
+                  style: const TextStyle(fontWeight: FontWeight.w800),
+                ),
+        ),
+        title: Text(
+          m.title,
+          style: const TextStyle(fontWeight: FontWeight.w800, color: ink),
+        ),
+        subtitle: Text(status),
+        trailing: const Icon(Icons.chevron_right),
+        onTap: () => Navigator.of(context).push<void>(
+          MaterialPageRoute(
+            builder: (_) => PaidGate(
+              free: id == c.course.worlds.first.missionIds.first,
+              child: HajjMissionScreen(c: c, missionId: id),
+            ),
           ),
         ),
       ),

@@ -1,3 +1,4 @@
+import '../billing/lock_badge.dart';
 import '../billing/paywall.dart';
 import 'story_cards.dart';
 import '../audio/voice.dart';
@@ -215,6 +216,10 @@ class _HadithCourseScreenState extends State<HadithCourseScreen> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18),
+          side: const BorderSide(color: lessonOutline, width: 1.3),
+        ),
         clipBehavior: Clip.antiAlias,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -283,38 +288,41 @@ class _HadithCourseScreenState extends State<HadithCourseScreen> {
             if (open)
               for (final l in g.lessons) ...[
                 const Divider(height: 1),
-                ListTile(
-                  key: Key('hadith-lesson-${l.number}'),
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 15,
-                    vertical: 6,
-                  ),
-                  leading: CircleAvatar(
-                    backgroundColor: const Color(0xFFFCE8F0),
-                    foregroundColor: brandPink,
-                    child: Text(
-                      '${l.number}',
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w800,
-                        fontSize: 14,
+                LockCorner(
+                  free: l.number == 1,
+                  child: ListTile(
+                    key: Key('hadith-lesson-${l.number}'),
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 15,
+                      vertical: 6,
+                    ),
+                    leading: CircleAvatar(
+                      backgroundColor: const Color(0xFFFCE8F0),
+                      foregroundColor: brandPink,
+                      child: Text(
+                        '${l.number}',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w800,
+                          fontSize: 14,
+                        ),
                       ),
                     ),
-                  ),
-                  title: Text(
-                    l.title,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w800,
-                      color: ink,
+                    title: Text(
+                      l.title,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w800,
+                        color: ink,
+                      ),
                     ),
+                    subtitle: Text(_status(_progress[l.id])),
+                    trailing: Icon(
+                      _explored(l)
+                          ? Icons.check_circle_outline
+                          : Icons.chevron_right,
+                      color: brandPink,
+                    ),
+                    onTap: () => _openLesson(l),
                   ),
-                  subtitle: Text(_status(_progress[l.id])),
-                  trailing: Icon(
-                    _explored(l)
-                        ? Icons.check_circle_outline
-                        : Icons.chevron_right,
-                    color: brandPink,
-                  ),
-                  onTap: () => _openLesson(l),
                 ),
               ],
           ],

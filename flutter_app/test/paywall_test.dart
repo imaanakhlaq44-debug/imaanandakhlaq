@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:imaan_akhlaq/billing/entitlement.dart';
 import 'package:imaan_akhlaq/billing/paywall.dart';
+import 'package:imaan_akhlaq/billing/lock_badge.dart';
 
 /// Answers the grown-up check shown on screen.
 Future<void> answerGate(WidgetTester tester, {bool right = true}) async {
@@ -74,6 +75,28 @@ void main() {
     expect(store.bought, ['monthly']);
     expect(find.text('LESSON 2'), findsOneWidget);
     expect(Entitlement.instance.active, isTrue);
+  });
+
+  testWidgets('locked rows wear a lock until the subscription is active', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      app(
+        const Column(
+          children: [
+            LockCorner(free: true, child: Text('Lesson 1')),
+            LockCorner(free: false, child: Text('Lesson 2')),
+          ],
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(find.byKey(const Key('lesson-lock')), findsOneWidget);
+    await Entitlement.instance.buy(
+      const PlanOffer(id: 'yearly', title: '', price: '', yearly: true),
+    );
+    await tester.pumpAndSettle();
+    expect(find.byKey(const Key('lesson-lock')), findsNothing);
   });
 
   testWidgets('restore unlocks a purchase made before', (tester) async {

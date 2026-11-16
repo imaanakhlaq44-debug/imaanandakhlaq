@@ -99,6 +99,10 @@ class _PressableState extends State<Pressable> {
 
 const mutedInk = Color(0xFF6B7488);
 const lineColor = Color(0xFFEDE4DE);
+
+/// Outline for lesson and mission cards in the Individual courses: clear
+/// enough to separate white cards from the pale page.
+const lessonOutline = Color(0xFFD9CEC3);
 const dangerInk = Color(0xFFB4233C);
 const successInk = Color(0xFF1F8A5B);
 
@@ -732,11 +736,15 @@ class RowCard extends StatelessWidget {
     this.onTap,
     this.index = 0,
     this.accent = brandPink,
+    this.outline,
   });
   final Widget child;
   final VoidCallback? onTap;
   final int index;
   final Color accent;
+
+  /// A stronger outline colour (lesson lists); defaults to a faint accent.
+  final Color? outline;
   @override
   Widget build(BuildContext context) => Reveal(
     index: index,
@@ -757,7 +765,9 @@ class RowCard extends StatelessWidget {
           ),
           foregroundDecoration: BoxDecoration(
             borderRadius: BorderRadius.circular(22),
-            border: Border.all(color: accent.withValues(alpha: .16)),
+            border: outline == null
+                ? Border.all(color: accent.withValues(alpha: .16))
+                : Border.all(color: outline!, width: 1.3),
           ),
           child: Material(
             color: Colors.white,

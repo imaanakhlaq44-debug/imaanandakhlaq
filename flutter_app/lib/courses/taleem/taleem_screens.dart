@@ -1,3 +1,4 @@
+import '../../billing/lock_badge.dart';
 import '../../billing/paywall.dart';
 import '../../screens/story_cards.dart';
 import 'package:imaan_akhlaq/rewards/reward_widgets.dart';
@@ -472,12 +473,17 @@ class TaleemEditionScreen extends StatelessWidget {
                           padding: const EdgeInsets.only(bottom: 10),
                           child: Reveal(
                             index: row++,
-                            child: _LessonRow(
-                              lesson: l,
-                              progress: progress[l.id],
-                              accent: accent,
-                              tint: _tints[i],
-                              onTap: () => _open(context, l),
+                            child: LockCorner(
+                              free:
+                                  l.id ==
+                                  edition.journeys.first.lessons.first.id,
+                              child: _LessonRow(
+                                lesson: l,
+                                progress: progress[l.id],
+                                accent: accent,
+                                tint: _tints[i],
+                                onTap: () => _open(context, l),
+                              ),
                             ),
                           ),
                         ),
@@ -536,7 +542,7 @@ class _LessonRow extends StatelessWidget {
         color: Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(18),
-          side: const BorderSide(color: lineColor),
+          side: const BorderSide(color: lessonOutline, width: 1.3),
         ),
         clipBehavior: Clip.antiAlias,
         child: InkWell(

@@ -1,3 +1,4 @@
+import '../../billing/lock_badge.dart';
 import '../../billing/paywall.dart';
 import '../../audio/voice.dart';
 import 'package:imaan_akhlaq/rewards/reward_widgets.dart';
@@ -207,7 +208,10 @@ class _VolumeCard extends StatelessWidget {
     return Pressable(
       child: Material(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+          side: const BorderSide(color: lessonOutline, width: 1.3),
+        ),
         child: InkWell(
           key: Key('ibrah-volume-${summary.number}'),
           borderRadius: BorderRadius.circular(20),
@@ -355,20 +359,23 @@ class _IbrahVolumeScreenState extends State<IbrahVolumeScreen> {
                         ),
                         const SizedBox(height: 10),
                         for (final s in v.stories)
-                          _Row(
-                            key: Key('ibrah-story-${s.number}'),
-                            leading: '${s.number}',
-                            title: s.title,
-                            subtitle: s.subtitle ?? 'Imaan & Akhlaq story',
-                            done: p.storyRead(v.id, s.id),
-                            icon: Icons.menu_book_outlined,
-                            onTap: () => _push(
-                              PaidGate(
-                                free: v.number == 1 && s.number == 1,
-                                child: IbrahStoryScreen(
-                                  volume: v,
-                                  story: s,
-                                  progress: widget.progress,
+                          LockCorner(
+                            free: v.number == 1 && s.number == 1,
+                            child: _Row(
+                              key: Key('ibrah-story-${s.number}'),
+                              leading: '${s.number}',
+                              title: s.title,
+                              subtitle: s.subtitle ?? 'Imaan & Akhlaq story',
+                              done: p.storyRead(v.id, s.id),
+                              icon: Icons.menu_book_outlined,
+                              onTap: () => _push(
+                                PaidGate(
+                                  free: v.number == 1 && s.number == 1,
+                                  child: IbrahStoryScreen(
+                                    volume: v,
+                                    story: s,
+                                    progress: widget.progress,
+                                  ),
                                 ),
                               ),
                             ),
@@ -380,20 +387,26 @@ class _IbrahVolumeScreenState extends State<IbrahVolumeScreen> {
                         ),
                         const SizedBox(height: 10),
                         for (final m in v.missions)
-                          _Row(
-                            key: Key('ibrah-mission-${m.number}'),
-                            leading: '${m.number}',
-                            title: m.title,
-                            subtitle: _missionStatus(p.mission(v.id, m.id), m),
-                            done: p.mission(v.id, m.id).done,
-                            icon: Icons.flag_outlined,
-                            onTap: () => _push(
-                              PaidGate(
-                                free: v.number == 1 && m.story == 1,
-                                child: IbrahMissionScreen(
-                                  volume: v,
-                                  mission: m,
-                                  progress: widget.progress,
+                          LockCorner(
+                            free: v.number == 1 && m.story == 1,
+                            child: _Row(
+                              key: Key('ibrah-mission-${m.number}'),
+                              leading: '${m.number}',
+                              title: m.title,
+                              subtitle: _missionStatus(
+                                p.mission(v.id, m.id),
+                                m,
+                              ),
+                              done: p.mission(v.id, m.id).done,
+                              icon: Icons.flag_outlined,
+                              onTap: () => _push(
+                                PaidGate(
+                                  free: v.number == 1 && m.story == 1,
+                                  child: IbrahMissionScreen(
+                                    volume: v,
+                                    mission: m,
+                                    progress: widget.progress,
+                                  ),
                                 ),
                               ),
                             ),
@@ -406,21 +419,24 @@ class _IbrahVolumeScreenState extends State<IbrahVolumeScreen> {
                               : 'At the end',
                         ),
                         const SizedBox(height: 10),
-                        _Row(
-                          key: const Key('ibrah-review'),
-                          leading: '★',
-                          title: 'Volume review',
-                          subtitle: v.review.length >= 2
-                              ? 'Match the Qur’anic words to their meaning'
-                              : 'Read the closing lesson',
-                          done: p.reviewed.containsKey(v.id),
-                          icon: Icons.auto_awesome_outlined,
-                          onTap: () => _push(
-                            PaidGate(
-                              free: false,
-                              child: IbrahReviewScreen(
-                                volume: v,
-                                progress: widget.progress,
+                        LockCorner(
+                          free: false,
+                          child: _Row(
+                            key: const Key('ibrah-review'),
+                            leading: '★',
+                            title: 'Volume review',
+                            subtitle: v.review.length >= 2
+                                ? 'Match the Qur’anic words to their meaning'
+                                : 'Read the closing lesson',
+                            done: p.reviewed.containsKey(v.id),
+                            icon: Icons.auto_awesome_outlined,
+                            onTap: () => _push(
+                              PaidGate(
+                                free: false,
+                                child: IbrahReviewScreen(
+                                  volume: v,
+                                  progress: widget.progress,
+                                ),
                               ),
                             ),
                           ),
@@ -544,7 +560,10 @@ class _Row extends StatelessWidget {
     child: Pressable(
       child: Material(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(18),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18),
+          side: const BorderSide(color: lessonOutline, width: 1.3),
+        ),
         child: InkWell(
           borderRadius: BorderRadius.circular(18),
           onTap: onTap,

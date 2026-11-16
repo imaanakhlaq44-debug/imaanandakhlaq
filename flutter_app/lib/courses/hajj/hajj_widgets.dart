@@ -56,7 +56,7 @@ class HajjCard extends StatelessWidget {
       color: color,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
-        side: const BorderSide(color: lineColor),
+        side: const BorderSide(color: lessonOutline, width: 1.3),
       ),
       clipBehavior: Clip.antiAlias,
       child: Padding(padding: padding, child: child),

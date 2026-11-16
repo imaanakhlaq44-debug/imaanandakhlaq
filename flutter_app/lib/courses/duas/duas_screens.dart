@@ -1,3 +1,4 @@
+import '../../billing/lock_badge.dart';
 import '../../billing/paywall.dart';
 import '../../screens/story_cards.dart';
 import '../../audio/voice.dart';
@@ -264,7 +265,7 @@ class _VolumeCard extends StatelessWidget {
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
-              border: Border.all(color: lineColor),
+              border: Border.all(color: lessonOutline, width: 1.3),
             ),
             child: Row(
               children: [
@@ -403,11 +404,14 @@ class DuasVolumeScreen extends StatelessWidget {
                 for (var i = 0; i < volume.lessons.length; i++) ...[
                   Reveal(
                     index: i + 1,
-                    child: _LessonCard(
-                      lesson: volume.lessons[i],
-                      status: _status(saved[volume.lessons[i].id]),
-                      done: saved[volume.lessons[i].id]?.explored ?? false,
-                      onTap: () => _open(context, volume.lessons[i]),
+                    child: LockCorner(
+                      free: volume.number == 1 && volume.lessons[i].number == 1,
+                      child: _LessonCard(
+                        lesson: volume.lessons[i],
+                        status: _status(saved[volume.lessons[i].id]),
+                        done: saved[volume.lessons[i].id]?.explored ?? false,
+                        onTap: () => _open(context, volume.lessons[i]),
+                      ),
                     ),
                   ),
                   const SizedBox(height: 10),
@@ -445,7 +449,7 @@ class _LessonCard extends StatelessWidget {
           padding: const EdgeInsets.fromLTRB(14, 14, 10, 14),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(18),
-            border: Border.all(color: lineColor),
+            border: Border.all(color: lessonOutline, width: 1.3),
           ),
           child: Row(
             children: [

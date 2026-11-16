@@ -1,3 +1,4 @@
+import '../../billing/lock_badge.dart';
 import '../../billing/paywall.dart';
 import '../../screens/story_cards.dart';
 import '../../audio/voice.dart';
@@ -466,71 +467,77 @@ class _SalahCourseScreenState extends State<SalahCourseScreen> {
     final explored = _progress[m.id]?.explored ?? false;
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
-      child: Pressable(
-        scale: .97,
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            boxShadow: cardDecoration().boxShadow,
-          ),
-          child: Material(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
-            clipBehavior: Clip.antiAlias,
-            child: InkWell(
-              key: Key('salah-mission-${m.id}'),
-              onTap: () => _open(m),
-              child: Padding(
-                padding: const EdgeInsets.all(14),
-                child: Row(
-                  children: [
-                    Container(
-                      width: 46,
-                      height: 46,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: explored ? salahAccent : salahTint,
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: Text(
-                        m.id,
-                        style: displayStyle(
-                          16,
-                          color: explored ? Colors.white : salahAccent,
+      child: LockCorner(
+        free: m.id == _data!.missions.first.id,
+        child: Pressable(
+          scale: .97,
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: cardDecoration().boxShadow,
+            ),
+            child: Material(
+              color: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+                side: const BorderSide(color: lessonOutline, width: 1.3),
+              ),
+              clipBehavior: Clip.antiAlias,
+              child: InkWell(
+                key: Key('salah-mission-${m.id}'),
+                onTap: () => _open(m),
+                child: Padding(
+                  padding: const EdgeInsets.all(14),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 46,
+                        height: 46,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: explored ? salahAccent : salahTint,
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: Text(
+                          m.id,
+                          style: displayStyle(
+                            16,
+                            color: explored ? Colors.white : salahAccent,
+                          ),
                         ),
                       ),
-                    ),
-                    const SizedBox(width: 14),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            m.title,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w800,
-                              color: ink,
-                              fontSize: 16,
+                      const SizedBox(width: 14),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              m.title,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w800,
+                                color: ink,
+                                fontSize: 16,
+                              ),
                             ),
-                          ),
-                          const SizedBox(height: 2),
-                          Text(
-                            _status(m),
-                            style: const TextStyle(
-                              color: softInk,
-                              fontSize: 13,
+                            const SizedBox(height: 2),
+                            Text(
+                              _status(m),
+                              style: const TextStyle(
+                                color: softInk,
+                                fontSize: 13,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                    Icon(
-                      explored
-                          ? Icons.check_circle_rounded
-                          : Icons.chevron_right_rounded,
-                      color: salahAccent,
-                    ),
-                  ],
+                      Icon(
+                        explored
+                            ? Icons.check_circle_rounded
+                            : Icons.chevron_right_rounded,
+                        color: salahAccent,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
