@@ -45,8 +45,9 @@ android {
     signingConfigs {
         create("release") {
             if (keystorePropertiesFile.exists()) {
-                // storeFile is relative to the legacy android/app directory.
-                storeFile = legacyAndroidDir.resolve("app")
+                // storeFile is relative to the app/ folder next to the
+                // properties file (the legacy android/app directory).
+                storeFile = keystorePropertiesFile.absoluteFile.parentFile.resolve("app")
                     .resolve(keystoreProperties.getProperty("storeFile"))
                 storePassword = keystoreProperties.getProperty("storePassword")
                 keyAlias = keystoreProperties.getProperty("keyAlias")
