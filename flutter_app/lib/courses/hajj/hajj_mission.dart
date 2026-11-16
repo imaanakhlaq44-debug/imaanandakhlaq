@@ -4,6 +4,7 @@ import '../../screens/ui_kit.dart';
 import 'hajj_data.dart';
 import 'hajj_widgets.dart';
 import '../../rewards/reward_widgets.dart';
+import '../../audio/voice.dart';
 
 /// One mission, following the Hadith lesson flow: steps are saved as the
 /// learner moves on, and finishing marks "learning completed". A grown-up can
@@ -814,6 +815,9 @@ class _ChoicePlayState extends State<ChoicePlay> {
           backgroundColor: _pickedGood == good ? hajjTint : Colors.white,
         ),
         onPressed: () {
+          VoiceGuide.instance.play(
+            good ? VoiceLine.correct : VoiceLine.tryAgain,
+          );
           setState(() => _pickedGood = good);
           if (good) widget.onDone();
         },

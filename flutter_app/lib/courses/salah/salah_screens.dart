@@ -1,3 +1,4 @@
+import '../../audio/voice.dart';
 import 'package:imaan_akhlaq/rewards/reward_widgets.dart';
 import 'package:flutter/material.dart';
 import '../../app_theme.dart';
@@ -920,7 +921,14 @@ class _SalahMissionScreenState extends State<SalahMissionScreen> {
             key: Key('salah-option-$i'),
             onPressed: _busy
                 ? null
-                : () => _persist(_progress.copyWith(choice: i)),
+                : () {
+                    VoiceGuide.instance.play(
+                      i == _m.check.correct
+                          ? VoiceLine.correct
+                          : VoiceLine.tryAgain,
+                    );
+                    _persist(_progress.copyWith(choice: i));
+                  },
             style: OutlinedButton.styleFrom(
               alignment: Alignment.centerLeft,
               padding: const EdgeInsets.all(16),

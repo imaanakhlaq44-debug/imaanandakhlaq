@@ -1,3 +1,4 @@
+import '../../audio/voice.dart';
 import 'package:imaan_akhlaq/rewards/reward_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -1009,7 +1010,16 @@ class _DuaLessonScreenState extends State<DuaLessonScreen> {
         padding: const EdgeInsets.only(bottom: 10),
         child: OutlinedButton(
           key: Key('dua-answer-$i'),
-          onPressed: _busy ? null : () => setState(() => _choice = i),
+          onPressed: _busy
+              ? null
+              : () {
+                  VoiceGuide.instance.play(
+                    _choices[i] == _l.english
+                        ? VoiceLine.correct
+                        : VoiceLine.tryAgain,
+                  );
+                  setState(() => _choice = i);
+                },
           style: OutlinedButton.styleFrom(
             alignment: Alignment.centerLeft,
             padding: const EdgeInsets.all(16),

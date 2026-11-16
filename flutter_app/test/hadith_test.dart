@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:imaan_akhlaq/audio/voice.dart';
 import 'package:imaan_akhlaq/app_theme.dart';
 import 'package:imaan_akhlaq/data/hadith_course.dart';
 import 'package:imaan_akhlaq/screens/hadith_screen.dart';
@@ -210,7 +211,9 @@ void main() {
         isNull,
       );
       expect(find.text(lessons.first.answers[0].feedback), findsOneWidget);
+      expect(VoiceGuide.instance.played.last, VoiceLine.tryAgain);
       await tap(tester, 'hadith-answer-1');
+      expect(VoiceGuide.instance.played.last, VoiceLine.correct);
       await expectLater(
         find.byType(MaterialApp),
         matchesGoldenFile('goldens/hadith-choose.png'),

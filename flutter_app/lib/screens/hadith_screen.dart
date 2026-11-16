@@ -1,3 +1,4 @@
+import '../audio/voice.dart';
 import 'package:imaan_akhlaq/rewards/reward_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -747,7 +748,14 @@ class _HadithLessonScreenState extends State<HadithLessonScreen> {
               key: Key('hadith-answer-$i'),
               onPressed: _busy
                   ? null
-                  : () => _persist(_progress.copyWith(choice: i)),
+                  : () {
+                      VoiceGuide.instance.play(
+                        widget.lesson.answers[i].correct
+                            ? VoiceLine.correct
+                            : VoiceLine.tryAgain,
+                      );
+                      _persist(_progress.copyWith(choice: i));
+                    },
               style: OutlinedButton.styleFrom(
                 alignment: Alignment.centerLeft,
                 padding: const EdgeInsets.all(16),
