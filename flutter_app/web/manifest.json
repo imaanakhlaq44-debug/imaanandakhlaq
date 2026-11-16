@@ -1,11 +1,11 @@
 {
-    "name": "imaan_akhlaq",
-    "short_name": "imaan_akhlaq",
+    "name": "Imaan Akhlaq Learning Hub",
+    "short_name": "Learning Hub",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
+    "background_color": "#FEFBF8",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "Imaan Akhlaq Learning Hub: Islamic stories, Qur’an, Hadith and good character for children and families.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

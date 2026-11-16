@@ -185,7 +185,7 @@ class _BrandSplashState extends State<BrandSplash>
         height: diameter,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: Colors.white,
+          color: const Color(0xFFFEFBF8),
           border: Border.all(color: brandPink, width: 6),
           boxShadow: [
             BoxShadow(
@@ -203,11 +203,11 @@ class _BrandSplashState extends State<BrandSplash>
             child: Center(
               child: Image.asset(
                 widget.logo,
-                width: diameter * .82,
-                height: diameter * .82,
+                width: diameter * .97,
+                height: diameter * .97,
                 fit: BoxFit.contain,
                 cacheWidth: 480,
-                semanticLabel: 'Imaan and Akhlaq',
+                semanticLabel: 'Imaan Akhlaq Learning Hub',
               ),
             ),
           ),
@@ -217,7 +217,7 @@ class _BrandSplashState extends State<BrandSplash>
   }
 
   Widget _wordmark(double fontSize, bool still) => Semantics(
-    label: 'Imaan and Akhlaq',
+    label: 'Imaan Akhlaq Learning Hub',
     excludeSemantics: true,
     child: Row(
       mainAxisSize: MainAxisSize.min,
@@ -230,7 +230,13 @@ class _BrandSplashState extends State<BrandSplash>
     ),
   );
 
-  Widget _letter(String ch, Color color, double delay, double size, bool still) {
+  Widget _letter(
+    String ch,
+    Color color,
+    double delay,
+    double size,
+    bool still,
+  ) {
     final (scale, dy, opacity) = still
         ? (1.0, 0.0, 1.0)
         : _pop((_seconds - delay) / .5);
@@ -263,6 +269,49 @@ class _BrandSplashState extends State<BrandSplash>
               ),
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  /// "LEARNING HUB" under the wordmark, between two short rules; it fades in
+  /// once the letters have landed.
+  Widget _hubTag(double size, bool still) {
+    final t = still ? 1.0 : ((_seconds - 1.05) / .45).clamp(0.0, 1.0);
+    final ease = Curves.easeOutCubic.transform(t);
+    Widget rule(List<Color> colors) => Container(
+      width: size * 1.6,
+      height: 2,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(2),
+        gradient: LinearGradient(colors: colors),
+      ),
+    );
+    return Opacity(
+      opacity: ease,
+      child: Transform.translate(
+        offset: Offset(0, 8 * (1 - ease)),
+        child: Row(
+          key: const Key('brand-learning-hub'),
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            rule([brandPink.withValues(alpha: 0), brandPink]),
+            const SizedBox(width: 10),
+            Text(
+              'LEARNING HUB',
+              style: TextStyle(
+                color: brandNavy,
+                fontFamily: 'Fredoka',
+                fontVariations: const [FontVariation('wght', 600)],
+                fontWeight: FontWeight.w600,
+                fontSize: size,
+                letterSpacing: size * .28,
+                height: 1,
+              ),
+            ),
+            const SizedBox(width: 10),
+            rule([brandOrange, brandOrange.withValues(alpha: 0)]),
+          ],
         ),
       ),
     );
@@ -319,6 +368,12 @@ class _BrandSplashState extends State<BrandSplash>
                           FittedBox(
                             fit: BoxFit.scaleDown,
                             child: _wordmark(compact ? 32 : 42, still),
+                          ),
+                          const SizedBox(height: 10),
+                          FittedBox(
+                            fit: BoxFit.scaleDown,
+
+                            child: _hubTag(compact ? 15 : 18, still),
                           ),
                           const SizedBox(height: 22),
                           _progress(compact ? 180 : 240),

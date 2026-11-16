@@ -28,7 +28,7 @@ Future<void> main() async {
               height: 280,
               fit: BoxFit.contain,
               cacheWidth: 600,
-              semanticLabel: 'Imaan and Akhlaq',
+              semanticLabel: 'Imaan Akhlaq Learning Hub',
             ),
           ),
         ),

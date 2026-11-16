@@ -4,7 +4,7 @@ import '../entry_kind.dart';
 import 'brand_splash.dart';
 import '../l10n/language.dart';
 
-const launchLogo = 'assets/images/launch-logo.jpg';
+const launchLogo = 'assets/images/launch-logo.png';
 
 class LaunchGate extends StatefulWidget {
   const LaunchGate({super.key, required this.child});
@@ -247,7 +247,8 @@ class BrandLogoRing extends StatelessWidget {
     height: size,
     decoration: BoxDecoration(
       shape: BoxShape.circle,
-      color: Colors.white,
+      // The logo artwork's own warm white, so no square edge shows.
+      color: const Color(0xFFFEFBF8),
       border: Border.all(color: brandPink, width: size > 120 ? 5 : 4),
       boxShadow: [
         BoxShadow(
@@ -261,11 +262,11 @@ class BrandLogoRing extends StatelessWidget {
       child: Center(
         child: Image.asset(
           launchLogo,
-          width: size * .83,
-          height: size * .83,
+          width: size * .97,
+          height: size * .97,
           fit: BoxFit.contain,
           cacheWidth: cacheWidth,
-          semanticLabel: 'Imaan and Akhlaq',
+          semanticLabel: 'Imaan Akhlaq Learning Hub',
         ),
       ),
     ),

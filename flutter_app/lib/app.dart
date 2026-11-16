@@ -16,7 +16,7 @@ class ImaanApp extends StatelessWidget {
   final AppRepository repository;
   @override
   Widget build(BuildContext context) => MaterialApp(
-    title: 'Imaan & Akhlaq',
+    title: 'Imaan Akhlaq Learning Hub',
     debugShowCheckedModeBanner: false,
     theme: appTheme(),
     home: LaunchGate(child: SessionGate(repository: repository)),

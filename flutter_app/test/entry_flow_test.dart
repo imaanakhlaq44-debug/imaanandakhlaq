@@ -42,7 +42,7 @@ void main() {
     await tester.runAsync(
       () => precacheImage(
         const ResizeImage(
-          AssetImage('assets/images/launch-logo.jpg'),
+          AssetImage('assets/images/launch-logo.png'),
           width: 480,
         ),
         tester.element(find.byType(MaterialApp)),
@@ -83,7 +83,7 @@ void main() {
     await tester.runAsync(
       () => precacheImage(
         const ResizeImage(
-          AssetImage('assets/images/launch-logo.jpg'),
+          AssetImage('assets/images/launch-logo.png'),
           width: 240,
         ),
         tester.element(find.byType(MaterialApp)),
