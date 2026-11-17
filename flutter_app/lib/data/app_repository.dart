@@ -65,6 +65,13 @@ abstract class AppRepository {
   Future<void> signInWithGoogle();
   Future<void> signOut();
   Stream<Profile?> profile(String uid);
+
+  /// The separate Individual space of a school login, or null before it
+  /// is started.
+  Stream<Profile?> individualSpace(String uid);
+
+  /// Starts the signed-in school login's Individual space.
+  Future<void> startIndividualSpace({required String name});
   Stream<List<Profile>> children(String familyUid);
   Future<void> claimChild(String code);
   Future<Map<String, dynamic>?> submission(String learnerUid, String chapterId);
@@ -369,6 +376,28 @@ class FirebaseRepository implements AppRepository {
       .snapshots()
       .map((doc) => doc.exists ? Profile.fromMap(doc.id, doc.data()!) : null);
   @override
+  Stream<Profile?> individualSpace(String uid) => db
+      .collection('individual_spaces')
+      .doc(uid)
+      .snapshots()
+      .map((doc) => doc.exists ? Profile.space(doc.id, doc.data()!) : null);
+
+  @override
+  Future<void> startIndividualSpace({required String name}) async {
+    final user = auth.currentUser;
+    if (user == null) throw StateError('Please sign in again.');
+    final trimmed = name.trim();
+    if (trimmed.isEmpty || trimmed.length > 80) {
+      throw const FormatException('Enter your name (1–80 characters).');
+    }
+    await db.collection('individual_spaces').doc(user.uid).set({
+      'name': trimmed,
+      'email': user.email ?? '',
+      'created_at': DateTime.now().toUtc().toIso8601String(),
+    });
+  }
+
+  @override
   Stream<List<Profile>> children(String familyUid) => db
       .collection('users')
       .where('family_uid', isEqualTo: familyUid)
@@ -403,7 +432,9 @@ class FirebaseRepository implements AppRepository {
         .collection(collection)
         .where(FieldPath.documentId, isEqualTo: id)
         .where('student_uid', isEqualTo: learnerUid);
-    if (uid != learnerUid) {
+    if (learnerUid == individualSpaceId(uid)) {
+      query = query.where('owner_uid', isEqualTo: uid);
+    } else if (uid != learnerUid) {
       query = query.where('family_uid', isEqualTo: uid);
     }
     final result = await query.limit(1).get();
@@ -459,7 +490,7 @@ class FirebaseRepository implements AppRepository {
     await functions
         .httpsCallable('saveLearnerActivity')
         .call<Map<String, dynamic>>({
-          'learner_uid': learner.uid,
+          'learner_uid': learner.learnerId,
           'book_id': book.id,
           'chapter_id': chapter.id,
           'discussion_text': answer,
@@ -486,8 +517,9 @@ String friendlyError(Object error) {
       'network-request-failed' =>
         'Check your internet connection and try again.',
       'email-already-in-use' =>
-        'An account already uses this email. Please sign in instead, '
-            'or use "Forgot password?" on the sign-in page.',
+        'This email already has an account (it may be your school login). '
+            'Sign in with it: a school login can open its own separate '
+            'Individual space. Forgot the password? Use "Forgot password?".',
       'weak-password' => 'Please choose a stronger password.',
       'invalid-email' => 'Enter a valid email address.',
       'user-disabled' => 'This account is disabled. Contact your school.',

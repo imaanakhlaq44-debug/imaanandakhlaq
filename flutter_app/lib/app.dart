@@ -6,6 +6,7 @@ import 'screens/welcome_screen.dart';
 import 'screens/entry_screens.dart';
 import 'entry_kind.dart';
 import 'screens/family_screen.dart';
+import 'screens/individual_space.dart';
 import 'screens/learner_shell.dart';
 import 'screens/teacher_shell.dart';
 import 'screens/admin_web_screen.dart';
@@ -120,23 +121,32 @@ class AccountGate extends StatefulWidget {
   State<AccountGate> createState() => _AccountGateState();
 }
 
-/// Why [role] may not use [section], or null when it may. Individual
-/// accounts live only in Individual; school accounts only in School.
-/// Platform admins and unknown profiles are handled elsewhere.
+/// Why [role] may not use [section], or null when it may. An Individual
+/// account has no school, so it never opens School. A school login may open
+/// Individual: it gets its own separate Individual space there (see
+/// [usesIndividualSpace]). Platform admins and unknown profiles are handled
+/// elsewhere.
 String? wrongSectionMessage(AccountRole role, AppSection section) {
   if (role == AccountRole.unknown || role == AccountRole.superAdmin) {
     return null;
   }
-  final individual = role == AccountRole.individual;
-  if (section == AppSection.individual && !individual) {
-    return 'This is a school account. Go back and choose School to sign in.';
-  }
-  if (section == AppSection.school && individual) {
+  if (section == AppSection.school && role == AccountRole.individual) {
     return 'No school account matches these details. Check your school '
         'username and password.';
   }
   return null;
 }
+
+/// Whether a login with [role] opens a separate Individual space in
+/// [section] instead of its own profile.
+bool usesIndividualSpace(AccountRole role, AppSection section) =>
+    section == AppSection.individual &&
+    const [
+      AccountRole.student,
+      AccountRole.family,
+      AccountRole.teacher,
+      AccountRole.schoolAdmin,
+    ].contains(role);
 
 class _AccountGateState extends State<AccountGate> {
   late Stream<Profile?> _profile = widget.repository.profile(widget.uid);
@@ -185,6 +195,13 @@ class _AccountGateState extends State<AccountGate> {
           });
         }
         return const Scaffold(body: Center(child: CircularProgressIndicator()));
+      }
+      if (account != null && usesIndividualSpace(account.role, widget.section)) {
+        return IndividualSpaceGate(
+          repository: widget.repository,
+          account: account,
+          onChooseSection: widget.onChooseSection,
+        );
       }
       if (account == null || account.role == AccountRole.unknown) {
         return Scaffold(

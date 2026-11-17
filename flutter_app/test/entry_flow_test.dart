@@ -190,17 +190,25 @@ void main() {
     );
   });
   testWidgets(
-    'a school account opens only from School, never from Individual',
+    'a school login gets its own separate Individual space in Individual',
     (tester) async {
       viewport(tester);
       final repo = FakeRepository()..initial = 'family';
       addTearDown(repo.dispose);
       await tester.pumpWidget(ImaanApp(repository: repo));
       await enterSection(tester);
+      // Never the school workspace here; first visit offers the space.
       expect(find.text('Your family'), findsNothing);
-      expect(find.byType(LearningDashboard), findsNothing);
-      expect(find.textContaining('This is a school account'), findsOneWidget);
-      expect(find.byKey(const Key('login')), findsOneWidget);
+      expect(find.byKey(const Key('start-individual-space')), findsOneWidget);
+      await tester.enterText(find.byKey(const Key('space-name')), 'Ahmed');
+      await tap(tester, find.byKey(const Key('start-space')));
+      expect(repo.lastSpaceName, 'Ahmed');
+      final shell = tester.widget<LearningDashboard>(
+        find.byType(LearningDashboard),
+      );
+      expect(shell.learner?.individualSpace, isTrue);
+      expect(shell.learner?.learnerId, 'ind_family');
+      expect(tester.takeException(), isNull);
 
       // Signing in again from School opens the family workspace.
       final school = FakeRepository()..initial = 'family';

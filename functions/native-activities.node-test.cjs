@@ -36,3 +36,22 @@ test('native backend catalogue stays identical to the existing web curriculum', 
   const bundled = JSON.parse(fs.readFileSync(path.join(__dirname, 'native-catalog.json'), 'utf8'));
   assert.deepEqual(bundled, source);
 });
+
+test('a school teacher keeps a separate Individual space under the same login', async () => {
+  const {save, request, records} = setup();
+  records.set('users/teach', { role: 'teacher', school_id: 'school', name: 'Ms T' });
+  request.auth.uid = 'teach'; request.data.learner_uid = 'ind_teach'; request.data.cells.fill(1); request.data.submit = true;
+  // No space yet: refused.
+  await assert.rejects(save(request), {code: 'permission-denied'});
+  records.set('individual_spaces/teach', { name: 'Ms T' });
+  await save(request);
+  const sub = records.get('activity_submissions/ind_teach_b1_c1');
+  assert.equal(sub.owner_uid, 'teach'); assert.equal(sub.space, 'individual'); assert.equal(sub.school_id, '');
+  assert.equal(sub.reviewStatus, 'self_completed'); assert.equal(records.has('activity_submissions/teach_b1_c1'), false);
+});
+test('nobody can write into another person Individual space', async () => {
+  const {save, request, records} = setup();
+  records.set('individual_spaces/self', { name: 'Self' });
+  request.auth.uid = 'family'; request.data.learner_uid = 'ind_self';
+  await assert.rejects(save(request), {code: 'permission-denied'});
+});

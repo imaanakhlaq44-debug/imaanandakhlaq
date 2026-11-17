@@ -3,6 +3,16 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:imaan_akhlaq/domain.dart';
 
 void main() {
+  test('an Individual space is its own learner under the same login', () {
+    final space = Profile.space('t1', {'name': ' Ms T '});
+    expect(space.role, AccountRole.individual);
+    expect(space.individualSpace, isTrue);
+    expect(space.name, 'Ms T');
+    expect(space.learnerId, 'ind_t1');
+    expect(ownsLearner(space, space), isTrue);
+    const school = Profile(uid: 't1', name: 'Ms T', role: AccountRole.teacher);
+    expect(school.learnerId, 't1');
+  });
   const family = Profile(
     uid: 'family-a',
     name: 'Family',

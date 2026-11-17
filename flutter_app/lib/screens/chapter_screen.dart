@@ -23,9 +23,9 @@ class ChapterScreen extends StatefulWidget {
 
 class _ChapterScreenState extends State<ChapterScreen> {
   final _answer = TextEditingController();
-  late final Stream<Profile?> _access = widget.repository.profile(
-    widget.learner.uid,
-  );
+  late final Stream<Profile?> _access = widget.learner.individualSpace
+      ? widget.repository.individualSpace(widget.learner.uid)
+      : widget.repository.profile(widget.learner.uid);
   late List<int> _cells = List.filled(widget.chapter.rowCount * 7, 0);
   int _day = DateTime.now().weekday - 1;
   bool _loading = true, _saving = false, _dirty = false, _approved = false;
@@ -49,7 +49,7 @@ class _ChapterScreenState extends State<ChapterScreen> {
     });
     try {
       final data = await widget.repository.submission(
-        widget.learner.uid,
+        widget.learner.learnerId,
         widget.chapter.id,
       );
       if (!mounted) return;

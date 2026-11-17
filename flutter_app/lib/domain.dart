@@ -21,10 +21,29 @@ class Profile {
     this.schoolName = '',
     this.completed = const [],
     this.approved = const [],
+    this.individualSpace = false,
   });
   final String uid, name, schoolId, familyUid, className, schoolName;
   final AccountRole role;
   final List<String> completed, approved;
+
+  /// True for the separate Individual space of a school login: same login
+  /// (uid), its own profile in individual_spaces/{uid} and its own work.
+  final bool individualSpace;
+
+  /// The id its work is saved under. An Individual space never shares ids
+  /// with the school record of the same login.
+  String get learnerId => individualSpace ? individualSpaceId(uid) : uid;
+
+  /// The Individual space of [uid], from its individual_spaces document.
+  factory Profile.space(String uid, Map<String, dynamic> data) => Profile(
+    uid: uid,
+    name: data['name'] is String && (data['name'] as String).trim().isNotEmpty
+        ? (data['name'] as String).trim()
+        : 'Learner',
+    role: AccountRole.individual,
+    individualSpace: true,
+  );
   bool get isLearner =>
       role == AccountRole.student || role == AccountRole.individual;
   bool get isStaff => [
@@ -71,6 +90,9 @@ class Profile {
     );
   }
 }
+
+/// Learner id of the Individual space kept by the school login [uid].
+String individualSpaceId(String uid) => 'ind_$uid';
 
 String loginEmail(String input) {
   final value = input.trim();

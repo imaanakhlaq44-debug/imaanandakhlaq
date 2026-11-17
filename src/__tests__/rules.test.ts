@@ -1147,4 +1147,38 @@ describe.skipIf(!HAS_EMULATOR)('Firestore rules', () => {
       await assertSucceeds(getDoc(doc(asTeacher(), 'activity_submissions', CHILD + '_c1')))
     })
   })
+
+  describe('individual space for a school login', () => {
+    beforeEach(async () => {
+      await env.withSecurityRulesDisabled(async (ctx) => {
+        await setDoc(doc(ctx.firestore(), 'activity_submissions', 'ind_' + TEACHER + '_c1'), {
+          student_uid: 'ind_' + TEACHER, owner_uid: TEACHER, space: 'individual',
+          school_id: '', reviewStatus: 'self_completed'
+        })
+      })
+    })
+
+    it('a teacher starts their own space with a name only', async () => {
+      await assertSucceeds(setDoc(doc(asTeacher(), 'individual_spaces', TEACHER), { name: 'Teacher', email: 't@example.com' }))
+      await assertSucceeds(getDoc(doc(asTeacher(), 'individual_spaces', TEACHER)))
+    })
+
+    it('cannot stamp a trial or progress on it', async () => {
+      await assertFails(setDoc(doc(asTeacher(), 'individual_spaces', TEACHER), { name: 'T', trial_end: '2099-01-01' }))
+    })
+
+    it('nobody else reads or creates it', async () => {
+      await assertFails(setDoc(doc(asFamily(), 'individual_spaces', TEACHER), { name: 'X' }))
+      await assertFails(getDoc(doc(asFamily(), 'individual_spaces', TEACHER)))
+    })
+
+    it('the owner reads their space work; same-school staff do not see it', async () => {
+      await assertSucceeds(getDoc(doc(asTeacher(), 'activity_submissions', 'ind_' + TEACHER + '_c1')))
+      await assertFails(getDoc(doc(asFamily(), 'activity_submissions', 'ind_' + TEACHER + '_c1')))
+    })
+
+    it('the school profile itself is untouched by the space', async () => {
+      await assertFails(updateDoc(doc(asTeacher(), 'users', TEACHER), { role: 'individual' }))
+    })
+  })
 })

@@ -175,6 +175,25 @@ class FakeRepository implements AppRepository {
     auth.add(null);
   }
 
+  final spaces = <String, StreamController<Profile?>>{};
+  String? lastSpaceName;
+  StreamController<Profile?> _space(String uid) =>
+      spaces.putIfAbsent(uid, StreamController<Profile?>.broadcast);
+  Profile? startedSpace;
+  @override
+  Stream<Profile?> individualSpace(String uid) async* {
+    yield startedSpace?.uid == uid ? startedSpace : null;
+    yield* _space(uid).stream;
+  }
+
+  @override
+  Future<void> startIndividualSpace({required String name}) async {
+    lastSpaceName = name;
+    final uid = initial ?? loginUid;
+    startedSpace = Profile.space(uid, {'name': name});
+    _space(uid).add(startedSpace);
+  }
+
   @override
   Stream<Profile?> profile(String uid) => Stream.value(
     uid == 'teacher'

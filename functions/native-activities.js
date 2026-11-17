@@ -16,14 +16,24 @@ function makeSaveActivity({ db, HttpsError, catalog, now = () => new Date() }) {
     if (!Array.isArray(cells) || cells.length !== count || cells.some(c => !Number.isInteger(c) || c < 0 || c > 2) || typeof text !== 'string' || text.length > 4000 || typeof input.submit !== 'boolean') throw new HttpsError('invalid-argument', 'Invalid activity.');
     if (input.submit && !text.trim()) throw new HttpsError('invalid-argument', 'Write your reflection first.');
     const accountRef = db.collection('users').doc(uid);
-    const learnerRef = db.collection('users').doc(learnerUid);
+    // A school account (teacher, admin, student, family) may also keep a
+    // separate Individual space under the same login. Its learner id is
+    // 'ind_<uid>' and its profile lives in individual_spaces/{uid}, so its
+    // work never mixes with the school record.
+    const space = learnerUid === individualSpaceId(uid);
+    const learnerRef = space
+      ? db.collection('individual_spaces').doc(uid)
+      : db.collection('users').doc(learnerUid);
     const subRef = db.collection('activity_submissions').doc(learnerUid + '_' + chapter.id);
     const draftRef = db.collection('activity_drafts').doc('flutter_' + learnerUid + '_' + chapter.id);
     return db.runTransaction(async tx => {
       const [accountSnap, learnerSnap, subSnap, draftSnap] = await Promise.all([tx.get(accountRef), tx.get(learnerRef), tx.get(subRef), tx.get(draftRef)]);
       const account = accountSnap.data();
-      const learner = learnerSnap.data();
-      const owned = account && learner && (
+      const spaceDoc = space ? learnerSnap.data() : undefined;
+      const learner = space
+        ? spaceDoc && { ...spaceDoc, role: 'individual', school_id: '' }
+        : learnerSnap.data();
+      const owned = space ? Boolean(account && spaceDoc) : account && learner && (
         (account.role === 'family' && learner.role === 'student' && learner.family_uid === uid) ||
         (['student', 'individual'].includes(account.role) && learnerUid === uid)
       );
@@ -42,7 +52,8 @@ function makeSaveActivity({ db, HttpsError, catalog, now = () => new Date() }) {
       const timestamp = instant.toISOString();
       const payload = {
         student_uid: learnerUid,
-        ...(account.role === 'family' ? { family_uid: uid } : {}),
+        ...(account.role === 'family' && !space ? { family_uid: uid } : {}),
+        ...(space ? { owner_uid: uid, space: 'individual' } : {}),
         student_name: learner.name || 'Student', school_id: learner.school_id || '',
         chapter_id: chapter.id, chapter_title: chapter.title, book_id: input.book_id,
         discussionText: text.trim(), updatedAt: timestamp,
@@ -61,4 +72,7 @@ function makeSaveActivity({ db, HttpsError, catalog, now = () => new Date() }) {
     });
   };
 }
-module.exports = { makeSaveActivity };
+function individualSpaceId(uid) {
+  return 'ind_' + uid;
+}
+module.exports = { makeSaveActivity, individualSpaceId };

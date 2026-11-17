@@ -288,6 +288,8 @@ service cloud.firestore {
       // the Parent Area's chapter list, since the family shares that account.
       allow get, list: if signedIn() && (
         resource.data.student_uid == request.auth.uid ||
+        // Work from the caller's own Individual space (section 17).
+        resource.data.get('owner_uid', '') == request.auth.uid ||
         isMyFamily(resource.data) ||
         isSuper() ||
         (isStaff() && sameSchool(resource.data))
@@ -341,6 +343,7 @@ service cloud.firestore {
     match /activity_drafts/{draftId} {
       allow get, list: if signedIn() && (
         resource.data.student_uid == request.auth.uid ||
+        resource.data.get('owner_uid', '') == request.auth.uid ||
         isMyFamily(resource.data)
       );
 
@@ -763,6 +766,29 @@ service cloud.firestore {
     }
     match /play_tokens/{tokenHash} {
       allow read, write: if false;
+    }
+
+    // ---------------------------------------------------------------
+    // 17. Individual space for a school login
+    // ---------------------------------------------------------------
+    // One email is one login, but a teacher, admin, student or family may
+    // also study as an Individual. Their Individual profile lives here, not
+    // in users/{uid}, so the school record never changes. Its activities are
+    // saved by saveLearnerActivity under learner id 'ind_<uid>' with
+    // owner_uid = uid (readable above). Only the owner reads or creates it.
+    match /individual_spaces/{uid} {
+      allow read: if signedIn() && request.auth.uid == uid;
+      allow create: if signedIn() && request.auth.uid == uid &&
+        request.resource.data.keys().hasOnly(['name', 'email', 'created_at']) &&
+        request.resource.data.name is string &&
+        request.resource.data.name.size() > 0 &&
+        request.resource.data.name.size() <= 80;
+      allow update: if signedIn() && request.auth.uid == uid &&
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['name']) &&
+        request.resource.data.name is string &&
+        request.resource.data.name.size() > 0 &&
+        request.resource.data.name.size() <= 80;
+      allow delete: if false;
     }
   }
 }
