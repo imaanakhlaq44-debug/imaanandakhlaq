@@ -8,6 +8,7 @@ import 'chapter_screen.dart';
 import '../l10n/language.dart';
 import '../audio/voice.dart';
 import 'learning_experience.dart';
+import 'learner_menu.dart';
 import 'welcome_screen.dart' show BrandWordmark;
 import 'ui_kit.dart';
 
@@ -29,6 +30,7 @@ class LearnerShell extends StatefulWidget {
 
 class _LearnerShellState extends State<LearnerShell> {
   int _tab = 0;
+  final _scaffold = GlobalKey<ScaffoldState>();
   DateTime? _lastBack;
   bool _opening = false;
   late Future<List<Book>> _books = Catalog().books();
@@ -77,6 +79,15 @@ class _LearnerShellState extends State<LearnerShell> {
       );
     },
     child: Scaffold(
+      key: _scaffold,
+      drawer: _hadithScope == null
+          ? null
+          : LearnerMenu(
+              learner: widget.learner,
+              onProgress: () => _select(4),
+              onChooseSection: widget.onChooseSection,
+              onSignOut: _signOut,
+            ),
       appBar: _tab < 2
           ? null
           : AppBar(
@@ -138,6 +149,9 @@ class _LearnerShellState extends State<LearnerShell> {
           child: switch (_tab) {
             0 => LearningDashboard(
               rewardScope: _hadithScope,
+              onMenu: _hadithScope == null
+                  ? null
+                  : () => _scaffold.currentState?.openDrawer(),
               onMap: () => _select(1),
               learner: widget.learner,
               books: _books,
@@ -167,6 +181,18 @@ class _LearnerShellState extends State<LearnerShell> {
       ),
     ),
   );
+  Future<void> _signOut() async {
+    try {
+      await widget.repository.signOut();
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(friendlyError(e))));
+      }
+    }
+  }
+
   Future<void> _continue() async {
     if (_opening) {
       return;

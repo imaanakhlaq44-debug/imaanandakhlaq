@@ -22,8 +22,12 @@ class Profile {
     this.completed = const [],
     this.approved = const [],
     this.individualSpace = false,
+    this.email = '',
   });
   final String uid, name, schoolId, familyUid, className, schoolName;
+
+  /// The account email, when it has a real one (empty for usernames).
+  final String email;
   final AccountRole role;
   final List<String> completed, approved;
 
@@ -43,6 +47,7 @@ class Profile {
         : 'Learner',
     role: AccountRole.individual,
     individualSpace: true,
+    email: _realEmail(data['email']),
   );
   bool get isLearner =>
       role == AccountRole.student || role == AccountRole.individual;
@@ -87,9 +92,17 @@ class Profile {
           : '',
       completed: strings(game['completed']),
       approved: strings(game['teacher_approved']),
+      email: _realEmail(data['email']),
     );
   }
 }
+
+/// [value] when it is a real address; school usernames map to
+/// '.invalid' addresses that mean nothing to a person.
+String _realEmail(dynamic value) =>
+    value is String && value.contains('@') && !value.endsWith('.invalid')
+    ? value.trim()
+    : '';
 
 /// Learner id of the Individual space kept by the school login [uid].
 String individualSpaceId(String uid) => 'ind_$uid';

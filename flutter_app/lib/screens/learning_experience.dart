@@ -99,8 +99,12 @@ class LearningDashboard extends StatelessWidget {
     required this.onCourse,
     this.onMap,
     this.rewardScope,
+    this.onMenu,
   });
   final VoidCallback? onMap;
+
+  /// Opens the side menu (Individual only); null hides the ☰ button.
+  final VoidCallback? onMenu;
 
   /// The Individual learner whose stars, badges and streak are shown, or
   /// null (school learners) to hide the rewards strip.
@@ -131,6 +135,7 @@ class LearningDashboard extends StatelessWidget {
             learner: learner,
             books: books,
             onContinue: onContinue,
+            onMenu: onMenu,
           ),
         ),
         if (rewardScope != null)
@@ -628,10 +633,12 @@ class _ContinueCard extends StatelessWidget {
     required this.learner,
     required this.books,
     required this.onContinue,
+    this.onMenu,
   });
   final Profile? learner;
   final Future<List<Book>> books;
   final VoidCallback onContinue;
+  final VoidCallback? onMenu;
   @override
   Widget build(BuildContext context) => Container(
     key: const Key('reading-hero'),
@@ -844,7 +851,12 @@ class _ContinueCard extends StatelessWidget {
                 children: [
                   ...rings,
                   Padding(
-                    padding: const EdgeInsets.all(20),
+                    padding: EdgeInsets.fromLTRB(
+                      20,
+                      onMenu == null ? 20 : 64,
+                      20,
+                      20,
+                    ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -872,9 +884,9 @@ class _ContinueCard extends StatelessWidget {
                     child: artwork(constraints.maxWidth * .58, 176),
                   ),
                   Padding(
-                    padding: const EdgeInsetsDirectional.fromSTEB(
+                    padding: EdgeInsetsDirectional.fromSTEB(
                       20,
-                      26,
+                      onMenu == null ? 26 : 64,
                       0,
                       22,
                     ),
@@ -897,6 +909,21 @@ class _ContinueCard extends StatelessWidget {
             );
           },
         ),
+        if (onMenu != null)
+          PositionedDirectional(
+            start: 12,
+            top: 10 + MediaQuery.paddingOf(context).top,
+            child: Material(
+              color: Colors.white.withValues(alpha: .16),
+              shape: const CircleBorder(),
+              child: IconButton(
+                key: const Key('open-menu'),
+                tooltip: tr('Menu', 'مینو'),
+                onPressed: onMenu,
+                icon: const Icon(Icons.menu_rounded, color: Colors.white),
+              ),
+            ),
+          ),
         // Language switch, on top of the artwork so it is always tappable.
         PositionedDirectional(
           end: 14,

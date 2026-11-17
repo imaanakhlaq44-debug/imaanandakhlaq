@@ -357,6 +357,51 @@ void main() {
       expect(tester.takeException(), isNull);
     },
   );
+  testWidgets('individual home opens a side menu with profile and settings', (
+    tester,
+  ) async {
+    viewport(tester);
+    final repo = FakeRepository()..initial = 'individual';
+    addTearDown(repo.dispose);
+    await tester.pumpWidget(ImaanApp(repository: repo));
+    await enterSection(tester);
+    expect(find.byType(LearningDashboard), findsOneWidget);
+    await tester.tap(find.byKey(const Key('open-menu')));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const Key('learner-menu')), findsOneWidget);
+    expect(find.byKey(const Key('menu-name')), findsOneWidget);
+    expect(find.text('Member · all journeys open'), findsOneWidget);
+    await expectLater(
+      find.byType(MaterialApp),
+      matchesGoldenFile('goldens/learner-menu.png'),
+    );
+    for (final key in [
+      'menu-badges',
+      'menu-urdu',
+      'menu-sound',
+      'menu-whatsapp',
+      'menu-share',
+      'menu-sign-out',
+    ]) {
+      await tester.scrollUntilVisible(
+        find.byKey(Key(key)),
+        120,
+        scrollable: find.descendant(
+          of: find.byKey(const Key('learner-menu')),
+          matching: find.byType(Scrollable),
+        ),
+      );
+      expect(find.byKey(Key(key)), findsOneWidget, reason: key);
+    }
+    // Sign out from the menu returns to the welcome flow.
+    await tester.ensureVisible(find.byKey(const Key('menu-sign-out')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('menu-sign-out')));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const Key('learner-menu')), findsNothing);
+    expect(find.byKey(const Key('open-menu')), findsNothing);
+    expect(tester.takeException(), isNull);
+  });
   testWidgets(
     'family selection uses child profile; revoked child access returns to picker',
     (tester) async {

@@ -17,7 +17,9 @@ dependencies:
   google_sign_in: ^7.2.0
   in_app_purchase: 3.3.1
   in_app_purchase_android: 0.5.3
+  package_info_plus: ^10.2.2
   pdfrx: ^2.4.8
+  share_plus: ^13.3.1
   shared_preferences: 2.5.6
   url_launcher: ^6.3.3
 dev_dependencies:
