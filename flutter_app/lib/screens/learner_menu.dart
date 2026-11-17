@@ -11,11 +11,13 @@ import '../domain.dart';
 import '../l10n/language.dart';
 import '../rewards/reward_widgets.dart';
 import 'entry_screens.dart' show brandCream;
+import 'info_pages.dart';
 
 /// Links the side menu opens. Contact details are the app's own Play
 /// listing contacts.
 class MenuLinks {
-  static const whatsapp = 'https://wa.me/923390106475';
+  /// The old app's "Contact Us" WhatsApp (About and FAQ pages).
+  static const whatsapp = 'https://wa.me/923335756028';
   static const email = 'mailto:contact@imaanakhlaq.org';
   static const store =
       'https://play.google.com/store/apps/details?id=com.imaanakhlaq';
@@ -30,18 +32,23 @@ class MenuLinks {
 /// The Individual side menu, opened from the ☰ button on the home page.
 /// Everything a learner looks for in one place: their profile and plan,
 /// rewards, language and sound, help, sharing and signing out.
+///
+/// Without a [learner] (a guest) the profile card offers Sign in and
+/// Create account instead, and account-only items are hidden.
 class LearnerMenu extends StatelessWidget {
   const LearnerMenu({
     super.key,
-    required this.learner,
-    required this.onProgress,
-    required this.onSignOut,
+    this.learner,
+    this.onProgress,
+    this.onSignOut,
+    this.onSignIn,
+    this.onCreateAccount,
     this.onChooseSection,
     this.openLink,
     this.share,
   });
-  final Profile learner;
-  final VoidCallback onProgress, onSignOut;
+  final Profile? learner;
+  final VoidCallback? onProgress, onSignOut, onSignIn, onCreateAccount;
   final VoidCallback? onChooseSection;
 
   /// Opens a link; tests replace it.
@@ -65,9 +72,7 @@ class LearnerMenu extends StatelessWidget {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(
-              tr('Could not open the link.', 'لنک نہیں کھل سکا۔'),
-            ),
+            content: Text(tr('Could not open the link.', 'لنک نہیں کھل سکا۔')),
           ),
         );
       }
@@ -77,6 +82,23 @@ class LearnerMenu extends StatelessWidget {
   void _then(BuildContext context, VoidCallback action) {
     Navigator.of(context).pop();
     action();
+  }
+
+  /// Opens [url] from a page the menu pushed (the menu is closed by then).
+  Future<void> _launch(String url) async {
+    try {
+      if (openLink != null) {
+        await openLink!(url);
+      } else {
+        await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+      }
+    } catch (_) {}
+  }
+
+  void _push(BuildContext context, Widget page) {
+    final navigator = Navigator.of(context);
+    navigator.pop();
+    navigator.push(MaterialPageRoute<void>(builder: (_) => page));
   }
 
   @override
@@ -96,34 +118,35 @@ class LearnerMenu extends StatelessWidget {
         builder: (context, _) => ListView(
           padding: EdgeInsets.zero,
           children: [
-            _ProfileCard(
-              learner: learner,
-              member: Entitlement.instance.active,
-              onPlan: () => _then(
-                context,
-                () => Navigator.of(context).push(
-                  MaterialPageRoute<void>(
-                    builder: (_) => const PaywallScreen(),
-                  ),
-                ),
+            if (learner == null)
+              _GuestCard(
+                onSignIn: () => _then(context, onSignIn ?? () {}),
+                onCreateAccount: () => _then(context, onCreateAccount ?? () {}),
+              )
+            else ...[
+              _ProfileCard(
+                learner: learner!,
+                member: Entitlement.instance.active,
+                onPlan: () => _push(context, const PaywallScreen()),
               ),
-            ),
-            _Section(tr('My learning', 'میری پڑھائی')),
-            _Item(
-              key: const Key('menu-progress'),
-              icon: Icons.emoji_events_outlined,
-              label: tr('My progress', 'میری پیش رفت'),
-              onTap: () => _then(context, onProgress),
-            ),
-            _Item(
-              key: const Key('menu-badges'),
-              icon: Icons.military_tech_outlined,
-              label: tr('My badges', 'میرے بیج'),
-              onTap: () {
-                Navigator.of(context).pop();
-                showBadgesSheet(context);
-              },
-            ),
+              _Section(tr('My learning', 'میری پڑھائی')),
+              if (onProgress != null)
+                _Item(
+                  key: const Key('menu-progress'),
+                  icon: Icons.emoji_events_outlined,
+                  label: tr('My progress', 'میری پیش رفت'),
+                  onTap: () => _then(context, onProgress!),
+                ),
+              _Item(
+                key: const Key('menu-badges'),
+                icon: Icons.military_tech_outlined,
+                label: tr('My badges', 'میرے بیج'),
+                onTap: () {
+                  Navigator.of(context).pop();
+                  showBadgesSheet(context);
+                },
+              ),
+            ],
             _Section(tr('Settings', 'ترتیبات')),
             _SwitchItem(
               key: const Key('menu-urdu'),
@@ -139,7 +162,7 @@ class LearnerMenu extends StatelessWidget {
               value: VoiceGuide.instance.on,
               onChanged: (_) => VoiceGuide.instance.toggle(),
             ),
-            if (Entitlement.instance.active)
+            if (learner != null && Entitlement.instance.active)
               _Item(
                 key: const Key('menu-manage-plan'),
                 icon: Icons.credit_card_outlined,
@@ -147,6 +170,15 @@ class LearnerMenu extends StatelessWidget {
                 onTap: () => _open(context, MenuLinks.subscriptions),
               ),
             _Section(tr('Help', 'مدد')),
+            _Item(
+              key: const Key('menu-faq'),
+              icon: Icons.help_outline_rounded,
+              label: tr('FAQ', 'سوال و جواب'),
+              onTap: () => _push(
+                context,
+                FaqScreen(onContact: () => _launch(MenuLinks.whatsapp)),
+              ),
+            ),
             _Item(
               key: const Key('menu-whatsapp'),
               icon: Icons.chat_outlined,
@@ -163,7 +195,10 @@ class LearnerMenu extends StatelessWidget {
               key: const Key('menu-about'),
               icon: Icons.info_outline_rounded,
               label: tr('About us', 'ہمارے بارے میں'),
-              onTap: () => _open(context, MenuLinks.about),
+              onTap: () => _push(
+                context,
+                AboutScreen(onContact: () => _launch(MenuLinks.whatsapp)),
+              ),
             ),
             _Section(tr('Share', 'شیئر')),
             _Item(
@@ -210,16 +245,17 @@ class LearnerMenu extends StatelessWidget {
               _Item(
                 key: const Key('menu-section'),
                 icon: Icons.swap_horiz_rounded,
-                label: tr('Switch to School', 'اسکول سیکشن پر جائیں'),
+                label: tr('Individual or School', 'انفرادی یا اسکول'),
                 onTap: () => _then(context, onChooseSection!),
               ),
-            _Item(
-              key: const Key('menu-sign-out'),
-              icon: Icons.logout_rounded,
-              label: tr('Sign out', 'سائن آؤٹ'),
-              color: const Color(0xFFB4435C),
-              onTap: () => _then(context, onSignOut),
-            ),
+            if (onSignOut != null)
+              _Item(
+                key: const Key('menu-sign-out'),
+                icon: Icons.logout_rounded,
+                label: tr('Sign out', 'سائن آؤٹ'),
+                color: const Color(0xFFB4435C),
+                onTap: () => _then(context, onSignOut!),
+              ),
             const _Version(),
           ],
         ),
@@ -375,10 +411,14 @@ class _ProfileCard extends StatelessWidget {
                           ),
                           Text(
                             member
-                                ? tr('Member · all journeys open',
-                                    'ممبر · سب سفر کھلے ہیں')
-                                : tr('Free plan · unlock all journeys',
-                                    'مفت · سب سفر کھولیں'),
+                                ? tr(
+                                    'Member · all journeys open',
+                                    'ممبر · سب سفر کھلے ہیں',
+                                  )
+                                : tr(
+                                    'Free plan · unlock all journeys',
+                                    'مفت · سب سفر کھولیں',
+                                  ),
                             key: const Key('menu-plan-status'),
                             style: const TextStyle(
                               color: brandNavy,
@@ -402,6 +442,102 @@ class _ProfileCard extends StatelessWidget {
       ),
     );
   }
+}
+
+/// The guest's card at the top of the menu: sign in or create an account.
+class _GuestCard extends StatelessWidget {
+  const _GuestCard({required this.onSignIn, required this.onCreateAccount});
+  final VoidCallback onSignIn, onCreateAccount;
+  @override
+  Widget build(BuildContext context) => Container(
+    margin: EdgeInsets.fromLTRB(
+      12,
+      12 + MediaQuery.paddingOf(context).top,
+      12,
+      6,
+    ),
+    padding: const EdgeInsets.all(16),
+    decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(22),
+      border: Border.all(color: const Color(0xFFEDE4DE)),
+      boxShadow: [
+        BoxShadow(
+          color: brandNavy.withValues(alpha: .06),
+          blurRadius: 18,
+          offset: const Offset(0, 6),
+        ),
+      ],
+    ),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Row(
+          children: [
+            const CircleAvatar(
+              radius: 26,
+              backgroundColor: Color(0xFFFCE2EE),
+              child: Icon(Icons.person_rounded, color: brandPink, size: 28),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    tr('Welcome!', 'خوش آمدید!'),
+                    style: const TextStyle(
+                      color: brandNavy,
+                      fontSize: 17,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                  Text(
+                    tr(
+                      'Sign in to save your learning.',
+                      'اپنی پڑھائی محفوظ کرنے کے لیے سائن اِن کریں۔',
+                    ),
+                    style: const TextStyle(
+                      color: Color(0xFF6B7488),
+                      fontSize: 13,
+                      height: 1.3,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 14),
+        FilledButton.icon(
+          key: const Key('home-sign-in'),
+          onPressed: onSignIn,
+          style: FilledButton.styleFrom(
+            minimumSize: const Size.fromHeight(46),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(14),
+            ),
+          ),
+          icon: const Icon(Icons.login_rounded, size: 20),
+          label: Text(tr('Sign in', 'سائن اِن')),
+        ),
+        const SizedBox(height: 8),
+        OutlinedButton.icon(
+          key: const Key('home-create-account'),
+          onPressed: onCreateAccount,
+          style: OutlinedButton.styleFrom(
+            minimumSize: const Size.fromHeight(46),
+            foregroundColor: brandNavy,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(14),
+            ),
+          ),
+          icon: const Icon(Icons.person_add_alt_1_rounded, size: 20),
+          label: Text(tr('Create account', 'اکاؤنٹ بنائیں')),
+        ),
+      ],
+    ),
+  );
 }
 
 class _Section extends StatelessWidget {
@@ -490,9 +626,7 @@ class _Version extends StatelessWidget {
     builder: (context, snap) => Padding(
       padding: const EdgeInsets.fromLTRB(22, 18, 22, 24),
       child: Text(
-        snap.hasData
-            ? '${tr('Version', 'ورژن')} ${snap.data!.version}'
-            : '',
+        snap.hasData ? '${tr('Version', 'ورژن')} ${snap.data!.version}' : '',
         key: const Key('menu-version'),
         style: const TextStyle(color: Color(0xFF9A8F88), fontSize: 12.5),
       ),

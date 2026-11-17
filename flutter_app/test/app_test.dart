@@ -281,7 +281,7 @@ void main() {
       addTearDown(repo.dispose);
       await tester.pumpWidget(ImaanApp(repository: repo));
       await enterSection(tester, school: repo.initial == 'family');
-      await tester.tap(find.text('Profile'));
+      await tester.tap(find.byKey(const Key('open-menu')));
       await tester.pumpAndSettle();
       await tester.tap(find.byKey(const Key('home-sign-in')));
       await tester.pumpAndSettle();
@@ -320,7 +320,7 @@ void main() {
       addTearDown(repo.dispose);
       await tester.pumpWidget(ImaanApp(repository: repo));
       await enterSection(tester, school: false);
-      await tester.tap(find.text('Profile'));
+      await tester.tap(find.byKey(const Key('open-menu')));
       await tester.pumpAndSettle();
       await tester.tap(find.byKey(const Key('home-sign-in')));
       await tester.pumpAndSettle();
@@ -398,8 +398,15 @@ void main() {
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('menu-sign-out')));
     await tester.pumpAndSettle();
+    // Back on the guest home: the menu now offers Sign in, not a profile.
     expect(find.byKey(const Key('learner-menu')), findsNothing);
-    expect(find.byKey(const Key('open-menu')), findsNothing);
+    await tester.tap(find.byKey(const Key('open-menu')));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const Key('menu-name')), findsNothing);
+    expect(find.byKey(const Key('home-sign-in')), findsOneWidget);
+    await tester.tap(find.byKey(const Key('menu-faq')));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const Key('faq-list')), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
   testWidgets(
@@ -452,7 +459,7 @@ void main() {
     await tester.pumpAndSettle();
     repo.auth.add(null);
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Profile'));
+    await tester.tap(find.byKey(const Key('open-menu')));
     await tester.pumpAndSettle();
     expect(find.byKey(const Key('home-create-account')), findsOneWidget);
     expect(find.text('Think about it'), findsNothing);

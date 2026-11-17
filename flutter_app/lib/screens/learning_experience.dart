@@ -1665,15 +1665,13 @@ class LearningNavigation extends StatelessWidget {
         selectedIcon: const Icon(Icons.menu_book, color: brandPink),
         label: tr('Books', 'کتابیں'),
       ),
-      NavigationDestination(
-        key: const Key('nav-profile'),
-        icon: Icon(guest ? Icons.person_outline : Icons.insights_outlined),
-        selectedIcon: Icon(
-          guest ? Icons.person : Icons.insights,
-          color: brandPink,
+      if (!guest)
+        NavigationDestination(
+          key: const Key('nav-profile'),
+          icon: const Icon(Icons.insights_outlined),
+          selectedIcon: const Icon(Icons.insights, color: brandPink),
+          label: tr('Progress', 'پیش رفت'),
         ),
-        label: guest ? tr('Profile', 'پروفائل') : tr('Progress', 'پیش رفت'),
-      ),
     ],
   );
 }

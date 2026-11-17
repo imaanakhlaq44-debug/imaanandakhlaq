@@ -62,7 +62,7 @@ void main() {
     addTearDown(repo.dispose);
     await tester.pumpWidget(ImaanApp(repository: repo));
     await enterSection(tester);
-    await tap(tester, find.text('Profile'));
+    await tap(tester, find.byKey(const Key('open-menu')));
     await tap(tester, find.byKey(const Key('home-create-account')));
     expect(find.text('Individual registration'), findsOneWidget);
     expect(find.byKey(const Key('signup-school')), findsNothing);
