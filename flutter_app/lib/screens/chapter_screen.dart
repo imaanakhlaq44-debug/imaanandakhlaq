@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:pdfrx/pdfrx.dart';
 import '../app_theme.dart';
 import '../data/app_repository.dart';
 import '../domain.dart';
+import 'book_reader.dart';
 
 class ChapterScreen extends StatefulWidget {
   const ChapterScreen({
@@ -210,7 +210,7 @@ class _ChapterScreenState extends State<ChapterScreen> {
             context,
             MaterialPageRoute<void>(
               builder: (_) =>
-                  _ReaderScreen(book: widget.book, chapter: chapter),
+                  BookReaderScreen(book: widget.book, chapter: chapter),
             ),
           ),
           icon: const Icon(Icons.menu_book_outlined),
@@ -362,19 +362,4 @@ class _ChapterScreenState extends State<ChapterScreen> {
       ),
     );
   }
-}
-
-class _ReaderScreen extends StatelessWidget {
-  const _ReaderScreen({required this.book, required this.chapter});
-  final Book book;
-  final Chapter chapter;
-  @override
-  Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(title: Text(chapter.title)),
-    body: PdfViewer.uri(
-      Uri.parse(book.pdfUrl),
-      initialPageNumber: chapter.pageStart,
-      params: const PdfViewerParams(backgroundColor: canvas),
-    ),
-  );
 }

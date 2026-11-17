@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:google_sign_in/google_sign_in.dart';
 import '../domain.dart';
 import '../teacher_domain.dart';
 import '../admin_domain.dart';
@@ -53,6 +55,14 @@ abstract class AppRepository {
   Future<bool> register(RegistrationRequest request);
   Stream<String?> authChanges();
   Future<void> signIn(String login, String password);
+
+  /// Emails a password-reset link. Only for email logins; school
+  /// usernames (PAR-/TCH-) are reset by the school.
+  Future<void> sendPasswordReset(String email);
+
+  /// Signs in with a Google account. A first-time Google user gets an
+  /// Individual profile, like an email signup.
+  Future<void> signInWithGoogle();
   Future<void> signOut();
   Stream<Profile?> profile(String uid);
   Stream<List<Profile>> children(String familyUid);
@@ -298,7 +308,60 @@ class FirebaseRepository implements AppRepository {
   }
 
   @override
-  Future<void> signOut() => auth.signOut();
+  Future<void> sendPasswordReset(String email) =>
+      auth.sendPasswordResetEmail(email: email.trim());
+
+  /// The project's Web OAuth client (public identifier, not a secret).
+  static const googleWebClientId = String.fromEnvironment(
+    'GOOGLE_WEB_CLIENT_ID',
+    defaultValue:
+        '373650938167-tqhaqlg7cso84k1n25o8c7gbkhsr67o3.apps.googleusercontent.com',
+  );
+  static Future<void>? _googleReady;
+
+  @override
+  Future<void> signInWithGoogle() async {
+    final UserCredential result;
+    if (kIsWeb) {
+      result = await auth.signInWithPopup(GoogleAuthProvider());
+    } else {
+      final google = GoogleSignIn.instance;
+      await (_googleReady ??= google.initialize(
+        serverClientId: googleWebClientId,
+      ));
+      final account = await google.authenticate();
+      final idToken = account.authentication.idToken;
+      if (idToken == null) {
+        throw StateError('Google sign-in did not finish. Please try again.');
+      }
+      result = await auth.signInWithCredential(
+        GoogleAuthProvider.credential(idToken: idToken),
+      );
+    }
+    final user = result.user!;
+    final doc = db.collection('users').doc(user.uid);
+    if (!(await doc.get()).exists) {
+      // Same shape as an email signup; trial_end is stamped server-side.
+      await doc.set({
+        'role': 'individual',
+        'name': (user.displayName ?? '').trim().isEmpty
+            ? (user.email ?? 'Learner').split('@').first
+            : user.displayName!.trim(),
+        'email': user.email ?? '',
+        'phone': '',
+      });
+    }
+  }
+
+  @override
+  Future<void> signOut() async {
+    await auth.signOut();
+    if (!kIsWeb && _googleReady != null) {
+      try {
+        await GoogleSignIn.instance.signOut();
+      } catch (_) {}
+    }
+  }
   @override
   Stream<Profile?> profile(String uid) => db
       .collection('users')
@@ -408,6 +471,11 @@ class FirebaseRepository implements AppRepository {
 
 String friendlyError(Object error) {
   if (error is FormatException) return error.message;
+  if (error is GoogleSignInException) {
+    return error.code == GoogleSignInExceptionCode.canceled
+        ? 'Google sign-in was cancelled.'
+        : 'Google sign-in is not available right now. Please use your email.';
+  }
   if (error is StateError) return error.message;
   if (error is FirebaseAuthException) {
     return switch (error.code) {
@@ -418,10 +486,15 @@ String friendlyError(Object error) {
       'network-request-failed' =>
         'Check your internet connection and try again.',
       'email-already-in-use' =>
-        'An account already uses this email. Please sign in instead.',
+        'An account already uses this email. Please sign in instead, '
+            'or use "Forgot password?" on the sign-in page.',
       'weak-password' => 'Please choose a stronger password.',
       'invalid-email' => 'Enter a valid email address.',
       'user-disabled' => 'This account is disabled. Contact your school.',
+      'popup-closed-by-user' || 'cancelled-popup-request' =>
+        'Google sign-in was cancelled.',
+      'account-exists-with-different-credential' =>
+        'This email already has an account. Sign in with your email and password.',
       _ => 'Could not sign in. Check your details and try again.',
     };
   }

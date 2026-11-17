@@ -3,6 +3,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../app_theme.dart';
 import '../data/app_repository.dart';
 import '../data/registration.dart';
+import 'auth_screen.dart' show GoogleButton, OrDivider;
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({
@@ -29,7 +30,7 @@ class _SignupScreenState extends State<SignupScreen> {
       _school = TextEditingController(),
       _location = TextEditingController();
   RegistrationKind get _kind => widget.kind;
-  bool _busy = false, _accepted = false;
+  bool _busy = false, _accepted = false, _hidePassword = true;
   String? _error;
   bool? _verified;
   @override
@@ -88,6 +89,21 @@ class _SignupScreenState extends State<SignupScreen> {
     }
   }
 
+  Future<void> _google() async {
+    if (_busy) return;
+    setState(() {
+      _busy = true;
+      _error = null;
+    });
+    try {
+      await widget.repository.signInWithGoogle();
+    } catch (e) {
+      if (mounted) setState(() => _error = friendlyError(e));
+    } finally {
+      if (mounted) setState(() => _busy = false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) => PopScope(
     canPop: !_busy,
@@ -132,6 +148,10 @@ class _SignupScreenState extends State<SignupScreen> {
                             : 'Stories, reflection and daily practice at your own pace. ',
                       ),
                       const SizedBox(height: 20),
+                      if (_kind == RegistrationKind.individual) ...[
+                        GoogleButton(onPressed: _busy ? null : _google),
+                        const OrDivider(),
+                      ],
                       if (_kind == RegistrationKind.school) ...[
                         _field(_school, 'School name', 'signup-school'),
                         const SizedBox(height: 16),
@@ -187,11 +207,12 @@ class _SignupScreenState extends State<SignupScreen> {
                         key: const Key('signup-password'),
                         controller: _password,
                         enabled: !_busy,
-                        obscureText: true,
+                        obscureText: _hidePassword,
                         autofillHints: const [AutofillHints.newPassword],
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                           labelText: 'Password',
                           helperText: 'At least 8 characters',
+                          suffixIcon: _eye(),
                         ),
                         validator: (v) => (v?.length ?? 0) >= 8
                             ? null
@@ -202,9 +223,10 @@ class _SignupScreenState extends State<SignupScreen> {
                         key: const Key('signup-confirm'),
                         controller: _confirm,
                         enabled: !_busy,
-                        obscureText: true,
-                        decoration: const InputDecoration(
+                        obscureText: _hidePassword,
+                        decoration: InputDecoration(
                           labelText: 'Confirm password',
+                          suffixIcon: _eye(),
                         ),
                         validator: (v) => v == _password.text
                             ? null
@@ -289,6 +311,13 @@ class _SignupScreenState extends State<SignupScreen> {
                 ),
         ),
       ),
+    ),
+  );
+  Widget _eye() => IconButton(
+    tooltip: _hidePassword ? 'Show password' : 'Hide password',
+    onPressed: () => setState(() => _hidePassword = !_hidePassword),
+    icon: Icon(
+      _hidePassword ? Icons.visibility_outlined : Icons.visibility_off_outlined,
     ),
   );
   Widget _field(

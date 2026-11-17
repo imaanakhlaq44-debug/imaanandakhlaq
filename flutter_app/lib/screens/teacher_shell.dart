@@ -5,6 +5,7 @@ import '../data/app_repository.dart';
 import '../data/catalog.dart';
 import '../domain.dart';
 import '../teacher_domain.dart';
+import 'book_reader.dart';
 import 'entry_screens.dart' show BrandLogoRing, brandCream;
 import 'ui_kit.dart';
 
@@ -21,7 +22,7 @@ int approvedThisWeek(
   }).length;
 }
 
-/// Native teacher workspace: review queue, class roster and account.
+/// Native teacher workspace: review queue, class roster, books and account.
 class TeacherShell extends StatefulWidget {
   const TeacherShell({
     super.key,
@@ -123,6 +124,9 @@ class _TeacherShellState extends State<TeacherShell> {
                       onTab: (i) => setState(() => _tab = i),
                     ),
                     _StudentsTab(students: roster),
+                    // Built only when opened, so nothing loads in the
+                    // background while the teacher reviews.
+                    if (_tab == 2) const _BooksTab() else const SizedBox(),
                     _AccountTab(
                       account: widget.account,
                       studentCount: roster.length,
@@ -171,6 +175,15 @@ class _TeacherShellState extends State<TeacherShell> {
                         color: brandPink,
                       ),
                       label: 'Students',
+                    ),
+                    const NavigationDestination(
+                      key: Key('teacher-tab-books'),
+                      icon: Icon(Icons.menu_book_outlined),
+                      selectedIcon: Icon(
+                        Icons.menu_book_rounded,
+                        color: brandPink,
+                      ),
+                      label: 'Books',
                     ),
                     const NavigationDestination(
                       key: Key('teacher-tab-account'),
@@ -238,7 +251,7 @@ class _ReviewsTab extends StatelessWidget {
                       personName: teacher.name,
                       badge: 'Teacher workspace',
                       badgeIcon: Icons.co_present_rounded,
-                      onProfile: () => onTab(2),
+                      onProfile: () => onTab(3),
                     ),
                     SizedBox(height: statHeight - 44),
                   ],
@@ -1110,5 +1123,134 @@ class _AccountTab extends StatelessWidget {
         ],
       ),
     ],
+  );
+}
+
+/// Every school book, to read in the app before teaching it. Books open in
+/// [BookReaderScreen]: no download, no copying, no screenshots.
+class _BooksTab extends StatelessWidget {
+  const _BooksTab();
+  @override
+  Widget build(BuildContext context) => FutureBuilder<List<Book>>(
+    future: Catalog().books(),
+    builder: (context, snap) {
+      final books = snap.data ?? const <Book>[];
+      return ListView(
+        key: const Key('teacher-books'),
+        padding: const EdgeInsets.only(bottom: 24),
+        children: [
+          PageHeader(
+            title: 'Books',
+            subtitle: books.isEmpty
+                ? 'Read before you teach'
+                : '${books.length} books · read before you teach',
+            icon: Icons.menu_book_rounded,
+            color: brandOrange,
+          ),
+          if (snap.hasError)
+            const Padding(
+              padding: EdgeInsets.all(24),
+              child: Text('Could not load the books. Please try again.'),
+            )
+          else if (!snap.hasData)
+            const Padding(
+              padding: EdgeInsets.all(32),
+              child: Center(child: CircularProgressIndicator()),
+            ),
+          for (final book in books)
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+              child: _BookCard(book: book),
+            ),
+          const Padding(
+            padding: EdgeInsets.fromLTRB(20, 4, 20, 0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Icon(Icons.lock_outline_rounded, size: 18, color: brandNavy),
+                SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    'Books open only inside the app. They cannot be '
+                    'downloaded, copied or screenshotted.',
+                    style: TextStyle(
+                      color: brandNavy,
+                      fontSize: 13,
+                      height: 1.4,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      );
+    },
+  );
+}
+
+class _BookCard extends StatelessWidget {
+  const _BookCard({required this.book});
+  final Book book;
+
+  void _open(BuildContext context, [Chapter? chapter]) =>
+      Navigator.of(context).push(
+        MaterialPageRoute<void>(
+          builder: (_) => BookReaderScreen(book: book, chapter: chapter),
+        ),
+      );
+
+  @override
+  Widget build(BuildContext context) => Material(
+    color: Colors.white,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(20),
+      side: const BorderSide(color: lessonOutline),
+    ),
+    clipBehavior: Clip.antiAlias,
+    child: Theme(
+      data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+      child: ExpansionTile(
+        key: Key('teacher-book-${book.id}'),
+        tilePadding: const EdgeInsets.fromLTRB(14, 6, 10, 6),
+        leading: Container(
+          width: 44,
+          height: 44,
+          decoration: BoxDecoration(
+            color: brandOrange.withValues(alpha: .12),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: const Icon(Icons.auto_stories_rounded, color: brandOrange),
+        ),
+        title: Text(
+          book.title,
+          style: const TextStyle(fontWeight: FontWeight.w700, color: brandNavy),
+        ),
+        subtitle: Text('${book.chapters.length} chapters'),
+        childrenPadding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
+        children: [
+          Align(
+            alignment: AlignmentDirectional.centerStart,
+            child: FilledButton.tonalIcon(
+              key: Key('teacher-read-${book.id}'),
+              onPressed: () => _open(context),
+              icon: const Icon(Icons.menu_book_outlined),
+              label: const Text('Read the whole book'),
+            ),
+          ),
+          const SizedBox(height: 6),
+          for (final chapter in book.chapters)
+            ListTile(
+              key: Key('teacher-chapter-${chapter.id}'),
+              dense: true,
+              contentPadding: const EdgeInsets.symmetric(horizontal: 6),
+              title: Text(chapter.title),
+              subtitle: Text('Pages ${chapter.pageStart}–${chapter.pageEnd}'),
+              trailing: const Icon(Icons.chevron_right_rounded),
+              onTap: () => _open(context, chapter),
+            ),
+        ],
+      ),
+    ),
   );
 }

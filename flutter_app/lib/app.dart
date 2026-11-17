@@ -34,6 +34,7 @@ class _SessionGateState extends State<SessionGate> {
   AppSection? _section;
   void _chooseSection() => setState(() {
     _section = null;
+    _notice = null;
     _auth = widget.repository.authChanges();
   });
   late Stream<String?> _auth = widget.repository.authChanges();
@@ -63,12 +64,15 @@ class _SessionGateState extends State<SessionGate> {
             }
             if (snapshot.data == null) {
               return WelcomeFlow(
-                key: ValueKey(_section),
+                key: ValueKey((_section, _notice)),
                 repository: widget.repository,
                 section: _section!,
                 onChooseSection: _chooseSection,
+                notice: _notice,
               );
             }
+            // A successful sign-in retires the last wrong-section notice.
+            if (!_leavingWrongSection) _notice = null;
             // A different auth UID creates a new navigation tree; no previous child's
             // screen or cached data survives account switching.
             return AccountNavigator(
@@ -77,9 +81,23 @@ class _SessionGateState extends State<SessionGate> {
               repository: widget.repository,
               section: _section!,
               onChooseSection: _chooseSection,
+              onWrongSection: _wrongSection,
             );
           },
         );
+
+  String? _notice;
+  bool _leavingWrongSection = false;
+  Future<void> _wrongSection(String message) async {
+    _notice = message;
+    _leavingWrongSection = true;
+    try {
+      await widget.repository.signOut();
+    } catch (_) {
+    } finally {
+      _leavingWrongSection = false;
+    }
+  }
 }
 
 class AccountGate extends StatefulWidget {
@@ -89,18 +107,41 @@ class AccountGate extends StatefulWidget {
     required this.repository,
     required this.section,
     required this.onChooseSection,
+    this.onWrongSection,
   });
   final String uid;
   final AppRepository repository;
   final AppSection section;
   final VoidCallback onChooseSection;
+
+  /// Called when this account belongs to the other section.
+  final ValueChanged<String>? onWrongSection;
   @override
   State<AccountGate> createState() => _AccountGateState();
+}
+
+/// Why [role] may not use [section], or null when it may. Individual
+/// accounts live only in Individual; school accounts only in School.
+/// Platform admins and unknown profiles are handled elsewhere.
+String? wrongSectionMessage(AccountRole role, AppSection section) {
+  if (role == AccountRole.unknown || role == AccountRole.superAdmin) {
+    return null;
+  }
+  final individual = role == AccountRole.individual;
+  if (section == AppSection.individual && !individual) {
+    return 'This is a school account. Go back and choose School to sign in.';
+  }
+  if (section == AppSection.school && individual) {
+    return 'No school account matches these details. Check your school '
+        'username and password.';
+  }
+  return null;
 }
 
 class _AccountGateState extends State<AccountGate> {
   late Stream<Profile?> _profile = widget.repository.profile(widget.uid);
   Profile? _selected;
+  bool _leaving = false;
   @override
   Widget build(BuildContext context) => StreamBuilder<Profile?>(
     stream: _profile,
@@ -132,6 +173,19 @@ class _AccountGateState extends State<AccountGate> {
         return const Scaffold(body: Center(child: CircularProgressIndicator()));
       }
       final account = snapshot.data;
+      final wrong = account == null
+          ? null
+          : wrongSectionMessage(account.role, widget.section);
+      if (wrong != null) {
+        // Each section only opens its own accounts: sign out and say why.
+        if (!_leaving) {
+          _leaving = true;
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            widget.onWrongSection?.call(wrong);
+          });
+        }
+        return const Scaffold(body: Center(child: CircularProgressIndicator()));
+      }
       if (account == null || account.role == AccountRole.unknown) {
         return Scaffold(
           body: MessageView(
@@ -215,11 +269,13 @@ class AccountNavigator extends StatefulWidget {
     required this.repository,
     required this.section,
     required this.onChooseSection,
+    this.onWrongSection,
   });
   final String uid;
   final AppRepository repository;
   final AppSection section;
   final VoidCallback onChooseSection;
+  final ValueChanged<String>? onWrongSection;
   @override
   State<AccountNavigator> createState() => _AccountNavigatorState();
 }
@@ -237,6 +293,7 @@ class _AccountNavigatorState extends State<AccountNavigator> {
           repository: widget.repository,
           section: widget.section,
           onChooseSection: widget.onChooseSection,
+          onWrongSection: widget.onWrongSection,
         ),
       ),
     ),

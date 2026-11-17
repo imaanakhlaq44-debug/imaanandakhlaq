@@ -157,6 +157,19 @@ class FakeRepository implements AppRepository {
     auth.add(loginUid);
   }
 
+  int googleCalls = 0;
+  @override
+  Future<void> signInWithGoogle() async {
+    googleCalls++;
+    auth.add(loginUid);
+  }
+
+  final resetEmails = <String>[];
+  @override
+  Future<void> sendPasswordReset(String email) async {
+    resetEmails.add(email);
+  }
+
   @override
   Future<void> signOut() async {
     auth.add(null);
@@ -277,6 +290,51 @@ void main() {
             ?.uid,
         'individual',
       );
+      expect(tester.takeException(), isNull);
+    },
+  );
+  testWidgets(
+    'individual sign-in offers Google, forgot password and a password eye',
+    (tester) async {
+      viewport(tester);
+      final repo = FakeRepository();
+      addTearDown(repo.dispose);
+      await tester.pumpWidget(ImaanApp(repository: repo));
+      await enterSection(tester, school: false);
+      await tester.tap(find.text('Profile'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(const Key('home-sign-in')));
+      await tester.pumpAndSettle();
+
+      // Eye shows the password.
+      await tester.enterText(find.byKey(const Key('password')), 'secret12');
+      EditableText field() => tester.widget<EditableText>(
+        find.descendant(
+          of: find.byKey(const Key('password')),
+          matching: find.byType(EditableText),
+        ),
+      );
+      expect(field().obscureText, isTrue);
+      await tester.tap(find.byTooltip('Show password'));
+      await tester.pump();
+      expect(field().obscureText, isFalse);
+
+      // Forgot password sends to the typed email.
+      await tester.enterText(find.byKey(const Key('login')), 'me@example.com');
+      await tester.ensureVisible(find.byKey(const Key('forgot-password')));
+      await tester.tap(find.byKey(const Key('forgot-password')));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(const Key('reset-send')));
+      await tester.pumpAndSettle();
+      expect(repo.resetEmails, ['me@example.com']);
+      expect(find.textContaining('reset link is on its way'), findsOneWidget);
+
+      // Google signs in.
+      await tester.ensureVisible(find.byKey(const Key('google-sign-in')));
+      await tester.tap(find.byKey(const Key('google-sign-in')));
+      await tester.pumpAndSettle();
+      expect(repo.googleCalls, 1);
+      expect(find.byType(LearningDashboard), findsOneWidget);
       expect(tester.takeException(), isNull);
     },
   );

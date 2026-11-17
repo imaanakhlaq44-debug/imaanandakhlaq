@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:imaan_akhlaq/app_theme.dart';
 import 'package:imaan_akhlaq/data/catalog.dart';
 import 'package:imaan_akhlaq/domain.dart';
+import 'package:imaan_akhlaq/screens/book_reader.dart';
 import 'package:imaan_akhlaq/screens/teacher_shell.dart';
 import 'package:imaan_akhlaq/teacher_domain.dart';
 import 'app_test.dart' show FakeRepository, viewport;
@@ -241,6 +242,55 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.text('Ayaan'), findsNothing);
       expect(find.text('Hira'), findsOneWidget);
+    });
+
+    testWidgets('books tab lists every book; reading blocks screenshots', (
+      tester,
+    ) async {
+      final calls = <bool>[];
+      tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+        const MethodChannel('imaan/screen_guard'),
+        (call) async {
+          calls.add(call.arguments as bool);
+          return null;
+        },
+      );
+      addTearDown(
+        () => tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+          const MethodChannel('imaan/screen_guard'),
+          null,
+        ),
+      );
+      await pump(tester);
+      await tester.tap(find.byKey(const Key('teacher-tab-books')));
+      await tester.pumpAndSettle();
+      for (final id in ['book1', 'book2', 'book3', 'book4']) {
+        expect(find.byKey(Key('teacher-book-$id')), findsOneWidget);
+      }
+      await tester.scrollUntilVisible(
+        find.textContaining('cannot be downloaded'),
+        200,
+        scrollable: find.byType(Scrollable).last,
+      );
+      await tester.ensureVisible(find.byKey(const Key('teacher-book-book1')));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(const Key('teacher-book-book1')));
+      await tester.pumpAndSettle();
+      final chapter = find.byKey(const Key('teacher-chapter-b1_c1'));
+      await tester.ensureVisible(chapter);
+      await tester.pumpAndSettle();
+
+      await tester.tap(chapter);
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 400));
+      expect(find.byType(BookReaderScreen), findsOneWidget);
+      expect(calls, [true]);
+      Navigator.of(tester.element(find.byType(BookReaderScreen))).pop();
+      await tester.pump();
+      await tester.pump(const Duration(seconds: 1));
+      await tester.pump(const Duration(seconds: 1));
+      expect(find.byType(BookReaderScreen), findsNothing);
+      expect(calls, [true, false]);
     });
 
     test('approved this week counts recent approvals only', () {

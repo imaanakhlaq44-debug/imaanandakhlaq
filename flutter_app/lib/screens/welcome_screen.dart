@@ -13,16 +13,23 @@ class WelcomeFlow extends StatefulWidget {
     required this.repository,
     required this.section,
     required this.onChooseSection,
+    this.notice,
   });
   final AppRepository repository;
   final AppSection section;
   final VoidCallback onChooseSection;
+
+  /// Shown on the login page, e.g. after a wrong-section sign-in.
+  final String? notice;
   @override
   State<WelcomeFlow> createState() => _WelcomeFlowState();
 }
 
 class _WelcomeFlowState extends State<WelcomeFlow> {
-  late String _page = widget.section == AppSection.school ? 'login' : 'home';
+  late String _page = widget.section == AppSection.school ||
+          widget.notice != null
+      ? 'login'
+      : 'home';
   void _go(String page) => setState(() => _page = page);
   void _back() {
     if (widget.section == AppSection.school) {
@@ -48,6 +55,8 @@ class _WelcomeFlowState extends State<WelcomeFlow> {
         createAccountLabel: school
             ? 'Register your school'
             : 'Create an account',
+        showGoogle: !school,
+        initialError: widget.notice,
       ),
       'signup' => SignupScreen(
         repository: widget.repository,

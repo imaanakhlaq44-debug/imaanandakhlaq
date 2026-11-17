@@ -156,7 +156,13 @@ void main() {
           expect(find.text('Ayaan'), findsOneWidget);
         }
         if (entry.value == 'individual') {
-          expect(find.byType(LearningDashboard), findsOneWidget);
+          // An Individual account never opens from the School section.
+          expect(find.byType(LearningDashboard), findsNothing);
+          expect(
+            find.textContaining('No school account matches'),
+            findsOneWidget,
+          );
+          expect(find.byKey(const Key('login')), findsOneWidget);
         }
         if (entry.value == 'teacher') {
           expect(find.text('Teacher workspace'), findsOneWidget);
@@ -184,16 +190,24 @@ void main() {
     );
   });
   testWidgets(
-    'remembered family account opens its actual workspace from either entry',
+    'a school account opens only from School, never from Individual',
     (tester) async {
       viewport(tester);
       final repo = FakeRepository()..initial = 'family';
       addTearDown(repo.dispose);
       await tester.pumpWidget(ImaanApp(repository: repo));
       await enterSection(tester);
-      expect(find.text('Your family'), findsOneWidget);
-      expect(find.text('This account belongs to School'), findsNothing);
+      expect(find.text('Your family'), findsNothing);
       expect(find.byType(LearningDashboard), findsNothing);
+      expect(find.textContaining('This is a school account'), findsOneWidget);
+      expect(find.byKey(const Key('login')), findsOneWidget);
+
+      // Signing in again from School opens the family workspace.
+      final school = FakeRepository()..initial = 'family';
+      addTearDown(school.dispose);
+      await tester.pumpWidget(ImaanApp(key: UniqueKey(), repository: school));
+      await enterSection(tester, school: true);
+      expect(find.text('Your family'), findsOneWidget);
     },
   );
   testWidgets('small phone login remains usable with keyboard and large text', (
