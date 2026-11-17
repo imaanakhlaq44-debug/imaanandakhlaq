@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../app_theme.dart';
+import '../billing/entitlement.dart';
 import '../data/app_repository.dart';
 import '../data/catalog.dart';
 import '../domain.dart';
@@ -34,8 +37,29 @@ class _LearnerShellState extends State<LearnerShell> {
   DateTime? _lastBack;
   bool _opening = false;
   late Future<List<Book>> _books = Catalog().books();
+  StreamSubscription<bool>? _subscription;
   String? get _hadithScope =>
       widget.learner.role == AccountRole.individual ? widget.learner.uid : null;
+
+  @override
+  void initState() {
+    super.initState();
+    // An Individual subscription verified on the server counts everywhere
+    // this account signs in, including the website.
+    if (_hadithScope != null) {
+      _subscription = widget.repository
+          .accountSubscription(widget.learner.uid)
+          .listen(Entitlement.instance.setAccountActive);
+    }
+  }
+
+  @override
+  void dispose() {
+    _subscription?.cancel();
+    if (_hadithScope != null) Entitlement.instance.setAccountActive(false);
+    super.dispose();
+  }
+
   void _select(int tab) => setState(() => _tab = tab);
   // Only Individual learners get the Urdu/English switch; school learners
   // keep the English layout their teachers see.

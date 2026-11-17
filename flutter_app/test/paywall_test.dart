@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:imaan_akhlaq/billing/entitlement.dart';
+import 'package:imaan_akhlaq/data/app_repository.dart' show subscriptionActive;
 import 'package:imaan_akhlaq/billing/paywall.dart';
 import 'package:imaan_akhlaq/billing/lock_badge.dart';
 
@@ -20,6 +21,37 @@ Future<void> answerGate(WidgetTester tester, {bool right = true}) async {
 }
 
 void main() {
+  test(
+    'a subscription verified on the server unlocks web and other phones',
+    () {
+      final now = DateTime.utc(2026, 11, 17);
+      expect(subscriptionActive(null, now), isFalse);
+      expect(subscriptionActive({'active': false}, now), isFalse);
+      expect(
+        subscriptionActive({
+          'active': true,
+          'expiryTime': '2026-12-01T00:00:00Z',
+        }, now),
+        isTrue,
+      );
+      expect(
+        subscriptionActive({
+          'active': true,
+          'expiryTime': '2026-11-01T00:00:00Z',
+        }, now),
+        isFalse,
+      );
+      final e = Entitlement(
+        backend: FakeBilling(active: false),
+        persist: false,
+      );
+      expect(e.active, isFalse);
+      e.setAccountActive(true);
+      expect(e.active, isTrue);
+      e.setAccountActive(false);
+      expect(e.active, isFalse);
+    },
+  );
   late FakeBilling store;
   late Entitlement previous;
 

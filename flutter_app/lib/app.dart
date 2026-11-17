@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'app_theme.dart';
 import 'data/app_repository.dart';
 import 'domain.dart';
+import 'phone_frame.dart';
 import 'screens/welcome_screen.dart';
 import 'screens/entry_screens.dart';
 import 'entry_kind.dart';
@@ -20,6 +21,10 @@ class ImaanApp extends StatelessWidget {
     title: 'Imaan Akhlaq Learning Hub',
     debugShowCheckedModeBanner: false,
     theme: appTheme(),
+    scrollBehavior: const DragEverywhereScrollBehavior(),
+    // On a wide web window the whole app (dialogs and menus too) lives in
+    // a phone-sized frame.
+    builder: (context, child) => PhoneFrame(child: child!),
     home: LaunchGate(child: SessionGate(repository: repository)),
   );
 }
@@ -196,7 +201,8 @@ class _AccountGateState extends State<AccountGate> {
         }
         return const Scaffold(body: Center(child: CircularProgressIndicator()));
       }
-      if (account != null && usesIndividualSpace(account.role, widget.section)) {
+      if (account != null &&
+          usesIndividualSpace(account.role, widget.section)) {
         return IndividualSpaceGate(
           repository: widget.repository,
           account: account,

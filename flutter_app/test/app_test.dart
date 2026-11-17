@@ -180,6 +180,10 @@ class FakeRepository implements AppRepository {
   StreamController<Profile?> _space(String uid) =>
       spaces.putIfAbsent(uid, StreamController<Profile?>.broadcast);
   Profile? startedSpace;
+  bool accountPaid = false;
+  @override
+  Stream<bool> accountSubscription(String uid) => Stream.value(accountPaid);
+
   @override
   Stream<Profile?> individualSpace(String uid) async* {
     yield startedSpace?.uid == uid ? startedSpace : null;

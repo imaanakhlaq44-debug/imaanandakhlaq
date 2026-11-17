@@ -80,3 +80,7 @@ jobs:
             book1.pdf
             book2.pdf
             book3.pdf
+            # The Flutter web app lives in public_html/app/ and is uploaded
+            # separately (flutter_app/build/imaan-web-app.zip); this site
+            # deploy must never upload into or delete from that folder.
+            app/**

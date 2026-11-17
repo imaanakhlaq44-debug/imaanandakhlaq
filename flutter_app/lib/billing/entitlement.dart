@@ -68,7 +68,18 @@ class Entitlement extends ChangeNotifier {
   /// sees the paywall flash before their lessons.
   bool ready = false;
 
-  bool get active => _active;
+  bool get active => _active || _account;
+
+  /// A subscription the server already verified for the signed-in account
+  /// (entitlements/{uid}). It unlocks the Individual courses where Google
+  /// Play is not available, such as the website, and on another phone.
+  bool _account = false;
+  void setAccountActive(bool value) {
+    if (value == _account) return;
+    _account = value;
+    notifyListeners();
+  }
+
   bool get storeAvailable => backend.available;
 
   /// Loads the cached answer, then asks the store (once per launch).

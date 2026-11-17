@@ -66,6 +66,10 @@ abstract class AppRepository {
   Future<void> signOut();
   Stream<Profile?> profile(String uid);
 
+  /// Whether [uid] has a subscription the server verified with Google
+  /// Play and that has not expired (entitlements/{uid}).
+  Stream<bool> accountSubscription(String uid);
+
   /// The separate Individual space of a school login, or null before it
   /// is started.
   Stream<Profile?> individualSpace(String uid);
@@ -106,7 +110,8 @@ class FirebaseRepository implements AppRepository {
       .snapshots()
       .map((query) {
         final members = [
-          for (final doc in query.docs) SchoolMember.fromMap(doc.id, doc.data()),
+          for (final doc in query.docs)
+            SchoolMember.fromMap(doc.id, doc.data()),
         ];
         members.sort(
           (a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()),
@@ -369,12 +374,21 @@ class FirebaseRepository implements AppRepository {
       } catch (_) {}
     }
   }
+
   @override
   Stream<Profile?> profile(String uid) => db
       .collection('users')
       .doc(uid)
       .snapshots()
       .map((doc) => doc.exists ? Profile.fromMap(doc.id, doc.data()!) : null);
+  @override
+  Stream<bool> accountSubscription(String uid) => db
+      .collection('entitlements')
+      .doc(uid)
+      .snapshots()
+      .map((doc) => subscriptionActive(doc.data(), DateTime.now()))
+      .handleError((Object _) {});
+
   @override
   Stream<Profile?> individualSpace(String uid) => db
       .collection('individual_spaces')
@@ -500,6 +514,15 @@ class FirebaseRepository implements AppRepository {
   }
 }
 
+/// Whether an entitlements record still grants access at [now].
+bool subscriptionActive(Map<String, dynamic>? data, DateTime now) {
+  if (data == null || data['active'] != true) return false;
+  final expiry = data['expiryTime'];
+  if (expiry is! String) return true;
+  final at = DateTime.tryParse(expiry);
+  return at == null || at.isAfter(now);
+}
+
 String friendlyError(Object error) {
   if (error is FormatException) return error.message;
   if (error is GoogleSignInException) {
@@ -523,8 +546,8 @@ String friendlyError(Object error) {
       'weak-password' => 'Please choose a stronger password.',
       'invalid-email' => 'Enter a valid email address.',
       'user-disabled' => 'This account is disabled. Contact your school.',
-      'popup-closed-by-user' || 'cancelled-popup-request' =>
-        'Google sign-in was cancelled.',
+      'popup-closed-by-user' ||
+      'cancelled-popup-request' => 'Google sign-in was cancelled.',
       'account-exists-with-different-credential' =>
         'This email already has an account. Sign in with your email and password.',
       _ => 'Could not sign in. Check your details and try again.',

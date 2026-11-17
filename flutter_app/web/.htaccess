@@ -1,0 +1,34 @@
+# Imaan Akhlaq Learning Hub — the Flutter web app at /app/
+#
+# Own rewrite context: the site's root .htaccess (trailing-slash and
+# .html rules) must not apply inside this folder.
+RewriteEngine On
+DirectoryIndex index.html
+
+# This folder is also the root of the app.imaanakhlaq.org subdomain. The
+# build expects to live under /app/, so send that host to the real address.
+RewriteCond %{HTTP_HOST} ^app\.imaanakhlaq\.org$ [NC]
+RewriteRule ^(.*)$ https://www.imaanakhlaq.org/app/$1 [R=301,L]
+
+<IfModule mod_headers.c>
+  # Engine, fonts, images and audio change rarely: cache for a week.
+  <FilesMatch "\.(wasm|ttf|otf|png|jpg|jpeg|webp|mp3|json|bin|frag)$">
+    Header set Cache-Control "public, max-age=604800"
+  </FilesMatch>
+  # Flutter's entry files keep the same names on every release, so the
+  # browser must always ask for fresh copies; otherwise people keep an old
+  # version after an update. Listed last so it wins over the rule above.
+  <FilesMatch "^(index\.html|flutter_bootstrap\.js|flutter\.js|main\.dart\.js|flutter_service_worker\.js|version\.json|manifest\.json|AssetManifest\.bin|AssetManifest\.bin\.json|FontManifest\.json)$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
+</IfModule>
+
+<IfModule mod_mime.c>
+  AddType application/wasm wasm
+  AddType font/ttf ttf
+  AddType font/otf otf
+</IfModule>
+
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/javascript application/javascript application/json application/wasm
+</IfModule>
