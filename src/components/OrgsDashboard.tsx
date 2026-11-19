@@ -113,6 +113,7 @@ export const OrgsDashboard = () => html`
     border-radius: 12px; padding: 11px 13px; font-size: .87rem; margin-bottom: 14px;
   }
 
+  .og-search { width:min(100%,460px); margin-bottom:14px; padding:10px 13px; border:1px solid #cbd5e1; border-radius:10px; font:inherit; }
   .og-new { display: none; margin-bottom: 16px; }
   .og-new.show { display: block; }
   .og-new input {
@@ -131,7 +132,7 @@ export const OrgsDashboard = () => html`
       <div>
         <a href="/super-admin-dashboard" style="font-size:.82rem; font-weight:700; color:#6b7a90; text-decoration:none; display:inline-block; margin-bottom:4px;">&larr; Super admin dashboard</a>
         <h1 class="og-title">Organisations</h1>
-        <div class="og-sub">Each one gets a link. Schools register themselves through it.</div>
+        <div class="og-sub">Create organisations and invite the people who will manage their schools.</div>
       </div>
       <button class="og-btn" id="ogNewBtn" type="button" style="display:none">New organisation</button>
     </div>
@@ -140,10 +141,12 @@ export const OrgsDashboard = () => html`
       <div id="ogNewError"></div>
       <input id="ogNewName" placeholder="Organisation name — e.g. Alkhidmat Foundation">
       <input id="ogNewEmail" type="email" placeholder="Contact email (optional)">
-      <button class="og-btn" id="ogCreate" type="button">Create and get the link</button>
+      <button class="og-btn" id="ogCreate" type="button">Create and get the invite</button>
       <button class="og-btn ghost" id="ogCancel" type="button">Cancel</button>
     </div>
 
+    <input id="ogSearch" class="og-search" type="search" placeholder="Search organisations" aria-label="Search organisations" hidden>
+    <p id="ogNoMatch" class="og-empty" hidden>No organisations match your search.</p>
     <div id="ogBody"><div class="og-state">Loading…</div></div>
   </div>
 </div>
@@ -165,7 +168,8 @@ export const OrgsDashboard = () => html`
 
   const callList   = httpsCallable(functions, 'listOrgs');
   const callCreate = httpsCallable(functions, 'createOrg');
-  const callRotate = httpsCallable(functions, 'rotateOrgToken');
+  const callInvite = httpsCallable(functions, 'inviteOrgAdmin');
+  const preparedInvites = new Map();
   const callDelete = httpsCallable(functions, 'deleteOrg');
 
   const body = document.getElementById('ogBody');
@@ -197,7 +201,19 @@ export const OrgsDashboard = () => html`
           '</div>').join('')
       : '<div class="og-empty">No schools have registered yet.</div>';
 
-    return '<div class="og-card" data-org="' + esc(org.org_id) + '">' +
+    const path = preparedInvites.get(org.org_id);
+    const invite = path ? new URL(path, location.origin).href : '';
+    const status = org.admin_status === 'active' ? 'Account active' :
+      org.admin_status === 'pending' ? 'Invite pending' : 'Account not invited';
+    const inviteActions = org.admin_status === 'active' ? '' :
+      (invite ? '<input class="og-link" readonly aria-label="Organisation account invite" value="' +
+        esc(invite) + '">' +
+        '<button class="og-mini" data-copy="' + esc(invite) + '">Copy invite link</button>' : '') +
+      '<button class="og-mini" data-invite="' + esc(org.org_id) + '" data-pending="' +
+        (org.admin_status === 'pending' ? 'yes' : 'no') + '">' +
+        (org.admin_status === 'pending' ? 'Replace invite link' : 'Create invite link') + '</button>';
+
+    return '<div class="og-card" data-org="' + esc(org.org_id) + '" data-name="' + esc(org.name) + '">' +
       '<div class="og-card-head">' +
         '<div>' +
           '<h2 class="og-name">' + esc(org.name) + '</h2>' +
@@ -206,14 +222,9 @@ export const OrgsDashboard = () => html`
         '</div>' +
       '</div>' +
       '<div class="og-link-row">' +
-        '<div class="og-link-label">Link for schools to register</div>' +
-        '<div class="og-link">' + esc(location.origin + org.join_path) + '</div>' +
-        '<button class="og-mini" data-copy="' + esc(location.origin + org.join_path) + '">Copy</button>' +
-        '<button class="og-mini" data-rotate="' + esc(org.org_id) + '">New link</button>' +
-        // Offered for every organisation, including the ones deleteOrg will
-        // refuse. Hiding it where it cannot be used leaves somebody hunting
-        // for an option that is simply absent, with nothing on screen saying
-        // why; the refusal explains itself, an empty toolbar does not.
+        '<div class="og-link-label">Organisation account invite</div>' +
+        '<div class="og-meta">' + esc(status) + '</div>' +
+        inviteActions +
         '<button class="og-mini danger" data-delete="' + esc(org.org_id) +
           '" data-name="' + esc(org.name) + '">Delete</button>' +
       '</div>' +
@@ -221,19 +232,37 @@ export const OrgsDashboard = () => html`
     '</div>';
   }
 
+  const search = document.getElementById('ogSearch');
+  function filterOrganisations() {
+    const query = search.value.trim().toLocaleLowerCase();
+    const cards = Array.from(body.querySelectorAll('[data-org]'));
+    cards.forEach((card) => {
+      card.hidden = !card.dataset.name.toLocaleLowerCase().includes(query);
+    });
+    document.getElementById('ogNoMatch').hidden = cards.some((card) => !card.hidden) || !cards.length;
+  }
+  search.addEventListener('input', filterOrganisations);
+
   async function load() {
     try {
       const res = (await callList()).data;
+      search.hidden = !res.orgs.length;
       if (!res.orgs.length) {
+        document.getElementById('ogNoMatch').hidden = true;
+        document.getElementById('ogNewBtn').style.display = '';
         body.innerHTML = '<div class="og-state">No organisations yet. Create the first one above.</div>';
         return;
       }
       const withSchools = await Promise.all(
         res.orgs.map(async (org) => cardHTML(org, await schoolsOf(org.org_id)))
       );
+      document.getElementById('ogNewBtn').style.display = '';
       body.innerHTML = withSchools.join('');
+      filterOrganisations();
       wire();
     } catch (err) {
+      search.hidden = true;
+      document.getElementById('ogNoMatch').hidden = true;
       body.innerHTML = '<div class="og-error">' + esc((err && err.message) || 'Could not load organisations.') + '</div>';
     }
   }
@@ -245,9 +274,10 @@ export const OrgsDashboard = () => html`
           await navigator.clipboard.writeText(btn.getAttribute('data-copy'));
           btn.textContent = 'Copied';
         } catch (_) {
-          btn.textContent = 'Select it above';
+          btn.previousElementSibling?.select();
+          btn.textContent = 'Copy selected text';
         }
-        setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+        setTimeout(() => { btn.textContent = 'Copy invite link'; }, 2000);
       });
     });
 
@@ -269,20 +299,18 @@ export const OrgsDashboard = () => html`
       });
     });
 
-    body.querySelectorAll('[data-rotate]').forEach((btn) => {
+    body.querySelectorAll('[data-invite]').forEach((btn) => {
       btn.addEventListener('click', async () => {
-        // Worth a pause: every copy of the old link stops working, including
-        // the one already sitting in somebody's inbox.
-        if (!confirm('Issue a new link? Every copy of the current one stops working. Schools that already registered are unaffected.')) return;
+        if (btn.dataset.pending === 'yes' && !confirm('Replace the organisation account invite? The previous invite will stop working.')) return;
         btn.disabled = true;
-        btn.textContent = 'Working…';
         try {
-          await callRotate({ org_id: btn.getAttribute('data-rotate') });
+          const orgId = btn.dataset.invite;
+          const res = (await callInvite({ org_id: orgId })).data;
+          preparedInvites.set(orgId, res.invite_path);
           await load();
         } catch (err) {
           btn.disabled = false;
-          btn.textContent = 'New link';
-          alert((err && err.message) || 'Could not issue a new link.');
+          alert((err && err.message) || 'Could not issue the account invite.');
         }
       });
     });
@@ -305,7 +333,12 @@ export const OrgsDashboard = () => html`
     btn.disabled = true;
     btn.textContent = 'Creating…';
     try {
-      await callCreate({ name: name, contact_email: (document.getElementById('ogNewEmail').value || '').trim() });
+      const result = (await callCreate({
+        name: name,
+        contact_email: (document.getElementById('ogNewEmail').value || '').trim(),
+        delegate_admin: true
+      })).data;
+      preparedInvites.set(result.org_id, result.invite_path);
       document.getElementById('ogNewName').value = '';
       document.getElementById('ogNewEmail').value = '';
       panel.classList.remove('show');
@@ -314,7 +347,7 @@ export const OrgsDashboard = () => html`
       errBox.innerHTML = '<div class="og-error">' + esc((err && err.message) || 'Could not create it.') + '</div>';
     } finally {
       btn.disabled = false;
-      btn.textContent = 'Create and get the link';
+      btn.textContent = 'Create and get the invite';
     }
   });
 
@@ -322,6 +355,8 @@ export const OrgsDashboard = () => html`
   // showing a sensible screen rather than an error — the real check is there.
   onAuthStateChanged(auth, (user) => {
     if (!user) {
+      search.hidden = true;
+      document.getElementById('ogNoMatch').hidden = true;
       document.getElementById('ogNewBtn').style.display = 'none';
       panel.classList.remove('show');
       body.innerHTML =
@@ -330,10 +365,6 @@ export const OrgsDashboard = () => html`
         '</div>';
       return;
     }
-    // Shown once there is a session, though listOrgs is still the real gate:
-    // a school admin who reaches this page sees the button and then an
-    // honest refusal from the server, rather than a silently broken screen.
-    document.getElementById('ogNewBtn').style.display = '';
     load();
   });
 </script>

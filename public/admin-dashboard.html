@@ -2769,19 +2769,22 @@
       
       <!-- OVERVIEW TAB -->
       <div id="tab-overview" class="fade-in tab-panel">
-        <!-- Community schools only, and only until they are set up.
-             A weekly school arrives with an empty dashboard and six zeroes,
-             and the order of work is not obvious from that: classes have to
-             exist before a roster can name them, and consent has to be
-             recorded before a photo can carry a child's name. So the first
-             thing it sees is the order, not the numbers.
-             Hides itself for good once every step is done. -->
+        <div class="role-overview-grid">
+        <!-- Show the next setup step while the school prepares its workspace.
+        -->
         <div id="onboardingChecklist" class="d-none" style="background:#fff; border:1px solid #e2e8f0; border-radius:14px; padding:18px 20px; margin-bottom:18px;">
           <div style="display:flex; align-items:baseline; justify-content:space-between; gap:12px; flex-wrap:wrap;">
-            <h3 style="margin:0; font-size:1.05rem; font-weight:800; color:#0f172a;">Getting started</h3>
+            <h3 style="margin:0; font-size:1.05rem; font-weight:800; color:#0f172a;">Set up your school</h3>
             <span id="onboardingProgress" style="font-size:0.82rem; font-weight:700; color:#64748b;"></span>
           </div>
           <div id="onboardingSteps" style="margin-top:14px; display:flex; flex-direction:column; gap:10px;"></div>
+        </div>
+
+          <section class="surface-card role-overview-card" aria-labelledby="school-activity-title">
+            <h2 id="school-activity-title">Recent student activity</h2>
+            <p id="schoolRecentActivity" aria-live="polite">Loading your roster…</p>
+            <button type="button" class="btn-outline-light" onclick="switchAdminTab('attendance')">View attendance</button>
+          </section>
         </div>
 
         <!-- The page title lives once, in the bar above (it carries the
@@ -4627,58 +4630,64 @@
     const list = document.getElementById('onboardingSteps');
     if (!box || !list) return;
 
-    if (!isCommunitySchool()) { box.classList.add('d-none'); return; }
-
     const consented = studentsList.filter((s) => s.media_consent === 'granted' ||
                                                 s.media_consent === 'denied').length;
     const steps = [
       {
         done: activeClassOptions().length > 0,
-        label: 'Name your classes',
-        hint: 'Every student and every post is filed under one.',
+        label: 'Create classes',
+        hint: 'Set up the classes in your school.',
         action: 'Open classes', run: 'openClassesModal()'
       },
       {
+        done: teachersList.length > 0,
+        label: 'Create teacher logins',
+        hint: 'Give teachers access to their school workspace.',
+        action: 'Add teacher', run: "openModal('teacherModal')"
+      },
+      {
         done: studentsList.length > 0,
-        label: 'Add your students',
-        hint: studentsList.length ? studentsList.length + ' on the roster' : 'Import a list, or add them one at a time. No logins needed.',
-        action: 'Import roster', run: "openModal('bulkImportModal')"
+        label: 'Add students',
+        hint: isCommunitySchool() ? 'Import your roster or add students one at a time.' : 'Add each learner to a class.',
+        action: 'Open students', run: "switchAdminTab('students')"
       },
       {
-        done: studentsList.length > 0 && consented === studentsList.length,
-        label: 'Record photo consent',
-        hint: studentsList.length
-          ? consented + ' of ' + studentsList.length + ' asked — a student nobody asked about is left out of every photo'
-          : 'Ask each parent, then mark it on the roster.',
-        action: 'Open roster', run: "switchAdminTab('students')"
-      },
-      {
-        done: currentSchoolApproved,
-        label: 'Share your first activity day',
-        hint: currentSchoolApproved
-          ? 'Your wall is open.'
-          : 'Unlocks once we verify your school — usually within a day.',
-        action: null, run: null
+        done: familiesList.some((family) => studentsList.some((student) => student.family_uid === family.uid)),
+        label: 'Create family logins',
+        hint: 'Create a family account and share the login from the Parents tab.',
+        action: 'Manage families', run: "switchAdminTab('parents')",
+        optional: isCommunitySchool()
       }
     ];
+    if (isCommunitySchool()) {
+      steps.push({
+        done: studentsList.length > 0 && consented === studentsList.length,
+        label: 'Record photo consent',
+        hint: consented + ' of ' + studentsList.length + ' recorded',
+        action: 'Open roster', run: "switchAdminTab('students')"
+      });
+    }
+    const next = steps.findIndex((step) => !step.done && !step.optional);
 
-    const doneCount = steps.filter((s) => s.done).length;
+    const requiredSteps = steps.filter((step) => !step.optional);
+    const doneCount = requiredSteps.filter((step) => step.done).length;
 
     // Four of four means there is nothing left to instruct, and a permanent
     // "you have finished" panel is just clutter above the numbers.
-    if (doneCount === steps.length) { box.classList.add('d-none'); return; }
+    if (next === -1) { box.classList.add('d-none'); return; }
     box.classList.remove('d-none');
 
-    document.getElementById('onboardingProgress').textContent = doneCount + ' of ' + steps.length + ' done';
+    document.getElementById('onboardingProgress').textContent = doneCount + ' of ' + requiredSteps.length + ' steps complete';
 
     list.innerHTML = steps.map((step, index) => {
       const mark = step.done
         ? '<i class="fas fa-circle-check" style="color:#16a34a;"></i>'
         : '<span style="display:inline-flex; align-items:center; justify-content:center; width:18px; height:18px; border-radius:50%; border:2px solid #cbd5e1; font-size:0.7rem; font-weight:800; color:#94a3b8;">' + (index + 1) + '</span>';
       const button = (!step.done && step.action)
-        ? '<button class="btn-outline-light" style="flex:0 0 auto;" onclick="' + step.run + '">' + escapeHtml(step.action) + '</button>'
+        ? '<button type="button" class="' + (index === next ? 'btn-solid' : 'btn-outline-light') +
+          '" onclick="' + step.run + '">' + escapeHtml(step.action) + '</button>'
         : '';
-      return '<div style="display:flex; gap:12px; align-items:center;">' +
+      return '<div class="role-setup-row' + (index === next ? ' is-next' : '') + '">' +
         '<div style="flex:0 0 20px; text-align:center;">' + mark + '</div>' +
         '<div style="flex:1 1 auto; min-width:0;">' +
           '<div style="font-weight:800; color:' + (step.done ? '#94a3b8' : '#0f172a') + ';">' + escapeHtml(step.label) + '</div>' +
@@ -5499,6 +5508,9 @@
     document.getElementById('attAbsent').textContent = String(absentCount);
 
     const totalAttendance = students.length;
+    document.getElementById('schoolRecentActivity').textContent = totalAttendance
+      ? presentCount + ' of ' + totalAttendance + ' students signed in during the past 24 hours.'
+      : 'Add students to see recent sign-in activity.';
     const presentPercent = totalAttendance ? Math.round((presentCount / totalAttendance) * 100) : 0;
     const absentPercent = totalAttendance ? Math.round((absentCount / totalAttendance) * 100) : 0;
     const attendanceRing = document.getElementById('attendanceRing');

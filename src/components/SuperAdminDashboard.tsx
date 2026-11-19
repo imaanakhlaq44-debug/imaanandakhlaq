@@ -459,9 +459,6 @@ export const SuperAdminDashboard = () => html`
       <a href="/orgs" class="nav-item nav-leaves"><i class="fas fa-building"></i> Organisations</a>
       <a href="#" class="nav-item" data-target="reports"><i class="fas fa-chart-pie"></i> Global Reports</a>
       <a href="#" class="nav-item" data-target="value-economy"><i class="fas fa-coins"></i> Value Economy</a>
-      <a href="#" class="nav-item" data-target="coming-soon"><i class="fas fa-file-invoice-dollar"></i> Billing & Plans</a>
-      <a href="#" class="nav-item" data-target="coming-soon"><i class="fas fa-bullhorn"></i> Announcements</a>
-      <a href="#" class="nav-item" data-target="coming-soon"><i class="fas fa-cog"></i> Platform Settings</a>
     </div>
   </aside>
 
@@ -609,39 +606,13 @@ export const SuperAdminDashboard = () => html`
         </div>
 
         <div class="ds-stat is-warning">
-          <span class="ds-stat-icon"><i class="fas fa-wallet"></i></span>
+          <span class="ds-stat-icon"><i class="fas fa-building"></i></span>
           <span class="ds-stat-body">
-            <span class="ds-stat-label">Monthly Revenue</span>
-            <strong class="ds-stat-value">$500</strong>
+            <span class="ds-stat-label">Organisations</span>
+            <strong class="ds-stat-value" id="total-orgs-count">—</strong>
+            <a href="/orgs">Manage organisations</a>
           </span>
         </div>
-      </div>
-
-      <!-- Graph Section -->
-      <!-- One chart, and it says what it plots.
-           What used to be here was labelled as weekly registrations — six bars
-           called Week 1 to Week 6, a legend reading "New Schools Registered"
-           and "New Students Registered", and tabs for 1 Week through 1 Year —
-           while the code behind it filled those bars with the student and
-           teacher counts of individual schools. Nothing on the platform records
-           when a school signed up, so no weekly series can be drawn at all; the
-           honest version of that data is how big each school is. -->
-      <div class="card" id="dash-graph" style="margin-bottom: 25px;">
-        <div class="card-header">
-          <div class="card-title">
-            <i class="fas fa-chart-bar" style="color: var(--brand-secondary)"></i>
-            How big each school is
-          </div>
-          <span class="chart-note" id="platformChartNote">Largest schools first</span>
-        </div>
-        <p class="chart-caption">
-          Every registered school, with the number of students and teachers on its roster.
-          The longest bar is the biggest school.
-        </p>
-        <div class="chart-frame">
-          <canvas id="platformChartCanvas"></canvas>
-        </div>
-        <p class="chart-empty d-none" id="platformChartEmpty">No schools have registered yet.</p>
       </div>
 
       <!-- Community schools waiting for approval.
@@ -702,6 +673,33 @@ export const SuperAdminDashboard = () => html`
           </table>
         </div>
       </div>
+      <!-- Graph Section -->
+      <!-- One chart, and it says what it plots.
+           What used to be here was labelled as weekly registrations — six bars
+           called Week 1 to Week 6, a legend reading "New Schools Registered"
+           and "New Students Registered", and tabs for 1 Week through 1 Year —
+           while the code behind it filled those bars with the student and
+           teacher counts of individual schools. Nothing on the platform records
+           when a school signed up, so no weekly series can be drawn at all; the
+           honest version of that data is how big each school is. -->
+      <div class="card" id="dash-graph" style="margin-bottom: 25px;">
+        <div class="card-header">
+          <div class="card-title">
+            <i class="fas fa-chart-bar" style="color: var(--brand-secondary)"></i>
+            How big each school is
+          </div>
+          <span class="chart-note" id="platformChartNote">Largest schools first</span>
+        </div>
+        <p class="chart-caption">
+          Every registered school, with the number of students and teachers on its roster.
+          The longest bar is the biggest school.
+        </p>
+        <div class="chart-frame">
+          <canvas id="platformChartCanvas"></canvas>
+        </div>
+        <p class="chart-empty d-none" id="platformChartEmpty">No schools have registered yet.</p>
+      </div>
+
     </div>
   </div>
 
@@ -895,6 +893,12 @@ export const SuperAdminDashboard = () => html`
 
   async function loadDashboardData() {
     try {
+      const orgCount = document.getElementById('total-orgs-count');
+      httpsCallable(functions, 'listOrgs')().then(({ data }) => {
+        orgCount.textContent = String(data.orgs.length);
+      }).catch(() => {
+        orgCount.textContent = 'Unavailable';
+      });
       const schoolsSnap = await getDocs(collection(db, "schools"));
       const schools = [];
       schoolsSnap.forEach(d => schools.push({id: d.id, ...d.data()}));

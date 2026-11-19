@@ -4,23 +4,21 @@ import { firebaseConfigJS } from '../lib/firebaseConfig'
 import { activeChildHelpersJS } from '../lib/activeChild'
 import { emulatorConnectJS } from '../lib/devEmulators'
 
-/**
- * chapter_id -> chapter title, emitted as a literal.
- *
- * A teacher's note is attached to a submission, and a submission names its
- * chapter by id ("b1_c4"). Shipping the id to the parent would be shipping
- * them our database schema, so the page carries the titles — a few kilobytes,
- * versus importing the whole activities catalogue for one field.
- */
-const chapterTitlesJS = (() => {
-  const titles: Record<string, string> = {}
-  for (const book of Object.values(activitiesData as Record<string, any>)) {
-    for (const chapter of Object.values(book?.chapters || {}) as any[]) {
-      if (chapter?.id && chapter?.title) titles[chapter.id] = chapter.title
-    }
-  }
-  return JSON.stringify(titles)
-})()
+const readingChaptersJS = JSON.stringify(
+  Object.values(activitiesData).flatMap((book) =>
+    Object.entries(book.chapters)
+      .sort(([a], [b]) => a.localeCompare(b, undefined, { numeric: true }))
+      .map(([, chapter], index) => ({
+        id: chapter.id,
+        title: chapter.title,
+        book: book.title,
+        firstInBook: index === 0,
+        question: 'discussionQuestion' in chapter ? chapter.discussionQuestion : '',
+        pageStart: chapter.pageStart,
+        pageEnd: chapter.pageEnd
+      }))
+  )
+)
 
 /**
  * The family's home screen: one card per child.
@@ -177,6 +175,11 @@ export const FamilyDashboard = () => html`
 
   /* One line above the grid: the household at a glance, so a parent with four
      children does not have to read four cards to learn nothing happened. */
+  .fam-reading { border:1px solid #e2e8f3; background:#f6f8fd; border-radius:12px; padding:12px; }
+  .fam-reading p { margin:0 0 8px; font-size:.88rem; }
+  .fam-reading strong { color:var(--fam-ink); }
+  .fam-reading summary { cursor:pointer; font-weight:750; color:#a82459; padding-block:5px; }
+  .fam-reading details[open] summary { margin-bottom:7px; }
   .fam-summary {
     display: inline-flex; flex-wrap: wrap; align-items: center; gap: 8px 14px;
     background: rgba(255, 255, 255, .72);
@@ -327,7 +330,8 @@ export const FamilyDashboard = () => html`
 
   // chapter_id -> title, built from the same catalogue the student reads. A
   // note that says "b1_c4" is not a note a parent can use.
-  const CHAPTER_TITLES = ${raw(chapterTitlesJS)};
+  const READING_CHAPTERS = ${raw(readingChaptersJS)};
+  const CHAPTER_TITLES = Object.fromEntries(READING_CHAPTERS.map((chapter) => [chapter.id, chapter.title]));
 
   const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
 
@@ -453,6 +457,22 @@ export const FamilyDashboard = () => html`
     render();
   }
 
+  function readingPlan(state) {
+    const finished = Array.isArray(state.completed) ? state.completed : [];
+    const last = CHAPTER_TITLES[finished[finished.length - 1]];
+    const completed = new Set(finished);
+    const next = READING_CHAPTERS.find((chapter, index) =>
+      !completed.has(chapter.id) && (chapter.firstInBook || index < (state.unlockedCount || 1)));
+    return '<section class="fam-reading">' +
+      (last ? '<p>Last completed <strong>' + esc(last) + '</strong></p>' : '') +
+      (next ? '<p>Read next <strong>' + esc(next.title) + '</strong></p>' +
+        '<details><summary>Reading plan</summary><p>' + esc(next.book) +
+        (next.pageStart && next.pageEnd ? ' · Pages ' + esc(next.pageStart) + '–' + esc(next.pageEnd) : '') + '</p>' +
+        (next.question ? '<p><strong>Ask together</strong> ' + esc(next.question) + '</p>' : '') + '</details>'
+        : '<p>All available reading is complete.</p>') +
+      '</section>';
+  }
+
   function cardFor(child, index) {
     const state = child.game_state || {};
     const points = typeof state.points === 'number' ? state.points : 0;
@@ -501,6 +521,7 @@ export const FamilyDashboard = () => html`
         '<div><div class="fam-name">' + esc(name) + '</div>' +
         '<span class="fam-class">' + esc(child.class_id || 'No class yet') + '</span></div>' +
       '</div>' +
+      readingPlan(state) +
       badge +
       weekLine +
       noteBlock +
@@ -517,16 +538,9 @@ export const FamilyDashboard = () => html`
     const grid = document.getElementById('famGrid');
     let out = children.map(cardFor).join('');
 
-    // A brand new family sees two dashed placeholders beside the add tile, so
-    // the grid reads as somewhere to fill in rather than a page that failed.
-    if (!children.length) {
-      out += '<div class="fam-tile ghost"><i class="far fa-user"></i><small>Your first child will appear here.</small></div>' +
-             '<div class="fam-tile ghost"><i class="far fa-user"></i><small>And the next one here.</small></div>';
-    }
-
-    out += '<div class="fam-tile action" onclick="famOpenClaim()">' +
+    out += '<button type="button" class="fam-tile action" onclick="famOpenClaim()">' +
       '<i class="fas fa-plus-circle"></i><strong>Add a child</strong>' +
-      '<small>Enter the student code your school gave you.</small></div>';
+      '<small>Enter the student code your school gave you.</small></button>';
 
     grid.innerHTML = out;
     grid.style.display = '';

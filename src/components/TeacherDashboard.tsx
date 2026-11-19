@@ -1853,7 +1853,7 @@ export const TeacherDashboard = () => html`
         <img id="schoolLogoImg" src="/kidba_assets/img/3d_school.png" alt="" hidden>
       </div>
       <ul class="sidebar-nav">
-        <li class="active" data-section="overview" onclick="switchTeacherSection('overview')"><span class="nav-badge overview"><i class="fas fa-chart-pie"></i></span><span>Overview</span></li>
+        <li class="active" data-section="overview" onclick="switchTeacherSection('overview')"><span class="nav-badge overview"><i class="fas fa-chart-pie"></i></span><span>Today</span></li>
         <li data-section="reviews" onclick="switchTeacherSection('reviews')"><span class="nav-badge review"><i class="fas fa-clipboard-check"></i></span><span>Reviews</span></li>
         <li data-section="club" onclick="switchTeacherSection('club')"><span class="nav-badge" style="background:linear-gradient(135deg,#1E2D5A,#C99A6B);color:#fff;"><i class="fas fa-shield-halved"></i></span><span>Club Habits</span><span class="club-nav-count" id="clubNavCount"></span></li>
         <li data-section="rankings" onclick="switchTeacherSection('rankings')"><span class="nav-badge reports"><i class="fas fa-medal"></i></span><span>Rankings</span></li>
@@ -1874,6 +1874,30 @@ export const TeacherDashboard = () => html`
     </aside>
 
     <div class="dashboard-main">
+      <div class="teacher-tab-panels">
+        <section id="teacherPanelOverview" class="teacher-panel active">
+          <div class="role-overview-head">
+            <h2>Today&apos;s work</h2>
+            <label class="role-filter">Class
+              <select id="teacherWorkClass"><option value="">All classes</option></select>
+            </label>
+          </div>
+          <div class="role-overview-grid">
+            <section class="surface-card role-overview-card">
+              <h3>Pending reviews</h3>
+              <p id="overviewReviewSummary" aria-live="polite">Loading reviews…</p>
+              <button class="role-primary-action" type="button" id="reviewNextBtn" disabled>Review next</button>
+            </section>
+            <section class="surface-card role-overview-card">
+              <h3>Activity attendance</h3>
+              <p id="overviewAttendanceSummary" aria-live="polite">Loading today&apos;s activity…</p>
+              <button class="role-secondary-action" type="button" onclick="switchTeacherSection('attendance')">View attendance</button>
+            </section>
+          </div>
+          <section class="surface-card role-overview-card" id="teacherUpNext" hidden>
+            <h3>Up next</h3>
+            <ul class="role-next-list" id="teacherUpNextList"></ul>
+          </section>
       <!-- Five numbers, one card shape (.ds-stat, dashboard-ui.css). These
            used to be two separate rows in two different styles — a 2-up of
            wide cards and a 3-up of centred mini cards — every rule written
@@ -1922,26 +1946,6 @@ export const TeacherDashboard = () => html`
 
       </div>
 
-      <div class="teacher-tab-panels">
-        <section id="teacherPanelOverview" class="teacher-panel active">
-          <div class="teacher-grid">
-            <!-- This card used to restate, as three sentences, the three
-                 numbers already standing in the stat row above it ("5 students
-                 are visible in your teacher scope."). What is left is the one
-                 line the stats cannot show: which student to open next. The
-                 JS that filled the three sentences guards on the element, so
-                 removing them is safe. -->
-            <section class="surface-card compact">
-              <div class="section-header">
-                <div class="section-heading">
-                  <div>
-                    <h3 class="ds-title">Today&apos;s focus</h3>
-                  </div>
-                </div>
-              </div>
-              <p class="ds-caption" id="overviewFocusNote">Preparing today&apos;s teaching focus...</p>
-            </section>
-          </div>
         </section>
 
         <section id="teacherPanelStudents" class="teacher-panel">
@@ -3958,11 +3962,6 @@ export const TeacherDashboard = () => html`
 
     if (!attendanceListEl) return;
 
-    if (!todaysAttendance.length) {
-      attendanceListEl.innerHTML = '<div class="attendance-empty"><i class="fas fa-user-clock" style="font-size:1.35rem; color:#243d6b; margin-bottom:0.5rem;"></i><br>No student activity attendance has been logged yet today.</div>';
-      return;
-    }
-
     let attendanceHtml = '';
     todaysAttendance.forEach((session) => {
       const statusMeta = getAttendanceStatusMeta(session);
@@ -3986,7 +3985,8 @@ export const TeacherDashboard = () => html`
         '</div>';
     });
 
-    attendanceListEl.innerHTML = attendanceHtml;
+    attendanceListEl.innerHTML = attendanceHtml ||
+      '<div class="attendance-empty">No student activity attendance has been logged today.</div>';
 
     // What "Share today" will carry across. Built from the same list that was
     // just drawn, so what the teacher sees on screen is exactly what the post
@@ -4037,7 +4037,7 @@ export const TeacherDashboard = () => html`
 
     if (absentListEl) {
       if (absentStudents.length === 0) {
-        absentListEl.innerHTML = '<div class="attendance-empty"><i class="fas fa-check-circle" style="font-size:1.35rem; color:#10b981; margin-bottom:0.5rem;"></i><br>All students have been active today!</div>';
+        absentListEl.innerHTML = '<div class="attendance-empty"><i class="fas fa-check-circle" style="font-size:1.35rem; color:#10b981; margin-bottom:0.5rem;"></i><br>No inactive students in this view.</div>';
       } else {
         let absentHtml = '';
         absentStudents.forEach((student) => {
@@ -4058,48 +4058,89 @@ export const TeacherDashboard = () => html`
   }
 
 
-  function renderOverviewSnapshot(leaderboardData, pendingReviews, attendanceDocs) {
-    const studentSummaryEl = document.getElementById('overviewStudentSummary');
-    const reviewSummaryEl = document.getElementById('overviewReviewSummary');
-    const attendanceSummaryEl = document.getElementById('overviewAttendanceSummary');
-    const focusNoteEl = document.getElementById('overviewFocusNote');
-    const todayKey = new Date().toISOString().slice(0, 10);
-    const todaysSessions = attendanceDocs.filter((session) => {
-      const sessionKey = session.sessionDate || String(session.activityStartedAt || '').slice(0, 10);
-      return sessionKey === todayKey;
-    });
-    const activeTodayCount = new Set(todaysSessions.map((session) => session.student_uid)).size;
-    const completedTodayCount = todaysSessions.filter((session) => session.activityCompletedAt || session.status === 'completed').length;
-
-    if (studentSummaryEl) {
-      studentSummaryEl.textContent = leaderboardData.length
-        ? leaderboardData.length + ' students are visible in your teacher scope.'
-        : 'No students are linked to this teacher scope yet.';
+  function renderReviewQueue(reviews) {
+    document.getElementById('pendingCountBadge').textContent = String(reviews.length);
+    document.getElementById('teacherPendingReviews').textContent = String(reviews.length);
+    const list = document.getElementById('reviewsList');
+    list.replaceChildren();
+    if (!reviews.length) {
+      const empty = document.createElement('p');
+      empty.className = 'attendance-empty';
+      empty.textContent = 'No pending reviews in this class.';
+      list.append(empty);
+      return;
     }
 
-    if (reviewSummaryEl) {
-      reviewSummaryEl.textContent = pendingReviews.length
-        ? pendingReviews.length + ' student sheet' + (pendingReviews.length === 1 ? ' is' : 's are') + ' waiting for review.'
-        : 'All student sheets are currently reviewed.';
-    }
-
-    if (attendanceSummaryEl) {
-      attendanceSummaryEl.textContent = activeTodayCount
-        ? activeTodayCount + ' learner' + (activeTodayCount === 1 ? ' has' : 's have') + ' opened activities today.'
-        : 'No activity attendance has been logged today yet.';
-    }
-
-    if (focusNoteEl) {
-      if (pendingReviews.length) {
-        focusNoteEl.textContent = 'Priority: ' + pendingReviews[0].studentName + ' is waiting for review in ' + getChapterTitle(pendingReviews[0].chapId) + '.';
-      } else if (completedTodayCount) {
-        focusNoteEl.textContent = completedTodayCount + ' activity session' + (completedTodayCount === 1 ? ' has' : 's have') + ' already been completed today.';
-      } else if (leaderboardData.length) {
-        focusNoteEl.textContent = 'Nothing is waiting for review.';
-      } else {
-        focusNoteEl.textContent = 'No learners yet — ask your school admin to add them.';
+    for (const review of reviews) {
+      const item = document.createElement('div');
+      item.className = 'review-item';
+      const heading = document.createElement('strong');
+      heading.textContent = review.studentName + ' · ' + getChapterTitle(review.chapId);
+      const status = document.createElement('p');
+      status.textContent = review.statusLabel || 'Teacher review pending';
+      const answer = document.createElement('p');
+      answer.className = 'student-discussion-text';
+      answer.textContent = review.isSubmissionMissing ? 'The saved activity sheet is missing.' : review.answer;
+      const open = document.createElement('button');
+      open.type = 'button';
+      open.className = 'role-secondary-action';
+      open.textContent = 'View full sheet';
+      open.addEventListener('click', () => window.openReviewModal(encodeURIComponent(JSON.stringify(review))));
+      item.append(heading, status, answer, open);
+      if (review.canTeacherApprove) {
+        const quick = document.createElement('button');
+        quick.type = 'button';
+        quick.className = 'btn-approve ms-2';
+        quick.textContent = 'Quick pass';
+        quick.addEventListener('click', () => window.awardTeacherPoints(review.studentUid, review.chapId, review.subId));
+        item.append(quick);
       }
+      list.append(item);
     }
+  }
+
+  function bindTeacherOverview(students, reviews, sessions, studentMap) {
+    const filter = document.getElementById('teacherWorkClass');
+    const previous = filter.value;
+    const classes = [...new Set(students.map((student) => getClassLabel(student.classId)))].sort();
+    filter.replaceChildren(new Option('All classes', ''), ...classes.map((name) => new Option(name, name)));
+    if (classes.includes(previous)) filter.value = previous;
+
+    function update() {
+      const className = filter.value;
+      const roster = students.filter((student) => !className || getClassLabel(student.classId) === className);
+      const members = Object.fromEntries(roster.map((student) => [student.uid, studentMap[student.uid]]));
+      const queue = reviews.filter((review) => members[review.studentUid]);
+      renderReviewQueue(queue);
+      renderAttendancePanel(sessions, members);
+      renderStudentRoster(roster, queue, sessions);
+
+      document.getElementById('teacherStudentCount').textContent = String(roster.length);
+      document.getElementById('teacherTopPoints').textContent = String(roster[0]?.totalPoints || 0);
+      const active = Number(document.getElementById('teacherAttendanceCount').textContent) || 0;
+      document.getElementById('overviewAttendanceSummary').textContent =
+        active + ' of ' + roster.length + ' students opened an activity today.';
+      document.getElementById('overviewReviewSummary').textContent = queue.length
+        ? queue.length + ' ' + (queue.length === 1 ? 'activity' : 'activities') + ' waiting for review.'
+        : 'You are all caught up.';
+      const open = document.getElementById('reviewNextBtn');
+      open.disabled = !queue.length;
+      open.onclick = () => {
+        window.switchTeacherSection('reviews', { scroll: false });
+        window.openReviewModal(encodeURIComponent(JSON.stringify(queue[0])));
+      };
+      const upcoming = document.getElementById('teacherUpNextList');
+      upcoming.replaceChildren();
+      for (const review of queue.slice(0, 3)) {
+        const item = document.createElement('li');
+        item.textContent = review.studentName + ' · ' + getChapterTitle(review.chapId);
+        upcoming.append(item);
+      }
+      document.getElementById('teacherUpNext').hidden = !queue.length;
+    }
+
+    filter.onchange = update;
+    update();
   }
 
   function renderStudentRoster(leaderboardData, pendingReviews, attendanceDocs) {
@@ -4483,43 +4524,6 @@ export const TeacherDashboard = () => html`
     pendingReviews = buildPendingReviewQueue(studentMap, subDocs);
     console.log('[Teacher Dashboard] Pending reviews for teacher:', pendingReviews.length, pendingReviews.map(function(r){ return r.studentName + ' / ' + r.chapId + ' / ready=' + r.canTeacherApprove; }));
 
-    // Render Review Queue
-    document.getElementById('pendingCountBadge').textContent = pendingReviews.length;
-    document.getElementById('teacherPendingReviews').textContent = String(pendingReviews.length);
-    let revHtml = '';
-    if (pendingReviews.length === 0) {
-      revHtml = '<div class="text-center p-5"><i class="fas fa-glass-cheers text-success fa-3x mb-3"></i><h4>All Caught Up!</h4><p class="text-muted">You have reviewed all student answers.</p></div>';
-    } else {
-      pendingReviews.forEach((rev) => {
-        let cTitle = getChapterTitle(rev.chapId);
-        let rawData = encodeURIComponent(JSON.stringify(rev));
-        let statusLabel = rev.statusLabel || (rev.isSubmissionMissing ? 'Submission Missing' : 'Teacher Review Pending');
-        let statusClass = rev.statusClass || (rev.isSubmissionMissing ? 'bg-danger' : 'bg-warning text-dark');
-        let answerPreview = rev.isSubmissionMissing
-          ? 'The chapter is marked as waiting for teacher review, but the saved submission sheet is missing. Open the full sheet to see the recovery note.'
-          : rev.answer;
-        let actionButton = rev.canTeacherApprove
-          ? '<button class="btn-approve" onclick="awardTeacherPoints(\\'' + rev.studentUid + '\\', \\'' + rev.chapId + '\\', \\'' + rev.subId + '\\')"><i class="fas fa-check"></i> Quick Pass</button>'
-          : '<button class="btn btn-secondary rounded-pill" type="button" disabled><i class="fas fa-lock"></i> Sheet Missing</button>';
-        
-        revHtml += 
-          '<div class="review-item">' +
-            '<div class="d-flex align-items-center mb-2">' +
-              '<div class="student-avatar" style="width:30px; height:30px; font-size:1rem; margin-right:10px;"><i class="fas fa-user-graduate"></i></div>' +
-              '<strong style="font-size: 1.1rem; color: #1e293b;">' + rev.studentName + '</strong>' +
-              '<span class="ms-auto" style="font-size: 0.85rem; color: #64748b; background: white; padding: 2px 8px; border-radius: 10px; border: 1px solid #cbd5e1;">' + cTitle + '</span>' +
-            '</div>' +
-            '<div style="font-size:0.9rem; font-weight:bold; color:#D63678;">Status: <span class="badge ' + statusClass + '">' + statusLabel + '</span></div>' +
-            '<div class="student-discussion-text" style="max-height:80px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">"' + answerPreview + '"</div>' +
-            '<div class="d-flex justify-content-end mt-3">' +
-              '<button class="btn btn-primary rounded-pill me-2" onclick="openReviewModal(\\'' + rawData + '\\')"><i class="fas fa-search"></i> View Full Sheet</button>' +
-              actionButton +
-            '</div>' +
-          '</div>';
-      });
-    }
-    document.getElementById('reviewsList').innerHTML = revHtml;
-
     // 3. Fetch today's attendance sessions for this school
     let attendanceDocs = [];
     try {
@@ -4529,12 +4533,10 @@ export const TeacherDashboard = () => html`
       console.error('Attendance query error:', attendanceError);
     }
 
-    renderAttendancePanel(attendanceDocs, studentMap);
-      window.teacherAttendanceData = attendanceDocs;
+    window.teacherAttendanceData = attendanceDocs;
       window.teacherStudentMap = studentMap;
       window.renderRegisterTables();
-    renderStudentRoster(leaderboardData, pendingReviews, attendanceDocs);
-    renderOverviewSnapshot(leaderboardData, pendingReviews, attendanceDocs);
+    bindTeacherOverview(leaderboardData, pendingReviews, attendanceDocs, studentMap);
     window.switchTeacherSection(currentTeacherSection, { scroll: false });
 
     // Loaded even when the club panel is closed: the sidebar badge is how a
@@ -4724,7 +4726,7 @@ export const TeacherDashboard = () => html`
 
     window.openReviewModal = (rawData) => {
       let rev = JSON.parse(decodeURIComponent(rawData));
-      document.getElementById('rmStudentInfo').innerHTML = '<strong>' + rev.studentName + '</strong> &bull; ' + getChapterTitle(rev.chapId);
+      document.getElementById('rmStudentInfo').innerHTML = '<strong>' + escapeHtml(rev.studentName) + '</strong> &bull; ' + escapeHtml(getChapterTitle(rev.chapId));
       document.getElementById('rmDiscussion').innerText = rev.answer;
       
       let gridHtml = 'No grid data captured.';
@@ -4737,7 +4739,7 @@ export const TeacherDashboard = () => html`
       if(rev.parents && rev.parents.length > 0) {
         let validNotes = rev.parents.filter(n => n.trim() !== '');
         if(validNotes.length > 0) {
-           parentHtml = '<ul>' + validNotes.map(n => '<li>"' + n + '"</li>').join('') + '</ul>';
+           parentHtml = '<ul>' + validNotes.map(n => '<li>' + escapeHtml(n) + '</li>').join('') + '</ul>';
         } else {
            parentHtml = 'No parent notes provided.';
         }

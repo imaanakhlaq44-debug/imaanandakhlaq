@@ -1495,6 +1495,7 @@ export const AuthPage = () => html`
       showToastCompat('Success! Redirecting...', 'success');
       setTimeout(function () {
         if (userData.role === 'super_admin') window.location.replace('./super-admin-dashboard.html');
+        else if (userData.role === 'org_admin') window.location.replace('/organisation-dashboard');
         else if (userData.role === 'school_admin') window.location.replace('./admin-dashboard.html');
         else if (userData.role === 'teacher') window.location.replace('./teacher-dashboard.html');
         else if (userData.role === 'student' || userData.role === 'individual') window.location.replace('./student-activities.html');
@@ -1660,6 +1661,7 @@ export const AuthPage = () => html`
   /** Where each role belongs, in one place — used by login and by resume. */
   function dashboardFor(role) {
     if (role === 'super_admin') return './super-admin-dashboard.html';
+    if (role === 'org_admin') return '/organisation-dashboard';
     if (role === 'school_admin') return './admin-dashboard.html';
     if (role === 'teacher') return './teacher-dashboard.html';
     if (role === 'student' || role === 'individual') return './student-activities.html';
@@ -2280,11 +2282,8 @@ export const AuthPage = () => html`
 
         showToast('Success! Redirecting...', 'success');
         setTimeout(() => {
-          if (userData.role === 'super_admin') window.location.replace('./super-admin-dashboard.html');
-        else if (userData.role === 'school_admin') window.location.replace('./admin-dashboard.html');
-          else if (userData.role === 'teacher') window.location.replace('./teacher-dashboard.html');
-          else if (userData.role === 'student' || userData.role === 'individual') window.location.replace('./student-activities.html');
-          else if (userData.role === 'family') window.location.replace('./family.html');
+          const target = dashboardFor(userData.role);
+          if (target) window.location.replace(target);
           // See the note on the other redirect block: legacy parent accounts.
           else if (userData.role === 'parent') showToast('Parent accounts have moved. Sign in with your child\\'s Student & Family account and open Parent Area.', 'error');
         }, 1000);

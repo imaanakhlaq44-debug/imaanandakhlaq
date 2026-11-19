@@ -55,6 +55,7 @@ import { SchoolWall } from './components/SchoolWall'
 import { generateOrgJoinHTML } from './components/OrgJoinPage'
 import { generateStudentPinHTML } from './components/StudentPinPage'
 import { generateOrgsDashboardHTML } from './components/OrgsDashboard'
+import { organisationPortalPage } from './components/OrganisationPortal'
 import { ParentWall } from './components/ParentWall'
 import { NotFoundPage } from './components/NotFoundPage'
 
@@ -195,6 +196,16 @@ app.get('/s', (c) => {
 app.get('/orgs', (c) => {
   return c.html(generateOrgsDashboardHTML())
 })
+
+app.get('/organisation-invite', (c) => c.html(organisationPortalPage('invite')))
+// Keep old organisation sign-in bookmarks working on the static host.
+app.get('/organisation-login', (c) => c.html(html`
+  <!doctype html><html lang="en"><head><meta charset="utf-8">
+  <meta http-equiv="refresh" content="0; url=/auth">
+  <title>Sign in · Imaan &amp; Akhlaq</title></head>
+  <body><a href="/auth">Continue to sign in</a></body></html>
+`))
+app.get('/organisation-dashboard', (c) => c.html(organisationPortalPage('dashboard')))
 
 app.get('/teacher-dashboard', (c) => {
   return c.html(generateTeacherDashboardHTML())

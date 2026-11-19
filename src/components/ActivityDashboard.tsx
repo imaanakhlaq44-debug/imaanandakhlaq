@@ -1977,6 +1977,21 @@ export const ActivityDashboard = () => html`
 
     <div class="dashboard-main">
 
+      <section class="surface-card role-learner-hero" id="learnerNextLesson" hidden>
+        <img id="learnerNextCover" alt="" width="88" height="118" hidden>
+        <div>
+          <span class="role-overview-kicker" id="learnerNextBook"></span>
+          <h2 id="learnerNextTitle">My learning journey</h2>
+          <p id="learnerNextProgress"></p>
+          <a class="role-primary-action" id="learnerNextAction" href="#studentBooksSection">Browse books</a>
+        </div>
+      </section>
+      <section class="surface-card role-overview-card" id="learnerFeedback" hidden>
+        <h2>Teacher feedback</h2>
+        <p id="learnerFeedbackNote"></p>
+        <a id="learnerFeedbackLesson" class="role-secondary-action">Open lesson</a>
+      </section>
+
       <div id="championsBoard" class="champions-board" style="display:none">
         <div class="champions-header">
           <h3>🏆 Champions Board</h3>
@@ -2536,8 +2551,29 @@ ${HouseQuizModal()}
     return chapters;
   }
 
+  function renderNextLesson(chapters) {
+    if (!currentStudent || !chapters.length) return;
+    const completed = new Set(gameState.completed || []);
+    const next = chapters.find((chapter) => !completed.has(chapter.stateId) &&
+      (chapter.bookOrder === 1 || chapter.globalOrder <= (gameState.unlockedCount || 1)));
+    const book = next && ALL_BOOKS.find((item) => item.id === next.bId);
+    const title = document.getElementById('learnerNextTitle');
+    const cover = document.getElementById('learnerNextCover');
+    const action = document.getElementById('learnerNextAction');
+    document.getElementById('learnerNextLesson').hidden = false;
+    document.getElementById('learnerNextBook').textContent = book ? book.title + ' · Chapter ' + next.bookOrder : 'My learning journey';
+    title.textContent = next ? next.title : 'Explore your books';
+    cover.hidden = !book;
+    if (book) cover.src = book.cover;
+    const done = chapters.filter((chapter) => completed.has(chapter.stateId)).length;
+    document.getElementById('learnerNextProgress').textContent = done + ' of ' + chapters.length + ' chapters completed';
+    action.textContent = next ? (done ? 'Continue lesson' : 'Start lesson') : 'Browse books';
+    action.href = next ? 'activity.html?book=' + next.bId + '&chapter=' + next.cId : '#studentBooksSection';
+  }
+
   function updateDashboardMetrics() {
     const allChapters = getAllChaptersInOrder();
+    renderNextLesson(allChapters);
     const totalChapters = allChapters.length;
     const completedCount = (gameState.completed || []).length;
     const parentApprovedCount = (gameState.parent_approved || []).length;
@@ -2586,7 +2622,7 @@ ${HouseQuizModal()}
 
   function getStudentSectionTarget(section) {
     const topSection = document.getElementById('studentTopSection');
-    const overviewSection = document.getElementById('studentOverviewSection');
+    const overviewSection = document.getElementById('learnerNextLesson');
     const booksSection = document.getElementById('studentBooksSection');
     const progressSection = document.getElementById('studentProgressSection');
     const studentRankingsSection = document.getElementById('studentRankingsSection');
@@ -2983,6 +3019,35 @@ ${HouseQuizModal()}
     return isNaN(d.getTime()) ? '' : d.toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' });
   }
 
+  async function getLearnerSubmissions() {
+    const studentUid = currentStudent.uid;
+    const family = familyIdentity;
+    const isFamily = !!family?.isFamilyAccount;
+    const { collection, query, where, getDocs } = await import('https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js');
+    const snap = await getDocs(query(collection(db, 'activity_submissions'),
+      isFamily ? where('family_uid', '==', family.familyUid) : where('student_uid', '==', studentUid)));
+    return snap.docs.map((entry) => entry.data()).filter((entry) => entry.student_uid === studentUid);
+  }
+
+  async function showLearnerFeedback() {
+    if (!currentStudent || currentStudent.role === 'individual') return;
+    try {
+      const rows = await getLearnerSubmissions();
+      const recent = rows.filter((row) => String(row.teacherNotes || '').trim())
+        .sort((a, b) => new Date(b.teacherReviewedAt || b.teacherApprovedAt || b.updatedAt || 0)
+          - new Date(a.teacherReviewedAt || a.teacherApprovedAt || a.updatedAt || 0))[0];
+      if (!recent) return;
+      document.getElementById('learnerFeedbackNote').textContent = recent.teacherNotes.trim();
+      const chapter = getAllChaptersInOrder().find((item) => item.stateId === recent.chapter_id);
+      const link = document.getElementById('learnerFeedbackLesson');
+      link.hidden = !chapter;
+      if (chapter) link.href = 'activity.html?book=' + chapter.bId + '&chapter=' + chapter.cId;
+      document.getElementById('learnerFeedback').hidden = false;
+    } catch (error) {
+      console.warn('Could not load teacher feedback', error);
+    }
+  }
+
   let parentReportLoaded = false;
   async function loadParentReport() {
     const listEl = document.getElementById('pgParentApprovalList');
@@ -2991,27 +3056,7 @@ ${HouseQuizModal()}
     if (parentReportLoaded) return;
 
     try {
-      const { collection, query, where, getDocs } = await import('https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js');
-
-      // On a family login student_uid is not the caller, so the rules have to
-      // match on family_uid instead — and a list is only permitted when the
-      // query itself proves the rule. Filtering on family_uid ALONE keeps this
-      // a single-field equality, so no composite index is needed; the siblings
-      // are dropped below. A household is at most eight children, so the extra
-      // documents cost nothing.
-      const isFamily = !!(familyIdentity && familyIdentity.isFamilyAccount);
-      const snap = await getDocs(query(
-        collection(db, 'activity_submissions'),
-        isFamily
-          ? where('family_uid', '==', familyIdentity.familyUid)
-          : where('student_uid', '==', currentStudent.uid)
-      ));
-
-      const rows = [];
-      snap.forEach(d => {
-        const data = d.data();
-        if (!isFamily || data.student_uid === currentStudent.uid) rows.push(data);
-      });
+      const rows = await getLearnerSubmissions();
       rows.sort((a, b) => new Date(b.updatedAt || b.submittedAt || 0) - new Date(a.updatedAt || a.submittedAt || 0));
 
       if (pendEl) {
@@ -4484,6 +4529,7 @@ ${HouseQuizModal()}
       studentDashboardView.classList.remove('d-none');
       hasInitializedDashboard = true;
       await fetchActivitiesData();
+      void showLearnerFeedback();
       window.switchStudentSection(currentStudentSection, false);
     } catch (err) {
       console.error('Firebase student dashboard error:', err);

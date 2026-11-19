@@ -643,3 +643,81 @@ a.ds-stat:hover { box-shadow: var(--ds-shadow-lift); transform: translateY(-1px)
 /* Anything that scrolls under the APK bottom bar gets this class so its last
    card clears the bar. */
 .ds-bottombar-safe { padding-bottom: var(--ds-bottombar-clear); }
+/* Task-first layouts for the school, teacher and learner home screens. */
+.role-overview-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.role-overview-head h2 { margin: 0; color: #192744; }
+.role-filter { display: flex; align-items: center; gap: 10px; color: #344968; font-weight: 700; }
+.role-filter select {
+  max-width: min(56vw, 280px);
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 1px solid #bcc9dc;
+  border-radius: 10px;
+  background: #fff;
+  color: #192744;
+  font: inherit;
+}
+.role-overview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  align-items: start;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+.role-overview-grid #onboardingChecklist { margin-bottom: 0 !important; }
+.role-overview-card, .role-learner-hero {
+  border: 1px solid #d9e3f1;
+  border-radius: 14px;
+  background: #fff;
+  color: #192744;
+  padding: clamp(16px, 3vw, 23px);
+  margin-bottom: 14px;
+}
+.role-overview-grid > .role-overview-card { margin-bottom: 0; }
+.role-overview-card h2, .role-overview-card h3, .role-learner-hero h2 {
+  margin: 0 0 8px;
+  color: #192744;
+  font-size: clamp(1.15rem, 2.5vw, 1.45rem);
+}
+.role-overview-card p, .role-learner-hero p { margin: 0 0 14px; color: #536680; overflow-wrap: anywhere; }
+.role-primary-action, .role-secondary-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 8px 15px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  font: inherit;
+  font-weight: 750;
+  text-decoration: none;
+  cursor: pointer;
+}
+.role-primary-action { background: #bc2360; color: #fff; }
+.role-primary-action:hover { color: #fff; background: #a82054; }
+.role-primary-action:disabled { opacity: .55; cursor: default; }
+.role-secondary-action { border-color: #b8c7dd; background: #fff; color: #192744; }
+.role-secondary-action:hover { background: #f2f5fb; }
+.role-next-list { margin: 0; padding-inline-start: 22px; }
+.role-next-list li { padding-block: 5px; overflow-wrap: anywhere; }
+.role-learner-hero {
+  display: flex;
+  align-items: center;
+  gap: clamp(14px, 4vw, 26px);
+  border-color: #ead4e1;
+  background: #fff8fc;
+}
+.role-learner-hero[hidden], .role-overview-card[hidden], .role-learner-hero img[hidden],
+.role-overview-card a[hidden] { display: none; }
+.role-learner-hero img { flex: 0 0 auto; object-fit: cover; width: clamp(58px, 14vw, 88px); height: auto; border-radius: 7px; }
+.role-overview-kicker { display: block; margin-bottom: 5px; font-size: .82rem; color: #7b3658; font-weight: 750; }
+.role-setup-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 9px 7px; border-bottom: 1px solid #e8edf6; }
+.role-setup-row.is-next { background: #fff1f8; border-radius: 9px; border-color: #f0d7e5; }
+.role-setup-row button { min-height: 44px; }

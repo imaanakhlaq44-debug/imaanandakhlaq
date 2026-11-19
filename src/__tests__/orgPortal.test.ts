@@ -3,7 +3,8 @@ import { initializeApp as initAdmin, deleteApp as deleteAdminApp, type App } fro
 import { getFirestore as adminFirestore } from 'firebase-admin/firestore'
 import { getAuth as adminAuth } from 'firebase-admin/auth'
 import { initializeApp as initClient, deleteApp as deleteClientApp } from 'firebase/app'
-import { getAuth, connectAuthEmulator, signInWithCustomToken, signOut } from 'firebase/auth'
+import { getAuth, connectAuthEmulator, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithCustomToken, signOut } from 'firebase/auth'
+import { connectFirestoreEmulator, doc, getDoc, getFirestore } from 'firebase/firestore'
 import { getFunctions, connectFunctionsEmulator, httpsCallable } from 'firebase/functions'
 
 /**
@@ -20,7 +21,7 @@ import { getFunctions, connectFunctionsEmulator, httpsCallable } from 'firebase/
  */
 
 const HAS_EMULATOR = !!(process.env.FIRESTORE_EMULATOR_HOST && process.env.FIREBASE_AUTH_EMULATOR_HOST)
-const PROJECT = 'imaan-app-1d2da'
+const PROJECT = process.env.GCLOUD_PROJECT || 'imaan-app-1d2da'
 
 let adminApp: App
 let clientApp: ReturnType<typeof initClient>
@@ -109,6 +110,69 @@ describe.skipIf(!HAS_EMULATOR)('Organisation portals', () => {
     await signOut(auth).catch(() => {})
     await clearEmulators()
   })
+
+  it('delegates one organisation account, then links and manages just its own schools', async () => {
+    await seedSuper()
+    const org = await call('createOrg', { name: 'Noor Education', delegate_admin: true })
+    const other = await call('createOrg', { name: 'Amanah Education' })
+    expect(org.join_path).toBeNull()
+    const invite = { org_id: org.org_id, token: tokenOf(org.invite_path) }
+
+    // Rotating an invite for an existing organisation retires the previous link.
+    const replacement = await call('inviteOrgAdmin', { org_id: org.org_id })
+    const currentInvite = { org_id: org.org_id, token: tokenOf(replacement.invite_path) }
+    await signOut(auth)
+    expect(await codeOf(call('describeOrgAdminInvite', invite))).toBe('functions/not-found')
+    expect(await call('describeOrgAdminInvite', currentInvite)).toEqual({ name: 'Noor Education' })
+    expect(await codeOf(call('redeemOrgAdminInvite', currentInvite))).toBe('functions/unauthenticated')
+
+    const email = 'portal-admin@gmail.com'
+    const password = 'test-only-password123'
+    const user = (await createUserWithEmailAndPassword(auth, email, password)).user
+    await call('redeemOrgAdminInvite', currentInvite)
+    await call('redeemOrgAdminInvite', currentInvite)
+    expect((await db.collection('users').doc(user.uid).get()).data()).toMatchObject({
+      role: 'org_admin', org_id: org.org_id, email
+    })
+
+    await signOut(auth)
+    await createUserWithEmailAndPassword(auth, 'other-admin@gmail.com', password)
+    expect(await codeOf(call('redeemOrgAdminInvite', currentInvite))).toBe('functions/not-found')
+    await signOut(auth)
+    await signInWithEmailAndPassword(auth, email, password)
+    expect(await call('getOrganisationDashboard')).toEqual({ name: 'Noor Education', join_path: null, schools: [] })
+    expect(await codeOf(call('rotateOrgToken', { org_id: other.org_id }))).toBe('functions/permission-denied')
+    expect(await codeOf(call('inviteOrgAdmin', { org_id: other.org_id }))).toBe('functions/permission-denied')
+    const link = await call('rotateOrgToken')
+
+    await signOut(auth)
+    const school = await call('registerSchoolInOrg', {
+      slug: org.slug, token: tokenOf(link.join_path), school_name: 'Gulshan Campus', location: 'Karachi',
+      admin_name: 'Head Teacher', email: 'head@school.example', password
+    })
+    const otherSchool = await call('registerSchoolInOrg', {
+      slug: other.slug, token: tokenOf(other.join_path), school_name: 'North Campus',
+      admin_name: 'Head Teacher', email: 'head@other.example', password
+    })
+
+    await signInWithEmailAndPassword(auth, email, password)
+    const portal = await call('getOrganisationDashboard', { org_id: other.org_id })
+    expect(portal.schools).toHaveLength(1)
+    expect(portal.schools[0]).toMatchObject({ school_id: school.school_id, name: 'Gulshan Campus', location: 'Karachi' })
+    expect(portal.schools[0]).not.toHaveProperty('admin_uid')
+    expect(portal.schools[0]).not.toHaveProperty('school_code')
+    const clientDb = getFirestore(clientApp)
+    const [dbHost, dbPort] = process.env.FIRESTORE_EMULATOR_HOST!.split(':')
+    connectFirestoreEmulator(clientDb, dbHost, Number(dbPort))
+    await expect(getDoc(doc(clientDb, 'schools', otherSchool.school_id))).rejects.toMatchObject({ code: 'permission-denied' })
+    expect(await codeOf(call('updateOrganisationSchool', { school_id: otherSchool.school_id, name: 'New name' }))).toBe('functions/not-found')
+    await call('updateOrganisationSchool', { school_id: school.school_id, name: 'Gulshan Campus East', location: 'Karachi' })
+    const newLink = await call('rotateOrgToken')
+    expect(newLink.join_path).not.toBe(link.join_path)
+    expect(await codeOf(call('describeOrgInvite', { slug: org.slug, token: tokenOf(link.join_path) }))).toBe('functions/not-found')
+    expect((await call('getOrganisationDashboard')).schools[0].name).toBe('Gulshan Campus East')
+    expect(await call('describeOrgInvite', { slug: other.slug, token: tokenOf(other.join_path) })).toMatchObject({ name: 'Amanah Education' })
+  }, 180000)
 
   describe('the organisation link', () => {
     it('mints a readable path with the secret in the fragment', async () => {

@@ -127,7 +127,8 @@ service cloud.firestore {
     // 2. Schools
     // ---------------------------------------------------------------
     match /schools/{schoolId} {
-      allow read: if signedIn();
+      // Organisation admins use the portal callable for their own school list.
+      allow read: if signedIn() && me().role != 'org_admin';
 
       // A school doc may only be created by the school_admin user whose own
       // profile points at this exact school id, claiming himself as admin.
@@ -145,6 +146,7 @@ service cloud.firestore {
         request.resource.data.admin_uid == request.auth.uid &&
         me().role == 'school_admin' &&
         mySchool() == schoolId &&
+        !('org_id' in request.resource.data) &&
         request.resource.data.get('wall_enabled', false) == false &&
         request.resource.data.get('approval_status', 'pending') == 'pending';
 
@@ -195,7 +197,7 @@ service cloud.firestore {
       //    yet (the school doc is created right after, owned by this uid)
       //  - teacher/student/parent: must present a pending invite whose role
       //    and school match the profile being created
-      // 'super_admin' can never be self-assigned (set it via Admin SDK /
+      // 'super_admin' and 'org_admin' can never be self-assigned (Admin SDK /
       // Firebase console only).
       allow create: if signedIn() && request.auth.uid == userId && (
         (
@@ -400,7 +402,7 @@ service cloud.firestore {
     // /users must never allow: a user doc also carries phone, email and
     // invitation_code.
     match /public_scores/{userId} {
-      allow get, list: if signedIn();
+      allow get, list: if signedIn() && me().role != 'org_admin';
       allow write: if false;
     }
 

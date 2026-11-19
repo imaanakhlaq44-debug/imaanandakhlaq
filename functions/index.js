@@ -8,6 +8,14 @@ const { randomInt, createHash, randomBytes, scryptSync, timingSafeEqual } = requ
 
 initializeApp();
 const db = getFirestore();
+const { createAdminInvite, schoolJoinPath, makeOrganisationPortal } = require('./organisation-portal');
+
+const orgPortal = makeOrganisationPortal({ db, HttpsError, FieldValue, requireStaff });
+exports.inviteOrgAdmin = onCall({ cors: true }, orgPortal.inviteOrgAdmin);
+exports.describeOrgAdminInvite = onCall({ cors: true }, orgPortal.describeOrgAdminInvite);
+exports.redeemOrgAdminInvite = onCall({ cors: true }, orgPortal.redeemOrgAdminInvite);
+exports.getOrganisationDashboard = onCall({ cors: true }, orgPortal.getOrganisationDashboard);
+exports.updateOrganisationSchool = onCall({ cors: true }, orgPortal.updateOrganisationSchool);
 
 /**
  * Phone-number login: resolve a phone number to the account email.
@@ -188,7 +196,7 @@ async function requireStaff(request, roles) {
   if (!roles.includes(me.role)) {
     throw new HttpsError('permission-denied', 'Only a school admin can do this.');
   }
-  return { uid: request.auth.uid, role: me.role, school_id: me.school_id || '' };
+  return { uid: request.auth.uid, role: me.role, school_id: me.school_id || '', org_id: me.org_id || '' };
 }
 
 /**
@@ -2827,15 +2835,15 @@ function slugify(value) {
 }
 
 /** The first free slug in this org: 'campus', then 'campus-2', 'campus-3'. */
-async function uniqueSchoolSlug(orgId, base) {
+async function uniqueSchoolSlug(tx, orgId, base) {
   const stem = base || 'school';
   for (let n = 1; n < 100; n++) {
     const candidate = n === 1 ? stem : stem + '-' + n;
-    const clash = await db.collection('schools')
+    const query = db.collection('schools')
       .where('org_id', '==', orgId)
       .where('slug', '==', candidate)
-      .limit(1)
-      .get();
+      .limit(1);
+    const clash = await tx.get(query);
     if (clash.empty) return candidate;
   }
   throw new HttpsError('resource-exhausted', 'Too many schools with that name.');
@@ -2893,9 +2901,11 @@ exports.createOrg = onCall({ cors: true }, async (request) => {
   const clash = await db.collection('orgs').where('slug', '==', slug).limit(1).get();
   if (!clash.empty) throw new HttpsError('already-exists', 'An organisation already uses the link /join?org=' + slug + '.');
 
-  const joinToken = randomCode(ORG_TOKEN_LENGTH);
   const ref = db.collection('orgs').doc();
+  const invite = data.delegate_admin === true ? createAdminInvite(ref.id) : null;
+  const joinToken = invite ? null : randomCode(ORG_TOKEN_LENGTH);
   await ref.set({
+    ...(invite && invite.fields),
     name: name,
     slug: slug,
     join_token: joinToken,
@@ -2917,26 +2927,35 @@ exports.createOrg = onCall({ cors: true }, async (request) => {
     // serve it from, and organisations are made after the build. The query
     // keeps the name where a human can read it; the fragment keeps the token
     // out of access logs and Referer headers, the way a parent link does.
-    join_path: '/join?org=' + slug + '#' + joinToken
+    join_path: joinToken ? '/join?org=' + slug + '#' + joinToken : null,
+    ...(invite && { invite_path: invite.path })
   };
 });
 
 /** Retire every copy of an organisation's link at once. */
 exports.rotateOrgToken = onCall({ cors: true }, async (request) => {
-  const caller = await requireStaff(request, ['super_admin']);
-  const orgId = String((request.data && request.data.org_id) || '').trim();
-  if (!orgId) throw new HttpsError('invalid-argument', 'Which organisation?');
-
+  const caller = await requireStaff(request, ['super_admin', 'org_admin']);
+  const requestedId = String(request.data?.org_id || '').trim();
+  const orgId = caller.role === 'org_admin' ? caller.org_id : requestedId;
+  if (!/^[A-Za-z0-9_-]{1,128}$/.test(orgId)) {
+    throw new HttpsError('invalid-argument', 'Choose an organisation.');
+  }
+  if (caller.role === 'org_admin' && requestedId && requestedId !== orgId) {
+    throw new HttpsError('permission-denied', 'This organisation is unavailable to your account.');
+  }
   const ref = db.collection('orgs').doc(orgId);
-  const snap = await ref.get();
-  if (!snap.exists) throw new HttpsError('not-found', 'No such organisation.');
-
   const joinToken = randomCode(ORG_TOKEN_LENGTH);
-  await ref.update({ join_token: joinToken, token_rotated_at: nowIso(), token_rotated_by: caller.uid });
-
-  // The schools already registered are untouched: the join token is spent at
-  // registration and never read again.
-  return { org_id: orgId, join_path: '/join?org=' + snap.get('slug') + '#' + joinToken };
+  return db.runTransaction(async (tx) => {
+    const org = await tx.get(ref);
+    if (!org.exists || org.get('status') !== 'active') {
+      throw new HttpsError('not-found', 'This organisation is unavailable.');
+    }
+    if (caller.role === 'org_admin' && org.get('admin_uid') !== caller.uid) {
+      throw new HttpsError('permission-denied', 'This organisation is unavailable to your account.');
+    }
+    tx.update(ref, { join_token: joinToken, token_rotated_at: nowIso(), token_rotated_by: caller.uid });
+    return { org_id: orgId, join_path: '/join?org=' + encodeURIComponent(org.get('slug')) + '#' + joinToken };
+  });
 });
 
 /**
@@ -3090,23 +3109,24 @@ exports.deleteOrg = onCall({ cors: true }, async (request) => {
   if (!orgId) throw new HttpsError('invalid-argument', 'Which organisation?');
 
   const ref = db.collection('orgs').doc(orgId);
-  const snap = await ref.get();
-  if (!snap.exists) throw new HttpsError('not-found', 'No such organisation.');
-
-  const schools = await db.collection('schools').where('org_id', '==', orgId).get();
-  if (!schools.empty) {
-    const n = schools.size;
-    throw new HttpsError('failed-precondition',
-      n + ' school' + (n === 1 ? ' has' : 's have') + ' registered through this organisation, so it cannot be removed. ' +
-      'Remove them from the Schools directory first, or use New link to retire its link instead — that stops any further school joining and leaves the ones already here untouched.');
-  }
-
-  await ref.delete();
-
-  // The link dies with the document: describeOrgInvite and registerSchoolInOrg
-  // both resolve the organisation by slug before they look at the token, so
-  // there is no separate token record left behind to revoke.
-  return { org_id: orgId, name: snap.get('name') || '' };
+  return db.runTransaction(async (tx) => {
+    const org = await tx.get(ref);
+    if (!org.exists) throw new HttpsError('not-found', 'No such organisation.');
+    const schools = await tx.get(db.collection('schools').where('org_id', '==', orgId));
+    if (!schools.empty) {
+      throw new HttpsError('failed-precondition', 'Schools have registered through this organisation, so it cannot be removed.');
+    }
+    const adminUid = org.get('admin_uid');
+    if (adminUid) {
+      const profileRef = db.collection('users').doc(adminUid);
+      const profile = await tx.get(profileRef);
+      if (profile.exists && profile.get('role') === 'org_admin' && profile.get('org_id') === orgId) {
+        tx.delete(profileRef);
+      }
+    }
+    tx.delete(ref);
+    return { org_id: orgId, name: org.get('name') || '' };
+  });
 });
 
 /**
@@ -3169,7 +3189,6 @@ exports.registerSchoolInOrg = onCall({ cors: true }, async (request) => {
     throw new HttpsError('not-found', 'This link is not valid any more. Ask the organisation for a current one.');
   }
 
-  const schoolSlug = await uniqueSchoolSlug(org.id, slugify(schoolName));
   const studentToken = randomCode(SCHOOL_TOKEN_LENGTH);
 
   let user;
@@ -3182,58 +3201,66 @@ exports.registerSchoolInOrg = onCall({ cors: true }, async (request) => {
     throw new HttpsError('internal', 'Could not create the account.');
   }
 
-  const schoolId = db.collection('schools').doc().id;
-
+  const school = db.collection('schools').doc();
   try {
-    // The profile first, then the school: the same order the auth page uses,
-    // because the schools create rule reads the caller's profile.
-    await db.collection('users').doc(user.uid).set({
-      role: 'school_admin',
-      email: email,
-      name: adminName,
-      school_id: schoolId
+    return await db.runTransaction(async (tx) => {
+      const current = await tx.get(org.ref);
+      if (!current.exists || current.get('join_token') !== token || current.get('status') !== 'active') {
+        throw new HttpsError('not-found', 'This link is not valid any more. Ask the organisation for a current one.');
+      }
+      const schoolSlug = await uniqueSchoolSlug(tx, current.id, slugify(schoolName));
+      const orgSlug = current.get('slug');
+      tx.create(db.collection('users').doc(user.uid), {
+        role: 'school_admin',
+        email,
+        name: adminName,
+        school_id: school.id
+      });
+      tx.create(school, {
+        name: schoolName,
+        location: String(data.location || '').trim(),
+        school_code: randomCode(CHILD_CODE_LENGTH),
+        admin_uid: user.uid,
+        org_id: current.id,
+        slug: schoolSlug,
+        type: 'weekly',
+        meeting_day: String(data.meeting_day || '').trim(),
+        approval_status: 'approved',
+        wall_enabled: false,
+        wall_settings: { comments: 'staff', require_approval: false },
+        created_at: nowIso()
+      });
+      tx.create(db.collection('school_links').doc(studentToken), {
+        school_id: school.id,
+        org_slug: orgSlug,
+        school_slug: schoolSlug,
+        created_at: nowIso()
+      });
+      tx.update(current.ref, { school_count: FieldValue.increment(1) });
+      return {
+        school_id: school.id,
+        school_slug: schoolSlug,
+        org_slug: orgSlug,
+        student_path: studentPath(orgSlug, schoolSlug, studentToken)
+      };
     });
-
-    await db.collection('schools').doc(schoolId).set({
-      name: schoolName,
-      location: String(data.location || '').trim(),
-      school_code: randomCode(CHILD_CODE_LENGTH),
-      admin_uid: user.uid,
-      org_id: org.id,
-      slug: schoolSlug,
-      type: 'weekly',
-      meeting_day: String(data.meeting_day || '').trim(),
-      approval_status: 'approved',
-      wall_enabled: false,
-      wall_settings: { comments: 'staff', require_approval: false },
-      created_at: nowIso()
-    });
-
-    // The link lives in its own closed collection, keyed BY the token, so
-    // signing a child in is one document read rather than a query — and so
-    // that nothing readable anywhere holds the secret.
-    await db.collection('school_links').doc(studentToken).set({
-      school_id: schoolId,
-      org_slug: org.get('slug'),
-      school_slug: schoolSlug,
-      created_at: nowIso()
-    });
-
-    await db.collection('orgs').doc(org.id).update({ school_count: FieldValue.increment(1) });
   } catch (err) {
-    // A half-made school is worse than none: the head would hold an account
-    // that signs in to nothing, and could not register again with that email.
+    // Delete Auth only if the school profile did not commit. A retry after
+    // a lost commit acknowledgement can still recover the successful signup.
+    const profile = await db.collection('users').doc(user.uid).get();
+    if (profile.exists && profile.get('school_id') === school.id) {
+      const saved = await school.get();
+      return {
+        school_id: school.id,
+        school_slug: saved.get('slug'),
+        org_slug: org.get('slug'),
+        student_path: studentPath(org.get('slug'), saved.get('slug'), studentToken)
+      };
+    }
     await getAuth().deleteUser(user.uid).catch(() => {});
-    await db.collection('users').doc(user.uid).delete().catch(() => {});
+    if (err instanceof HttpsError) throw err;
     throw new HttpsError('internal', 'Could not finish registering the school.');
   }
-
-  return {
-    school_id: schoolId,
-    school_slug: schoolSlug,
-    org_slug: org.get('slug'),
-    student_path: studentPath(org.get('slug'), schoolSlug, studentToken)
-  };
 });
 
 /**
@@ -3461,7 +3488,9 @@ exports.listOrgs = onCall({ cors: true }, async (request) => {
       status: d.get('status'),
       school_count: d.get('school_count') || 0,
       created_at: d.get('created_at'),
-      join_path: '/join?org=' + d.get('slug') + '#' + d.get('join_token')
+      join_path: schoolJoinPath(d),
+      admin_status: d.get('admin_uid') ? 'active' :
+        d.get('admin_invite_expires') > Date.now() ? 'pending' : 'uninvited'
     }))
   };
 });
