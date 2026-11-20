@@ -6,6 +6,11 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      deploy_rules:
+        description: Deploy Firestore rules with the configured service account
+        type: boolean
+        default: false
 
 # Do deploy ek saath na chalein (warna FTP state file kharab ho sakti hai)
 concurrency:
@@ -26,12 +31,17 @@ jobs:
         id: detect
         env:
           PREVIOUS: ${{ github.event.before }}
+          MANUAL_RULES: ${{ inputs.deploy_rules }}
         run: |
           request=0
           if [ "$GITHUB_EVENT_NAME" = workflow_dispatch ] || ! git cat-file -e "$PREVIOUS^{commit}" 2>/dev/null; then
             request=1
           fi
-          if [ "$request" = 1 ] || ! git diff --quiet "$PREVIOUS" HEAD -- firestore.rules; then
+          if [ "$GITHUB_EVENT_NAME" = workflow_dispatch ]; then
+            if [ "$MANUAL_RULES" = true ]; then
+              echo "rules=true" >> "$GITHUB_OUTPUT"
+            fi
+          elif [ "$request" = 1 ] || ! git diff --quiet "$PREVIOUS" HEAD -- firestore.rules; then
             echo "rules=true" >> "$GITHUB_OUTPUT"
           fi
           if [ "$request" = 1 ] || ! git diff --quiet "$PREVIOUS" HEAD -- flutter_app/ .github/workflows/deploy.yml; then
