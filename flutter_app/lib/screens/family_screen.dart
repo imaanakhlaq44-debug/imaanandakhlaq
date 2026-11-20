@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import '../app_theme.dart';
 import '../data/app_repository.dart';
+import '../data/learning_journey.dart';
 import '../domain.dart';
 import 'entry_screens.dart' show brandCream;
+import 'journey_preferences_sheet.dart';
 import 'ui_kit.dart';
 
 /// Colours per child card, cycled, so siblings are easy to tell apart.
@@ -182,6 +184,7 @@ class _FamilyScreenState extends State<FamilyScreen> {
       } else if (snapshot.connectionState == ConnectionState.waiting) {
         body = const Center(child: CircularProgressIndicator());
       } else {
+        final repository = widget.repository;
         body = _FamilyHome(
           account: widget.account,
           children: snapshot.data!,
@@ -189,6 +192,10 @@ class _FamilyScreenState extends State<FamilyScreen> {
           onAddChild: _claim,
           onChooseSection: widget.onChooseSection,
           onSignOut: _signOut,
+          onJourneySettings:
+              learningJourneyEnabled && repository is FirebaseRepository
+              ? (child) => showJourneyPreferences(context, repository.db, child)
+              : null,
         );
       }
       return Scaffold(backgroundColor: brandCream, body: body);
@@ -204,12 +211,14 @@ class _FamilyHome extends StatefulWidget {
     required this.onAddChild,
     required this.onSignOut,
     this.onChooseSection,
+    this.onJourneySettings,
   });
   final Profile account;
   final List<Profile> children;
   final ValueChanged<Profile> onSelect;
   final VoidCallback onAddChild, onSignOut;
   final VoidCallback? onChooseSection;
+  final ValueChanged<Profile>? onJourneySettings;
   @override
   State<_FamilyHome> createState() => _FamilyHomeState();
 }
@@ -306,10 +315,24 @@ class _FamilyHomeState extends State<_FamilyHome> {
             index: i + 2,
             child: Padding(
               padding: const EdgeInsets.fromLTRB(16, 0, 16, 14),
-              child: _ChildCard(
-                child: child,
-                colors: _childPalette[i % _childPalette.length],
-                onTap: () => widget.onSelect(child),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  _ChildCard(
+                    child: child,
+                    colors: _childPalette[i % _childPalette.length],
+                    onTap: () => widget.onSelect(child),
+                  ),
+                  if (widget.onJourneySettings != null)
+                    Align(
+                      alignment: AlignmentDirectional.centerEnd,
+                      child: TextButton.icon(
+                        onPressed: () => widget.onJourneySettings!(child),
+                        icon: const Icon(Icons.tune_outlined),
+                        label: const Text('Journey settings'),
+                      ),
+                    ),
+                ],
               ),
             ),
           ),

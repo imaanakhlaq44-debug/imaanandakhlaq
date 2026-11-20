@@ -100,11 +100,13 @@ class LearningDashboard extends StatelessWidget {
     this.onMap,
     this.rewardScope,
     this.onMenu,
+    this.onJourney,
   });
   final VoidCallback? onMap;
 
   /// Opens the side menu (Individual only); null hides the ☰ button.
   final VoidCallback? onMenu;
+  final VoidCallback? onJourney;
 
   /// The Individual learner whose stars, badges and streak are shown, or
   /// null (school learners) to hide the rewards strip.
@@ -138,6 +140,18 @@ class LearningDashboard extends StatelessWidget {
             onMenu: onMenu,
           ),
         ),
+        if (onJourney != null)
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+              child: FilledButton.icon(
+                key: const Key('continue-journey'),
+                icon: const Icon(Icons.explore_outlined),
+                onPressed: onJourney,
+                label: Text(tr('Continue Journey', 'سفر جاری رکھیں')),
+              ),
+            ),
+          ),
         if (rewardScope != null)
           const SliverPadding(
             padding: EdgeInsets.fromLTRB(16, 16, 16, 0),

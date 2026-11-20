@@ -34,6 +34,7 @@ flutter:
   assets:
     - assets/data/activities.json
     - assets/data/hadith-demo.json
+    - assets/data/journey-preview.json
     - assets/data/courses/
     - assets/fonts/noto-naskh-arabic-OFL.txt
     - assets/fonts/fredoka-OFL.txt

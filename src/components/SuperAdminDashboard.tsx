@@ -3,6 +3,7 @@ import { firebaseConfigJS } from '../lib/firebaseConfig'
 import { valueEconomyHelpersJS, COMPLAINT_MAX_POINTS } from '../lib/valueEconomy'
 import { emulatorConnectJS } from '../lib/devEmulators'
 import { clubHelpersJS } from '../lib/clubData'
+import { JourneyReviewPanel, journeyReviewScript } from './JourneyReviewPanel'
 
 export const SuperAdminDashboard = () => html`
 <style>
@@ -458,6 +459,7 @@ export const SuperAdminDashboard = () => html`
       <a href="#" class="nav-item" data-target="schools"><i class="fas fa-school"></i> Schools</a>
       <a href="/orgs" class="nav-item nav-leaves"><i class="fas fa-building"></i> Organisations</a>
       <a href="#" class="nav-item" data-target="reports"><i class="fas fa-chart-pie"></i> Global Reports</a>
+      <a href="#" class="nav-item" data-target="journey-review"><i class="fas fa-book-open"></i> Journey Review</a>
       <a href="#" class="nav-item" data-target="value-economy"><i class="fas fa-coins"></i> Value Economy</a>
     </div>
   </aside>
@@ -511,6 +513,7 @@ export const SuperAdminDashboard = () => html`
         is only a seed, and until this page existed the only way to change a
         price was the Firestore console.
       -->
+      ${JourneyReviewPanel()}
       <div id="dash-value-economy" style="display: none;">
         <div class="card">
           <div class="card-header">
@@ -730,7 +733,7 @@ export const SuperAdminDashboard = () => html`
 <script src="/kidba_assets/vendor/js/chart.umd.min.js"></script>
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-  import { getFirestore, connectFirestoreEmulator, collection, getDocs, doc, getDoc, setDoc, deleteDoc, writeBatch } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+  import { getFirestore, connectFirestoreEmulator, collection, getDocs, doc, getDoc, setDoc, deleteDoc, writeBatch, serverTimestamp, runTransaction } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
   import { getAuth, connectAuthEmulator, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
   import { getFunctions, connectFunctionsEmulator, httpsCallable } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-functions.js";
 
@@ -747,6 +750,7 @@ export const SuperAdminDashboard = () => html`
   ${raw(emulatorConnectJS)}
   connectEmulators({ auth, db, functions,
     connectAuthEmulator, connectFirestoreEmulator, connectFunctionsEmulator });
+  ${raw(journeyReviewScript)}
 
 
   // CLUB_HOUSES / clubHouse come from clubData.ts — the price rows are dotted
@@ -1472,6 +1476,7 @@ export const SuperAdminDashboard = () => html`
     const secReports = document.getElementById('dash-reports');
     const secComingSoon = document.getElementById('coming-soon-section');
     const secValueEconomy = document.getElementById('dash-value-economy');
+    const secJourneyReview = document.getElementById('dash-journey-review');
 
     navItems.forEach(item => {
       item.addEventListener('click', (e) => {
@@ -1490,6 +1495,7 @@ export const SuperAdminDashboard = () => html`
         secReports.style.display = 'none';
         secComingSoon.style.display = 'none';
         if (secValueEconomy) secValueEconomy.style.display = 'none';
+        if (secJourneyReview) secJourneyReview.style.display = 'none';
 
         // Show appropriate sections
         if (target === 'dashboard') {
@@ -1500,6 +1506,8 @@ export const SuperAdminDashboard = () => html`
           secSchools.style.display = 'block';
         } else if (target === 'reports') {
           secReports.style.display = 'block';
+        } else if (target === 'journey-review') {
+          secJourneyReview.style.display = 'block';
         } else if (target === 'value-economy') {
           secValueEconomy.style.display = 'block';
           // Re-read on every open rather than caching: another HQ admin may

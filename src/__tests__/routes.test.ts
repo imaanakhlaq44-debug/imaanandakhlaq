@@ -38,6 +38,10 @@ describe('Hono Routes', () => {
   it('should return 200 for super admin dashboard', async () => {
     const res = await app.request('/super-admin-dashboard')
     expect(res.status).toBe(200)
+    const page = await res.text()
+    expect(page).toContain('id="dash-journey-review"')
+    expect(page).toContain('Audio accuracy and rights')
+    expect(page).toContain('journey_publications')
   })
 
   it('should return 200 for the parent wall', async () => {

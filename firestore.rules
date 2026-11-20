@@ -771,7 +771,126 @@ service cloud.firestore {
     }
 
     // ---------------------------------------------------------------
-    // 17. Individual space for a school login
+    // 17. Learning Journey family controls and private progress
+    // ---------------------------------------------------------------
+    function managesJourney(learnerId) {
+      return signedIn() && me().role == 'family' &&
+        isMyFamily(get(/databases/$(database)/documents/users/$(learnerId)).data);
+    }
+
+    function ownsJourney(learnerId) {
+      return signedIn() && (
+        (learnerId == request.auth.uid && me().role == 'student') ||
+        managesJourney(learnerId)
+      );
+    }
+
+    match /journey_preferences/{learnerId} {
+      allow get: if ownsJourney(learnerId);
+      allow create, update: if managesJourney(learnerId) &&
+        request.resource.data.keys().hasOnly(['sync', 'supported', 'sessionMinutes', 'ageLane']) &&
+        request.resource.data.sync is bool &&
+        request.resource.data.supported is bool &&
+        request.resource.data.get('ageLane', '') in ['', 'parentLed', 'guided', 'core', 'advanced'] &&
+        request.resource.data.sessionMinutes in [0, 5, 10, 15, 20];
+    }
+
+    match /journey_progress/{learnerId}/levels/{levelId} {
+      function syncAllowed() {
+        return ownsJourney(learnerId) &&
+          get(/databases/$(database)/documents/journey_preferences/$(learnerId)).data.sync == true;
+      }
+
+      function validProgress() {
+        let data = request.resource.data;
+        return levelId.matches('IA-(000[1-9]|00[1-9][0-9]|0[1-9][0-9]{2}|1000)') &&
+          data.keys().hasOnly(['completedAt', 'reviews', 'nextReviewAt']) &&
+          data.completedAt is timestamp &&
+          data.reviews is int &&
+          data.reviews in [0, 1, 2, 3] &&
+          ((data.reviews == 3 && data.nextReviewAt == null) ||
+            (data.reviews < 3 && data.nextReviewAt is timestamp &&
+              data.nextReviewAt >= data.completedAt));
+      }
+
+      allow get, list: if syncAllowed();
+      allow create: if syncAllowed() && validProgress();
+      allow update: if syncAllowed() && validProgress() &&
+        request.resource.data.completedAt <= resource.data.completedAt &&
+        request.resource.data.reviews >= resource.data.reviews;
+    }
+
+    function validJourneyHash(hash) {
+      return hash.matches('[0-9a-f]{64}');
+    }
+
+    function validSignoff(check) {
+      return check is map &&
+        check.keys().hasOnly(['reviewer', 'evidence']) &&
+        check.reviewer is string && check.reviewer.size() > 0 &&
+        check.reviewer.size() <= 120 &&
+        check.evidence is string && check.evidence.size() > 0 &&
+        check.evidence.size() <= 600;
+    }
+
+    function completeJourneyReview(data) {
+      let checks = data.checks;
+      return validSignoff(checks.sources) && validSignoff(checks.religious) &&
+        validSignoff(checks.language) && validSignoff(checks.childSafety) &&
+        validSignoff(checks.audio);
+    }
+
+    match /journey_reviews/{hash} {
+      allow get: if isSuper();
+      allow create, update: if isSuper() && validJourneyHash(hash) &&
+        request.resource.data.keys().hasOnly(['version', 'checks', 'updatedBy', 'updatedAt']) &&
+        request.resource.data.version is string &&
+        request.resource.data.version.size() > 0 &&
+        request.resource.data.version.size() <= 100 &&
+        request.resource.data.updatedBy == request.auth.uid &&
+        request.resource.data.updatedAt == request.time &&
+        request.resource.data.checks.keys().hasOnly(['sources', 'religious', 'language', 'childSafety', 'audio']) &&
+        (!('sources' in request.resource.data.checks) || validSignoff(request.resource.data.checks.sources)) &&
+        (!('religious' in request.resource.data.checks) || validSignoff(request.resource.data.checks.religious)) &&
+        (!('language' in request.resource.data.checks) || validSignoff(request.resource.data.checks.language)) &&
+        (!('childSafety' in request.resource.data.checks) || validSignoff(request.resource.data.checks.childSafety)) &&
+        (!('audio' in request.resource.data.checks) || validSignoff(request.resource.data.checks.audio)) &&
+        (!existsAfter(/databases/$(database)/documents/journey_publications/$(hash)) ||
+          !getAfter(/databases/$(database)/documents/journey_publications/$(hash)).data.active);
+
+      match /levels/{levelId} {
+        allow get: if isSuper();
+        allow create, update: if isSuper() && validJourneyHash(hash) &&
+          levelId.matches('IA-(000[1-9]|00[1-9][0-9]|0[1-9][0-9]{2}|1000)') &&
+          request.resource.data.keys().hasOnly(['status', 'note', 'updatedBy', 'updatedAt']) &&
+          request.resource.data.status in ['needs_changes', 'ready_for_review', 'checked'] &&
+          request.resource.data.note is string && request.resource.data.note.size() <= 1000 &&
+          (request.resource.data.status != 'needs_changes' || request.resource.data.note.size() > 0) &&
+          request.resource.data.updatedBy == request.auth.uid &&
+          request.resource.data.updatedAt == request.time &&
+          (!existsAfter(/databases/$(database)/documents/journey_publications/$(hash)) ||
+            !getAfter(/databases/$(database)/documents/journey_publications/$(hash)).data.active);
+      }
+    }
+
+    match /journey_publications/{hash} {
+      function matchesReviewedPackage(version) {
+        let review = getAfter(/databases/$(database)/documents/journey_reviews/$(hash)).data;
+        return review.version == version && completeJourneyReview(review);
+      }
+      allow get: if isSuper() || (validJourneyHash(hash) && resource.data.active == true);
+      allow create, update: if isSuper() && validJourneyHash(hash) &&
+        request.resource.data.keys().hasOnly(['active', 'version', 'updatedAt']) &&
+        request.resource.data.active is bool &&
+        request.resource.data.version is string &&
+        request.resource.data.version.size() > 0 &&
+        request.resource.data.version.size() <= 100 &&
+        request.resource.data.updatedAt == request.time &&
+        (!request.resource.data.active || matchesReviewedPackage(request.resource.data.version));
+    }
+
+    // ---------------------------------------------------------------
+    // 18. Individual space for a school login
     // ---------------------------------------------------------------
     // One email is one login, but a teacher, admin, student or family may
     // also study as an Individual. Their Individual profile lives here, not

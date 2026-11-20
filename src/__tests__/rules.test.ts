@@ -8,7 +8,7 @@ import {
   type RulesTestEnvironment
 } from '@firebase/rules-unit-testing'
 import {
-  doc, getDoc, setDoc, updateDoc, deleteDoc, collection, query, where, getDocs
+  doc, getDoc, setDoc, updateDoc, deleteDoc, collection, query, where, getDocs, Timestamp, serverTimestamp
 } from 'firebase/firestore'
 
 /**
@@ -89,6 +89,86 @@ describe.skipIf(!HAS_EMULATOR)('Firestore rules', () => {
   const asLegacy = () => env.authenticatedContext(LEGACY_STUDENT).firestore()
   const asTeacher = () => env.authenticatedContext(TEACHER).firestore()
   const asSuper = () => env.authenticatedContext(SUPER).firestore()
+
+  describe('Learning Journey editorial release', () => {
+    const hash = 'a'.repeat(64)
+    const version = '2026.11'
+    const reviewer = { reviewer: 'Test reviewer', evidence: 'Test review record' }
+    const checks = {
+      sources: reviewer, religious: reviewer, language: reviewer,
+      childSafety: reviewer, audio: reviewer,
+    }
+
+    it('publishes only a package with all signoffs and keeps their evidence private', async () => {
+      await env.withSecurityRulesDisabled(async (ctx) => {
+        await setDoc(doc(ctx.firestore(), 'users', SUPER), { role: 'super_admin' })
+      })
+      const admin = asSuper()
+      const review = doc(admin, 'journey_reviews', hash)
+      const published = doc(admin, 'journey_publications', hash)
+      const provenance = { version, updatedBy: SUPER, updatedAt: serverTimestamp() }
+      const publication = { version, updatedAt: serverTimestamp() }
+      const guest = env.unauthenticatedContext().firestore()
+      const guestPublication = doc(guest, 'journey_publications', hash)
+      await assertFails(setDoc(published, { ...publication, active: true }))
+      await assertFails(setDoc(doc(asTeacher(), 'journey_reviews', hash), {
+        ...provenance, updatedBy: TEACHER, checks,
+      }))
+      await assertSucceeds(setDoc(review, { ...provenance, checks: { sources: reviewer } }))
+      const levelReview = doc(admin, 'journey_reviews', hash, 'levels', 'IA-0002')
+      const levelNotes = { status: 'needs_changes', note: 'Compare the practice with the source', updatedBy: SUPER, updatedAt: serverTimestamp() }
+      await assertFails(setDoc(levelReview, { ...levelNotes, note: '' }))
+      await assertSucceeds(setDoc(levelReview, levelNotes))
+      await assertFails(getDoc(doc(guest, 'journey_reviews', hash, 'levels', 'IA-0002')))
+      await assertSucceeds(setDoc(levelReview, { ...levelNotes, status: 'ready_for_review' }))
+      await assertFails(setDoc(published, { ...publication, active: true }))
+      await assertSucceeds(setDoc(review, { ...provenance, checks }))
+      await assertFails(setDoc(published, { ...publication, version: 'different', active: true }))
+      await assertSucceeds(setDoc(published, { ...publication, active: true }))
+      await assertFails(setDoc(levelReview, { ...levelNotes, status: 'checked' }))
+      await assertSucceeds(getDoc(guestPublication))
+      await assertFails(getDoc(doc(guest, 'journey_reviews', hash)))
+      await assertFails(setDoc(review, { ...provenance, checks: {} }))
+      await assertSucceeds(setDoc(published, { ...publication, active: false }))
+      await assertFails(getDoc(guestPublication))
+    })
+  })
+
+  describe('Learning Journey progress', () => {
+    const progress = {
+      completedAt: Timestamp.fromMillis(1760000000000),
+      nextReviewAt: Timestamp.fromMillis(1760086400000),
+      reviews: 0,
+    }
+    const settings = { sync: true, supported: true, sessionMinutes: 10, ageLane: 'guided' }
+
+    it('requires the linked family to enable sync and keeps progress private', async () => {
+      const preferences = doc(asFamily(), 'journey_preferences', CHILD)
+      const level = doc(asFamily(), 'journey_progress', CHILD, 'levels', 'IA-0001')
+      await assertFails(setDoc(level, progress))
+      await assertFails(setDoc(doc(asOtherFamily(), 'journey_preferences', CHILD), settings))
+      await assertFails(setDoc(doc(asLegacy(), 'journey_preferences', LEGACY_STUDENT), settings))
+      await assertFails(setDoc(preferences, { ...settings, ageLane: 'unknown' }))
+      await assertSucceeds(setDoc(preferences, settings))
+      await assertSucceeds(setDoc(level, progress))
+      const child = env.authenticatedContext(CHILD).firestore()
+      await assertSucceeds(getDoc(doc(child, 'journey_progress', CHILD, 'levels', 'IA-0001')))
+      await assertSucceeds(getDocs(collection(asFamily(), 'journey_progress', CHILD, 'levels')))
+      await assertFails(getDoc(doc(asTeacher(), 'journey_progress', CHILD, 'levels', 'IA-0001')))
+      await assertFails(getDocs(collection(asOtherFamily(), 'journey_progress', CHILD, 'levels')))
+      await assertSucceeds(updateDoc(preferences, { sync: false }))
+      await assertFails(getDoc(level))
+    })
+
+    it('accepts only known levels and completion and review data', async () => {
+      await assertSucceeds(setDoc(doc(asFamily(), 'journey_preferences', CHILD), settings))
+      const level = doc(asFamily(), 'journey_progress', CHILD, 'levels', 'IA-1000')
+      await assertFails(setDoc(level, { ...progress, reflection: 'private' }))
+      await assertFails(setDoc(doc(asFamily(), 'journey_progress', CHILD, 'levels', 'IA-1001'), progress))
+      await assertSucceeds(setDoc(level, { ...progress, reviews: 3, nextReviewAt: null }))
+      await assertFails(setDoc(level, progress))
+    })
+  })
 
   describe('legacy students are unaffected', () => {
     it('reads their own submission', async () => {

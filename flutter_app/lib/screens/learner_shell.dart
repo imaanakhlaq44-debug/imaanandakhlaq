@@ -6,11 +6,14 @@ import '../app_theme.dart';
 import '../billing/entitlement.dart';
 import '../data/app_repository.dart';
 import '../data/catalog.dart';
+import '../data/journey_account.dart';
+import '../data/learning_journey.dart';
 import '../domain.dart';
 import 'chapter_screen.dart';
 import '../l10n/language.dart';
 import '../audio/voice.dart';
 import 'learning_experience.dart';
+import 'journey_screen.dart';
 import 'learner_menu.dart';
 import 'welcome_screen.dart' show BrandWordmark;
 import 'ui_kit.dart';
@@ -40,6 +43,15 @@ class _LearnerShellState extends State<LearnerShell> {
   StreamSubscription<bool>? _subscription;
   String? get _hadithScope =>
       widget.learner.role == AccountRole.individual ? widget.learner.uid : null;
+
+  JourneyStore _journeyStore() {
+    final repository = widget.repository;
+    if (repository is FirebaseRepository &&
+        widget.learner.role == AccountRole.student) {
+      return FirebaseJourneyStore(repository.db, widget.learner.learnerId);
+    }
+    return DeviceJourneyStore('learner:${widget.learner.learnerId}');
+  }
 
   @override
   void initState() {
@@ -180,6 +192,13 @@ class _LearnerShellState extends State<LearnerShell> {
               learner: widget.learner,
               books: _books,
               onContinue: _continue,
+              onJourney: learningJourneyEnabled
+                  ? () => openLearningJourney(
+                      context,
+                      'learner:${widget.learner.learnerId}',
+                      store: _journeyStore(),
+                    )
+                  : null,
               onCourse: (i) =>
                   showCourseDetails(context, i, hadithScope: _hadithScope),
             ),

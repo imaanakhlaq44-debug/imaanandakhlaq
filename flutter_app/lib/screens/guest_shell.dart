@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import '../app_theme.dart';
 import '../data/catalog.dart';
+import '../data/learning_journey.dart';
 import '../domain.dart';
 import 'learning_experience.dart';
+import 'journey_screen.dart';
 import '../l10n/language.dart';
 import 'learner_menu.dart';
 
@@ -62,6 +64,9 @@ class _GuestShellState extends State<GuestShell> {
               onMap: () => _select(1),
               books: _books,
               onContinue: () => _select(3),
+              onJourney: learningJourneyEnabled
+                  ? () => openLearningJourney(context, 'guest')
+                  : null,
               onCourse: (i) =>
                   showCourseDetails(context, i, hadithScope: 'guest'),
             ),
