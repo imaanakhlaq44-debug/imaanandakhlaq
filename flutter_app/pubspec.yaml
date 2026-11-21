@@ -39,6 +39,9 @@ flutter:
     - assets/fonts/noto-naskh-arabic-OFL.txt
     - assets/fonts/fredoka-OFL.txt
     - assets/images/course-atlas.png
+    - assets/images/course-scenes.png
+    - assets/images/course-guide-imaan.png
+    - assets/images/course-guide-akhlaq.png
     - assets/images/original-imaan.jpg
     - assets/images/original-akhlaq.jpg
     - assets/images/amanpur-map.png

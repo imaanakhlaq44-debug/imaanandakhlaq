@@ -285,10 +285,32 @@ void main() {
         await tester.pumpAndSettle();
       }
 
-      expect(find.byKey(const Key('quran-recitation')), findsOneWidget);
+      expect(find.text('Amanpur Journey Map'), findsOneWidget);
+      expect(find.text('1 of 1000 levels complete'), findsOneWidget);
+      final recitation = find.byKey(const Key('quran-recitation'));
+      final startMission = find.byKey(const Key('journey-start-mission'));
+      await tester.runAsync(() async {
+        await tester.tap(find.byKey(const Key('journey-play-next')));
+        for (
+          var attempt = 0;
+          attempt < 100 && startMission.evaluate().isEmpty;
+          attempt++
+        ) {
+          await Future<void>.delayed(const Duration(milliseconds: 20));
+          await tester.pump();
+        }
+      });
+      expect(find.text('Inside this mission'), findsOneWidget);
+      expect(find.text('Put the ayahs in order'), findsOneWidget);
+      expect(recitation, findsNothing);
+      await tapLabel('Start mission');
+      expect(recitation, findsOneWidget);
+      await tester.pumpAndSettle();
+      expect(find.text('Step 1 of 4 · Explore'), findsOneWidget);
       await tapLabel('Start activity');
       await tapLabel('Skip this reflection');
       await tapLabel('Listen to the ayah');
+      expect(find.text('Step 2 of 4 · Practise'), findsOneWidget);
       expect(players.last.played, [lesson.listeningClip]);
       await tapLabel(lesson.listeningChoices[lesson.listeningAnswer]);
       await tapLabel('Continue');
@@ -300,10 +322,14 @@ void main() {
       await tapLabel(lesson.choices[lesson.correct]);
       await tapLabel('Continue');
       expect(find.text(second.brief['decision']!), findsOneWidget);
+      expect(find.text('Step 3 of 4 · Think'), findsOneWidget);
       await tapLabel('Continue');
       expect(find.text(second.brief['dailyAction']!), findsOneWidget);
+      expect(find.text('Step 4 of 4 · Apply'), findsOneWidget);
       await tapLabel('Save and finish');
       expect(store.record.levels[second.id], isNotNull);
+      await tapLabel('Open the map');
+      expect(find.text('2 of 1000 levels complete'), findsOneWidget);
     },
   );
 

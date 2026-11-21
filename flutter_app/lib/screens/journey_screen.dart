@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import '../app_theme.dart';
+import '../courses/course_journey.dart';
 import '../courses/quran/quran_text.dart';
 import '../courses/quran/recitation_view.dart';
 import '../data/journey_account.dart';
@@ -14,7 +15,7 @@ import 'journey_practice_view.dart';
 import 'ui_kit.dart';
 
 const _green = Color(0xFF145D4A);
-const _cream = Color(0xFFFFFBF0);
+const _cream = Color(0xFFFFF8F2);
 
 enum _JourneyStep {
   stations,
@@ -29,6 +30,17 @@ enum _JourneyStep {
   decide,
   apply,
 }
+
+JourneyWorld _journeyWorld(JourneyLevel level) => switch (level.world) {
+  'DUA' => JourneyWorld.duas,
+  'HAD' => JourneyWorld.hadith,
+  'HAJ' => JourneyWorld.hajj,
+  'IBR' => JourneyWorld.ibrah,
+  'QUR' => JourneyWorld.quran,
+  'SAL' => JourneyWorld.salah,
+  'TAF' => JourneyWorld.tafsir,
+  _ => JourneyWorld.taleem,
+};
 
 Future<void> openLearningJourney(
   BuildContext context,
@@ -82,6 +94,7 @@ class _JourneyScreenState extends State<JourneyScreen> {
   _JourneyStep _step = _JourneyStep.read;
   bool _saving = false;
   bool _finished = false;
+  bool _briefing = false;
   bool _reviewing = false;
   bool _practiceOnly = false;
   bool _saveFailed = false;
@@ -125,7 +138,7 @@ class _JourneyScreenState extends State<JourneyScreen> {
         _record = progress;
         _catalogue = catalogue;
         final next = progress.next(_eligible, widget.now());
-        if (next != null) _show(next);
+        _mapPage = next == null ? 0 : _eligible.indexOf(next) ~/ _pageSize;
       });
     }
     return catalogue;
@@ -139,6 +152,7 @@ class _JourneyScreenState extends State<JourneyScreen> {
 
   void _show(JourneyLevel level, {bool practiceOnly = false}) {
     _level = level;
+    _briefing = true;
     _practiceOnly = practiceOnly;
     _reviewing = !practiceOnly && _record.due(level, widget.now());
     _loadStations(level);
@@ -212,6 +226,7 @@ class _JourneyScreenState extends State<JourneyScreen> {
         title: Text(tr('Learning Journey', 'سیکھنے کا سفر')),
         actions: [
           if (_level?.number == 1000 &&
+              !_briefing &&
               !_reviewing &&
               !_timeReached &&
               !_finished &&
@@ -268,6 +283,7 @@ class _JourneyScreenState extends State<JourneyScreen> {
                     child: ListView(
                       key: ValueKey((
                         level?.id,
+                        _briefing,
                         _step,
                         _finished,
                         _mapPage,
@@ -279,6 +295,8 @@ class _JourneyScreenState extends State<JourneyScreen> {
                           ..._map(catalogue)
                         else if (_finished)
                           ..._completion(catalogue)
+                        else if (_briefing)
+                          _missionBriefing(level)
                         else
                           ..._activity(level),
                       ],
@@ -293,12 +311,42 @@ class _JourneyScreenState extends State<JourneyScreen> {
   List<Widget> _map(List<JourneyLevel> catalogue) {
     final now = widget.now();
     final next = _record.next(catalogue, now);
+    final done = catalogue
+        .where((l) => _record.levels.containsKey(l.id))
+        .length;
+    final page = catalogue.skip(_mapPage * _pageSize).take(_pageSize).toList();
+    final review = next != null && _record.due(next, now);
     return [
-      Text(
-        tr('Amanpur Journey Map', 'امن پور کا سفری نقشہ'),
-        style: displayStyle(28),
+      CourseJourneyHeader(
+        key: const Key('journey-map-overview'),
+        world: JourneyWorld.hadith,
+        title: tr('Amanpur Journey Map', 'امن پور کا سفری نقشہ'),
+        progress: tr(
+          '$done of ${catalogue.length} levels complete',
+          '${catalogue.length} میں سے $done لیول مکمل',
+        ),
+        value: catalogue.isEmpty ? 0 : done / catalogue.length,
+        detailTitle: next == null
+            ? null
+            : review
+            ? tr(
+                'Review · Level ${next.number}',
+                'دہرائی · لیول ${next.number}',
+              )
+            : tr(
+                'Next mission · Level ${next.number}',
+                'اگلا مشن · لیول ${next.number}',
+              ),
+        detail: next?.title,
+        action: review
+            ? tr('Start review', 'دہرائی شروع کریں')
+            : tr('Continue Journey', 'سفر جاری رکھیں'),
+        actionKey: const Key('journey-play-next'),
+        onAction: next == null || _saving
+            ? null
+            : () => setState(() => _show(next)),
       ),
-      const SizedBox(height: 6),
+      const SizedBox(height: 12),
       Text(
         tr(
           'Try any of the ${catalogue.length} levels. Complete them in order to save progress.',
@@ -336,17 +384,6 @@ class _JourneyScreenState extends State<JourneyScreen> {
           ),
         ),
       const SizedBox(height: 18),
-      if (next != null)
-        FilledButton.icon(
-          onPressed: _saving ? null : () => setState(() => _show(next)),
-          icon: const Icon(Icons.play_arrow_rounded),
-          label: Text(
-            _record.due(next, now)
-                ? tr('Start review', 'دہرائی شروع کریں')
-                : tr('Continue Journey', 'سفر جاری رکھیں'),
-          ),
-        ),
-      const SizedBox(height: 12),
       if (_preferences.sync && _accountStore?.upToDate == false)
         OutlinedButton.icon(
           onPressed: _saving ? null : _retrySync,
@@ -360,59 +397,73 @@ class _JourneyScreenState extends State<JourneyScreen> {
                   ),
           ),
         ),
-      DropdownButtonFormField<int>(
-        key: ValueKey(_mapPage),
-        initialValue: _mapPage,
-        decoration: InputDecoration(labelText: tr('Levels', 'لیول')),
-        items: [
-          for (var start = 0; start < catalogue.length; start += _pageSize)
-            DropdownMenuItem(
-              value: start ~/ _pageSize,
-              child: Text(
-                '${catalogue[start].number}–${catalogue.skip(start).take(_pageSize).last.number}',
+      if (page.isNotEmpty)
+        DropdownButtonFormField<int>(
+          key: ValueKey(_mapPage),
+          initialValue: _mapPage,
+          decoration: InputDecoration(labelText: tr('Levels', 'لیول')),
+          items: [
+            for (var start = 0; start < catalogue.length; start += _pageSize)
+              DropdownMenuItem(
+                value: start ~/ _pageSize,
+                child: Text(
+                  '${catalogue[start].number}–${catalogue.skip(start).take(_pageSize).last.number}',
+                ),
               ),
-            ),
-        ],
-        onChanged: _saving
-            ? null
-            : (page) {
-                if (page != null) setState(() => _mapPage = page);
-              },
-      ),
+          ],
+          onChanged: _saving
+              ? null
+              : (page) {
+                  if (page != null) setState(() => _mapPage = page);
+                },
+        ),
       const SizedBox(height: 12),
-      for (final level in catalogue.skip(_mapPage * _pageSize).take(_pageSize))
-        Card(
-          margin: const EdgeInsets.only(bottom: 8),
-          child: ListTile(
-            leading: CircleAvatar(
-              backgroundColor: const Color(0xFFE8F3E8),
-              foregroundColor: _green,
-              child: Text('${level.number}'),
-            ),
-            title: Text(level.title),
-            subtitle: Text(
-              _record.due(level, now)
-                  ? tr('Review due', 'دہرائی کا وقت')
-                  : _record.levels.containsKey(level.id)
-                  ? tr('Completed', 'مکمل')
-                  : _record.unlocked(catalogue, level)
-                  ? tr('Ready to start', 'شروع کریں')
-                  : tr('Try preview', 'سبق آزمائیں'),
-            ),
-            trailing: level.checkpoint
-                ? Icon(
-                    Icons.flag_outlined,
-                    semanticLabel: tr('Checkpoint', 'جائزہ'),
-                  )
-                : null,
-            onTap: _saving
-                ? null
-                : () => setState(
-                    () => _show(
-                      level,
-                      practiceOnly: !_record.unlocked(catalogue, level),
+      for (final (index, level) in page.indexed)
+        JourneyStop(
+          number: level.number,
+          first: index == 0,
+          last: index == page.length - 1,
+          completed:
+              _record.levels.containsKey(level.id) && !_record.due(level, now),
+          current: level.id == next?.id,
+          child: Card(
+            clipBehavior: Clip.antiAlias,
+            color: Colors.white,
+            elevation: 0,
+            margin: const EdgeInsets.fromLTRB(2, 2, 2, 6),
+            child: ListTile(
+              key: ValueKey('journey-stop-${level.number}'),
+              title: Text(
+                level.title,
+                style: const TextStyle(
+                  fontWeight: FontWeight.w700,
+                  color: journeyNavy,
+                ),
+              ),
+              subtitle: Text(
+                _record.due(level, now)
+                    ? tr('Review due', 'دہرائی کا وقت')
+                    : _record.levels.containsKey(level.id)
+                    ? tr('Completed', 'مکمل')
+                    : _record.unlocked(catalogue, level)
+                    ? tr('Ready to start', 'شروع کریں')
+                    : tr('Try preview', 'سبق آزمائیں'),
+              ),
+              trailing: level.checkpoint
+                  ? Icon(
+                      Icons.flag_outlined,
+                      semanticLabel: tr('Checkpoint', 'جائزہ'),
+                    )
+                  : const Icon(Icons.chevron_right_rounded, color: journeyPink),
+              onTap: _saving
+                  ? null
+                  : () => setState(
+                      () => _show(
+                        level,
+                        practiceOnly: !_record.unlocked(catalogue, level),
+                      ),
                     ),
-                  ),
+            ),
           ),
         ),
     ];
@@ -434,7 +485,19 @@ class _JourneyScreenState extends State<JourneyScreen> {
   List<Widget> _completion(List<JourneyLevel> catalogue) {
     final next = _record.next(catalogue, widget.now());
     return [
-      const Icon(Icons.check_circle_outline, size: 70, color: _green),
+      Center(
+        child: CircleAvatar(
+          radius: 40,
+          backgroundColor: const Color(0xFFFFE7CF),
+          foregroundColor: journeyNavy,
+          child: Icon(
+            !_practiceOnly && !_reviewing && _level!.checkpoint
+                ? Icons.flag_rounded
+                : Icons.check_rounded,
+            size: 48,
+          ),
+        ),
+      ),
       const SizedBox(height: 18),
       Text(
         _practiceOnly
@@ -443,7 +506,7 @@ class _JourneyScreenState extends State<JourneyScreen> {
             ? tr('Review complete', 'دہرائی مکمل')
             : tr('Level complete', 'لیول مکمل'),
         textAlign: TextAlign.center,
-        style: displayStyle(29, color: _green),
+        style: displayStyle(29, color: journeyNavy),
       ),
       const SizedBox(height: 8),
       Text(
@@ -462,14 +525,213 @@ class _JourneyScreenState extends State<JourneyScreen> {
       ),
       const SizedBox(height: 22),
       if (next != null)
-        FilledButton(
+        FilledButton.icon(
           onPressed: () => setState(() => _show(next)),
-          child: Text(tr('Continue Journey', 'سفر جاری رکھیں')),
+          icon: const Icon(Icons.play_arrow_rounded),
+          label: Text(tr('Continue Journey', 'سفر جاری رکھیں')),
         ),
       const SizedBox(height: 8),
       OutlinedButton(
         onPressed: () => setState(() => _level = null),
         child: Text(tr('Open the map', 'نقشہ کھولیں')),
+      ),
+    ];
+  }
+
+  String _levelTitle(JourneyLevel level) => switch (level.id) {
+    'IA-0001' => tr(level.title, 'اللہ کے نام سے شروع کریں'),
+    'IA-0002' => tr(level.title, 'سورۃ الفاتحہ'),
+    'IA-0009' => tr(level.title, 'سورۃ الاخلاص'),
+    _ => level.title,
+  };
+
+  Widget _missionBriefing(JourneyLevel level) =>
+      FutureBuilder<List<JourneyLesson>>(
+        future: _lesson,
+        initialData: _loadedStations,
+        builder: (context, snapshot) {
+          final lessons = snapshot.data;
+          final cards = lessons == null
+              ? const <(IconData, String, String)>[]
+              : _briefingCards(level, lessons);
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Card(
+                key: const Key('journey-mission-briefing'),
+                margin: EdgeInsets.zero,
+                color: Colors.white,
+                elevation: 0,
+                clipBehavior: Clip.antiAlias,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    CourseScene(
+                      world: _journeyWorld(level),
+                      height: 164,
+                      guide: true,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            _reviewing
+                                ? tr(
+                                    'Review mission · ${level.number}',
+                                    'دہرائی کا مشن · ${level.number}',
+                                  )
+                                : _practiceOnly
+                                ? tr(
+                                    'Practice mission · ${level.number}',
+                                    'مشق کا مشن · ${level.number}',
+                                  )
+                                : tr(
+                                    'Mission ${level.number}',
+                                    'مشن ${level.number}',
+                                  ),
+                            style: const TextStyle(
+                              color: journeyPink,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            _levelTitle(level),
+                            style: displayStyle(28, color: journeyNavy),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            [
+                              if (level.checkpoint) tr('Checkpoint', 'جائزہ'),
+                              level.brief['session']!,
+                            ].join(' · '),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 16),
+              if (snapshot.hasError) ...[
+                Text(tr('Could not load this lesson.', 'یہ سبق نہیں کھل سکا۔')),
+                OutlinedButton(
+                  onPressed: () => setState(() => _loadStations(level)),
+                  child: Text(tr('Try again', 'دوبارہ کوشش کریں')),
+                ),
+              ] else if (lessons == null)
+                const LinearProgressIndicator()
+              else ...[
+                Text(
+                  tr('Inside this mission', 'اس مشن میں کیا ہے'),
+                  style: displayStyle(21, color: journeyNavy),
+                ),
+                const SizedBox(height: 8),
+                LayoutBuilder(
+                  builder: (context, bounds) => Wrap(
+                    spacing: 8,
+                    runSpacing: 8,
+                    children: [
+                      for (final (index, (icon, title, detail))
+                          in cards.indexed)
+                        SizedBox(
+                          width: cards.length == 1 || bounds.maxWidth < 280
+                              ? bounds.maxWidth
+                              : (bounds.maxWidth - 8) / 2,
+                          child: _MissionPreviewTile(
+                            index: index,
+                            icon: icon,
+                            title: title,
+                            detail: detail,
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 16),
+                FilledButton.icon(
+                  key: const Key('journey-start-mission'),
+                  style: FilledButton.styleFrom(
+                    backgroundColor: journeyPink,
+                    foregroundColor: Colors.white,
+                    minimumSize: const Size(48, 54),
+                  ),
+                  onPressed: () => setState(() => _briefing = false),
+                  icon: const Icon(Icons.play_arrow_rounded),
+                  label: Text(
+                    _reviewing
+                        ? tr('Start review', 'دہرائی شروع کریں')
+                        : tr('Start mission', 'مشن شروع کریں'),
+                  ),
+                ),
+              ],
+            ],
+          );
+        },
+      );
+
+  List<(IconData, String, String)> _briefingCards(
+    JourneyLevel level,
+    List<JourneyLesson> lessons,
+  ) {
+    final lesson = lessons.first;
+    if (_reviewing) {
+      return [
+        (
+          Icons.replay_rounded,
+          tr('Recall', 'یاد کریں'),
+          tr('Review what you learned', 'سیکھے ہوئے سبق کی دہرائی کریں'),
+        ),
+      ];
+    }
+    final capstone = level.number == 1000;
+    return [
+      if (capstone)
+        (
+          Icons.flag_outlined,
+          tr('Stations', 'سرگرمیاں'),
+          tr(
+            '${_completedStations.length} of ${lessons.length} finished',
+            '${lessons.length} میں سے ${_completedStations.length} مکمل',
+          ),
+        )
+      else
+        (
+          Icons.menu_book_rounded,
+          tr('Explore', 'سبق دیکھیں'),
+          lessons.length > 1
+              ? tr(
+                  'Explore ${lessons.length} activities',
+                  '${lessons.length} سرگرمیاں دیکھیں',
+                )
+              : lesson.verses.isNotEmpty
+              ? tr('Read the passage', 'آیات پڑھیں')
+              : tr('Read the story', 'کہانی پڑھیں'),
+        ),
+      if (!capstone)
+        (
+          Icons.extension_rounded,
+          tr('Practise', 'مشق کریں'),
+          lesson.verses.length > 1
+              ? tr('Put the ayahs in order', 'آیات ترتیب سے لگائیں')
+              : lesson.listeningClip != null
+              ? tr('Match what you hear', 'سنی ہوئی بات ملائیں')
+              : tr('Try the lesson challenge', 'سبق کی مشق آزمائیں'),
+        ),
+      if (!_parentLed)
+        (
+          Icons.lightbulb_outline_rounded,
+          tr('Think', 'سوچیں'),
+          level.comparison
+              ? tr('Compare what you learned', 'جو سیکھا اس کا موازنہ کریں')
+              : tr('Make a choice', 'ایک فیصلہ کریں'),
+        ),
+      (
+        Icons.favorite_border_rounded,
+        tr('Apply', 'عمل کریں'),
+        tr('Try a small action today', 'آج ایک چھوٹا سا عمل آزمائیں'),
       ),
     ];
   }
@@ -487,15 +749,10 @@ class _JourneyScreenState extends State<JourneyScreen> {
               'دہرائی · لیول ${level.number}',
             )
           : tr('Level ${level.number}', 'لیول ${level.number}'),
-      style: const TextStyle(fontWeight: FontWeight.w700, color: _green),
+      style: const TextStyle(fontWeight: FontWeight.w700, color: journeyPink),
     ),
     const SizedBox(height: 6),
-    Text(switch (level.id) {
-      'IA-0001' => tr(level.title, 'اللہ کے نام سے شروع کریں'),
-      'IA-0002' => tr(level.title, 'سورۃ الفاتحہ'),
-      'IA-0009' => tr(level.title, 'سورۃ الاخلاص'),
-      _ => level.title,
-    }, style: displayStyle(29)),
+    Text(_levelTitle(level), style: displayStyle(29)),
     const SizedBox(height: 6),
     Text(
       [
@@ -505,6 +762,8 @@ class _JourneyScreenState extends State<JourneyScreen> {
       ].join(' · '),
     ),
     const SizedBox(height: 16),
+    _missionTrack(),
+    const SizedBox(height: 12),
     FutureBuilder<List<JourneyLesson>>(
       future: _lesson,
       initialData: _loadedStations,
@@ -607,6 +866,59 @@ class _JourneyScreenState extends State<JourneyScreen> {
       },
     ),
   ];
+
+  Widget _missionTrack() {
+    final stage = switch (_step) {
+      _JourneyStep.read || _JourneyStep.stations || _JourneyStep.reflect => 0,
+      _JourneyStep.listen ||
+      _JourneyStep.order ||
+      _JourneyStep.practise ||
+      _JourneyStep.check ||
+      _JourneyStep.evidence => 1,
+      _JourneyStep.compare || _JourneyStep.decide => 2,
+      _JourneyStep.apply => 3,
+    };
+    final labels = _reviewing
+        ? [tr('Review', 'دہرائی')]
+        : [
+            tr('Explore', 'سبق دیکھیں'),
+            tr('Practise', 'مشق کریں'),
+            if (!_parentLed) tr('Think', 'سوچیں'),
+            tr('Apply', 'عمل کریں'),
+          ];
+    final current = _reviewing
+        ? 0
+        : _parentLed && stage == 3
+        ? 2
+        : stage;
+    return Card(
+      color: Colors.white,
+      elevation: 0,
+      margin: EdgeInsets.zero,
+      child: Padding(
+        padding: const EdgeInsets.only(top: 10, bottom: 8),
+        child: Column(
+          children: [
+            Text(
+              labels.length == 1
+                  ? labels.single
+                  : tr(
+                      'Step ${current + 1} of ${labels.length} · ${labels[current]}',
+                      'مرحلہ ${current + 1} از ${labels.length} · ${labels[current]}',
+                    ),
+              key: const Key('journey-mission-stage'),
+              style: const TextStyle(
+                fontWeight: FontWeight.w800,
+                color: journeyNavy,
+              ),
+            ),
+            const SizedBox(height: 8),
+            MissionSteps(step: current, count: labels.length),
+          ],
+        ),
+      ),
+    );
+  }
 
   void _go(_JourneyStep step) => setState(() {
     _step = step;
@@ -1197,6 +1509,57 @@ class _JourneyScreenState extends State<JourneyScreen> {
       ),
     ],
   );
+}
+
+class _MissionPreviewTile extends StatelessWidget {
+  const _MissionPreviewTile({
+    required this.index,
+    required this.icon,
+    required this.title,
+    required this.detail,
+  });
+
+  final int index;
+  final IconData icon;
+  final String title, detail;
+
+  @override
+  Widget build(BuildContext context) {
+    final pink = index.isEven;
+    final accent = pink ? journeyPink : journeyNavy;
+    return Container(
+      constraints: const BoxConstraints(minHeight: 120),
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: pink ? const Color(0xFFFBE7EF) : const Color(0xFFFFEBD8),
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              CircleAvatar(
+                radius: 17,
+                backgroundColor: Colors.white,
+                foregroundColor: accent,
+                child: Icon(icon, size: 19),
+              ),
+              Text('${index + 1}', style: displayStyle(18, color: accent)),
+            ],
+          ),
+          const SizedBox(height: 6),
+          Text(title, style: displayStyle(17, color: journeyNavy)),
+          const SizedBox(height: 3),
+          Text(
+            detail,
+            style: const TextStyle(color: journeyNavy, height: 1.25),
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 class _JourneyClip extends StatefulWidget {
