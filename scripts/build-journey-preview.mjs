@@ -13,6 +13,10 @@ async function releaseDependencies() {
   const files = [
     ...courses.map((name) => directory + name),
     'assets/data/hadith-demo.json',
+    'assets/images/course-scenes.png',
+    'assets/images/course-guide-imaan.png',
+    'assets/images/course-guide-akhlaq.png',
+    'lib/courses/course_journey.dart',
     'lib/courses/duas/duas_data.dart',
     'lib/courses/hajj/hajj_data.dart',
     'lib/courses/ibrah/ibrah_data.dart',
@@ -33,7 +37,9 @@ async function releaseDependencies() {
     'lib/screens/journey_preferences_sheet.dart',
   ];
   return Object.fromEntries(await Promise.all(files.map(async (path) => [
-    path, sha256((await readFile(new URL(path, flutterRoot), 'utf8')).replace(/\r\n/g, '\n')),
+    path, sha256(path.endsWith('.png')
+      ? await readFile(new URL(path, flutterRoot))
+      : (await readFile(new URL(path, flutterRoot), 'utf8')).replace(/\r\n/g, '\n')),
   ])));
 }
 

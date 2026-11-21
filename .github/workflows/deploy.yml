@@ -179,6 +179,7 @@ jobs:
       - name: Check Journey publication for this curriculum package
         id: journey
         run: |
+          node scripts/build-journey-preview.mjs --verify
           python - <<'PY'
           import json, os, re
           from urllib.error import HTTPError
