@@ -29479,14 +29479,14 @@
     "lib/courses/tafsir/tafsir_data.dart": "4e8ed041d1b359c82c2a033c30d22718f0678a350457e1bb93af084c976a8c49",
     "lib/courses/taleem/taleem_data.dart": "70907f473362f3f0208624fee195904b1e45c066ad6bdf53265cf75b18211b58",
     "lib/data/hadith_course.dart": "a6f0fc2e90ffbbaf5524465fc2e41f81b43c74f07805e0017f216447ac42de90",
-    "lib/data/journey_account.dart": "9f57d0b78cff4f81b5f415d8522cd5462d17aea2fcacd04d6929eaa265edb562",
+    "lib/data/journey_account.dart": "465e163abc29794ef4599e6fb2832be2ca236ca77de60528421d342ca41654e9",
     "lib/data/journey_lessons.dart": "9ffd33498f0582d1927830663f957cdd9d063786663a1c96f22c8e02244bea55",
     "lib/data/journey_urdu.dart": "4f094237c35750485817566f3fcc7739756db7ad1c4363302d6997878d7b950f",
     "lib/data/learning_journey.dart": "ee3556e3bf76123680883bf7409bde2c19ec04b4441f3a9f8cbc1fceae2412e9",
     "lib/l10n/language.dart": "888e5cddc25edb389b9a8edd57bfae5dc7686a93eb0db94e2ff6e3f97c678dba",
     "lib/screens/journey_practice_view.dart": "d0b7cd33f31e0c02fad28ae7981000f8e48e4b24c5291432d6e15af52de61427",
-    "lib/screens/journey_screen.dart": "65579f9b391963824967d9e21d8309524a0d02ba1d378ef5c600e50737ea6505",
+    "lib/screens/journey_screen.dart": "12a6b8947d70a8124487ac73a2f717cc965822c2953786694dfb843e6908e47d",
     "lib/screens/journey_preferences_sheet.dart": "fd4e387c4a4a0b64e62d61b3f751596c27c12de1443939561d23880cb0e4cd4b"
   },
-  "releaseHash": "1bc4a4b88caf8b4bb3346409d585bb4b97f15ecdbf8c01f2f2ba77313009f307"
+  "releaseHash": "9bd716e1b431ee3a4cf6280d0d13c067993d7feb7dbe371ff70984f47ccd9909"
 }

@@ -176,47 +176,15 @@ jobs:
           with open(os.path.join(os.environ['RUNNER_TEMP'], 'imaan-web-config.json'), 'w') as file:
               json.dump(configuration, file)
           PY
-      - name: Check Journey publication for this curriculum package
-        id: journey
-        run: |
-          node scripts/build-journey-preview.mjs --verify
-          python - <<'PY'
-          import json, os, re
-          from urllib.error import HTTPError
-          from urllib.request import urlopen
-
-          with open(os.path.join(os.environ['RUNNER_TEMP'], 'imaan-web-config.json')) as file:
-              project = json.load(file)['FIREBASE_PROJECT_ID']
-          with open('flutter_app/assets/data/journey-preview.json', encoding='utf-8') as file:
-              package = json.load(file)
-          release_hash = package['releaseHash']
-          if not re.fullmatch(r'[0-9a-f]{64}', release_hash):
-              raise SystemExit('Invalid Journey package hash.')
-          url = (f'https://firestore.googleapis.com/v1/projects/{project}/databases/'
-                 f'(default)/documents/journey_publications/{release_hash}')
-          try:
-              with urlopen(url, timeout=15) as response:
-                  fields = json.load(response)['fields']
-              active = fields.get('active', {}).get('booleanValue') is True
-          except HTTPError as error:
-              if error.code not in (403, 404):
-                  raise
-              active = False
-          with open(os.environ['GITHUB_OUTPUT'], 'a') as output:
-              print(f'public={str(active).lower()}', file=output)
-          PY
+      - name: Verify the Journey curriculum package
+        run: node scripts/build-journey-preview.mjs --verify
       - name: Build the public app
         working-directory: flutter_app
-        env:
-          JOURNEY_PUBLIC: ${{ steps.journey.outputs.public }}
         run: |
           flutter build web --release --base-href=/app/ \
             --dart-define-from-file="$RUNNER_TEMP/imaan-web-config.json" \
-            --dart-define=LEARNING_JOURNEY_RELEASE="$JOURNEY_PUBLIC"
-          if [ "$JOURNEY_PUBLIC" != true ]; then
-            rm -f build/web/assets/assets/data/journey-preview.json
-          fi
-          printf '{"commit":"%s","journeyPublic":%s}\n' "$GITHUB_SHA" "$JOURNEY_PUBLIC" > build/web/imaan-build.json
+            --dart-define=LEARNING_JOURNEY_RELEASE=true
+          printf '{"commit":"%s","journeyPublic":true}\n' "$GITHUB_SHA" > build/web/imaan-build.json
       - name: Upload the app separately to public_html/app
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         env:

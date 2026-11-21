@@ -50,12 +50,7 @@ Future<void> openLearningJourney(
   await Navigator.of(context).push<void>(
     MaterialPageRoute(
       builder: (_) => LanguageScope(
-        child: JourneyScreen(
-          store: store ?? DeviceJourneyStore(scope),
-          loadCatalogue: learningJourneyRelease
-              ? loadPublishedJourney
-              : loadJourneyPreview,
-        ),
+        child: JourneyScreen(store: store ?? DeviceJourneyStore(scope)),
       ),
     ),
   );

@@ -42,6 +42,43 @@ void main() {
     skip: learningJourneyEnabled,
   );
 
+  testWidgets(
+    'public Journey opens the bundled curriculum without an approval lookup',
+    (tester) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: Builder(
+              builder: (context) => TextButton(
+                onPressed: () => openLearningJourney(
+                  context,
+                  'guest',
+                  store: _JourneyMemoryStore(const JourneyRecord()),
+                ),
+                child: const Text('Open Journey'),
+              ),
+            ),
+          ),
+        ),
+      );
+      final map = find.byKey(const Key('journey-map-overview'));
+      await tester.runAsync(() async {
+        await tester.tap(find.text('Open Journey'));
+        for (
+          var attempt = 0;
+          attempt < 100 && map.evaluate().isEmpty;
+          attempt++
+        ) {
+          await Future<void>.delayed(const Duration(milliseconds: 20));
+          await tester.pump();
+        }
+      });
+      expect(map, findsOneWidget);
+      expect(find.text('0 of 1000 levels complete'), findsOneWidget);
+    },
+    skip: !learningJourneyRelease,
+  );
+
   test('catalogue follows the source order and includes Hajj at 11', () async {
     final catalogue = await loadJourneyPreview();
     expect(

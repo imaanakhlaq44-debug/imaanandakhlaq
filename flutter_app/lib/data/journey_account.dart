@@ -2,27 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'learning_journey.dart';
 
-Future<bool> journeyReleaseApproved(FirebaseFirestore db) async {
-  try {
-    final hash = await journeyReleaseHash();
-    final publication = await db
-        .collection('journey_publications')
-        .doc(hash)
-        .get(const GetOptions(source: Source.server))
-        .timeout(const Duration(seconds: 5));
-    return publication.data()?['active'] == true;
-  } catch (_) {
-    return false;
-  }
-}
-
-Future<List<JourneyLevel>> loadPublishedJourney() async {
-  if (!await journeyReleaseApproved(FirebaseFirestore.instance)) {
-    throw StateError('The Journey package has not been approved for release.');
-  }
-  return loadJourneyPreview();
-}
-
 class JourneyPreferences {
   const JourneyPreferences({
     this.sync = false,
