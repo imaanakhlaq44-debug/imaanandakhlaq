@@ -5,6 +5,7 @@ import '../data/learning_journey.dart';
 import '../domain.dart';
 import 'learning_experience.dart';
 import 'journey_screen.dart';
+import 'journey_home_preview.dart';
 import '../l10n/language.dart';
 import 'learner_menu.dart';
 
@@ -66,7 +67,7 @@ class _GuestShellState extends State<GuestShell> {
               onContinue: () => _select(3),
               onJourney: learningJourneyEnabled
                   ? () => openLearningJourney(context, 'guest')
-                  : null,
+                  : () => openJourneyHomePreview(context),
               onCourse: (i) =>
                   showCourseDetails(context, i, hadithScope: 'guest'),
             ),

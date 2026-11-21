@@ -14,6 +14,7 @@ import '../l10n/language.dart';
 import '../audio/voice.dart';
 import 'learning_experience.dart';
 import 'journey_screen.dart';
+import 'journey_home_preview.dart';
 import 'learner_menu.dart';
 import 'welcome_screen.dart' show BrandWordmark;
 import 'ui_kit.dart';
@@ -198,7 +199,7 @@ class _LearnerShellState extends State<LearnerShell> {
                       'learner:${widget.learner.learnerId}',
                       store: _journeyStore(),
                     )
-                  : null,
+                  : () => openJourneyHomePreview(context),
               onCourse: (i) =>
                   showCourseDetails(context, i, hadithScope: _hadithScope),
             ),

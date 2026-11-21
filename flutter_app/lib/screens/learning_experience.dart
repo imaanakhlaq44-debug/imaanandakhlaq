@@ -2,6 +2,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import '../app_theme.dart';
 import '../data/catalog.dart';
+import '../data/learning_journey.dart';
 import '../domain.dart';
 import 'hadith_screen.dart';
 import '../courses/registry.dart';
@@ -148,7 +149,14 @@ class LearningDashboard extends StatelessWidget {
                 key: const Key('continue-journey'),
                 icon: const Icon(Icons.explore_outlined),
                 onPressed: onJourney,
-                label: Text(tr('Continue Journey', 'سفر جاری رکھیں')),
+                label: Text(
+                  learningJourneyEnabled
+                      ? tr('Continue Journey', 'سفر جاری رکھیں')
+                      : tr(
+                          'Learning Journey · Preview',
+                          'سیکھنے کا سفر · جھلک',
+                        ),
+                ),
               ),
             ),
           ),

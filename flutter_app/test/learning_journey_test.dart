@@ -5,6 +5,7 @@ import 'package:imaan_akhlaq/courses/duas/duas_data.dart';
 import 'package:imaan_akhlaq/courses/quran/quran_text.dart';
 import 'package:imaan_akhlaq/data/journey_lessons.dart';
 import 'package:imaan_akhlaq/data/learning_journey.dart';
+import 'package:imaan_akhlaq/screens/guest_shell.dart';
 import 'package:imaan_akhlaq/screens/journey_screen.dart';
 
 class _JourneyMemoryStore implements JourneyStore {
@@ -21,6 +22,25 @@ class _JourneyMemoryStore implements JourneyStore {
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
+
+  testWidgets(
+    'guest home shows the mission preview before publication',
+    (tester) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: GuestShell(onSignIn: () {}, onCreateAccount: () {}),
+        ),
+      );
+      await tester.pumpAndSettle();
+      final entry = find.byKey(const Key('continue-journey'));
+      await tester.ensureVisible(entry);
+      await tester.tap(entry);
+      await tester.pumpAndSettle();
+      expect(find.text('Inside a mission'), findsOneWidget);
+      expect(find.text('Start mission'), findsNothing);
+    },
+    skip: learningJourneyEnabled,
+  );
 
   test('catalogue follows the source order and includes Hajj at 11', () async {
     final catalogue = await loadJourneyPreview();
