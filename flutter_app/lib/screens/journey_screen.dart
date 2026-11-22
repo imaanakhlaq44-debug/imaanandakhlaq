@@ -11,11 +11,13 @@ import '../data/learning_journey.dart';
 import '../data/journey_lessons.dart';
 import '../data/journey_urdu.dart';
 import '../l10n/language.dart';
+import 'journey_map_view.dart';
 import 'journey_practice_view.dart';
 import 'ui_kit.dart';
 
 const _green = Color(0xFF145D4A);
 const _cream = Color(0xFFFFF8F2);
+const _trailGreen = Color(0xFFEAF1DA);
 
 enum _JourneyStep {
   stations,
@@ -312,16 +314,15 @@ class _JourneyScreenState extends State<JourneyScreen> {
     final page = catalogue.skip(_mapPage * _pageSize).take(_pageSize).toList();
     final review = next != null && _record.due(next, now);
     return [
-      CourseJourneyHeader(
+      AmanpurMapBanner(
         key: const Key('journey-map-overview'),
-        world: JourneyWorld.hadith,
         title: tr('Amanpur Journey Map', 'امن پور کا سفری نقشہ'),
         progress: tr(
           '$done of ${catalogue.length} levels complete',
           '${catalogue.length} میں سے $done لیول مکمل',
         ),
-        value: catalogue.isEmpty ? 0 : done / catalogue.length,
-        detailTitle: next == null
+        fraction: catalogue.isEmpty ? 0 : done / catalogue.length,
+        nextLabel: next == null
             ? null
             : review
             ? tr(
@@ -332,12 +333,11 @@ class _JourneyScreenState extends State<JourneyScreen> {
                 'Next mission · Level ${next.number}',
                 'اگلا مشن · لیول ${next.number}',
               ),
-        detail: next?.title,
+        nextTitle: next == null ? null : _levelTitle(next),
         action: review
             ? tr('Start review', 'دہرائی شروع کریں')
             : tr('Continue Journey', 'سفر جاری رکھیں'),
-        actionKey: const Key('journey-play-next'),
-        onAction: next == null || _saving
+        onPlay: next == null || _saving
             ? null
             : () => setState(() => _show(next)),
       ),
@@ -392,76 +392,132 @@ class _JourneyScreenState extends State<JourneyScreen> {
                   ),
           ),
         ),
-      if (page.isNotEmpty)
-        DropdownButtonFormField<int>(
-          key: ValueKey(_mapPage),
-          initialValue: _mapPage,
-          decoration: InputDecoration(labelText: tr('Levels', 'لیول')),
-          items: [
-            for (var start = 0; start < catalogue.length; start += _pageSize)
-              DropdownMenuItem(
-                value: start ~/ _pageSize,
-                child: Text(
-                  '${catalogue[start].number}–${catalogue.skip(start).take(_pageSize).last.number}',
+      if (page.isNotEmpty) ...[
+        DecoratedBox(
+          decoration: const BoxDecoration(
+            color: _trailGreen,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(22)),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(13, 13, 13, 4),
+            child: Wrap(
+              alignment: WrapAlignment.spaceBetween,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              spacing: 8,
+              runSpacing: 4,
+              children: [
+                Text(
+                  tr('Mission trail', 'مشن کا راستہ'),
+                  style: displayStyle(22, color: journeyNavy),
                 ),
-              ),
-          ],
-          onChanged: _saving
-              ? null
-              : (page) {
-                  if (page != null) setState(() => _mapPage = page);
-                },
-        ),
-      const SizedBox(height: 12),
-      for (final (index, level) in page.indexed)
-        JourneyStop(
-          number: level.number,
-          first: index == 0,
-          last: index == page.length - 1,
-          completed:
-              _record.levels.containsKey(level.id) && !_record.due(level, now),
-          current: level.id == next?.id,
-          child: Card(
-            clipBehavior: Clip.antiAlias,
-            color: Colors.white,
-            elevation: 0,
-            margin: const EdgeInsets.fromLTRB(2, 2, 2, 6),
-            child: ListTile(
-              key: ValueKey('journey-stop-${level.number}'),
-              title: Text(
-                level.title,
-                style: const TextStyle(
-                  fontWeight: FontWeight.w700,
-                  color: journeyNavy,
-                ),
-              ),
-              subtitle: Text(
-                _record.due(level, now)
-                    ? tr('Review due', 'دہرائی کا وقت')
-                    : _record.levels.containsKey(level.id)
-                    ? tr('Completed', 'مکمل')
-                    : _record.unlocked(catalogue, level)
-                    ? tr('Ready to start', 'شروع کریں')
-                    : tr('Try preview', 'سبق آزمائیں'),
-              ),
-              trailing: level.checkpoint
-                  ? Icon(
-                      Icons.flag_outlined,
-                      semanticLabel: tr('Checkpoint', 'جائزہ'),
-                    )
-                  : const Icon(Icons.chevron_right_rounded, color: journeyPink),
-              onTap: _saving
-                  ? null
-                  : () => setState(
-                      () => _show(
-                        level,
-                        practiceOnly: !_record.unlocked(catalogue, level),
-                      ),
+                OutlinedButton.icon(
+                  key: const Key('journey-choose-range'),
+                  style: OutlinedButton.styleFrom(
+                    backgroundColor: const Color(0xFFFFFCF3),
+                    foregroundColor: journeyNavy,
+                  ),
+                  onPressed: _saving ? null : () => _chooseMapPage(catalogue),
+                  icon: const Icon(Icons.map_outlined, size: 18),
+                  label: Text(
+                    tr(
+                      'Levels ${page.first.number}–${page.last.number}',
+                      'لیول ${page.first.number}–${page.last.number}',
                     ),
+                  ),
+                ),
+              ],
             ),
           ),
         ),
+        for (final (index, level) in page.indexed)
+          ColoredBox(
+            color: _trailGreen,
+            child: _trailStop(catalogue, page.length, index, level, now),
+          ),
+        DecoratedBox(
+          decoration: const BoxDecoration(
+            color: _trailGreen,
+            borderRadius: BorderRadius.vertical(bottom: Radius.circular(22)),
+          ),
+          child: (_mapPage + 1) * _pageSize >= catalogue.length
+              ? const SizedBox(height: 15)
+              : Padding(
+                  padding: const EdgeInsets.fromLTRB(13, 4, 13, 12),
+                  child: TextButton(
+                    onPressed: _saving
+                        ? null
+                        : () => setState(() => _mapPage++),
+                    child: Text(tr('Next trail section', 'راستے کا اگلا حصہ')),
+                  ),
+                ),
+        ),
+      ],
     ];
+  }
+
+  Widget _trailStop(
+    List<JourneyLevel> catalogue,
+    int length,
+    int index,
+    JourneyLevel level,
+    DateTime now,
+  ) {
+    final unlocked = _record.unlocked(catalogue, level);
+    final status = _record.due(level, now)
+        ? AmanpurStopStatus.review
+        : _record.levels.containsKey(level.id)
+        ? AmanpurStopStatus.complete
+        : unlocked
+        ? AmanpurStopStatus.next
+        : AmanpurStopStatus.practice;
+    return AmanpurMapStop(
+      index: index,
+      length: length,
+      number: level.number,
+      title: _levelTitle(level),
+      status: status,
+      statusLabel: switch (status) {
+        AmanpurStopStatus.review => tr('Review due', 'دہرائی کا وقت'),
+        AmanpurStopStatus.complete => tr('Completed', 'مکمل'),
+        AmanpurStopStatus.next => tr('Ready to start', 'شروع کریں'),
+        AmanpurStopStatus.practice => tr('Try a practice run', 'مشق آزمائیں'),
+      },
+      checkpoint: level.checkpoint,
+      checkpointLabel: tr('Checkpoint', 'جائزہ'),
+      onTap: _saving
+          ? null
+          : () => setState(() => _show(level, practiceOnly: !unlocked)),
+    );
+  }
+
+  Future<void> _chooseMapPage(List<JourneyLevel> catalogue) async {
+    final selected = await showModalBottomSheet<int>(
+      context: context,
+      showDragHandle: true,
+      builder: (sheetContext) => SafeArea(
+        child: ListView(
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(18, 0, 18, 8),
+              child: Text(
+                tr('Choose a trail section', 'راستے کا حصہ منتخب کریں'),
+                style: displayStyle(22, color: journeyNavy),
+              ),
+            ),
+            for (var start = 0; start < catalogue.length; start += _pageSize)
+              ListTile(
+                key: ValueKey('journey-range-${start ~/ _pageSize}'),
+                selected: _mapPage == start ~/ _pageSize,
+                title: Text(
+                  '${catalogue[start].number}–${catalogue.skip(start).take(_pageSize).last.number}',
+                ),
+                onTap: () => Navigator.pop(sheetContext, start ~/ _pageSize),
+              ),
+          ],
+        ),
+      ),
+    );
+    if (mounted && selected != null) setState(() => _mapPage = selected);
   }
 
   Future<void> _retrySync() async {
@@ -547,7 +603,7 @@ class _JourneyScreenState extends State<JourneyScreen> {
         builder: (context, snapshot) {
           final lessons = snapshot.data;
           final cards = lessons == null
-              ? const <(IconData, String, String)>[]
+              ? const <(String, String)>[]
               : _briefingCards(level, lessons);
           return Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -563,7 +619,7 @@ class _JourneyScreenState extends State<JourneyScreen> {
                   children: [
                     CourseScene(
                       world: _journeyWorld(level),
-                      height: 164,
+                      height: 104,
                       guide: true,
                     ),
                     Padding(
@@ -619,33 +675,37 @@ class _JourneyScreenState extends State<JourneyScreen> {
               ] else if (lessons == null)
                 const LinearProgressIndicator()
               else ...[
-                Text(
-                  tr('Inside this mission', 'اس مشن میں کیا ہے'),
-                  style: displayStyle(21, color: journeyNavy),
-                ),
-                const SizedBox(height: 8),
-                LayoutBuilder(
-                  builder: (context, bounds) => Wrap(
-                    spacing: 8,
-                    runSpacing: 8,
-                    children: [
-                      for (final (index, (icon, title, detail))
-                          in cards.indexed)
-                        SizedBox(
-                          width: cards.length == 1 || bounds.maxWidth < 280
-                              ? bounds.maxWidth
-                              : (bounds.maxWidth - 8) / 2,
-                          child: _MissionPreviewTile(
-                            index: index,
-                            icon: icon,
-                            title: title,
-                            detail: detail,
-                          ),
-                        ),
-                    ],
+                if (!_reviewing &&
+                    level.number != 1000 &&
+                    !lessons.first.revealAnswer &&
+                    lessons.first.choices.length > 1) ...[
+                  _MissionWarmup(
+                    key: ValueKey(level.id),
+                    lesson: lessons.first,
+                    parentLed: _parentLed,
                   ),
+                  const SizedBox(height: 12),
+                ],
+                ExpansionTile(
+                  tilePadding: EdgeInsets.zero,
+                  title: Text(
+                    tr('Mission route', 'مشن کا راستہ'),
+                    style: displayStyle(19, color: journeyNavy),
+                  ),
+                  children: [
+                    for (final (index, (title, detail)) in cards.indexed)
+                      JourneyStop(
+                        number: index + 1,
+                        first: index == 0,
+                        last: index == cards.length - 1,
+                        child: ListTile(
+                          title: Text(title),
+                          subtitle: Text(detail),
+                        ),
+                      ),
+                  ],
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 10),
                 FilledButton.icon(
                   key: const Key('journey-start-mission'),
                   style: FilledButton.styleFrom(
@@ -667,7 +727,7 @@ class _JourneyScreenState extends State<JourneyScreen> {
         },
       );
 
-  List<(IconData, String, String)> _briefingCards(
+  List<(String, String)> _briefingCards(
     JourneyLevel level,
     List<JourneyLesson> lessons,
   ) {
@@ -675,7 +735,6 @@ class _JourneyScreenState extends State<JourneyScreen> {
     if (_reviewing) {
       return [
         (
-          Icons.replay_rounded,
           tr('Recall', 'یاد کریں'),
           tr('Review what you learned', 'سیکھے ہوئے سبق کی دہرائی کریں'),
         ),
@@ -685,7 +744,6 @@ class _JourneyScreenState extends State<JourneyScreen> {
     return [
       if (capstone)
         (
-          Icons.flag_outlined,
           tr('Stations', 'سرگرمیاں'),
           tr(
             '${_completedStations.length} of ${lessons.length} finished',
@@ -694,7 +752,6 @@ class _JourneyScreenState extends State<JourneyScreen> {
         )
       else
         (
-          Icons.menu_book_rounded,
           tr('Explore', 'سبق دیکھیں'),
           lessons.length > 1
               ? tr(
@@ -707,7 +764,6 @@ class _JourneyScreenState extends State<JourneyScreen> {
         ),
       if (!capstone)
         (
-          Icons.extension_rounded,
           tr('Practise', 'مشق کریں'),
           lesson.verses.length > 1
               ? tr('Put the ayahs in order', 'آیات ترتیب سے لگائیں')
@@ -717,14 +773,12 @@ class _JourneyScreenState extends State<JourneyScreen> {
         ),
       if (!_parentLed)
         (
-          Icons.lightbulb_outline_rounded,
           tr('Think', 'سوچیں'),
           level.comparison
               ? tr('Compare what you learned', 'جو سیکھا اس کا موازنہ کریں')
               : tr('Make a choice', 'ایک فیصلہ کریں'),
         ),
       (
-        Icons.favorite_border_rounded,
         tr('Apply', 'عمل کریں'),
         tr('Try a small action today', 'آج ایک چھوٹا سا عمل آزمائیں'),
       ),
@@ -1506,52 +1560,195 @@ class _JourneyScreenState extends State<JourneyScreen> {
   );
 }
 
-class _MissionPreviewTile extends StatelessWidget {
-  const _MissionPreviewTile({
-    required this.index,
-    required this.icon,
-    required this.title,
-    required this.detail,
+class _MissionWarmup extends StatefulWidget {
+  const _MissionWarmup({
+    super.key,
+    required this.lesson,
+    required this.parentLed,
   });
 
-  final int index;
-  final IconData icon;
-  final String title, detail;
+  final JourneyLesson lesson;
+  final bool parentLed;
+
+  @override
+  State<_MissionWarmup> createState() => _MissionWarmupState();
+}
+
+class _MissionWarmupState extends State<_MissionWarmup> {
+  int? _selected;
+  bool _checked = false;
 
   @override
   Widget build(BuildContext context) {
-    final pink = index.isEven;
-    final accent = pink ? journeyPink : journeyNavy;
-    return Container(
-      constraints: const BoxConstraints(minHeight: 120),
-      padding: const EdgeInsets.all(12),
+    final lesson = widget.lesson;
+    final candidate = lesson.practice;
+    final match =
+        candidate != null &&
+            !candidate.inOrder &&
+            !candidate.recall &&
+            candidate.explanations.isEmpty &&
+            candidate.items.length > 1
+        ? candidate
+        : null;
+    final options = match?.items ?? lesson.choices;
+    final answer = match?.correct ?? lesson.correct;
+    final cleared = _checked && _selected == answer;
+    final lines = _checked
+        ? match == null
+              ? lesson.feedbackFor(_selected!)
+              : cleared
+              ? tr('That matches the lesson.', 'یہ سبق سے ملتا ہے۔')
+              : tr(
+                  'Try another answer or open the clue.',
+                  'دوسرا جواب آزمائیں یا اشارہ دیکھیں۔',
+                )
+        : tr(
+            'Pick a tile, then check your answer.',
+            'ایک جواب چنیں، پھر اسے جانچیں۔',
+          );
+    final animation = MediaQuery.disableAnimationsOf(context)
+        ? Duration.zero
+        : const Duration(milliseconds: 180);
+
+    return DecoratedBox(
       decoration: BoxDecoration(
-        color: pink ? const Color(0xFFFBE7EF) : const Color(0xFFFFEBD8),
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(22),
+        gradient: const LinearGradient(
+          colors: [journeyNavy, Color(0xFF352755)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              CircleAvatar(
-                radius: 17,
-                backgroundColor: Colors.white,
-                foregroundColor: accent,
-                child: Icon(icon, size: 19),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(
+              tr('Warm-up challenge', 'ابتدائی چیلنج'),
+              style: displayStyle(20, color: const Color(0xFFFFC783)),
+            ),
+            const SizedBox(height: 6),
+            Text(
+              match?.prompt ?? lesson.question,
+              style: displayStyle(23, color: Colors.white, height: 1.17),
+            ),
+            const SizedBox(height: 12),
+            for (final (index, option) in options.indexed)
+              if (!widget.parentLed ||
+                  index == answer ||
+                  index == (answer + 1) % options.length)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: Semantics(
+                    selected: _selected == index,
+                    child: OutlinedButton(
+                      key: ValueKey('journey-warmup-option-$index'),
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: journeyNavy,
+                        disabledForegroundColor: journeyNavy,
+                        backgroundColor: _selected == index
+                            ? const Color(0xFFFFD6E5)
+                            : Colors.white,
+                        disabledBackgroundColor: _selected == index
+                            ? const Color(0xFFD8F3E3)
+                            : const Color(0xFFF3EDF4),
+                        side: BorderSide(
+                          color: _selected == index
+                              ? const Color(0xFFFF94BA)
+                              : Colors.transparent,
+                          width: 2,
+                        ),
+                        alignment: AlignmentDirectional.centerStart,
+                        padding: const EdgeInsets.all(11),
+                        minimumSize: const Size(48, 48),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(14),
+                        ),
+                      ),
+                      onPressed: cleared
+                          ? null
+                          : () => setState(() {
+                              _selected = index;
+                              _checked = false;
+                            }),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 29,
+                            height: 29,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: _selected == index
+                                  ? journeyPink
+                                  : const Color(0xFFF8E9F1),
+                            ),
+                            child: Text(
+                              '${index + 1}',
+                              style: TextStyle(
+                                color: _selected == index
+                                    ? Colors.white
+                                    : journeyNavy,
+                                fontWeight: FontWeight.w800,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(child: Text(option)),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+            const SizedBox(height: 4),
+            Semantics(
+              liveRegion: true,
+              child: AnimatedSwitcher(
+                duration: animation,
+                child: Text(
+                  cleared
+                      ? '${tr('Warm-up cleared!', 'ابتدائی مشق مکمل!')} $lines'
+                      : lines,
+                  key: ValueKey((_checked, cleared, lines)),
+                  style: const TextStyle(color: Colors.white, height: 1.35),
+                ),
               ),
-              Text('${index + 1}', style: displayStyle(18, color: accent)),
+            ),
+            if (!cleared) ...[
+              ExpansionTile(
+                tilePadding: EdgeInsets.zero,
+                collapsedTextColor: Colors.white,
+                textColor: Colors.white,
+                collapsedIconColor: Colors.white,
+                iconColor: Colors.white,
+                title: Text(tr('Open a clue', 'اشارہ دیکھیں')),
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: Text(
+                      lesson.story,
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ],
+              ),
+              FilledButton(
+                key: const Key('journey-warmup-check'),
+                onPressed: _selected == null || _checked
+                    ? null
+                    : () => setState(() => _checked = true),
+                style: FilledButton.styleFrom(
+                  backgroundColor: const Color(0xFFFFC783),
+                  foregroundColor: journeyNavy,
+                  disabledBackgroundColor: const Color(0xFF665977),
+                  disabledForegroundColor: Colors.white,
+                ),
+                child: Text(tr('Check answer', 'جواب جانچیں')),
+              ),
             ],
-          ),
-          const SizedBox(height: 6),
-          Text(title, style: displayStyle(17, color: journeyNavy)),
-          const SizedBox(height: 3),
-          Text(
-            detail,
-            style: const TextStyle(color: journeyNavy, height: 1.25),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

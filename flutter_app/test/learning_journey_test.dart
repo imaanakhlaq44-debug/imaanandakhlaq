@@ -344,6 +344,12 @@ void main() {
 
       expect(find.text('Amanpur Journey Map'), findsOneWidget);
       expect(find.text('1 of 1000 levels complete'), findsOneWidget);
+      await tapLabel('Levels 1–50');
+      await tapLabel('51–100');
+      expect(find.byKey(const ValueKey('journey-stop-51')), findsOneWidget);
+      await tapLabel('Levels 51–100');
+      await tapLabel('1–50');
+      expect(find.text('Levels 1–50'), findsOneWidget);
       final recitation = find.byKey(const Key('quran-recitation'));
       final startMission = find.byKey(const Key('journey-start-mission'));
       await tester.runAsync(() async {
@@ -357,7 +363,24 @@ void main() {
           await tester.pump();
         }
       });
-      expect(find.text('Inside this mission'), findsOneWidget);
+      expect(find.text('Warm-up challenge'), findsOneWidget);
+      final warmupCheck = find.byKey(const Key('journey-warmup-check'));
+      final originalProgress = store.record;
+      await tapLabel(lesson.choices.last);
+      await tester.ensureVisible(warmupCheck);
+      await tester.tap(warmupCheck);
+      await tester.pumpAndSettle();
+      expect(
+        find.text(lesson.feedbackFor(lesson.choices.length - 1)),
+        findsOneWidget,
+      );
+      await tapLabel(lesson.choices[lesson.correct]);
+      await tester.ensureVisible(warmupCheck);
+      await tester.tap(warmupCheck);
+      await tester.pumpAndSettle();
+      expect(find.textContaining('Warm-up cleared!'), findsOneWidget);
+      expect(store.record, same(originalProgress));
+      await tapLabel('Mission route');
       expect(find.text('Put the ayahs in order'), findsOneWidget);
       expect(recitation, findsNothing);
       await tapLabel('Start mission');

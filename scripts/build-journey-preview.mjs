@@ -16,6 +16,7 @@ async function releaseDependencies() {
     'assets/images/course-scenes.png',
     'assets/images/course-guide-imaan.png',
     'assets/images/course-guide-akhlaq.png',
+    'assets/images/amanpur-map.png',
     'lib/courses/course_journey.dart',
     'lib/courses/duas/duas_data.dart',
     'lib/courses/hajj/hajj_data.dart',
@@ -33,6 +34,7 @@ async function releaseDependencies() {
     'lib/data/learning_journey.dart',
     'lib/l10n/language.dart',
     'lib/screens/journey_practice_view.dart',
+    'lib/screens/journey_map_view.dart',
     'lib/screens/journey_screen.dart',
     'lib/screens/journey_preferences_sheet.dart',
   ];

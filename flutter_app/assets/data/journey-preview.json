@@ -29468,6 +29468,7 @@
     "assets/images/course-scenes.png": "c4eec09232e4742e358ad399ec0948cce60a2a1d324e22f7a2a7b951ee6245ef",
     "assets/images/course-guide-imaan.png": "2b1be10b95ad53d131e7c5a0baf5f667b7edc4fb4f6e1bc7f14f521c50e2cfd5",
     "assets/images/course-guide-akhlaq.png": "b0cc0fd34840a9c75cd29ef55109edfdbf51b0749269a9e9a94e409d83e4c563",
+    "assets/images/amanpur-map.png": "5ae4429d32e7afe49a9070b2b26359c4c81ef36cb4aab724b960eee31f6431d4",
     "lib/courses/course_journey.dart": "b872049fbafe5f834a373b94bfe3b764bf170a30d5619feec273192ddac6417b",
     "lib/courses/duas/duas_data.dart": "15b3a5c2ecc400f298d889492ab13c6a4bbfc82639ae954897fb5723f2aab7ef",
     "lib/courses/hajj/hajj_data.dart": "0be43f9768ea116831abbad3b7c286b781ca6a1d2da1f8637a5caafb26cfad57",
@@ -29485,8 +29486,9 @@
     "lib/data/learning_journey.dart": "ee3556e3bf76123680883bf7409bde2c19ec04b4441f3a9f8cbc1fceae2412e9",
     "lib/l10n/language.dart": "888e5cddc25edb389b9a8edd57bfae5dc7686a93eb0db94e2ff6e3f97c678dba",
     "lib/screens/journey_practice_view.dart": "d0b7cd33f31e0c02fad28ae7981000f8e48e4b24c5291432d6e15af52de61427",
-    "lib/screens/journey_screen.dart": "12a6b8947d70a8124487ac73a2f717cc965822c2953786694dfb843e6908e47d",
+    "lib/screens/journey_map_view.dart": "6424ddf25ba9cf5765f4d4a455aac08a8ba89b7d631790d08c24f886bb1c01db",
+    "lib/screens/journey_screen.dart": "a1e4d121de261d99e0d691fbc2d98f1484cdcdc7d3e6dc33ef4d48eee5c08cd6",
     "lib/screens/journey_preferences_sheet.dart": "fd4e387c4a4a0b64e62d61b3f751596c27c12de1443939561d23880cb0e4cd4b"
   },
-  "releaseHash": "9bd716e1b431ee3a4cf6280d0d13c067993d7feb7dbe371ff70984f47ccd9909"
+  "releaseHash": "46356b2bd36a95067486960be23d2aca371b1e8c08130bed9a0b5c0c0bbbf366"
 }
