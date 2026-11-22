@@ -184,6 +184,7 @@ jobs:
           flutter build web --release --base-href=/app/ \
             --dart-define-from-file="$RUNNER_TEMP/imaan-web-config.json" \
             --dart-define=LEARNING_JOURNEY_RELEASE=true
+          python tool/prepare-web-assets.py build/web
           printf '{"commit":"%s","journeyPublic":true}\n' "$GITHUB_SHA" > build/web/imaan-build.json
       - name: Upload the app separately to public_html/app
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5

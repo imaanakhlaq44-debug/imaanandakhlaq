@@ -26,3 +26,7 @@ Bundled Noto Naskh Arabic variable font from https://github.com/google/fonts/tre
 
 ## Fredoka (brand display font)
 assets/fonts/fredoka.ttf is Fredoka[wdth,wght].ttf from the official Google Fonts repository, https://github.com/google/fonts/tree/main/ofl/fredoka (downloaded 15 November 2026, 159,184 bytes, with the user's approval). SIL Open Font License 1.1, copy in assets/fonts/fredoka-OFL.txt. The website and original app use Fredoka One for the same role. Used only for headings and large numbers via displayStyle() in lib/screens/ui_kit.dart; body text stays AppSans.
+
+## Web delivery variants
+
+The deployment uses the [Noto Nastaliq Urdu font](https://github.com/google/fonts/tree/main/ofl/notonastaliqurdu) for the web app's Urdu font family. The matching SIL Open Font License is in `tool/web-assets/fonts`. The smaller WebP assets in `tool/web-assets/images` are encodings of the existing Imaan & Akhlaq PNG artwork.

@@ -10,6 +10,12 @@ DirectoryIndex index.html
 RewriteCond %{HTTP_HOST} ^app\.imaanakhlaq\.org$ [NC]
 RewriteRule ^(.*)$ https://www.imaanakhlaq.org/app/$1 [R=301,L]
 
+# Flutter's shared asset keys use PNG. Serve a smaller WebP from the web
+# build when one was supplied, with the original PNG as the fallback.
+RewriteCond %{REQUEST_FILENAME} ^(.+)\.png$
+RewriteCond %1.webp -f
+RewriteRule ^(assets/assets/images/[^/]+)\.png$ $1.webp [L]
+
 <IfModule mod_headers.c>
   # Engine, fonts, images and audio change rarely: cache for a week.
   <FilesMatch "\.(wasm|ttf|otf|png|jpg|jpeg|webp|mp3|json|bin|frag)$">
@@ -27,6 +33,7 @@ RewriteRule ^(.*)$ https://www.imaanakhlaq.org/app/$1 [R=301,L]
   AddType application/wasm wasm
   AddType font/ttf ttf
   AddType font/otf otf
+  AddType image/webp webp
 </IfModule>
 
 <IfModule mod_deflate.c>
