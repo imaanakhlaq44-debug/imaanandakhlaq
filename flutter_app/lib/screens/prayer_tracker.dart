@@ -44,7 +44,9 @@ Future<void> openPrayerTracker(
   PrayerLog.instance.use(scope).then((_) => PrayerLog.instance.refresh());
   return Navigator.of(context).push<void>(
     MaterialPageRoute(
-      builder: (_) => PrayerTrackerScreen(onLearnSalah: onLearnSalah),
+      // Its own page, so it needs its own Urdu right-to-left layout.
+      builder: (_) =>
+          LanguageScope(child: PrayerTrackerScreen(onLearnSalah: onLearnSalah)),
     ),
   );
 }
