@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:imaan_akhlaq/app.dart';
 import 'package:imaan_akhlaq/data/catalog.dart';
+import 'package:imaan_akhlaq/rewards/habit_log.dart';
+import 'package:imaan_akhlaq/rewards/prayer_log.dart';
 import 'package:imaan_akhlaq/courses/quran/quran_screens.dart'
     show QuranCompanionScreen;
 import 'app_test.dart'
@@ -10,6 +12,11 @@ import 'app_test.dart'
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
+  setUp(() {
+    // Daily checklists are app-wide; each test starts with none ticked.
+    PrayerLog.instance = PrayerLog();
+    HabitLog.resetShared();
+  });
   WidgetController.hitTestWarningShouldBeFatal = true;
   setUpAll(() async {
     await Catalog().books();
@@ -21,42 +28,97 @@ void main() {
       'MaterialIcons',
     )..addFont(rootBundle.load('fonts/MaterialIcons-Regular.otf'))).load();
   });
-  testWidgets(
-    'map button opens adventure map; course node and story library work',
-    (tester) async {
-      viewport(tester);
-      final repo = FakeRepository();
-      addTearDown(repo.dispose);
-      await tester.pumpWidget(ImaanApp(repository: repo));
-      await enterSection(tester, school: repo.initial == 'family');
-      await tester.tap(find.byKey(const Key('nav-map')));
-      await tester.pumpAndSettle();
-      expect(find.byType(AppBar), findsNothing);
-      expect(find.text('Amanpur adventure'), findsNothing);
-      expect(find.byKey(const Key('map-next-story')), findsNothing);
-      // The Quran course is playable now, so its node opens the course
-      // itself instead of the "In preparation" sheet.
-      await tester.tap(find.byKey(const Key('map-quran')));
-      await tester.pumpAndSettle();
-      expect(find.byType(QuranCompanionScreen), findsOneWidget);
-      await tester.binding.handlePopRoute();
-      await tester.pumpAndSettle();
-      expect(find.byType(QuranCompanionScreen), findsNothing);
-      await tester.scrollUntilVisible(
-        find.byKey(const Key('map-books')),
-        250,
-        scrollable: find.byType(Scrollable).first,
-      );
-      await tester.ensureVisible(find.byKey(const Key('map-books')));
-      await tester.pumpAndSettle();
-      await tester.tap(find.byKey(const Key('map-books')));
-      await tester.pumpAndSettle();
-      expect(find.text('Stories & books'), findsOneWidget);
-      await tester.binding.handlePopRoute();
-      await tester.pumpAndSettle();
-      expect(find.text('Explore learning'), findsOneWidget);
-    },
-  );
+  testWidgets('map places open daily checklists that lead on to the courses', (
+    tester,
+  ) async {
+    viewport(tester);
+    final repo = FakeRepository();
+    addTearDown(repo.dispose);
+    await tester.pumpWidget(ImaanApp(repository: repo));
+    await enterSection(tester, school: repo.initial == 'family');
+    await tester.tap(find.byKey(const Key('nav-map')));
+    await tester.pumpAndSettle();
+    expect(find.byType(AppBar), findsNothing);
+    expect(find.text('Amanpur adventure'), findsNothing);
+    expect(find.byKey(const Key('map-next-story')), findsNothing);
+    // Every place shows today's progress on its pin.
+    expect(find.byKey(const Key('map-quran-count')), findsOneWidget);
+    expect(find.text('0/5'), findsWidgets);
+    // Quran Garden opens its checklist, which leads on to the course.
+    await tester.tap(find.byKey(const Key('map-quran')));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const Key('habit-quran')), findsOneWidget);
+    await tester.tap(find.byKey(const Key('habit-item-recite')));
+    await tester.pumpAndSettle();
+    expect(find.text('Today: 1 of 3'), findsOneWidget);
+    await tester.scrollUntilVisible(
+      find.byKey(const Key('habit-course')),
+      200,
+      scrollable: find.byType(Scrollable).last,
+    );
+    await tester.tap(find.byKey(const Key('habit-course')));
+    await tester.pumpAndSettle();
+    expect(find.byType(QuranCompanionScreen), findsOneWidget);
+    await tester.binding.handlePopRoute();
+    await tester.pumpAndSettle();
+    await tester.binding.handlePopRoute();
+    await tester.pumpAndSettle();
+    expect(find.byKey(const Key('habit-quran')), findsNothing);
+    expect(find.text('1/3'), findsOneWidget);
+    // Salah Studio opens the prayer tracker.
+    await tester.tap(find.byKey(const Key('map-salah')));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const Key('prayer-tracker')), findsOneWidget);
+    await tester.binding.handlePopRoute();
+    await tester.pumpAndSettle();
+    // Hadith House shows the hadith of the day.
+    await tester.tap(find.byKey(const Key('map-hadith')));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const Key('habit-hadith')), findsOneWidget);
+    await tester.binding.handlePopRoute();
+    await tester.pumpAndSettle();
+    // Good Deeds leads on to the story books.
+    await tester.scrollUntilVisible(
+      find.byKey(const Key('map-deeds')),
+      250,
+      scrollable: find.byType(Scrollable).first,
+    );
+    await tester.ensureVisible(find.byKey(const Key('map-deeds')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('map-deeds')));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const Key('habit-deeds')), findsOneWidget);
+    await tester.scrollUntilVisible(
+      find.byKey(const Key('habit-course')),
+      200,
+      scrollable: find.byType(Scrollable).last,
+    );
+    await tester.tap(find.byKey(const Key('habit-course')));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const Key('habit-deeds')), findsNothing);
+    expect(find.text('Stories & books'), findsOneWidget);
+    await tester.tap(find.byKey(const Key('nav-map')));
+    await tester.pumpAndSettle();
+    // Weekly Goal opens this week's challenge.
+    await tester.scrollUntilVisible(
+      find.byKey(const Key('map-challenge')),
+      250,
+      scrollable: find.byType(Scrollable).first,
+    );
+    await tester.ensureVisible(find.byKey(const Key('map-challenge')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('map-challenge')));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const Key('weekly-challenge')), findsOneWidget);
+    await tester.tap(find.byKey(const Key('challenge-today')));
+    await tester.pumpAndSettle();
+    expect(find.text('1 of 5 days'), findsOneWidget);
+    await tester.binding.handlePopRoute();
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('nav-home')));
+    await tester.pumpAndSettle();
+    expect(find.text('Explore learning'), findsOneWidget);
+  });
   testWidgets(
     'signed-in continue opens a real chapter rather than sample lesson data',
     (tester) async {

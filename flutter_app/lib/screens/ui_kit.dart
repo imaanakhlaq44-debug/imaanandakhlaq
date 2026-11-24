@@ -422,11 +422,20 @@ class DashboardHero extends StatelessWidget {
     required this.onProfile,
     this.badgeIcon = Icons.verified_rounded,
     this.colors = const [brandNavy, brandIndigo],
+    this.greeting,
+    this.dateText,
+    this.action,
   });
   final String title, personName, badge;
   final IconData badgeIcon;
   final List<Color> colors;
   final VoidCallback onProfile;
+
+  /// Replace the English greeting and date (the family page in Urdu).
+  final String? greeting, dateText;
+
+  /// Shown before the account avatar, such as a language switch.
+  final Widget? action;
   @override
   Widget build(BuildContext context) {
     final now = DateTime.now();
@@ -483,7 +492,7 @@ class DashboardHero extends StatelessWidget {
                             ),
                             const SizedBox(width: 6),
                             Text(
-                              todayLabel(now),
+                              dateText ?? todayLabel(now),
                               style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 12.5,
@@ -494,6 +503,10 @@ class DashboardHero extends StatelessWidget {
                         ),
                       ),
                       const Spacer(),
+                      if (action != null) ...[
+                        action!,
+                        const SizedBox(width: 10),
+                      ],
                       Semantics(
                         button: true,
                         label: 'Account',
@@ -513,7 +526,7 @@ class DashboardHero extends StatelessWidget {
                   ),
                   const SizedBox(height: 18),
                   Text(
-                    '${greetingFor(now)}, $personName',
+                    '${greeting ?? greetingFor(now)}, $personName',
                     style: TextStyle(
                       color: Colors.white.withValues(alpha: .82),
                       fontSize: 14.5,

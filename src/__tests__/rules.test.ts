@@ -170,6 +170,130 @@ describe.skipIf(!HAS_EMULATOR)('Firestore rules', () => {
     })
   })
 
+  describe('daily checklists', () => {
+    const iso = (offsetDays: number) => {
+      const d = new Date(Date.now() + offsetDays * 86400000)
+      return d.toISOString().slice(0, 10)
+    }
+    const today = iso(0)
+    const dayDoc = (db: ReturnType<typeof asFamily>, learner: string, day = today) =>
+      doc(db, 'daily_checklists', learner, 'days', day)
+    const ticks = { salah: ['fajr', 'zuhr'], updatedAt: serverTimestamp() }
+
+    it('a child keeps their own day, and the family that manages them reads and writes it', async () => {
+      const child = env.authenticatedContext(CHILD).firestore()
+      await assertSucceeds(setDoc(dayDoc(child, CHILD), ticks, { merge: true }))
+      await assertSucceeds(setDoc(dayDoc(child, CHILD), { quran: ['recite'], updatedAt: serverTimestamp() }, { merge: true }))
+      await assertSucceeds(getDoc(dayDoc(asFamily(), CHILD)))
+      await assertSucceeds(getDocs(collection(asFamily(), 'daily_checklists', CHILD, 'days')))
+      await assertSucceeds(setDoc(dayDoc(asFamily(), CHILD), { duas: ['wake', 'sleep'], updatedAt: serverTimestamp() }, { merge: true }))
+      const saved = await getDoc(dayDoc(child, CHILD))
+      expect(saved.data()?.salah).toEqual(['fajr', 'zuhr'])
+      expect(saved.data()?.quran).toEqual(['recite'])
+      expect(saved.data()?.duas).toEqual(['wake', 'sleep'])
+    })
+
+    it('nobody else reads or writes it', async () => {
+      const child = env.authenticatedContext(CHILD).firestore()
+      await assertSucceeds(setDoc(dayDoc(child, CHILD), ticks))
+      await assertFails(getDoc(dayDoc(asOtherFamily(), CHILD)))
+      await assertFails(getDoc(dayDoc(asTeacher(), CHILD)))
+      await assertFails(getDocs(collection(env.authenticatedContext(SIBLING).firestore(), 'daily_checklists', CHILD, 'days')))
+      await assertFails(setDoc(dayDoc(asOtherFamily(), CHILD), ticks))
+      await assertFails(setDoc(dayDoc(env.unauthenticatedContext().firestore(), CHILD), ticks))
+      await assertFails(deleteDoc(dayDoc(child, CHILD)))
+    })
+
+    it('an Individual space keeps its own record under ind_<uid>', async () => {
+      await assertSucceeds(setDoc(dayDoc(asTeacher(), 'ind_' + TEACHER), ticks))
+      await assertFails(setDoc(dayDoc(asFamily(), 'ind_' + TEACHER), ticks))
+    })
+
+    it('accepts only the app\'s own items and fields', async () => {
+      const child = env.authenticatedContext(CHILD).firestore()
+      await assertFails(setDoc(dayDoc(child, CHILD), { salah: ['fajr', 'tahajjud'], updatedAt: serverTimestamp() }))
+      await assertFails(setDoc(dayDoc(child, CHILD), { salah: 'fajr', updatedAt: serverTimestamp() }))
+      await assertFails(setDoc(dayDoc(child, CHILD), { ...ticks, stars: 100 }))
+      await assertFails(setDoc(dayDoc(child, CHILD), { salah: ['fajr'] }))
+      await assertFails(setDoc(dayDoc(child, CHILD), { salah: ['fajr'], updatedAt: Timestamp.fromMillis(0) }))
+      await assertSucceeds(setDoc(dayDoc(child, CHILD), {
+        salah: ['fajr', 'zuhr', 'asr', 'maghrib', 'isha'],
+        quran: ['recite', 'listen', 'learn'],
+        duas: ['wake', 'eat', 'after-eat', 'leave', 'enter', 'sleep'],
+        hadith: ['read', 'act'],
+        deeds: ['help', 'truth', 'share', 'kind', 'thanks'],
+        challenge: ['salam'],
+        updatedAt: serverTimestamp(),
+      }))
+    })
+
+    it('only the family that manages the child confirms a day, without changing its ticks', async () => {
+      const child = env.authenticatedContext(CHILD).firestore()
+      await assertSucceeds(setDoc(dayDoc(child, CHILD), ticks))
+      const confirm = { confirmed: { salah: ['fajr', 'zuhr'] }, confirmedAt: serverTimestamp(), updatedAt: serverTimestamp() }
+      await assertFails(setDoc(dayDoc(child, CHILD), confirm, { merge: true }))
+      await assertFails(setDoc(dayDoc(asOtherFamily(), CHILD), confirm, { merge: true }))
+      await assertFails(setDoc(dayDoc(asFamily(), CHILD), { ...confirm, salah: ['fajr', 'zuhr', 'asr', 'maghrib', 'isha'] }, { merge: true }))
+      await assertFails(setDoc(dayDoc(asFamily(), CHILD), { ...confirm, confirmedAt: Timestamp.fromMillis(0) }, { merge: true }))
+      await assertFails(setDoc(dayDoc(asFamily(), CHILD), { ...confirm, confirmed: { salah: ['tahajjud'] } }, { merge: true }))
+      await assertSucceeds(setDoc(dayDoc(asFamily(), CHILD), confirm, { merge: true }))
+      // The child keeps ticking afterwards; the confirmation stays as it was.
+      await assertSucceeds(setDoc(dayDoc(child, CHILD), { salah: ['fajr', 'zuhr', 'asr'], updatedAt: serverTimestamp() }, { merge: true }))
+      const saved = await getDoc(dayDoc(asFamily(), CHILD))
+      expect(saved.data()?.confirmed).toEqual({ salah: ['fajr', 'zuhr'] })
+      expect(saved.data()?.salah).toEqual(['fajr', 'zuhr', 'asr'])
+    })
+
+    it('a parent may confirm the past week, but ticks stay limited to recent days', async () => {
+      await env.withSecurityRulesDisabled(async (ctx) => {
+        await setDoc(doc(ctx.firestore(), 'daily_checklists', CHILD, 'days', iso(-6)), { salah: ['fajr'], updatedAt: Timestamp.now() })
+      })
+      const confirm = { confirmed: { salah: ['fajr'] }, confirmedAt: serverTimestamp(), updatedAt: serverTimestamp() }
+      await assertSucceeds(setDoc(dayDoc(asFamily(), CHILD, iso(-6)), confirm, { merge: true }))
+      await assertFails(setDoc(dayDoc(asFamily(), CHILD, iso(-6)), { salah: ['fajr', 'zuhr'], updatedAt: serverTimestamp() }, { merge: true }))
+      await assertFails(setDoc(dayDoc(asFamily(), CHILD, iso(-12)), confirm, { merge: true }))
+    })
+
+    it('only days around today may change, so old history stays as it was', async () => {
+      const child = env.authenticatedContext(CHILD).firestore()
+      await assertSucceeds(setDoc(dayDoc(child, CHILD, iso(-2)), ticks))
+      await assertFails(setDoc(dayDoc(child, CHILD, iso(-5)), ticks))
+      await assertFails(setDoc(dayDoc(child, CHILD, iso(4)), ticks))
+      await assertFails(setDoc(dayDoc(child, CHILD, 'today'), ticks))
+    })
+  })
+
+  describe('weekly report devices', () => {
+    const device = { owner_uid: FAMILY, lang: 'ur', platform: 'web', updatedAt: serverTimestamp() }
+
+    it('a family saves, reads and removes its own device', async () => {
+      const ref = doc(asFamily(), 'push_tokens', 'device-token-1')
+      await assertSucceeds(setDoc(ref, device))
+      await assertSucceeds(getDoc(ref))
+      await assertSucceeds(setDoc(ref, { ...device, lang: 'en' }))
+      await assertSucceeds(deleteDoc(ref))
+    })
+
+    it('nobody else reads, lists or saves it, and only families save one', async () => {
+      await assertSucceeds(setDoc(doc(asFamily(), 'push_tokens', 'device-token-1'), device))
+      await assertFails(getDoc(doc(asOtherFamily(), 'push_tokens', 'device-token-1')))
+      await assertFails(deleteDoc(doc(asOtherFamily(), 'push_tokens', 'device-token-1')))
+      await assertFails(getDocs(collection(asFamily(), 'push_tokens')))
+      await assertFails(setDoc(doc(asOtherFamily(), 'push_tokens', 'device-token-2'), device))
+      await assertFails(setDoc(doc(asTeacher(), 'push_tokens', 'device-token-3'), { ...device, owner_uid: TEACHER }))
+      const child = env.authenticatedContext(CHILD).firestore()
+      await assertFails(setDoc(doc(child, 'push_tokens', 'device-token-4'), { ...device, owner_uid: CHILD }))
+    })
+
+    it('accepts only the expected fields', async () => {
+      const ref = doc(asFamily(), 'push_tokens', 'device-token-5')
+      await assertFails(setDoc(ref, { ...device, lang: 'fr' }))
+      await assertFails(setDoc(ref, { ...device, platform: 'desktop' }))
+      await assertFails(setDoc(ref, { ...device, extra: true }))
+      await assertFails(setDoc(ref, { ...device, updatedAt: Timestamp.fromMillis(0) }))
+    })
+  })
+
   describe('legacy students are unaffected', () => {
     it('reads their own submission', async () => {
       await assertSucceeds(getDoc(doc(asLegacy(), 'activity_submissions', LEGACY_STUDENT + '_c1')))
