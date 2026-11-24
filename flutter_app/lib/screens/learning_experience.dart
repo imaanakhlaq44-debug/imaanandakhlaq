@@ -2,6 +2,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import '../app_theme.dart';
 import '../data/catalog.dart';
+import '../data/checklist_cloud.dart';
 import '../data/learning_journey.dart';
 import '../domain.dart';
 import 'hadith_screen.dart';
@@ -12,6 +13,10 @@ import '../l10n/language.dart';
 import '../audio/voice.dart';
 import '../rewards/rewards.dart';
 import '../rewards/reward_widgets.dart';
+import '../rewards/prayer_log.dart';
+import 'habit_tracker.dart';
+import 'prayer_tracker.dart';
+import 'weekly_challenge.dart';
 
 /// Course names in the current language (see [courseNames] for English).
 String courseName(int i) => tr(courseNames[i], courseNamesUrdu[i]);
@@ -970,12 +975,30 @@ class AdventureMap extends StatelessWidget {
     required this.onCourse,
     required this.onBooks,
     required this.onLearn,
+    required this.scope,
+    this.cloud,
   });
+
+  /// Open a course, the story books, or the course library: the "learn
+  /// more" buttons inside each place's checklist.
   final ValueChanged<int> onCourse;
   final VoidCallback onBooks, onLearn;
+
+  /// Whose daily checklists the places open and count (a learner id, or
+  /// guest).
+  final String scope;
+
+  /// Where a signed-in learner's checklists are also kept, or null to keep
+  /// them on this device only (guests).
+  final ChecklistCloud? cloud;
   @override
   Widget build(BuildContext context) => LayoutBuilder(
     builder: (context, constraints) {
+      PrayerLog.instance.use(scope, cloud: cloud);
+      for (final spot in [quranSpot, hadithSpot, duaSpot, deedsSpot]) {
+        spot.log.use(scope, cloud: cloud);
+      }
+      challengeLog.use(scope, cloud: cloud);
       final width = constraints.maxWidth;
       final scale = MediaQuery.textScalerOf(context).scale(14) / 14;
       final height = math.max(
@@ -1047,6 +1070,48 @@ class AdventureMap extends StatelessWidget {
           ),
         ),
       );
+      // A small "done / goal" badge at the top corner of a pin.
+      Widget counter(
+        String id,
+        Offset at,
+        Color color,
+        Listenable source,
+        (int, int) Function() read,
+      ) => Positioned(
+        left:
+            (width * at.dx - markerWidth / 2).clamp(
+              4.0,
+              width - markerWidth - 4,
+            ) +
+            markerWidth -
+            16,
+        top: height * at.dy - markerWidth * .485 - 10,
+        child: IgnorePointer(
+          child: ListenableBuilder(
+            listenable: source,
+            builder: (context, _) {
+              final (done, goal) = read();
+              return Container(
+                key: Key('map-$id-count'),
+                padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
+                decoration: BoxDecoration(
+                  color: done >= goal ? const Color(0xFFF5B83D) : Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: color),
+                ),
+                child: Text(
+                  '$done/$goal',
+                  style: const TextStyle(
+                    color: ink,
+                    fontSize: 11,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+      );
       return SingleChildScrollView(
         key: const PageStorageKey('adventure-map'),
         child: SizedBox(
@@ -1067,48 +1132,114 @@ class AdventureMap extends StatelessWidget {
                 'map-quran',
                 0.255,
                 0.09,
-                const Color(0xFFD63678),
-                () => onCourse(0),
+                quranSpot.color,
+                () => openHabitTracker(
+                  context,
+                  quranSpot,
+                  scope: scope,
+                  onCourse: () => onCourse(0),
+                ),
               ),
               stop(
                 tr('Hadith\nHouse', 'حدیث\nگھر'),
                 'map-hadith',
                 0.775,
                 0.1,
-                const Color(0xFF3478B8),
-                () => onCourse(1),
+                hadithSpot.color,
+                () => openHabitTracker(
+                  context,
+                  hadithSpot,
+                  scope: scope,
+                  onCourse: () => onCourse(1),
+                ),
               ),
               stop(
                 tr('Dua\nCorner', 'دعا\nکونا'),
                 'map-duas',
                 0.175,
                 0.28,
-                const Color(0xFF208977),
-                () => onCourse(2),
+                duaSpot.color,
+                () => openHabitTracker(
+                  context,
+                  duaSpot,
+                  scope: scope,
+                  onCourse: () => onCourse(2),
+                ),
               ),
               stop(
                 tr('Salah\nStudio', 'نماز\nکمرہ'),
                 'map-salah',
                 0.785,
                 0.3,
-                const Color(0xFF7653AC),
-                () => onCourse(3),
+                prayerViolet,
+                () => openPrayerTracker(
+                  context,
+                  scope: scope,
+                  onLearnSalah: () => onCourse(3),
+                ),
               ),
               stop(
-                tr('Story\nLibrary', 'کہانی\nلائبریری'),
-                'map-books',
+                tr('Good\nDeeds', 'اچھے\nکام'),
+                'map-deeds',
                 0.205,
                 0.55,
-                const Color(0xFFD97426),
-                onBooks,
+                deedsSpot.color,
+                () => openHabitTracker(
+                  context,
+                  deedsSpot,
+                  scope: scope,
+                  onCourse: () {
+                    Navigator.of(context).pop();
+                    onBooks();
+                  },
+                ),
               ),
               stop(
-                tr('Explore\nMore', 'مزید\nدیکھیں'),
-                'map-explore',
+                tr('Weekly\nGoal', 'ہفتے کا\nہدف'),
+                'map-challenge',
                 0.88,
                 0.64,
-                const Color(0xFFC34F59),
-                onLearn,
+                challengeColor,
+                () => openWeeklyChallenge(
+                  context,
+                  scope: scope,
+                  onExplore: () {
+                    Navigator.of(context).pop();
+                    onLearn();
+                  },
+                ),
+              ),
+              // Today's progress on each place's pin.
+              for (final spot in [quranSpot, hadithSpot, duaSpot, deedsSpot])
+                counter(
+                  spot.id,
+                  _pinSpots[spot.id]!,
+                  spot.color,
+                  spot.log,
+                  () => (
+                    spot.log.record.countOn(spot.log.clock()),
+                    spot.items.length,
+                  ),
+                ),
+              counter(
+                'salah',
+                _pinSpots['salah']!,
+                prayerViolet,
+                PrayerLog.instance,
+                () => (
+                  PrayerLog.instance.record.countOn(PrayerLog.instance.clock()),
+                  5,
+                ),
+              ),
+              counter(
+                'challenge',
+                _pinSpots['challenge']!,
+                challengeColor,
+                challengeLog,
+                () => (
+                  challengeLog.record.daysThisWeek(challengeLog.clock()),
+                  challengeGoalDays,
+                ),
               ),
             ],
           ),
@@ -1117,6 +1248,16 @@ class AdventureMap extends StatelessWidget {
     },
   );
 }
+
+/// Where each place's pin sits on the map, as fractions of its size.
+const _pinSpots = {
+  'quran': Offset(0.255, 0.09),
+  'hadith': Offset(0.775, 0.1),
+  'duas': Offset(0.175, 0.28),
+  'salah': Offset(0.785, 0.3),
+  'deeds': Offset(0.205, 0.55),
+  'challenge': Offset(0.88, 0.64),
+};
 
 class _MapMarkerClipper extends CustomClipper<Path> {
   const _MapMarkerClipper();

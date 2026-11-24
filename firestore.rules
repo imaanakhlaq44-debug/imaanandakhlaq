@@ -911,5 +911,100 @@ service cloud.firestore {
         request.resource.data.name.size() <= 80;
       allow delete: if false;
     }
+
+    // ---------------------------------------------------------------
+    // 19. Daily checklists (the Amanpur map)
+    // ---------------------------------------------------------------
+    // A child's own record of the day: which prayers, Quran, duas, hadith,
+    // good deeds and weekly-challenge days were ticked. One document per
+    // day: daily_checklists/{learnerId}/days/{yyyy-mm-dd}.
+    //
+    // Written by the child (a school student, an Individual, or an
+    // Individual space 'ind_<uid>') or by the family that manages the child.
+    // Read by the same people only. Every list may hold only the app's own
+    // item ids, and only days around today may change, so old history is
+    // never rewritten.
+    function keepsChecklist(learnerId) {
+      return signedIn() && (
+        learnerId == request.auth.uid ||
+        learnerId == 'ind_' + request.auth.uid ||
+        managesJourney(learnerId)
+      );
+    }
+
+    match /daily_checklists/{learnerId}/days/{dayId} {
+      // Days back (and ahead, for time zones) a change may touch.
+      function withinDays(back) {
+        let parts = dayId.split('-');
+        let day = timestamp.date(int(parts[0]), int(parts[1]), int(parts[2]));
+        return day >= request.time - duration.value(back, 'd') &&
+          day <= request.time + duration.value(2, 'd');
+      }
+
+      function ticks(data, field, allowed) {
+        return !(field in data) ||
+          (data[field] is list && data[field].hasOnly(allowed));
+      }
+
+      function validTicks(data) {
+        return ticks(data, 'salah', ['fajr', 'zuhr', 'asr', 'maghrib', 'isha']) &&
+          ticks(data, 'quran', ['recite', 'listen', 'learn']) &&
+          ticks(data, 'duas', ['wake', 'eat', 'after-eat', 'leave', 'enter', 'sleep']) &&
+          ticks(data, 'hadith', ['read', 'act']) &&
+          ticks(data, 'deeds', ['help', 'truth', 'share', 'kind', 'thanks']) &&
+          ticks(data, 'challenge', ['fajr', 'salam', 'help', 'bismillah', 'quran', 'shukr', 'share', 'gentle']);
+      }
+
+      function validDay(data) {
+        return data.keys().hasOnly(['salah', 'quran', 'duas', 'hadith', 'deeds', 'challenge', 'confirmed', 'confirmedAt', 'updatedAt']) &&
+          data.updatedAt == request.time &&
+          validTicks(data) &&
+          (!('confirmed' in data) || (
+            data.confirmed is map &&
+            data.confirmed.keys().hasOnly(['salah', 'quran', 'duas', 'hadith', 'deeds', 'challenge']) &&
+            validTicks(data.confirmed)
+          ));
+      }
+
+      function changedKeys() {
+        return request.resource.data.diff(resource == null ? {} : resource.data).affectedKeys();
+      }
+
+      allow read: if keepsChecklist(learnerId);
+
+      // Ticks: by the child or their family, on days around today. The
+      // parent's confirmation is never part of a tick.
+      // Confirming: only the family that manages the child, for the past
+      // week, stamped with the time, and without changing the child's ticks.
+      allow create, update: if keepsChecklist(learnerId) &&
+        dayId.matches('[0-9]{4}-[0-9]{2}-[0-9]{2}') &&
+        validDay(request.resource.data) &&
+        (
+          (!changedKeys().hasAny(['confirmed', 'confirmedAt']) && withinDays(3)) ||
+          (managesJourney(learnerId) &&
+            changedKeys().hasOnly(['confirmed', 'confirmedAt', 'updatedAt']) &&
+            request.resource.data.confirmedAt == request.time &&
+            withinDays(8))
+        );
+      allow delete: if false;
+    }
+
+    // ---------------------------------------------------------------
+    // 20. Devices that receive the weekly habits report
+    // ---------------------------------------------------------------
+    // push_tokens/{token}: a family account's phone or browser that turned
+    // the weekly report on (functions/weekly-report.js sends it). Only the
+    // family itself saves, reads or removes it; nobody can list them. A
+    // device that changes hands simply becomes the new family's.
+    match /push_tokens/{token} {
+      allow get, delete: if signedIn() && resource.data.owner_uid == request.auth.uid;
+      allow create, update: if signedIn() && me().role == 'family' &&
+        token.size() <= 1000 &&
+        request.resource.data.keys().hasOnly(['owner_uid', 'lang', 'platform', 'updatedAt']) &&
+        request.resource.data.owner_uid == request.auth.uid &&
+        request.resource.data.lang in ['en', 'ur'] &&
+        request.resource.data.platform in ['web', 'android', 'ios'] &&
+        request.resource.data.updatedAt == request.time;
+    }
   }
 }

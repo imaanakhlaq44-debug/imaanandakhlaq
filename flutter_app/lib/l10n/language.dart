@@ -180,3 +180,20 @@ class LanguageToggle extends StatelessWidget {
     },
   );
 }
+
+/// "Good morning" and friends, in Urdu.
+String urduGreeting(DateTime now) => switch (now.hour) {
+  < 12 => 'صبح بخیر',
+  < 17 => 'سہ پہر بخیر',
+  _ => 'شام بخیر',
+};
+
+/// "بدھ، 25 نومبر".
+String urduDate(DateTime d) {
+  const days = ['پیر', 'منگل', 'بدھ', 'جمعرات', 'جمعہ', 'ہفتہ', 'اتوار'];
+  const months = [
+    'جنوری', 'فروری', 'مارچ', 'اپریل', 'مئی', 'جون', //
+    'جولائی', 'اگست', 'ستمبر', 'اکتوبر', 'نومبر', 'دسمبر',
+  ];
+  return '${days[d.weekday - 1]}، ${d.day} ${months[d.month - 1]}';
+}

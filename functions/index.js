@@ -17,6 +17,38 @@ exports.redeemOrgAdminInvite = onCall({ cors: true }, orgPortal.redeemOrgAdminIn
 exports.getOrganisationDashboard = onCall({ cors: true }, orgPortal.getOrganisationDashboard);
 exports.updateOrganisationSchool = onCall({ cors: true }, orgPortal.updateOrganisationSchool);
 
+// ---------------------------------------------------------------------------
+// Weekly habits report for parents (phone notification). See weekly-report.js.
+// ---------------------------------------------------------------------------
+const { onSchedule } = require('firebase-functions/v2/scheduler');
+const { getMessaging } = require('firebase-admin/messaging');
+const { makeWeeklyReport } = require('./weekly-report');
+
+const weeklyReport = makeWeeklyReport({ db, messaging: getMessaging() });
+
+// Sunday 6 pm in Pakistan, to every family that turned the report on.
+exports.sendWeeklyReports = onSchedule(
+  { schedule: '0 18 * * 0', timeZone: 'Asia/Karachi', timeoutSeconds: 540 },
+  async () => {
+    const totals = await weeklyReport.runAll(new Date());
+    console.log('weekly report', totals);
+  }
+);
+
+// A family's own report, right now: the app's "send me a test" button.
+exports.sendMyWeeklyReport = onCall({ cors: true }, async (request) => {
+  if (!request.auth) throw new HttpsError('unauthenticated', 'Sign in first.');
+  const me = await db.collection('users').doc(request.auth.uid).get();
+  if (!me.exists || me.data().role !== 'family') {
+    throw new HttpsError('permission-denied', 'Only a family account receives this report.');
+  }
+  const r = await weeklyReport.runOne(request.auth.uid, new Date());
+  if (r.skipped) {
+    throw new HttpsError('failed-precondition', 'Turn on the weekly report on this phone first.');
+  }
+  return { sent: r.sent };
+});
+
 /**
  * Phone-number login: resolve a phone number to the account email.
  *

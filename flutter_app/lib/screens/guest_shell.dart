@@ -76,6 +76,7 @@ class _GuestShellState extends State<GuestShell> {
                   showCourseDetails(context, i, hadithScope: 'guest'),
               onBooks: () => _select(3),
               onLearn: () => _select(2),
+              scope: 'guest',
             ),
             2 => const CourseLibrary(hadithScope: 'guest'),
             _ => BookLibrary(

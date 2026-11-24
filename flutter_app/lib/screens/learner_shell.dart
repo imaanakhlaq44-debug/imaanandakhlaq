@@ -6,6 +6,7 @@ import '../app_theme.dart';
 import '../billing/entitlement.dart';
 import '../data/app_repository.dart';
 import '../data/catalog.dart';
+import '../data/checklist_cloud.dart';
 import '../data/journey_account.dart';
 import '../data/learning_journey.dart';
 import '../domain.dart';
@@ -44,6 +45,15 @@ class _LearnerShellState extends State<LearnerShell> {
   StreamSubscription<bool>? _subscription;
   String? get _hadithScope =>
       widget.learner.role == AccountRole.individual ? widget.learner.uid : null;
+
+  // Daily checklists follow a signed-in learner to every device.
+  late final ChecklistCloud? _checklistCloud = switch (widget.repository) {
+    final FirebaseRepository r => FirebaseChecklistCloud(
+      r.db,
+      widget.learner.learnerId,
+    ),
+    _ => null,
+  };
 
   JourneyStore _journeyStore() {
     final repository = widget.repository;
@@ -208,6 +218,8 @@ class _LearnerShellState extends State<LearnerShell> {
                   showCourseDetails(context, i, hadithScope: _hadithScope),
               onBooks: () => _select(3),
               onLearn: () => _select(2),
+              scope: widget.learner.learnerId,
+              cloud: _checklistCloud,
             ),
             2 => CourseLibrary(hadithScope: _hadithScope),
             3 => BookLibrary(
