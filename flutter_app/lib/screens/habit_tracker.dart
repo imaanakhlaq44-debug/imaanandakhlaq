@@ -260,7 +260,10 @@ Future<void> openHabitTracker(
   spot.log.use(scope).then((_) => spot.log.refresh());
   return Navigator.of(context).push<void>(
     MaterialPageRoute(
-      builder: (_) => HabitTrackerScreen(spot: spot, onCourse: onCourse),
+      // Its own page, so it needs its own Urdu right-to-left layout.
+      builder: (_) => LanguageScope(
+        child: HabitTrackerScreen(spot: spot, onCourse: onCourse),
+      ),
     ),
   );
 }

@@ -96,7 +96,9 @@ Future<void> openWeeklyChallenge(
   challengeLog.use(scope);
   return Navigator.of(context).push<void>(
     MaterialPageRoute(
-      builder: (_) => WeeklyChallengeScreen(onExplore: onExplore),
+      // Its own page, so it needs its own Urdu right-to-left layout.
+      builder: (_) =>
+          LanguageScope(child: WeeklyChallengeScreen(onExplore: onExplore)),
     ),
   );
 }
